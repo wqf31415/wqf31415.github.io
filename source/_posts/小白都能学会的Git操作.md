@@ -10,7 +10,7 @@ categories:
 
 摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章介绍了什么是Git，如何安装以及使用Git。
 
-![git](http://okbn8yrzu.bkt.clouddn.com/image/git/git_logo.png "git")
+![git](http://okbn8yrzu.bkt.clouddn.com/image/git/git_logo.png "git") 
 
 > 官方说明文档：https://git-scm.com/book/zh/v2
 
