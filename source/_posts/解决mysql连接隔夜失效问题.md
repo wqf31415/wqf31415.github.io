@@ -33,11 +33,13 @@ categories:
 
 ### 解决办法
 
-#### 1. url 加参 
+#### url 加参 
 
 + connection url 加参数：` &autoReconnect=true `
 
- #### 2. 修改数据库连接的超时时间
+
+
+ #### 修改数据库连接的超时时间
 
 修改数据库连接的超时时间，这种方式会影响数据库性能，可能会出现大量休眠连接；
 
@@ -79,7 +81,9 @@ categories:
 | interactive_timeout | 31536000 | 设置超时时间为一年 |
 | wait_timeout        | 31536000 | 设置超时时间为一年 |
 
-#### 3.修改hibernate配置 
+
+
+#### 修改hibernate配置 
 
 > 参考：Hibernate连接数据库超时设置autoReconnect=true  http://xupo.iteye.com/blog/901327
 
@@ -101,7 +105,9 @@ categories:
   <property name="hibernate.c3p0.validate">true</property>
   ``````
 
-#### 4.采用c3p0或dbcp管理数据库连接池
+
+
+#### 采用c3p0或dbcp管理数据库连接池
 
 +   在hibernate.cfg.xml中的c3p0链接池的配置中增加下面项：
 
