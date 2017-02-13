@@ -14,7 +14,7 @@ baidu_analytics: 573d2959947383d4158d7b1756b9d63c
 
 # URL
 ## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://yoursite.com
+url: http://blog.wqf31415.xyz
 root: /
 permalink: :year/:month/:day/:title/
 permalink_defaults:

@@ -8,7 +8,7 @@ categories:
 - 技术
 ---
 
-# 这是一篇用Hexo生成的文章
+这是一篇用Hexo生成的文章
 
 `hexo new "Hello Hexo"`
 
