@@ -1,5 +1,5 @@
 ---
-title: Hello Hexo
+title: 用hexo生成博客文章
 date: 2017-01-25 12:38:15
 tags: 
 - hexo
@@ -7,6 +7,8 @@ tags:
 categories: 
 - 技术
 ---
+
+在搭建好静态博客后，最重要的一件事就是往里面填东西了，那么怎么才能生成一篇新的博文呢？该如何编辑博文呢？又该怎么编辑博客生成模板呢？请看下文！
 
 这是一篇用Hexo生成的文章
 
@@ -28,7 +30,9 @@ categories:
 
 `hexo clean`
 
-`hexo -g -d`
+`hexo g`
+
+`hexo s`
 
 这样就可以在浏览器里看到了
 
