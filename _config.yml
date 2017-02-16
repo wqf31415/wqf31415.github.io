@@ -4,7 +4,7 @@
 
 # Site
 title: This_Wei
-subtitle:
+subtitle: Come on!
 description:
 author: This_Wei
 avatar: /uploads/avatar.jpg
@@ -73,5 +73,5 @@ deploy:
   type: git
   repo: 
     github: https://github.com/wqf31415/wqf31415.github.io.git,master
-    coding: https://git.coding.net/wqf31415/blog.git,master
+    coding: https://git.coding.net/wqf31415/wqf31415.git,master
   
