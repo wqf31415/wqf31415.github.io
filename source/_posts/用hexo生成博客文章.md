@@ -34,5 +34,5 @@ categories:
 
 `hexo s`
 
-这样就可以在浏览器里看到了
+这样就可以在浏览器里输入网址 http://localhost:4000 看到了
 

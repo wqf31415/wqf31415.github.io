@@ -22,6 +22,8 @@ categories:
 
 再缩：**git是版本控制工具** 。
 
+<!-- more -->
+
 ![](http://okbn8yrzu.bkt.clouddn.com/image/git/git_workflow.png "git 工作流")
 
 这里面就有几个概念要理解一下了，**“最先进”**  这个是毫无疑问的，全球最知名的互联网公司包括Google、Facebook、微软、twitter等等都在用git。**“版本控制工具”** 。**“分布式”** 是指。。。。

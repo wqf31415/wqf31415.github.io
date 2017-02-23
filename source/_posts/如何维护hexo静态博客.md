@@ -61,7 +61,7 @@ categories:
    >
    > `hexo g`
    >
-   > `hexo d` 部署到github   
+   > `hexo d` 部署到git托管平台   
 
 6. 在本地正确运行后就可以对博客进行更新、维护和写作了
 
