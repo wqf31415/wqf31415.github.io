@@ -1,5 +1,5 @@
 ---
-title: 如何维护hexo静态博客
+title: 如何在多个pc终端更新自己的hexo博客？
 date: 2017-02-11 12:25:47
 tags: 
 - hexo
@@ -9,11 +9,7 @@ categories:
 
 ---
 
-
-
-### 如何在多个pc终端更新自己的hexo博客？
-
-摘要：在用hexo + github/coding 搭建好博客之后，最重要的就是写博文，更新博客内容，这篇文章教你使用github来管理hexo博客的源文件和发布文件，让你能够轻松的在多个电脑上更新博客！
+摘要：在用hexo + github/coding 搭建好博客之后，最重要的就是写博文，更新博客内容，这篇文章教你使用github来管理hexo博客的源文件和发布文件，让你能够轻松的在多个电脑上更新博客！用hexo成功生成本地静态博客文件后，我们的博客已经可以在github的page上看到，现在要做的就是把生成博客的源文件上传到git仓库。可以单独创建一个仓库来存放源文件，也可以在page文件的仓库里新建一个分支来存储，推荐第二种方法，在一个仓库里既存放发布博客的静态文件，又存放开发文件。
 
 ​        在最开始的时候，我的博客是在公司电脑生成的，在回家后也想更新博客，于是就遇到了一些麻烦，该怎么把资源文件同步到其他电脑上呢？参考了简书上@长仙人 的文章[多台电脑使用Hexo](http://www.jianshu.com/p/4bcf2848b3fc '多台电脑使用Hexo') 在github的仓库里建了两个分枝，一个用了放发布的博客文件，一个用了放源文件，完美解决！
 
@@ -21,11 +17,40 @@ categories:
 
 ---
 
+### 把博客源文件上传到github
+
+1. 初始化Git仓库，把博客源文件上传到github，进入博客文件夹，右击空白区域，运行“Git Bash Here”
+
+   ``````
+   初始化git仓库，运行指令：
+   	git init
+   添加远程仓库信息，后面的url为自己的github仓库地址：
+   	git remote add origin https://github.com/wqf31415/wqf31415.github.io.git
+   ``````
+
+2. 新建分支source，并自动切换到source分支
+
+   ``````
+   git checkout -b source
+   ``````
+
+3. 将源文件提交到github
+
+   ``````
+   git add .
+   git commit -m "upload source"
+   git push -u origin source
+   ``````
+
+   完成了上述操作后，在github的 wqf31415.github.io 仓库中就有两个分支，master分支用于存放hexo部署的博客文件，source分支存放hexo所需的源文件，可以克隆仓库到任意电脑，切换到source就可以对博客进行更新维护。
+
+----
+
 ### 在不同电脑上更新博客
 
 1. 首先要安装好[nodejs](https://nodejs.org/en/ 'nodejs')和[git](https://git-scm.com/ 'git') 
 
-2. 克隆项目到本地
+2. 克隆项目源文件到本地
 
    ``````
    git clone https://github.com/wqf31415/wqf31415.github.io.git
@@ -43,9 +68,9 @@ categories:
 
 5. 用hexo在本地试运行
 
-   `hexo g`  生成hexo静态文件
+   `hexo generate`  生成hexo静态文件，简写为 `hexo g`
 
-   `hexo s`  在本地运行hexo服务
+   `hexo server`  在本地运行hexo服务，简写为 `hexo s`
 
    用浏览器访问 [http://localhost:4000](http://localhost:4000 '本地hexo') 预览
 
@@ -55,13 +80,13 @@ categories:
    >
    >  `git clone https://github.com/iissnan/hexo-theme-next themes/next` 
    >
-   > 然后重新部署：
+   > 然后重新预览：
    >
    > `hexo clean` 
    >
-   > `hexo g`
+   > `hexo g`  
    >
-   > `hexo d` 部署到git托管平台   
+   > `hexo s`
 
 6. 在本地正确运行后就可以对博客进行更新、维护和写作了
 
@@ -83,7 +108,7 @@ categories:
 
    `hexo s` 开启hexo服务，用于本地预览
 
-   `hexo d` 部署博客到git平台（PS：一定要在本地预览没问题再部署）
+   `hexo deploy` 部署博客到git平台，简写为 `hexo d`（PS：一定要在本地预览没问题再部署）
 
 3. 将本地博客源文件同步到git仓库，用于多电脑博客管理：
 
