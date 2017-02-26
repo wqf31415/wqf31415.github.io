@@ -1,5 +1,5 @@
 ---
-title: 如何在多个pc终端更新自己的hexo博客？
+title: 如何维护hexo静态博客
 date: 2017-02-11 12:25:47
 tags: 
 - hexo
