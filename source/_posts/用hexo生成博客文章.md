@@ -87,26 +87,8 @@ categories:
   ![](http://okbn8yrzu.bkt.clouddn.com/image/hexo_scaffolds_post.png "在post模板中增加了更新时间和分类属性") 
   
   - 文章的属性有下面几个：
-   <table>
-    <thead>
-        <td>属性</td>
-        <td>描述</td>
-        <td>值</td>
-    </thead>
-    <tr>
-        <td>layout</td>
-        <td>Layout</td>
-        <td>post或page</td>
-    </tr>
-    <tr><td>title</td><td>文章标题</td><td>&nbsp;</td></tr>
-    <tr><td>date</td><td>创建日期</td><td>文件的创建日期</td></tr>
-    <tr><td>updated</td><td>修改日期</td><td>文件的修改日期</td></tr>
-    <tr><td>comments</td><td>是否开启评论</td><td>默认true</td></tr>
-    <tr><td>tags</td><td>标签</td><td>&nbsp;</td></tr>
-    <tr><td>categories</td><td>分类</td><td>&nbsp;</td></tr>
-    <tr><td>permalink</td><td>url中的名字</td><td>文件名</td></tr>
-   </table>
-<br/>  
+<table><thead><td>属性</td><td>描述</td><td>值</td></thead><tr><td>layout</td><td>Layout</td><td>post或page</td></tr><tr><td>title</td><td>文章标题</td><td>&nbsp;</td></tr><tr><td>date</td><td>创建日期</td><td>文件的创建日期</td></tr><tr><td>updated</td><td>修改日期</td><td>文件的修改日期</td></tr><tr><td>comments</td><td>是否开启评论</td><td>默认true</td></tr><tr><td>tags</td><td>标签</td><td>&nbsp;</td></tr><tr><td>categories</td><td>分类</td><td>&nbsp;</td></tr><tr><td>permalink</td><td>url中的名字</td><td>文件名</td></tr></table>
+  
    
 
 ### 下台鞠躬！
