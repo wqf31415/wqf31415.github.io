@@ -32,7 +32,7 @@ categories:
 
 ### 2 安装git
 
-<table><thead><td>windows</td><td>linux</td><td>ios</td></thead><tr><td>下载exe安装程序运行即可</td><td>运行指令<b>sudo apt-get install git</b></td><td>从AppStore安装Xcode，Xcode集成了Git，不过默认没有安装，你需要运行Xcode，选择菜单“Xcode”->“Preferences”，在弹出窗口中找到“Downloads”，选择“Command Line Tools”，点“Install”就可以完成安装了。</td></tr></table>
+<table><thead><td>windows</td><td>linux</td><td>mac os</td></thead><tr><td>下载exe安装程序运行即可</td><td>运行指令<b>sudo apt-get install git</b></td><td>从AppStore安装Xcode，Xcode集成了Git，不过默认没有安装，你需要运行Xcode，选择菜单“Xcode”->“Preferences”，在弹出窗口中找到“Downloads”，选择“Command Line Tools”，点“Install”就可以完成安装了。</td></tr></table>
 
 ### 3 开始使用git
 
