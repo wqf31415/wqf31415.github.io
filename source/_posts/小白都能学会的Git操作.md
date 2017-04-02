@@ -10,7 +10,7 @@ categories:
 
 摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章介绍了什么是Git，如何安装以及使用Git。
 
-![git](http://okbn8yrzu.bkt.clouddn.com/image/git/git_logo.png "git") 
+![git](http://okbn8yrzu.bkt.clouddn.com/image/git/git_logo.png "git")
 
 > 官方说明文档：https://git-scm.com/book/zh/v2
 
@@ -32,7 +32,8 @@ categories:
 
 ### 2 安装git
 
-<table><thead><td>windows</td><td>linux</td><td>mac os</td></thead><tr><td>下载exe安装程序运行即可</td><td>运行指令<b>sudo apt-get install git</b></td><td>从AppStore安装Xcode，Xcode集成了Git，不过默认没有安装，你需要运行Xcode，选择菜单“Xcode”->“Preferences”，在弹出窗口中找到“Downloads”，选择“Command Line Tools”，点“Install”就可以完成安装了。</td></tr></table>
+<div><div id="nav"><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Windows</a><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Linux</a><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Mac OS</a></div><div id="option" style="width: 100%;border: 2px solid #ccc;padding: 5px;margin-top: 2px;border-radius: 5px;"><div id="Windows">下载exe安装程序运行即可</div><div id="Linux">运行指令<b>sudo apt-get install git</b></div><div id="Mac OS">从AppStore安装Xcode，Xcode集成了Git，不过默认没有安装，你需要运行Xcode，选择菜单“Xcode”->“Preferences”，在弹出窗口中找到“Downloads”，选择“Command Line Tools”，点“Install”就可以完成安装了。</div></div></div>
+<script>var oUl=document.getElementById('nav');var oDiv=document.getElementById('option');var oLis=oUl.getElementsByTagName('a');var oOptDivs=oDiv.getElementsByTagName('div');for(var i=0;i<oLis.length;i++){hideDiv();document.getElementById('Windows').style.display='block';oLis[i].style.display='inlineblock';oLis[i].onclick=function(){hideDiv();showDiv(this.innerHTML);}}function showDiv(id) {var odiv=document.getElementById(id);odiv.style.display='block';}function hideDiv() {for (var i=0;i<oOptDivs.length;i++){oOptDivs[i].style.display='none';}}</script>
 
 ### 3 开始使用git
 
