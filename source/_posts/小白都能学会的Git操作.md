@@ -113,5 +113,33 @@ git config --global user.email wqf31415@hotmail.com
  ![](http://okbn8yrzu.bkt.clouddn.com/image/git/git_commit_2.png "提交1.txt")
  在所有文件添加完成后，我们查看仓库状态发现显示 **On branch master nothing to commit, working tree clean** ，就是说所有的文件修改都提交了，工作树很干净了。
  
+ #### 连接远程git仓库
  
+ 现在我们本地git仓库已经建立好了，已经可以管理本地文件了，但这样是不够的，git最大的功能还在于多人协作，所以需要有一个远端仓库服务器，这样在不同电脑终端都可以进行工作了。
  
+ 现在最简单的就是在 git 托管平台建一个仓库，把本地仓库托管到git平台，最常用的有 **github** 、 **coding** 、 **oschina** ，这里以国内的 coding 为例。
+  
+  [https://coding.net/](https://coding.net/) 注册、登陆后新建一个项目 **git-test** ，不要勾选创建 `README.md` 选项，项目创建好后将仓库的地址复制下来，我的仓库地址是 **https://git.coding.net/wqf31415/git-test.git** 。
+  
+  然后回到本地 git-test 目录下打开 git bash ，运行 `git remote add origin https://git.coding.net/wqf31415/git-test.git` ，后面是远端仓库的地址。
+  
+  最后用 `git push -u origin master` 将本地仓库文件推送到远端仓库，第一次要加 `-u` ，以后就直接运行 `git push origin master` 。
+  
+  #### 将远端仓库克隆到本地
+  
+  运行 `git clone https://git.coding.net/wqf31415/git-test.git` 将远端仓库克隆到本地，后面 url 是git仓库地址。
+ 
+  然后就可以在本地愉快的写代码了。
+  
+  在本地修改后，依次运行下列代码将修改提交到远端仓库：
+  ```
+    git add .
+    git commit -m 'change description'
+    git push origin master
+  ```
+  
+  -----------------
+  
+  ### 总结
+  
+  
