@@ -68,7 +68,7 @@ categories:
 ![](http://okbn8yrzu.bkt.clouddn.com/image/startup_tomcat.png "运行 startup.bat")
 
 打开 [http://localhost:8080/](http://localhost:8080/ ) 若能打开页面，说明 tomcat 服务器已成功启动。
-![](http://okbn8yrzu.bkt.clouddn.com/image/startup_tomcat.png "http://localhost:8080/") 
+![](http://okbn8yrzu.bkt.clouddn.com/image/tomcat_index.png "http://localhost:8080/") 
 
 若想停止 tomcat 服务器，可以运行 **bin** 目录下的 **shutdown.bat** ，或者在启动时的命令行界面按 **Ctrl + C** 停止。
 
