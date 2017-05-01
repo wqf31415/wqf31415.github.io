@@ -38,12 +38,20 @@ jhipster 采用的核心技术栈是 **Spring Boot** 和 **Angular** ,分别用�
 
 部署组件：**Docker** 、 **Kubernates** 、 **Heroku** 、 **CloudFoundry** 、 **AWS** 、 **Rancher**
 
+
+-------
+
+
 ### 为什么会出现 JHipster？
 #### 解决什么问题？
 一键搭建 web 应用，简化了很多重复的工作环节，自动创建实体相关的增删改查，自动补全相关配置，开发者只需关注业务逻辑的实现即可。
 
 #### 没有 JHipster 前怎么做？
 打开 IDE 创建 java web 项目，慢慢创建实体，创建数据库表，增删改查的方法都要自己一点一点的写，手动添加配置信息。
+
+
+------
+
 
 ### 干一波？
 #### 预备，安装需要的组件
@@ -75,6 +83,9 @@ gulp是前端开发过程中对代码进行构建的工具，是自动化项目�
 ##### JHipster
 安装 JHipster 的构建器。
 `npm install -g generator-jhipster`
+
+
+------
 
 
 #### 搞点实际的，跟着官方说明建一个 demo 
@@ -162,6 +173,9 @@ Node-sass 是简化 CSS 设计的很好方式，如需自动配置，需要运�
 打开 [http://127.0.0.1:8080/](http://127.0.0.1:8080/)  进行预览
 
 
+------
+
+
 ### 踩过的一些小坑
 #### 运行 gulp install 时报错：
 ```
@@ -178,6 +192,8 @@ bower swagger-ui#2.1.5      ECMDERR Failed to execute "git ls-remote --tags --he
 ```
 原因是 git SSH 配置有问题，重新配置 SSH 即可。
 
+
+------
 
 ### 他山之石
 1. [JHipster 官网](https://jhipster.github.io/)
