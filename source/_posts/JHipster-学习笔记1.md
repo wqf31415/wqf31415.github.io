@@ -97,45 +97,73 @@ gulp是前端开发过程中对代码进行构建的工具，是自动化项目�
 
 ##### 根据需要，填写信息和选项
 ###### 你要创建哪种类型的应用程序？
-- Monolithic application：典型的，单页面应用，方便开发和使用，官方默认推荐，我们选择默认的。
+> Which type of application would you like to create?
+
+（我们选择默认的，创建一个完整的，包括前端后端的应用）
+- Monolithic application：典型的，单页面应用，方便开发和使用，官方默认推荐。
 - Microservice application：微服务，再微服务应用中这是服务之一。
 - Microservice gateway：微服务网关。
 - JHipster UAA server [BETA]：在微服务中，这是一个保护微服务的 OAuth2 认证服务器。
 
+
 ###### 你的应用程序的基础名称是什么？
-输入创建的项目名，这里我们输入 **myJHipsterDemo**
+> What is the base name of your application?
+
+输入创建的项目名，这里我输入 **myJHipsterDemo**
 
 ###### 你默认的 Java 包名称是什么？
-一般我们取名的习惯是倒写的域名加项目名，这里我们输入：**xyz.wqf31415.myJHipsterDemo**
+> What is your default Java package name?
+
+一般我们取名的习惯是倒写的域名加项目名，根据自己的需要输入。这里我输入了：**xyz.wqf31415.myJHipsterDemo** 
 
 ###### 你想要使用哪种类型的身份验证？
+> Which type of authentication would you like to use?
+
+（我们选择默认的）
 - 典型的基于会话的认证机制，大多数人习惯使用的方式。可以使用 **Spring Social** 选项，这样就能使用社交登陆，如 Google、Facebook、Twitter，这是由 SpringBoot为 Spring Social 提供的配置。
 - OAuth 2.0 认证机制，JHipster 随后提供必要的 OAuth2 服务器代码和数据库表。
 - 使用 JSON Web 令牌（JWT）的机制。
 
+
 ###### 你想使用的数据库类型？
-- 无数据库，仅在微服务应用程序时使用。
-- SQL 数据库，使用Spring Data JPA 访问，如 H2 , MySQL , MariaDB , PostgreSQL , MSSQL , Oracle
+> Which type of database would you like to use?
+
+（我们选择 SQL 数据库）
+- No database：无数据库，仅在微服务应用程序时使用。
+- An SQL database：SQL 数据库，使用Spring Data JPA 访问，如 H2 , MySQL , MariaDB , PostgreSQL , MSSQL , Oracle。
 - MongoDB 
 - Cassandra
 
 ###### 你要使用哪个生产数据库？
-选择用于生产环境的数据库，如果要使用 Oracle 数据库，需要手动安装 Oracle JDBC 驱动程序 
+> Which production database would you like to use?
+
+选择用于生产环境的数据库，如果要使用 Oracle 数据库，需要手动安装 Oracle JDBC 驱动程序 。
+（我们选择MySql数据库。）
 
 ###### 你要使用哪个开发数据库？
-选择用于开发环境的数据库，可选的有：
+> Which development database would you like to use?
+
+选择用于开发环境的数据库，可选的有：（我们选择MySQL）
 - H2 内存中运行，这是使用 JHipster 最简单的方法，重启服务器时数据将丢失；
 - H2 数据存储在磁盘上，功能还在测试（不支持 windows 系统）
 - 与生产环境数据库相同
 
 ###### 要使用 Hibernate 中使用二级缓存吗？
+> Do you want to use Hibernate 2nd level cache?
+
 在实际开发中，为了性能考虑，建议使用缓存，选择 **encache** 开启本地缓存，或选择 **Hazelcast** 开启分布式缓存，用于集群环境。
+（现在只是为了体验，我们选择不开启二级缓存）
 
 ###### 你要使用 Maven 或 Gradle 吗？
+> Would you like to use Maven or Gradle?
+
 可以选择构建 java 应用的程序，Maven 更稳定，更成熟，Gradle 更灵活，更易于扩展。
+（我们选择Maven）
 
 ###### 你想要使用哪些其他技术？
-这是一个多项选择，可以为应用程序添加一个或几个其他技术。选项有：
+> Which other technologies would you like to use?
+
+这是一个多项选择，可以为应用程序添加一个或几个其他技术，**注意是按空格键选定**。选项有：（我们选中第一项，然后回车）
 - Social login ：社交登陆，如 Google、Facebook、Twitter，这一选项只有在选择 SQL 数据库或 MongoDB 时可用；
 - Search engine using ElasticSearch ：使用 ElasticSearch 搜索引擎，将使用 Spring Data ElasticSearch 进行配置；
 - Clustered HTTP sessions using Hazelcast ：使用 Hazelcast 的聚合 HTTP 会话，默认情况 JHipster 仅使用 HTTP 会话来存储 Spring Security 的身份验证和授权信息。如果正在集群中运行，使用 HTTP会话将导致问题，特别是如果不使用带有“粘性会话”的负载平衡器。如果要在群集中复制会话，请选择此选项以配置 Hazelcast；
@@ -143,16 +171,27 @@ gulp是前端开发过程中对代码进行构建的工具，是自动化项目�
 - Asynchronous messages using Apache Kafka ：使用 Apache Kafka 作为发布/订阅消息代理。
 
 ###### 你希望客户端使用哪个框架？
+> Which Framework would you like to use for the client? 
+
+（我们选默认的，直接回车）
 - AngularJS 1.x 版本
 - Angular 2+ 版本（测试），正处于测试阶段，可能不适合生产使用
 
 ###### 是否为 CSS 使用 LibSass 样式表预处理器？
-Node-sass 是简化 CSS 设计的很好方式，如需自动配置，需要运行 Gulp 服务器。
+> Would you like to use the LibSass stylesheet preprocessor for your CSS?
+
+Node-sass 是简化 CSS 设计的很好方式，如需自动配置，需要运行 Gulp 服务器。（选默认，直接回车）
 
 ###### 是否启动 Angular 翻译功能？
- 默认情况，JHipster 的客户端和服务器端都支持国际化，但国际化会让管理稍微困难一些，可以选择不安装此功能
+> Would you like to enable translation support with Angular Translate?
+
+ 默认情况，JHipster 的客户端和服务器端都支持国际化，但国际化会让管理稍微困难一些，可以选择不安装此功能。
+ （我们选择开启，随后会让我们选择想要语言，我们选择英语和简体中文）
  
 ###### 要使用的测试框架？
+> Which testing frameworks would you like to use?
+
+（不是很懂这个，我们选默认的）
 - Performance tests using Gatling ：使用 Gatling 的性能测试；
 - Behaviour tests using Cucumber ：使用 Cucumber 的行为测试；
 - Angular integration tests with Protractor ：使用 Protractor 进行 Angular 积分测试。
@@ -183,8 +222,28 @@ Bower components directory does not exist at E:\testJHipster\src\main\webapp\bow
 ```
 说明 bower 组件目录不存在，手动创建该目录。但还是重新运行 `bower install` 命令来的更靠谱点
 
+#### 创建项目时选择了MySQL数据库，启动项目时报错
+```
+com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Unknown error 1049
+	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:528)
+	at com.zaxxer.hikari.pool.HikariPool.<init>(HikariPool.java:118)
+	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:94)
+```
+初始化连接池失败，原因可能是：1）数据库连接的用户名或密码错误，2）没有创建项目需要的数据库
+解决办法是打开 **src/main/resources/config/application-dev.yml** ，按下面的设置自己的用户名（username）和密码（password），并手动在本地数据库中创建需要的数据库：**myJHipsterDemo**
+```yaml
+spring:    
+    datasource:
+        type: com.zaxxer.hikari.HikariDataSource
+        url: jdbc:mysql://localhost:3306/myJHipsterDemo?useUnicode=true&characterEncoding=UTF8&useSSL=true
+        name:
+        username: root
+        password: 123456
+```
+
 #### 导入 IDEA 后能运行，但打开页面显示产生了一个错误
-在项目根目录下打开命令行，依次执行 `bower install` 和 `gulp install`
+![](http://okbn8yrzu.bkt.clouddn.com/image/jhipster_index_error.png "出现了一个错误")
+根据提示，在项目根目录下打开命令行，依次执行 `bower install` 和 `gulp install`
 
 #### 运行 bower install 命令时报错：
 ```
