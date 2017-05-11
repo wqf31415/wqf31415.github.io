@@ -18,13 +18,13 @@ date: 2017-05-03 13:41:21
 <script src="http://onrk0ex3b.bkt.clouddn.com/angular/angular.min.js"></script>
 <div ng-app="">
      <p>名字 : <input type="text" ng-model="name"></p>
-     <p>名字：<span ng-bind="name"></span></p>
+     <p>你好，<span ng-bind="name"></span></p>
 </div>
 ```
-<div ng-app=""><p>名字 : <input type="text" ng-model="name"></p><p>名字：<span ng-bind="name"></span></p></div>
+<iframe src="http://wqf31415.coding.me/Demo/angularJSDemo/1.html" name="iframe_a"></iframe>
 
 
 ------
 
 
-### 
+###
