@@ -3,7 +3,7 @@
 # ---------------------------------------------------------------
 
 # Put your favicon.ico into `hexo-site/source/` directory.
-favicon: /favicon.ico
+favicon: /favicon.png
 
 # Set default keywords (Use a comma to separate)
 keywords: "Hexo, NexT"
@@ -42,6 +42,7 @@ menu:
   archives: /archives
   tags: /tags
   #sitemap: /sitemap.xml
+  weather: /weather
   commonweal: /404.html
 
 
@@ -61,6 +62,7 @@ menu_icons:
   archives: archive
   sitemap: sitemap
   commonweal: heartbeat
+  weather: cloud
 
 
 
@@ -132,8 +134,10 @@ font:
 # Social Links
 # Key is the link label showing to end users.
 # Value is the target link (E.g. GitHub: https://github.com/iissnan)
-#social:
-  #LinkLabel: Link
+social:
+  QQ: http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes
+  GitHub: http://github.com/wqf31415
+  Weibo: http://weibo.com/wqf31415
 
 
 # Social Links Icons
@@ -148,7 +152,8 @@ social_icons:
   GitHub: github
   Twitter: twitter
   Weibo: weibo
-
+  QQ: qq
+  
 
 # Sidebar Avatar
 # in theme directory(source/images): /images/avatar.jpg
@@ -265,8 +270,12 @@ mathjax:
 # Baidu Analytics ID
 #baidu_analytics:
 
+#来必力评论
+livere_uid: MTAyMC8yODg3NC81NDQ0
+
 # Duoshuo ShortName
-duoshuo_shortname: wqf31415
+#多说
+#duoshuo_shortname: wqf31415
 
 # Disqus
 #disqus_shortname:
@@ -275,7 +284,8 @@ duoshuo_shortname: wqf31415
 #hypercomments_id:
 
 # Gentie productKey
-#gentie_productKey:
+#网易云跟帖
+#gentie_productKey: a538250464e84b52944b740cd36411f1
 
 # Support for youyan comments system.
 # You can get your uid from http://www.uyan.cc
@@ -285,7 +295,8 @@ duoshuo_shortname: wqf31415
 # Available value:
 #    button | slide
 # Warning: Baidu Share does not support https.
-#baidushare:
+# 百度分享服务
+baidushare: true
 ##  type: button
 
 # Share
@@ -465,7 +476,8 @@ vendors:
 
   # Internal version: 1.0.0
   # https://github.com/hustcc/canvas-nest.js
-  canvas_nest:
+  # 开启背景动画
+  canvas_nest: true
 
 
 
