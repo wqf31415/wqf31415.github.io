@@ -59,6 +59,7 @@ name 为实体名，options 为可选项：
 **【例】** 要创建一个 Book 实体，我们可以在项目根目录下打开命令行，输入指令：
 
 #### 执行指令
+注意：实体名要用 **大驼峰** 命名方式，如AaaBbbCcc，在数据库中创建的表名为：aaa_bbb_ccc
 
 ``````
 yo jhipster:entity Book
@@ -95,6 +96,8 @@ What is the type of your field? (Use arrow keys)		-- 字段的类型，用上下
 - Enumeration (Java enum type)-- 枚举
 
 - [BETA] Blob-- 二进制大对象
+
+注意：在给实体添加字段时不用添加主键id，系统会自动添加id字段作为主键
 
 Do you want to add validation rules to your field? (y/N)-- 是否为字段添加验证规则，默认不添加，输入 **y** 回车添加验证
 
@@ -162,13 +165,14 @@ Which validation rules do you want to add? (Press \<apace\> to select, \<a\> to 
 
 处理完所有冲突后，创建实体完成，将自动执行 `gulp inject` 指令将生成的js文件注入到 index.html 中，至此，创建一个 Author 实体完成。
 
+
 ### 批量创建实体
 
 #### 使用 JDL 批量生成实体
 
 在刚开始搭建项目时，要创建实体数量很多，建议使用 JDL 将所有实体信息都写在一起，便于核对及修改，创建实体时可以一键创建多个实体，提高效率。
 
-> 最好先看下官网提供的 jdl 说明：
+> 最好先看下官网提供的 jdl 说明：http://www.jhipster.tech/jdl/
 
 推荐使用 JHipster 官方的 JDL Studio 在线工具：http://www.jhipster.tech/jdl-studio/ ，进入页面可以看到官网提供的 jdl demo，页面左侧是编辑区域，右侧是 uml 图形展示，可以仿照这个demo 快速创建自己的 JDL 文件，编辑完成后点击右上角的下载图标即可把 jdl 文件保存到本地，文件格式为 **.jh**。
 
@@ -191,9 +195,30 @@ yo jhipster:import-jdl jhipster-jdl.jh
 这个我也没用过，先挖个坑，后面再填！
 
 
+### 注意事项：
+#### JDL语法：
 
+创建实体：
+``````
+entity \<实体名\> {
+	参数名 类型 限制条件,
+	参数名 类型 限制条件,
+	......
+}
+``````
+注意：
+	- 实体名用大驼峰方式命名，参数名用小驼峰命名，不能出现“-”，“-”等符号；
+	- 用jdl时不用添加ID字段，系统自动添加ID字段作为主键；
+	- 字段类型有：String，Integer，Long，BigDecimal，Float，Double，Enum，Boolean，LocalDate，ZonedDateTime，Blob，AnyBlob，ImageBlob，Textblob，Instant
+	- 限制条件有：required（必须，不能为空），对于字符串类型独有 minlength（最小长度），maxlength（最大长度），pattern（正则表达式限制），对于数值类型独有 min（最小值），max（最大值），对于Blob类型独有 minbytes（最小字节），maxbytes（最大字节）；
 
-
+添加关系：
+多对一：
+``````
+relationship ManyToOne {
+	实体A{字段b} to 实体B  /* ManyToOne 类型，会在实体A中创建一个字段，类型为实体B，作为外键关联到实体B表的id */
+}
+``````
 
 
 
