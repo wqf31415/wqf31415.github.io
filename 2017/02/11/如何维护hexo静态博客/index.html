@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans,en,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/uploads/favicon.png?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="hexo,git," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="摘要：在用hexo + github/coding 搭建好博客之后，最重要的就是写博文，更新博客内容，这篇文章教你使用github来管理hexo博客的源文件和发布文件，让你能够轻松的在多个电脑上更新博客！用hexo成功生成本地静态博客文件后，我们的博客已经可以在github的page上看到，现在要做的就是把生成博客的源">
+<meta name="keywords" content="hexo,git">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何维护hexo静态博客">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2017/02/11/如何维护hexo静态博客/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="摘要：在用hexo + github/coding 搭建好博客之后，最重要的就是写博文，更新博客内容，这篇文章教你使用github来管理hexo博客的源文件和发布文件，让你能够轻松的在多个电脑上更新博客！用hexo成功生成本地静态博客文件后，我们的博客已经可以在github的page上看到，现在要做的就是把生成博客的源文件上传到git仓库。可以单独创建一个仓库来存放源文件，也可以在page文件的仓">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2017-11-27T06:05:24.188Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何维护hexo静态博客">
+<meta name="twitter:description" content="摘要：在用hexo + github/coding 搭建好博客之后，最重要的就是写博文，更新博客内容，这篇文章教你使用github来管理hexo博客的源文件和发布文件，让你能够轻松的在多个电脑上更新博客！用hexo成功生成本地静态博客文件后，我们的博客已经可以在github的page上看到，现在要做的就是把生成博客的源文件上传到git仓库。可以单独创建一个仓库来存放源文件，也可以在page文件的仓">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wqf31415.xyz/2017/02/11/如何维护hexo静态博客/"/>
+
+
+
+
+
+  <title>如何维护hexo静态博客 | This_Wei</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">This_Wei</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Come on!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-weather">
+          <a href="/weather/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-snowflake-o"></i> <br />
+            
+            weather
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/02/11/如何维护hexo静态博客/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">如何维护hexo静态博客</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-11T12:25:47+08:00">
+                2017-02-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>摘要：在用hexo + github/coding 搭建好博客之后，最重要的就是写博文，更新博客内容，这篇文章教你使用github来管理hexo博客的源文件和发布文件，让你能够轻松的在多个电脑上更新博客！用hexo成功生成本地静态博客文件后，我们的博客已经可以在github的page上看到，现在要做的就是把生成博客的源文件上传到git仓库。可以单独创建一个仓库来存放源文件，也可以在page文件的仓库里新建一个分支来存储，推荐第二种方法，在一个仓库里既存放发布博客的静态文件，又存放开发文件。</p>
+<p>​        在最开始的时候，我的博客是在公司电脑生成的，在回家后也想更新博客，于是就遇到了一些麻烦，该怎么把资源文件同步到其他电脑上呢？参考了简书上@长仙人 的文章<a href="http://www.jianshu.com/p/4bcf2848b3fc" title="多台电脑使用Hexo" target="_blank" rel="noopener">多台电脑使用Hexo</a> 在github的仓库里建了两个分枝，一个用了放发布的博客文件，一个用了放源文件，完美解决！</p>
+<a id="more"></a>
+<hr>
+<h3 id="把博客源文件上传到github"><a href="#把博客源文件上传到github" class="headerlink" title="把博客源文件上传到github"></a>把博客源文件上传到github</h3><ol>
+<li><p>初始化Git仓库，把博客源文件上传到github，进入博客文件夹，右击空白区域，运行“Git Bash Here”</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">初始化git仓库，运行指令：</span><br><span class="line">	git init</span><br><span class="line">添加远程仓库信息，后面的url为自己的github仓库地址：</span><br><span class="line">	git remote add origin https://github.com/wqf31415/wqf31415.github.io.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>新建分支source，并自动切换到source分支</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b source</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>将源文件提交到github</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &quot;upload source&quot;</span><br><span class="line">git push -u origin source</span><br></pre></td></tr></table></figure>
+<p>完成了上述操作后，在github的 wqf31415.github.io 仓库中就有两个分支，master分支用于存放hexo部署的博客文件，source分支存放hexo所需的源文件，可以克隆仓库到任意电脑，切换到source就可以对博客进行更新维护。</p>
+</li>
+</ol>
+<hr>
+<h3 id="在不同电脑上更新博客"><a href="#在不同电脑上更新博客" class="headerlink" title="在不同电脑上更新博客"></a>在不同电脑上更新博客</h3><ol>
+<li><p>首先要安装好<a href="https://nodejs.org/en/" title="nodejs" target="_blank" rel="noopener">nodejs</a>和<a href="https://git-scm.com/" title="git" target="_blank" rel="noopener">git</a> </p>
+</li>
+<li><p>克隆项目源文件到本地</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/wqf31415/wqf31415.github.io.git</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>进入文件目录并切换分支</p>
+<p><code>cd wqf31415.github.io</code></p>
+<p><code>git checkout source</code></p>
+</li>
+<li><p>运行npm安装hexo</p>
+<p><code>npm install hexo-deployer-git --save</code></p>
+</li>
+<li><p>用hexo在本地试运行</p>
+<p><code>hexo generate</code>  生成hexo静态文件，简写为 <code>hexo g</code></p>
+<p><code>hexo server</code>  在本地运行hexo服务，简写为 <code>hexo s</code></p>
+<p>用浏览器访问 <a href="http://localhost:4000" title="本地hexo" target="_blank" rel="noopener">http://localhost:4000</a> 预览</p>
+<blockquote>
+<p>在本地预览时，可能会报错 WARN No layout: index.html 错误。</p>
+<p>原因是博客用的是<a href="http://theme-next.iissnan.com/getting-started.html" title="next官网" target="_blank" rel="noopener">next主题</a> ，在克隆source分支到本地后，发现next文件夹是空的，需要重新安装NexT：</p>
+<p> <code>git clone https://github.com/iissnan/hexo-theme-next themes/next</code> </p>
+<p>然后重新预览：</p>
+<p><code>hexo clean</code> </p>
+<p><code>hexo g</code>  </p>
+<p><code>hexo s</code></p>
+</blockquote>
+</li>
+<li><p>在本地正确运行后就可以对博客进行更新、维护和写作了</p>
+</li>
+</ol>
+<hr>
+<h3 id="写新的文章"><a href="#写新的文章" class="headerlink" title="写新的文章"></a>写新的文章</h3><ol>
+<li><p>运行hexo新建命令：</p>
+<p><code>hexo new &#39;文章标题&#39;</code></p>
+<p>在命令运行成功后，将在<code>source/_posts</code> 目录下生成 <code>文章标题.md</code> ，用markdown编辑器编写即可；</p>
+</li>
+<li><p>文章撰写、修改完成后，需要运行hexo生成博客静态文件：</p>
+<p><code>hexo clean</code> 清除缓存</p>
+<p><code>hexo g</code> 生成博客静态文件</p>
+<p><code>hexo s</code> 开启hexo服务，用于本地预览</p>
+<p><code>hexo deploy</code> 部署博客到git平台，简写为 <code>hexo d</code>（PS：一定要在本地预览没问题再部署）</p>
+</li>
+<li><p>将本地博客源文件同步到git仓库，用于多电脑博客管理：</p>
+<p><code>git add .</code> 把本地修改提交到缓存</p>
+<p><code>git commit -m &#39;修改描述&#39;</code> 提交修改</p>
+<p><code>git push origin source</code> 把本地仓库推送到远端仓库</p>
+</li>
+</ol>
+<hr>
+<h3 id="从github仓库拉取更新过的源文件"><a href="#从github仓库拉取更新过的源文件" class="headerlink" title="从github仓库拉取更新过的源文件"></a>从github仓库拉取更新过的源文件</h3><p>​        在一台电脑上更新过博客内容后，用上述的方法将源文件推送到github仓库，在其他电脑上再更新时就要先从仓库拉取最新的源文件，然后再进行操作，具体操作步骤如下：</p>
+<ol>
+<li><p>进入到博客源文件所在目录，<code>H:\GitHub\wqf31415.github.io</code> ，在空白区域右击选择<code>Git Bash Here</code> 启动git bash命令行；</p>
+</li>
+<li><p>查看本地分支：</p>
+<p><code>git branch</code> </p>
+<p>如果不是source分支就需要切换到source分支：</p>
+<p><code>git checkout source</code></p>
+</li>
+<li><p>拉取最新文件内容：</p>
+<p><code>git pull origin source</code></p>
+</li>
+</ol>
+<p>​        这样就完成了从远端仓库拉取源文件，可以在本地进行博客更新了！—这样就完成了从远端仓库拉取源文件，可以在本地进行博客更新了！</p>
+<hr>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+            <a href="/tags/git/" rel="tag"># git</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/25/用hexo生成博客文章/" rel="next" title="用hexo生成博客文章">
+                <i class="fa fa-chevron-left"></i> 用hexo生成博客文章
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/02/13/2017年学习规划/" rel="prev" title="2017年学习规划">
+                2017年学习规划 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODg3NC81NDQ0"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="This_Wei" />
+            
+              <p class="site-author-name" itemprop="name">This_Wei</p>
+              <p class="site-description motion-element" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">13</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">22</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://github.com/wqf31415" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/wqf31415" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-webo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#把博客源文件上传到github"><span class="nav-number">1.</span> <span class="nav-text">把博客源文件上传到github</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在不同电脑上更新博客"><span class="nav-number">2.</span> <span class="nav-text">在不同电脑上更新博客</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#写新的文章"><span class="nav-number">3.</span> <span class="nav-text">写新的文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#从github仓库拉取更新过的源文件"><span class="nav-number">4.</span> <span class="nav-text">从github仓库拉取更新过的源文件</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
