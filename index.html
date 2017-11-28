@@ -377,8 +377,9 @@
           <h2 id="什么是-SpringBoot"><a href="#什么是-SpringBoot" class="headerlink" title="什么是 SpringBoot ?"></a>什么是 SpringBoot ?</h2><blockquote>
 <p>官网：<a href="http://projects.spring.io/spring-boot/" title="springboot官网" target="_blank" rel="noopener">http://projects.spring.io/spring-boot/</a></p>
 </blockquote>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/spring_boot_logo.png" alt=""><br>简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动，springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java web项目，项目里面还是使用spring框架，所以Spring能做的，SpringBoot也能做，而且做的更好。</p>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/spring_boot_logo.png" alt=""><br>简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java web项目，项目里面还是使用spring框架实现，所以Spring能做的，SpringBoot也能做，而且做的更好。</p>
 <p>在使用Spring的时候，写项目时有伴有大量的xml配置文件要编写，随着快速开发的流行，这种方式已经不能满足需要了，springboot的出现帮我们简化了项目配置，同时提供了很多注解，让我们编码也变得简单了。<strong>SpringBoot 简化了配置，不用再写xml了</strong>,传统Spring 的xml配置文件被转化成 java config，直接利用@Autowire注解注入Bean，而环境变量中的 properties、xml文件集中到一个application.yml中。同时，<strong>SpringBoot 使项目部署变得简单</strong>，传统的Spring项目需要外部的tomcat容器来运行，而在springboot中以及集成了tomcat，我们将项目打包成一个jar包，直接通过 <code>java -jar xxx.jar</code> 就可以运行项目，这也方便后续使用docker。</p>
+<p>SpringBoot 能够使我们更加专注于业务逻辑的开发，只需记住 <strong>Just run</strong> 就可以了，那怎么创建一个 SpringBoot 项目呢？话不多说，还是先上个demo尝尝味道吧！全文里介绍了一个SpringBoot项目从创建到测试运行，再到打包部署的全过程。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2017/11/27/创建SpringBoot项目/#more" rel="contents">
