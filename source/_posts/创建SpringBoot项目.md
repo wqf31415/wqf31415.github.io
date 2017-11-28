@@ -193,6 +193,8 @@ public class SampleController {
 - 在IDEA中直接点击工具栏中的运行按钮，即可运行项目，运行起来后到浏览器中访问：[http://localhost:8080](http://localhost:8080 ) ，发现显示如下页面，这说明项目已经正确的运行起来了，只是我们还没有写controller来处理请求，所以返回这个错误提示页面。
 ![](http://okbn8yrzu.bkt.clouddn.com/spring_boot_initializr_07.png )
 
+- 使用springboot maven插件运行，因为Spring Boot Maven插件中包含一个run目标，可以用来快速编译和运行程序，这种运行模式是热加载，可以即时编辑资源。进入项目根目录，运行指令 `mvn spring-boot:run`，会编译并运行项目。类似的，如果项目用gradle构建，可以运行 `gradle bootRun` 来运行项目。
+
 - 如果运行测试的时候发现项目启动不了，控制台输出 `Unregistering JMX-exposed beans on shutdown`
 原因是在创建项目时没有选择web依赖，创建的项目没有导入web工程所需的依赖，所以此时我们可以将 pom.xml 中springboot依赖的 artifactId，原来是 spring-boot-starter，改成 spring-boot-starter-web，再次导入需要的依赖即可正常启动。
 原来的：
