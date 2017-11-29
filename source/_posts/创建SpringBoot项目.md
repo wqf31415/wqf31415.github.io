@@ -190,10 +190,10 @@ public class SampleController {
 ``````
 
 #### 运行测试
-- 在IDEA中直接点击工具栏中的运行按钮，即可运行项目，运行起来后到浏览器中访问：[http://localhost:8080](http://localhost:8080 ) ，发现显示如下页面，这说明项目已经正确的运行起来了，只是我们还没有写controller来处理请求，所以返回这个错误提示页面。
+- **用IDEA启动**，在IDEA中直接点击工具栏中的运行按钮，即可运行项目，运行起来后到浏览器中访问：[http://localhost:8080](http://localhost:8080 ) ，发现显示如下页面，这说明项目已经正确的运行起来了，只是我们还没有写controller来处理请求，所以返回这个错误提示页面。
 ![](http://okbn8yrzu.bkt.clouddn.com/spring_boot_initializr_07.png )
 
-- 使用springboot maven插件运行，因为Spring Boot Maven插件中包含一个run目标，可以用来快速编译和运行程序，这种运行模式是热加载，可以即时编辑资源。进入项目根目录，运行指令 `mvn spring-boot:run`，会编译并运行项目。类似的，如果项目用gradle构建，可以运行 `gradle bootRun` 来运行项目。
+- **使用springboot maven插件运行**，因为Spring Boot Maven插件中包含一个run目标，可以用来快速编译和运行程序，这种运行模式是热加载，可以即时编辑资源。进入项目根目录，运行指令 `mvn spring-boot:run`，会编译并运行项目。类似的，如果项目用gradle构建，可以运行 `gradle bootRun` 来运行项目。
 
 - 如果运行测试的时候发现项目启动不了，控制台输出 `Unregistering JMX-exposed beans on shutdown`
 原因是在创建项目时没有选择web依赖，创建的项目没有导入web工程所需的依赖，所以此时我们可以将 pom.xml 中springboot依赖的 artifactId，原来是 spring-boot-starter，改成 spring-boot-starter-web，再次导入需要的依赖即可正常启动。
@@ -269,7 +269,7 @@ class Hello {
 > 我们的 SpringBoot 项目是使用 maven 工具来构建的，所以我们可以很方便的使用maven来打包项目。
 
 ### 引入打包插件
-> 当我们创建的是maven项目，我们可以在依赖中加入 spring-boot-maven-plugin 打包插件（如下所示），利用maven来打包。如果是使用 Spring Initilizr 方式创建的项目，已经导入了打包插件，可以在 pom.xml 中看到，如下代码：
+> 当我们创建的是maven项目，我们可以在依赖中添加打包方式和 spring-boot-maven-plugin 打包插件（如下所示），利用maven来打包。如果是使用 Spring Initilizr 方式创建的项目，已经导入了打包插件，不用手动添加，可以在 pom.xml 中看到，如下代码：
 
 ``````xml
 	<!-- 打包方式：jar 或 war -->
@@ -287,7 +287,7 @@ class Hello {
 ``````
 
 ### 使用IDEA打包
-- 如图所示，点击IDEA侧边的 **Maven Projects** → 项目名 **demo** → **Lifecycle** → **package** 或 **install**，点击上方的绿色播放按钮“Run Maven Build”开始打包。使用IDEA 的maven项目管理功能打包完成后，提示 “ **BUILD SUCCESS** ”，说明打包成功，在项目根目录下的 target目录下存放着打包好的项目文件，文件名为：demo-0.0.1-SNAPSHOT.jar，如果打包方式为 war，将产生 .war 的包。
+- 如图所示，点击IDEA侧边的 **Maven Projects** → 项目名 “**demo**” → **Lifecycle** → **package** 或 **install**，点击上方的绿色播放按钮“Run Maven Build”开始打包。使用IDEA 的maven项目管理功能打包完成后，提示 “ **BUILD SUCCESS** ”，说明打包成功，在项目根目录下的 target目录下存放着打包好的项目文件，文件名为：demo-0.0.1-SNAPSHOT.jar，如果打包方式为 war，将产生 .war 的包。
 ![](http://okbn8yrzu.bkt.clouddn.com/spring_boot_maven_package_01.png "IDAE maven 打包")
 
 - 使用 maven 指令打包，进入到项目根目录，打开命令行工具，执行maven打打包命令 `mvn package` 或 maven 的安装命令 `mvn install` 开始打包，打包完成后提示 **BUILD SUCCESS**，说明打包成功，可以到target目录下查看打好的包。
