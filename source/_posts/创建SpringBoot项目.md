@@ -232,7 +232,11 @@ CLI意思是Command Line Interface，即命令行界面，使用命令行工具�
 
 - 使用 `spring help` 指令可以获取更多帮助信息
 
-#### 写一个测试文件
+#### 用springboot-cli创建SpringBoot项目
+- 在要存储项目的目录下打开命令行工具，执行指令 `spring init --dependencies=web spring-boot-demo`，（其中 **spring-boot-demo** 是项目名，也是模块名，artifactId），会访问 https://start.spring.io/ ，过一会就会将项目需要的文件下载到 /spring-boot-demo 目录下，将其导入IDEA下载相关maven依赖后就可以启动。如果需要多个依赖可以在参数后面，如 `spring init --dependencies=web,jpa spring-boot-demo` 。
+![](http://okbn8yrzu.bkt.clouddn.com/spring_boot_cli_07.png "使用springboot-cli创建项目")
+
+#### 一个文件体验springboot
 - 写一个 java 测试文件，文件名为：**app.java**，内容如下：
 ``````java
 @RestController
@@ -288,6 +292,8 @@ class Hello {
 
 - 使用 maven 指令打包，进入到项目根目录，打开命令行工具，执行maven打打包命令 `mvn package` 或 maven 的安装命令 `mvn install` 开始打包，打包完成后提示 **BUILD SUCCESS**，说明打包成功，可以到target目录下查看打好的包。
 
+- 使用SpringBoot-CLI 打包，前面的示例中，我们可以只写一个java或groovy文件就用springboot-cli启动了项目，现在我们只需要执行 `spring jar app.jar *.java`，就可以打包成一个名叫 app.jar 的包了，同样可以执行 `spring jar app.jar *.groovy` 来打包groovy文件。使用 `spring init` 指令创建的项目也是maven项目，打包方式参考上面两条。
+![](http://okbn8yrzu.bkt.clouddn.com/spring_boot_cli_06.png "使用springboot-cli打包")
 
 ### 部署及运行打包的项目
 - jar包：使用 `java -jar <文件名>` 命令运行 jar 包，在target目录下打开命令行工具，执行指令 `java -jar demo-0.0.1-SNAPSHOT.jar`，项目可以正常启动，并可以在浏览器中访问，说明打包正确。
