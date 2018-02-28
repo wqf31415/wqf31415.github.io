@@ -47,13 +47,13 @@ categories:
 
 在windows安装git的同时会默认安装 git bash 插件，我们在桌面上右击鼠标就能看到 `git bsah here` 选项，点击后将在桌面打开 git bash 命令行工具：
 
-![](http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_0.png "git bash here") 
+![](http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_0.png "git bash here")
 
 git bash 命令行如下图所示：
-![](http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_cli.png "Git Bash 命令行") 
+![](http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_cli.png "Git Bash 命令行")
 
 我们可以输入 `git --version` 来查看git版本
-![](http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_gitVersion.png "查看git版本") 
+![](http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_gitVersion.png "查看git版本")
 
 在第一次使用git时要设置用户名、邮箱信息，在以后的每一次提交修改时都会用到这些信息
 ```
@@ -138,7 +138,7 @@ git config --global user.email wqf31415@hotmail.com
     git push origin master
   ```
 
-  -----------------
+-----------------
 
   ### 总结
 
@@ -179,4 +179,14 @@ git config --global user.email wqf31415@hotmail.com
 `git clone https://git.coding.net/wqf31415/git-test.git`  克隆远端仓库到本地
 
 `git pull origin master`  拉取远端仓库的 master 分支，并自动合并到当前分支
+
+
+
+#### git 保存密码命令
+
+`git config --global credential.helper store` 长期存储 git 服务器的密码
+
+`git config --global credential.helper cache` 设置 git 保存密码，有效期 15 分钟
+
+`git config credential.helper 'cache --timeout=3600'` 设置 git 保存密码，有效期 3600 秒
 
