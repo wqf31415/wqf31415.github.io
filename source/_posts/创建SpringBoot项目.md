@@ -273,6 +273,15 @@ class Hello {
 ## 单元测试
 
 在项目中引入 spring-boot-starter-test 模块后，就可以使用 Junit 进行单元测试。
+``````xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-test</artifactId>
+    <version>1.5.9.RELEASE</version>
+    <scope>test</scope>
+</dependency>
+
+``````
 
 自动生成的 SpringBoot 项目中的test目录就是用来存放单元测试代码的，我们可以把生成的单元测试类放到这里，建议单元测试类的目录结构与源代码的目录结构保持一致，规范管理，方便查找。
 
