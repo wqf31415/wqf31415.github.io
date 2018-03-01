@@ -64,7 +64,7 @@ POI 多被用于文本抽取应用，如网络爬虫、索引构建和内容管�
 
   ​
 
-### 开始使用
+### 使用 POI 操作 Excel 文件
 
 #### 使用 POI 读、写 Excel 文件的流程
 
@@ -193,6 +193,130 @@ public class PoiDemoApp {
 #### 在 java 项目中使用 POI
 
 到 Apache 官网下载 POI 的 jar 包并导入项目中即可使用。
+
+
+
+#### 在 SpringBoot 项目中使用 POI
+
+##### 创建 SpringBoot 项目，并在依赖中添加 POI 的依赖
+
+> demo 项目的 git 地址：https://git.coding.net/wqf31415/spring-boot-poi.git
+
+创建 SpringBoot 项目的过程不再赘述，可参考其他文章，项目 pom.xml 如下所示：
+
+``````xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>xyz.wqf31415</groupId>
+	<artifactId>spring-boot-poi</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+
+	<name>spring-boot-poi</name>
+	<description>Demo project for Spring Boot</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.10.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.poi/poi -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>3.17</version>
+		</dependency>
+
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+``````
+
+##### 下载 Excel 文件的 Controller 类
+
+用 POI 创建并生成 Excel 工作簿，添加表格内容，使用工作簿对象的 `write(OutPutStream stream)` 方法将内容写到 http 响应的输出流中。
+
+``````java
+@RestController
+@RequestMapping("/excel")
+public class ExcelController {
+    /**
+     * 下载excel表格
+     *
+     * @param response
+     */
+    @RequestMapping("/download")
+    public void download(HttpServletResponse response){
+      	// 创建工作簿对象
+        HSSFWorkbook workbook = new HSSFWorkbook();
+      	// 创建工作表
+        HSSFSheet sheet = workbook.createSheet("sheet0");
+      	// 添加表格内容
+        HSSFRow row0 = sheet.createRow(0);
+        row0.createCell(0).setCellValue("姓名");
+        row0.createCell(1).setCellValue("年龄");
+        row0.createCell(2).setCellValue("性别");
+        row0.createCell(3).setCellValue("电话");
+
+        HSSFRow row1 = sheet.createRow(1);
+        row1.createCell(0).setCellValue("张三");
+        row1.createCell(1).setCellValue(18);
+        row1.createCell(2).setCellValue("男");
+        row1.createCell(3).setCellValue("87878787");
+
+		// 导出的 Excel 文件名
+        String excelFileName = "details.xls";
+        try {
+          	// 获取相应体的输出流
+            ServletOutputStream out = response.getOutputStream();
+          	// 清除响应体中缓存的内容，包括状态码和响应头
+            response.reset();
+          	// 设置响应头
+            response.setHeader("Content-disposition", "attachment; filename=" + excelFileName);
+          	// 设置响应体内容的类型
+            response.setContentType("application/msexcel");
+          	// 将工作簿对象写入输出流
+            workbook.write(out);
+          	// 关闭输出流
+            out.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+}
+``````
+
+访问：http://localhost:\<port\>/excel/download 即可下载 Excel文档。
 
 
 
