@@ -202,7 +202,7 @@ public class PoiDemoApp {
 
 > demo 项目的 git 地址：https://git.coding.net/wqf31415/spring-boot-poi.git
 
-创建 SpringBoot 项目的过程不再赘述，可参考其他文章，项目 pom.xml 如下所示：
+创建 SpringBoot 项目的过程不再赘述，可参考<a href="/2017/11/27/%E5%88%9B%E5%BB%BASpringBoot%E9%A1%B9%E7%9B%AE/">《创建SpringBoot项目》</a>，项目 pom.xml 如下所示：
 
 ``````xml
 <?xml version="1.0" encoding="UTF-8"?>
