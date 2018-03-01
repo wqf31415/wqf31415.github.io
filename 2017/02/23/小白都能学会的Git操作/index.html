@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/git/git_commit_m.png">
 <meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/git/git_commit.png">
 <meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/git/git_commit_2.png">
-<meta property="og:updated_time" content="2017-11-27T06:05:24.189Z">
+<meta property="og:updated_time" content="2018-02-28T09:16:22.645Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="小白都能学会的Git操作">
 <meta name="twitter:description" content="摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。   官方说明文档：https://git-scm.com/book/zh/v2  1 什么是git？一句话：git是现今世界上最先进的分布式版本控制工具 。 缩句：git是分布式版本控制工具 。 再缩：git是版本控制工具 。">
@@ -407,9 +407,9 @@
 <hr>
 <h3 id="3-开始使用git"><a href="#3-开始使用git" class="headerlink" title="3 开始使用git"></a>3 开始使用git</h3><p>我们这里以windows操作系统为例，其它系统操作大同小异。</p>
 <h4 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h4><p>在windows安装git的同时会默认安装 git bash 插件，我们在桌面上右击鼠标就能看到 <code>git bsah here</code> 选项，点击后将在桌面打开 git bash 命令行工具：</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_0.png" alt="" title="git bash here"> </p>
-<p>git bash 命令行如下图所示：<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_cli.png" alt="" title="Git Bash 命令行"> </p>
-<p>我们可以输入 <code>git --version</code> 来查看git版本<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_gitVersion.png" alt="" title="查看git版本"> </p>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_0.png" alt="" title="git bash here"></p>
+<p>git bash 命令行如下图所示：<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_cli.png" alt="" title="Git Bash 命令行"></p>
+<p>我们可以输入 <code>git --version</code> 来查看git版本<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/git/git_gitBash_gitVersion.png" alt="" title="查看git版本"></p>
 <p>在第一次使用git时要设置用户名、邮箱信息，在以后的每一次提交修改时都会用到这些信息<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;wqf31415&quot;</span><br><span class="line">git config --global user.email wqf31415@hotmail.com</span><br></pre></td></tr></table></figure></p>
 <p>第一句指令是设置用户名，用英文的双引号括起来，第二句是设置邮箱</p>
 <p>设置好之后我们可以在 git bash 命令行工具中输入 <code>git config --list</code> 查看设置结果<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/git/git_config_list.png" alt="" title="查看git设置"></p>
@@ -452,6 +452,9 @@
 <p><code>git push -u origin master</code>  将本地仓库推送到远端仓库的 master 分支，第一次要加 <code>-u</code> ，以后不加</p>
 <p><code>git clone https://git.coding.net/wqf31415/git-test.git</code>  克隆远端仓库到本地</p>
 <p><code>git pull origin master</code>  拉取远端仓库的 master 分支，并自动合并到当前分支</p>
+<h4 id="git-保存密码命令"><a href="#git-保存密码命令" class="headerlink" title="git 保存密码命令"></a>git 保存密码命令</h4><p><code>git config --global credential.helper store</code> 长期存储 git 服务器的密码</p>
+<p><code>git config --global credential.helper cache</code> 设置 git 保存密码，有效期 15 分钟</p>
+<p><code>git config credential.helper &#39;cache --timeout=3600&#39;</code> 设置 git 保存密码，有效期 3600 秒</p>
 
       
     </div>
@@ -657,7 +660,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是git？"><span class="nav-number">1.</span> <span class="nav-text">1 什么是git？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装git"><span class="nav-number">2.</span> <span class="nav-text">2 安装git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-开始使用git"><span class="nav-number">3.</span> <span class="nav-text">3 开始使用git</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本配置"><span class="nav-number">3.1.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化git仓库"><span class="nav-number">3.2.</span> <span class="nav-text">初始化git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看仓库状态"><span class="nav-number">3.3.</span> <span class="nav-text">查看仓库状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加文件"><span class="nav-number">3.4.</span> <span class="nav-text">添加文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除已添加的文件"><span class="nav-number">3.5.</span> <span class="nav-text">删除已添加的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交文件"><span class="nav-number">3.6.</span> <span class="nav-text">提交文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接远程git仓库"><span class="nav-number">3.7.</span> <span class="nav-text">连接远程git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将远端仓库克隆到本地"><span class="nav-number">3.8.</span> <span class="nav-text">将远端仓库克隆到本地</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是git？"><span class="nav-number">1.</span> <span class="nav-text">1 什么是git？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装git"><span class="nav-number">2.</span> <span class="nav-text">2 安装git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-开始使用git"><span class="nav-number">3.</span> <span class="nav-text">3 开始使用git</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#基本配置"><span class="nav-number">3.1.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化git仓库"><span class="nav-number">3.2.</span> <span class="nav-text">初始化git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看仓库状态"><span class="nav-number">3.3.</span> <span class="nav-text">查看仓库状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加文件"><span class="nav-number">3.4.</span> <span class="nav-text">添加文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除已添加的文件"><span class="nav-number">3.5.</span> <span class="nav-text">删除已添加的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交文件"><span class="nav-number">3.6.</span> <span class="nav-text">提交文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接远程git仓库"><span class="nav-number">3.7.</span> <span class="nav-text">连接远程git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将远端仓库克隆到本地"><span class="nav-number">3.8.</span> <span class="nav-text">将远端仓库克隆到本地</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#git-保存密码命令"><span class="nav-number">4.1.</span> <span class="nav-text">git 保存密码命令</span></a></li></ol></li></ol></div>
             
 
           </div>
