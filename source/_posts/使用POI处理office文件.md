@@ -321,7 +321,7 @@ public class ExcelController {
 
 ### 注意事项
 #### 工作表名的命名
-Excel 表格的工作表（sheet）名称长度不能超过31个字符，不能包含 `0x000 0x003 : \ * / ? : [ ]` 
+Excel 表格的工作表（sheet）名称 **长度不能超过31个字符** ，不能包含 `0x000 0x003 : \ * / ? : [ ]` 
 可以用 POI 提供的工具类创建正确的工作表名，非法字符将被替换成空格，以下代码将返回 ` s h e e t 1 ` 
 
 ``````java
@@ -330,7 +330,7 @@ String sheetName = WorkbookUtil.createSafeSheetName("[s/h*e:e?t\\1]");
 
 #### 表格数据类型
 ##### 可插入单元格(Cell)的数据类型
-单元格(Cell)中支持的数据类型有 Double、Date、Calendar、String、Boolean、RichTextString。
+单元格(Cell)中支持的数据类型有 **Double** 、**Date** 、**Calendar** 、**String** 、**Boolean** 、**RichTextString** 。
 ``````java
 	Workbook workbook = new HSSFWorkbook();
 	// Workbook workbook = new XSSFWorkbook();
@@ -371,7 +371,7 @@ String sheetName = WorkbookUtil.createSafeSheetName("[s/h*e:e?t\\1]");
 ``````
 
 ##### 从单元格(Cell)中获取的数据格式
-从已有的 Excel 文件中获取的单元格数据类型有：String(字符串)、Numric(数字类型，包括数字和日期数据)、boolean(布尔型)、Formula(公式)、Blank(空值)，获取方式如下：
+从已有的 Excel 文件中获取的单元格数据类型有：**String** (字符串)、**Numric** (数字类型，包括数字和日期数据)、**boolean** (布尔型)、**Formula** (公式)、**Blank** (空值)，获取方式如下：
 ``````java
 // 获取所有格式的数据，返回字符串
 DataFormatter formatter = new DataFormatter();
@@ -404,38 +404,6 @@ switch (cellType) {
 }
 ``````
 
-##### 设置单元格对齐方式
-通过设置单元格(Cell)的样式(CellStyle)中的水平对齐(HorizontalAlignment)和垂直对齐(VerticalAlignment)来控制内容的对齐方式。
-水平对齐方式包括：GENERAL(常规)、LEFT(左对齐)、CENTER(居中对齐)、RIGHT(右对齐)、FILL(填充)、JUSTIFY(两端对齐)、CENTER_SELECTION(居中选择)、DISTRIBUTED(分散对齐)
-垂直对齐方式包括：TOP(顶部对齐)、CENTER(垂直居中)、BOTTOM(底部对齐)、JUSTIFY(分散对齐)、DISTRIBUTED(分散对齐)
-``````java
-        Workbook workbook = new XSSFWorkbook();
-        Sheet sheet = workbook.createSheet("alignSheet");
-
-        Row row_0 = sheet.createRow(0);
-        Cell cell_0_0 = row_0.createCell(0);
-        CellStyle cellStyle0 = workbook.createCellStyle();
-        cellStyle0.setAlignment(HorizontalAlignment.LEFT);
-        cellStyle0.setVerticalAlignment(VerticalAlignment.TOP);
-        cell_0_0.setCellStyle(cellStyle0);
-        cell_0_0.setCellValue("左上");
-
-        Cell cell_0_1 = row_0.createCell(1);
-        CellStyle cellStyle1 = workbook.createCellStyle();
-        cellStyle1.setAlignment(HorizontalAlignment.CENTER);
-        cellStyle1.setVerticalAlignment(VerticalAlignment.CENTER);
-        cell_0_1.setCellStyle(cellStyle1);
-        cell_0_1.setCellValue("中间");
-
-        Cell cell_0_2 = row_0.createCell(2);
-        CellStyle cellStyle2 = workbook.createCellStyle();
-        cellStyle2.setAlignment(HorizontalAlignment.RIGHT);
-        cellStyle2.setVerticalAlignment(VerticalAlignment.BOTTOM);
-        cell_0_2.setCellStyle(cellStyle2);
-        cell_0_2.setCellValue("右下");
-``````
-
-
 #### 创建 .xls 或 .xlsx 文件
 我们知道 .xls 是 Excel 03版的文件扩展名，.xlsx 是 07版的，我们可以分别通过创建 **HSSFWorkbook** 或 **XSSFWorkbook** 对象来新建或打开。
 其中，使用 XSSFWorkbook 需要导入 `poi-ooxml` 依赖：
@@ -463,6 +431,57 @@ Workbook workbook3 = new XSSFWorkbook();
 // 打开 xlsx 文件
 InputStream stream2 = new FileInputStream("D:\\test.xlsx");
 Workbook workbook4 = new HSSFWorkbook(stream2);
+``````
+
+##### 设置单元格对齐方式
+通过设置单元格(Cell)的样式(CellStyle)中的水平对齐(HorizontalAlignment)和垂直对齐(VerticalAlignment)来控制内容的对齐方式。
+水平对齐方式包括：**GENERAL** (常规)、**LEFT**(左对齐)、**CENTER** (居中对齐)、**RIGHT** (右对齐)、**FILL** (填充)、**JUSTIFY** (两端对齐)、**CENTER_SELECTION** (居中选择)、**DISTRIBUTED** (分散对齐)
+垂直对齐方式包括：**TOP** (顶部对齐)、**CENTER** (垂直居中)、**BOTTOM** (底部对齐)、**JUSTIFY** (两端对齐)、**DISTRIBUTED**(分散对齐)
+``````java
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("alignSheet");
+
+        Row row_0 = sheet.createRow(0);
+        Cell cell_0_0 = row_0.createCell(0);
+        CellStyle cellStyle0 = workbook.createCellStyle();
+        cellStyle0.setAlignment(HorizontalAlignment.LEFT);
+        cellStyle0.setVerticalAlignment(VerticalAlignment.TOP);
+        cell_0_0.setCellStyle(cellStyle0);
+        cell_0_0.setCellValue("左上");
+
+        Cell cell_0_1 = row_0.createCell(1);
+        CellStyle cellStyle1 = workbook.createCellStyle();
+        cellStyle1.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle1.setVerticalAlignment(VerticalAlignment.CENTER);
+        cell_0_1.setCellStyle(cellStyle1);
+        cell_0_1.setCellValue("中间");
+
+        Cell cell_0_2 = row_0.createCell(2);
+        CellStyle cellStyle2 = workbook.createCellStyle();
+        cellStyle2.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyle2.setVerticalAlignment(VerticalAlignment.BOTTOM);
+        cell_0_2.setCellStyle(cellStyle2);
+        cell_0_2.setCellValue("右下");
+``````
+
+##### 设置边框
+创建单元格样式(CellStyle)，可设置单元格边框类型和颜色。
+``````java
+Workbook workbook = new HSSFWorkbook();
+Sheet sheet = workbook.createSheet("border");
+Row row = sheet.createRow(1);
+Cell cell = row.createCell(1);
+cell.setCellValue("边框");
+CellStyle cellStyle = workbook.createCellStyle();
+cellStyle.setBorderTop(BorderStyle.DOUBLE);
+cellStyle.setTopBorderColor(IndexedColors.BLUE.getIndex());
+cellStyle.setBorderRight(BorderStyle.DASH_DOT);
+cellStyle.setRightBorderColor(IndexedColors.RED.getIndex());
+cellStyle.setBorderBottom(BorderStyle.DOTTED);
+cellStyle.setBottomBorderColor(IndexedColors.GREEN.getIndex());
+cellStyle.setBorderLeft(BorderStyle.DASH_DOT_DOT);
+cellStyle.setLeftBorderColor(IndexedColors.YELLOW.getIndex());
+cell.setCellStyle(cellStyle);
 ``````
 
 ### 完结鞠躬
