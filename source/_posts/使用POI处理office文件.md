@@ -319,6 +319,151 @@ public class ExcelController {
 访问：http://localhost:\<port\>/excel/download 即可下载 Excel文档。
 
 
+### 注意事项
+#### 工作表名的命名
+Excel 表格的工作表（sheet）名称长度不能超过31个字符，不能包含 `0x000 0x003 : \ * / ? : [ ]` 
+可以用 POI 提供的工具类创建正确的工作表名，非法字符将被替换成空格，以下代码将返回 ` s h e e t 1 ` 
+
+``````java
+String sheetName = WorkbookUtil.createSafeSheetName("[s/h*e:e?t\\1]");
+``````
+
+#### 表格数据类型
+##### 可插入单元格(Cell)的数据类型
+单元格(Cell)中支持的数据类型有 Double、Date、Calendar、String、Boolean、RichTextString。
+``````java
+	Workbook workbook = new HSSFWorkbook();
+	// Workbook workbook = new XSSFWorkbook();
+	CreationHelper helper = workbook.getCreationHelper();
+    Sheet sheet = workbook.createSheet();
+    Row row_0 = sheet.createRow(0);
+	row_0.createCell(0).setCellValue("Double");
+	row_0.createCell(1).setCellValue("Date");
+	row_0.createCell(2).setCellValue("Calendar");
+	row_0.createCell(3).setCellValue("String");
+	row_0.createCell(4).setCellValue("Boolean");
+	row_0.createCell(5).setCellValue("RichTextString");
+
+	Row row_1 = sheet.createRow(1);
+	Cell cell_1_0 = row_1.createCell(0);
+	Double d = 3.14;
+	cell_1_0.setCellValue(d);
+
+	Cell cell_1_1 = row_1.createCell(1);
+	Date date = new Date();
+	cell_1_1.setCellValue(date);
+
+	Cell cell_1_2 = row_1.createCell(2);
+	Calendar calendar = Calendar.getInstance();
+	cell_1_2.setCellValue(calendar);
+
+	Cell cell_1_3 = row_1.createCell(3);
+	String str = "String";
+	cell_1_3.setCellValue(str);
+
+	Cell cell_1_4 = row_1.createCell(4);
+	boolean b = true;
+	cell_1_4.setCellValue(b);
+
+	Cell cell_1_5 = row_1.createCell(5);
+	RichTextString richTextString = helper.createRichTextString("富文本");
+	cell_1_5.setCellValue(richTextString);
+``````
+
+##### 从单元格(Cell)中获取的数据格式
+从已有的 Excel 文件中获取的单元格数据类型有：String(字符串)、Numric(数字类型，包括数字和日期数据)、boolean(布尔型)、Formula(公式)、Blank(空值)，获取方式如下：
+``````java
+// 获取所有格式的数据，返回字符串
+DataFormatter formatter = new DataFormatter();
+String text = formatter.formatCellValue(cell);
+
+// 按类型获取数据
+CellType cellType = cell.getCellTypeEnum();
+switch (cellType) {
+	case NUMERIC:
+		// 数字类型数据可能是数字，也可能是日期
+		if (DateUtil.isCellDateFormatted(cell)){
+			Date date = cell.getDateCellValue();
+		}else {
+			Double d = cell.getNumericCellValue();
+		}
+		break;
+	case STRING:
+		String str = cell.getStringCellValue();
+		break;
+	case BOOLEAN:
+		boolean b = cell.getBooleanCellValue();
+		break;
+	case FORMULA:
+		String formula = cell.getCellFormula();
+		break;
+	case BLANK:
+		break;
+	default:
+		
+}
+``````
+
+##### 设置单元格对齐方式
+通过设置单元格(Cell)的样式(CellStyle)中的水平对齐(HorizontalAlignment)和垂直对齐(VerticalAlignment)来控制内容的对齐方式。
+水平对齐方式包括：GENERAL(常规)、LEFT(左对齐)、CENTER(居中对齐)、RIGHT(右对齐)、FILL(填充)、JUSTIFY(两端对齐)、CENTER_SELECTION(居中选择)、DISTRIBUTED(分散对齐)
+垂直对齐方式包括：TOP(顶部对齐)、CENTER(垂直居中)、BOTTOM(底部对齐)、JUSTIFY(分散对齐)、DISTRIBUTED(分散对齐)
+``````java
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("alignSheet");
+
+        Row row_0 = sheet.createRow(0);
+        Cell cell_0_0 = row_0.createCell(0);
+        CellStyle cellStyle0 = workbook.createCellStyle();
+        cellStyle0.setAlignment(HorizontalAlignment.LEFT);
+        cellStyle0.setVerticalAlignment(VerticalAlignment.TOP);
+        cell_0_0.setCellStyle(cellStyle0);
+        cell_0_0.setCellValue("左上");
+
+        Cell cell_0_1 = row_0.createCell(1);
+        CellStyle cellStyle1 = workbook.createCellStyle();
+        cellStyle1.setAlignment(HorizontalAlignment.CENTER);
+        cellStyle1.setVerticalAlignment(VerticalAlignment.CENTER);
+        cell_0_1.setCellStyle(cellStyle1);
+        cell_0_1.setCellValue("中间");
+
+        Cell cell_0_2 = row_0.createCell(2);
+        CellStyle cellStyle2 = workbook.createCellStyle();
+        cellStyle2.setAlignment(HorizontalAlignment.RIGHT);
+        cellStyle2.setVerticalAlignment(VerticalAlignment.BOTTOM);
+        cell_0_2.setCellStyle(cellStyle2);
+        cell_0_2.setCellValue("右下");
+``````
+
+
+#### 创建 .xls 或 .xlsx 文件
+我们知道 .xls 是 Excel 03版的文件扩展名，.xlsx 是 07版的，我们可以分别通过创建 **HSSFWorkbook** 或 **XSSFWorkbook** 对象来新建或打开。
+其中，使用 XSSFWorkbook 需要导入 `poi-ooxml` 依赖：
+``````xml
+<!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+<dependency>
+    <groupId>org.apache.poi</groupId>
+    <artifactId>poi-ooxml</artifactId>
+    <version>3.17</version>
+</dependency>
+``````
+
+创建或打开 Excel 文件：
+``````java
+// 创建 xls 文件
+Workbook workbook1 = new HSSFWorkbook();
+
+// 打开 xls 文件
+InputStream stream1 = new FileInputStream("D:\\test.xls");
+Workbook workbook2 = new HSSFWorkbook(stream1);
+
+// 创建 xlsx 文件
+Workbook workbook3 = new XSSFWorkbook();
+
+// 打开 xlsx 文件
+InputStream stream2 = new FileInputStream("D:\\test.xlsx");
+Workbook workbook4 = new HSSFWorkbook(stream2);
+``````
 
 ### 完结鞠躬
 
