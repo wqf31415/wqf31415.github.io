@@ -13,7 +13,7 @@ categories:
 > 官网：[http://projects.spring.io/spring-boot/](http://projects.spring.io/spring-boot/ "springboot官网")
 
 ![](http://okbn8yrzu.bkt.clouddn.com/spring_boot_logo.png ) 
-简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java web项目，项目里面还是使用spring框架实现，所以Spring能做的，SpringBoot也能做，而且做的更好。
+简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动、引导，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java web项目，项目里面还是使用spring框架实现，所以Spring能做的，SpringBoot也能做，而且做的更好。
 
 在使用Spring的时候，写项目时有伴有大量的xml配置文件要编写，随着快速开发的流行，这种方式已经不能满足需要了，springboot的出现帮我们简化了项目配置，同时提供了很多注解，让我们编码也变得简单了。**SpringBoot 简化了配置，不用再写xml了**,传统Spring 的xml配置文件被转化成 java config，直接利用@Autowire注解注入Bean，而环境变量中的 properties、xml文件集中到一个application.yml中。同时，**SpringBoot 使项目部署变得简单**，传统的Spring项目需要外部的tomcat容器来运行，而在springboot中以及集成了tomcat，我们将项目打包成一个jar包，直接通过 `java -jar xxx.jar` 就可以运行项目，这也方便后续使用docker。
 
@@ -23,9 +23,11 @@ SpringBoot 能够使我们更加专注于业务逻辑的开发，只需记住 **
 
 ## 创建 SpringBoot 项目
 ### 开发环境及工具
-**java开发环境** springboot 是Javaweb开发框架，所以java开发环境是必要的，从[Oracle官网](http://www.oracle.com/)上下载java1.8的安装包，安装到计算机上，并配置好环境变量。
-**maven工具** 利用maven下载管理项目中需要的依赖资源，从 [maven官网](http://maven.apache.org/) 下载maven，解压到本地，将bin目录配置到环境变量 path 中，方便使用，为了提升依赖下载速度，建议配置阿里镜像。
-**开发工具-IDEA** 我们利用 IntelliJ IDEA 工具来创建spring boot 项目，所谓“工欲善其事必先利其器”，我任务IDEA用来开发java是非常好用的工具。
+**java 1.8+** springboot 是Javaweb开发框架，所以java开发环境是必要的，从[Oracle官网](http://www.oracle.com/)上下载java1.8的安装包，安装到计算机上，并配置好环境变量。
+
+**maven 3.2+** 利用maven下载管理项目中需要的依赖资源，从 [maven官网](http://maven.apache.org/) 下载maven，解压到本地，将bin目录配置到环境变量 path 中，方便使用，为了提升依赖下载速度，建议配置阿里镜像。
+
+**IDE** 我们使用 IntelliJ IDEA 工具来创建spring boot 项目，所谓“工欲善其事必先利其器”，我个人习惯使用 IDEA 来开发 java项目。也可以使用其它开发工具，比如 **eclipse** ，或官方推荐使用的 [Spring Tool Suite](https://spring.io/tools) 。
 
 
 ### 使用 maven 创建 SpringBoot 项目
