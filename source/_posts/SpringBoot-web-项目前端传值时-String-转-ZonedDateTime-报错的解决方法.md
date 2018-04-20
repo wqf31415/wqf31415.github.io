@@ -237,3 +237,8 @@ public class CompanyResource {
 
 
 ### 以上
+
+上述的方式可以将前端页面传输过来的字符串格式时间，转换成 ZonedDateTime 对象幅值给绑定对象。以相同的方法，也可以处理其他类型的数据转换，如将前端传的时间戳转换成 ZonedDateTime 等等。
+
+
+
