@@ -68,10 +68,12 @@ JHipster 是一个创建 java-web 项目的工具，所以说最基本的就是 
 ##### NodeJS
 需要用到 npm 来下载前端需要的组件资源。
 从官网下载并安装 Node.js ，蒋自动安装 npm 包管理器。
+> 在国内使用时，强烈推荐配置 npm 淘宝镜像，使用 cnpm 下载安装组件速度更快，参考：http://npm.taobao.org/
 
 ##### Yeoman
 能快速构建漂亮的网络应用，Yeoman主要提供了三个工具：脚手架（yo），构建工具（grunt），包管理器（bower）。这三个工具是分别独立开发的，但是需要配合使用，来实现我们更高效的工作流模式。
 `npm install -g yo`
+> 其中 `-g` 是全局安装的意思，这样不管在哪个位置都可以使用了。
 
 ##### Bower
 前端包管理器。
@@ -82,10 +84,12 @@ gulp是前端开发过程中对代码进行构建的工具，是自动化项目�
 `npm install -g gulp-cli`
 
 ##### JHipster
-安装 JHipster 的构建器，当前示例采用的版本是：3.12.2，现在(2018-01-24)已经有4.x 的版本了，如果要按照下面的方式安装，请装3.x版本。
-`npm install -g generator-jhipster`   -- 安装最新版本
+安装 JHipster 的构建器，默认安装最新的发行版本，现在已经有4.x 的发行版本了，但本文中示例使用的是 3.12.2 版本，可使用npm指定安装3.x版本。
+安装最新版本 jhipster 代码生成器（2018-05-07 当前最新发行版本：4.14.3）
+`npm install -g generator-jhipster`
 
-`npm install -g generator-jhipster@3.12.2`		-- 安装3.12.2版本
+安装 3.12.2 版本的 jhipster 代码生成器
+`npm install -g generator-jhipster@3.12.2`
 
 ------
 
@@ -116,7 +120,7 @@ gulp是前端开发过程中对代码进行构建的工具，是自动化项目�
 ###### 你默认的 Java 包名称是什么？
 > What is your default Java package name?
 
-一般我们取名的习惯是倒写的域名加项目名，根据自己的需要输入。这里我输入了：**xyz.wqf31415.myJHipsterDemo** 
+一般我们项目的包命名的习惯是公司域名的倒写加项目名，根据自己的需要输入。比如这里我输入了：**xyz.wqf31415.myJHipsterDemo** 
 
 ###### 你想要使用哪种类型的身份验证？
 > Which type of authentication would you like to use?
@@ -142,7 +146,7 @@ gulp是前端开发过程中对代码进行构建的工具，是自动化项目�
 选择用于生产环境的数据库，如果要使用 Oracle 数据库，需要手动安装 Oracle JDBC 驱动程序 。
 （我们选择MySql数据库。）
 
-###### 你要使用哪个开发数据库？
+###### 在开发环境中使用哪个数据库？
 > Which development database would you like to use?
 
 选择用于开发环境的数据库，可选的有：（我们选择MySQL）
@@ -165,7 +169,7 @@ gulp是前端开发过程中对代码进行构建的工具，是自动化项目�
 ###### 你想要使用哪些其他技术？
 > Which other technologies would you like to use?
 
-这是一个多项选择，可以为应用程序添加一个或几个其他技术，**注意是按空格键选定**。选项有：（我们选中第一项，然后回车）
+这是一个多项选择，可以为应用程序添加一个或几个其他技术，**注意是按空格键选定/取消，回车键确定**。选项有：（我们选中第一项，然后回车）
 - Social login ：社交登陆，如 Google、Facebook、Twitter，这一选项只有在选择 SQL 数据库或 MongoDB 时可用；
 - Search engine using ElasticSearch ：使用 ElasticSearch 搜索引擎，将使用 Spring Data ElasticSearch 进行配置；
 - Clustered HTTP sessions using Hazelcast ：使用 Hazelcast 的聚合 HTTP 会话，默认情况 JHipster 仅使用 HTTP 会话来存储 Spring Security 的身份验证和授权信息。如果正在集群中运行，使用 HTTP会话将导致问题，特别是如果不使用带有“粘性会话”的负载平衡器。如果要在群集中复制会话，请选择此选项以配置 Hazelcast；
@@ -209,7 +213,7 @@ Node-sass 是简化 CSS 设计的很好方式，如需自动配置，需要运�
 再运行 `gulp install` ，完成后即可导入IDEA
 
 ##### 运行和测试
-下载相关依赖后就可以开始运行了，可以再 IDE 中运行，也可以使用 Maven 或 Gradle 运行项目。
+下载相关依赖后就可以开始运行了，可以在 IDE 中运行，也可以使用 Maven 或 Gradle 运行项目。
 
 打开 [http://127.0.0.1:8080/](http://127.0.0.1:8080/)  进行预览
 
