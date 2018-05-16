@@ -34,6 +34,25 @@ SpringBoot 默认寻找banner的顺序是：
 - 以上都没有就使用默认的；
 
 
+<!-- more -->
+
+### banner 配置
+
+可以直接在项目配置文件中控制 banner 的显示参数。
+
+|         配置项          |               参数类型               |                           注释                            |
+| :---------------------: | :----------------------------------: | :-------------------------------------------------------: |
+| spring.main.banner-mode |      `off` 、`console` 、`log`       | banner 输出位置，不输出、控制台、日志，默认值： `console` |
+|     banner.charset      |       java.nio.charset.Charset       |             banner 字符编码，默认值：`UTF-8`              |
+|   banner.image.height   |               Integer                |                         图像高度                          |
+|   banner.image.invert   |               Boolean                |         为黑色控制台主题转换图片，默认值：`false`         |
+|  banner.image.location  | org.springframework.core.io.Resource |                   默认值： `banner.gif`                   |
+|   banner.image.margin   |               Integer                |                      banner 图左边距                      |
+|   banner.image.width    |               Integer                |                         图像宽度                          |
+|     banner.location     | org.springframework.core.io.Resource |              默认值：`classpath:banner.txt`               |
+
+
+
 
 ### 更换 banner
 
@@ -129,3 +148,15 @@ Ansi 颜色代码
 
 #### 显示项目信息
 
+在 banner 文件中可以使用 `${}` 表达式取得项目配置文件和 `MANIFEST.MF` 中的变量值，如：
+
+|            变量            |              表达式              |                       注释                        |
+| :------------------------: | :------------------------------: | :-----------------------------------------------: |
+|           版本号           |      ${application.version}      | ` MANIFEST.MF` 中的 `Implementation-Version` 的值 |
+|       格式化的版本号       | ${application.formatted-version} |           在上述的版本号前加上前缀 `v`            |
+|      SpringBoot 版本       |      ${spring-boot.version}      |            当前使用的 SpringBoot 版本             |
+| 格式化的 SpringBoot 版本号 | ${spring-boot.formatted-version} |         加上前缀 `v` 的 SpringBoot 版本号         |
+|            标题            |       ${application.title}       | ` MANIFEST.MF` 中的 ` Implementation-Title` 的值  |
+|         自定义变量         |            ${my.name}            |          项目配置文件中的 `my.name` 的值          |
+
+> 注：如果 `${}` 没有取到值，将直接显示表达式，如没有定义 `my.name` ，在 banner 中用 `${my.name}` 取值后，将直接显示 `${my.name}` 。
