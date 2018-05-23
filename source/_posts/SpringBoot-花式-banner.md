@@ -46,10 +46,10 @@ SpringBoot 默认寻找banner的顺序是：
 |     banner.charset      |       java.nio.charset.Charset       |             banner 字符编码，默认值：`UTF-8`              |
 |   banner.image.height   |               Integer                |                         图像高度                          |
 |   banner.image.invert   |               Boolean                |         为黑色控制台主题转换图片，默认值：`false`         |
-|  banner.image.location  | org.springframework.core.io.Resource |                   默认值： `banner.gif`                   |
+|  banner.image.location  | org.springframework.core.io.Resource |            banner 图片，默认值： `banner.gif`             |
 |   banner.image.margin   |               Integer                |                      banner 图左边距                      |
 |   banner.image.width    |               Integer                |                         图像宽度                          |
-|     banner.location     | org.springframework.core.io.Resource |              默认值：`classpath:banner.txt`               |
+|     banner.location     | org.springframework.core.io.Resource |        banner 文件，默认值：`classpath:banner.txt`        |
 
 
 
@@ -159,4 +159,9 @@ Ansi 颜色代码
 |            标题            |       ${application.title}       | ` MANIFEST.MF` 中的 ` Implementation-Title` 的值  |
 |         自定义变量         |            ${my.name}            |          项目配置文件中的 `my.name` 的值          |
 
-> 注：如果 `${}` 没有取到值，将直接显示表达式，如没有定义 `my.name` ，在 banner 中用 `${my.name}` 取值后，将直接显示 `${my.name}` 。
+> 注：如果 `${}` 没有取到值，将直接显示表达式，如没有定义 `my.name` ，在 banner 中用 `${my.name}` 取值，将直接显示取值表达式 `${my.name}` 。
+
+
+
+
+
