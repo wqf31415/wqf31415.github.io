@@ -66,11 +66,19 @@ Java是独立于平台的，所以它不仅能用于计算机领域，还能用�
 
 > 官网地址：http://www.jetbrains.com/idea/
 
+推荐指数：5星
+
+非常好用的开发工具，功能完善，插件众多，界面美观，受众多java开发人员喜爱。
+
 
 
 #### Eclipse
 
 > 官网地址：http://www.eclipse.org/
+
+推荐指数：4星半
+
+老牌IDE，开源，插件多，功能齐全，java开发工具第二大阵营。
 
 
 
@@ -80,11 +88,19 @@ Java是独立于平台的，所以它不仅能用于计算机领域，还能用�
 >
 > 中文官网：http://www.myeclipsecn.com/
 
+推荐指数：4星
+
+对Eclipse进行优化，增加了很多实用的功能，实用方便，但是需要购买。
+
 
 
 #### NetBeans
 
 > 官网地址：https://netbeans.org/
+
+推荐指数：3星
+
+
 
 
 
@@ -92,11 +108,23 @@ Java是独立于平台的，所以它不仅能用于计算机领域，还能用�
 
 > 官网地址：http://edn.embarcadero.com/jbuilder
 
+推荐指数：2星
+
+
+
 
 
 #### JCreator
 
 > 官网地址：http://www.jcreator.com/
+
+推荐指数：2星
+
+
+
+#### 文本编辑器
+
+理论上来说，只要是能编辑文本的工具都可以写java代码，像Windows中的文本编辑器、notepad++、sublime等等，但这种只适合在学习时写一些小的代码片段，不适合开发项目。
 
 
 
