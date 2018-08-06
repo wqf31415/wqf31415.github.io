@@ -1,0 +1,858 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans,en,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/uploads/favicon.png?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="关于本系列文章我从2016年8月开始在培训班系统学习Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候还要依靠搜索引擎，恍然发现，过去的学习是为了能尽快学成，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，觉得古人说得好，“九层之台，起于垒土”，我要想在Java这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基础不实">
+<meta name="keywords" content="java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重走Java长征路-Java是什么">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2018/04/07/重走Java长征路-Java是什么/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="关于本系列文章我从2016年8月开始在培训班系统学习Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候还要依靠搜索引擎，恍然发现，过去的学习是为了能尽快学成，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，觉得古人说得好，“九层之台，起于垒土”，我要想在Java这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基础不实">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-08-03T10:51:05.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="重走Java长征路-Java是什么">
+<meta name="twitter:description" content="关于本系列文章我从2016年8月开始在培训班系统学习Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候还要依靠搜索引擎，恍然发现，过去的学习是为了能尽快学成，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，觉得古人说得好，“九层之台，起于垒土”，我要想在Java这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基础不实">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wqf31415.xyz/2018/04/07/重走Java长征路-Java是什么/"/>
+
+
+
+
+
+  <title>重走Java长征路-Java是什么 | This_Wei</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">This_Wei</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Come on!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-weather">
+          <a href="/weather/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-snowflake-o"></i> <br />
+            
+            weather
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2018/04/07/重走Java长征路-Java是什么/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">重走Java长征路-Java是什么</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-04-07T13:31:44+08:00">
+                2018-04-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="关于本系列文章"><a href="#关于本系列文章" class="headerlink" title="关于本系列文章"></a>关于本系列文章</h3><p>我从2016年8月开始在培训班系统学习Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候还要依靠搜索引擎，恍然发现，过去的学习是为了能尽快学成，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，觉得古人说得好，“九层之台，起于垒土”，我要想在Java这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基础不实影响将来的学习发展。因此，我决定重走Java长征路，重头开始，再来学习一次java，从java是什么开始，一直学到现在用到的技术。</p>
+<h3 id="Java是什么？"><a href="#Java是什么？" class="headerlink" title="Java是什么？"></a>Java是什么？</h3><h4 id="Java简介"><a href="#Java简介" class="headerlink" title="Java简介"></a>Java简介</h4><p>Java是一种高级的面向对象的程序设计语言。<br>Java语法规则与C++类似，但比C++简洁，而且去除了其中的指针和多重继承概念。<br>Java编写的程序既是编译型的，又是解释型的，程序代码经过编译后转换成可被Java虚拟机识别的字节码，Java虚拟机(JVM)将字节码解释成机器码，最后在计算机上运行。编译只需执行一次，但每次执行时都要进行解释，因此在执行效率来看是不及C++的。</p>
+<h4 id="Java历史"><a href="#Java历史" class="headerlink" title="Java历史"></a>Java历史</h4><p>1995年 由Java之父詹姆斯`戈士林博士设计，由Sun公司推出，完成了Java的原始编译器和虚拟机。Java最初的名字叫OAK，1995年被重命名为Java。</p>
+<a id="more"></a>
+<h4 id="Java版本"><a href="#Java版本" class="headerlink" title="Java版本"></a>Java版本</h4><p>按Java的应用范围可以分为3个版本：</p>
+<ul>
+<li><strong>Java SE</strong>：标准版，主要用于桌面应用程序开发，也是Java的基础，包含了Java语言基础、JDBC(Java数据库链接)操作、I/O(输入输出)、网络通信、多线程等技术。</li>
+<li><strong>Java EE</strong>：企业版，用于开发企业级分布式网络程序，如电子商务和企业资源规划系统，核心是EJB(企业Java组件模型)。</li>
+<li><strong>Java ME</strong>：移动版，主要应用于嵌入式开发，如掌上电脑、手机等移动通信设备，现在大多数手机都支持Java技术。</li>
+</ul>
+<h3 id="Java能做什么？"><a href="#Java能做什么？" class="headerlink" title="Java能做什么？"></a>Java能做什么？</h3><p>Java是独立于平台的，所以它不仅能用于计算机领域，还能用于便携式计算机、电视、电话、手机和其他电子设备。当今java主要用于以下几个方面：</p>
+<ul>
+<li>web应用系统开发</li>
+<li>分布式系统开发</li>
+<li>多媒体系统开发</li>
+<li>交互式系统开发</li>
+<li>企业级应用开发</li>
+<li>电子商务系统</li>
+<li>嵌入式系统开发</li>
+<li>桌面应用系统开发</li>
+</ul>
+<h3 id="Java的特点"><a href="#Java的特点" class="headerlink" title="Java的特点"></a>Java的特点</h3><ul>
+<li><strong>跨平台</strong>: Java是一种与平台无关的编程语言，因为java程序可以用过java虚拟机将代码解释为机器码，直接在机器上运行。通过不同系统上的Java虚拟机，Java程序可以在Windows系统电脑、mac 苹果计算机、各种未处理器硬件平台、Unix等系统平台上运行，因此Java程序具有良好的可移植性，一次编写，到处运行。</li>
+<li><strong>面向对象</strong>: 面向对象是Java语言的基础，在Java的世界里“万事万物皆对象”。</li>
+<li><strong>安全可靠</strong>: Java删除了类似C语言中的指针和内存释放等语法，有效避免了非法操作内存。运行Java程序需要解释器，解释器会对Java字节码进行检查校验。Java有异常处理机制，将检查并消除编译和运行时的错误。</li>
+<li><strong>多线程</strong>: 多线程机制能够使Java程序同时并行执行多项任务，提供了相应的同步机制来保证不同线程能够正确共享数据。</li>
+</ul>
+<h3 id="JDK-与-JRE"><a href="#JDK-与-JRE" class="headerlink" title="JDK 与 JRE"></a>JDK 与 JRE</h3><h3 id="配置Java环境"><a href="#配置Java环境" class="headerlink" title="配置Java环境"></a>配置Java环境</h3><p><div style="text-align: left;"><div style="border: 1px #ccc solid;display: inline-table;width: 30%;min-width:130px; height: 40px;text-align: center;line-height: 40px;cursor:pointer;" class="tab" onmouseover="tabHover(this);" onmouseout="tabHoverOut(this)" onclick="clickTabel(0);">windows 系统</div><div style="border: 1px #ccc solid;display: inline-table;width: 30%;min-width:130px; height: 40px;text-align: center;line-height: 40px;cursor:pointer;" class="tab" onmouseover="tabHover(this);" onmouseout="tabHoverOut(this)" onclick="clickTabel(1);">Linux 系统</div><div style="border: 1px #ccc solid;display: inline-table;width: 30%;min-width:130px; height: 40px;text-align: center;line-height: 40px;cursor:pointer;" class="tab" onmouseover="tabHover(this);" onmouseout="tabHoverOut(this)" onclick="clickTabel(2);"> mac 系统</div></div><div><div style="width: 100%;border: 1px #ccc solid;text-decoration: none;list-style: none;display: none;" class="content-label">在Windows系统电脑上安装jdk</div><div style="width: 100%;border: 1px #ccc solid;text-decoration: none;list-style: none;display: none;" class="content-label">在Linux系统上安装jdk</div><div style="width: 100%;border: 1px #ccc solid;text-decoration: none;list-style: none;display: none;" class="content-label">在苹果电脑上安装jdk</div></div></p>
+<script>clickTabel(0);function clickTabel(num){var cls = document.getElementsByClassName("content-label");var tabs = document.getElementsByClassName("tab");for(var i=0;i<cls.length;i++){if(i == num){cls[i].style.display='block';}else{cls[i].style.display = 'none';}}; for(var i = 0;i<tabs.length;i++){if(i == num){tabs[i].style.borderColor='#4b4';tabs[i].style.backgroundColor='#5c5';}else{tabs[i].style.borderColor='#ccc';    tabs[i].style.backgroundColor='white';}}}function tabHover(dd){    dd.style.fontWeight='bold';}function tabHoverOut(dd){dd.style.fontWeight='normal';}</script>
+
+
+
+<h3 id="Java-开发工具"><a href="#Java-开发工具" class="headerlink" title="Java 开发工具"></a>Java 开发工具</h3><h4 id="IntelliJ-IDEA"><a href="#IntelliJ-IDEA" class="headerlink" title="IntelliJ IDEA"></a>IntelliJ IDEA</h4><blockquote>
+<p>官网地址：<a href="http://www.jetbrains.com/idea/" target="_blank" rel="noopener">http://www.jetbrains.com/idea/</a></p>
+</blockquote>
+<p>推荐指数：5星</p>
+<p>非常好用的开发工具，功能完善，插件众多，界面美观，受众多java开发人员喜爱。</p>
+<h4 id="Eclipse"><a href="#Eclipse" class="headerlink" title="Eclipse"></a>Eclipse</h4><blockquote>
+<p>官网地址：<a href="http://www.eclipse.org/" target="_blank" rel="noopener">http://www.eclipse.org/</a></p>
+</blockquote>
+<p>推荐指数：4星半</p>
+<p>老牌IDE，开源，插件多，功能齐全，java开发工具第二大阵营。</p>
+<h4 id="MyEclipse"><a href="#MyEclipse" class="headerlink" title="MyEclipse"></a>MyEclipse</h4><blockquote>
+<p>官网地址：<a href="https://www.genuitec.com/products/myeclipse/" target="_blank" rel="noopener">https://www.genuitec.com/products/myeclipse/</a></p>
+<p>中文官网：<a href="http://www.myeclipsecn.com/" target="_blank" rel="noopener">http://www.myeclipsecn.com/</a></p>
+</blockquote>
+<p>推荐指数：4星</p>
+<p>对Eclipse进行优化，增加了很多实用的功能，实用方便，但是需要购买。</p>
+<h4 id="NetBeans"><a href="#NetBeans" class="headerlink" title="NetBeans"></a>NetBeans</h4><blockquote>
+<p>官网地址：<a href="https://netbeans.org/" target="_blank" rel="noopener">https://netbeans.org/</a></p>
+</blockquote>
+<p>推荐指数：3星</p>
+<h4 id="JBuilder"><a href="#JBuilder" class="headerlink" title="JBuilder"></a>JBuilder</h4><blockquote>
+<p>官网地址：<a href="http://edn.embarcadero.com/jbuilder" target="_blank" rel="noopener">http://edn.embarcadero.com/jbuilder</a></p>
+</blockquote>
+<p>推荐指数：2星</p>
+<h4 id="JCreator"><a href="#JCreator" class="headerlink" title="JCreator"></a>JCreator</h4><blockquote>
+<p>官网地址：<a href="http://www.jcreator.com/" target="_blank" rel="noopener">http://www.jcreator.com/</a></p>
+</blockquote>
+<p>推荐指数：2星</p>
+<h4 id="文本编辑器"><a href="#文本编辑器" class="headerlink" title="文本编辑器"></a>文本编辑器</h4><p>理论上来说，只要是能编辑文本的工具都可以写java代码，像Windows中的文本编辑器、notepad++、sublime等等，但这种只适合在学习时写一些小的代码片段，不适合开发项目。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/02/28/使用POI处理office文件/" rel="next" title="使用POI处理office文件">
+                <i class="fa fa-chevron-left"></i> 使用POI处理office文件
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/04/20/SpringBoot-web-项目前端传值时-String-转-ZonedDateTime-报错的解决方法/" rel="prev" title="SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法">
+                SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODg3NC81NDQ0"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="This_Wei" />
+            
+              <p class="site-author-name" itemprop="name">This_Wei</p>
+              <p class="site-description motion-element" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://github.com/wqf31415" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/wqf31415" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-webo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#关于本系列文章"><span class="nav-number">1.</span> <span class="nav-text">关于本系列文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java是什么？"><span class="nav-number">2.</span> <span class="nav-text">Java是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Java简介"><span class="nav-number">2.1.</span> <span class="nav-text">Java简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java历史"><span class="nav-number">2.2.</span> <span class="nav-text">Java历史</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Java版本"><span class="nav-number">2.3.</span> <span class="nav-text">Java版本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java能做什么？"><span class="nav-number">3.</span> <span class="nav-text">Java能做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java的特点"><span class="nav-number">4.</span> <span class="nav-text">Java的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#JDK-与-JRE"><span class="nav-number">5.</span> <span class="nav-text">JDK 与 JRE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置Java环境"><span class="nav-number">6.</span> <span class="nav-text">配置Java环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Java-开发工具"><span class="nav-number">7.</span> <span class="nav-text">Java 开发工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#IntelliJ-IDEA"><span class="nav-number">7.1.</span> <span class="nav-text">IntelliJ IDEA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Eclipse"><span class="nav-number">7.2.</span> <span class="nav-text">Eclipse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#MyEclipse"><span class="nav-number">7.3.</span> <span class="nav-text">MyEclipse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#NetBeans"><span class="nav-number">7.4.</span> <span class="nav-text">NetBeans</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JBuilder"><span class="nav-number">7.5.</span> <span class="nav-text">JBuilder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#JCreator"><span class="nav-number">7.6.</span> <span class="nav-text">JCreator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#文本编辑器"><span class="nav-number">7.7.</span> <span class="nav-text">文本编辑器</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

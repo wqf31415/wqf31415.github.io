@@ -1,0 +1,1096 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans,en,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/uploads/favicon.png?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="java,springboot," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="什么是 springboot 的 banner？当 SpringBoot 项目最初运行起来时，在控制台看到的类似下面的信息，就是 SpringBoot 的 banner。 1234567  .   ____          _            __ _ _ /\\ / ___&amp;apos;_ __ _ _(_)_ __  __ _ \ \ \ \( ( )\___ | &amp;apos;_ | &amp;">
+<meta name="keywords" content="java,springboot">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot 花式 banner">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2018/05/14/SpringBoot-花式-banner/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="什么是 springboot 的 banner？当 SpringBoot 项目最初运行起来时，在控制台看到的类似下面的信息，就是 SpringBoot 的 banner。 1234567  .   ____          _            __ _ _ /\\ / ___&amp;apos;_ __ _ _(_)_ __  __ _ \ \ \ \( ( )\___ | &amp;apos;_ | &amp;">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/spring-boot-banner.txt.png">
+<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/text2text-graph.png">
+<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/img2txt-1.png">
+<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/img2txt-2.png">
+<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/img2txt-3.png">
+<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/img2txt-4.png">
+<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/img2txt-5.png">
+<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg">
+<meta property="og:updated_time" content="2018-08-03T10:51:05.006Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="SpringBoot 花式 banner">
+<meta name="twitter:description" content="什么是 springboot 的 banner？当 SpringBoot 项目最初运行起来时，在控制台看到的类似下面的信息，就是 SpringBoot 的 banner。 1234567  .   ____          _            __ _ _ /\\ / ___&amp;apos;_ __ _ _(_)_ __  __ _ \ \ \ \( ( )\___ | &amp;apos;_ | &amp;">
+<meta name="twitter:image" content="http://okbn8yrzu.bkt.clouddn.com/spring-boot-banner.txt.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wqf31415.xyz/2018/05/14/SpringBoot-花式-banner/"/>
+
+
+
+
+
+  <title>SpringBoot 花式 banner | This_Wei</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">This_Wei</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Come on!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-weather">
+          <a href="/weather/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-snowflake-o"></i> <br />
+            
+            weather
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2018/05/14/SpringBoot-花式-banner/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">SpringBoot 花式 banner</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-05-14T14:22:16+08:00">
+                2018-05-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="什么是-springboot-的-banner？"><a href="#什么是-springboot-的-banner？" class="headerlink" title="什么是 springboot 的 banner？"></a>什么是 springboot 的 banner？</h3><p>当 SpringBoot 项目最初运行起来时，在控制台看到的类似下面的信息，就是 SpringBoot 的 banner。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  .   ____          _            __ _ _</span><br><span class="line"> /\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</span><br><span class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</span><br><span class="line"> \\/  ___)| |_)| | | | | || (_| |  ) ) ) )</span><br><span class="line">  &apos;  |____| .__|_| |_|_| |_\__, | / / / /</span><br><span class="line"> =========|_|==============|___/=/_/_/_/</span><br><span class="line"> :: Spring Boot ::  (v1.5.14.BUILD-SNAPSHOT)</span><br></pre></td></tr></table></figure>
+<h3 id="加载顺序"><a href="#加载顺序" class="headerlink" title="加载顺序"></a>加载顺序</h3><p>SpringBoot 默认寻找banner的顺序是：</p>
+<ul>
+<li>依次在 classpath 下找文件 banner.gif ，banner.jpg，banner.png，先找到哪个用哪个；</li>
+<li>在 classpath 下找 banner.txt ；</li>
+<li>以上都没有就使用默认的；</li>
+</ul>
+<a id="more"></a>
+<h3 id="banner-配置"><a href="#banner-配置" class="headerlink" title="banner 配置"></a>banner 配置</h3><p>可以直接在项目配置文件中控制 banner 的显示参数。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">配置项</th>
+<th style="text-align:center">参数类型</th>
+<th style="text-align:center">注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">spring.main.banner-mode</td>
+<td style="text-align:center"><code>off</code> 、<code>console</code> 、<code>log</code></td>
+<td style="text-align:center">banner 输出位置，不输出、控制台、日志，默认值： <code>console</code></td>
+</tr>
+<tr>
+<td style="text-align:center">banner.charset</td>
+<td style="text-align:center">java.nio.charset.Charset</td>
+<td style="text-align:center">banner 字符编码，默认值：<code>UTF-8</code></td>
+</tr>
+<tr>
+<td style="text-align:center">banner.image.height</td>
+<td style="text-align:center">Integer</td>
+<td style="text-align:center">图像高度</td>
+</tr>
+<tr>
+<td style="text-align:center">banner.image.invert</td>
+<td style="text-align:center">Boolean</td>
+<td style="text-align:center">为黑色控制台主题转换图片，默认值：<code>false</code></td>
+</tr>
+<tr>
+<td style="text-align:center">banner.image.location</td>
+<td style="text-align:center">org.springframework.core.io.Resource</td>
+<td style="text-align:center">banner 图片，默认值： <code>banner.gif</code></td>
+</tr>
+<tr>
+<td style="text-align:center">banner.image.margin</td>
+<td style="text-align:center">Integer</td>
+<td style="text-align:center">banner 图左边距</td>
+</tr>
+<tr>
+<td style="text-align:center">banner.image.width</td>
+<td style="text-align:center">Integer</td>
+<td style="text-align:center">图像宽度</td>
+</tr>
+<tr>
+<td style="text-align:center">banner.location</td>
+<td style="text-align:center">org.springframework.core.io.Resource</td>
+<td style="text-align:center">banner 文件，默认值：<code>classpath:banner.txt</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="更换-banner"><a href="#更换-banner" class="headerlink" title="更换 banner"></a>更换 banner</h3><p>在 <strong>resources </strong> 目录下创建文件 <code>banner.txt</code> ，将想要展示的文字内容写到这个文件中即可。</p>
+<blockquote>
+<p>当然，按理说使用图片文件也可以，但我还没找到能在控制台正常显示的图片，╮(￣▽￣”)╭</p>
+</blockquote>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/spring-boot-banner.txt.png" alt=""></p>
+<h3 id="编辑-banner-内容"><a href="#编辑-banner-内容" class="headerlink" title="编辑 banner 内容"></a>编辑 banner 内容</h3><h4 id="生成漂亮的-banner-文字图"><a href="#生成漂亮的-banner-文字图" class="headerlink" title="生成漂亮的 banner 文字图"></a>生成漂亮的 banner 文字图</h4><ul>
+<li>将文字转换成文字图形：<a href="http://patorjk.com/software/taag/" target="_blank" rel="noopener">http://patorjk.com/software/taag/</a></li>
+</ul>
+<blockquote>
+<p>输入想要的文字，生成图形文字，将生成的内容粘贴到 <code>banner.txt</code> 中即可。</p>
+</blockquote>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/text2text-graph.png" alt=""></p>
+<ul>
+<li>将图片转换成文字图形：<a href="http://www.degraeve.com/img2txt.php" target="_blank" rel="noopener">http://www.degraeve.com/img2txt.php</a></li>
+</ul>
+<blockquote>
+<p>这个就厉害了，给定图片链接，将其转换成文字图形。例如将示例中的美女图转成txt文字：</p>
+</blockquote>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/img2txt-1.png" alt=""></p>
+<p>=======&gt;</p>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/img2txt-2.png" alt=""></p>
+<p>将文字部分粘贴到 <code>banner.txt</code> 中，运行项目看到：</p>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/img2txt-3.png" alt=""></p>
+<p> 如果发现图片有点大了，可以退回到上一步，设置图片输出大小，重新获得txt 文本。</p>
+<p>我们看现在这个 banner，在控制台中输出时，被压扁了，我们要把它拉开，在每个字符后面添加一个空格。将文本粘贴到一个空白 word 文档中，按 <code>Ctrl + F</code> 键调出查找功能对话框，在 <code>替换</code> 选项卡中，勾选上使用通配符，在上面输入问号 <code>?</code> ，在下面输入 ^&amp; 加一个空格，点击 <code>全部替换</code> 。将全部文本复制到 <code>banner.txt</code> 中。</p>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/img2txt-4.png" alt=""></p>
+<p>最终效果：</p>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/img2txt-5.png" alt=""></p>
+<h4 id="给-banner-上色"><a href="#给-banner-上色" class="headerlink" title="给 banner 上色"></a>给 banner 上色</h4><p>使用 SpringBoot 提供的颜色枚举类为banner设置颜色，只需要在要上色文字前添加相应颜色代码，即可为后方的所有文字添加字体颜色或背景颜色。如：</p>
+<p>Ansi 颜色代码</p>
+<table>
+<thead>
+<tr>
+<th>颜色</th>
+<th style="text-align:center">字体颜色代码</th>
+<th style="text-align:center">背景颜色代码</th>
+<th style="text-align:center">颜色值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>红色</td>
+<td style="text-align:center">${AnsiColor.RED}</td>
+<td style="text-align:center">${AnsiBackground.RED}</td>
+<td style="text-align:center">A00</td>
+</tr>
+<tr>
+<td>亮红色</td>
+<td style="text-align:center">${AnsiColor.BRIGHT_RED}</td>
+<td style="text-align:center">${AnsiBackground.BRIGHT_RED}</td>
+<td style="text-align:center">F55</td>
+</tr>
+<tr>
+<td>绿色</td>
+<td style="text-align:center">${AnsiColor.GREEN}</td>
+<td style="text-align:center">${AnsiBackground.GREEN}</td>
+<td style="text-align:center">0A0</td>
+</tr>
+<tr>
+<td>亮绿色</td>
+<td style="text-align:center">${AnsiColor.BRIGHT_GREEN}</td>
+<td style="text-align:center">${AnsiBackground.BRIGHT_GREEN}</td>
+<td style="text-align:center">5F0</td>
+</tr>
+<tr>
+<td>蓝色</td>
+<td style="text-align:center">${AnsiColor.BLUE}</td>
+<td style="text-align:center">${AnsiBackground.BLUE}</td>
+<td style="text-align:center">00A</td>
+</tr>
+<tr>
+<td>亮蓝色</td>
+<td style="text-align:center">${AnsiColor.BRIGHT_BLUE}</td>
+<td style="text-align:center">${AnsiBackground.BRIGHT_BLUE}</td>
+<td style="text-align:center">55F</td>
+</tr>
+<tr>
+<td>黑色</td>
+<td style="text-align:center">${AnsiColor.BLACK}</td>
+<td style="text-align:center">${AnsiBackground.BLACK}</td>
+<td style="text-align:center">000</td>
+</tr>
+<tr>
+<td>亮黑色</td>
+<td style="text-align:center">${AnsiColor.BRIGHT_BLACK}</td>
+<td style="text-align:center">${AnsiBackground.BRIGHT_BLACK}</td>
+<td style="text-align:center">555</td>
+</tr>
+<tr>
+<td>白色</td>
+<td style="text-align:center">${AnsiColor.WHITE}</td>
+<td style="text-align:center">${AnsiBackground.WHITE}</td>
+<td style="text-align:center">AAA</td>
+</tr>
+<tr>
+<td>亮白色</td>
+<td style="text-align:center">${AnsiColor.BRIGHT_WHITE}</td>
+<td style="text-align:center">${AnsiBackground.BRIGHT_WHITE}</td>
+<td style="text-align:center">FFF</td>
+</tr>
+<tr>
+<td>黄色</td>
+<td style="text-align:center">${AnsiColor.YELLOW}</td>
+<td style="text-align:center">${AnsiBackground.YELLOW}</td>
+<td style="text-align:center">A50</td>
+</tr>
+<tr>
+<td>亮黄色</td>
+<td style="text-align:center">${AnsiColor.BRIGHT_YELLOW}</td>
+<td style="text-align:center">${AnsiBackground.BRIGHT_YELLOW}</td>
+<td style="text-align:center">FF5</td>
+</tr>
+<tr>
+<td>青色</td>
+<td style="text-align:center">${AnsiColor.CYAN}</td>
+<td style="text-align:center">${AnsiBackground.CYAN}</td>
+<td style="text-align:center">0AA</td>
+</tr>
+<tr>
+<td>亮青色</td>
+<td style="text-align:center">${AnsiColor.BRIGHT_CYAN}</td>
+<td style="text-align:center">${AnsiBackground.BRIGHT_CYAN}</td>
+<td style="text-align:center">5FF</td>
+</tr>
+<tr>
+<td>洋红色</td>
+<td style="text-align:center">${AnsiColor.MAGENTA}</td>
+<td style="text-align:center">${AnsiBackground.MAGENTA}</td>
+<td style="text-align:center">A0A</td>
+</tr>
+<tr>
+<td>亮洋红色</td>
+<td style="text-align:center">${AnsiColor.BRIGHT_MAGENTA}</td>
+<td style="text-align:center">${AnsiBackground.BRIGHT_MAGENTA}</td>
+<td style="text-align:center">F5F</td>
+</tr>
+<tr>
+<td>默认色</td>
+<td style="text-align:center">${AnsiColor.DEFAULT}</td>
+<td style="text-align:center">${AnsiBackground.DEFAULT}</td>
+<td style="text-align:center">-</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p> 注： 在 banner 结束位置最好使用添加默认颜色和默认背景色，防止后面输出的日志信息颜色混乱影响日志查看。</p>
+<p> 仔细想想，有了这些颜色，完全可以绘制一幅像素图片了，那会是一件多么炫酷的事情啊！！</p>
+</blockquote>
+<h4 id="修改-banner-字体样式"><a href="#修改-banner-字体样式" class="headerlink" title="修改 banner 字体样式"></a>修改 banner 字体样式</h4><p>使用 SpringBoot 提供的字体样式枚举设定 banner 展示的字体样式。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">样式</th>
+<th style="text-align:center">代码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">正常</td>
+<td style="text-align:center">${AnsiStyle.NORMAL}</td>
+</tr>
+<tr>
+<td style="text-align:center">加粗</td>
+<td style="text-align:center">${AnsiStyle.BOLD}</td>
+</tr>
+<tr>
+<td style="text-align:center">减细</td>
+<td style="text-align:center">${AnsiStyle.FAINT}</td>
+</tr>
+<tr>
+<td style="text-align:center">倾斜</td>
+<td style="text-align:center">${AnsiStyle.ITALIC}</td>
+</tr>
+<tr>
+<td style="text-align:center">下划线</td>
+<td style="text-align:center">${AnsiStyle.UNDERLINE}</td>
+</tr>
+</tbody>
+</table>
+<h4 id="显示项目信息"><a href="#显示项目信息" class="headerlink" title="显示项目信息"></a>显示项目信息</h4><p>在 banner 文件中可以使用 <code>${}</code> 表达式取得项目配置文件和 <code>MANIFEST.MF</code> 中的变量值，如：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">变量</th>
+<th style="text-align:center">表达式</th>
+<th style="text-align:center">注释</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">版本号</td>
+<td style="text-align:center">${application.version}</td>
+<td style="text-align:center"><code>MANIFEST.MF</code> 中的 <code>Implementation-Version</code> 的值</td>
+</tr>
+<tr>
+<td style="text-align:center">格式化的版本号</td>
+<td style="text-align:center">${application.formatted-version}</td>
+<td style="text-align:center">在上述的版本号前加上前缀 <code>v</code></td>
+</tr>
+<tr>
+<td style="text-align:center">SpringBoot 版本</td>
+<td style="text-align:center">${spring-boot.version}</td>
+<td style="text-align:center">当前使用的 SpringBoot 版本</td>
+</tr>
+<tr>
+<td style="text-align:center">格式化的 SpringBoot 版本号</td>
+<td style="text-align:center">${spring-boot.formatted-version}</td>
+<td style="text-align:center">加上前缀 <code>v</code> 的 SpringBoot 版本号</td>
+</tr>
+<tr>
+<td style="text-align:center">标题</td>
+<td style="text-align:center">${application.title}</td>
+<td style="text-align:center"><code>MANIFEST.MF</code> 中的 <code>Implementation-Title</code> 的值</td>
+</tr>
+<tr>
+<td style="text-align:center">自定义变量</td>
+<td style="text-align:center">${my.name}</td>
+<td style="text-align:center">项目配置文件中的 <code>my.name</code> 的值</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注：如果 <code>${}</code> 没有取到值，将直接显示表达式，如没有定义 <code>my.name</code> ，在 banner 中用 <code>${my.name}</code> 取值，将直接显示取值表达式 <code>${my.name}</code> 。</p>
+</blockquote>
+<p>关于banner里面设置的颜色，我只在IDEA的控制台里看到过，不太清楚在其他哪些环境中也可以显示，如果您知道，麻烦告诉我一下。</p>
+<h3 id="剧终"><a href="#剧终" class="headerlink" title="剧终"></a>剧终</h3><p>好了，关于SpringBoot 的 banner 设置内容就先写到这里了。</p>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg" alt=""> </p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/springboot/" rel="tag"># springboot</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/04/20/SpringBoot-web-项目前端传值时-String-转-ZonedDateTime-报错的解决方法/" rel="next" title="SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法">
+                <i class="fa fa-chevron-left"></i> SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/08/03/利用Excel和bat对文件批量重命名/" rel="prev" title="利用Excel和bat对文件批量重命名">
+                利用Excel和bat对文件批量重命名 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODg3NC81NDQ0"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="This_Wei" />
+            
+              <p class="site-author-name" itemprop="name">This_Wei</p>
+              <p class="site-description motion-element" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://github.com/wqf31415" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/wqf31415" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-webo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-springboot-的-banner？"><span class="nav-number">1.</span> <span class="nav-text">什么是 springboot 的 banner？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#加载顺序"><span class="nav-number">2.</span> <span class="nav-text">加载顺序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#banner-配置"><span class="nav-number">3.</span> <span class="nav-text">banner 配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更换-banner"><span class="nav-number">4.</span> <span class="nav-text">更换 banner</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编辑-banner-内容"><span class="nav-number">5.</span> <span class="nav-text">编辑 banner 内容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#生成漂亮的-banner-文字图"><span class="nav-number">5.1.</span> <span class="nav-text">生成漂亮的 banner 文字图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#给-banner-上色"><span class="nav-number">5.2.</span> <span class="nav-text">给 banner 上色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#修改-banner-字体样式"><span class="nav-number">5.3.</span> <span class="nav-text">修改 banner 字体样式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#显示项目信息"><span class="nav-number">5.4.</span> <span class="nav-text">显示项目信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#剧终"><span class="nav-number">6.</span> <span class="nav-text">剧终</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

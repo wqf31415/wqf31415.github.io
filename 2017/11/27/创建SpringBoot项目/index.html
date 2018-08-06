@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="java,spring,springboot," />
+  <meta name="keywords" content="java,springboot,spring," />
 
 
 
@@ -79,13 +79,13 @@
 
 
 
-<meta name="description" content="什么是 SpringBoot ? 官网：http://projects.spring.io/spring-boot/  简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是s">
-<meta name="keywords" content="java,spring,springboot">
+<meta name="description" content="什么是 SpringBoot ? 官网：http://projects.spring.io/spring-boot/  简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动、引导，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建jav">
+<meta name="keywords" content="java,springboot,spring">
 <meta property="og:type" content="article">
 <meta property="og:title" content="创建SpringBoot项目">
 <meta property="og:url" content="http://blog.wqf31415.xyz/2017/11/27/创建SpringBoot项目/index.html">
 <meta property="og:site_name" content="This_Wei">
-<meta property="og:description" content="什么是 SpringBoot ? 官网：http://projects.spring.io/spring-boot/  简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java w">
+<meta property="og:description" content="什么是 SpringBoot ? 官网：http://projects.spring.io/spring-boot/  简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动、引导，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建jav">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/spring_boot_logo.png">
 <meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/spring_boot_project_create_01.png">
@@ -115,10 +115,10 @@
 <meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/spring_boot_maven_package_01.png">
 <meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/spring_boot_cli_06.png">
 <meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg">
-<meta property="og:updated_time" content="2018-02-28T02:11:25.262Z">
+<meta property="og:updated_time" content="2018-03-21T01:22:18.154Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="创建SpringBoot项目">
-<meta name="twitter:description" content="什么是 SpringBoot ? 官网：http://projects.spring.io/spring-boot/  简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java w">
+<meta name="twitter:description" content="什么是 SpringBoot ? 官网：http://projects.spring.io/spring-boot/  简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动、引导，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建jav">
 <meta name="twitter:image" content="http://okbn8yrzu.bkt.clouddn.com/spring_boot_logo.png">
 
 
@@ -404,11 +404,13 @@
         <h2 id="什么是-SpringBoot"><a href="#什么是-SpringBoot" class="headerlink" title="什么是 SpringBoot ?"></a>什么是 SpringBoot ?</h2><blockquote>
 <p>官网：<a href="http://projects.spring.io/spring-boot/" title="springboot官网" target="_blank" rel="noopener">http://projects.spring.io/spring-boot/</a></p>
 </blockquote>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/spring_boot_logo.png" alt=""><br>简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java web项目，项目里面还是使用spring框架实现，所以Spring能做的，SpringBoot也能做，而且做的更好。</p>
+<p><img src="http://okbn8yrzu.bkt.clouddn.com/spring_boot_logo.png" alt=""><br>简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动、引导，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java web项目，项目里面还是使用spring框架实现，所以Spring能做的，SpringBoot也能做，而且做的更好。</p>
 <p>在使用Spring的时候，写项目时有伴有大量的xml配置文件要编写，随着快速开发的流行，这种方式已经不能满足需要了，springboot的出现帮我们简化了项目配置，同时提供了很多注解，让我们编码也变得简单了。<strong>SpringBoot 简化了配置，不用再写xml了</strong>,传统Spring 的xml配置文件被转化成 java config，直接利用@Autowire注解注入Bean，而环境变量中的 properties、xml文件集中到一个application.yml中。同时，<strong>SpringBoot 使项目部署变得简单</strong>，传统的Spring项目需要外部的tomcat容器来运行，而在springboot中以及集成了tomcat，我们将项目打包成一个jar包，直接通过 <code>java -jar xxx.jar</code> 就可以运行项目，这也方便后续使用docker。</p>
 <p>SpringBoot 能够使我们更加专注于业务逻辑的开发，只需记住 <strong>Just run</strong> 就可以了，那怎么创建一个 SpringBoot 项目呢？话不多说，还是先上个demo尝尝味道吧！全文里介绍了一个SpringBoot项目从创建到测试运行，再到打包部署的全过程。</p>
 <a id="more"></a>
-<h2 id="创建-SpringBoot-项目"><a href="#创建-SpringBoot-项目" class="headerlink" title="创建 SpringBoot 项目"></a>创建 SpringBoot 项目</h2><h3 id="开发环境及工具"><a href="#开发环境及工具" class="headerlink" title="开发环境及工具"></a>开发环境及工具</h3><p><strong>java开发环境</strong> springboot 是Javaweb开发框架，所以java开发环境是必要的，从<a href="http://www.oracle.com/" target="_blank" rel="noopener">Oracle官网</a>上下载java1.8的安装包，安装到计算机上，并配置好环境变量。<br><strong>maven工具</strong> 利用maven下载管理项目中需要的依赖资源，从 <a href="http://maven.apache.org/" target="_blank" rel="noopener">maven官网</a> 下载maven，解压到本地，将bin目录配置到环境变量 path 中，方便使用，为了提升依赖下载速度，建议配置阿里镜像。<br><strong>开发工具-IDEA</strong> 我们利用 IntelliJ IDEA 工具来创建spring boot 项目，所谓“工欲善其事必先利其器”，我任务IDEA用来开发java是非常好用的工具。</p>
+<h2 id="创建-SpringBoot-项目"><a href="#创建-SpringBoot-项目" class="headerlink" title="创建 SpringBoot 项目"></a>创建 SpringBoot 项目</h2><h3 id="开发环境及工具"><a href="#开发环境及工具" class="headerlink" title="开发环境及工具"></a>开发环境及工具</h3><p><strong>java 1.8+</strong> springboot 是Javaweb开发框架，所以java开发环境是必要的，从<a href="http://www.oracle.com/" target="_blank" rel="noopener">Oracle官网</a>上下载java1.8的安装包，安装到计算机上，并配置好环境变量。</p>
+<p><strong>maven 3.2+</strong> 利用maven下载管理项目中需要的依赖资源，从 <a href="http://maven.apache.org/" target="_blank" rel="noopener">maven官网</a> 下载maven，解压到本地，将bin目录配置到环境变量 path 中，方便使用，为了提升依赖下载速度，建议配置阿里镜像。</p>
+<p><strong>IDE</strong> 我们使用 IntelliJ IDEA 工具来创建spring boot 项目，所谓“工欲善其事必先利其器”，我个人习惯使用 IDEA 来开发 java项目。也可以使用其它开发工具，比如 <strong>eclipse</strong> ，或官方推荐使用的 <a href="https://spring.io/tools" target="_blank" rel="noopener">Spring Tool Suite</a> 。</p>
 <h3 id="使用-maven-创建-SpringBoot-项目"><a href="#使用-maven-创建-SpringBoot-项目" class="headerlink" title="使用 maven 创建 SpringBoot 项目"></a>使用 maven 创建 SpringBoot 项目</h3><h4 id="用IDEA创建maven项目框架"><a href="#用IDEA创建maven项目框架" class="headerlink" title="用IDEA创建maven项目框架"></a>用IDEA创建maven项目框架</h4><ul>
 <li><p>打开IDEA，点击 <strong>Create New Project</strong> 创建项目<br><img src="http://okbn8yrzu.bkt.clouddn.com/spring_boot_project_create_01.png" alt="" title="创建项目"></p>
 </li>
@@ -558,9 +560,9 @@
           
             <a href="/tags/java/" rel="tag"># java</a>
           
-            <a href="/tags/spring/" rel="tag"># spring</a>
-          
             <a href="/tags/springboot/" rel="tag"># springboot</a>
+          
+            <a href="/tags/spring/" rel="tag"># spring</a>
           
         </div>
       
@@ -671,7 +673,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">14</span>
+                  <span class="site-state-item-count">18</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -693,7 +695,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">26</span>
+                  <span class="site-state-item-count">30</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
