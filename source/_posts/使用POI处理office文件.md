@@ -316,7 +316,7 @@ public class ExcelController {
 }
 ``````
 
-访问：http://localhost:\<port\>/excel/download 即可下载 Excel文档。
+访问：http://localhost:8080/excel/download 即可下载 Excel文档。
 
 
 ### 注意事项
