@@ -87,19 +87,19 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="摘要：本篇文章讲解在 windows 系统下，本地安装配置 Tomcat 服务器！    从官网下载 Tomcat8.5官网地址：http://tomcat.apache.org/  下载 Tomcat 8.x ：http://tomcat.apache.org/download-80.cgi  对于 windows 系统，我们可以下载二进制文件压缩包，或者安装程序，对于新手来说，建议直接下载安">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/tomcat.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/download_tomcat_for_windows.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/open_system_config_on_windows.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/open_environment_variable.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/add_new_environment_variable_CATALINA_HOME.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/tomcat_directory.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/startup_tomcat.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/tomcat_index.png">
-<meta property="og:updated_time" content="2017-11-27T06:05:24.188Z">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/tomcat.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/download_tomcat_for_windows.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/open_system_config_on_windows.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/open_environment_variable.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/add_new_environment_variable_CATALINA_HOME.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/tomcat_directory.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/startup_tomcat.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/tomcat_index.png">
+<meta property="og:updated_time" content="2018-10-29T04:26:24.730Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="在本地安装配置Tomcat8服务器">
 <meta name="twitter:description" content="摘要：本篇文章讲解在 windows 系统下，本地安装配置 Tomcat 服务器！    从官网下载 Tomcat8.5官网地址：http://tomcat.apache.org/  下载 Tomcat 8.x ：http://tomcat.apache.org/download-80.cgi  对于 windows 系统，我们可以下载二进制文件压缩包，或者安装程序，对于新手来说，建议直接下载安">
-<meta name="twitter:image" content="http://okbn8yrzu.bkt.clouddn.com/image/tomcat.png">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/image/tomcat.png">
 
 
 
@@ -384,18 +384,18 @@
         <blockquote>
 <p>摘要：本篇文章讲解在 windows 系统下，本地安装配置 Tomcat 服务器！</p>
 </blockquote>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/tomcat.png" alt=""> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/tomcat.png" alt=""> </p>
 <h3 id="从官网下载-Tomcat8-5"><a href="#从官网下载-Tomcat8-5" class="headerlink" title="从官网下载 Tomcat8.5"></a>从官网下载 Tomcat8.5</h3><p>官网地址：<a href="http://tomcat.apache.org/" target="_blank" rel="noopener">http://tomcat.apache.org/</a> </p>
 <p>下载 Tomcat 8.x ：<a href="http://tomcat.apache.org/download-80.cgi" target="_blank" rel="noopener">http://tomcat.apache.org/download-80.cgi</a></p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/download_tomcat_for_windows.png" alt="" title="根据系统选择32/64位"></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/download_tomcat_for_windows.png" alt="" title="根据系统选择32/64位"></p>
 <p>对于 windows 系统，我们可以下载二进制文件压缩包，或者安装程序，对于新手来说，建议直接下载安装程序，双击执行，根据提示一步一步操作即可，没什么难度。但是，我们这次偏要选择下载 zip 压缩包，先苦后甜。</p>
 <h2 id=""><a href="#" class="headerlink" title=""></a><a id="more"></a></h2><h3 id="选块风水宝地，把文件解压进去"><a href="#选块风水宝地，把文件解压进去" class="headerlink" title="选块风水宝地，把文件解压进去"></a>选块风水宝地，把文件解压进去</h3><p>选的时候要避免出现中文路径！然后要把这个地方记住，等会要用到的，如我把压缩文件解压到 E 盘的 tomcat 目录下，我的 tomcat 服务器的路径就是： <strong>E:\tomcat\apache-tomcat-8.5.14</strong></p>
-<h3 id="添加配置信息"><a href="#添加配置信息" class="headerlink" title="添加配置信息"></a>添加配置信息</h3><p>打开 <strong>“控制面板”</strong> –&gt; <strong>“所有控制面板项”</strong> –&gt; <strong>“系统”</strong> ，点击 <strong>“高级系统设置”</strong><br><img src="http://okbn8yrzu.bkt.clouddn.com/image/open_system_config_on_windows.png" alt="" title="打开‘高级系统设置’"></p>
-<p>在 <strong>“系统属性”</strong> 对话框中选择 <strong>“高级”</strong> 选项卡，点击下方的 <strong>“环境变量”</strong><br><img src="http://okbn8yrzu.bkt.clouddn.com/image/open_environment_variable.png" alt="" title="打开‘环境变量’"></p>
-<p>在 <strong>“环境变量”</strong> 中的 <strong>“系统变量”</strong> 中点击 <strong>“新建”</strong>，在 <strong>“新建系统变量”</strong> 中的 <strong>“变量名”</strong> 输入框中输入 <strong>CATALINA_HOME</strong> ，在 <strong>“变量值”</strong> 输入刚才的 tomcat 安装路径 <strong>E:\tomcat\apache-tomcat-8.5.14</strong><br><img src="http://okbn8yrzu.bkt.clouddn.com/image/add_new_environment_variable_CATALINA_HOME.png" alt="" title="添加 CATALINA_HOME"> </p>
+<h3 id="添加配置信息"><a href="#添加配置信息" class="headerlink" title="添加配置信息"></a>添加配置信息</h3><p>打开 <strong>“控制面板”</strong> –&gt; <strong>“所有控制面板项”</strong> –&gt; <strong>“系统”</strong> ，点击 <strong>“高级系统设置”</strong><br><img src="http://blog-images.qiniu.wqf31415.xyz/image/open_system_config_on_windows.png" alt="" title="打开‘高级系统设置’"></p>
+<p>在 <strong>“系统属性”</strong> 对话框中选择 <strong>“高级”</strong> 选项卡，点击下方的 <strong>“环境变量”</strong><br><img src="http://blog-images.qiniu.wqf31415.xyz/image/open_environment_variable.png" alt="" title="打开‘环境变量’"></p>
+<p>在 <strong>“环境变量”</strong> 中的 <strong>“系统变量”</strong> 中点击 <strong>“新建”</strong>，在 <strong>“新建系统变量”</strong> 中的 <strong>“变量名”</strong> 输入框中输入 <strong>CATALINA_HOME</strong> ，在 <strong>“变量值”</strong> 输入刚才的 tomcat 安装路径 <strong>E:\tomcat\apache-tomcat-8.5.14</strong><br><img src="http://blog-images.qiniu.wqf31415.xyz/image/add_new_environment_variable_CATALINA_HOME.png" alt="" title="添加 CATALINA_HOME"> </p>
 <p>同时新建一个变量 <strong>CATALINA_BASE</strong> ，变量值是刚才的安装目录 <strong>E:\tomcat\apache-tomcat-8.5.14</strong></p>
 <hr>
-<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>进入 tomcat 的安装目录，可以看到下面的文件夹：<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/tomcat_directory.png" alt="" title="tomcat 目录"> </p>
+<h3 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h3><p>进入 tomcat 的安装目录，可以看到下面的文件夹：<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/tomcat_directory.png" alt="" title="tomcat 目录"> </p>
 <ul>
 <li><strong>bin</strong> 二进制文件；</li>
 <li><strong>conf</strong> 配置文件；</li>
@@ -409,8 +409,8 @@
 <li><strong>release-notes</strong> 发布记录</li>
 <li><strong>running.txt</strong> 运行说明</li>
 </ul>
-<p>进入 <strong>bin</strong> 目录，运行 <strong>startup.bat</strong> ，如果出现下面的结果说明服务器已经正确启动了<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/startup_tomcat.png" alt="" title="运行 startup.bat"></p>
-<p>打开 <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> 若能打开页面，说明 tomcat 服务器已成功启动。<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/tomcat_index.png" alt="" title="http://localhost:8080/"> </p>
+<p>进入 <strong>bin</strong> 目录，运行 <strong>startup.bat</strong> ，如果出现下面的结果说明服务器已经正确启动了<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/startup_tomcat.png" alt="" title="运行 startup.bat"></p>
+<p>打开 <a href="http://localhost:8080/" target="_blank" rel="noopener">http://localhost:8080/</a> 若能打开页面，说明 tomcat 服务器已成功启动。<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/tomcat_index.png" alt="" title="http://localhost:8080/"> </p>
 <p>若想停止 tomcat 服务器，可以运行 <strong>bin</strong> 目录下的 <strong>shutdown.bat</strong> ，或者在启动时的命令行界面按 <strong>Ctrl + C</strong> 停止。</p>
 <h3 id="将-Tomcat-添加到系统服务中"><a href="#将-Tomcat-添加到系统服务中" class="headerlink" title="将 Tomcat 添加到系统服务中"></a>将 Tomcat 添加到系统服务中</h3><p>进入 <strong>bin</strong> 目录，打开命令行，运行 <strong>service.bat install</strong> 即可将 tomcat 服务器添加到 windows 服务中，在服务中即可启动或关闭 tomcat ，在这个命令中可以对服务命名 <strong>service.bat install tomcat8</strong> 。</p>
 <p>运行 <strong>service.bat remove tomcat</strong> 即可从服务中删除 tomcat 。</p>

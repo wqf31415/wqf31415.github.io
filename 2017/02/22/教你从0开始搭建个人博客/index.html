@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="git,hexo,blog,域名," />
+  <meta name="keywords" content="hexo,git,blog,域名," />
 
 
 
@@ -80,38 +80,38 @@
 
 
 <meta name="description" content="摘要：这篇文章详细讲解了利用 nodejs + hexo + github 搭建个人静态博客的操作步骤，尽可能描述得简单详细，目的是让每一个人，不管会不会编程都能照葫芦画瓢的搭建好自己的博客。    题外话：说说我为什么要建立这个博客，一是为了学(zhuang)习(bi)，拥有一个自己的个人域名，在浏览器一打开，就是一个外观精美，内容丰富的网站，想想还有点小激动呢！第二是为了给自己的成长做一个见证">
-<meta name="keywords" content="git,hexo,blog,域名">
+<meta name="keywords" content="hexo,git,blog,域名">
 <meta property="og:type" content="article">
 <meta property="og:title" content="教你从0开始搭建个人博客">
 <meta property="og:url" content="http://blog.wqf31415.xyz/2017/02/22/教你从0开始搭建个人博客/index.html">
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="摘要：这篇文章详细讲解了利用 nodejs + hexo + github 搭建个人静态博客的操作步骤，尽可能描述得简单详细，目的是让每一个人，不管会不会编程都能照葫芦画瓢的搭建好自己的博客。    题外话：说说我为什么要建立这个博客，一是为了学(zhuang)习(bi)，拥有一个自己的个人域名，在浏览器一打开，就是一个外观精美，内容丰富的网站，想想还有点小激动呢！第二是为了给自己的成长做一个见证">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/logo_nodejs_hexo_github.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/npm-v.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/git--version.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/sign_up_for_github.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/github_create_repository_1.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/github_create_repository_2.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/coding_index.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/coding_create_project.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/aliyun.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/aliyun_domain_search_1.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/hexo_init_command.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/hexo_init_files.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/hexo_server_success.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/hexo_firstPage.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/hexo_blog_config_deploy.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/coding_open_pages.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/aliyun_domain_resolve.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/domain_resolve_record.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/github_pages_CNAME.png">
-<meta property="og:image" content="http://okbn8yrzu.bkt.clouddn.com/image/coding_pages_binding_domain.png">
-<meta property="og:updated_time" content="2017-11-27T06:05:24.189Z">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/logo_nodejs_hexo_github.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/npm-v.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git--version.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/sign_up_for_github.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/github_create_repository_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/github_create_repository_2.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/coding_index.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/coding_create_project.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/aliyun.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/aliyun_domain_search_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_init_command.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_init_files.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_server_success.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_firstPage.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_blog_config_deploy.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/coding_open_pages.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/aliyun_domain_resolve.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/domain_resolve_record.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/github_pages_CNAME.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/coding_pages_binding_domain.png">
+<meta property="og:updated_time" content="2018-10-29T04:26:24.723Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="教你从0开始搭建个人博客">
 <meta name="twitter:description" content="摘要：这篇文章详细讲解了利用 nodejs + hexo + github 搭建个人静态博客的操作步骤，尽可能描述得简单详细，目的是让每一个人，不管会不会编程都能照葫芦画瓢的搭建好自己的博客。    题外话：说说我为什么要建立这个博客，一是为了学(zhuang)习(bi)，拥有一个自己的个人域名，在浏览器一打开，就是一个外观精美，内容丰富的网站，想想还有点小激动呢！第二是为了给自己的成长做一个见证">
-<meta name="twitter:image" content="http://okbn8yrzu.bkt.clouddn.com/image/logo_nodejs_hexo_github.png">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/image/logo_nodejs_hexo_github.png">
 
 
 
@@ -394,7 +394,7 @@
 
       
         <p>摘要：这篇文章详细讲解了利用 nodejs + hexo + github 搭建个人静态博客的操作步骤，尽可能描述得简单详细，目的是让每一个人，不管会不会编程都能照葫芦画瓢的搭建好自己的博客。 </p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/logo_nodejs_hexo_github.png" alt="" title="nodejs + hexo + github"></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/logo_nodejs_hexo_github.png" alt="" title="nodejs + hexo + github"></p>
 <blockquote>
 <p>题外话：说说我为什么要建立这个博客，一是为了学(zhuang)习(bi)，拥有一个自己的个人域名，在浏览器一打开，就是一个外观精美，内容丰富的网站，想想还有点小激动呢！第二是为了给自己的成长做一个见证，回忆起在过去的几年里，发现好像没有太多的东西留下了，感觉自己正在恍恍惚惚中度过了青年时光，这可不行，为了将来老了，能够坐在摇椅上慢慢聊，必须把成长的脚印的记录下来！第三是想写点东西，记得在高中的时候，语文写作还是班级前几名，而现在提起笔却什么都写不出来，不免有些伤感，于是决定闲暇时还是开始写点小文章，记录点感悟！第四是想把博客作为一个学习的笔记本，记录下学过的东西，以便在用到的时候可以随时翻出来看看，因为挂在网上，所以随时可以查阅非常方便！第五……等等一系列原因导致我想建立这个博客。</p>
 </blockquote>
@@ -411,45 +411,45 @@
 <h3 id="处理原材料"><a href="#处理原材料" class="headerlink" title="处理原材料"></a>处理原材料</h3><h4 id="安装nodejs"><a href="#安装nodejs" class="headerlink" title="安装nodejs"></a>安装nodejs</h4><ul>
 <li>从官网下载最新的<a href="https://nodejs.org/en/" target="_blank" rel="noopener">nodejs</a>安装包，双击打开，一直点下一步就行。</li>
 <li>安装完成后按快捷键 <code>Win + R</code> ，打开 <strong>cmd</strong> ，进入命令行对话框后输入 <code>node -v</code> 查看nodejs的版本，如果显示出版本号说明node安装成功。</li>
-<li>在安装nodejs的同时会自动装上npm工具，在命令行输入 <code>npm -v</code> 查看npm版本，能显示出版本号说明安装成功，如下图。<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/npm-v.png" alt="" title="查看npm版本"></li>
+<li>在安装nodejs的同时会自动装上npm工具，在命令行输入 <code>npm -v</code> 查看npm版本，能显示出版本号说明安装成功，如下图。<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/npm-v.png" alt="" title="查看npm版本"></li>
 <li>（可选）我们后续的操作要使用npm工具，但npm的仓库在国外，国内使用的时候速度可能会比较慢，因此推荐使用国内的<a href="http://npm.taobao.org/" target="_blank" rel="noopener">npm淘宝镜像</a>，在命令行执行：<br><code>npm install -g cnpm --registry=https://registry.npm.taobao.org</code> </li>
 </ul>
 <h4 id="安装git"><a href="#安装git" class="headerlink" title="安装git"></a>安装git</h4><ul>
 <li>从官网下载最新版本<a href="https://git-scm.com/" target="_blank" rel="noopener">git</a>，双击打开安装。</li>
-<li>安装完成后运行打开命令行，运行 <code>git --version</code> 查看git版本，正常显示版本信息说明安装成功。<br><img src="http://okbn8yrzu.bkt.clouddn.com/image/git--version.png" alt="" title="查看git版本"></li>
+<li>安装完成后运行打开命令行，运行 <code>git --version</code> 查看git版本，正常显示版本信息说明安装成功。<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/git--version.png" alt="" title="查看git版本"></li>
 </ul>
 <h4 id="注册github或coding帐号"><a href="#注册github或coding帐号" class="headerlink" title="注册github或coding帐号"></a>注册github或coding帐号</h4><ul>
 <li><p>打开 <a href="https://github.com/" target="_blank" rel="noopener">github</a> 填写用户名、邮箱、密码，点击 <strong>Sign up for GitHub</strong> 即可 ↓↓↓</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/sign_up_for_github.png" alt="" title="github注册"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/sign_up_for_github.png" alt="" title="github注册"> </p>
 <p>​</p>
 </li>
 <li><p>注册完成后登录github，新建一个仓库取名叫 <code>username.github.io</code> ，username是刚才注册时填写的用户名</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/github_create_repository_1.png" alt="" title="点击右上角头像边的“+”号，点“New repository”"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/github_create_repository_1.png" alt="" title="点击右上角头像边的“+”号，点“New repository”"> </p>
 </li>
 </ul>
 <p>   ​</p>
 <ul>
 <li><p>我的用户名叫wqf31415，所以我的仓库名叫 <code>wqf31415.github.io</code>  ↓↓↓</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/github_create_repository_2.png" alt="" title="填写仓库名username.github.io，点击“Create repository”">   </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/github_create_repository_2.png" alt="" title="填写仓库名username.github.io，点击“Create repository”">   </p>
 </li>
 <li><p>完成上面的操作，github远端仓库就已经创建好了</p>
 <p>在github仓库建好就可以开始生成博客了，coding为可选方案，因为GitHub的服务器在国外，访问速度有时会比较慢，coding服务器在国内，相对要快点。但GitHub是世界性的，世界上很多技术牛人都在用，而且很多最前沿的项目都是托管在github上的，所以说这个“逼格”更高！</p>
 </li>
 <li><p>打开 <a href="https://coding.net/" target="_blank" rel="noopener">coding</a> 注册</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/coding_index.png" alt="" title="coding.net"></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/coding_index.png" alt="" title="coding.net"></p>
 </li>
 </ul>
 <ul>
 <li><p>中文网站注册过程就不再赘述了，注册完成后登录coding，新建一个项目以用户名来命名，我的用户名叫wqf31415，因此我的项目名也叫wqf31415，选择“公开”选项，创建一个开源项目。</p>
-<p> <img src="http://okbn8yrzu.bkt.clouddn.com/image/coding_create_project.png" alt="" title="在主界面点击“+”号新建项目，以用户名命名"></p>
+<p> <img src="http://blog-images.qiniu.wqf31415.xyz/image/coding_create_project.png" alt="" title="在主界面点击“+”号新建项目，以用户名命名"></p>
 </li>
 <li><p>完成上述操作，coding仓库也就准备好了！</p>
 </li>
 </ul>
 <h4 id="注册域名"><a href="#注册域名" class="headerlink" title="注册域名"></a>注册域名</h4><p>  国内注册域名，我推荐<a href="https://www.aliyun.com/" target="_blank" rel="noopener">阿里云</a>，我也是在这里注册的，真的很好用也很便宜，直接用支付宝支付，还可以用支付宝实名认证，方便！</p>
-<p>  <img src="http://okbn8yrzu.bkt.clouddn.com/image/aliyun.png" alt="" title="注册并登录阿里云，点击域名注册"> </p>
+<p>  <img src="http://blog-images.qiniu.wqf31415.xyz/image/aliyun.png" alt="" title="注册并登录阿里云，点击域名注册"> </p>
 <pre><code>​
-</code></pre><p>  <img src="http://okbn8yrzu.bkt.clouddn.com/image/aliyun_domain_search_1.png" alt="" title="搜索自己想要的域名"></p>
+</code></pre><p>  <img src="http://blog-images.qiniu.wqf31415.xyz/image/aliyun_domain_search_1.png" alt="" title="搜索自己想要的域名"></p>
 <ul>
 <li><p>选好域名后加入到购物车，xyz域名第一年只要6块钱，有活动的时候更便宜，直接用支付宝支付即可！</p>
 </li>
@@ -463,8 +463,8 @@
 </li>
 <li><p>初始化博客，新建一个文件夹，名为blog，用来存放所有文件，进入blog文件夹，在空白区域按住shift键右击，“在此处打开命令窗口”，执行下面命令，来生成博客需要的基本文件</p>
 <p><code>hexo init</code> </p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/hexo_init_command.png" alt="" title="初始化过程可能要等几分钟"></p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/hexo_init_files.png" alt="" title="hexo init执行后生成的文件"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_init_command.png" alt="" title="初始化过程可能要等几分钟"></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_init_files.png" alt="" title="hexo init执行后生成的文件"> </p>
 </li>
 <li><p>安装必要的工具，执行下面命令，用npm安装博客需要的工具包</p>
 <p><code>npm install</code></p>
@@ -474,9 +474,9 @@
 <p><code>hexo server</code></p>
 <p>也可以简写为<code>hexo s</code></p>
 <p>现在已经在本地开启了hexo服务，如果出现下面的字样，说明搭建成功</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/hexo_server_success.png" alt="" title="已经在http://localhost:4000/ 开启hexo，按Ctrl + C停止服务"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_server_success.png" alt="" title="已经在http://localhost:4000/ 开启hexo，按Ctrl + C停止服务"> </p>
 <p>现在可以打开本地浏览器，输入<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a> 来访问，如果出现下面的页面，就说明是真的成功了！！！</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/hexo_firstPage.png" alt="" title="hexo生成的最初页面"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_firstPage.png" alt="" title="hexo生成的最初页面"> </p>
 </li>
 </ul>
 <h4 id="上传blog到git仓库"><a href="#上传blog到git仓库" class="headerlink" title="上传blog到git仓库"></a>上传blog到git仓库</h4><ul>
@@ -486,7 +486,7 @@
 <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line"><span class="attr">  type:</span> <span class="string">git</span></span><br><span class="line"><span class="attr">  repository:</span> <span class="string">git@github.com:username/username.github.io.git</span></span><br><span class="line"><span class="attr">  branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
 </li>
 </ul>
-<p>   <img src="http://okbn8yrzu.bkt.clouddn.com/image/hexo_blog_config_deploy.png" alt="" title="git配置仓库信息"> </p>
+<p>   <img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_blog_config_deploy.png" alt="" title="git配置仓库信息"> </p>
 <ul>
 <li><p>若想同时把博客部署到github和coding，配置信息参照上图</p>
 </li>
@@ -499,25 +499,25 @@
 <li><p>打开浏览器访问git的pages地址： username.github.io 或 username.coding.me ,可以尝试访问我的 <a href="http://wqf31415.github.io" target="_blank" rel="noopener">wqf31415.github.io</a> 或 <a href="http://wqf31415.coding.me" target="_blank" rel="noopener">wqf31415.coding.me</a> </p>
 </li>
 <li><p>注意：<strong>github的username.github.io仓库会自动启动Pages服务，而coding仓库需手动开启Pages服务</strong> ，使用coding时先打开部署博客的仓库，点击启动Pages服务，部署来源选择“master分支”</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/coding_open_pages.png" alt="" title="点击“Pages 服务”"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/coding_open_pages.png" alt="" title="点击“Pages 服务”"> </p>
 </li>
 <li><p>可以发现，访问后网址自动变成了 blog.wqf31415.xyz 和 www.wqf31415.xyz ，这就是绑定了域名的结果</p>
 </li>
 </ul>
 <h4 id="绑定域名"><a href="#绑定域名" class="headerlink" title="绑定域名"></a>绑定域名</h4><ul>
 <li><p>登陆阿里云，打开 控制台-域名与网站(万网)-域名-解析</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/aliyun_domain_resolve.png" alt="" title="解析域名"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/aliyun_domain_resolve.png" alt="" title="解析域名"> </p>
 </li>
 <li><p>添加解析记录，添加 <strong>CNAME</strong> 记录，主机记录为www，解析地址为username.github.io 或 username.coding.me </p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/domain_resolve_record.png" alt="" title="其中www记录解析到wqf31415.coding.me，blog记录解析到github仓库ip地址，实际就是wqf31415.github.io"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/domain_resolve_record.png" alt="" title="其中www记录解析到wqf31415.coding.me，blog记录解析到github仓库ip地址，实际就是wqf31415.github.io"> </p>
 </li>
 <li><p>其中CNAME记录解析到git仓库的pages地址，A记录解析到git的ip地址，但还要在git平台中添加相应的记录才能正确的解析</p>
 </li>
 <li><p>解析到github平台pages，到github中username.github.io仓库根目录中添加一个CNAME文件，内容为 <code>blog.wqf31415.xyz</code> ，我将blog记录解析到github pages</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/github_pages_CNAME.png" alt="" title="手动添加一个CNAME文件，并填入域名"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/github_pages_CNAME.png" alt="" title="手动添加一个CNAME文件，并填入域名"> </p>
 </li>
 <li><p>解析到coding平台pages，登陆coding，打开部署博客的仓库，在自定义域名中添加自己的域名，我将www的记录解析到coding的Pages服务地址</p>
-<p><img src="http://okbn8yrzu.bkt.clouddn.com/image/coding_pages_binding_domain.png" alt="" title="将www.wqf31415.xyz解析到coding的Pages"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/coding_pages_binding_domain.png" alt="" title="将www.wqf31415.xyz解析到coding的Pages"> </p>
 </li>
 </ul>
 <h3 id="搞定收工，洗澡睡觉。。。"><a href="#搞定收工，洗澡睡觉。。。" class="headerlink" title="搞定收工，洗澡睡觉。。。"></a>搞定收工，洗澡睡觉。。。</h3><p>  这篇文字是在博客已经建立起来了才来补写的，也不知道有没有什么遗漏，在建立blog时也遇到很多坑，一个坑一个坑的踩过来的，也算有点经验，欢迎交流！</p>
@@ -540,9 +540,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/git/" rel="tag"># git</a>
-          
             <a href="/tags/hexo/" rel="tag"># hexo</a>
+          
+            <a href="/tags/git/" rel="tag"># git</a>
           
             <a href="/tags/blog/" rel="tag"># blog</a>
           
