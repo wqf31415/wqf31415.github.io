@@ -45,7 +45,7 @@ date: 2017-05-03 13:41:21
 
 AngularJS 最大的四个特点是： **MVC模式** ， **模块化** ， **双向数据绑定** ， **依赖注入**
 
-![](http://okbn8yrzu.bkt.clouddn.com/AngularJS-Shield.svg "AngularJS") 
+![](http://blog-images.qiniu.wqf31415.xyz/AngularJS-Shield.svg "AngularJS") 
 
 MVC : 即 Model Controller View 设计模式，Model 为数据模型，View 视图层，负责展示，Controller 为业务逻辑和控制逻辑，使用 MVC 模式使开发职责清晰，代码模块化，方便复用。
 

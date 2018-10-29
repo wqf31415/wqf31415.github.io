@@ -13,7 +13,7 @@ categories:
 
 Apache POI 官网：[http://poi.apache.org/](http://poi.apache.org/)
 
-![](http://okbn8yrzu.bkt.clouddn.com/image/pngpb-poi.png "Apache POI")
+![](http://blog-images.qiniu.wqf31415.xyz/image/pngpb-poi.png "Apache POI")
 
 ### POI 是什么？
 > POI 是 Apache 软件基金会开源的项目，根据官网的解释，POI提供了操作Office Open XML (OOXML)标准和微软 OLE 2 Compound Document (OLE2)格式文档的接口。OLE2 文件包括微软office 中的 xls、doc、ppt 文件，ooxml格式是新的格式标准，包含 xlsx、docx、pptx 文件。
@@ -486,5 +486,5 @@ cell.setCellStyle(cellStyle);
 
 ### 完结鞠躬
 
-![](http://okbn8yrzu.bkt.clouddn.com/meme/meme_bow_05.jpg)
+![](http://blog-images.qiniu.wqf31415.xyz/meme/meme_bow_05.jpg)
 

@@ -60,7 +60,7 @@ SpringBoot 默认寻找banner的顺序是：
 
 > 当然，按理说使用图片文件也可以，但我还没找到能在控制台正常显示的图片，╮(￣▽￣")╭
 
-![](http://okbn8yrzu.bkt.clouddn.com/spring-boot-banner.txt.png)
+![](http://blog-images.qiniu.wqf31415.xyz/spring-boot-banner.txt.png)
 
 
 
@@ -72,7 +72,7 @@ SpringBoot 默认寻找banner的顺序是：
 
 > 输入想要的文字，生成图形文字，将生成的内容粘贴到 `banner.txt` 中即可。
 
-![](http://okbn8yrzu.bkt.clouddn.com/text2text-graph.png)
+![](http://blog-images.qiniu.wqf31415.xyz/text2text-graph.png)
 
 
 
@@ -80,27 +80,27 @@ SpringBoot 默认寻找banner的顺序是：
 
 > 这个就厉害了，给定图片链接，将其转换成文字图形。例如将示例中的美女图转成txt文字：
 
-![](http://okbn8yrzu.bkt.clouddn.com/img2txt-1.png)
+![](http://blog-images.qiniu.wqf31415.xyz/img2txt-1.png)
 
 =======>
 
-![](http://okbn8yrzu.bkt.clouddn.com/img2txt-2.png)
+![](http://blog-images.qiniu.wqf31415.xyz/img2txt-2.png)
 
 将文字部分粘贴到 `banner.txt` 中，运行项目看到：
 
-![](http://okbn8yrzu.bkt.clouddn.com/img2txt-3.png)
+![](http://blog-images.qiniu.wqf31415.xyz/img2txt-3.png)
 
  如果发现图片有点大了，可以退回到上一步，设置图片输出大小，重新获得txt 文本。
 
 我们看现在这个 banner，在控制台中输出时，被压扁了，我们要把它拉开，在每个字符后面添加一个空格。将文本粘贴到一个空白 word 文档中，按 `Ctrl + F` 键调出查找功能对话框，在 `替换` 选项卡中，勾选上使用通配符，在上面输入问号 `?` ，在下面输入 ^& 加一个空格，点击 `全部替换` 。将全部文本复制到 `banner.txt` 中。
 
-![](http://okbn8yrzu.bkt.clouddn.com/img2txt-4.png)
+![](http://blog-images.qiniu.wqf31415.xyz/img2txt-4.png)
 
 
 
 最终效果：
 
-![](http://okbn8yrzu.bkt.clouddn.com/img2txt-5.png)
+![](http://blog-images.qiniu.wqf31415.xyz/img2txt-5.png)
 
 
 
@@ -173,4 +173,4 @@ Ansi 颜色代码
 
 好了，关于SpringBoot 的 banner 设置内容就先写到这里了。
 
-![](http://okbn8yrzu.bkt.clouddn.com/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg ) 
+![](http://blog-images.qiniu.wqf31415.xyz/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg ) 

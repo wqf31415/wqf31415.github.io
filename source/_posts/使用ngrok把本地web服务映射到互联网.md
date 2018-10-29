@@ -82,5 +82,5 @@ ngrok 还有其它功能，比如创建 TCP 通道等。但是它有个缺点，
 
 ### 下台鞠躬！
 
-![](http://okbn8yrzu.bkt.clouddn.com/meme/meme_bow_02.jpg )  
+![](http://blog-images.qiniu.wqf31415.xyz/meme/meme_bow_02.jpg )  
 

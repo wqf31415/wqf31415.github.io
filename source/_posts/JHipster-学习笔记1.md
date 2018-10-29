@@ -19,7 +19,7 @@ categories:
 
 简单的说 **JHipster就是一个代码生成器** ，帮我们自动生成一个 java web 项目源码，后台使用 Spring Boot ，前端使用 Angular 。
 
-![](http://okbn8yrzu.bkt.clouddn.com/image/what_is_jhipster.png "这就是 Jhipster") 
+![](http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png "这就是 Jhipster") 
 
 <!-- more -->
 
@@ -247,7 +247,7 @@ spring:
 ```
 
 #### 导入 IDEA 后能运行，但打开页面显示产生了一个错误
-![](http://okbn8yrzu.bkt.clouddn.com/image/jhipster_index_error.png "出现了一个错误")
+![](http://blog-images.qiniu.wqf31415.xyz/image/jhipster_index_error.png "出现了一个错误")
 根据提示，在项目根目录下打开命令行，依次执行 `bower install` 和 `gulp install`
 
 #### 运行 bower install 命令时报错：
