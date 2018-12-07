@@ -241,7 +241,7 @@ alter table test.tb_student add constraint UKjryppi07bm3jtculd9mtfjtjf unique (n
 ``````
 
 #### 创建 Repository
-##### 方式一 继承 JpaRepository 接口
+##### 方式一 继承 JpaRepository 接口 (推荐)
 创建包 `repository` ，创建接口 `StudentRepository` 继承 `JpaRepository<T,ID>` ，其中 `JpaRepository` 的接收的两个泛型约束，T 为 Entity 实体类，ID 为该实体类的主键类型。这个接口继承了很多基本的方法，可以直接使用。
 ``````java
 package com.example.jpademo.repository;
@@ -269,7 +269,7 @@ public interface TeacherRepository {
 
 
 #### 创建 Service
-用以上两种方式创建的 Repository 具有一些基本的 CRUD 功能，使用这些功能可以创建一个基础的 Service 。
+推荐使用第一种方式创建 Repository ，其从父类继承了一些基本的 CRUD 方法，使用这些方法可以创建一个基础的 Service 。
 ``````java
 package com.example.jpademo.service;
 
@@ -305,7 +305,91 @@ public class StudentService {
 ``````
 
 #### 创建 Controller
+使用上面创建的 Service 可以创建一个 Controller 。
+``````java
+package com.example.jpademo.web.rest;
 
+import com.example.jpademo.service.StudentService;
+import com.example.jpademo.domain.Student;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping(value = "/api")
+public class StudentResource {
+    @Autowired
+    private StudentService studentService;
+
+    /**
+     * 添加学生
+     *
+     * @param student 学生
+     * @return 学生id为空时添加存储并返回学生信息，否则不添加，返回错误信息，
+     */
+    @RequestMapping(value = "/students", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Student> save(@RequestBody Student student) {
+        if (student.getId() != null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        student = studentService.save(student);
+        return ResponseEntity.ok(student);
+    }
+
+    /**
+     * 修改学生信息
+     *
+     * @param student 学生
+     * @return 学生 ID 为空时返回错误信息，否则返回修改后的学生信息
+     */
+    @RequestMapping(value = "/students", method = RequestMethod.PUT, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Student> update(@RequestBody Student student) {
+        if (student.getId() == null) {
+            return ResponseEntity.badRequest().body(null);
+        }
+        student = studentService.save(student);
+        return ResponseEntity.ok(student);
+    }
+
+    /**
+     * 删除学生信息
+     *
+     * @param id 学生ID
+     * @return
+     */
+    @RequestMapping(value = "/students/{id}", method = RequestMethod.DELETE, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        studentService.delete(id);
+        return ResponseEntity.ok().build();
+    }
+
+    /**
+     * 查询一个学生
+     *
+     * @param id 学生 ID
+     * @return 学生信息
+     */
+    @RequestMapping(value = "/students/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<Student> getOne(@PathVariable Long id) {
+        Student student = studentService.findOne(id);
+        return ResponseEntity.ok(student);
+    }
+
+    /**
+     * 查询所有学生
+     *
+     * @return 所有学生信息
+     */
+    @RequestMapping(value = "/students", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
+    public ResponseEntity<List<Student>> getStudents() {
+        List<Student> students = studentService.findAll();
+        return ResponseEntity.ok(students);
+    }
+}
+``````
 
 ### JPA 的缺点
 - 联表查询不方便。
