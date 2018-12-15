@@ -641,6 +641,20 @@ public class TestUtil {
 }
 ``````
 
+### 自定义查询方法
+以上创建的 demo 项目，已经可以自动建表，并具有基本的 CRUD 功能接口，并进行了单元测试。在实际项目中，查询需求多种多样，下面我们来看一下，在 spring data jpa 中可以怎么创建独特的查询方法。
+**在使用 spring data jpa 时，我们可以在 `Repository` 中定义一些方法，来实现一些查询功能。**
+如：我们要查询所有年龄大于 18 岁的激活了的学生信息，只需要在 `StudentRepository` 中添加一个方法 `List<Student> findByAgeGreaterThanAndActiveTrue(int age);` ，不需要写任何实现类，就可以在 `StudentService` 中调用了。
+方法以 `findBy` 开头，后面跟字段名，再加上限制条件，类似的方法关键词还有下面表格中展示的：
+|关键词|示例|JPQL语句|
+|:----:|:----:|:----:|
+|And|findByNameAndAge(String name,int age)| ..where x.name = ?1 and x.age = ?2|
+|Or|findByNameOrAge(String name,int age)| ..where x.name = ?1 or x.age = ?2|
+|Is,Equals|findByNameIs(String name),findByNameEquals(String name)| ..where x.name = ?1|
+|Between|findByAgeBetween(int start,int end)| .. where x.age>?1 and x.age < ?2|
+
+
+
 ### JPA 的缺点
 - 联表查询不方便，两个没有关联的表做 join 操作比较繁琐。
 - 框架定制重，不便优化 sql 查询，不如 mybatis 自由度高。
