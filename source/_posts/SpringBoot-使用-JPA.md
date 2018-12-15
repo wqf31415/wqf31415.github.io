@@ -278,16 +278,18 @@ import com.example.jpademo.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Transactional
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
-    
-    public Student findOne(Long id){
-        return studentRepository.findById(id).orElse(null);
+
+    public Optional<Student> findOne(Long id){
+        return studentRepository.findById(id);
     }
 
     public List<Student>  findAll(){
@@ -305,18 +307,22 @@ public class StudentService {
 ``````
 
 #### 创建 Controller
-使用上面创建的 Service 可以创建一个 Controller 。
+使用上面创建的 Service 可以创建一个 Controller ，提供 restful 风格的 api 接口。
 ``````java
 package com.example.jpademo.web.rest;
 
 import com.example.jpademo.service.StudentService;
 import com.example.jpademo.domain.Student;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/api")
@@ -331,12 +337,12 @@ public class StudentResource {
      * @return 学生id为空时添加存储并返回学生信息，否则不添加，返回错误信息，
      */
     @RequestMapping(value = "/students", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
-    public ResponseEntity<Student> save(@RequestBody Student student) {
+    public ResponseEntity<Student> save(@RequestBody Student student) throws URISyntaxException {
         if (student.getId() != null) {
             return ResponseEntity.badRequest().body(null);
         }
         student = studentService.save(student);
-        return ResponseEntity.ok(student);
+        return ResponseEntity.created(new URI("/api/students/"+student.getId())).body(student);
     }
 
     /**
@@ -374,8 +380,10 @@ public class StudentResource {
      */
     @RequestMapping(value = "/students/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
     public ResponseEntity<Student> getOne(@PathVariable Long id) {
-        Student student = studentService.findOne(id);
-        return ResponseEntity.ok(student);
+        Optional<Student> student = studentService.findOne(id);
+        return student
+                .map(result->new ResponseEntity(result, HttpStatus.OK))
+                .orElse(new ResponseEntity(HttpStatus.NOT_FOUND));
     }
 
     /**
@@ -391,9 +399,251 @@ public class StudentResource {
 }
 ``````
 
+#### 单元测试
+创建一个测试类，用来测试我们 controller 提供的接口。
+``````java
+package com.example.jpademo.web.rest;
+
+import com.example.jpademo.JpademoApplication;
+import com.example.jpademo.domain.Student;
+import com.example.jpademo.repository.StudentRepository;
+import com.example.jpademo.service.StudentService;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.web.PageableHandlerMethodArgumentResolver;
+import org.springframework.http.MediaType;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.util.ReflectionTestUtils;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+
+import javax.annotation.PostConstruct;
+import javax.persistence.EntityManager;
+import javax.transaction.Transactional;
+
+import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.hasItem;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+/**
+ * Created by Administrator on 2018/12/13.
+ *
+ * @author WeiQuanfu
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = JpademoApplication.class)
+public class StudentResourceTest {
+    private static final String DEFAULT_NAME = "ZhangSan";
+    private static final String UPDATED_NAME = "LiSi";
+
+    private static final Integer DEFAULT_AGE = 1;
+    private static final Integer UPDATED_AGE = 2;
+
+    private static final ZonedDateTime DEFAULT_BIRTHDAY = ZonedDateTime.ofInstant(Instant.ofEpochMilli(0L), ZoneId.systemDefault());
+    private static final ZonedDateTime UPDATED_BIRTHDAY = ZonedDateTime.now(ZoneId.systemDefault()).withNano(0);
+    private static final String DEFAULT_BIRTHDAY_STR = DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(DEFAULT_BIRTHDAY);
+
+    private static final Boolean DEFAULT_ACTIVE = false;
+    private static final Boolean UPDATED_ACTIVE = true;
+
+    @Autowired
+    private StudentRepository studentRepository;
+
+    @Autowired
+    private StudentService studentService;
+
+    @Autowired
+    private MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter;
+
+    @Autowired
+    private PageableHandlerMethodArgumentResolver pageableHandlerMethodArgumentResolver;
+
+    @Autowired
+    private EntityManager em;
+
+    private MockMvc restStudentMockMvc;
+
+    private Student student;
+
+    @PostConstruct
+    public void setup(){
+        MockitoAnnotations.initMocks(this);
+        StudentResource studentResource = new StudentResource();
+        ReflectionTestUtils.setField(studentResource,"studentService",studentService);
+        this.restStudentMockMvc = MockMvcBuilders.standaloneSetup(studentResource)
+                .setCustomArgumentResolvers(pageableHandlerMethodArgumentResolver)
+                .setMessageConverters(mappingJackson2HttpMessageConverter)
+                .build();
+    }
+
+    public static Student createEntity(EntityManager em){
+        Student s = new Student();
+        s.setName(DEFAULT_NAME);
+        s.setAge(DEFAULT_AGE);
+        s.setBirthday(DEFAULT_BIRTHDAY);
+        s.setActive(DEFAULT_ACTIVE);
+        return s;
+    }
+
+    @Before
+    public void init(){
+        student = createEntity(em);
+    }
+
+    @Test
+    @Transactional
+    public void save() throws Exception {
+        int databaseSizeBeforeCreate = studentRepository.findAll().size();
+
+        restStudentMockMvc.perform(post("/api/students")
+        .contentType(TestUtil.APPLICATION_JSON_UTF8)
+        .content(TestUtil.convertObjectToJsonBytes(student)))
+        .andExpect(status().isCreated());
+
+        List<Student> students = studentRepository.findAll();
+        assertThat(students).hasSize(databaseSizeBeforeCreate+1);
+        Student testStudent = students.get(students.size()-1);
+        assertThat(testStudent.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testStudent.getAge()).isEqualTo(DEFAULT_AGE);
+        assertThat(testStudent.getBirthday()).isEqualTo(DEFAULT_BIRTHDAY);
+        assertThat(testStudent.getActive()).isEqualTo(DEFAULT_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void update() throws Exception {
+        studentRepository.saveAndFlush(student);
+
+        int databaseSizeBeforeUpdate = studentRepository.findAll().size();
+
+        Student updateStudent = studentRepository.findById(student.getId()).get();
+        updateStudent.setName(UPDATED_NAME);
+        updateStudent.setAge(UPDATED_AGE);
+        updateStudent.setBirthday(UPDATED_BIRTHDAY);
+        updateStudent.setActive(UPDATED_ACTIVE);
+
+        restStudentMockMvc.perform(put("/api/students")
+                    .contentType(TestUtil.APPLICATION_JSON_UTF8)
+                    .content(TestUtil.convertObjectToJsonBytes(updateStudent)))
+                .andExpect(status().isOk());
+
+        List<Student> students = studentRepository.findAll();
+        assertThat(students).hasSize(databaseSizeBeforeUpdate);
+        Student testStudent = students.get(students.size()-1);
+        assertThat(testStudent.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testStudent.getAge()).isEqualTo(UPDATED_AGE);
+        assertThat(testStudent.getBirthday()).isEqualTo(UPDATED_BIRTHDAY);
+        assertThat(testStudent.getActive()).isEqualTo(UPDATED_ACTIVE);
+    }
+
+    @Test
+    @Transactional
+    public void deleteStudent() throws Exception {
+        studentRepository.saveAndFlush(student);
+
+        int databaseSizeBeforeUpdate = studentRepository.findAll().size();
+
+        restStudentMockMvc.perform(delete("/api/students/{id}",student.getId()).accept(TestUtil.APPLICATION_JSON_UTF8))
+                .andExpect(status().isOk());
+
+        List<Student> students = studentRepository.findAll();
+
+        assertThat(students).hasSize(databaseSizeBeforeUpdate-1);
+    }
+
+    @Test
+    @Transactional
+    public void getOne() throws Exception {
+        studentRepository.saveAndFlush(student);
+
+        restStudentMockMvc.perform(get("/api/students/{id}",student.getId()))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.id").value(student.getId().intValue()))
+                .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+                .andExpect(jsonPath("$.age").value(DEFAULT_AGE.intValue()))
+                .andExpect(jsonPath("$.birthday").value(DEFAULT_BIRTHDAY_STR))
+                .andExpect(jsonPath("$.active").value(DEFAULT_ACTIVE.booleanValue()));
+    }
+
+    @Test
+    @Transactional
+    public void getNotExistStudent() throws Exception {
+        restStudentMockMvc.perform(get("/api/students/{id}",Long.MAX_VALUE))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    @Transactional
+    public void getStudents() throws Exception {
+        studentRepository.saveAndFlush(student);
+
+        restStudentMockMvc.perform(get("/api/students"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON_UTF8_VALUE))
+                .andExpect(jsonPath("$.[*].id").value(hasItem(student.getId().intValue())))
+                .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+                .andExpect(jsonPath("$.[*].age").value(hasItem(DEFAULT_AGE.intValue())))
+                .andExpect(jsonPath("$.[*].birthday").value(hasItem(DEFAULT_BIRTHDAY_STR)))
+                .andExpect(jsonPath("$.[*].active").value(hasItem(DEFAULT_ACTIVE.booleanValue())));
+    }
+}
+``````
+
+其中新添加了一个测试工具类，代码如下：
+``````java
+package com.example.jpademo.web.rest;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import org.springframework.http.MediaType;
+
+import java.io.IOException;
+import java.nio.charset.Charset;
+
+public class TestUtil {
+
+    public static final MediaType APPLICATION_JSON_UTF8 = new MediaType(
+            MediaType.APPLICATION_JSON.getType(),
+            MediaType.APPLICATION_JSON.getSubtype(), Charset.forName("utf8"));
+
+    public static byte[] convertObjectToJsonBytes(Object object)
+            throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+
+        JavaTimeModule module = new JavaTimeModule();
+        mapper.registerModule(module);
+
+        return mapper.writeValueAsBytes(object);
+    }
+
+    public static byte[] createByteArray(int size, String data) {
+        byte[] byteArray = new byte[size];
+        for (int i = 0; i < size; i++) {
+            byteArray[i] = Byte.parseByte(data, 2);
+        }
+        return byteArray;
+    }
+}
+``````
+
 ### JPA 的缺点
-- 联表查询不方便。
-- 框架定制重，不便优化 sql 查询，不如 mybatis 灵活。
+- 联表查询不方便，两个没有关联的表做 join 操作比较繁琐。
+- 框架定制重，不便优化 sql 查询，不如 mybatis 自由度高。
 
 ### 注意事项
 - 在概念上要理解 JPA 是一套标准，不是具体实现。
