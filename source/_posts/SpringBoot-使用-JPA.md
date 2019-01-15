@@ -11,7 +11,7 @@ categories:
 ---
 
 ### 内容概述
-这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询。
+这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询，Specification 查询。
 
 ### 什么是 JPA ？
 JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司提出的一套标准，用于将运行期对象持久化存储到数据库，具体实现的产品有： Hiberate、Eclipselink、Toplink、Spring Data JPA等。
@@ -642,16 +642,408 @@ public class TestUtil {
 ``````
 
 ### 自定义查询方法
+#### 创建查询方法
 以上创建的 demo 项目，已经可以自动建表，并具有基本的 CRUD 功能接口，并进行了单元测试。在实际项目中，查询需求多种多样，下面我们来看一下，在 spring data jpa 中可以怎么创建独特的查询方法。
 **在使用 spring data jpa 时，我们可以在 `Repository` 中定义一些方法，来实现一些查询功能。**
-如：我们要查询所有年龄大于 18 岁的激活了的学生信息，只需要在 `StudentRepository` 中添加一个方法 `List<Student> findByAgeGreaterThanAndActiveTrue(int age);` ，不需要写任何实现类，就可以在 `StudentService` 中调用了。
-方法以 `findBy` 开头，后面跟字段名，再加上限制条件，类似的方法关键词还有下面表格中展示的：
-|关键词|示例|JPQL语句|
+如：我们要查询所有年龄大于 18 岁并且信息激活了的学生信息，只需要在 `StudentRepository` 中添加一个方法 `List<Student> findByAgeGreaterThanAndActiveTrue(int age);` ，不需要写任何实现类，就可以在 `StudentService` 中调用了。
+在 Spring Data 中，查询方法以 **find** 或 **read** 或 **get** 开头，后面跟字段名(字段名首字母大写)，再加上限制条件，类似的方法关键词还有下面表格中展示的：
+|关键词|方法示例|JPQL语句|备注|
+|:----:|:----:|:----:|:----:|
+|And|findByNameAndAge(String name,int age)| ..where x.name = ?1 and x.age = ?2|并且，注意条件名称与参数的位置与数量要一一对应|
+|Or|findByNameOrAge(String name,int age)| ..where x.name = ?1 or x.age = ?2|或|
+|Is,Equals|findByNameIs(String name),findByNameEquals(String name)| ..where x.name = ?1|等于|
+|Between|findByAgeBetween(int start,int end)| .. where x.age>?1 and x.age < ?2|两者之间|
+|LessThan|findByAgeLessThan(int age)| .. where x.age < ?1|小于|
+|LessThanEqual|findByAgeLessThanEqual(int age)| .. where x.age <= ?1|小于等于|
+|GreaterThan|findByAgeGreaterThan(int age)| .. where x.age > ?1|大于|
+|GreaterThanEqual|findByAgeGreaterThanEqual(int age)| .. where x.age >= ?1|大于等于|
+|After|findByBirthdayAfter(String birthday)| .. where x.birthday > ?1|之后(时间)|
+|Before|findByBirthdayBefore(String birthday)| .. where x.birthday < ?1|之前(时间)|
+|IsNull|findByAgeIsNull()| .. where x.age is null|等于 null|
+|IsNotNull/NotNull|findByAgeIsNotNull()/findByAgeNotNull()| .. where x.age is not null|不等于 null|
+|Like|findByNameLike(String name)| .. where x.name like ?1|模糊查询，查询条件中需要自己加 %|
+|NotLike|findByNameNotLike(String name)| .. where x.name not like ?1|不再模糊范围内，查询条件中需要自己加%|
+|StartingWith|findByNameStartingWith(String name)| .. where x.name like ?1|以某开头，参数后面会添加 %|
+|EndingWith|findByNameEndingWith(String name)| .. where x.name like ?!|以某结尾，参数前会添加 %|
+|Containing|findByNameContaining(String name)| .. where x.name like ?1|包含某，参数前后添加 %|
+|OrderBy|findByAgeOrderByNameDesc(int age)| .. where x.age = ?1 order by x.name desc|排序，Desc 为倒序排列，Asc 为正序排列，默认使用正序排列，所以正序排列可以不显式声明|
+|Not|findByNameNot(String name)| .. where x.name != ?!|不等于|
+|In|findByNameIn(List<String> nameList)| .. where x.name in ?1|在某范围内，参数类型为 Collection|
+|NotIn|findByNameNotIn(List<String> nameList)| .. where x.name not in ?1|不在某范围内，参数类型为Collection|
+|True|findByActiveTrue()| .. where x.active = true|真|
+|False|findByActiveFalse()| .. where x.active = false|假|
+|IgnoreCase|findByNameIgnoreCase(String name)| .. where UPPER(x.name) = UPPER(?1)|忽略大小写|
+
+#### 排序与分页
+可以在上述方法中加入 Sort 或 Pageable 参数，对结果进行排序或分页，如:
+``````java
+List<Student> findByAgeGreaterThan(int age, Pageable pageable);
+``````
+
+
+#### 查询方法的解析流程
+> 参考：SpringDataJpa：JpaRepository增删改查 - 琦彦 - CSDN博客  https://blog.csdn.net/fly910905/article/details/78557110
+
+- Spring Data JPA 框架在解析方法名时，首先解析 前缀，如 find、findBy、read、readBy、get、getBy，然后解析剩下的部分，例如 Entity 为 Student，查询方法为 findByParentPhoneNumber
+
+- 首先去除 `findBy` 前缀后，解析剩下的 `ParentPhoneNumber` ，将其首字母转成小写，判断是否是实体 Student 的属性，如果是就根据这个属性进行查询，如果不是则进入下一步；
+
+- 从右往左去除 **ParentPhoneNumber** 第一个大写字母开头的字符串，本例中是 **Number**，检查剩下的部分 **ParentPhone** ，首字母转小写后判断是否是 **Student** 的属性，如果是则按该属性进行查询；否则重复此步骤，继续从右往左截取；假设最终 **parent** 是 Student 的一个属性；
+
+- 接着处理剩下的部分（**PhoneNumber**），先判断整体 **phoneNumber** 是否是 **parent** 的属性，如果是则按 **Student.parent.phoneNumber** 进行查询；否则继续从右往左截取判断，最终表示根据 **Student.parent.phone.number** 的值进行查询；
+
+> 注意：可能会有一种特殊情况，如在 **Student** 中包含一个 **parent** 属性，也有一个 **parentPhone** 属性，此时就会存在混淆。可以在属性间加上 “_” 明确表达意图，如 `findByParent_PhoneNumber()` 或 `findByParentPhone_Number()` 。
+**强烈建议：无论是否存在混淆，都要在不同类层级之间加上 “_” ，增加代码可读性。**
+
+
+#### 查询结果限制
+查询第一条记录： 
+``````java
+Student findFirstByAgeLessThanOrderByNameDesc(int age);
+Student findTopByOrderByAge();
+``````
+
+分页查询排序考前10条记录：
+``````java
+Page<Student> queryFirst10ByName(String name, Pageable pageable);
+Slice<Student> findTop10ByLastName(String lastName,Pageable package);
+List<Student> findFirst10ByLastName(String lastName, Sort sort);
+List<Student> findTop10ByLastName(String lastName, Pageable package);
+``````
+
+
+#### 计数查询与删除方法
+计数查询方法以 **countBy** 开头，如：
+``````java
+Long countByAgeLessThan(int age);
+``````
+
+删除方法以 **deleteBy** 开头，如：
+``````java
+void deleteByName(String name);
+``````
+
+
+### JPQL 查询
+> JPQL 全称 Java Persistence Query Language，即 Java 持久化查询语言，与原生 SQL 语句类似，完全面向对象，通过实体名与属性名访问，不是表名和表的字段名，不支持 INSERT 操作。
+**注意：这里用的是实体名，默认为类名，可以在 @Entity 注解中修改实体名，如 @Entity("tb_student") 查询时要使用 tb_student **
+
+#### JPQL 的 SELECT
+语法：
+``````sql
+SELECT ... FROM ... [WHERE ...] [GROUP BY ... [HAVING ...]] [ORDER BY ...] 
+``````
+where 子句条件关键字：
+|含义|关键字|
+|:----:|:----:|
+|比较|=、>、>=、<、<=、<>|
+|between|[not] between|
+|模糊匹配|[not] like|
+|包含|[not] in|
+|空|is [not] null|
+|empty|is [not] empty|
+|存在|[not] exists|
+
+在 Spring Data JPA 中使用时，需要在 Repository 接口中的方法上加上 @Query 注解，在注解中申明查询语句。
+
+参数绑定：
+
+- 按参数位置传参，使用 “?X”  ，X 为方法中参数位置，从 1 开始计算，参数的个数与顺序要与方法参数保持一致；
+- 使用参数名传参，使用 “:paramName” 的方式，这种方式不用管参数顺序，paramName 为参数名，参数名需要使用 @Param("paramName") 注解指定的名称，而不是方法的参数名称；
+- 使用 SPEL 的取值表达式进行参数绑定；
+下面的 UPDATE 和 DELETE 语句中都可以使用这些方式传参。示例：
+``````java
+	// 按参数位置绑定
+    @Query("select student from Student as student where student.birthday between ?1 and ?2")
+    List<Student> findStudentByBirthdayBetween(String startTime,String endTime);
+	
+	// 按参数名绑定
+	@Query("select student from Student student where student.age between :startAge and :endAge")
+    List<Student> findStudentByAgeBetween(@Param("startAge") int startAge, @Param("endAge") int endAge);
+	
+	// JPQL查询语句中可以不写 seleect ，从 from 开始写就可以
+    @Query("from Student s where s.name = ?1 and s.age = ?2")
+    Student findStudentByNameAndAge(String name, int age);	
+	
+	// 模糊查询时要在参数前后添加 “%”
+	@Query("select s from Student s where s.name like %?1%")
+    List<Student> findStudentLikeName(String likeName);
+	
+	// 参数为集合
+	@Query("select s from Student s where s.id in ?1")
+    List<Student> findByStudentIds(List<Long> idList);
+	
+	// 传入Bean进行查询（SPEL表达式查询）
+    @Query(value = "from Student s where s.name=:#{#std.name} and s.age=:#{#std.age}")
+    Student findByNameAndAge(@Param("std")Student student);
+	
+	// 分页
+    @Query("from Student s")
+    Page<Student> findAllStudent(Pageable pageable);
+	
+	// 带查询条件的分页
+    @Query("select s from Student s where s.age >?1")
+    Page<Student> findStudentAgeGreaterThan(int age, Pageable pageable);
+	
+``````
+> 注意语句中使用的都是实体名和属性名，不是表名和表中字段名。
+
+查询结果分页，可以在查询方法中加入 Pageable pageable 参数，即可对查询结果进行分页。
+
+#### JPQL 的 UPDATE
+语法：
+``````sql
+UPDATE ... SET ... [WHERE ...]
+``````
+
+**在使用时需要添加 @Modified 和 @Query 注解，在调用的 Service 方法上要添加 @Transaction 注解，否则会报错。**
+示例：
+``````java
+    @Modifying
+    @Query("update Student s set s.age = ?1 where name = ?2")
+    long modifyStudentAgeByName(int age, String name);
+``````
+
+#### JPQL 的 DELETE
+语法：
+``````sql
+DELETE FROM ... [WHERE ...]
+``````
+
+**与 UPDATE 的使用方式相同，也需要添加 @Modified 和 @Query 注解，在调用的 Service 方法上要添加 @Transaction 注解，否则会报错。**
+示例：
+``````java
+    @Modifying
+    @Query("delete from Student s where s.name = ?1")
+    void deleteStudentByName(String name);
+``````
+
+#### 联合查询
+在 JPQL 中可以使用 **join** 、**left join** 、**right join** 进行联表查询，用法与原生 sql 相同。
+示例：
+``````java
+    @Query(value = "SELECT d FROM Device d JOIN d.pole p JOIN p.circuit c WHERE c.id = :circuitId AND d.hidden = 0")
+    List<Device> findDevicesByGivenCircuitId(@Param("circuitId") Long circuitId);
+``````
+
+关联查询与部分字段映射投影
+第一种方法，使用 VM （View Module）
+查询两张表，取部分字段组成新的对象，如取 Student 的 id、name、age字段，取 Classes 的 name 字段，组成 StudentVM 对象，可以分页查询，需要创建 StudentVM 类，并创建包含所需字段的构造方法。
+查询方法：
+``````java
+	// 查询结果转VM
+    @Query("select new com.example.jpademo.web.rest.vm.StudentVM(s.id,s.name,s.age,c.name as className) from Student s left join s.classes c")
+    Page<StudentVM> findStudentAndClass(Pageable pageable);
+``````
+
+StudentVM 类：
+``````java
+package com.example.jpademo.web.rest.vm;
+
+public class StudentVM {
+    private Long id;
+    private String name;
+    private Integer age;
+    private String classsName;
+
+    public StudentVM() {
+    }
+
+	// 一定要有这个构造方法
+    public StudentVM(Long id, String name, Integer age, String classsName) {
+        this.id = id;
+        this.name = name;
+        this.age = age;
+        this.classsName = classsName;
+    }
+	// 为了节约篇幅，省略 setter、getter、toString 方法
+}
+``````
+
+第二种方法，使用 projection 接口。
+创建 StudentProjection 接口，添加需要字段的 getXXX 方法，其中 XXX 要与查询语句中的别名对应，不一致时可以使用 `@Value` 注解调整，如：
+``````java
+package com.example.jpademo.web.rest.vm;
+
+import org.springframework.beans.factory.annotation.Value;
+
+public interface StudentProjection {
+
+    Long getId();
+
+    String getName();
+
+    Integer getAge();
+
+    // 当别名与 getXXX 名称不一致时，可以使用 @Value 注解调整，target 不能省略
+    @Value("#{target.className}")
+    String getCname();
+}
+``````
+
+在Repository 中添加查询方法
+``````java
+    // projection 投影映射
+    @Query("select s.id as id, s.name as name, s.age as age, c.name as className from tb_student s left join s.classes c ")
+    Page<Student> findAllStudentAndClass(Pageable pageable);
+``````
+
+#### JPQL 命名查询
+命名查询的查询语句会在加载类的时候就生成，在后续的查询中直接使用，可以提高后续的查询速度。
+定义命名查询时，需要在实体类上添加 @NamedQueries 注解，只有一个参数，接收 @NamedQuery 注解的数组；@NamedQuery 注解主要两个参数，一个是查询名称 name，命名方式为 `实体名.查询方法名` ，查询方法名为 Repository 中的查询名，另一个参数为查询语句 query。
+实体类例如：
+``````java
+package com.example.jpademo.domain;
+
+import javax.persistence.*;
+
+@Entity
+@Table
+@NamedQueries({
+				@NamedQuery(name = "Classes.findClassById",query = "select c from Classes c where c.id = ?1"),
+				@NamedQuery(name="Classes.findAllPage",query = "select c from Classes c")
+				})
+public class Classes {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column
+    private String name;
+
+    @Column
+    private String info;
+	// 为了节约篇幅，省略 setter、getter、toString 方法
+}
+``````
+
+对应的 Repository 为：
+``````java
+package com.example.jpademo.repository;
+
+import com.example.jpademo.domain.Classes;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ClassesRepository extends JpaRepository<Classes,Long> {
+
+    Classes findClassById(Long id);
+
+    Page<Classes> findAllPage(Pageable pageable);
+}
+``````
+
+#### JPQL 函数
+JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期。
+- 字符串处理函数
+|函数|功能|示例|
 |:----:|:----:|:----:|
-|And|findByNameAndAge(String name,int age)| ..where x.name = ?1 and x.age = ?2|
-|Or|findByNameOrAge(String name,int age)| ..where x.name = ?1 or x.age = ?2|
-|Is,Equals|findByNameIs(String name),findByNameEquals(String name)| ..where x.name = ?1|
-|Between|findByAgeBetween(int start,int end)| .. where x.age>?1 and x.age < ?2|
+|concat(String s1, String s2)|连接两个字符串|concat("hello ","world") ---> "hello world"|
+|substring(String s, int start, int length)|截取字符串|substring("hello",1,3) ---> "ell"|
+|trim([leading|trailing|both,][char c,] String s)|从字符串中去掉首/尾指定的字符或空格|trim("hello world") ---> "helloworld"|
+|lower(String s)|转成小写|lower("HeLLo") ---> "hello"|
+|upper(String s)|转成大写|lower("HeLLo") ---> "HELLO"|
+|length(String s)|求字符串长度|length("hello") ---> 5|
+|locate(String s1, String s2[, int start])|从 s1 中查找 s2 出现的位置，没有返回0|locate("hello",l) ---> 2|
+
+- 算术函数
+|函数|功能|示例|
+|:----:|:----:|:----:|
+|abs(x)|取绝对值|abs(-1) ---> 1|
+|mod(int x, int y)|取模，即 x/y 的余数|mod(10,4) ---> 2|
+|sqrt(x)|取平方根值|sqrt(25) ---> 5|
+
+- 日期函数
+|函数|功能|示例|
+|:----:|:----:|:----:|
+|current_date()|取当前日期|current_date() ---> 2019-01-15|
+|current_time()|取当前时间|current_time() ---> 15:54:45|
+|current_timestamp()|取当前时间戳|current_timestamp() ---> 2019-01-15 15:54:45|
+
+### 原生查询
+#### 简单的原生查询
+使用原生的 sql 语句进行查询，在一些复杂的，或 JPQL 写不出来的情况下可以使用。需要添加 @Query 注解，在 value 参数中声明使用的 sql 语句，nativeQuery 参数设置为 true 。
+示例：
+``````java
+    @Query(value = "select s.* from tb_student s where s.active = 1 and s.age = :age",nativeQuery = true)
+    List<Student> findActiveStudentByAge(@Param("age") int age);
+
+    @Query(value = "select count(id) from tb_student where age = ?1",nativeQuery = true)
+    long countStudentByAge(int age);
+	
+	// 可以实现增删改查各种操作
+``````
+
+#### 分页的原生查询
+需要分页查询时，需要传 Pageable pageable 参数，在 @Query 注解中声明 countQuery，值为统计查询结果数量的 sql 语句。
+``````java
+    @Query(value = "select s.* from tb_student s where s.active = 1",countQuery = "select count(s.id) from tb_student s where s.active = 1",nativeQuery = true)
+    Page<Student> findActiveStudentPage(Pageable pageable);
+``````
+
+#### 联表的原生查询
+使用原生 sql 进行联表查询后，不能自动封装成对象，查询结果返回的类型是 Object，多个结果则返回 List<Object> 或 Page<Object> ，Object内部是一个 Object 数组，数组每个元素则是查询的字段值。
+下面是我写过最复杂的原生查询方法：
+``````java
+    /**
+     * 查询给定时间和id列表的设备上下线记录，包括上下线时间
+     * @param deviceIdList
+     * @param startTime
+     * @param endTime
+     * @return
+     */
+    @Query(value = "select t.* from (SELECT o.device_id,o.device_code," +
+        "SUM(CASE WHEN o.state = 'offline' THEN 1 ELSE 0 END) offline_count," +
+        "SUM(CASE WHEN o.state = 'Online' THEN 1 ELSE 0 END) online_count," +
+        "MAX(CASE WHEN o.state = 'offline' THEN o.time_span END) longest_offline_time " +
+        "FROM " +
+        "(" +
+        "SELECT A.device_id,A.device_code,A.state,A.collection_time," +
+        "timestampdiff(SECOND,A.collection_time,B.collection_time) time_span " +
+        "FROM " +
+        "(" +
+        "SELECT ds.*,(@i \\:= @i + 1) as ord_num " +
+        "FROM device_state ds,(select @i \\:= 1) d " +
+        "WHERE ds.device_id IN ?#{#deviceIdList} " +
+        "AND ds.hidden = 0 " +
+        "AND ds.collection_time BETWEEN ?#{#startTime} AND ?#{#endTime} " +
+        "AND NOT ISNULL(ds.device_code) " +
+        "ORDER BY ds.device_code,ds.collection_time ASC " +
+        ")" +
+        "as A LEFT JOIN " +
+        "(" +
+        "SELECT ds.*,(@j \\:= @j + 1) as ord_num " +
+        "FROM device_state ds,(select @j \\:= 0) d " +
+        "WHERE ds.device_id IN ?#{#deviceIdList} " +
+        "AND ds.hidden = 0 " +
+        "AND ds.collection_time BETWEEN ?#{#startTime} AND ?#{#endTime} " +
+        "AND NOT ISNULL(ds.device_code) " +
+        "ORDER BY ds.device_code,ds.collection_time ASC " +
+        ") " +
+        "as B on A.ord_num = B.ord_num and A.device_code=B.device_code " +
+        ") o " +
+        "GROUP BY o.device_code "+
+        "ORDER BY ?#{#pageable} ) t order by longest_offline_time DESC ",
+        countQuery = "select count(*) "+
+        "FROM ("+
+        "SELECT ds.* FROM device_state ds " +
+        "WHERE ds.device_id IN ?#{#deviceIdList} " +
+        "AND ds.hidden = 0 " +
+        "AND ds.collection_time BETWEEN ?#{#startTime} AND ?#{#endTime} " +
+        "AND NOT ISNULL(ds.device_code) " +
+        "GROUP BY ds.device_code) o",
+        nativeQuery = true)
+    Page<Object> countDeviceStateByGivenDeviceIdsAndCollectionTime(
+        @Param("deviceIdList") List<Long> deviceIdList,
+        @Param("startTime") String startTime,
+        @Param("endTime") String endTime,
+        Pageable pageable
+    );
+``````
+
+
+### Specification 查询
 
 
 
@@ -699,4 +1091,28 @@ default-time-zone='+08:00'
 spring.datasource.url=jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
 ``````
 
+- 在 Repository 查询方法中使用 JPQL 时，项目启动报错
+查询方法为：
+``````java
+    @Modifying
+    @Query("DELETE FROM Student s WHERE s.name = ?1")
+    void deleteStudentByName(String name);
+``````
+
+错误日志主要内容如下：
+``````
+org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'studentService': Unsatisfied dependency expressed through field 'studentRepository'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'studentRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract void com.example.jpademo.repository.StudentRepository.deleteStudentByName(java.lang.String)!
+...
+Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: Student is not mapped [DELETE FROM Student s WHERE s.name = ?1]
+...
+``````
+
+错误的意思是 Student 实体不能匹配，这时首先需要检查实体的属性名和查询语句中的是否对应；如果能够对应，再检查实体类，是否在 @Entity 注解中指定了名称，例如注解为 `@Entity("tb_student")` ，则在 JPQL 查询语句中要使用 tb_student ，而不能使用 Student，正确的查询方法如下：
+``````java
+    @Modifying
+    @Query("DELETE FROM tb_student s WHERE s.name = ?1")
+    void deleteStudentByName(String name);
+``````
+
 ### 总结
+由于笔者能力有限，文章中若有错误与不足之处希望读者能够指出，相互交流学习。
