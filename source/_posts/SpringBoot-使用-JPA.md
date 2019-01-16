@@ -1044,7 +1044,117 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 
 
 ### Specification 查询
+以上的查询方法使用的查询语句都是固定的，使用起来有时会不灵活，在 Spring Data JPA 中可以使用 Specification 接口实现动态 sql 查询。
 
+要使用 Specification 就需要让 Repository 接口继承 JpaSpecificationExecutor<T> 接口，这个接口指定的泛型类型是当前 Repository 对应的实体类型。如：
+``````java
+public interface StudentRepository extends JpaRepository<Student,Long>,JpaSpecificationExecutor<Student> {
+
+}
+``````
+
+查看 Specification 接口源码，发现其中有 5 个查询方法，有查单条记录的，有查列表的，可以分页、排序，但其中都有一个 Specification 类型的参数：
+``````java
+package org.springframework.data.jpa.repository;
+
+import java.util.List;
+import java.util.Optional;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.lang.Nullable;
+
+/**
+ * Interface to allow execution of {@link Specification}s based on the JPA criteria API.
+ *
+ * @author Oliver Gierke
+ * @author Christoph Strobl
+ */
+public interface JpaSpecificationExecutor<T> {
+
+	/**
+	 * Returns a single entity matching the given {@link Specification} or {@link Optional#empty()} if none found.
+	 *
+	 * @param spec can be {@literal null}.
+	 * @return never {@literal null}.
+	 * @throws org.springframework.dao.IncorrectResultSizeDataAccessException if more than one entity found.
+	 */
+	Optional<T> findOne(@Nullable Specification<T> spec);
+
+	/**
+	 * Returns all entities matching the given {@link Specification}.
+	 *
+	 * @param spec can be {@literal null}.
+	 * @return never {@literal null}.
+	 */
+	List<T> findAll(@Nullable Specification<T> spec);
+
+	/**
+	 * Returns a {@link Page} of entities matching the given {@link Specification}.
+	 *
+	 * @param spec can be {@literal null}.
+	 * @param pageable must not be {@literal null}.
+	 * @return never {@literal null}.
+	 */
+	Page<T> findAll(@Nullable Specification<T> spec, Pageable pageable);
+
+	/**
+	 * Returns all entities matching the given {@link Specification} and {@link Sort}.
+	 *
+	 * @param spec can be {@literal null}.
+	 * @param sort must not be {@literal null}.
+	 * @return never {@literal null}.
+	 */
+	List<T> findAll(@Nullable Specification<T> spec, Sort sort);
+
+	/**
+	 * Returns the number of instances that the given {@link Specification} will return.
+	 *
+	 * @param spec the {@link Specification} to count instances for. Can be {@literal null}.
+	 * @return the number of instances.
+	 */
+	long count(@Nullable Specification<T> spec);
+}
+``````
+
+Specification 是一个接口，我们需要自己创建实现类，在下例中为了演示方便，直接创建的匿名类。如：
+``````java
+@Service
+@Transactional
+public class StudentService {
+    public List<Student> findStudentByCondition(String nameLike, Integer startAge, Integer endAge, ZonedDateTime startBirthday,ZonedDateTime endBirthday,Long classId){
+        Specification<Student> spec = new Specification<Student>() {
+            @Override
+            public Predicate toPredicate(Root<Student> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
+                List<Predicate> predicates = new ArrayList<>();
+                predicates.add(criteriaBuilder.like(root.get("name"),"%"+nameLike+"%"));
+                if (startAge != null){
+                    predicates.add(criteriaBuilder.greaterThan(root.get("age"),startAge));
+                }
+                if (endAge != null){
+                    predicates.add(criteriaBuilder.le(root.get("age"), endAge));
+                }
+                if (startBirthday != null && endBirthday != null){
+                    predicates.add(criteriaBuilder.between(root.get("birthday"), startBirthday, endBirthday));
+                }
+                return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+            }
+        };
+        
+        Specification<Student> spec2 = ((root, query, criteriaBuilder) -> {
+            List<Predicate> predicates = new ArrayList<>();
+            if (classId != null){
+                predicates.add(criteriaBuilder.equal(root.get("classes").get("id"),classId));
+            }
+            return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
+        });
+        // 多个 Specification 可以用 and 或 or 连接使用
+        return studentRepository.findAll(Specification.where(spec).and(spec2));
+    }
+}
+``````
 
 
 ### JPA 的缺点
