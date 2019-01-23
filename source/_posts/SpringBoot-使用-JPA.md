@@ -23,6 +23,7 @@ JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司�
 简单起见，直接使用 http://start.spring.io 来创建项目，添加3个依赖: `JPA` 、 `MySQL` 、 `Web` 。
 ![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png '创建 jpademo 项目') 
 demo 项目中的 pom.xml 如下：
+
 ``````xml
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -83,7 +84,7 @@ demo 项目中的 pom.xml 如下：
 ``````
 
 #### 修改配置文件
-修改 `application.properties` 文件：
+修改 `application.properties` 文件，添加连接数据源需要的 url、username、password ：
 ``````properties
 spring.datasource.url=jdbc:mysql://localhost:3306/testjpa?useUnicode=true&characterEncoding=utf8&useSSL=false
 spring.datasource.username=root
@@ -95,6 +96,7 @@ spring.jpa.show-sql=true
 ``````
 
 #### 创建实体
+实体类与数据库表对应，实体类中包含对象属性，相应的 setter、getter方法和 toString 方法。在 JPA 中通过给类添加 `@Entity` 注解表明这个类是实体类。
 创建一个 `domain` 包，创建一个 `Student` 类，给这个类加上 `@Entity` 注解，给主键字段加上 `@Id` 和 `@GeneratedValue` 注解，给其它字段加上 `@Column` 注解。
 ``````java
 package com.example.jpademo.domain;
@@ -170,7 +172,9 @@ public class Student {
 ``````
 
 #### 自动建表
+在 springboot jpa 项目配置文件中添加配置项 `spring.jpa.hibernate.ddl-auto=create` ，项目启动时会自动扫描全部实体类，并在数据库中创建相应的表。
 添加完实体类后，运行一下项目，发现打出的 sql 语句如下：
+
 ``````
 Hibernate: drop table if exists hibernate_sequence
 Hibernate: drop table if exists student
@@ -178,7 +182,9 @@ Hibernate: create table hibernate_sequence (next_val bigint) engine=MyISAM
 Hibernate: insert into hibernate_sequence values ( 1 )
 Hibernate: create table student (id bigint not null, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine=MyISAM
 ``````
-查看数据库，发现多了两张表: `hibernate_sequence` 和 `student`。**但是我们使用的 mysql 数据库，不需要sequence来做主键，只需要设置主键值自增就行了**。所以，我们把上面的 `Student` 类改一下，给 `id` 字段的 `@GeneratedValue` 加上主键生成策略参数，修改为 `@GeneratedValue(strategy = GenerationType.IDENTITY)` 。strategy 生成策略的可选参数有：
+查看数据库，发现多了两张表: `hibernate_sequence` 和 `student`。**但是我们使用的 mysql 数据库，不需要sequence来做主键，只需要设置主键值自增就行了**。所以，我们把上面的 `Student` 类改一下，给 `id` 字段的 `@GeneratedValue` 加上主键生成策略参数，修改为 `@GeneratedValue(strategy = GenerationType.IDENTITY)` 。
+主键生成策略的可选项：
+
 |名称|说明|
 |:----:|:----:|
 |GenerationType.AUTO|(默认值)，主键由 jpa 自动生成|
@@ -190,8 +196,8 @@ Hibernate: create table student (id bigint not null, active bit, age integer, bi
 Hibernate: drop table if exists student
 Hibernate: create table student (id bigint not null auto_increment, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine=MyISAM
 ``````
-**请注意建表语句的最后面 “engine=MyISAM” **，发现使用的存储引擎是 `MyISAM` ，即 My Indexed Sequential Access Method，`MyISAM` 读取速度很快，不占用大量内存和存储资源，但不支持事务、外来键、索引，适用于有很多 count() 、查询频繁插入不频繁、没有事务的表。
-我们一般使用的存储引擎是 `InnoDB` ，如果想改成这种存储引擎，需要在项目配置文件 `application.properties` 中添加如下配置项：
+**请注意建表语句的最后面 “engine=MyISAM” **，发现使用的存储引擎是 `MyISAM` ，即 My Indexed Sequential Access Method，`MyISAM` 读取速度很快，不占用大量内存和存储资源，但不支持事务、外来键、索引，适用于有很多 count() 、查询频繁插入不频繁、不需要事务的表。
+我们一般需要事务，所以使用的存储引擎是 `InnoDB` ，如果想改成这种存储引擎，需要在项目配置文件 `application.properties` 中添加如下配置项：
 
 ``````properties
 # 不加这句则默认为 MyISAM 引擎
@@ -201,7 +207,9 @@ spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
 ``````sql
 create table student (id bigint not null auto_increment, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine=InnoDB
 ``````
-观察后发现：**name 字段的最大长度为 255 ，而实际上我们并不需要这么大的容量**，所以我们需要限制一下，在 `name` 字段的 `@Column` 注解中添加 length 参数，改为 `@Column(length = 20)` ，这样修改后，生成的表将限制最大长度为 20。此外 `@Column` 注解中还有其它参数：
+观察后发现：**name 字段的最大长度为 255 ，而实际上我们并不需要这么大的容量**，所以我们需要限制一下，在 `name` 字段的 `@Column` 注解中添加 length 参数，改为 `@Column(length = 20)` ，这样修改后，生成的表将限制最大长度为 20。
+`@Column` 注解参数说明：
+
 |名称|说明|默认值|
 |:----:|:----:|:----:|
 |name|(可选) 建表时使用的字段名|默认为实体类中的字段名|
@@ -219,30 +227,29 @@ create table student (id bigint not null auto_increment, active bit, age integer
 - 给 `@Entity` 注解加上 `name` 参数，改为 `@Entity(name = "tb_student")`。
 - 或添加 `@Table` 注解，并添加 `name` 参数：`@Table(name = "tb_student")`。
 
- `@Entity` 注解表明这个类是需要 orm 映射的，只有 `name` 一个参数，而 `@Table` 注解中可以修改一些映射的规则，可添加的参数有：
+ `@Entity` 注解表明这个类是需要 orm 映射的，只有 `name` 一个参数，而 `@Table` 注解中可以修改一些映射的规则。
+ `@Table` 注解参数：
 |名称|说明|默认值|
 |:----:|:----:|:----:|
 |name|(可选) 表名|当前类名|
 |catalog|(可选) 数据库名|配置中指定的数据库|
 |schema|(可选) 查询数据时使用的用户名|配置中指定的用户名|
-|uniqueConstraints|(可选) 创建单个或联合唯一约束|{}|
+|uniqueConstraints|(可选) 创建单个或联合唯一约束，可以在建表时添加索引|{}|
 例如：
 ``````java
 @Table(name = "tb_student",catalog = "test",schema = "testjpa",uniqueConstraints = {@UniqueConstraint(columnNames = {"name","age"})})
 // 将在 test 数据库中创建名为 tb_student 的表，查询时使用 testjpa 的用户查询，并给这张表添加 name 与 age 的唯一约束
 ``````
-建表时运行的 sql 如下：
+建表时运行的 sql 如下，在建表完成后，给表添加了约束条件：
 ``````sql
 drop table if exists test.tb_student;
-
 create table test.tb_student (id bigint not null auto_increment, active bit, age smallint COMMENT '学生年龄', birthday datetime, name varchar(20), primary key (id)) engine=InnoDB;
-
 alter table test.tb_student add constraint UKjryppi07bm3jtculd9mtfjtjf unique (name, age);
 ``````
 
 #### 创建 Repository
 ##### 方式一 继承 JpaRepository 接口 (推荐)
-创建包 `repository` ，创建接口 `StudentRepository` 继承 `JpaRepository<T,ID>` ，其中 `JpaRepository` 的接收的两个泛型约束，T 为 Entity 实体类，ID 为该实体类的主键类型。这个接口继承了很多基本的方法，可以直接使用。
+创建包 `repository` ，创建接口 `StudentRepository` 继承 `JpaRepository<T,ID>` ，其中 `JpaRepository` 需要指定两个泛型约束，T 为 Entity 实体类，ID 为该实体类的主键类型。这个接口包含了很多基本的增删改查方法，可以直接使用。
 ``````java
 package com.example.jpademo.repository;
 
@@ -646,7 +653,8 @@ public class TestUtil {
 以上创建的 demo 项目，已经可以自动建表，并具有基本的 CRUD 功能接口，并进行了单元测试。在实际项目中，查询需求多种多样，下面我们来看一下，在 spring data jpa 中可以怎么创建独特的查询方法。
 **在使用 spring data jpa 时，我们可以在 `Repository` 中定义一些方法，来实现一些查询功能。**
 如：我们要查询所有年龄大于 18 岁并且信息激活了的学生信息，只需要在 `StudentRepository` 中添加一个方法 `List<Student> findByAgeGreaterThanAndActiveTrue(int age);` ，不需要写任何实现类，就可以在 `StudentService` 中调用了。
-在 Spring Data 中，查询方法以 **find** 或 **read** 或 **get** 开头，后面跟字段名(字段名首字母大写)，再加上限制条件，类似的方法关键词还有下面表格中展示的：
+在 Spring Data 中，查询方法以 **find** 或 **read** 或 **get** 开头，后面跟字段名(字段名首字母大写)，再加上限制条件；
+JPA 自定义查询方法关键字：
 |关键词|方法示例|JPQL语句|备注|
 |:----:|:----:|:----:|:----:|
 |And|findByNameAndAge(String name,int age)| ..where x.name = ?1 and x.age = ?2|并且，注意条件名称与参数的位置与数量要一一对应|
@@ -692,8 +700,8 @@ List<Student> findByAgeGreaterThan(int age, Pageable pageable);
 
 - 接着处理剩下的部分（**PhoneNumber**），先判断整体 **phoneNumber** 是否是 **parent** 的属性，如果是则按 **Student.parent.phoneNumber** 进行查询；否则继续从右往左截取判断，最终表示根据 **Student.parent.phone.number** 的值进行查询；
 
-> 注意：可能会有一种特殊情况，如在 **Student** 中包含一个 **parent** 属性，也有一个 **parentPhone** 属性，此时就会存在混淆。可以在属性间加上 “_” 明确表达意图，如 `findByParent_PhoneNumber()` 或 `findByParentPhone_Number()` 。
-**强烈建议：无论是否存在混淆，都要在不同类层级之间加上 “_” ，增加代码可读性。**
+> 注意：可能会有一种特殊情况，如在 **Student** 中包含一个 **parent** 属性，也有一个 **parentPhone** 属性，此时就会存在混淆。可以在属性间加上下划线 “_” 明确表达意图，如 `findByParent_PhoneNumber()` 或 `findByParentPhone_Number()` 。
+**强烈建议：无论是否存在混淆，都要在不同类层级之间加上下划线 “_” 分隔，增加代码可读性。**
 
 
 #### 查询结果限制
@@ -796,7 +804,7 @@ where 子句条件关键字：
 UPDATE ... SET ... [WHERE ...]
 ``````
 
-**在使用时需要添加 @Modified 和 @Query 注解，在调用的 Service 方法上要添加 @Transaction 注解，否则会报错。**
+**温馨提示：在使用时需要添加 @Modified 和 @Query 注解，在调用的 Service 方法上要添加 @Transaction 注解，否则会报缺少事务控制的错。**
 示例：
 ``````java
     @Modifying
@@ -849,7 +857,7 @@ public class StudentVM {
     public StudentVM() {
     }
 
-	// 一定要有这个构造方法
+	// 一定要有这个构造方法，在查询方法中使用时须注意参数的位置
     public StudentVM(Long id, String name, Integer age, String classsName) {
         this.id = id;
         this.name = name;
@@ -963,7 +971,8 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 
 ### 原生查询
 #### 简单的原生查询
-使用原生的 sql 语句进行查询，在一些复杂的，或 JPQL 写不出来的情况下可以使用。需要添加 @Query 注解，在 value 参数中声明使用的 sql 语句，nativeQuery 参数设置为 true 。
+使用原生的 sql 语句进行查询，在一些复杂的，或 JPQL 无法实现的情况下可以使用。需要添加 @Query 注解，在 value 参数中声明使用的 sql 语句，nativeQuery 参数设置为 true 。
+原生查询时传参方式与 JPQL 一致。
 示例：
 ``````java
     @Query(value = "select s.* from tb_student s where s.active = 1 and s.age = :age",nativeQuery = true)
@@ -983,8 +992,33 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 ``````
 
 #### 联表的原生查询
-使用原生 sql 进行联表查询后，不能自动封装成对象，查询结果返回的类型是 Object，多个结果则返回 List<Object> 或 Page<Object> ，Object内部是一个 Object 数组，数组每个元素则是查询的字段值。
-下面是我写过最复杂的原生查询方法：
+使用原生 sql 进行联表查询后，不能自动封装成对象，查询结果返回的类型是 Object，多个结果则返回 List<Object> 或 Page<Object> ，其中的每一个 Object 实际是一个 Object 数组，数组每个元素则是查询的字段值，查询完成后需要自己转换成对象。
+举个例子，查询 Student 中的 id、name、age 与 Classes 中的 name ，查询方法如下：
+``````java
+    @Query(value = "SELECT s.id,s.name,s.age,c.name FROM tb_student s LEFT JOIN classes c ON s.classes_id = c.id",nativeQuery = true)
+    List<Object> findStudentInfo();
+``````
+在 Service 中调用查询方法，转成需要的对象：
+``````java
+    public List<StudentVM> findStudentInfo(){
+        List<Object> list = studentRepository.findStudentInfo();
+        return list.stream()
+			.map(o->{
+				StudentVM vm = new StudentVM();
+				// 将结果对象强转成对象数组
+				Object[] os = (Object[]) o;
+				// 对象数组里每个元素对应查询语句中的字段，将其取出封装到需要的对象中
+				// 注意：有些字段查出结果可能为空，最后是先进行判断
+				vm.setId((Long) os[0]);
+				vm.setName(os[1].toString());
+				vm.setAge((int) os[2]);
+				vm.setClasssName(os[3].toString());
+				return vm;
+			}).collect(Collectors.toList());
+    }
+``````
+
+分享一下，下面是我写过最复杂的原生查询方法：
 ``````java
     /**
      * 查询给定时间和id列表的设备上下线记录，包括上下线时间
@@ -1119,7 +1153,8 @@ public interface JpaSpecificationExecutor<T> {
 }
 ``````
 
-Specification 是一个接口，我们需要自己创建实现类，在下例中为了演示方便，直接创建的匿名类。如：
+Specification 是一个接口，我们需要自己创建实现类，在下例中为了演示方便，直接创建的匿名类。在这个接口中有 3 个参数，**Root<T>** 指定查询的实体类型，**CriteriaQuery<?>** 定义高级查询功能，**CriteriaBuilder** 用于创建标准查询、联合查询、表达式、条件、排序。
+示例：
 ``````java
 @Service
 @Transactional
@@ -1130,22 +1165,28 @@ public class StudentService {
             public Predicate toPredicate(Root<Student> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
                 List<Predicate> predicates = new ArrayList<>();
                 predicates.add(criteriaBuilder.like(root.get("name"),"%"+nameLike+"%"));
+                // 参数不为空时添加查询条件
                 if (startAge != null){
+                    // 大于
                     predicates.add(criteriaBuilder.greaterThan(root.get("age"),startAge));
                 }
                 if (endAge != null){
+                    // 小于
                     predicates.add(criteriaBuilder.le(root.get("age"), endAge));
                 }
                 if (startBirthday != null && endBirthday != null){
+                    // between
                     predicates.add(criteriaBuilder.between(root.get("birthday"), startBirthday, endBirthday));
                 }
                 return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
             }
         };
         
+        // 其他查询条件
         Specification<Student> spec2 = ((root, query, criteriaBuilder) -> {
             List<Predicate> predicates = new ArrayList<>();
             if (classId != null){
+                // 带关联关系的查询条件
                 predicates.add(criteriaBuilder.equal(root.get("classes").get("id"),classId));
             }
             return criteriaBuilder.and(predicates.toArray(new Predicate[predicates.size()]));
@@ -1225,4 +1266,4 @@ Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.Qu
 ``````
 
 ### 总结
-由于笔者能力有限，文章中若有错误与不足之处希望读者能够指出，相互交流学习。
+由于笔者能力有限，文章中若有错误与不足之处希望大佬们能够指出。
