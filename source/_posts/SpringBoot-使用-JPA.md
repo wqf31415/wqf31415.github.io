@@ -834,7 +834,8 @@ DELETE FROM ... [WHERE ...]
     List<Device> findDevicesByGivenCircuitId(@Param("circuitId") Long circuitId);
 ``````
 
-关联查询与部分字段映射投影
+#### 关联查询与部分字段映射投影
+当需要从多张表或一张字段很多的表中查询，但结果只需要一部分字段数据时，就需要用到投影了。
 第一种方法，使用 VM （View Module）
 查询两张表，取部分字段组成新的对象，如取 Student 的 id、name、age字段，取 Classes 的 name 字段，组成 StudentVM 对象，可以分页查询，需要创建 StudentVM 类，并创建包含所需字段的构造方法。
 查询方法：
@@ -883,7 +884,7 @@ public interface StudentProjection {
 
     Integer getAge();
 
-    // 当别名与 getXXX 名称不一致时，可以使用 @Value 注解调整，target 不能省略
+    // 当别名与 getXXX 名称不一致时，可以使用 @Value 注解调整，target 不能省略，className 是在查询语句中设定的别名
     @Value("#{target.className}")
     String getCname();
 }
