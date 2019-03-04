@@ -17,6 +17,8 @@ categories:
 - 数据库：MySQL 5.7
 - 工具：Navicat for MySQL 10.1.7
 
+<!-- more -->
+
 ### 数据库与表
 
 - 数据库：cma
