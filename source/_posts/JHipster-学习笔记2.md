@@ -32,6 +32,12 @@ categories:
 
 <!-- more -->
 
+### 依赖版本
+
+- java：1.8
+- JHipster : 3.12.2
+- gulp：3.9.1
+
 
 ### 用标准命令行接口创建实体
 
@@ -40,6 +46,8 @@ categories:
 ``````
 yo jhipster:entity [options] <name>
 ``````
+
+**请注意，这里使用的 JHipster 生成器版本为 3.12.2，更新的版本命令可能不同**
 
 需要帮助可以执行 `yo jhipster:entity --help` 指令，然后我们会看到指令的说明。
 这种方式适合实体数量少的情况，或者在开发过程中途添加实体。
@@ -165,7 +173,7 @@ Which validation rules do you want to add? (Press \<apace\> to select, \<a\> to 
 
 #### 处理冲突
 
-在回答完上述问题后，将在项目中创建实体，过程中会生成一些文件，有些文件已经存在，就会产生冲突，这时会提示我们是否选择覆盖原文件，根据需要输入 y 覆盖，n 不覆盖，a 全部覆盖。
+在回答完上述问题后，将开始在项目中创建实体，过程中会生成一些文件，有些文件已经存在，就会产生冲突，这时会提示我们是否选择覆盖原文件，根据需要输入 y 覆盖，n 不覆盖，a 覆盖全部冲突文件。
 
 处理完所有冲突后，创建实体完成，将自动执行 `gulp inject` 指令将生成的js文件注入到 index.html 中，至此，创建一个 Author 实体完成。
 
@@ -188,21 +196,16 @@ yo jhipster:import-jdl jhipster-jdl.jh
 
 然后就等待程序执行，创建实体就行了，偶尔会有冲突，让你选择是否覆盖原有的文件，根据需要选择输入y 覆盖，n 不覆盖。
 
-在实体创建完成后，会自动执行 `gulp inject` 将产生的静态资源注入到 index.html 中。
+在实体创建完成后，会自动执行 `gulp inject` 将产生的静态资源(javascript文件)注入到 index.html 中。
 
 完成后就可以启动项目，查看结果了。
 
 
-
-#### 使用 UML 批量创建实体
-
-这个我也没用过，先挖个坑，后面再填！
-
-
-### 注意事项：
 #### JDL语法：
+> 官方在线 JDL 工具: https://start.jhipster.tech/jdl-studio/
+3.12.2 JDL 文档: https://www.jhipster.tech/documentation-archive/v3.12.2/jdl/
 
-创建实体：
+- 添加实体
 ``````
 entity \<实体名\> {
 	参数名 类型 限制条件,
@@ -211,20 +214,138 @@ entity \<实体名\> {
 }
 ``````
 注意：
-	- 实体名用大驼峰方式命名，参数名用小驼峰命名，不能出现“-”，“-”等符号；
-	- 用jdl时不用添加ID字段，系统自动添加ID字段作为主键；
-	- 字段类型有：String，Integer，Long，BigDecimal，Float，Double，Enum，Boolean，LocalDate，ZonedDateTime，Blob，AnyBlob，ImageBlob，Textblob，Instant
-	- 限制条件有：required（必须，不能为空），对于字符串类型独有 minlength（最小长度），maxlength（最大长度），pattern（正则表达式限制），对于数值类型独有 min（最小值），max（最大值），对于Blob类型独有 minbytes（最小字节），maxbytes（最大字节）；
+​	- 实体名用大驼峰方式命名，参数名用小驼峰命名，不能出现“-”，“-”等符号；
+​	- 用 jdl 时也不用添加 id 字段，系统将自动添加一个 ID 字段作为主键；
+​	- 字段类型有：String，Integer，Long，BigDecimal，Float，Double，Enum，Boolean，LocalDate，ZonedDateTime，Blob，AnyBlob，ImageBlob，Textblob，Instant
+​	- 限制条件有：required（必须，不能为空），对于字符串类型独有 minlength（最小长度），maxlength（最大长度），pattern（正则表达式限制），对于数值类型独有 min（最小值），max（最大值），对于Blob类型独有 minbytes（最小字节），maxbytes（最大字节）；
 
-添加关系：
-多对一：
+-添加枚举
 ``````
-relationship ManyToOne {
-	实体A{字段b} to 实体B  /* ManyToOne 类型，会在实体A中创建一个字段，类型为实体B，作为外键关联到实体B表的id */
+// 语法格式，枚举值必须大写
+enum 枚举名 {
+枚举值,枚举值
+}
+// 例如
+enum Language {
+    FRENCH, ENGLISH, SPANISH
+  }
+// 使用枚举
+entity Book {
+    title String required,
+    description String,
+    language Language
+  }
+``````
+
+- 添加关系：
+关系类型：OneToMany 、 ManyToOne 、 OneToOne 、 ManyToMany
+``````
+// 语法
+relationship <type> {
+<from entity>[{<relationship name>}]
+to
+<to entity>[{<relationship name>}]
+}
+// 例如，一本书有一个作者，一个作者有多本书
+relationship OneToMany {
+  Author{book} to Book{writer(name)}
 }
 ``````
 
+- 分页
+添加分页查询功能，分页方式有： pager 、 pagination 、 infinite-scroll
+``````
+paginate A with pagination
+paginate B,C with pager
+paginate D with infinite-scroll
+// 全部分页
+paginate * with pagination
+// 排除部分实体分页
+paginate all with pagination except A,B,C,D
+``````
+
+- 给实体创建 Service 
+可选方式：serviceClass 、 serviceImpl
+``````
+service * with serviceClass
+// 或
+service ALL with serviceImpl
+``````
+
+- 使用 DTO 
+``````
+dto * with mapstruct
+``````
+
+- 其它选项
+	+ skipClient 不生成前端代码
+	+ skipServer 不生成后端代码
+	+ angularSuffix 给 Angular 路由名称添加前缀
+	+ specify 指定其他微服务中的实体名
+	+ search  指定其他微服务中的搜索项
+
+JDL 示例：
+``````
+/**
+* 林业局
+*/
+entity Bureau{
+    /**林业局名*/
+    name String required maxlength(60)
+    /**编码*/
+    code String maxlength(20),
+    /**地址*/
+    address String maxlength(255),
+    /**级别*/
+    level String maxlength(20),
+    /**备注*/
+    remark String maxlength(250),
+	createBy String maxlength(20),
+	createDate ZonedDateTime,
+	lastModifiedBy String maxlength(20),
+	lastModifiedDate ZonedDateTime,
+}
+
+/**林场*/
+entity Station{
+    /**林场名*/
+    name String required maxlength(60),
+    /**林场编号*/
+    code String maxlength(20),
+    /**地址*/
+    address String maxlength(255),
+    /**级别*/
+    level String maxlength(20),
+    /**备注*/
+    remark String,
+	createBy String maxlength(20),
+	createDate ZonedDateTime,
+	lastModifiedBy String maxlength(20),
+	lastModifiedDate ZonedDateTime,
+}
+
+relationship ManyToOne{
+	Station{bureau}  to Bureau
+}
+
+relationship ManyToOne{
+	PreventionTeam{parentUnit}  to Station
+}
+
+paginate * with pagination
+
+service * with serviceClass
+``````
+
+#### 使用 UML 批量创建实体
+
+这个我也没用过，先挖个坑，后面再填！
+
+## 修改实体
 
 
+## 注意事项：
+### JHipster版本不同，使用的生成命令可能不同
+在现在(20190304)使用的 JHipster 5.8.2 中，生成单个实体的命令为：`jhipster entity <entityName> --[options]`，使用 JDL 批量生成实体的命令变成了：`jhipster import-jdl your-jdl-file.jh`。
 
 
