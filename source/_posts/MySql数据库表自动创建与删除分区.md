@@ -17,6 +17,8 @@ categories:
 - 数据库：MySQL 5.7
 - 工具：Navicat for MySQL 10.1.7
 
+![](http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg)
+
 <!-- more -->
 
 ### 数据库与表
