@@ -45,7 +45,8 @@ Elasticsearch 的核心是 Lucene ，使用 Java 进行封装，隐藏了 Lucene
 #### 下载与安装
 - 安装 JAVA 环境并配置环境变量，比较简单，这里不做说明了。
 - 下载 ES 5.5.3，下载地址：[https://www.elastic.co/downloads/past-releases/elasticsearch-5-5-3](https://www.elastic.co/downloads/past-releases/elasticsearch-5-5-3)，我这里下载的是 ZIP 压缩包，解压即用。
-  > 下载其他版本：[https://www.elastic.co/downloads/past-releases](https://www.elastic.co/downloads/past-releases)
+  > 下载最新版本：[https://www.elastic.co/downloads/elasticsearch](https://www.elastic.co/downloads/elasticsearch)
+  > 下载其他历史版本：[https://www.elastic.co/downloads/past-releases](https://www.elastic.co/downloads/past-releases)
 - 解压文件，进入 bin 目录下，运行 `elasticsearch.bat` 即可运行 Elasticsearch。运行结果如下：
 ![](http://blog-images.qiniu.wqf31415.xyz/elasticsearch_1.png)
 
