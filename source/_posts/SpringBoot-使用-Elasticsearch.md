@@ -44,14 +44,220 @@ Elasticsearch 的核心是 Lucene ，使用 Java 进行封装，隐藏了 Lucene
 
 #### 下载与安装
 - 安装 JAVA 环境并配置环境变量，比较简单，这里不做说明了。
+
 - 下载 ES 5.5.3，下载地址：[https://www.elastic.co/downloads/past-releases/elasticsearch-5-5-3](https://www.elastic.co/downloads/past-releases/elasticsearch-5-5-3)，我这里下载的是 ZIP 压缩包，解压即用。
   > 下载最新版本：[https://www.elastic.co/downloads/elasticsearch](https://www.elastic.co/downloads/elasticsearch)
   > 下载其他历史版本：[https://www.elastic.co/downloads/past-releases](https://www.elastic.co/downloads/past-releases)
+
 - 解压文件，进入 bin 目录下，运行 `elasticsearch.bat` 即可运行 Elasticsearch。运行结果如下：
-![](http://blog-images.qiniu.wqf31415.xyz/elasticsearch_1.png)
+  ![](http://blog-images.qiniu.wqf31415.xyz/elasticsearch_1.png)
+
+- 如果无法运行，使用命令行运行 ``，提示以下信息
+
+  ``````
+  Error occurred during initialization of VM
+  Could not reserve enough space for 2097152KB object heap
+  ``````
+
+  说明 ES 运行时的 jvm 参数配置的内存太大了，这个版本中默认配置为 2G，我们可以修改 config 目录下的 `jvm.options` 文件，将其中的 `-Xms2g` 与 `-Xmx2g` 改小，比如分别改成  `-Xms512m` 与 `-Xmx512m` 。
+
+- 验证是否启动成功，打开浏览器，访问 [http://127.0.0.1:9200/](http://127.0.0.1:9200/) ，如果输出以下信息，说明启动成功。
+
+  ``````json
+  {
+    "name" : "YYrPVm5",
+    "cluster_name" : "elasticsearch",
+    "cluster_uuid" : "x3JuucJuRhuSh4oY9ybVug",
+    "version" : {
+      "number" : "5.5.3",
+      "build_hash" : "9305a5e",
+      "build_date" : "2017-09-07T15:56:59.599Z",
+      "build_snapshot" : false,
+      "lucene_version" : "6.6.0"
+    },
+    "tagline" : "You Know, for Search"
+  }
+  ``````
+
+  
 
 ### 在 SpringBoot 中使用 Elasticsearch
+#### 创建 SpringBoot 项目
+创建一个 SpringBoot 项目，SpringBoot 的版本使用 `2.0.4.RELEASE`，并添加依赖 `spring-boot-starter-web` 和 `spring-boot-starter-data-elasticsearch` 。项目 pom.xml 如下：
+``````xml
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>2.0.4.RELEASE</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>xyz.wqf</groupId>
+	<artifactId>esdemo</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>esdemo</name>
+	<description>Elasticsearch Demo project for Spring Boot</description>
 
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-elasticsearch</artifactId>
+		</dependency>
+		
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+</project>
+``````
+
+#### 添加配置
+修改 SpringBoot 配置文件，将 `application.properties` 改为 `application.yml`，并添加如下配置：
+``````yml
+spring:
+  data:
+    elasticsearch:
+      cluster-name: elasticsearch # Elasticsearch 集群名，需要与 ES 配置文件中指定的名字相同，未配置时默认值为 elasticsearch
+      cluster-nodes: 127.0.0.1:9300 # Elasticsearch 集群节点
+``````
+
+#### 创建实体
+在这个项目中，我们将数据全都存入 Elasticsearch 中，创建一个实体 User，在类上添加 `@Document` 注解，在主键字段上添加 `@Id` 注解，在其他字段上可以添加 `@Field` 注解来指定数据类型或日期格式等，也可以不加，使用默认的：
+``````java
+// indexName 为索引名称，必须指定，相当于数据库名；type 为类型，相当于表名；
+@Document(indexName = "esdemo",type = "user")
+public class User {
+    @Id
+    private String id;
+    private String name;
+    private String password;
+    private Integer age;
+    private String description;
+	// 为了节约篇幅，省略了 setter、getter、toString 方法
+}
+``````
+
+#### 创建 Repository
+使用过 springboot-data 的都知道数据仓库接口，在这里我们创建一个 UserSearchRepository 接口，继承 `ElasticsearchCrudRepository<T, ID>` ，接口中需指定两个泛型为 实体类型 与 实体的 Id 字段类型。
+``````java
+// 命名成 UserSearchRepository，是为了跟其他存储方式的 Repository 区分
+public interface UserSearchRepository extends ElasticsearchCrudRepository<User, String> {
+}
+``````
+通过继承 ElasticsearchCrudRepository 接口，我们可以直接使用其父类中提供的现用查询方法，如 save、saveAll、findById、findAll等，可以进行分页查询。
+
+#### 创建 Service
+使用创建的 Repository 对数据进行增删改查。
+``````java
+@Service
+public class UserService {
+
+    private final Logger logger = LoggerFactory.getLogger(UserService.class);
+
+    @Autowired
+    private UserSearchRepository userSearchRepository;
+
+    public User save(User user){
+        logger.info("save user");
+        return userSearchRepository.save(user);
+    }
+
+    public void delete(String id){
+        logger.info("delete user");
+        userSearchRepository.deleteById(id);
+    }
+
+    public User findOne(String id){
+        logger.info("find user by id: {}",id);
+        return userSearchRepository.findById(id).get();
+    }
+
+    public Page<User> findAll(Pageable pageable){
+        logger.info("find user page");
+        return userSearchRepository.findAll(pageable);
+    }
+}
+``````
+
+#### 创建 Controller
+创建 RestController，提供接口操作数据。
+``````java
+@RestController
+@RequestMapping("/api")
+public class UserResource {
+
+    private final Logger logger = LoggerFactory.getLogger(UserResource.class);
+
+    @Autowired
+    private UserService userService;
+
+    @PostMapping(value = "/users")
+    public ResponseEntity<User> save(@RequestBody User user){
+        logger.info("request to save user");
+        user = userService.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @PutMapping("/users")
+    public ResponseEntity<User> update(@RequestBody User user){
+        logger.info("request to update user");
+        user = userService.save(user);
+        return ResponseEntity.ok(user);
+    }
+
+    @DeleteMapping("/users/{id}")
+    public ResponseEntity<Void> delete(@PathVariable String id){
+        logger.info("request to delete user by id: ",id);
+        userService.delete(id);
+        return new ResponseEntity<Void>(HttpStatus.OK);
+    }
+
+    @GetMapping("/users/{id}")
+    public ResponseEntity<User> findOne(@PathVariable String id){
+        logger.info("requrest to find user by id: {}",id);
+        User user = userService.findOne(id);
+        return ResponseEntity.ok(user);
+    }
+
+    @GetMapping("/users")
+    public ResponseEntity<List<User>> findAll(Pageable pageable){
+        logger.info("request to find all user");
+        Page<User> page = userService.findAll(pageable);
+        return ResponseEntity.ok(page.getContent());
+    }
+}
+``````
+
+#### 测试接口
+使用 postman 工具对项目提供的 API 接口进行测试。
+![](http://blog-images.qiniu.wqf31415.xyz/elasticsearch_2.png)
+
+### 注意事项
+#### ES 客户端版本与服务器版本要一致使用
+使用 `spring-boot-starter-data-elasticsearch` 时，要注意 SpringBoot 的版本中使用的 Elasticsearch client 的版本，在 springboot 2.x中， 2.0.8.RELEASE 以下使用的是 5.x 的 client，相应的 Elasticsearch 也要使用 5.x 的版本，否则项目启动时连接 ES 时会报错。在 SpringBoot 2.10.RELEASE 及以上的版本中，使用的 6.x 的客户端，需要使用 6.x 的 Elasticsearch。
 
 ### 参考资料：
 + Elasticsearch 官方文档: [https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
