@@ -162,13 +162,13 @@ public class User {
 ``````
 
 #### 创建 Repository
-使用过 springboot-data 的都知道数据仓库接口，在这里我们创建一个 UserSearchRepository 接口，继承 `ElasticsearchCrudRepository<T, ID>` ，接口中需指定两个泛型为 实体类型 与 实体的 Id 字段类型。
+使用过 springboot-data 的都知道数据仓库接口，在这里我们创建一个 UserSearchRepository 接口，继承 `ElasticsearchRepository<T, ID>` ，接口中需指定两个泛型为 实体类型 与 实体的 Id 字段类型。
 ``````java
 // 命名成 UserSearchRepository，是为了跟其他存储方式的 Repository 区分
-public interface UserSearchRepository extends ElasticsearchCrudRepository<User, String> {
+public interface UserSearchRepository extends ElasticsearchRepository<User, String> {
 }
 ``````
-通过继承 ElasticsearchCrudRepository 接口，我们可以直接使用其父类中提供的现用查询方法，如 save、saveAll、findById、findAll等，可以进行分页查询。
+通过继承 ElasticsearchRepository 接口，我们可以直接使用其父类中提供的现用查询方法，如 save、saveAll、findById、findAll等，也可以使用提供的 search 方法对数据进行检索，可以进行分页查询。
 
 #### 创建 Service
 使用创建的 Repository 对数据进行增删改查。
