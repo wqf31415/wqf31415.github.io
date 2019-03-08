@@ -465,8 +465,19 @@ DO
 - 被分区的表中不能有外键，否则无法分区，分区时 mysql 会报 **1506** 错误。
 
 ### MySQL 中其它分区方式
-在上面的示例中，我们按字段值的范围(RANGE)进行分区，除此之外，MySQL 中还提供了其它的分区方式：
+在上面的示例中，我们按字段值的范围(RANGE)进行分区，在 MySQL 中还提供的分区方式：
+- 范围分区(RANGE): 按连续的区间范围把数据分到不同分区中，要求分区范围不能重叠，而且必须连续。
+- 列表分区(LIST): 按枚举出的值进行分区，如按地理位置不同将数据分到不同区，东北、华北、华南...。
+- 散列分区(HASH): 基于给定的分区数，通过用户定义的计算后，将数据分到不同分区。这个函数可以包含MySQL 中有效的、产生非负整数值的任何表达式。
+- 键分区(KEY): 类似 HASH 分区，区别在于 KEY 分区只支持一列或多列，且MySQL服务器提供其自身的哈希函数。必须有一列或多列包含整数值。
+- 线性散列分区(LINEAR_HASH): 与常规哈希的区别在于，线性哈希功能使用的一个线性的2的幂（powers-of-two）运算法则，而常规哈希使用的是求哈希函数值的模数
+- 线性键(LINEAR_KEY): 与常规 KEY 的区别也是使用的一个线性的2的幂（powers-of-two）运算法则。
 
+
+### 参考资料
+- 数据库分区及分区优点: [https://blog.csdn.net/liukun321/article/details/45823795](https://blog.csdn.net/liukun321/article/details/45823795)
+- Automatic Partition Maintenance in MySQL and MariaDB: Part 3: [http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/](http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/)
+- MySQL表的四种分区类型: [https://www.cnblogs.com/mliudong/p/3625522.html](https://www.cnblogs.com/mliudong/p/3625522.html)
 
 ### 总结
 最后，由于作者水平有限，文章中内容如有疏漏或错误之处，还请各位读者不吝指出！
