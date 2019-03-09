@@ -247,6 +247,9 @@ create table test.tb_student (id bigint not null auto_increment, active bit, age
 alter table test.tb_student add constraint UKjryppi07bm3jtculd9mtfjtjf unique (name, age);
 ``````
 
+#### 自动插入初始数据
+当配置项 `spring.jpa.hibernate.ddl-auto` 的值为 `create` 或 `create-drop` 时，项目启动建表完成后，会扫描 classpath 下(默认为resource目录)的 `import.sql` 文件，如果有就会执行这个脚本，我们可以在这里面添加插入数据的 sql，初始化数据库中的数据。
+
 #### 创建 Repository
 ##### 方式一 继承 JpaRepository 接口 (推荐)
 创建包 `repository` ，创建接口 `StudentRepository` 继承 `JpaRepository<T,ID>` ，其中 `JpaRepository` 需要指定两个泛型约束，T 为 Entity 实体类，ID 为该实体类的主键类型。这个接口包含了很多基本的增删改查方法，可以直接使用。
@@ -1198,6 +1201,53 @@ public class StudentService {
 }
 ``````
 
+### 多数据源
+#### 相同数据库
+##### 配置多数据源
+修改配置文件
+``````properties
+
+``````
+
+添加数据源配置类
+
+##### 将不同数据域的实体类放到不同包下
+
+#####  
+
+#### 不同数据库
+如在我的项目中要使用到关系型数据库 MySql 和全文检索 Elasticsearch（简称ES） ，可以在存入 MySql 中的实体类上添加 `@Entity` 注解，在需要存入 ES 的实体上添加 `@Document` 注解，如果两边都要存，可以同时添加两个注解。
+``````java
+// 存入 MySql 的数据实体
+@Entity
+public class User{
+	// ...
+}
+
+// 存入 ES 的数据实体
+@Document
+public class Book{
+	// ...
+}
+
+// 两个数据库都要存入的数据
+@Entity
+@Document
+public class Author{
+	// ...
+}
+``````
+
+创建对应的 Repository
+``````java
+// 存入 MySql 的数据实体仓库
+interface UserRepository extends JpaRepository<User,Long>{
+}
+
+// 存入 ES 的数据实体仓库
+public interface BookSearchRepository extends ElasticsearchRepository<Book, String> {
+}
+``````
 
 ### JPA 的缺点
 - 联表查询不方便，两个没有关联的表做 join 操作比较繁琐。
@@ -1265,6 +1315,9 @@ Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.Qu
     @Query("DELETE FROM tb_student s WHERE s.name = ?1")
     void deleteStudentByName(String name);
 ``````
+
+### 参考资料
+- springboot(十三)：springboot小技巧: [http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html](http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html)
 
 ### 总结
 由于笔者能力有限，文章中若有错误与不足之处希望大佬们能够指出。
