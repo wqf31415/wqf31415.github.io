@@ -11,7 +11,7 @@ categories:
 
 ### 什么是 springboot 的 banner？
 
-当 SpringBoot 项目最初运行起来时，在控制台看到的类似下面的信息，就是 SpringBoot 的 banner。
+当 SpringBoot 项目最初运行起来时，在控制台看到的类似下面的信息，就是 SpringBoot 的 banner。可以把项目中的 banner 换成自己公司的 LOGO，增强员工对公司的认同感。
 
 ``````
   .   ____          _            __ _ _
@@ -58,7 +58,8 @@ SpringBoot 默认寻找banner的顺序是：
 
 在 **resources ** 目录下创建文件 `banner.txt` ，将想要展示的文字内容写到这个文件中即可。
 
-> 当然，按理说使用图片文件也可以，但我还没找到能在控制台正常显示的图片，╮(￣▽￣")╭
+> 在使用 SpringBoot 1.5.8 测试时，发现在控制台中打印出来的都是乱码，╮(￣▽￣")╭
+测试发现使用 2.x 的 SpringBoot 可以打出来，使用 GIF 动图 `banner.gif` 时，会把动图的每个画面打印出来，如果同时还存在 `banner.txt`，会在最后打出文本中的内容。
 
 ![](http://blog-images.qiniu.wqf31415.xyz/spring-boot-banner.txt.png)
 
