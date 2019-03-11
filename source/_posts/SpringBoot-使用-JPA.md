@@ -1204,16 +1204,199 @@ public class StudentService {
 ### 多数据源
 #### 相同数据库
 ##### 配置多数据源
-修改配置文件
+修改配置文件，添加多个数据源的配置信息。
 ``````properties
+server.port=8989
+spring.application.name=JpaDemo
 
+# 主数据源
+spring.datasource.primary.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.primary.jdbc-url=jdbc:mysql://172.16.19.233:3306/testjpa?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+spring.datasource.primary.username=root
+spring.datasource.primary.password=123456
+
+# 第二数据源
+spring.datasource.secondary.driver-class-name=com.mysql.jdbc.Driver
+spring.datasource.secondary.jdbc-url=jdbc:mysql://172.16.19.229:3306/u_testjpa?useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=GMT%2B8
+spring.datasource.secondary.username=root
+spring.datasource.secondary.password=root
+
+# 自动建表
+spring.jpa.hibernate.ddl-auto=create
+# 打印 sql 语句
+spring.jpa.show-sql=true
+#不加这句则默认为 MyISAM 引擎，加上之后使用 InnoDB 引擎
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
+
+spring.data.elasticsearch.cluster-name=my-application
+spring.data.elasticsearch.cluster-nodes=127.0.0.1:9300
 ``````
 
 添加数据源配置类
+``````java
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 
-##### 将不同数据域的实体类放到不同包下
+import javax.sql.DataSource;
 
-#####  
+@Configuration
+public class DataSourceConfig {
+    @Primary
+    @Bean("primaryDataSource")
+    @Qualifier("primaryDataSource")
+    @ConfigurationProperties("spring.datasource.primary")
+    public DataSource primaryDataSource(){
+        return DataSourceBuilder.create().build();
+    }
+
+
+    @Bean("secondaryDataSource")
+    @Qualifier("secondaryDataSource")
+    @ConfigurationProperties("spring.datasource.secondary")
+    public DataSource secondaryDataSource(){
+        return DataSourceBuilder.create().build();
+    }
+}
+``````
+
+不同数据源的 JPA 属性配置
+> entityManagerFactoryRef -》 配置的连接工厂
+transactionManagerRef -》 事务管理器
+basePackages -》 扫描 Repository 的包
+
+主数据源: 
+``````java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManager;
+import javax.sql.DataSource;
+import java.util.Map;
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactoryPrimary",
+	transactionManagerRef = "transactionManagerPrimary",
+	basePackages = {"com.example.jpademo.repository"})
+public class PrimaryConfig {
+    @Autowired
+    @Qualifier("primaryDataSource")
+    private DataSource primaryDataSource;
+
+    @Autowired
+    private JpaProperties jpaProperties;
+
+    @Primary
+    @Bean(name = "entityManagerPrimary")
+    public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
+        return entityManagerFactoryPrimary(builder).getObject().createEntityManager();
+    }
+
+    @Primary
+    @Bean(name = "entityManagerFactoryPrimary")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactoryPrimary (EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(primaryDataSource)
+                .properties(getVendorProperties(primaryDataSource))
+                .packages("com.example.jpademo.domain") //设置实体类所在位置
+                .persistenceUnit("primaryPersistenceUnit")
+                .build();
+    }
+
+    private Map getVendorProperties(DataSource dataSource) {
+        HibernateSettings hibernateSettings = new HibernateSettings();
+        return jpaProperties.getHibernateProperties(hibernateSettings);
+    }
+
+    @Primary
+    @Bean(name = "transactionManagerPrimary")
+    public PlatformTransactionManager transactionManagerPrimary(EntityManagerFactoryBuilder builder) {
+        return new JpaTransactionManager(entityManagerFactoryPrimary(builder).getObject());
+    }
+}
+``````
+
+第二数据源:
+``````java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.boot.autoconfigure.orm.jpa.HibernateSettings;
+import org.springframework.boot.autoconfigure.orm.jpa.JpaProperties;
+import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.orm.jpa.JpaTransactionManager;
+import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+
+import javax.persistence.EntityManager;
+import javax.sql.DataSource;
+import java.util.Map;
+
+@Configuration
+@EnableTransactionManagement
+@EnableJpaRepositories(entityManagerFactoryRef = "entityManagerFactorySecondary",
+    transactionManagerRef = "transactionManagerSecondary",
+    basePackages = {"com.example.jpademo.repository2"})
+public class SecondaryConfig {
+    @Autowired
+    @Qualifier("secondaryDataSource")
+    private DataSource secondaryDataSource;
+
+    @Autowired
+    private JpaProperties jpaProperties;
+
+    @Bean(name = "entityManagerSecondary")
+    public EntityManager entityManager(EntityManagerFactoryBuilder builder) {
+        return entityManagerFactorySecondary(builder).getObject().createEntityManager();
+    }
+
+
+    @Bean(name = "entityManagerFactorySecondary")
+    public LocalContainerEntityManagerFactoryBean entityManagerFactorySecondary (EntityManagerFactoryBuilder builder) {
+        return builder
+                .dataSource(secondaryDataSource)
+                .properties(getVendorProperties(secondaryDataSource))
+                .packages("com.example.jpademo.domain2") //设置实体类所在位置
+                .persistenceUnit("secondaryPersistenceUnit")
+                .build();
+    }
+
+    private Map getVendorProperties(DataSource dataSource) {
+        HibernateSettings hibernateSettings = new HibernateSettings();
+        return jpaProperties.getHibernateProperties(hibernateSettings);
+    }
+
+    @Bean(name = "transactionManagerSecondary")
+    public PlatformTransactionManager transactionManagerPrimary(EntityManagerFactoryBuilder builder) {
+        return new JpaTransactionManager(entityManagerFactorySecondary(builder).getObject());
+    }
+}
+``````
+
+
+##### 将不同数据域的实体类、Repository 放到不同包下
+如上面配置类中配置的，分别将不同数据实体类放到 `com.example.jpademo.domain` 和 `com.example.jpademo.domain2` 包中，将对应的 Repository 分别放到 `com.example.jpademo.repository` 和 `com.example.jpademo.repository2` 包中。
+
+##### 编写服务类与接口进行测试
+剩下的 Service 类和 Controller 跟正常的没有差别了，这里不再赘述。
 
 #### 不同数据库
 如在我的项目中要使用到关系型数据库 MySql 和全文检索 Elasticsearch（简称ES） ，可以在存入 MySql 中的实体类上添加 `@Entity` 注解，在需要存入 ES 的实体上添加 `@Document` 注解，如果两边都要存，可以同时添加两个注解。
@@ -1318,6 +1501,8 @@ Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.Qu
 
 ### 参考资料
 - springboot(十三)：springboot小技巧: [http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html](http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html)
+- SpringBoot 2.x 整合 jpa实现多数据源: [https://blog.csdn.net/qq_26440803/article/details/83316743](https://blog.csdn.net/qq_26440803/article/details/83316743)
 
-### 总结
+### 其它
+DEMO：https://git.dev.tencent.com/wqf31415/springboot-jpa-demo.git
 由于笔者能力有限，文章中若有错误与不足之处希望大佬们能够指出。
