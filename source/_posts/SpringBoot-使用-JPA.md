@@ -1437,10 +1437,14 @@ public interface BookSearchRepository extends ElasticsearchRepository<Book, Stri
 - 框架定制重，不便优化 sql 查询，不如 mybatis 自由度高。
 
 ### 注意事项
-- 在概念上要理解 JPA 是一套标准，不是具体实现。
+#### JPA 是一套标准
+在概念上要理解 JPA 是一套标准，而不是具体实现。
 
-- 使用 spring-data-jpa 2.x 版本时，报错：
-`Loading class `com.mysql.jdbc.Driver'. This is deprecated. The new driver class is `com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.`
+#### 驱动错误 
+使用 spring-data-jpa 2.x 版本时，报错：
+``````
+Loading class 'com.mysql.jdbc.Driver'. This is deprecated. The new driver class is 'com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
+``````
 原因是： `com.mysql.jdbc.Driver` 已经弃用了，现在使用 `com.mysql.cj.jdbc.Driver` ，是通过 SPI 自动注册的，不需要手动加载驱动类。
 修改方法：
 ``````properties
@@ -1448,35 +1452,39 @@ public interface BookSearchRepository extends ElasticsearchRepository<Book, Stri
 com.mysql.jdbc.Driver=com.mysql.cj.jdbc.Driver
 ``````
 
-- 使用 spring-data-jpa 2.x 版本时，报错：
-`java.sql.SQLException: The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized or represents more than one time` 
+#### 时区错误
+使用 spring-data-jpa 2.x 版本时，报错：
+``````
+java.sql.SQLException: The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized or represents more than one time
+`````` 
 原因是：检测到数据库使用的时区不对，mysql默认的是美国的时区，而我们中国大陆要比他们迟8小时，采用+8:00格式。
 修改方法：
-1. 修改数据库时区配置；
-``````sql
+- 修改数据库时区配置；
+  ``````sql
 -- 方法一
 -- 以 root 用户登录 mysql 数据库，运行以下命令
 set global time_zone='+8:00';
 -- 查看是否修改成功： 
 -- show variables like '%time_zone%';
-``````
+  ``````
 或者修改 mysql 配置文件：
-``````ini
+  ``````ini
 # 配置文件位置：C:\Program Files\MySQL\MySQL Server 5.7\my.ini
 # 修改 [mysqld] 下的 default-time-zone 配置为 '+08:00'
 [mysqld]
 default-time-zone='+08:00'
-``````
+  ``````
 
-2. 修改配置文件中的url，添加时区参数；
-``````properties
+- 修改配置文件中的url，添加时区参数；
+  ``````properties
 # 方法二
 # 在 url 中添加当前系统时区参数
 # GMT%2B8 代表： 东八区(GMT+8)
 spring.datasource.url=jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
-``````
+  ``````
 
-- 在 Repository 查询方法中使用 JPQL 时，项目启动报错
+#### 实体匹配错误
+在 Repository 查询方法中使用 JPQL 时，项目启动报错
 查询方法为：
 ``````java
     @Modifying
@@ -1506,3 +1514,4 @@ Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.Qu
 ### 其它
 DEMO：https://git.dev.tencent.com/wqf31415/springboot-jpa-demo.git
 由于笔者能力有限，文章中若有错误与不足之处希望大佬们能够指出。
+
