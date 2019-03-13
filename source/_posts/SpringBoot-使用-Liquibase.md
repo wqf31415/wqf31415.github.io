@@ -56,7 +56,7 @@ Liquibase 是用于数据库重构、管理、记录变化与回滚的开源工�
 liquibase 支持多种格式的日志文件，包括 XML、YML、JSON、SQL，官方推荐使用 xml，个人喜欢更加简洁的 yml 格式。在 liquibase 根目录下创建文件夹 `chanagelog` ，用来存储修改日志文件。从官网拷贝示例，存储到 `chanagelog` 目录下，文件名为 `master.yml` ，文件内容如下：
 > 注意直接从官方文档中考出来的，要修改 databaseChangeLog.preConditions.runningAs.username ，改为自己数据库的用户名，我使用的是 root 。
 
-``````yml
+  ``````yml
 databaseChangeLog:
   - preConditions:
     - runningAs:
@@ -109,13 +109,17 @@ databaseChangeLog:
             newTableName: state
             newColumnName: id
             newColumnDataType: char(2)
-`````` 
+
+   
+``````
 
 ##### 运行命令
 在数据库中新建数据库 `test_liquibase`，在 liquibase 根目录打开命令行，执行命令
+
 ``````
 liquibase.bat --url="jdbc:mysql://localhost:3306/test_liquibase?useUnicode=true&characterEncoding=utf8&serverTimezone=GMT%2B8" --changeLogFile="/chanagelog/master.yml" --username=root --password=123456 --driver=com.mysql.cj.jdbc.Driver update 
 ``````
+
 > liquibase 命令中必须的必须选项有：
   --url=数据库连接，其中 serverTimezone=GMT%2B8 参数用来指定时区，在使用高版本 jdbc 时需要，不指定可能会报时区错误
   --chanagelog=数据库修改日志文件
