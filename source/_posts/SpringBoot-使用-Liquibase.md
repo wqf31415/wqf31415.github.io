@@ -487,8 +487,8 @@ createTable 标签属性(基于 Liqubase-3.6)
     </changeSet>
 ``````
 
-####### 列(column)
-在创建表或给表添加列时，需要添加 column 标签，用来指定列的属性。
+###### 列(column)
+在创建表或给表添加列时，需要在 createTable 标签内添加 column 标签，用来指定列的属性。
 column 标签常用属性
 
 |属性名|值类型|默认值|注释|
@@ -499,7 +499,7 @@ column 标签常用属性
 |autoIncrement|Boolean||自增|
 |remarks|String||注释|
 
-####### 约束(constraints)
+###### 约束(constraints)
 在 column 标签中可以给字段添加约束，如可否为空、主键、唯一等约束条件。
 constraints 标签常用属性
 
