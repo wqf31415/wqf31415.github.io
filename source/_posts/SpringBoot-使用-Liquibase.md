@@ -424,6 +424,7 @@ changelog 文件 xml 根目录为 databaseChangeLog，可以使用 include 标�
 ##### 修改集(changeSet)
 变化集，一个变化集中可以有多个修改，每个变化集都需要指定 id 和修改人(author)，要求 id + author + filepath 必须唯一，id另外还可以指定上下文(context)、数据库系统(dbms)等信息。
 Liquibase changeSet 常用属性(基于 liquibase-3.6)
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |id|String||(必需)修改集编号|
@@ -437,6 +438,7 @@ Liquibase changeSet 常用属性(基于 liquibase-3.6)
 |failOnError|Boolean|true|如果为 false ，在执行修改时出现错误，liquibase 不会停止，会继续执行其他修改|
 |runInTransaction|Boolean|true|是否在执行时使用数据库事务管理|
 |onValidationFail|枚举，可选值：HALT、MARK_RAN|HALT|验证失败后的处理方式，停止运行或记录运行状态|
+
 示例：
 ``````xml
 <databaseChangeLog
@@ -455,6 +457,7 @@ Liquibase changeSet 常用属性(基于 liquibase-3.6)
 ###### 创建表(createTable)
 用于创建新的数据库表，写在 changeSet 标签内。
 createTable 标签属性(基于 Liqubase-3.6)
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |tableName|String||(必需)表名|
@@ -462,6 +465,7 @@ createTable 标签属性(基于 Liqubase-3.6)
 |schemaName|String||数据库名|
 |tablespace|String||表空间|
 |remarks|String||注释|
+
 示例：
 ``````xml
     <changeSet id="20190314135820" author="wqf31415" context="dev" dbms="mysql"
@@ -486,6 +490,7 @@ createTable 标签属性(基于 Liqubase-3.6)
 ####### 列(column)
 在创建表或给表添加列时，需要添加 column 标签，用来指定列的属性。
 column 标签常用属性
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |name|String||字段名|
@@ -497,6 +502,7 @@ column 标签常用属性
 ####### 约束(constraints)
 在 column 标签中可以给字段添加约束，如可否为空、主键、唯一等约束条件。
 constraints 标签常用属性
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |nullable|Boolean|true|可否为空|
@@ -507,11 +513,13 @@ constraints 标签常用属性
 
 ##### 添加字段(addColumn)
 给已经创建的表添加字段，写在 changeSet 标签内，此标签内用 column 标签定义要添加的字段属性。
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |tableName|String||(必需)表名|
 |catalogName|String||目录名|
 |schemaName|String||数据库名|
+
 示例：
 ``````xml
     <changeSet id="20190314154000" author="wqf" context="dev">
@@ -526,12 +534,15 @@ constraints 标签常用属性
 
 ##### 删除字段(dropColumn)
 dropColumn 标签用于删除已存在表中的字段，写在 changeSet 标签内，注意这个标签内部不能有内容，否则会报错。
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |tableName|String||(必需)表名|
 |name|String||要删除的列名|
 |catalogName|String||目录名|
 |schemaName|String||数据库名|
+
+示例：
 ``````xml
 	<changeSet id="20190314181622" author="wqf" context="dev">
         <comment>删除字段 name</comment>
@@ -541,12 +552,15 @@ dropColumn 标签用于删除已存在表中的字段，写在 changeSet 标签�
 
 ##### 插入数据(insert)
 insert 标签用于在表中插入数据，写在 changeSet 标签内，需要指定表名等属性，在标签内使用 column 标签指定数据值。
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |tableName|String||(必需)表名|
 |dbms|String||数据库类型，只有在指定的这种数据库下才会执行|
 |catalogName|String||目录名|
 |schemaName|String||数据库名|
+
+示例：
 ``````xml
     <changeSet id="20190314183320" author="wqf">
         <comment>插入数据</comment>
@@ -560,6 +574,7 @@ insert 标签用于在表中插入数据，写在 changeSet 标签内，需要�
 
 ##### 加载批量数据(loadData)
 在 changeSet 中添加 loadData 标签，用来加载数据。
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |tableName|String||(必需)表名|
@@ -569,6 +584,8 @@ insert 标签用于在表中插入数据，写在 changeSet 标签内，需要�
 |quotchar|String|&quot;|引号|
 |catalogName|String||目录名|
 |schemaName|String||数据库名|
+
+示例：
 ``````xml
 	 <changeSet id="20190314183320" author="wqf">
         <loadData tableName="user" file="classpath:liquibase/initdata/user.csv" separator=";" encoding="UTF-8" 
@@ -578,6 +595,7 @@ insert 标签用于在表中插入数据，写在 changeSet 标签内，需要�
 
 ##### 修改列表(renameColumn)
 在 changeSet 中添加 renameColumn 标签用于修改列名。
+
 |属性名|值类型|默认值|注释|
 |:----:|:----:|:----:|:----|
 |tableName|String||(必需)表名|
@@ -587,6 +605,8 @@ insert 标签用于在表中插入数据，写在 changeSet 标签内，需要�
 |remarks|String||注释|
 |catalogName|String||目录名|
 |schemaName|String||数据库名|
+
+示例：
 ``````xml
     <changeSet id="20190314184833" author="wqf">
         <comment>修改字段名</comment>
