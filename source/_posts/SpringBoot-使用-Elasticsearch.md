@@ -262,6 +262,27 @@ public class UserResource {
 #### ES 客户端版本与服务器版本要一致使用
 使用 `spring-boot-starter-data-elasticsearch` 时，要注意 SpringBoot 的版本中使用的 Elasticsearch client 的版本，在 springboot 2.x中， 2.0.8.RELEASE 以下使用的是 5.x 的 client，相应的 Elasticsearch 也要使用 5.x 的版本，否则项目启动时连接 ES 时会报错。在 SpringBoot 2.10.RELEASE 及以上的版本中，使用的 6.x 的客户端，需要使用 6.x 的 Elasticsearch。
 
+#### Windows 中使用 Elasticsearch 6.x 时，报错
+
+``````
+此时不应有 \Java\jdk1.8.0_111\bin\java.exe" -cp "!ES_CLASSPATH!" "org.elasticsearch.tools.launchers.
+TempDirectory""`。
+``````
+
+原因是我本地安装的 jdk 路径中有空格，最初安装时使用的是默认路径 `C:\Program Files (x86)` 下，重装 java 时选择了没有空格的安装路径，问题就解决了。推测安装路径中有中文可能也会导致错误。
+
+#### Windows 中运行 Elasticsearch 6.x 时，报错
+
+``````
+[2019-03-15T17:04:46,057][WARN ][o.e.b.ElasticsearchUncaughtExceptionHandler] [D2DxNPS] uncaught exception in thread [main]
+org.elasticsearch.bootstrap.StartupException: ElasticsearchException[X-Pack is not supported and Machine Learning is not available for [windows-x86]; you can use the other X-Pack features (unsupported) by setting xpack.ml.enabled: false in elasticsearch.yml]
+``````
+
+按提示中说的，修改配置文件 `config/elasticsearch.yml` ，添加如下配置项即可解决问题：
+``````yml
+xpack.ml.enabled: false
+``````
+
 ### 参考资料：
 + Elasticsearch 官方文档: [https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
 + Elasticsearch学习，请先看这一篇: [https://blog.csdn.net/makang110/article/details/80596017#](https://blog.csdn.net/makang110/article/details/80596017#)
