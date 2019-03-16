@@ -3,9 +3,11 @@ title: SpringBoot 使用 JPA
 date: 2018-11-23 14:27:32
 tags:
 - java
+- spring
 - SpringBoot
 - jpa
 - 数据库
+- database
 categories:
 - 技术
 ---

@@ -2,9 +2,12 @@
 title: SpringBoot 使用 Liquibase
 date: 2019-03-12 16:33:42
 tags:
+- java
+- spring
 - springboot
 - liquibase
 - database
+- 数据库
 categories:
 - 技术
 ---

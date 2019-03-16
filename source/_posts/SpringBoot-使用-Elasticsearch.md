@@ -3,7 +3,9 @@ title: SpringBoot 使用 Elasticsearch
 date: 2019-03-05 10:18:05
 tags:
 - java
+- spring
 - springboot
+- nosql
 - elasticsearch
 categories:
 - 技术

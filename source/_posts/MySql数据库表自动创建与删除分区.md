@@ -3,6 +3,7 @@ title: MySql数据库表自动创建与删除分区
 date: 2019-02-14 14:31:18
 tags:
 - mysql
+- database
 - 数据库
 categories:
 - 技术
