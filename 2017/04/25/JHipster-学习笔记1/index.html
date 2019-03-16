@@ -68,7 +68,7 @@
 
 
 
-  <meta name="keywords" content="JHipster,java,web," />
+  <meta name="keywords" content="java,JHipster,web," />
 
 
 
@@ -80,7 +80,7 @@
 
 
 <meta name="description" content="JHipster 是什么？ 摘要：初次接触 JHipster ，认识它是什么，并创建一个 demo 项目来体验一下。  JHipster 是什么？能吃吗？下定义 根据官方自己的描述：JHipster就是一个用来创建 Spring Boot - Angular 项目的 Yeoman 代码生成器。  简单的说 JHipster就是一个代码生成器 ，帮我们自动生成一个 java web 项目源码，后台使">
-<meta name="keywords" content="JHipster,java,web">
+<meta name="keywords" content="java,JHipster,web">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JHipster 学习笔记1">
 <meta property="og:url" content="http://blog.wqf31415.xyz/2017/04/25/JHipster-学习笔记1/index.html">
@@ -89,7 +89,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/jhipster_index_error.png">
-<meta property="og:updated_time" content="2018-10-29T04:26:24.748Z">
+<meta property="og:updated_time" content="2019-03-04T07:09:14.718Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JHipster 学习笔记1">
 <meta name="twitter:description" content="JHipster 是什么？ 摘要：初次接触 JHipster ，认识它是什么，并创建一个 demo 项目来体验一下。  JHipster 是什么？能吃吗？下定义 根据官方自己的描述：JHipster就是一个用来创建 Spring Boot - Angular 项目的 Yeoman 代码生成器。  简单的说 JHipster就是一个代码生成器 ，帮我们自动生成一个 java web 项目源码，后台使">
@@ -396,10 +396,10 @@
 <p>服务器端组件：<strong>Spring Boot</strong> 、 <strong>Spring Security</strong> 、 <strong>Netflix OSS</strong> 、 <strong>Consul</strong> 、 <strong>Gradle</strong> 、 <strong>Maven</strong> 、 <strong>Hibernate</strong> 、 <strong>Liquibase</strong> 、 <strong>MySQL</strong> 、 <strong>PostgreSQL</strong> 、 <strong>Oracle</strong> 、 <strong>MongeDB</strong> 、 <strong>Cassandra</strong> 、 <strong>EhCache</strong> 、 <strong>Hazelcast</strong> 、 <strong>ElasticSearch</strong> 、 <strong>Kafka</strong> 、 <strong>Swagger</strong> 、 <strong>ELK Stack</strong> 、 <strong>Prometheus</strong> 、 <strong>Thymeleaf</strong> 、 <strong>Gatling</strong> 、 <strong>Cucumber</strong></p>
 <p>部署组件：<strong>Docker</strong> 、 <strong>Kubernates</strong> 、 <strong>Heroku</strong> 、 <strong>CloudFoundry</strong> 、 <strong>AWS</strong> 、 <strong>Rancher</strong></p>
 <hr>
-<h3 id="为什么会出现-JHipster？"><a href="#为什么会出现-JHipster？" class="headerlink" title="为什么会出现 JHipster？"></a>为什么会出现 JHipster？</h3><h4 id="解决什么问题？"><a href="#解决什么问题？" class="headerlink" title="解决什么问题？"></a>解决什么问题？</h4><p>一键搭建 web 应用，简化了很多重复的工作环节，自动创建实体相关的增删改查，自动补全相关配置，开发者只需关注业务逻辑的实现即可。</p>
-<h4 id="没有-JHipster-前怎么做？"><a href="#没有-JHipster-前怎么做？" class="headerlink" title="没有 JHipster 前怎么做？"></a>没有 JHipster 前怎么做？</h4><p>打开 IDE 创建 java web 项目，慢慢创建实体，创建数据库表，增删改查的方法都要自己一点一点的写，手动添加配置信息。</p>
+<h3 id="为什么会出现-JHipster？"><a href="#为什么会出现-JHipster？" class="headerlink" title="为什么会出现 JHipster？"></a>为什么会出现 JHipster？</h3><h4 id="解决什么问题？"><a href="#解决什么问题？" class="headerlink" title="解决什么问题？"></a>解决什么问题？</h4><p>一键搭建 web 应用，简化了很多重复的工作环节，自动创建实体与相关的增删改查的Repository、Service、Controller等方法，自动补全相关配置，开发者只需关注业务逻辑的实现即可，JHipster 帮助我们简化了工作。</p>
+<h4 id="没有-JHipster-前怎么做？"><a href="#没有-JHipster-前怎么做？" class="headerlink" title="没有 JHipster 前怎么做？"></a>没有 JHipster 前怎么做？</h4><p>打开 IDE 创建 java web 项目，一个一个创建实体，创建数据库表，增删改查的方法都要自己一点一点的写，手动添加配置信息，很多重复的工作。</p>
 <hr>
-<h3 id="干一波？"><a href="#干一波？" class="headerlink" title="干一波？"></a>干一波？</h3><h4 id="预备，安装需要的组件"><a href="#预备，安装需要的组件" class="headerlink" title="预备，安装需要的组件"></a>预备，安装需要的组件</h4><h5 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h5><p>JHipster 是一个创建 java-web 项目的工具，所以说最基本的就是 java 开发环境。</p>
+<h3 id="干一波？"><a href="#干一波？" class="headerlink" title="干一波？"></a>干一波？</h3><h4 id="预备，安装需要的组件"><a href="#预备，安装需要的组件" class="headerlink" title="预备，安装需要的组件"></a>预备，安装需要的组件</h4><h5 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h5><p>JHipster 是一个创建 java-web 项目的工具，所以说最基本的就是 java 开发环境，安装 jdk1.8 。</p>
 <h5 id="Maven-或-Gradle-（可选）"><a href="#Maven-或-Gradle-（可选）" class="headerlink" title="Maven 或 Gradle （可选）"></a>Maven 或 Gradle （可选）</h5><p>为了创建 java 后台框架，我们用 Maven 或 Gradle 来管理所有的依赖资源。</p>
 <h5 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h5><p>在创建项目过程中需要通过 Git 下载资源。</p>
 <h5 id="NodeJS"><a href="#NodeJS" class="headerlink" title="NodeJS"></a>NodeJS</h5><p>需要用到 npm 来下载前端需要的组件资源。<br>从官网下载并安装 Node.js ，蒋自动安装 npm 包管理器。</p>
@@ -546,9 +546,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/JHipster/" rel="tag"># JHipster</a>
-          
             <a href="/tags/java/" rel="tag"># java</a>
+          
+            <a href="/tags/JHipster/" rel="tag"># JHipster</a>
           
             <a href="/tags/web/" rel="tag"># web</a>
           
@@ -661,7 +661,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -683,7 +683,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -758,7 +758,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>

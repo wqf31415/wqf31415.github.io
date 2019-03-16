@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="zh-Hans,en,default">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.3" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png?v=5.1.3">
+
+
+  <link rel="mask-icon" href="/uploads/favicon.png?v=5.1.3" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="mysql,database,数据库," />
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="简述数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。 环境 数据库：MySQL 5.7 工具：Navicat for MySQL 10.1.7">
+<meta name="keywords" content="mysql,database,数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySql数据库表自动创建与删除分区">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2019/02/14/MySql数据库表自动创建与删除分区/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="简述数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。 环境 数据库：MySQL 5.7 工具：Navicat for MySQL 10.1.7">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/modify_primary_key_by_navicat.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_2.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_3.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/partition_file.png">
+<meta property="og:updated_time" content="2019-03-16T02:27:45.084Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MySql数据库表自动创建与删除分区">
+<meta name="twitter:description" content="简述数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。 环境 数据库：MySQL 5.7 工具：Navicat for MySQL 10.1.7">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.3',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://blog.wqf31415.xyz/2019/02/14/MySql数据库表自动创建与删除分区/"/>
+
+
+
+
+
+  <title>MySql数据库表自动创建与删除分区 | This_Wei</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">This_Wei</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Come on!</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-commonweal">
+          <a href="/404/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br />
+            
+            公益404
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-weather">
+          <a href="/weather/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-snowflake-o"></i> <br />
+            
+            weather
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2019/02/14/MySql数据库表自动创建与删除分区/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">MySql数据库表自动创建与删除分区</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-14T14:31:18+08:00">
+                2019-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
+<li>数据库：MySQL 5.7</li>
+<li>工具：Navicat for MySQL 10.1.7</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg" alt=""></p>
+<a id="more"></a>
+<h3 id="数据库与表"><a href="#数据库与表" class="headerlink" title="数据库与表"></a>数据库与表</h3><ul>
+<li><p>数据库：cma</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">DATABASE</span> cma；</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>表：meteorology_sensor</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> meteorology_sensor (<span class="keyword">id</span> <span class="built_in">bigint</span> <span class="keyword">COMMENT</span> <span class="string">'主键，自动生成'</span> <span class="keyword">not</span> <span class="literal">null</span> auto_increment, collected_time <span class="keyword">timestamp</span> <span class="keyword">COMMENT</span> <span class="string">'数据采集时间'</span>, component_id <span class="built_in">char</span>(<span class="number">17</span>) <span class="keyword">COMMENT</span> <span class="string">'被监测设备ID'</span>, device_code <span class="built_in">char</span>(<span class="number">17</span>) <span class="keyword">COMMENT</span> <span class="string">'设备编号'</span> <span class="keyword">not</span> <span class="literal">null</span>, device_id <span class="built_in">bigint</span> <span class="keyword">COMMENT</span> <span class="string">'设备Id'</span>, protocol_version <span class="built_in">char</span>(<span class="number">5</span>) <span class="keyword">COMMENT</span> <span class="string">'数据上传时使用的版本号,值为：v2010、v2015'</span>, send_state tinyint(<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'推送CAG状态，1 成功，0 未推送，-1 推送失败'</span>, air_pressure <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'气压，浮点数，精确到小数点后1位，单位：hPa'</span>, air_temperature <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'气温，浮点数，精确到小数点后1位，单位：℃'</span>, alarm_flag <span class="built_in">smallint</span> <span class="keyword">COMMENT</span> <span class="string">'报警标识，新协议没有这个字段'</span>, average_wind_direction10min <span class="built_in">smallint</span> <span class="keyword">COMMENT</span> <span class="string">'10分钟平均风向，无符号整数，单位：°'</span>, average_wind_speed10min <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'十分钟平均风速，浮点数，精确到小数点后1位，单位：m/s'</span>, extreme_wind_speed <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'极大风速，浮点数，精确到小数点后1位，单位：m/s'</span>, humidity <span class="built_in">smallint</span> <span class="keyword">COMMENT</span> <span class="string">'湿度，无符号整数，单位：%RH'</span>, max_wind_speed <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'最大大风速，浮点数，精确到小数点后1位，单位：m/s'</span>, precipitation <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'降雨量，浮点数，精确到小数点后1位，单位：mm'</span>, precipitation_intensity <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'降水强度，浮点数，精确到小数点后1位，单位：mm/min'</span>, radiation_intensity <span class="built_in">smallint</span> <span class="keyword">COMMENT</span> <span class="string">'光辐射强度，无符号整数，单位：W/m2'</span>, second_time_stamp <span class="keyword">Timestamp</span> <span class="keyword">COMMENT</span> <span class="string">'报文中的时间戳'</span>, standard_wind_speed <span class="built_in">decimal</span>(<span class="number">10</span>,<span class="number">1</span>) <span class="keyword">COMMENT</span> <span class="string">'标准风速，浮点数，精确到小数点后1位，单位：m/s'</span>, primary <span class="keyword">key</span> (<span class="keyword">id</span>)) <span class="keyword">ENGINE</span>=<span class="keyword">InnoDB</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="数据库表分区"><a href="#数据库表分区" class="headerlink" title="数据库表分区"></a>数据库表分区</h3><h4 id="添加主键"><a href="#添加主键" class="headerlink" title="添加主键"></a>添加主键</h4><blockquote>
+<p><strong>注意：分区字段必须是主键。</strong> 在这里，我们需要使用表中的时间字段(collected_time)进行分区，所以需要将其添加为主键，与原有主键(id)组成联合主键。</p>
+</blockquote>
+<p>使用 Navicat 打开数据库，对表结构进行修改，将 collected_time 设置为主键。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/modify_primary_key_by_navicat.png" alt="" title="使用 Navicat 修改数据库表主键"></p>
+<p>或执行 SQL 语句修改表结构：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> <span class="string">`meteorology_sensor`</span> <span class="keyword">DROP</span> PRIMARY <span class="keyword">KEY</span> ,<span class="keyword">ADD</span> PRIMARY <span class="keyword">KEY</span> ( <span class="string">`id`</span>,<span class="string">`collected_time`</span>);</span><br></pre></td></tr></table></figure>
+<h4 id="初始分区"><a href="#初始分区" class="headerlink" title="初始分区"></a>初始分区</h4><p>按时间范围分区，每年按季度分区，每3个月为一个分区。</p>
+<blockquote>
+<p>注意：最后要建一个 less than (maxvalue) 的分区(p_future)，将超过设定分区时间的数据都放到这个分区里。</p>
+</blockquote>
+<ul>
+<li><p>使用 Navicat 进行分区</p>
+<ol>
+<li>设计表 -&gt; 选项 -&gt; 分割区</li>
+</ol>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_1.png" alt="" title="Navicat 分区1"></p>
+<ol>
+<li>添加分区( less than )</li>
+</ol>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_2.png" alt="" title="Navicat 分区2"></p>
+<ol>
+<li>添加最后一个分区( less than maxvalue)</li>
+</ol>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_3.png" alt="" title="Navicat 分区3"></p>
+<ol>
+<li>确定分区后，点击确定回到设计表界面，点击 “保存” 完成分区。</li>
+</ol>
+</li>
+<li><p>使用 SQL 语句进行分区</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> cma.meteorology_sensor <span class="keyword">PARTITION</span> <span class="keyword">by</span> <span class="keyword">RANGE</span> (<span class="keyword">UNIX_TIMESTAMP</span>(collected_time))</span><br><span class="line">(</span><br><span class="line"><span class="keyword">PARTITION</span> p201803 <span class="keyword">VALUES</span> <span class="keyword">less</span> <span class="keyword">than</span> (<span class="keyword">UNIX_TIMESTAMP</span>(<span class="string">'2018-04-01'</span>)),</span><br><span class="line"><span class="keyword">PARTITION</span> p201806 <span class="keyword">VALUES</span> <span class="keyword">less</span> <span class="keyword">than</span> (<span class="keyword">UNIX_TIMESTAMP</span>(<span class="string">'2018-07-01'</span>)),</span><br><span class="line"><span class="keyword">PARTITION</span> p201809 <span class="keyword">VALUES</span> <span class="keyword">less</span> <span class="keyword">than</span> (<span class="keyword">UNIX_TIMESTAMP</span>(<span class="string">'2018-10-01'</span>)),</span><br><span class="line"><span class="keyword">PARTITION</span> p201812 <span class="keyword">VALUES</span> <span class="keyword">less</span> <span class="keyword">than</span> (<span class="keyword">UNIX_TIMESTAMP</span>(<span class="string">'2019-01-01'</span>)),</span><br><span class="line"><span class="keyword">PARTITION</span> p201903 <span class="keyword">VALUES</span> <span class="keyword">less</span> <span class="keyword">than</span> (<span class="keyword">UNIX_TIMESTAMP</span>(<span class="string">'2019-04-01'</span>)),</span><br><span class="line"><span class="keyword">PARTITION</span> p_future <span class="keyword">VALUES</span> <span class="keyword">LESS</span> <span class="keyword">THAN</span> (MAXVALUE)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ul>
+<li>查看分区文件<br>进入 MySQL 的数据存储目录下，查看数据库的文件，发现出现了如下的分区文件：<br><img src="http://blog-images.qiniu.wqf31415.xyz/partition_file.png" alt="" title="分区文件"></li>
+</ul>
+<h4 id="创建新分区的存储过程"><a href="#创建新分区的存储过程" class="headerlink" title="创建新分区的存储过程"></a>创建新分区的存储过程</h4>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> cma.create_new_partitions;</span><br><span class="line"></span><br><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> cma.create_new_partitions(p_schema <span class="built_in">varchar</span>(<span class="number">64</span>), p_table <span class="built_in">varchar</span>(<span class="number">64</span>), p_months_to_add <span class="built_in">int</span>)</span><br><span class="line"><span class="comment">-- 参数：</span></span><br><span class="line"><span class="comment">-- p_schema: 数据库名</span></span><br><span class="line"><span class="comment">-- p_table: 表名</span></span><br><span class="line"><span class="comment">-- p_months_to_add: 要多添加的月数</span></span><br><span class="line">   <span class="keyword">LANGUAGE</span> <span class="keyword">SQL</span></span><br><span class="line">   <span class="keyword">NOT</span> <span class="keyword">DETERMINISTIC</span></span><br><span class="line">   <span class="keyword">SQL</span> <span class="keyword">SECURITY</span> INVOKER</span><br><span class="line">   <span class="keyword">comment</span> <span class="string">'给指定数据库(p_schema)的指定数据表(p_table)创建分区，分区数为当前月加上随后(p_months_to_add)个月的'</span></span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">   <span class="keyword">DECLARE</span> done <span class="built_in">INT</span> <span class="keyword">DEFAULT</span> <span class="literal">FALSE</span>;</span><br><span class="line">   <span class="keyword">DECLARE</span> current_partition_name <span class="built_in">varchar</span>(<span class="number">64</span>);</span><br><span class="line">   <span class="keyword">DECLARE</span> current_partition_ts <span class="built_in">int</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- We'll use this cursor later to check</span></span><br><span class="line">   <span class="comment">-- whether a particular already exists.</span></span><br><span class="line">   <span class="comment">-- @partition_name_to_add will be</span></span><br><span class="line">   <span class="comment">-- set later.</span></span><br><span class="line">   <span class="keyword">DECLARE</span> cur1 <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> </span><br><span class="line">   <span class="keyword">SELECT</span> partition_name </span><br><span class="line">   <span class="keyword">FROM</span> information_schema.partitions </span><br><span class="line">   <span class="keyword">WHERE</span> TABLE_SCHEMA = p_schema </span><br><span class="line">   <span class="keyword">AND</span> TABLE_NAME = p_table </span><br><span class="line">   <span class="keyword">AND</span> PARTITION_NAME != <span class="string">'p_first'</span></span><br><span class="line">   <span class="keyword">AND</span> PARTITION_NAME != <span class="string">'p_future'</span></span><br><span class="line">   <span class="keyword">AND</span> PARTITION_NAME = @partition_name_to_add;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- We'll also use this cursor later </span></span><br><span class="line">   <span class="comment">-- to query our temporary table.</span></span><br><span class="line">   <span class="keyword">DECLARE</span> cur2 <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> </span><br><span class="line">   <span class="keyword">SELECT</span> partition_name, partition_range_ts </span><br><span class="line">   <span class="keyword">FROM</span> partitions_to_add;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">DECLARE</span> CONTINUE <span class="keyword">HANDLER</span> <span class="keyword">FOR</span> <span class="keyword">NOT</span> <span class="keyword">FOUND</span> <span class="keyword">SET</span> done = <span class="literal">TRUE</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">DROP</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> partitions_to_add;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">CREATE</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> partitions_to_add (</span><br><span class="line">      partition_name <span class="built_in">varchar</span>(<span class="number">64</span>),</span><br><span class="line">      partition_range_ts <span class="built_in">int</span></span><br><span class="line">   );</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">SET</span> @partitions_added = <span class="literal">FALSE</span>;</span><br><span class="line">   <span class="keyword">SET</span> @months_ahead = <span class="number">0</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- Let's go through a loop and add each month individually between</span></span><br><span class="line">   <span class="comment">-- the current month and the month p_months_to_add in the future.</span></span><br><span class="line">   WHILE @months_ahead &lt;= p_months_to_add DO</span><br><span class="line">      <span class="comment">-- We figure out what the correct month is by adding the</span></span><br><span class="line">      <span class="comment">-- number of months to the current date</span></span><br><span class="line">      <span class="keyword">SET</span> @<span class="built_in">date</span> = <span class="keyword">CURDATE</span>();</span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT DATE_ADD(?, INTERVAL ? MONTH) INTO @month_to_add'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st <span class="keyword">USING</span> @<span class="built_in">date</span>, @months_ahead;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">      <span class="keyword">SET</span> @months_ahead = @months_ahead + <span class="number">1</span>;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">-- Then we format the month in the same format used</span></span><br><span class="line">      <span class="comment">-- in our partition names.</span></span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT DATE_FORMAT(@month_to_add, ''%Y%m'') INTO @formatted_month_to_add'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">-- And then we use the formatted date to build the name of the</span></span><br><span class="line">      <span class="comment">-- partition that we want to add. This partition name is</span></span><br><span class="line">      <span class="comment">-- assigned to @partition_name_to_add, which is used in</span></span><br><span class="line">      <span class="comment">-- the cursor declared at the start of the procedure.</span></span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT CONCAT(''p'', @formatted_month_to_add) INTO @partition_name_to_add'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">     </span><br><span class="line">      <span class="keyword">SET</span> done = <span class="literal">FALSE</span>; </span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">first</span> = <span class="literal">TRUE</span>;</span><br><span class="line">     </span><br><span class="line">      <span class="comment">-- And then we loop through the results returned by the cursor,</span></span><br><span class="line">      <span class="comment">-- and if a row already exists for the current partition, </span></span><br><span class="line">      <span class="comment">-- then we do not need to create the partition.</span></span><br><span class="line">      OPEN cur1;</span><br><span class="line"></span><br><span class="line">      read_loop: LOOP</span><br><span class="line">         FETCH cur1 INTO current_partition_name;</span><br><span class="line">      </span><br><span class="line">         <span class="comment">-- The cursor returned 0 rows, so we can create the partition.</span></span><br><span class="line">         IF done AND @first THEN</span><br><span class="line">            <span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(<span class="string">'Creating partition: '</span>, @partition_name_to_add);</span><br><span class="line"></span><br><span class="line">            <span class="comment">-- Now we need to get the end date of the new partition.</span></span><br><span class="line">            <span class="comment">-- Note that the date is for the non-inclusive end range,</span></span><br><span class="line">            <span class="comment">-- so we actually need the date of the first day of the *next* month.</span></span><br><span class="line"></span><br><span class="line">            <span class="comment">-- First, let's get a date variable for the first of the partition month</span></span><br><span class="line">            <span class="keyword">SET</span> @q = <span class="string">'SELECT DATE_FORMAT(@month_to_add, ''%Y-%m-01 00:00:00'') INTO @month_to_add'</span>;</span><br><span class="line">            <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">            <span class="keyword">EXECUTE</span> st;</span><br><span class="line">            <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st; </span><br><span class="line"></span><br><span class="line">            <span class="comment">-- Then, let's add 1 month</span></span><br><span class="line">            <span class="keyword">SET</span> @q = <span class="string">'SELECT DATE_ADD(?, INTERVAL 1 MONTH) INTO @partition_end_date'</span>;</span><br><span class="line">            <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">            <span class="keyword">EXECUTE</span> st <span class="keyword">USING</span> @month_to_add;</span><br><span class="line">            <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line"></span><br><span class="line">            <span class="comment">-- We need the date in UNIX timestamp format.  </span></span><br><span class="line">            <span class="keyword">SELECT</span> <span class="keyword">UNIX_TIMESTAMP</span>(@partition_end_date) <span class="keyword">INTO</span> @partition_end_ts;</span><br><span class="line">         </span><br><span class="line">            <span class="comment">-- Now insert the information into our temporary table</span></span><br><span class="line">            <span class="keyword">INSERT</span> <span class="keyword">INTO</span> partitions_to_add <span class="keyword">VALUES</span> (@partition_name_to_add, @partition_end_ts);</span><br><span class="line">            <span class="keyword">SET</span> @partitions_added = <span class="literal">TRUE</span>;</span><br><span class="line">         <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">        </span><br><span class="line">         <span class="comment">-- Since we had at least one row returned, we know the</span></span><br><span class="line">         <span class="comment">-- partition already exists.</span></span><br><span class="line">         IF ! @first THEN</span><br><span class="line">            LEAVE read_loop;</span><br><span class="line">         <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">        </span><br><span class="line">         <span class="keyword">SET</span> @<span class="keyword">first</span> = <span class="literal">FALSE</span>;</span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">LOOP</span>;</span><br><span class="line">     </span><br><span class="line">     CLOSE cur1;</span><br><span class="line">   <span class="keyword">END</span> <span class="keyword">WHILE</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- Let's actually add the partitions now.</span></span><br><span class="line">   IF @partitions_added THEN</span><br><span class="line">      <span class="comment">-- First we need to build the actual ALTER TABLE query.</span></span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">schema</span> = p_schema;</span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">table</span> = p_table;</span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT CONCAT(''ALTER TABLE '', @schema, ''.'', @table, '' REORGANIZE PARTITION p_future INTO ( '') INTO @query'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">     </span><br><span class="line">      <span class="keyword">SET</span> done = <span class="literal">FALSE</span>;</span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">first</span> = <span class="literal">TRUE</span>;</span><br><span class="line">     </span><br><span class="line">      OPEN cur2;</span><br><span class="line"></span><br><span class="line">      read_loop: LOOP</span><br><span class="line">         FETCH cur2 INTO current_partition_name, current_partition_ts;</span><br><span class="line">       </span><br><span class="line">        IF done THEN</span><br><span class="line">            LEAVE read_loop;</span><br><span class="line">         <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">      </span><br><span class="line">         <span class="comment">-- If it is not the first partition, </span></span><br><span class="line">         <span class="comment">-- then we need to add a comma</span></span><br><span class="line">         IF ! @first THEN</span><br><span class="line">            <span class="keyword">SET</span> @q = <span class="string">'SELECT CONCAT(@query, '', '') INTO @query'</span>;</span><br><span class="line">            <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">            <span class="keyword">EXECUTE</span> st;</span><br><span class="line">            <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">         <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line"></span><br><span class="line">         <span class="comment">-- Add the current partition</span></span><br><span class="line">         <span class="keyword">SET</span> @partition_name =  current_partition_name;</span><br><span class="line">         <span class="keyword">SET</span> @partition_ts =  current_partition_ts;         </span><br><span class="line">         <span class="keyword">SET</span> @q = <span class="string">'SELECT CONCAT(@query, ''PARTITION '', @partition_name, '' VALUES LESS THAN ('', @partition_ts, '')'') INTO @query'</span>;</span><br><span class="line">         <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">         <span class="keyword">EXECUTE</span> st;</span><br><span class="line">         <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">       </span><br><span class="line">         <span class="keyword">SET</span> @<span class="keyword">first</span> = <span class="literal">FALSE</span>;</span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">LOOP</span>;</span><br><span class="line">     </span><br><span class="line">      CLOSE cur2;</span><br><span class="line">     </span><br><span class="line">      <span class="comment">-- We also need to include the p_future partition</span></span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT CONCAT(@query, '', PARTITION p_future VALUES LESS THAN (MAXVALUE))'') INTO @query'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">     </span><br><span class="line">      <span class="comment">-- And then we prepare and execute the ALTER TABLE query.</span></span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @<span class="keyword">query</span>;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;  </span><br><span class="line">   <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">DROP</span> <span class="keyword">TEMPORARY</span> <span class="keyword">TABLE</span> partitions_to_add;</span><br><span class="line"><span class="keyword">END</span>$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<h4 id="创建删除分区存储过程"><a href="#创建删除分区存储过程" class="headerlink" title="创建删除分区存储过程"></a>创建删除分区存储过程</h4>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br></pre></td><td class="code"><pre><span class="line">  <span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> cma.drop_old_partitions;</span><br><span class="line"></span><br><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> cma.drop_old_partitions(p_schema <span class="built_in">varchar</span>(<span class="number">64</span>), p_table <span class="built_in">varchar</span>(<span class="number">64</span>), p_months_to_keep <span class="built_in">int</span>, p_seconds_to_sleep <span class="built_in">int</span>)</span><br><span class="line"><span class="comment">-- 参数：</span></span><br><span class="line"><span class="comment">-- p_schema: 数据库名</span></span><br><span class="line"><span class="comment">-- p_table: 数据库表名</span></span><br><span class="line"><span class="comment">-- p_months_to_keep: 保留的分区数</span></span><br><span class="line"><span class="comment">-- p_seconds_to_sleep: 删除分区时等待时间，单位：秒</span></span><br><span class="line">   <span class="keyword">LANGUAGE</span> <span class="keyword">SQL</span></span><br><span class="line">   <span class="keyword">NOT</span> <span class="keyword">DETERMINISTIC</span></span><br><span class="line">   <span class="keyword">SQL</span> <span class="keyword">SECURITY</span> INVOKER</span><br><span class="line">   <span class="keyword">comment</span> <span class="string">'删除指定数据库(p_schema)的指定数据表(p_table)的老分区，保留的分区数为(p_months_to_keep) +1 个，每次删除分区时会等待(p_seconds_to_sleep)秒'</span></span><br><span class="line"><span class="keyword">BEGIN</span>  </span><br><span class="line">   <span class="keyword">DECLARE</span> done <span class="built_in">INT</span> <span class="keyword">DEFAULT</span> <span class="literal">FALSE</span>;</span><br><span class="line">   <span class="keyword">DECLARE</span> current_partition_name <span class="built_in">varchar</span>(<span class="number">64</span>);</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- We'll use this cursor later to get</span></span><br><span class="line">   <span class="comment">-- the list of partitions to drop.</span></span><br><span class="line">   <span class="comment">-- @last_partition_name_to_keep will be</span></span><br><span class="line">   <span class="comment">-- set later.</span></span><br><span class="line">   <span class="keyword">DECLARE</span> cur1 <span class="keyword">CURSOR</span> <span class="keyword">FOR</span> </span><br><span class="line">   <span class="keyword">SELECT</span> partition_name </span><br><span class="line">   <span class="keyword">FROM</span> information_schema.partitions </span><br><span class="line">   <span class="keyword">WHERE</span> TABLE_SCHEMA = p_schema </span><br><span class="line">   <span class="keyword">AND</span> TABLE_NAME = p_table </span><br><span class="line">   <span class="keyword">AND</span> PARTITION_NAME != <span class="string">'p_first'</span></span><br><span class="line">   <span class="keyword">AND</span> PARTITION_NAME != <span class="string">'p_future'</span></span><br><span class="line">   <span class="keyword">AND</span> PARTITION_NAME &lt; @last_partition_name_to_keep;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">DECLARE</span> CONTINUE <span class="keyword">HANDLER</span> <span class="keyword">FOR</span> <span class="keyword">NOT</span> <span class="keyword">FOUND</span> <span class="keyword">SET</span> done = <span class="literal">TRUE</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- Now we get the last month of data that we want to keep</span></span><br><span class="line">   <span class="comment">-- by subtracting p_months_to_keep from the current date.</span></span><br><span class="line">   <span class="comment">-- Note that it will actually keep p_months_to_keep+1 partitions,</span></span><br><span class="line">   <span class="comment">-- since the current month is not complete.</span></span><br><span class="line">   <span class="keyword">SET</span> @<span class="built_in">date</span> = <span class="keyword">CURDATE</span>();</span><br><span class="line">   <span class="keyword">SET</span> @months_to_keep = p_months_to_keep;   </span><br><span class="line">   <span class="keyword">SET</span> @q = <span class="string">'SELECT DATE_SUB(?, INTERVAL ? MONTH) INTO @last_month_to_keep'</span>;</span><br><span class="line">   <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">   <span class="keyword">EXECUTE</span> st <span class="keyword">USING</span> @<span class="built_in">date</span>, @months_to_keep;</span><br><span class="line">   <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- Then we format the last month in the same format used</span></span><br><span class="line">   <span class="comment">-- in our partition names.</span></span><br><span class="line">   <span class="keyword">SET</span> @q = <span class="string">'SELECT DATE_FORMAT(@last_month_to_keep, ''%Y%m'') INTO @formatted_last_month_to_keep'</span>;</span><br><span class="line">   <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">   <span class="keyword">EXECUTE</span> st;</span><br><span class="line">   <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- And then we use the formatted date to build the name of the</span></span><br><span class="line">   <span class="comment">-- last partition that we want to keep. This partition name is</span></span><br><span class="line">   <span class="comment">-- assigned to @last_partition_name_to_keep, which is used in</span></span><br><span class="line">   <span class="comment">-- the cursor declared at the start of the procedure.</span></span><br><span class="line">   <span class="keyword">SET</span> @q = <span class="string">'SELECT CONCAT(''p'', @formatted_last_month_to_keep) INTO @last_partition_name_to_keep'</span>;</span><br><span class="line">   <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">   <span class="keyword">EXECUTE</span> st;</span><br><span class="line">   <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(<span class="string">'Dropping all partitions before: '</span>, @last_partition_name_to_keep);</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">SET</span> @<span class="keyword">first</span> = <span class="literal">TRUE</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- And then we loop through all partitions returned by the cursor,</span></span><br><span class="line">   <span class="comment">-- and those partitions are dropped.</span></span><br><span class="line">   OPEN cur1;</span><br><span class="line"></span><br><span class="line">   read_loop: LOOP</span><br><span class="line">      FETCH cur1 INTO current_partition_name;</span><br><span class="line">   </span><br><span class="line">      IF done THEN</span><br><span class="line">         LEAVE read_loop;</span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line">     </span><br><span class="line">      IF ! @first AND p_seconds_to_sleep &gt; 0 THEN</span><br><span class="line">         <span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(<span class="string">'Sleeping for '</span>, p_seconds_to_sleep, <span class="string">' seconds'</span>);</span><br><span class="line">         <span class="keyword">SELECT</span> <span class="keyword">SLEEP</span>(p_seconds_to_sleep);</span><br><span class="line">      <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line"></span><br><span class="line">      <span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(<span class="string">'Dropping partition: '</span>, current_partition_name);</span><br><span class="line">   </span><br><span class="line">      <span class="comment">-- First we build the ALTER TABLE query.</span></span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">schema</span> = p_schema;</span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">table</span> = p_table;</span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">partition</span> = current_partition_name;</span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT CONCAT(''ALTER TABLE '', @schema, ''.'', @table, '' DROP PARTITION '', @partition) INTO @query'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">      </span><br><span class="line">      <span class="comment">-- And then we prepare and execute the ALTER TABLE query.</span></span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @<span class="keyword">query</span>;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">     </span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">first</span> = <span class="literal">FALSE</span>;</span><br><span class="line">   <span class="keyword">END</span> <span class="keyword">LOOP</span>;</span><br><span class="line">   </span><br><span class="line">   CLOSE cur1;</span><br><span class="line">   </span><br><span class="line">   <span class="comment">-- If no partitions were dropped, then we can also skip this.</span></span><br><span class="line">   IF ! @first THEN</span><br><span class="line">      <span class="comment">-- Then we need to get the date of the new first partition.</span></span><br><span class="line">      <span class="comment">-- We need the date in UNIX timestamp format.</span></span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT DATE_FORMAT(@last_month_to_keep, ''%Y-%m-01 00:00:00'') INTO @new_first_partition_date'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;     </span><br><span class="line">      <span class="keyword">SELECT</span> <span class="keyword">UNIX_TIMESTAMP</span>(@new_first_partition_date) <span class="keyword">INTO</span> @new_first_partition_ts;</span><br><span class="line">     </span><br><span class="line">      <span class="comment">-- We also need to get the date of the second partition</span></span><br><span class="line">      <span class="comment">-- since the second partition is also needed for REORGANIZE PARTITION.</span></span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT DATE_ADD(@new_first_partition_date, INTERVAL 1 MONTH) INTO @second_partition_date'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">      <span class="keyword">SELECT</span> <span class="keyword">UNIX_TIMESTAMP</span>(@second_partition_date) <span class="keyword">INTO</span> @second_partition_ts;</span><br><span class="line">  </span><br><span class="line">      <span class="keyword">SELECT</span> <span class="keyword">CONCAT</span>(<span class="string">'Reorganizing first and second partitions. first partition date = '</span>, @new_first_partition_date, <span class="string">', second partition date = '</span>, @second_partition_date);</span><br><span class="line">   </span><br><span class="line">      <span class="comment">-- Then we build the ALTER TABLE query.</span></span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">schema</span> = p_schema;</span><br><span class="line">      <span class="keyword">SET</span> @<span class="keyword">table</span> = p_table;</span><br><span class="line">      <span class="keyword">SET</span> @q = <span class="string">'SELECT CONCAT(''ALTER TABLE '', @schema, ''.'', @table, '' REORGANIZE PARTITION p_first, '', @last_partition_name_to_keep, '' INTO ( PARTITION p_first VALUES LESS THAN ( '', @new_first_partition_ts, '' ), PARTITION '', @last_partition_name_to_keep, '' VALUES LESS THAN ( '', @second_partition_ts, '' ) ) '') INTO @query'</span>;</span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @q;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">     </span><br><span class="line">      <span class="comment">-- And then we prepare and execute the ALTER TABLE query.</span></span><br><span class="line">      <span class="keyword">PREPARE</span> st <span class="keyword">FROM</span> @<span class="keyword">query</span>;</span><br><span class="line">      <span class="keyword">EXECUTE</span> st;</span><br><span class="line">      <span class="keyword">DEALLOCATE</span> <span class="keyword">PREPARE</span> st;</span><br><span class="line">   <span class="keyword">END</span> <span class="keyword">IF</span>;</span><br><span class="line"><span class="keyword">END</span>$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<h4 id="创建删除老分区并创建新分区的存储过程"><a href="#创建删除老分区并创建新分区的存储过程" class="headerlink" title="创建删除老分区并创建新分区的存储过程"></a>创建删除老分区并创建新分区的存储过程</h4>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">PROCEDURE</span> <span class="keyword">IF</span> <span class="keyword">EXISTS</span> cma.perform_partition_maintenance;</span><br><span class="line"></span><br><span class="line">DELIMITER $$</span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">PROCEDURE</span> cma.perform_partition_maintenance(p_schema <span class="built_in">varchar</span>(<span class="number">64</span>), p_table <span class="built_in">varchar</span>(<span class="number">64</span>), p_months_to_add <span class="built_in">int</span>, p_months_to_keep <span class="built_in">int</span>, p_seconds_to_sleep <span class="built_in">int</span>)</span><br><span class="line">	<span class="comment">-- 先删除老的分区，再生成新的分区</span></span><br><span class="line">	<span class="comment">-- 参数：p_chema: 数据库名；</span></span><br><span class="line">	<span class="comment">-- p_table: 数据表名；</span></span><br><span class="line">	<span class="comment">-- p_months_to_add: 创建分区时，添加的分区数量，例如：当值为0时，只会创建当前月的分区，当值为2时，会创建当前月和后2个月的分区；</span></span><br><span class="line">	<span class="comment">-- p_months_to_keep: 删除分区时， 保留的分区数量，保留的分区数会多1，例如：当值为3时，会保留4个分区；</span></span><br><span class="line">	<span class="comment">-- p_seconds_to_sleep: 删除分区时，等待删除的时间，单位：秒；</span></span><br><span class="line">   <span class="keyword">LANGUAGE</span> <span class="keyword">SQL</span></span><br><span class="line">   <span class="keyword">NOT</span> <span class="keyword">DETERMINISTIC</span></span><br><span class="line">   <span class="keyword">SQL</span> <span class="keyword">SECURITY</span> INVOKER</span><br><span class="line">   <span class="keyword">comment</span> <span class="string">'指定数据库(p_schema)的指定数据表(p_table)，先删除老分区，再创建新分区，删除时保留的分区数为(p_months_to_keep) +1 个，每次删除分区时会等待(p_seconds_to_sleep)秒，创建的新分区数为当前月加上随后(p_months_to_add)个月的'</span></span><br><span class="line"><span class="keyword">BEGIN</span> </span><br><span class="line">   <span class="keyword">CALL</span> cma.drop_old_partitions(p_schema, p_table, p_months_to_keep, p_seconds_to_sleep);</span><br><span class="line">   <span class="keyword">CALL</span> cma.create_new_partitions(p_schema, p_table, p_months_to_add);</span><br><span class="line"><span class="keyword">END</span>$$</span><br><span class="line">DELIMITER ;</span><br></pre></td></tr></table></figure>
+<h4 id="创建定时执行的事件"><a href="#创建定时执行的事件" class="headerlink" title="创建定时执行的事件"></a>创建定时执行的事件</h4>  <figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">DROP</span> <span class="keyword">EVENT</span> <span class="keyword">if</span> <span class="keyword">EXISTS</span> cma.monthly_event_meteorology_sensor;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- 创建定时事件：从现在时间开始，每隔一个月执行一次，自动删除老的分区，创建新的分区</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">EVENT</span> cma.monthly_event_meteorology_sensor</span><br><span class="line">   <span class="keyword">ON</span> SCHEDULE</span><br><span class="line">   EVERY <span class="number">1</span> <span class="keyword">MONTH</span></span><br><span class="line">   STARTS <span class="keyword">NOW</span>()</span><br><span class="line"><span class="keyword">COMMENT</span> <span class="string">'微气象数据，从现在开始，每月定时删除分区、创建新分区'</span></span><br><span class="line"><span class="keyword">DO</span></span><br><span class="line">   <span class="keyword">CALL</span> cma.perform_partition_maintenance(<span class="string">'cma'</span>, <span class="string">'meteorology_sensor'</span>, <span class="number">3</span>, <span class="number">6</span>, <span class="number">5</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="注意事项"><a href="#注意事项" class="headerlink" title="注意事项"></a>注意事项</h3><ul>
+<li>作为分区的字段需要设置为外键，否则无法分区。</li>
+<li>被分区的表中不能有外键，否则无法分区，分区时 mysql 会报 <strong>1506</strong> 错误。</li>
+</ul>
+<h3 id="MySQL-中其它分区方式"><a href="#MySQL-中其它分区方式" class="headerlink" title="MySQL 中其它分区方式"></a>MySQL 中其它分区方式</h3><p>在上面的示例中，我们按字段值的范围(RANGE)进行分区，在 MySQL 中还提供的分区方式：</p>
+<ul>
+<li>范围分区(RANGE): 按连续的区间范围把数据分到不同分区中，要求分区范围不能重叠，而且必须连续。</li>
+<li>列表分区(LIST): 按枚举出的值进行分区，如按地理位置不同将数据分到不同区，东北、华北、华南…。</li>
+<li>散列分区(HASH): 基于给定的分区数，通过用户定义的计算后，将数据分到不同分区。这个函数可以包含MySQL 中有效的、产生非负整数值的任何表达式。</li>
+<li>键分区(KEY): 类似 HASH 分区，区别在于 KEY 分区只支持一列或多列，且MySQL服务器提供其自身的哈希函数。必须有一列或多列包含整数值。</li>
+<li>线性散列分区(LINEAR_HASH): 与常规哈希的区别在于，线性哈希功能使用的一个线性的2的幂（powers-of-two）运算法则，而常规哈希使用的是求哈希函数值的模数</li>
+<li>线性键(LINEAR_KEY): 与常规 KEY 的区别也是使用的一个线性的2的幂（powers-of-two）运算法则。</li>
+</ul>
+<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
+<li>数据库分区及分区优点: <a href="https://blog.csdn.net/liukun321/article/details/45823795" target="_blank" rel="noopener">https://blog.csdn.net/liukun321/article/details/45823795</a></li>
+<li>Automatic Partition Maintenance in MySQL and MariaDB: Part 3: <a href="http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/" target="_blank" rel="noopener">http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/</a></li>
+<li>MySQL表的四种分区类型: <a href="https://www.cnblogs.com/mliudong/p/3625522.html" target="_blank" rel="noopener">https://www.cnblogs.com/mliudong/p/3625522.html</a></li>
+</ul>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>最后，由于作者水平有限，文章中内容如有疏漏或错误之处，还请各位读者不吝指出！</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/mysql/" rel="tag"># mysql</a>
+          
+            <a href="/tags/database/" rel="tag"># database</a>
+          
+            <a href="/tags/数据库/" rel="tag"># 数据库</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/01/11/JVM-调优初探/" rel="next" title="JVM 调优初探">
+                <i class="fa fa-chevron-left"></i> JVM 调优初探
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/05/SpringBoot-使用-Elasticsearch/" rel="prev" title="SpringBoot 使用 Elasticsearch">
+                SpringBoot 使用 Elasticsearch <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODg3NC81NDQ0"></div>
+    </div>
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/uploads/avatar.jpg"
+                alt="This_Wei" />
+            
+              <p class="site-author-name" itemprop="name">This_Wei</p>
+              <p class="site-description motion-element" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">24</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">2</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          <div class="links-of-author motion-element">
+            
+              
+                <span class="links-of-author-item">
+                  <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" target="_blank" title="QQ">
+                    
+                      <i class="fa fa-fw fa-qq"></i>QQ</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://github.com/wqf31415" target="_blank" title="GitHub">
+                    
+                      <i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  <a href="http://weibo.com/wqf31415" target="_blank" title="Weibo">
+                    
+                      <i class="fa fa-fw fa-webo"></i>Weibo</a>
+                </span>
+              
+            
+          </div>
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简述"><span class="nav-number">1.</span> <span class="nav-text">简述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#环境"><span class="nav-number">2.</span> <span class="nav-text">环境</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库与表"><span class="nav-number">3.</span> <span class="nav-text">数据库与表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#数据库表分区"><span class="nav-number">4.</span> <span class="nav-text">数据库表分区</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#添加主键"><span class="nav-number">4.1.</span> <span class="nav-text">添加主键</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始分区"><span class="nav-number">4.2.</span> <span class="nav-text">初始分区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建新分区的存储过程"><span class="nav-number">4.3.</span> <span class="nav-text">创建新分区的存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建删除分区存储过程"><span class="nav-number">4.4.</span> <span class="nav-text">创建删除分区存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建删除老分区并创建新分区的存储过程"><span class="nav-number">4.5.</span> <span class="nav-text">创建删除老分区并创建新分区的存储过程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建定时执行的事件"><span class="nav-number">4.6.</span> <span class="nav-text">创建定时执行的事件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#注意事项"><span class="nav-number">5.</span> <span class="nav-text">注意事项</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#MySQL-中其它分区方式"><span class="nav-number">6.</span> <span class="nav-text">MySQL 中其它分区方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text">参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Mist</a> v5.1.3</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.3"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.3"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.3"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.3"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+    <script type="text/javascript">
+      (function(d, s) {
+        var j, e = d.getElementsByTagName(s)[0];
+        if (typeof LivereTower === 'function') { return; }
+        j = d.createElement(s);
+        j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
+        j.async = true;
+        e.parentNode.insertBefore(j, e);
+      })(document, 'script');
+    </script>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

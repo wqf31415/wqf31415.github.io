@@ -282,6 +282,906 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2019/03/16/使用云服务器搭建-frp-服务实现内网穿透/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/16/使用云服务器搭建-frp-服务实现内网穿透/" itemprop="url">使用云服务器搭建 frp 服务实现内网穿透</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-16T11:18:02+08:00">
+                2019-03-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>本文介绍了在云服务器(Windows Server 2012)上搭建 frp 服务，以及域名 DNS 解析配置，实现内网穿透功能。</p>
+<h3 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h3><p>开发过微信公众号程序的同学都知道，微信公众号的服务器配置中，需要指定服务器地址，微信平台会往这个地址推送消息。这个地址必须是公网能够访问的，我们在本地开发测试时，就需要一个地址，能够在公网中访问本地运行的程序，内网穿透就是干这个的。以前我使用的是别人的 ngrok ，但有一些问题，比如不能指定 url 前缀，使用自定义的需要交费，再比如别人服务器关了，我就要去找其它的工具了。<br>frp 是一款开源的用于内网穿透的反向代理工具，支持 tcp、udp 协议，为 http、https 协议提供了额外的能力。<br><img src="http://blog-images.qiniu.wqf31415.xyz/network_server.jpg" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/16/使用云服务器搭建-frp-服务实现内网穿透/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2019/03/12/SpringBoot-使用-Liquibase/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/12/SpringBoot-使用-Liquibase/" itemprop="url">SpringBoot 使用 Liquibase</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-12T16:33:42+08:00">
+                2019-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><p>本文主要介绍了 什么是 Liquibase，以及在 SpringBoot 项目中集成使用 Liquibase 对数据库表进行管理，包括自动创建数据库表、自动初始化数据、更新表结构。</p>
+<h3 id="认识-Liquibase"><a href="#认识-Liquibase" class="headerlink" title="认识 Liquibase"></a>认识 Liquibase</h3><blockquote>
+<p>官网：Liquibase | Database Refactoring | Liquibase: <a href="http://www.liquibase.org/" target="_blank" rel="noopener">http://www.liquibase.org/</a><br>Liquibase 是用于数据库重构、管理、记录变化与回滚的开源工具。<br>在写代码的时候，我们使用 Git 或 subversion 对代码进行版本控制，在数据库中，我们可以使用 liquibase 对数据库表进行版本控制。</p>
+</blockquote>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/12/SpringBoot-使用-Liquibase/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2019/03/05/SpringBoot-使用-Elasticsearch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/03/05/SpringBoot-使用-Elasticsearch/" itemprop="url">SpringBoot 使用 Elasticsearch</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-05T10:18:05+08:00">
+                2019-03-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="本文概述"><a href="#本文概述" class="headerlink" title="本文概述"></a>本文概述</h3><p>本文简单介绍了 Elasticsearch 是什么，在 windows 环境下的安装 Elasticsearch，在 SpringBoot 项目中使用 Elasticsearch 对数据进行增删改查操作。</p>
+<h3 id="什么是-Elasticsearch？"><a href="#什么是-Elasticsearch？" class="headerlink" title="什么是 Elasticsearch？"></a>什么是 Elasticsearch？</h3><blockquote>
+<p>Elasticsearch(简称 ES) 是一个开源的、高扩展性的分布式全文搜索和分析引擎，能够迅速、近乎实时的对大量数据进行存储、分析、检索，可以满足应用复杂的搜索特性和需求。<br>官网：<a href="https://www.elastic.co/products/elasticsearch" target="_blank" rel="noopener">https://www.elastic.co/products/elasticsearch</a> </p>
+</blockquote>
+<p>Elasticsearch 的核心是 Lucene ，使用 Java 进行封装，隐藏了 Lucene 的复杂性，提供 Java API 和 RESTful API，方便使用。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/search.jpg" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/03/05/SpringBoot-使用-Elasticsearch/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2019/02/14/MySql数据库表自动创建与删除分区/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/02/14/MySql数据库表自动创建与删除分区/" itemprop="url">MySql数据库表自动创建与删除分区</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-02-14T14:31:18+08:00">
+                2019-02-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h3><p>数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。</p>
+<h3 id="环境"><a href="#环境" class="headerlink" title="环境"></a>环境</h3><ul>
+<li>数据库：MySQL 5.7</li>
+<li>工具：Navicat for MySQL 10.1.7</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg" alt=""></p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/02/14/MySql数据库表自动创建与删除分区/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2019/01/11/JVM-调优初探/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2019/01/11/JVM-调优初探/" itemprop="url">JVM 调优初探</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-01-11T09:58:19+08:00">
+                2019-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h3><p>初次接触到 JVM 调优，在本文中记录了相关的概念、方法与工具使用。</p>
+<h3 id="遇到的问题"><a href="#遇到的问题" class="headerlink" title="遇到的问题"></a>遇到的问题</h3><blockquote>
+<p>线上运行的项目，在一次更新时配置出错，没有开启数据消费线程，导致消息队列中积压了超四百万条数据，修改配置后再运行时，发现服务器 cpu 占用率长时间达到 100%，消息队列中不断积压数据，后台无法访问。</p>
+</blockquote>
+<h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><ol>
+<li>这台服务器是虚拟机，发现服务器居然是单核 cpu 的(–!)，多分配 cpu 应该可以提高程序运行效率；</li>
+<li>项目正常运行时，消息队列消费速度快，不会积压，或是有少量积压也能迅速消费掉，这次由于意外导致消息队列积压数据太多，最终导致程序无法消费，要想办法提高程序吞吐量；</li>
+<li>怀疑消息消费代码效率太低，测试发现在消息积压过多时，消费速度严重下降，可能是线程太多，处理不过来；</li>
+<li>检查代码发现，应用开启后不断的从消息队列拿数据，生成任务对象放到了一个 LinkedBlockingQueue 中，这个 queue 没有指定容量，使用的是最大容量 Integer.MAX_VALUE ，怀疑是放入了太多的数据，把内存占满了；</li>
+</ol>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2019/01/11/JVM-调优初探/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2018/11/23/SpringBoot-使用-JPA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/23/SpringBoot-使用-JPA/" itemprop="url">SpringBoot 使用 JPA</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-23T14:27:32+08:00">
+                2018-11-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/技术/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          <h3 id="内容概述"><a href="#内容概述" class="headerlink" title="内容概述"></a>内容概述</h3><p>这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询，Specification 查询。</p>
+<h3 id="什么是-JPA-？"><a href="#什么是-JPA-？" class="headerlink" title="什么是 JPA ？"></a>什么是 JPA ？</h3><p>JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司提出的一套标准，用于将运行期对象持久化存储到数据库，具体实现的产品有： Hiberate、Eclipselink、Toplink、Spring Data JPA等。</p>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/23/SpringBoot-使用-JPA/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2018/08/03/利用Excel和bat对文件批量重命名/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -526,7 +1426,7 @@
 
       
         
-          <h3 id="什么是-springboot-的-banner？"><a href="#什么是-springboot-的-banner？" class="headerlink" title="什么是 springboot 的 banner？"></a>什么是 springboot 的 banner？</h3><p>当 SpringBoot 项目最初运行起来时，在控制台看到的类似下面的信息，就是 SpringBoot 的 banner。</p>
+          <h3 id="什么是-springboot-的-banner？"><a href="#什么是-springboot-的-banner？" class="headerlink" title="什么是 springboot 的 banner？"></a>什么是 springboot 的 banner？</h3><p>当 SpringBoot 项目最初运行起来时，在控制台看到的类似下面的信息，就是 SpringBoot 的 banner。可以把项目中的 banner 换成自己公司的 LOGO，增强员工对公司的认同感。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">  .   ____          _            __ _ _</span><br><span class="line"> /\\ / ___&apos;_ __ _ _(_)_ __  __ _ \ \ \ \</span><br><span class="line">( ( )\___ | &apos;_ | &apos;_| | &apos;_ \/ _` | \ \ \ \</span><br><span class="line"> \\/  ___)| |_)| | | | | || (_| |  ) ) ) )</span><br><span class="line">  &apos;  |____| .__|_| |_|_| |_\__, | / / / /</span><br><span class="line"> =========|_|==============|___/=/_/_/_/</span><br><span class="line"> :: Spring Boot ::  (v1.5.14.BUILD-SNAPSHOT)</span><br></pre></td></tr></table></figure>
 <h3 id="加载顺序"><a href="#加载顺序" class="headerlink" title="加载顺序"></a>加载顺序</h3><p>SpringBoot 默认寻找banner的顺序是：</p>
 <ul>
@@ -827,1015 +1727,12 @@
 
       
         
-          <h3 id="关于本系列文章"><a href="#关于本系列文章" class="headerlink" title="关于本系列文章"></a>关于本系列文章</h3><p>我从2016年8月开始在培训班系统学习Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候还要依靠搜索引擎，恍然发现，过去的学习是为了能尽快学成，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，觉得古人说得好，“九层之台，起于垒土”，我要想在Java这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基础不实影响将来的学习发展。因此，我决定重走Java长征路，重头开始，再来学习一次java，从java是什么开始，一直学到现在用到的技术。</p>
-<h3 id="Java是什么？"><a href="#Java是什么？" class="headerlink" title="Java是什么？"></a>Java是什么？</h3><h4 id="Java简介"><a href="#Java简介" class="headerlink" title="Java简介"></a>Java简介</h4><p>Java是一种高级的面向对象的程序设计语言。<br>Java语法规则与C++类似，但比C++简洁，而且去除了其中的指针和多重继承概念。<br>Java编写的程序既是编译型的，又是解释型的，程序代码经过编译后转换成可被Java虚拟机识别的字节码，Java虚拟机(JVM)将字节码解释成机器码，最后在计算机上运行。编译只需执行一次，但每次执行时都要进行解释，因此在执行效率来看是不及C++的。</p>
-<h4 id="Java历史"><a href="#Java历史" class="headerlink" title="Java历史"></a>Java历史</h4><p>1995年 由Java之父詹姆斯`戈士林博士设计，由Sun公司推出，完成了Java的原始编译器和虚拟机。Java最初的名字叫OAK，1995年被重命名为Java。</p>
+          <h3 id="关于本系列文章"><a href="#关于本系列文章" class="headerlink" title="关于本系列文章"></a>关于本系列文章</h3><p>我从2016年8月开始在培训班系统学习 Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候要依靠搜索引擎，恍然发现，过去的学习是为了能尽快会用，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，还是古人说得好，“九层之台，起于垒土”，我若想在 Java 这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基础不实影响将来的学习发展。因此，我决定重走Java长征路，重头开始，再来学习一次java，从认识 java 开始，一直学到现在用到的技术框架。</p>
+<h3 id="Java是什么？"><a href="#Java是什么？" class="headerlink" title="Java是什么？"></a>Java是什么？</h3><h4 id="Java简介"><a href="#Java简介" class="headerlink" title="Java简介"></a>Java简介</h4><p>Java 是一种 <strong>高级的</strong> <strong>面向对象的</strong> 程序设计语言。高级是相对于 机器语言、汇编语言来说的，编程过程接近自然语言，通过编译后生成机器能够识别的语言，从而能够在计算机上运行。面向对象(Object Oriented,OO) 是一种编程设计方式，核心是万事万物皆对象，主要特征有封装、继承、多态、抽象、集合等。<br>Java 语法规则与C++类似，但比C++简洁，而且去除了其中的指针和多重继承概念。<br>Java 编写的程序既是编译型的，又是解释型的，程序代码经过编译后转换成可被 Java 虚拟机识别的字节码，Java 虚拟机(JVM)将字节码解释成机器码，最后在计算机上运行。编译只需执行一次，但每次执行时都要进行解释，因此在执行效率来看是不及 C++ 的。</p>
+<h4 id="Java历史"><a href="#Java历史" class="headerlink" title="Java历史"></a>Java历史</h4><p>1995年 由Java之父詹姆斯·戈士林博士设计，由Sun公司推出，完成了Java的原始编译器和虚拟机。Java最初的名字叫OAK，1995年被重命名为Java。</p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/07/重走Java长征路-Java是什么/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2018/02/28/使用POI处理office文件/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/02/28/使用POI处理office文件/" itemprop="url">使用POI处理office文件</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-02-28T10:17:29+08:00">
-                2018-02-28
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>Apache POI 官网：<a href="http://poi.apache.org/" target="_blank" rel="noopener">http://poi.apache.org/</a></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/pngpb-poi.png" alt="" title="Apache POI"></p>
-<h3 id="POI-是什么？"><a href="#POI-是什么？" class="headerlink" title="POI 是什么？"></a>POI 是什么？</h3><blockquote>
-<p>POI 是 Apache 软件基金会开源的项目，根据官网的解释，POI提供了操作Office Open XML (OOXML)标准和微软 OLE 2 Compound Document (OLE2)格式文档的接口。OLE2 文件包括微软office 中的 xls、doc、ppt 文件，ooxml格式是新的格式标准，包含 xlsx、docx、pptx 文件。</p>
-</blockquote>
-<p>简单来说，<strong>POI 让你能用 java 读/写 Excel、Word、PPT文件。</strong></p>
-<p>POI 的组件：</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:center">组件名</th>
-<th style="text-align:center">应用 类型</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:center">POIFS</td>
-<td style="text-align:center">OLE2 文件系统</td>
-</tr>
-<tr>
-<td style="text-align:center">HPSF</td>
-<td style="text-align:center">OLE2 属性集</td>
-</tr>
-<tr>
-<td style="text-align:center">HSSF</td>
-<td style="text-align:center">Excel xls</td>
-</tr>
-<tr>
-<td style="text-align:center">HSLF</td>
-<td style="text-align:center">PowerPoint ppt</td>
-</tr>
-<tr>
-<td style="text-align:center">HWPF</td>
-<td style="text-align:center">Word doc</td>
-</tr>
-<tr>
-<td style="text-align:center">HDGF</td>
-<td style="text-align:center">Visio vsd</td>
-</tr>
-<tr>
-<td style="text-align:center">HPBF</td>
-<td style="text-align:center">Publisher pub</td>
-</tr>
-<tr>
-<td style="text-align:center">HSMF</td>
-<td style="text-align:center">Outlook msg</td>
-</tr>
-<tr>
-<td style="text-align:center">DDF</td>
-<td style="text-align:center">埃舍尔通用图纸</td>
-</tr>
-<tr>
-<td style="text-align:center">HWMF</td>
-<td style="text-align:center">WMF图纸</td>
-</tr>
-<tr>
-<td style="text-align:center">OpenXML4j</td>
-<td style="text-align:center">OOXML</td>
-</tr>
-<tr>
-<td style="text-align:center">XSSF</td>
-<td style="text-align:center">Excel xlsx</td>
-</tr>
-<tr>
-<td style="text-align:center">XSLF</td>
-<td style="text-align:center">PowerPoint pptx</td>
-</tr>
-<tr>
-<td style="text-align:center">XWPF</td>
-<td style="text-align:center">Word docx</td>
-</tr>
-<tr>
-<td style="text-align:center">XDGF</td>
-<td style="text-align:center">Visio vsdx</td>
-</tr>
-<tr>
-<td style="text-align:center">Common SL</td>
-<td style="text-align:center">PowerPoint ppt和pptx</td>
-</tr>
-<tr>
-<td style="text-align:center">Common SS</td>
-<td style="text-align:center">Excel xls和xlsx</td>
-</tr>
-</tbody>
-</table>
-<blockquote>
-<p>参考地址：<a href="http://poi.apache.org/overview.html" target="_blank" rel="noopener">http://poi.apache.org/overview.html</a></p>
-</blockquote>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/02/28/使用POI处理office文件/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/11/27/创建SpringBoot项目/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/11/27/创建SpringBoot项目/" itemprop="url">创建SpringBoot项目</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-27T22:52:41+08:00">
-                2017-11-27
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="什么是-SpringBoot"><a href="#什么是-SpringBoot" class="headerlink" title="什么是 SpringBoot ?"></a>什么是 SpringBoot ?</h2><blockquote>
-<p>官网：<a href="http://projects.spring.io/spring-boot/" title="springboot官网" target="_blank" rel="noopener">http://projects.spring.io/spring-boot/</a></p>
-</blockquote>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/spring_boot_logo.png" alt=""><br>简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动、引导，整体来说就是快速启动Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建java web项目，项目里面还是使用spring框架实现，所以Spring能做的，SpringBoot也能做，而且做的更好。</p>
-<p>在使用Spring的时候，写项目时有伴有大量的xml配置文件要编写，随着快速开发的流行，这种方式已经不能满足需要了，springboot的出现帮我们简化了项目配置，同时提供了很多注解，让我们编码也变得简单了。<strong>SpringBoot 简化了配置，不用再写xml了</strong>,传统Spring 的xml配置文件被转化成 java config，直接利用@Autowire注解注入Bean，而环境变量中的 properties、xml文件集中到一个application.yml中。同时，<strong>SpringBoot 使项目部署变得简单</strong>，传统的Spring项目需要外部的tomcat容器来运行，而在springboot中以及集成了tomcat，我们将项目打包成一个jar包，直接通过 <code>java -jar xxx.jar</code> 就可以运行项目，这也方便后续使用docker。</p>
-<p>SpringBoot 能够使我们更加专注于业务逻辑的开发，只需记住 <strong>Just run</strong> 就可以了，那怎么创建一个 SpringBoot 项目呢？话不多说，还是先上个demo尝尝味道吧！全文里介绍了一个SpringBoot项目从创建到测试运行，再到打包部署的全过程。</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/11/27/创建SpringBoot项目/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/09/12/JHipster-学习笔记2/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/09/12/JHipster-学习笔记2/" itemprop="url">JHipster 学习笔记2</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-12T16:12:52+08:00">
-                2017-09-12
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="JHipster-核心-——-创建实体（Create-Entity）"><a href="#JHipster-核心-——-创建实体（Create-Entity）" class="headerlink" title="JHipster 核心 —— 创建实体（Create Entity）"></a>JHipster 核心 —— 创建实体（Create Entity）</h2><p>当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：</p>
-<ul>
-<li>一张数据库表；</li>
-<li>一个 Liquibase 修改集；</li>
-<li>一个 JPA 实体；</li>
-<li>一个 Spring Data JPA 仓库对象；</li>
-<li>一个 spring MVC 的控制器，实现了基础的增、查、删、改方法；</li>
-<li>一个 Angular 路由、组件和server；</li>
-<li>一个 html 展示页面；</li>
-<li>集成测试来验证所有东西是否正确运行；</li>
-<li>性能测试来验证所有东西是否允许流畅；</li>
-</ul>
-<p>如果你有多个实体，那实体之间可能还有相互关联，因此，还需要：</p>
-<ul>
-<li>数据库外键关联；</li>
-<li>特殊的 JS 和 html 代码来管理这些关联关系</li>
-</ul>
-<p>然而以上内容，只需要我们执行一个指令回答几个问题就可以搞定了，JHipster 一下帮我们写了几百行代码，怎么样，想不想学学这种操作？</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/09/12/JHipster-学习笔记2/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/08/15/使用ngrok把本地web服务映射到互联网/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/08/15/使用ngrok把本地web服务映射到互联网/" itemprop="url">使用ngrok把本地web服务映射到互联网</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-15T19:18:53+08:00">
-                2017-08-15
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>在学会了web服务器开发之后，愉（tong）快（ku）的写好了一个网站，在本地跑起来了，想给小伙伴展（xuan）示（yao）一下，但这时小伙伴并不在身边，发出去的链接都访问不了，唉~</p>
-<p>但是自从用了ngrok之后，腰不酸了，腿不疼了，一口气上六楼也不费劲了~ 啊呸，错了，自从用了ngrok，远在天涯的小伙伴也能预览我本地的web项目了，啊哈哈哈哈哈哈隔~</p>
-<h3 id="首先，ngrok先自我介绍一下，大家欢迎！（掌声）"><a href="#首先，ngrok先自我介绍一下，大家欢迎！（掌声）" class="headerlink" title="首先，ngrok先自我介绍一下，大家欢迎！（掌声）"></a>首先，ngrok先自我介绍一下，大家欢迎！（掌声）</h3><p>大家好，我是ngrok，我是一个<strong>反向代理</strong>，我可以帮助你在公共端点和本地运行的web服务器建立安全的连接，这样你的朋友在外网也可以访问你本地运行的web服务了,另外在本地开发微信服务的时候，我可以帮你哦！<br>这是我家：<a href="https://ngrok.com/" title="ngrok" target="_blank" rel="noopener">https://ngrok.com/</a> 。<br>我说完了，谢谢！</p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/08/15/使用ngrok把本地web服务映射到互联网/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/05/03/AngularJS-学习笔记1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/05/03/AngularJS-学习笔记1/" itemprop="url">AngularJS 学习笔记1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-05-03T13:41:21+08:00">
-                2017-05-03
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <blockquote>
-<p>摘要：初步认识 Angular ，写点 demo 来体验一下！</p>
-</blockquote>
-<script src="http://onrk0ex3b.bkt.clouddn.com/angular/angular.min.js"></script>
-
-<h3 id="第一个-Demo-体验-Angular-的双向数据绑定"><a href="#第一个-Demo-体验-Angular-的双向数据绑定" class="headerlink" title="第一个 Demo 体验 Angular 的双向数据绑定"></a>第一个 Demo 体验 Angular 的双向数据绑定</h3><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://onrk0ex3b.bkt.clouddn.com/angular/angular.min.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">ng-app</span>=<span class="string">""</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">p</span>&gt;</span>名字 : <span class="tag">&lt;<span class="name">input</span> <span class="attr">type</span>=<span class="string">"text"</span> <span class="attr">ng-model</span>=<span class="string">"name"</span>&gt;</span><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">h1</span>&gt;</span>你好，&#123;&#123;name&#125;&#125;<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<iframe src="http://wqf31415.coding.me/Demo/angularJSDemo/1.html" name="iframe_a" style="border: 1px solid #ccc"></iframe>
-
-
-<h2 id=""><a href="#" class="headerlink" title=""></a>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/05/03/AngularJS-学习笔记1/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/04/25/JHipster-学习笔记1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/04/25/JHipster-学习笔记1/" itemprop="url">JHipster 学习笔记1</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-04-25T13:58:44+08:00">
-                2017-04-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/技术/" itemprop="url" rel="index">
-                    <span itemprop="name">技术</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <h2 id="JHipster-是什么？"><a href="#JHipster-是什么？" class="headerlink" title="JHipster 是什么？"></a>JHipster 是什么？</h2><blockquote>
-<p>摘要：初次接触 JHipster ，认识它是什么，并创建一个 demo 项目来体验一下。</p>
-</blockquote>
-<h3 id="JHipster-是什么？能吃吗？"><a href="#JHipster-是什么？能吃吗？" class="headerlink" title="JHipster 是什么？能吃吗？"></a>JHipster 是什么？能吃吗？</h3><h4 id="下定义"><a href="#下定义" class="headerlink" title="下定义"></a>下定义</h4><blockquote>
-<p>根据官方自己的描述：JHipster就是一个用来创建 Spring Boot - Angular 项目的 Yeoman 代码生成器。</p>
-</blockquote>
-<p>简单的说 <strong>JHipster就是一个代码生成器</strong> ，帮我们自动生成一个 java web 项目源码，后台使用 Spring Boot ，前端使用 Angular 。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png" alt="" title="这就是 Jhipster"> </p>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2017/04/25/JHipster-学习笔记1/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1877,7 +1774,7 @@
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1927,7 +1824,7 @@
               
                 <a href="/archives/">
               
-                  <span class="site-state-item-count">18</span>
+                  <span class="site-state-item-count">24</span>
                   <span class="site-state-item-name">日志</span>
                 </a>
               </div>
@@ -1949,7 +1846,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">30</span>
+                  <span class="site-state-item-count">39</span>
                   <span class="site-state-item-name">标签</span>
                 </a>
               </div>
@@ -2008,7 +1905,7 @@
 
     <footer id="footer" class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2018</span>
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
   <span class="with-love">
     <i class="fa fa-user"></i>
   </span>
