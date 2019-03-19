@@ -55,7 +55,7 @@ Elasticsearch 的核心是 Lucene ，使用 Java 进行封装，隐藏了 Lucene
 - 解压文件，进入 bin 目录下，运行 `elasticsearch.bat` 即可运行 Elasticsearch。运行结果如下：
   ![](http://blog-images.qiniu.wqf31415.xyz/elasticsearch_1.png)
 
-- 如果无法运行，使用命令行运行 ``，提示以下信息
+- 如果无法运行，窗口一闪而逝，在命令行中运行 `elasticsearch.bat`，这样可以看到错误信息，如果提示以下信息
 
   ``````
   Error occurred during initialization of VM
