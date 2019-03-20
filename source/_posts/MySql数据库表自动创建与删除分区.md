@@ -464,6 +464,14 @@ DO
 ### 注意事项
 - 作为分区的字段需要设置为外键，否则无法分区。
 - 被分区的表中不能有外键，否则无法分区，分区时 mysql 会报 **1506** 错误。
+- 手动添加新分区时，不能直接添加，会报 1481 错误(`MAXVALUE can only be used in last partition definition`)，需要将 future 分区分割成两个分区，使用如下方式：
+  ``````sql
+-- 将 battery_state 表中 future 分区重新划分，得到两个分区：p201906、future
+ALTER TABLE battery_state REORGANIZE PARTITION future INTO(
+PARTITION p201906 VALUES less than (UNIX_TIMESTAMP('2019-07-01')),
+PARTITION future VALUES less than MAXVALUE
+)
+  ``````
 
 ### MySQL 中其它分区方式
 在上面的示例中，我们按字段值的范围(RANGE)进行分区，在 MySQL 中还提供的分区方式：
@@ -479,6 +487,8 @@ DO
 - 数据库分区及分区优点: [https://blog.csdn.net/liukun321/article/details/45823795](https://blog.csdn.net/liukun321/article/details/45823795)
 - Automatic Partition Maintenance in MySQL and MariaDB: Part 3: [http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/](http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/)
 - MySQL表的四种分区类型: [https://www.cnblogs.com/mliudong/p/3625522.html](https://www.cnblogs.com/mliudong/p/3625522.html)
+- 深入解析MySQL分区（Partition）功能: [https://www.cnblogs.com/alamps/p/6740572.html](https://www.cnblogs.com/alamps/p/6740572.html)
+- MYSQL分区表功能测试简析: [https://www.cnblogs.com/tomcattd/p/3524259.html](https://www.cnblogs.com/tomcattd/p/3524259.html)
 
 ### 总结
-最后，由于作者水平有限，文章中内容如有疏漏或错误之处，还请各位读者不吝指出！
+最后，由于作者水平有限，文章中内容如有疏漏或错误之处，还请各位读者不吝指正！
