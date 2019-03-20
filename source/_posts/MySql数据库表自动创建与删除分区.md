@@ -14,7 +14,7 @@ categories:
 数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。
 
 ### 环境
-
+- 操作系统: Windows 7
 - 数据库：MySQL 5.7
 - 工具：Navicat for MySQL 10.1.7
 
@@ -460,18 +460,7 @@ COMMENT '微气象数据，从现在开始，每月定时删除分区、创建�
 DO
    CALL cma.perform_partition_maintenance('cma', 'meteorology_sensor', 3, 6, 5);
   ``````
-  
-### 注意事项
-- 作为分区的字段需要设置为外键，否则无法分区。
-- 被分区的表中不能有外键，否则无法分区，分区时 mysql 会报 **1506** 错误。
-- 手动添加新分区时，不能直接添加，会报 1481 错误(`MAXVALUE can only be used in last partition definition`)，需要将 future 分区分割成两个分区，使用如下方式：
-  ``````sql
--- 将 battery_state 表中 future 分区重新划分，得到两个分区：p201906、future
-ALTER TABLE battery_state REORGANIZE PARTITION future INTO(
-PARTITION p201906 VALUES less than (UNIX_TIMESTAMP('2019-07-01')),
-PARTITION future VALUES less than MAXVALUE
-)
-  ``````
+
 
 ### MySQL 中其它分区方式
 在上面的示例中，我们按字段值的范围(RANGE)进行分区，在 MySQL 中还提供的分区方式：
@@ -481,6 +470,19 @@ PARTITION future VALUES less than MAXVALUE
 - 键分区(KEY): 类似 HASH 分区，区别在于 KEY 分区只支持一列或多列，且MySQL服务器提供其自身的哈希函数。必须有一列或多列包含整数值。
 - 线性散列分区(LINEAR_HASH): 与常规哈希的区别在于，线性哈希功能使用的一个线性的2的幂（powers-of-two）运算法则，而常规哈希使用的是求哈希函数值的模数
 - 线性键(LINEAR_KEY): 与常规 KEY 的区别也是使用的一个线性的2的幂（powers-of-two）运算法则。
+  
+  
+### 注意事项
+- 作为分区的字段需要设置为外键，否则无法分区。
+- 被分区的表中不能有外键，否则无法分区，分区时 mysql 会报 **1506** 错误。
+- 当使用 range 方式分区且最后一个分区为 less than maxvalue 时，手动添加新分区时，不能直接添加，会报 1481 错误(`MAXVALUE can only be used in last partition definition`)，需要将 future 分区分割成两个分区，使用如下方式：
+  ``````sql
+-- 将 battery_state 表中 future 分区重新划分，得到两个分区：p201906、future
+ALTER TABLE battery_state REORGANIZE PARTITION future INTO(
+PARTITION p201906 VALUES less than (UNIX_TIMESTAMP('2019-07-01')),
+PARTITION future VALUES less than MAXVALUE
+)
+  ``````
 
 
 ### 参考资料
