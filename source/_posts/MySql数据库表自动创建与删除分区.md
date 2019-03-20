@@ -479,8 +479,8 @@ DO
   ``````sql
 -- 将 battery_state 表中 future 分区重新划分，得到两个分区：p201906、future
 ALTER TABLE battery_state REORGANIZE PARTITION future INTO(
-PARTITION p201906 VALUES less than (UNIX_TIMESTAMP('2019-07-01')),
-PARTITION future VALUES less than MAXVALUE
+PARTITION p201906 VALUES less than (UNIX_TIMESTAMP('2019-07-01')) ENGINE = InnoDB,
+PARTITION future VALUES less than MAXVALUE ENGINE = InnoDB
 )
   ``````
 
