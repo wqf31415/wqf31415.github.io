@@ -193,6 +193,7 @@ Hibernate: create table student (id bigint not null, active bit, age integer, bi
 |GenerationType.IDENTITY|使用数据库自增值作为主键值，适用于HSQL、SQL Server、MySQL、DB2、Derby 等数据库|
 |GenerationType.SEQUENCE|使用数据库序列号作为主键值，适用于Oracle、PostgreSQL 等数据库|
 |GenerationType.TABLE|使用数据中一张表中某个字段作为主键|
+
 重新运行项目，查看日志，发现打出了下面的 sql 语句：
 ``````
 Hibernate: drop table if exists student
@@ -231,12 +232,14 @@ create table student (id bigint not null auto_increment, active bit, age integer
 
  `@Entity` 注解表明这个类是需要 orm 映射的，只有 `name` 一个参数，而 `@Table` 注解中可以修改一些映射的规则。
  `@Table` 注解参数：
+ 
 |名称|说明|默认值|
 |:----:|:----:|:----:|
 |name|(可选) 表名|当前类名|
 |catalog|(可选) 数据库名|配置中指定的数据库|
 |schema|(可选) 查询数据时使用的用户名|配置中指定的用户名|
 |uniqueConstraints|(可选) 创建单个或联合唯一约束，可以在建表时添加索引|{}|
+
 例如：
 ``````java
 @Table(name = "tb_student",catalog = "test",schema = "testjpa",uniqueConstraints = {@UniqueConstraint(columnNames = {"name","age"})})
@@ -660,6 +663,7 @@ public class TestUtil {
 如：我们要查询所有年龄大于 18 岁并且信息激活了的学生信息，只需要在 `StudentRepository` 中添加一个方法 `List<Student> findByAgeGreaterThanAndActiveTrue(int age);` ，不需要写任何实现类，就可以在 `StudentService` 中调用了。
 在 Spring Data 中，查询方法以 **find** 或 **read** 或 **get** 开头，后面跟字段名(字段名首字母大写)，再加上限制条件；
 JPA 自定义查询方法关键字：
+
 |关键词|方法示例|JPQL语句|备注|
 |:----:|:----:|:----:|:----:|
 |And|findByNameAndAge(String name,int age)| ..where x.name = ?1 and x.age = ?2|并且，注意条件名称与参数的位置与数量要一一对应|
@@ -747,6 +751,7 @@ void deleteByName(String name);
 SELECT ... FROM ... [WHERE ...] [GROUP BY ... [HAVING ...]] [ORDER BY ...] 
 ``````
 where 子句条件关键字：
+
 |含义|关键字|
 |:----:|:----:|
 |比较|=、>、>=、<、<=、<>|
@@ -951,6 +956,7 @@ public interface ClassesRepository extends JpaRepository<Classes,Long> {
 #### JPQL 函数
 JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期。
 - 字符串处理函数
+
 |函数|功能|示例|
 |:----:|:----:|:----:|
 |concat(String s1, String s2)|连接两个字符串|concat("hello ","world") ---> "hello world"|
@@ -962,6 +968,7 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 |locate(String s1, String s2[, int start])|从 s1 中查找 s2 出现的位置，没有返回0|locate("hello",l) ---> 2|
 
 - 算术函数
+
 |函数|功能|示例|
 |:----:|:----:|:----:|
 |abs(x)|取绝对值|abs(-1) ---> 1|
@@ -969,6 +976,7 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 |sqrt(x)|取平方根值|sqrt(25) ---> 5|
 
 - 日期函数
+
 |函数|功能|示例|
 |:----:|:----:|:----:|
 |current_date()|取当前日期|current_date() ---> 2019-01-15|
