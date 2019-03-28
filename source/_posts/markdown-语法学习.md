@@ -7,6 +7,8 @@ categories:
 - 技术
 ---
 
+[官网]: <https://daringfireball.net/projects/markdown/> "官方网站"
+
 ### 概述
 这篇文章主要讲解了 markdown 的语法规则、编辑器以及一些使用技巧。
 
@@ -19,7 +21,7 @@ categories:
 <!-- more -->
 
 ### 概念
-> [官网][1] Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).
+> [官网][] Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).
 
 Markdown 是一种易读、易写的纯文本格式语法工具，帮网络作者将文本转成 HTML 或 XHTML。
 Markdown 不是 HTML 的替代品或类似产品，只是它的一个子集，包含了部分 HTML 元素，让你不学习 HTML 就可以写出漂亮的文章。
@@ -243,17 +245,19 @@ html:
 ```
 
 效果：
+
 | 列1   |  列2  |   列3 | 列4   |
-| :--- | :--: | ---: | ---- |
+| :---- | :----: | ----: | ---- |
 | 左对齐  | 居中对齐 |  右对齐 | 默认对齐 |
 | 1    |  2   |    3 | 4    |
 
 
 #### 代码与代码块
 **代码**：使用反引号 `` `代码` `` 包裹内容来指定代码，使用两个反引号 ` `` ` 来显示单反引号，对应 HTML 中 `<code>代码</code>` 标签；
-**代码块**：使用多个(3个或更多)反引号 `` ``` `` 来指定代码块，生成的 HTML 内容会被 `<pre><code>代码内容</code></pre>` 标签包裹以此保留代码的缩进信息。在代码块起始标记后可添加语言类型，以指定代码的语言类型，结束代码块需要与起始定义保持相同数量的代引号。示例：
+**代码块**：使用多个(3个或更多)反引号来指定代码块，生成的 HTML 内容会被 `<pre><code>代码内容</code></pre>` 标签包裹以此保留代码的缩进信息。在代码块起始标记后可添加语言类型，以指定代码的语言类型，结束代码块需要与起始定义保持相同数量的代引号。示例：
 
-> 注：需要在代码中显示反单引号 `` ` `` 时，用其他数量的反单引号组合包裹要显示的反单引号即可。如需要显示 1 个反单引号时，就用两个 单引号包裹这一个单引号，中间用空格分隔，```` `` ` `` ```` ，效果：`` ` ``。如果要显示两个反引号时，就用一个单引号包裹，``` ` `` ` ```，效果：` `` `。
+> 注：需要在代码中显示反单引号 `` ` `` 时，用其他数量的反单引号组合包裹要显示的反单引号即可。如需要显示 1 个反单引号时，就用两个 单引号包裹这一个单引号，中间用空格分隔，<code>\`\` \` \`\`</code> ，效果：`` ` ``。如果要显示两个反引号时，就用一个单引号包裹，<code>\` \`\` \`</code>，效果：` `` `。
+
 
 ``````markdown
 markdown：
@@ -261,7 +265,7 @@ markdown：
 
 `var a = 12;`
 
-``const b = 1.2 ``
+``const b = 1.2``
 
 ​```java
 String c = "hello";
@@ -293,9 +297,10 @@ String c = "hello";
 引用模式，适合需要多次引用的链接：
 
 - 方式1 通过 `[id]: url "说明"` 来定义链接信息，使用 `[文本内容][id]` 来引用链接；
-- 方式2 通过 `[链接名]: url "说明"` 来定义链接信息，使用 `[链接名][]` 来引用链接；
+- 方式2 通过 `<url>` 标记URL为链接，将生成 HTML 标签 `<a href="url">url</a>`，用这种方式可以生成邮箱链接，如 `<wqf31415@hotmail.com>` 将产生超链接到指定邮箱地址，生成的 HTML 为 `<a href="mailto:wqf31415@hotmail.com">wqf31415@hotmail.com</a>`，效果：<wqf31415@hotmail.com>；
+- 方式3 通过 `[链接名]: url "说明"` 来定义链接信息，使用 `[链接名][]` 来引用链接；
 
-> 注：url 可以使用 `<` 与 `>` 括起来，说明信息需要使用双引号 `"` 或单引号 `'` 或小括号 `()` 包裹起来，否则会当成 url 的一部分。 
+> 注：url 可以使用 `<` 与 `>` 括起来，说明信息需要使用双引号 `"` 或单引号 `'` 或小括号 `()` 包裹起来，否则会当成 url 的一部分，说明信息可以为空。 
 > 使用引用模式时，使用的 id 和链接名是不区分大小写的，如 `mYbLOG` 与 `MyBlog` 是可以引用的。
 > 在编译成 html 时，引用定义将不存在。
 
@@ -329,8 +334,47 @@ HTML：
 
 #### 图片
 使用 `![图片名](url "标题")` 来插入图片，对应 HTML 中 `<img src="url" alt="图片名" title="标题"/>` 标签。
+使用引用模式：
+- 使用 `[id]: url "图片标题"` 来定义链接信息，使用 `![说明信息][id]` 来引用图片。
+
+```markdown
+markdown:
+![这是个灯泡](http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "灯泡")
+![这是引用模式的][dengpao]
+
+[dengpao]: http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "引用模式-灯泡"
+
+html:
+<p>
+  <img src="http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png" alt="这是个灯泡" title="灯泡"/><br/>
+  <img src="http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png" alt="这是引用模式的" title="引用模式-灯泡"/>
+</p>
+```
+
+，效果：
+![这是个灯泡](http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "灯泡")
+![这是引用模式的][dengpao]
+
+[dengpao]: http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "引用模式-灯泡"
 
 #### 转义字符
+在文章中需要显示 markdown 语法关键字符时，为了避免被编译成 HTML 标签，可以使用反斜杠 `\` 来添加转义字符，在输入成 HTML 时显示原字符。
+可使用的转义字符:
+
+|字符|名称|转义写法|
+|:----:|:----:|:----:|
+|\\|反斜杠|\\\\|
+|\`|反引号|\\\`|
+|\*|星号|\\\*|
+|\#|井号|\\\#|
+|\_|下划线|\\\_|
+|\{\}|大括号|\\\{\\\}|
+|\[\]|中括号|\\\[\\\]|
+|\(\)|小括号|\\\(\\\)|
+|\+|加号|\\\+|
+|\-|减号|\\\-|
+|\.|点|\\\.|
+|\!|叹号|\\\!|
 
 ### 编辑器
 #### Typora
@@ -350,10 +394,9 @@ HTML：
 #### git 仓库项目描述
 
 ### 参考资料
-- [官网](https://daringfireball.net/projects/markdown/)
+- [官网][]
 - [使用Markdown输出LaTex数学公式](https://segmentfault.com/a/1190000018527239 )
 
 
-[1][https://daringfireball.net/projects/markdown/]
 
 
