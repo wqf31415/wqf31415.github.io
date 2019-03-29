@@ -23,8 +23,8 @@ categories:
 ### 概念
 > [官网][] Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).
 
-Markdown 是一种易读、易写的纯文本格式语法工具，帮网络作者将文本转成 HTML 或 XHTML。
-Markdown 不是 HTML 的替代品或类似产品，只是它的一个子集，包含了部分 HTML 元素，让你不学习 HTML 就可以写出漂亮的文章。
+Markdown 是一种易读、易写的纯文本格式语法工具，帮网络作者将文本文档转成 HTML 或 XHTML。
+Markdown 不是 HTML 的替代品或类似产品，只是它的一个子集，包含了部分 HTML 元素，让你不学习 HTML 就可以写出漂亮的文章。Markdown 的特点是轻量化、易读易写、支持插入图片、图表、代码或数学式，很多论坛上使用 markdown 来发表文章或撰写说明文档，如 Github、reddit、CSDN、印象笔记、简书等。
 
 ### 基本语法
 #### 标题
@@ -377,7 +377,10 @@ html:
 |\!|叹号|\\\!|
 
 ### 编辑器
+markdown 是纯文本的，所以原则上只要是文本编辑器都可以写。
+
 #### Typora
+windows 平台中五星推荐的编辑器。
 
 ### 一些技巧
 #### 使用 HTML 标签
@@ -395,6 +398,7 @@ html:
 
 ### 参考资料
 - [官网][]
+- [维基百科](https://zh.wikipedia.org/wiki/Markdown)
 - [使用Markdown输出LaTex数学公式](https://segmentfault.com/a/1190000018527239 )
 
 
