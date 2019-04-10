@@ -377,10 +377,12 @@ html:
 |\!|叹号|\\\!|
 
 ### 编辑器
-markdown 是纯文本的，所以原则上只要是文本编辑器都可以写，用系统自带的文本编辑器就可以，但使用一些工具可以让书写 markdown 更加顺畅，更能体现 markdown 易读易写的哲学。
+markdown 是纯文本的，所以原则上只要是文本编辑器都可以写，用系统自带的文本编辑器就可以，但使用一些工具，或在文本编辑器中添加相应插件，可以让 markdown 书写更加顺畅，更能体现 markdown 易读易写的哲学。
 
 #### Typora
 > 官网: <https://typora.io/>
+
+![](http://blog-images.qiniu.wqf31415.xyz/typora.png "Typora")
 
 windows 平台中五星推荐的编辑器。
 - 支持 markdown基础语法、markdown math、流程图、html 行内样式。
@@ -389,32 +391,61 @@ windows 平台中五星推荐的编辑器。
 - 快捷操作: 右键点击快速插入图片、表格、段落，快速添加文字样式，如加粗、倾斜、超链接等。
 - 提供多种显示主题，如 Github、Night等。
 - 生成文章目录大纲，快速跳转。
-- 支持 mac OS、Windows、Linux。
+- 多平台，支持 mac OS、Windows、Linux。
 - 更新活跃，Typora 更新频率很高，差不多每半个月就会有新版本。
+
+#### Mou
+> 官网：<http://25.io/mou/>
+
+![](http://blog-images.qiniu.wqf31415.xyz/mou.png "Mou")
+
+仅支持 Mac OS
+- 界面美观
+- 支持实时预览(左边编辑、右边预览)，同步滚动
+- 自动保存
+- 支持多种显示主题，可以自定义主题和 css 样式，或在 github 上下载主题
+- 自动补全英文单词
+- 字数统计
 
 ### 一些技巧
 
 #### 使用 HTML 标签
+在 markdown 文档中，可以直接添加行内 html 标签，如 `<del>删除线</del>` 、`<abbr title="Not Only SQL">NoSQL</abbr>` 等，效果：<del>删除线</del> 、 <abbr title="Not Only SQL">NoSQL</abbr> 。
+
+利用这一特性，我们可以还可以在 markdown 文档中嵌入音频、视频等，甚至可以使用 `iframe` 标签嵌入一个 html 页面。
 
 #### Markdown Math 数学公式
 
 #### 流程图
 
+#### 图床
+由于在 markdown 中插入的图片时需要指定图片链接，在文章发布在网上时就需要先找地方存起来，将其链接添加到文章中，这个存放图片并提供链接访问的地方就成为图床。
+
+- 七牛云
+  [七牛云](https://www.qiniu.com/ ) 免费提供 10G 的存储空间，超出部分最高 0.165元/GB。非常实用，不仅可以存储图片，还可以存储其它文件，如视频、文档等。
+
+- 新浪微博相册
+  [新浪微博相册](http://photo.weibo.com/ ) 支持外链，在国内访问速度快，可以用来存储 markdown 需要的图片，支持jpg/gif/png/jpeg格式，单张照片不超过20M。
+
 ### 应用场景
 
-#### 个人博客
+- 个人博客
+  如 Hexo 博客，就是使用 markdown 来写文章，最终渲染成 html 页面。
 
-#### 论坛文章
+- 论坛文章
+  如 [CSDN 博客](https://www.csdn.net/ )、[简书](https://www.jianshu.com/ )、[GitBook](https://www.gitbook.com/ ) 等论坛也使用 markdown 来发布文章。
 
-#### 笔记文章
+- 笔记文章
+  在[印象笔记](https://www.yinxiang.com/ ) 中，现在已经支持创建 markdown 笔记了。
 
-#### git 仓库项目描述
+- git 仓库项目描述
+  在 [github](https://github.com/ )、[Coding](https://coding.net/ )、[码云](https://gitee.com/ ) 等代码托管平台都支持 markdown 的项目描述文件 `README.md` 。
 
 ### 参考资料
 - [官网][]
-- [维基百科](https://zh.wikipedia.org/wiki/Markdown)
+- [维基百科](https://zh.wikipedia.org/wiki/Markdown )
 - [使用Markdown输出LaTex数学公式](https://segmentfault.com/a/1190000018527239 )
-
-
-
+- [选择适合自己的Markdown编辑器](http://www.cnblogs.com/gibbonnet/p/5373703.html )
+- [Markdown——入门指南](https://www.jianshu.com/p/1e402922ee32/ )
+- [免费图床：新浪微博相册](https://www.jianshu.com/p/55c42017848f )
 
