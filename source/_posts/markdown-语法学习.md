@@ -410,11 +410,41 @@ windows 平台中五星推荐的编辑器。
 ### 一些技巧
 
 #### 使用 HTML 标签
-在 markdown 文档中，可以直接添加行内 html 标签，如 `<del>删除线</del>` 、`<abbr title="Not Only SQL">NoSQL</abbr>` 等，效果：<del>删除线</del> 、 <abbr title="Not Only SQL">NoSQL</abbr> 。
+在 markdown 文档中，可以直接添加行内 html 标签，如 `<del>删除线</del>` 、`<abbr title="Not Only SQL">NoSQL</abbr>`、`<kbd>Ctrl</kbd> + <kbd>C</kbd>`等，效果：<del>删除线</del> 、<abbr title="Not Only SQL">NoSQL</abbr> 、<kbd>Ctrl</kbd> + <kbd>C</kbd>。
 
 利用这一特性，我们可以还可以在 markdown 文档中嵌入音频、视频等，甚至可以使用 `iframe` 标签嵌入一个 html 页面。
 
+例如，我们插入网易云音乐的播放器：
+
+![](http://blog-images.qiniu.wqf31415.xyz/wangyiyunyinyue_url.png "网易云音乐外链")
+
+<iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28188427&auto=1&height=66"></iframe>
+
+使用相同方法可以插入 bilibili 的视频，例如：
+
+<iframe height="415" width="544" src="//player.bilibili.com/player.html?aid=48918074&cid=85668198&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
+
 #### Markdown Math 数学公式
+在 Typora 、CSDN 中支持数学公式，用法为 `$LaTex符号$` ，其中 LaTex符号 可以参考 [莱斯大学LaTex Math在线PDF手册](https://www.caam.rice.edu/~heinken/latex/symbols.pdf ) 
+如: `$\alpha$、$\pi$、$\approx $` 效果：
+![](http://blog-images.qiniu.wqf31415.xyz/markdown_latex.png "Typora 中 LaTex 符号")
+
+也可以编写复杂的数学公式，使用 `$$数学公式$$` 方式来创建，如：
+
+```markdown
+$$
+f(z) = \left\{ \begin{array}{rcl}
+\overline{\overline{z^2}+\cos z} & \mbox{for}
+& |z|<3 \\ 0 & \mbox{for} & 3\leq|z|\leq5 \\
+\sin\overline{z} & \mbox{for} & |z|>5
+\end{array}\right.
+$$
+```
+
+效果：
+![](http://blog-images.qiniu.wqf31415.xyz/markdown_latex_2.png "Typora 中 LaTex 公式")
+
 
 #### 流程图
 
@@ -448,4 +478,6 @@ windows 平台中五星推荐的编辑器。
 - [选择适合自己的Markdown编辑器](http://www.cnblogs.com/gibbonnet/p/5373703.html )
 - [Markdown——入门指南](https://www.jianshu.com/p/1e402922ee32/ )
 - [免费图床：新浪微博相册](https://www.jianshu.com/p/55c42017848f )
+- [Hexo博客中插入音乐/视频/](https://www.jianshu.com/p/26a7fc7cc185 )
+- [使用Markdown输出LaTex数学公式](https://segmentfault.com/a/1190000018527239 )
 
