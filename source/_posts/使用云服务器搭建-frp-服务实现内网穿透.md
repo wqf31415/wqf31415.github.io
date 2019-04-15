@@ -24,7 +24,7 @@ frp 是一款开源的用于内网穿透的反向代理工具，支持 tcp、udp
 
 ### 环境与原材料
 #### 云服务器
-不限于云服务器，只要是能使用的服务器都可以。我使用的是腾讯云的服务器 1核 2G内存 50G硬盘 1M带宽的，最便宜的配置。
+不限于云服务器，只要是能使用的服务器都可以。我使用的是腾讯云的服务器 `windows server 2012` `1核` `2G内存` `50G硬盘` `1M带宽` ，最适合尝鲜的配置。
 
 #### 域名
 域名申请于阿里云，因为当时打折，域名一年才 1 块钱。
@@ -39,7 +39,7 @@ frp 是一个开源项目，可以从其 github 上获取最新发布版本，�
 > 官网最新版本下载地址：[https://github.com/fatedier/frp/releases](https://github.com/fatedier/frp/releases "frp release")
 
 因为我的服务器和客户端都是 windows 系统，所以下载的是 frp_0.21.0_windows_amd64.zip ，解压出来之后有下面这些文件：
-![](http://blog-images.qiniu.wqf31415.xyz/frp_zip_files.png "frp 文件")
+![](http://blog-images.qiniu.wqf31415.xyz/frp_zip_files.png "frp 压缩包中文件")
 
 从文件名可以知道这些文件的功能：
 - frpc.exe 客户端程序
@@ -160,6 +160,8 @@ custom_domains = frp.wqf31415.xyz
 
 添加两条域名解析，一条 A 类型，主机记录 `frp` ，记录值为服务器 ip 地址；第二条 CNAME 类型，主机记录为 `*.frp` ，记录值为 `frp.wqf31415.xyz` 。配置结果如下图所示，其中 wqf31415.xyz 是我的域名：
 ![](http://blog-images.qiniu.wqf31415.xyz/frp_domain_dns.png "域名解析配置")
+
+> 添加 `*.frp` 的解析规则是为了实现自定义域名前缀，添加这条解析规则后，可以将 `xxx.frp.wqf31415.xyz` 的请求解析到云服务器上来。
 
 ### 测试使用
 完成域名配置后，到服务器启动 frp 服务，可以将启动命令写入一个 bat 文件，使用 nssm 或 WinSW 工具将其设置成服务，开机自动启动，方便使用。
