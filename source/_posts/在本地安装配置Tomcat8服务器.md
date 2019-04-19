@@ -57,12 +57,12 @@ categories:
 - **lib** 运行库文件；
 - **logs** 日志文件；
 - **temp** 临时文件；
-- **webapps** web 应用代码；
+- **webapps** web 应用(我们部署的应用就放在这里)；
 - **work** 工作空间
-- **license** 许可
-- **notice** 公告
-- **release-notes** 发布记录
-- **running.txt** 运行说明
+- **LICENSE** 许可
+- **NOTICE** 公告
+- **RELEASE-NOTES** 发布记录
+- **RUNNING.txt** 运行说明
 
 进入 **bin** 目录，运行 **startup.bat** ，如果出现下面的结果说明服务器已经正确启动了
 ![](http://blog-images.qiniu.wqf31415.xyz/image/startup_tomcat.png "运行 startup.bat")
