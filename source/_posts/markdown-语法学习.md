@@ -427,7 +427,7 @@ windows 平台中五星推荐的编辑器。
 
 #### Markdown Math 数学公式
 在 Typora 、CSDN 中支持数学公式，用法为 `$LaTex符号$` ，其中 LaTex符号 可以参考 [莱斯大学LaTex Math在线PDF手册](https://www.caam.rice.edu/~heinken/latex/symbols.pdf ) 
-如: `$\alpha$、$\pi$、$\approx $` 效果：
+如: `$\alpha$、$\pi$、$\approx $` 效果( _由于 hexo 博客里不支持数学公式，下面公式的示例效果都是在 Typora 中的展示效果_ )：
 ![](http://blog-images.qiniu.wqf31415.xyz/markdown_latex.png "Typora 中 LaTex 符号")
 
 也可以编写复杂的数学公式，使用 `$$数学公式$$` 方式来创建，如：
