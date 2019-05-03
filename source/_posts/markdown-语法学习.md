@@ -447,6 +447,20 @@ $$
 
 
 #### 流程图
+我们可以在 markdown 文档中编写流程图、甘特图、UML图，但支持的平台比较少，我现在找到的只有在 typora、CSDN中支持。以下示例均在 Typora 中实现。
+> 图表的语法参考：<https://mermaidjs.github.io/>
+
+用法是使用 "```" 包裹图的代码，代码类型标记为 **mermaid**，例如：
+![](http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_code_01.png "markdown 流程图写法")
+
+效果：
+![](http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_01.png "流程图") 
+
+甘特图语法：
+![](http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_code_02.png "markdown 甘特图")
+
+效果：
+![](http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_02.png "甘特图")
 
 #### 图床
 由于在 markdown 中插入的图片时需要指定图片链接，在文章发布在网上时就需要先找地方存起来，将其链接添加到文章中，这个存放图片并提供链接访问的地方就成为图床。
@@ -456,6 +470,12 @@ $$
 
 - 新浪微博相册
   [新浪微博相册](http://photo.weibo.com/ ) 支持外链，在国内访问速度快，可以用来存储 markdown 需要的图片，支持jpg/gif/png/jpeg格式，单张照片不超过20M。
+  
+- SM.MS
+  [SM.MS](https://sm.ms/) 是一个简单的图床工具，支持网页直接拖拽图片上传，还提供了一些 api 来上传图片。一次最多同时上传 10 个文件，每个文件最大 5M 。
+  
+- 阿里云OSS存储服务
+  一些服务商提供了对象存储服务，需要付费使用，可以上传图片、音频、视频等文件。
 
 ### 应用场景
 
@@ -480,4 +500,5 @@ $$
 - [免费图床：新浪微博相册](https://www.jianshu.com/p/55c42017848f )
 - [Hexo博客中插入音乐/视频/](https://www.jianshu.com/p/26a7fc7cc185 )
 - [使用Markdown输出LaTex数学公式](https://segmentfault.com/a/1190000018527239 )
+- [mermaid · GitBook](https://mermaidjs.github.io/ )
 
