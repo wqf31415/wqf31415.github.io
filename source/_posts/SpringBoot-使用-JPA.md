@@ -1517,6 +1517,34 @@ Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.Qu
     void deleteStudentByName(String name);
 ``````
 
+#### 原生 sql 进行分页查询时报错提示不能使用排序和分页
+查询方法：
+
+``````java
+    @Query(value = "select d.* from device d where d.sensor & ?1 = ?1 "
+        ,nativeQuery = true
+        ,countQuery = "select count(*) from Device d where d.sensor & ?1 = ?1")
+    Page<Device> findBySensorType(Long sensorType,Pageable pageable);
+``````
+
+
+错误提示信息如下：
+
+``````
+org.springframework.data.jpa.repository.query.InvalidJpaQueryMethodException: 
+Cannot use native queries with dynamic sorting and/or pagination in method public abstract org.springframework.data.domain.Page com.xx.xxxx.repository.XxxRepository.findBySensorType(java.lang.Long,org.springframework.data.domain.Pageable)
+``````
+
+解决方法是在查询语句中加上 ** ORDER BY ?#{#pageable}** ，修改后如下：
+
+``````
+    @Query(value = "select d.* from device d where d.sensor & ?1 = ?1 order by ?#{#pageable}"
+        ,nativeQuery = true
+        ,countQuery = "select count(*) from Device d where d.sensor & ?1 = ?1")
+    Page<Device> findBySensorType(Long sensorType,Pageable pageable);
+``````
+
+
 ### 参考资料
 - springboot(十三)：springboot小技巧: [http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html](http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html)
 - SpringBoot 2.x 整合 jpa实现多数据源: [https://blog.csdn.net/qq_26440803/article/details/83316743](https://blog.csdn.net/qq_26440803/article/details/83316743)
