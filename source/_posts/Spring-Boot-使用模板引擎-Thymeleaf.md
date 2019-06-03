@@ -27,7 +27,7 @@ thymeleaf 支持的模板包括 HTML(包括 html5、xhtml 1.0/1.1、html4)、XML
 官网：<https://freemarker.apache.org>
 
 #### jsp
-全名为 Java Server Pages
+全名为 Java Server Pages，是早期出现的 java web 模板引擎，
 
 #### velocity
 > 官网：<http://velocity.apache.org>
