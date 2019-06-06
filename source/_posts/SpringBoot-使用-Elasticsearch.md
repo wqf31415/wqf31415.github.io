@@ -36,7 +36,7 @@ Elasticsearch 的核心是 Lucene ，使用 Java 进行封装，隐藏了 Lucene
 |Shard|分片|当数据量大时，为了响应迅速，ES 将数据分片放到不同服务器上，查询时 ES 再将不同分片上的数据组合起来。|
 |Replia|副本|副本是分片的精确复制，当主分片丢失时，ES 将副本提升为新的主分片。|
 |Index|索引|类似关系型数据库中的“数据库”，有一个定义多种类型的映射。索引是逻辑名称空间，映射到一个或多个主分片，并且可以有零个或多个副本分片。 |
-|Type|类型|类型是索引的逻辑类别/分区，类似于关系型数据库中的“Table”。|
+|Type|类型|类型是索引的逻辑类别/分区，类似于关系型数据库中的“Table”。**注意: [官方表示，在 5.x 版本 ES 中可以创建多个 type，在 6.x 与 7.x 版本的 ES 中，一个 index 下将不能创建多个 type ，在8.x 版本中将会完全移除 type 概念。](https://www.elastic.co/guide/en/elasticsearch/reference/6.5/removal-of-types.html) **|
 |Document|文档|一条记录，类似关系型数据库中的“Row”。|
 |Field|字段|记录中的字段，类似关系型数据库中的“Column”。|
 

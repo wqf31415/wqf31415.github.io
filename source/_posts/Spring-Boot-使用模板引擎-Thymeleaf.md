@@ -21,7 +21,7 @@ categories:
 > 官网：<https://www.thymeleaf.org>
 
 SpringBoot 官方推荐的模板引擎。
-thymeleaf 支持的模板包括 HTML(包括 html5、xhtml 1.0/1.1、html4)、XML、TEXT(plain text)、JAVASCRIPT(.js 文件)、CSS(.css 文件)。也可以用于非 web 项目。
+thymeleaf 支持的模板文件类型包括 HTML(包括 html5、xhtml 1.0/1.1、html4)、XML、TEXT(plain text)、JAVASCRIPT(.js 文件)、CSS(.css 文件)。也可以用于非 web 项目。
 
 #### freemarker
 官网：<https://freemarker.apache.org>
