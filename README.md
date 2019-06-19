@@ -1,7 +1,7 @@
 # wqf31415.github.io
 
 ## 描述
-这是使用 Hexo 生成的静态博客，`master` 分支提供 page 页面访问， `source` 分支为博客资源。
+这是使用 [Hexo](https://hexo.io/zh-cn/) 生成的静态博客，`master` 分支提供 page 页面访问， `source` 分支为博客资源。
 
 ## 运行环境
 - Node v10.15.3+
