@@ -35,9 +35,9 @@ Postman 提供企业版，提供了更加强大的测试功能。
 
 #### API 请求
 
-打开 Postman ，进入软件界面后，按 <kbd>Ctrl</kbd> + <kbd>T</kbd> 新建一个请求 Tab，选择 GET 方法，在地址栏中填入要请求的 api 地址，如：`postman-echo.com/get` ，点击 Send 按钮即可发送请求，请求成功后在下面的 Response 区域将显示请求结果。
+打开 Postman ，进入软件界面后，按 <kbd>Ctrl</kbd> + <kbd>T</kbd> 新建一个请求 Tab，选择 GET 方法，在地址栏中填入要请求的 api 地址，如：`postman-echo.com/get` ，点击 Send 按钮即可发送请求，请求成功后在下面的 Response 区域将显示请求结果，请求结果可以格式化显示。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_get_request.png)
+![](http://blog-images.qiniu.wqf31415.xyz/postman_get_request.png "postman request")
 
 
 
@@ -47,7 +47,7 @@ Postman 提供企业版，提供了更加强大的测试功能。
 
 GET、POST、PUT、PATCH、DELETE、COPY、HEAD、OPTIONS、LINK、UNLINK、PURGE、LOCK、UNLOCK、PROPFIND、VIEW。
 
-也可以自己输入请求方法，按回车保存。
+也可以自定义请求方法，只需要在方法框中输入方法名，按回车确认。
 
 
 
@@ -82,6 +82,10 @@ GET、POST、PUT、PATCH、DELETE、COPY、HEAD、OPTIONS、LINK、UNLINK、PURG
 - **测试(Tests)** 
 
   请求完成后运行的测试脚本。
+  
+- **Cookies** 
+
+  管理请求中的 cookles 。
 
 
 
@@ -89,13 +93,53 @@ GET、POST、PUT、PATCH、DELETE、COPY、HEAD、OPTIONS、LINK、UNLINK、PURG
 
 我们可以把接口测试请求保存下来，下次继续使用，只需点击 **Save** 按钮(快捷键 <kbd>Ctrl</kbd> + <kbd>S</kbd>) 即会弹出保存窗口，填入请求名称、描述，并选择或创建接口集后即可保存请求。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_save_request.png)
+![](http://blog-images.qiniu.wqf31415.xyz/postman_save_request.png "save request")
+
+
+
+#### 请求错误排查
+
+Postman 控制台中会输出请求的详细信息，帮助用户排除请求的错误信息，点击 Postman 界面下发的 **Postman Console** 按钮(快捷键 <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd>) 即可打开控制台界面。
+
+![](http://blog-images.qiniu.wqf31415.xyz/postman_console.png "Postman Console")
+
+
 
 ### 进阶操作
 
+#### 环境与变量
+
+在测试接口过程中，在开发环境和生产环境中的请求地址、端口等参数可能有差异，Postman 中可以为每个测试环境创建一个环境变量集合，方便在不同环境下进行测试。
+
+- **添加环境** 
+
+  > 环境管理快捷键：<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>E</kbd>
+
+  在 Postm 界面中点击 **New** 按钮，点击 **Environment** 选项即可进入添加环境的界面，填入环境名称以及变量信息后，点击 **Add** 按钮添加环境。如下图添加了名为 `local_test` 的环境，同理还可以添加 `prod_test` 的环境。
+
+  ![](http://blog-images.qiniu.wqf31415.xyz/postman_env_add.png "add environment")
+
+  
+
+- **使用环境**
+
+  添加环境后，在请求中就可以使用环境中添加的变量，在测试时根据需要随时切换环境。
+
+  ![](http://blog-images.qiniu.wqf31415.xyz/postman_use_environment.png "use environment")
+
+  
+
+#### 生成请求代码
+
+Postman 中可以一键将请求导出成请求代码，点击界面中的 **Code** 按钮，选择代码类型，即可生成相应的请求代码，点击 **Copy to Clipboard** 按钮将代码复制到剪贴板。
+
+![](http://blog-images.qiniu.wqf31415.xyz/postman_code_btm.png "postman code button")
+
+
+
 #### 接口集
 
-在 Postman 中可以创建接口集，用来分类保存接口。
+在 Postman 中可以创建接口集，统一管理一类接口请求，在接口集中还可以创建文件夹来分类保存接口。此外，在 Postman 中，接口集能以 json 文件形式导出、导入，分享或与团队成员协同编辑，对接口集中的请求进行评论，还可以打分支、分支合并等
 
 点击 `File` 菜单中的 `New...` 选项(快捷键 <kbd>Ctrl</kbd> + <kbd>N</kbd>)，或点击界面左上角的 `New` 按钮，然后点击选择 `Collection` ，在新建接口集的窗口中，可以设置接口集名称、描述(支持 markdown 语法)，还可以添加统一的权限，设置请求前执行的脚本和请求后的测试，添加变量。
 
@@ -131,17 +175,112 @@ GET、POST、PUT、PATCH、DELETE、COPY、HEAD、OPTIONS、LINK、UNLINK、PURG
 
 ![](http://blog-images.qiniu.wqf31415.xyz/postman_api_doc.png)
 
+
+
 #### 发布
+
+Postman 允许用户将自己的接口集发布到官方的 [API Network](https://www.getpostman.com/api-network/) ，分享给全世界。
+
+注册 Postman 账号并登陆后，点击接口集管理功能里的 **Publish Docs** 按钮，在跳转的发布页面中，根据需要添加相应的配置，即可完成发布。
+
+可以给发布的接口集添加自定义的 Logo，如果是专业版或企业版用户还可以自定义访问域名。
+
+> 注意：发布的接口文档访问次数是有限制的，普通用户每月提供 1000 次访问量，[查看用户当前已使用的访问量](https://go.pstmn.io/postman-account-limits) 。
+
+例如: <https://documenter.getpostman.com/view/7042523/S1a1aosZ>
+
+![](http://blog-images.qiniu.wqf31415.xyz/postman_publish_collection.png "publish")
+
+
 
 ### 高级操作
 
-#### 监控
+#### 监控(在线自动化测试)
 
-#### 自动化测试
+Postman 中可以设置监控器来定时执行 API 请求，用来测试接口性能和验证结果。比如设置每 5 分钟发起一次请求来测试接口是否正常启用。如果你给请求定义了测试脚本，那么监控定时指定请求时也会执行脚本来验证请求结果是否正确，如果请求发生错误将会通知用户。
 
-#### API 设计与 MOCK
+每个 Postman 普通用户每个月有 1000 条免费监控调用次数，Pro 团队用户 10000次/月，企业用户 100 000 次/月，更多信息参考 [官方网站](https://learning.getpostman.com/docs/postman/monitors/pricing_monitors/) 。
 
-#### DEBUG
+- **创建监控器** 
+
+  通过 Postman 侧边栏、New 按钮、启动页面、网页版添加监控器，如：
+
+  ![](http://blog-images.qiniu.wqf31415.xyz/postman_add_monitor.png "add monitor")
+
+- **设置监控器参数** 
+
+  Postman 监控器中可设置的参数有：
+
+  - **监控器名称** 便于区分不同的监控器。
+  - **版本标签** 选择测试使用的接口集版本。如果接口集没有关联到 API，就只能选择当前版本(CURRENT)。
+  - **环境** 选择测试使用的环境变量集合。
+  - **运行频率** 监控执行的频率，按运行频率由高到低，可以选择周定时器、小时定时器、分钟定时器。
+  - **地区** 设置监控器执行请求计划的时区。
+
+- **运行监控器** 
+
+  设置好监控器参数后，点击 **Create** 按钮完成监控器创建，登陆到 Postman 网页控制台，在控制台中找到对应的接口集与监控器，点击运行。这样我们的定时测试监控器就可以在 Postman 云上开始工作了，定时执行请求。
+
+- **查看监控器运行结果**
+
+  登陆 Postman 网页控制台，找到接口集并进入监控器页面，即可看到添加的监控器，点击监控器名称进入结果展示页面。如：
+
+  ![](http://blog-images.qiniu.wqf31415.xyz/postman_monitor_result.png "monitor result")
+
+  
+
+#### 模拟服务器
+
+在接口服务器未开发完成时，我们可以通过 Postman 创建 mock 服务器进行接口测试。
+
+- **创建 mock 服务器** 
+
+  - 在 Postman 中可以使用 **New** 按钮、开始页面、Postman app、Postman API 创建模拟服务器。在这里我们通过点击 **New** 按钮，然后点击 **Mock Server** 选项来创建。
+
+    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_0.png "create mock server")
+
+  
+
+  - 创建 mock 服务器时可以选择已有的接口集，也可以自己填入新的接口，我们在这里添加了一个 `/hello` 的接口，返回结果是一个 json ，点击 **Next** 进入配置页面。
+
+    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server.png "create mock server")
+
+    
+
+  - 在配置页面填入服务器名称，选择运行环境，根据需要选择是否将服务器设置为私有，设置好后点击 **Create** 完成 mock 服务器的创建。
+
+    > 注意：如果创建 Mock 服务器时选择了环境，创建成功后，选择的环境被删除时，该 Mock 服务器也将失效。
+
+    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_2.png "create mock server")
+
+    
+
+  - 创建完成后，将自动添加一个接口集和一个环境，名称都是 mock 服务器的名称，这里是 `HelloMoceServer`。
+
+    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_3.png "create mock server")
+
+    
+
+  - 测试，进入接口集 `HelloMoceServer` ，选择刚才添加的 `/hello` 接口请求，设定环境为 `HelloMoceServer` ，发送请求，返回结果为我们设定的返回值。
+
+    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_4.png "test mock server")
+
+  
+
+#### API 设计与开发
+
+Postman 新特性允许用户直接通过 Postman 设计 API。
+
+
+
+### 参考资料
+
+- [Postman Docs](https://learning.getpostman.com/docs/postman/launching_postman/installation_and_updates/)
+
+
 
 ### 小结
 
+这篇文章介绍了 Postman 的用法，包括基本的接口测试与云自动测试等功能，也涉及到了 Postman 的一些新特性。写这篇文章的主要目的是为了了解 Postman 这个工具的功能和使用场景，知道它能做什么，以便在以后做测试的时候多一个选择。
+
+文章最后时间：2019-06-22 。
