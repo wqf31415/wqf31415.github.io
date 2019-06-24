@@ -285,7 +285,28 @@ org.elasticsearch.bootstrap.StartupException: ElasticsearchException[X-Pack is n
 xpack.ml.enabled: false
 ``````
 
+#### 配置 Elasticsearch 局域网访问
+
+当需要在局域网中访问本机部署的 Elasticsearch 服务时，需要修改配置文件 `config/elasticsearch.yml` 。
+
+- 将配置项 **network.host** 设置为 `0.0.0.0` ，表示允许任何 ip 访问。
+- **同时，最关键的是要添加一个配置项: transport.host ** ，配置为 `localhost` 。这一项在原本配置文件中是没有的，如果不配置，将可能无法启动 Elasticsearch 服务，错误提示：
+
+  ```
+  bound or publishing to a non-loopback address, enforcing bootstrap checks
+  ```
+
+添加的完整配置如下：
+
+```yml
+network.host: 0.0.0.0
+transport.host: localhost 
+```
+
+
+
 ### 参考资料：
+
 + Elasticsearch 官方文档: [https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
 + Elasticsearch学习，请先看这一篇: [https://blog.csdn.net/makang110/article/details/80596017#](https://blog.csdn.net/makang110/article/details/80596017#)
 + 全文搜索引擎 Elasticsearch 入门教程: [http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html](http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html)
