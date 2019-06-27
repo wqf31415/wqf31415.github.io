@@ -195,6 +195,46 @@ Postman 允许用户将自己的接口集发布到官方的 [API Network](https:
 
 ### 高级操作
 
+#### 脚本
+
+Postman 中包含了一个强有力的 Node 运行时环境，可以给请求或接口集添加动态行为。使用 JavaScript 语言编写脚本，postman 提供了一些内置对象。这样就可以编写测试套件、设置动态参数等等。在请求发起前(Pre-request script)和收到返回结果后(test script)，都可以添加执行脚本，完成功能测试，执行顺序是： `Pre-request` -> `request` ->  `response` -> `test`。
+
+可以在请求(request)、文件夹(folder)、接口集(collection) 中添加脚本，请求前脚本执行顺序是： 
+
+collection 中的 -> folder 中的 -> request 中的
+
+测试脚本执行顺序与预请求脚本执行顺序相同，如下图所示:
+
+![](http://blog-images.qiniu.wqf31415.xyz/postman_script_execOrder.png "script exec order")
+
+- **请求前脚本** 
+
+  可以在请求前脚本中动态生成数据，当作请求的数据使用，如生成时间戳并设置为环境变量 `my_time` ，在请求中使用 `{{my_time}}` 引用：
+
+  ```javascript
+  pm.environment.set("my_time", new Date());
+  ```
+
+  在 Postman 界面上有一些快捷按钮帮助生成代码片段：
+
+  ![](http://blog-images.qiniu.wqf31415.xyz/postman_add_pre_request_script.png)
+
+  
+
+- **测试脚本**
+
+  在结果执行完成后，添加脚本类检验请求结果是否正确。如判断请求状态码是否是 `200` ：
+
+  ```javas
+  pm.test("Status code is 200", function () {
+      pm.response.to.have.status(200);
+  });
+  ```
+
+  ![](http://blog-images.qiniu.wqf31415.xyz/postman_test_script.png)
+
+  
+
 #### 监控(在线自动化测试)
 
 Postman 中可以设置监控器来定时执行 API 请求，用来测试接口性能和验证结果。比如设置每 5 分钟发起一次请求来测试接口是否正常启用。如果你给请求定义了测试脚本，那么监控定时指定请求时也会执行脚本来验证请求结果是否正确，如果请求发生错误将会通知用户。
@@ -281,6 +321,6 @@ Postman 新特性允许用户直接通过 Postman 设计 API。
 
 ### 小结
 
-这篇文章介绍了 Postman 的用法，包括基本的接口测试与云自动测试等功能，也涉及到了 Postman 的一些新特性。写这篇文章的主要目的是为了了解 Postman 这个工具的功能和使用场景，知道它能做什么，以便在以后做测试的时候多一个选择。
+这篇文章介绍了 Postman 的用法，包括基本的接口测试与云自动测试等功能，也涉及到了 Postman 的一些新特性介绍，但并没有十分深入每个特性，只是走马观花的通篇浏览。写这篇文章的主要目的是为了了解 Postman 这个工具的功能和使用场景，知道它能做什么，以便在以后做测试的时候多一个选择。
 
 文章最后时间：2019-06-22 。
