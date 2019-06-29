@@ -233,6 +233,15 @@ collection 中的 -> folder 中的 -> request 中的
 
   ![](http://blog-images.qiniu.wqf31415.xyz/postman_test_script.png)
 
+  还可以验证返回结果中的内容是否正确，如判断返回结果的 json 中的 `found` 值是否为 `true` ：
+  
+  ```javascript
+  pm.test("Found is true", function () {
+      var jsonData = pm.response.json();
+      pm.expect(jsonData.found).to.eql(true);
+  });
+  ```
+  
   
 
 #### 监控(在线自动化测试)
@@ -304,12 +313,48 @@ Postman 中可以设置监控器来定时执行 API 请求，用来测试接口�
   - 测试，进入接口集 `HelloMoceServer` ，选择刚才添加的 `/hello` 接口请求，设定环境为 `HelloMoceServer` ，发送请求，返回结果为我们设定的返回值。
 
     ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_4.png "test mock server")
-
   
+    
+  
+- 根据接口集中的请求样例(example)创建 Mock 服务器
+
+  在创建 Mock 服务器时，可以直接选择接口集，按接口集创建。选择这种方式时需要提前给 mock 的请求添加样例，有两种添加 example 的方式：
+
+  - 将实际请求结果保存为 example
+
+    当接口服务器已经可以使用的，可以先发送请求，收到返回结果后，点击返回结果区域中的 **Save** 按钮，即可跳转到保存为 example 的界面，根据需要修改名称等信息，保存即可。
+
+    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_example_by_request.png)
+
+    
+
+  - 给请求添加虚拟的 example
+
+    当服务器后台还未开发完成时，可以添加一些模拟的请求与结果样例，完成模拟测试。点击请求区域右上方的 **Examples** 按钮，将跳转的添加界面，填入名称、请求方法、请求参数、返回结果码、返回结果内容后，保存。可以给一个接口添加多个不同请求方法、不同参数、不同返回结果的请求样例，增加测试的多样性。
+
+    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_example.png)
+
+    
 
 #### API 设计与开发
 
-Postman 新特性允许用户直接通过 Postman 设计 API。
+Postman 新特性允许用户直接通过 Postman 设计 API，增加了 API 栏和 API 元素，与接口集、监控器等一样可以使用 Postman 中的版本控制，可以设置版本标签，也可以快捷的分享给团队成员。
+
+点击 Postman 界面上侧边栏选项卡中的 **APIs** ，然后点击 **+ New API** 按钮，填入 API 名称即可创建。
+
+![](http://blog-images.qiniu.wqf31415.xyz/postman_create_API.png)
+
+
+
+创建 API 后，需要添加定义，点击 API 显示区域中的 **Add Schema** 下拉选框，选择 **Create new** ，当然如果你有写好的定义文件，也可以从文件导入。
+
+![](http://blog-images.qiniu.wqf31415.xyz/postman_create_API_2.png)
+
+
+
+接下来，选择接口框架类型，可选项有：OpenAPI 3.0 ，OpenAPI 2.0 ，OpenAPI 1.0 ，RAML 0.8 ，GraphQL。然后将接口定义写好，点击 **Save** 保存。
+
+随后，可以开发一个 API，对 API 进行测试，给 API 添加监控器自动运行测试，分析 API。
 
 
 
