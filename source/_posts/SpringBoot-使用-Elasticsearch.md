@@ -305,6 +305,20 @@ transport.host: localhost
 
 
 
+#### 启动 ES 7.2 集群时出错
+
+我在体验 Elasticsearch 7.2.0 时，先启动了一个 ES 服务，测试连接正常，然后将这个服务的文件目录拷贝了一份修改为节点 2 ，并修改配置文件中的节点名和绑定端口，但启动第二个节点时出错了，错误信息如下：
+
+```
+[2019-07-01T10:22:06,702][WARN ][o.e.c.c.Coordinator      ] [node-1] failed to validate incoming join request from node [{node-2}{kRooD80QRlyBB5tNY1yDvw}{t0JvlwBZQhmF-Gbpozt2VQ}{localhost}{127.0.0.1:9301}{xpack.installed=true}]
+org.elasticsearch.transport.RemoteTransportException: [node-2][127.0.0.1:9301][internal:cluster/coordination/join/validate]
+Caused by: org.elasticsearch.cluster.coordination.CoordinationStateRejectedException: join validation on cluster state with a different cluster uuid EzPv1978SbasB-zUOQjS6A than local cluster uuid srzgmzs4QiOTtOleJjed6Q, rejecting
+```
+
+解决办法是将两个 ES 的 data 目录中的内容清除，重新启动即可。
+
+
+
 ### 参考资料：
 
 + Elasticsearch 官方文档: [https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html](https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html)
