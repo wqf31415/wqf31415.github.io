@@ -219,6 +219,13 @@ collection 中的 -> folder 中的 -> request 中的
 
   ![](http://blog-images.qiniu.wqf31415.xyz/postman_add_pre_request_script.png)
 
+  也可以在利用脚本在每个请求头中添加数据，如在请求头中添加 `Cookie` 和 `X-CSRF-TOKEN` 数据以通过权限验证，具体的 `Cookie` 和 `X-CSRF-TOKEN` 值可以在变量中设定，如 `myCookie` 和 `myX-CSRF-TOKEN` ，这样每次测试时，只需要修改变量中的值即可完成集合中每个请求的权限验证。脚本如下：
+
+  ```javascript
+  pm.request.headers.add({key: 'Cookie', value: pm.variables.get("myCookie")});
+  pm.request.headers.add({key: 'X-CSRF-TOKEN', value: pm.variables.get("myX-CSRF-TOKEN")});
+  ```
+
   
 
 - **测试脚本**
@@ -234,14 +241,14 @@ collection 中的 -> folder 中的 -> request 中的
   ![](http://blog-images.qiniu.wqf31415.xyz/postman_test_script.png)
 
   还可以验证返回结果中的内容是否正确，如判断返回结果的 json 中的 `found` 值是否为 `true` ：
-  
+
   ```javascript
   pm.test("Found is true", function () {
       var jsonData = pm.response.json();
       pm.expect(jsonData.found).to.eql(true);
   });
   ```
-  
+
   
 
 #### 监控(在线自动化测试)
