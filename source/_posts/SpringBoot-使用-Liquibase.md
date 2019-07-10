@@ -356,7 +356,7 @@ spring:
 运行项目，查看数据库，建表正确且 `user` 表中数据正确。
 ![](http://blog-images.qiniu.wqf31415.xyz/liquibase_data.png "初始化的数据")
 
-### 注意事项
+### 配置文件
 #### SpringBoot 配置项
 > 下表是在 SpringBoot 2.1.3.RELEASE 使用 liquibase 的配置项
   在 SpringBoot 1.x 版本中 liquibase 配置项少一些，且配置项没有 spring，如 2.x 中的 `spring.liquibase.change-log` ，在 1.x 中为 `liquibase.change-log`。
@@ -381,7 +381,7 @@ spring:
 |spring.liquibase.rollback-file||当执行升级时写回滚 SQL 的文件|
 |spring.liquibase.test-rollback-on-update||执行更新前是否验证回滚|
 
-#### changelog 文件编写
+#### Liquibase changelog 文件编写
 在上面示例中演示了 liquibase 的创建表(createTable)、加载数据(loadData)功能，除此之外，还可以创建索引(createIndex)、添加主键(addPrimaryKey)、添加唯一约束(addUniqueConstraint)、修改数据类型(modifyDataType)、添加查询表(addLookupTable)、添加自增(addAutoIncrement)、添加默认值(addDefaultValue)、添加外键约束(addNotNullConstraint)等等
 changelog 文件 xml 根目录为 databaseChangeLog，可以使用 include 标签引入其它 changelog 文件，使用 includeAll 标签引入 changelog 目录，使用 property 标签定义参数，使用 preConditions 标签添加前置条件，在 chageSet 标签内定义修改内容。
 ``````xml
@@ -596,7 +596,7 @@ insert 标签用于在表中插入数据，写在 changeSet 标签内，需要�
 	 </changeSet>
 ``````
 
-##### 修改列表(renameColumn)
+##### 修改列名(renameColumn)
 在 changeSet 中添加 renameColumn 标签用于修改列名。
 
 |属性名|值类型|默认值|注释|
@@ -618,9 +618,24 @@ insert 标签用于在表中插入数据，写在 changeSet 标签内，需要�
     </changeSet>
 ``````
 
-关于配置项与参数可以参考：[http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd](http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd)
+##### 创建索引
 
-更具体的信息可以参考官方文档或使用 IDE 时查看提示即可完成：[http://www.liquibase.org/documentation/index.html](http://www.liquibase.org/documentation/index.html "官方文档")。
+为了提高数据查询速度，我们可以给关键字段添加索引，最好是在建表时就添加索引。如我们给 state 表的 `collection_time` 、 `device_id` 字段添加联合索引，配置如下：
+
+```xml
+    <changeSet id="201907100943" author="wqf">
+        <createIndex tableName="state" indexName="index_collectionTime_deviceId">
+            <column name="collection_time"></column>
+            <column name="device_id"></column>
+        </createIndex>
+    </changeSet>
+```
+
+
+
+> 关于配置项与参数可以参考：[http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd](http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd)
+>
+> 更具体的信息可以参考官方文档或使用 IDE 时查看提示即可完成：[http://www.liquibase.org/documentation/index.html](http://www.liquibase.org/documentation/index.html "官方文档")。
 
 ### 参考资料
 - 官网：Liquibase | Database Refactoring | Liquibase: [http://www.liquibase.org/](http://www.liquibase.org/)
