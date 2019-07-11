@@ -62,7 +62,7 @@ POI 多被用于文本抽取应用，如网络爬虫、索引构建和内容管�
 
   参考资料：[POI、JXL、FastExcel比较](http://blog.sina.com.cn/s/blog_7de5c6210101adqi.html)
 
-  ​
+  
 
 ### 使用 POI 操作 Excel 文件
 
@@ -407,6 +407,7 @@ switch (cellType) {
 #### 创建 .xls 或 .xlsx 文件
 我们知道 .xls 是 Excel 03版的文件扩展名，.xlsx 是 07版的，我们可以分别通过创建 **HSSFWorkbook** 或 **XSSFWorkbook** 对象来新建或打开。
 其中，使用 XSSFWorkbook 需要导入 `poi-ooxml` 依赖：
+
 ``````xml
 <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
 <dependency>
@@ -483,6 +484,14 @@ cellStyle.setBorderLeft(BorderStyle.DASH_DOT_DOT);
 cellStyle.setLeftBorderColor(IndexedColors.YELLOW.getIndex());
 cell.setCellStyle(cellStyle);
 ``````
+
+#### 大量数据导出
+
+在 Excel 2003 中每个 sheet 最多支持 65536 行数据，对应 POI 中的 HSSF 对象，可以用来处理较少的数据量，如果需要处理大量数据，可以添加多个 sheet。
+
+Excel 2007 以上版本中，每个 sheet 最多支持 1048576 行数据，对应 POI 中 XSSF 对象，这时就可以在一个表格页中导出 100 万条数据了，但要小心堆溢出。
+
+在 POI 3.8 之后版本中新增了 SXSSFWorkbook ，它可以控制 excel 数据占用的内存，通过控制内存中的行数来实现资源管理，当创建对象超过了设定的行数，会自动刷新内存，将数据写入文件。这样占用 CPU 和内存较少。
 
 ### 完结鞠躬
 
