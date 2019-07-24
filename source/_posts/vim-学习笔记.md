@@ -370,6 +370,24 @@ Vim 一个缓冲区可以分割成多个窗口，每个窗口可以打开不同�
 
 在正常模式下，按一下 <kbd>q</kbd> ，然后再按一个字母作为宏名，然后就可以开始录制宏(如 `qa` 录制宏并保存到寄存器 a)，录制完成后回到正常模式，按 <kbd>q</kbd> 结束录制。录制完成后即可使用 `@{register}` ，来执行宏，如 `@a` 执行宏 a。 按 `@@` 执行上一个宏。
 
+#### 自动补全
+
+> 以下命令，有些需要按两次快捷键，先按一次 <kbd>Ctrl</kbd> + <kbd>x</kbd> ，然后再按后面的快捷键。自动补全需要开启文件类型检查，安装插件。
+
+| 命令                                                         | 作用             |
+| ------------------------------------------------------------ | ---------------- |
+| <kbd>Ctrl</kbd> + <kbd>n</kbd>                               | 普通关键字       |
+| <kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>n</kbd> | 当前缓冲区关键字 |
+| <kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>i</kbd> | 包含文件关键字   |
+| <kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>]</kbd> | 标签文件关键字   |
+| <kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>k</kbd> | 字典查找         |
+| <kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>l</kbd> | 整行补全         |
+| <kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>f</kbd> | 文件名补全       |
+| <kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>o</kbd> | 全能(Omni) 补全  |
+| <kbd>Ctrl</kbd> + <kbd>p</kbd>                               | 补全单词         |
+
+
+
 ### 插件
 
 
