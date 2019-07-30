@@ -59,7 +59,7 @@ footer:
     # If you want to animate the icon, set it to true.
     animated: true
     # Change the color of icon, using Hex Code.
-    color: "#808080"
+    color: "#ff6666"
 
   # If not defined, `author` from Hexo main config will be used.
   copyright: This_Wei
@@ -79,11 +79,12 @@ footer:
   # Beian icp information for Chinese users. In China, every legal website should have a beian icp in website footer.
   # http://www.beian.miit.gov.cn
   beian:
-    enable: true
+    enable: false
     icp: '蜀ICP备18009638号'
 
   # Any custom text can be defined here.
   #custom_text: Hosted by <a href="https://pages.coding.me" class="theme-link" rel="noopener" target="_blank">Coding Pages</a>
+  custom_text: '<div style="margin:0 0; padding:5px 0;"><a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">蜀ICP备18009638号 </p></a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">川公网安备 51011502000320号</p></a></div>'
 
 # Creative Commons 4.0 International License.
 # See: https://creativecommons.org/share-your-work/licensing-types-examples
