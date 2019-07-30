@@ -273,9 +273,6 @@ vim 替换命令示例：
 
 ### 进阶操作
 
-#### 配置 vim
-
-
 
 #### 缓冲区
 
@@ -346,6 +343,103 @@ Vim 一个缓冲区可以分割成多个窗口，每个窗口可以打开不同�
 | `:tabp[revious]`                               | 切换到上一个标签页                   |
 
 
+#### 修改 vim 主题
+
+vim 提供了多种内置主题配色方案，网络中也有很多优秀的第三方配色主题可选。
+
+| 命令                                          | 作用                             |
+| --------------------------------------------- | -------------------------------- |
+| `:colorscheme`                                | 显示当前主题颜色，默认为 default |
+| `:colorscheme` <kbd>Ctrl</kbd> + <kbd>d</kbd> | 显示所有可选配色                 |
+| `:colorscheme {name}`                         | 使用指定名称为 {name} 的配色主题 |
+
+其他主题
+
+> https://github.com/flazz/vim-colorschemes
+
+安装方法：
+
+```bash
+mkdir ~/.vim
+git clone https://github.com/flazz/vim-colorschemes.git ~/.vim
+```
+
+> 注意，以上的安装方法将下载很多配色主题，如果只需要部分，可以只将需要的 `.vim` 文件拷贝到 `~/.vim/colors` 目录下。如果使用了 vim 插件管理器，也可以直接使用插件管理器安装。
+
+#### vim 配置
+
+在 vim 的 normal 模式下，我们可以执行命令来临时设置 vim，如 `:set nu` 设置显示行号，`:syntax on` 开启代码高亮，`:colorscheme default` 使用默认主题配色等等。这种配置方式在关闭 vim 后就失效了，我们可以将配置项写到 `~/.vimrc` 文件中，实现持久化配置。
+
+> windows 系统 (Win 10) 使用 windows shell ，`cd ~` 进入根目录，如管理员的根目录在 `C:\Users\Administrator` ，创建 `.vimrc` 或 `_vimrc` 文件。
+>
+> 在任意操作系统中查找 vimrc 文件的位置，只需要打开 vim 执行命令 `:echo $MYVIMRC` ，即可打印出当前操作系统 vimrc 文件的位置。
+
+我们可以将 vim 配置命令写到 `.vimrc` 文件中，实现持久化配置，需要注意的是，配置命令写到配置文件时，不需要再加 `:` 了，vim 会将所有配置解析为命令。如 设置显示行号 `set nu` 。配置文件中每一行为一个配置命令，使用 `"` 添加注释。
+
+在 `.vimrc` 文件中除了可以添加常用配置项外，还可以添加快捷键映射，以及自定义的 vimscript 函数和插件配置。
+
+下面是一份示例配置：
+
+```vimrc
+" 常用配置
+" 设置行号
+set nu
+
+" 主题配色
+colorscheme hybrid
+
+ " 按 F2 进入粘贴模式
+set pastetoggle=<F2>
+
+" 高亮搜索
+set hlsearch
+
+" 设置折叠方式
+set foldmethod=indent
+
+" vim 映射
+" 设置 leader
+let mapleader=','
+let g:mapleader=','
+
+" 使用 jj 进入normal 模式，`^ 用于退出插入模式时保持光标位置，可以在 vim 中使用 :help `^ 查看帮助信息
+inoremap jj <Esc>`^
+
+" 使用 leader+w 直接保存(插入模式)
+inoremap <leader>w <Esc>:w<cr>
+
+" 使用 leader+w 直接保存(正入模式)
+noremap <leader>w :w<cr>
+ 
+" 切换 buffer
+nnoremap <silent> [b :bprevious<cr>
+nnoremap <silent> [n :bnext<cr>
+
+" 使用 Ctrl+h/j/k/l 切换窗口
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+```
+
+> 在 vim 中修改完 vimrc 文件后，可以执行 `:source ~/.vimrc` 命令使其立即生效。
+
+**vim 的映射**
+
+vim 中的映射有点复杂，源于 vim 有多种模式，每种模式都可以设置不同的映射规则。
+
+**设置 leader 键** `let mapleader=','` ，常用的 leader 键是空格或逗号，使用 `inoremap <leader>w <Esc>:w<cr>` 在插入模式下，输入 `,w` 即可直接保存修改内容。
+
+**基本映射** ，指在 normal 模式下的映射，使用 `map` 就可以实现映射。如 `:map - x` 即可将 `-` 映射为 `x` ，按 `-` 完成删除字符的功能。如 `:map <space> viw` 可以按空格键选择光标处的单词。如 `:map <c-d> dd` 就可以使用 <kbd>Ctrl</kbd> + <kbd>d</kbd> 执行 dd 命令删除一行。
+
+> 使用 `:unmap` 来取消映射，如可以使用 `:unmap -` 取消 `-` 的映射规则。
+
+**不同模式下的映射** ，分别使用 nmap/vmap/imap 定义只在 normal/visual/insert 模式下的映射，如 `:vmap \ U` 把在 visual 模式下选择的文本转为大写(U/u 转换大小写)。
+
+**递归映射与非递归映射**，递归映射会将映射层层解析，直到解析到最终的命令，这种映射方式可能会导致映射与插件中的映射冲突，使得冲突的映射有一个失效，所以一般 **建议任何时候都应该使用非递归映射** 。
+
+使用 nnoremap/vnoremap/inoremap 来定义在 normal/visual/insert 模式下的非递归映射。`nore` 意为 `not recursive，非递归的。
 
 ### 高级操作
 
@@ -402,7 +496,15 @@ Vim 一个缓冲区可以分割成多个窗口，每个窗口可以打开不同�
 
 ### 成神
 
+#### vimscript
 
+vim 脚本可以实现功能强大的 vim 插件，vimscript 是一种简单的脚本语言，可以实现更多 vim 的控制，开发自己的插件。
+
+> 推荐学习资料: 《笨方法学 Vimscript》
+>
+> GitHub: <https://github.com/sjl/learnvimscriptthehardway> 
+>
+> 中文: <http://learnvimscriptthehardway.onefloweroneworld.com/> 
 
 
 ### 参考资料
