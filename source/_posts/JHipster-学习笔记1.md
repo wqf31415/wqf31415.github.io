@@ -9,6 +9,10 @@ categories:
 - 技术
 ---
 
+> 写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档:
+>
+>  <https://www.jhipster.tech/documentation-archive/>
+
 ## JHipster 是什么？
 
 > 摘要：初次接触 JHipster ，认识它是什么，并创建一个 demo 项目来体验一下。
