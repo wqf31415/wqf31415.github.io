@@ -343,7 +343,8 @@ Vim 一个缓冲区可以分割成多个窗口，每个窗口可以打开不同�
 | `:tabp[revious]`                               | 切换到上一个标签页                   |
 
 
-#### 修改 vim 主题
+
+#### 修改 vim 主题配色
 
 vim 提供了多种内置主题配色方案，网络中也有很多优秀的第三方配色主题可选。
 
@@ -355,7 +356,11 @@ vim 提供了多种内置主题配色方案，网络中也有很多优秀的第�
 
 其他主题
 
-> https://github.com/flazz/vim-colorschemes
+> vim-hybird: https://github.com/flazz/vim-colorschemes
+>
+> solarized: https://github.com/altercation/solarized
+>
+> gruvbox: https://github.com/morhetz/gruvbox
 
 安装方法：
 
@@ -364,7 +369,7 @@ mkdir ~/.vim
 git clone https://github.com/flazz/vim-colorschemes.git ~/.vim
 ```
 
-> 注意，以上的安装方法将下载很多配色主题，如果只需要部分，可以只将需要的 `.vim` 文件拷贝到 `~/.vim/colors` 目录下。如果使用了 vim 插件管理器，也可以直接使用插件管理器安装。
+> 注意，以上的安装方法将下载很多配色主题，如果只需要部分，可以只将需要的 `.vim` 文件拷贝到 `~/.vim/colors` 目录下。如果使用了 vim 插件管理器，也可以直接使用插件管理器安装，如后面提到的 vim-plug 。
 
 #### vim 配置
 
@@ -472,6 +477,19 @@ vim 中的映射有点复杂，源于 vim 有多种模式，每种模式都可�
 
 在正常模式下，按一下 <kbd>q</kbd> ，然后再按一个字母作为宏名，然后就可以开始录制宏(如 `qa` 录制宏并保存到寄存器 a)，录制完成后回到正常模式，按 <kbd>q</kbd> 结束录制。录制完成后即可使用 `@{register}` ，来执行宏，如 `@a` 执行宏 a。 按 `@@` 执行上一个宏。
 
+> 例如我们想给文档中每一行开头和结尾都添加一个引号 `"` ，可以如下操作：
+>
+> 1. 打开文档: `vim test.txt` 
+> 2. 将光标移动到开头: `gg`
+> 3. 开始录制宏: `qa`
+> 4. 将光标移动到行首: `^`
+> 5. 插入引号后回到 normal 模式: `i"` <kbd>Esc</kbd>
+> 6. 将光标移动到行尾: `$`
+> 7. 添加引号后回到 normal 模式: `a"` <kbd>Esc</kbd>
+> 8. 将光标移动到下一行: `j`
+> 9. 结束宏录制: `q`
+> 10. 回放宏: `@a` ，或执行 100 次: `100@a` 
+
 #### 自动补全
 
 > 以下命令，有些需要按两次快捷键，先按一次 <kbd>Ctrl</kbd> + <kbd>x</kbd> ，然后再按后面的快捷键。自动补全需要开启文件类型检查，安装插件。
@@ -492,7 +510,101 @@ vim 中的映射有点复杂，源于 vim 有多种模式，每种模式都可�
 
 #### 插件
 
+vim 插件是使用 vimscript 或其他语言编写的 vim 功能扩展，github 中由很多开源的 vim 插件，这些插件大大扩充了 vim 的功能。
 
+##### 安装方式
+
+- 原始方式：拷贝插件代码到 vim 路径下
+- 使用插件管理工具：如 vim-plug，Vundle，Pathogen，Dein.Vim，volt 等。综合性能、易用性、文档等方便，推荐使用 **vim-plug**  。
+
+##### vim-plug
+
+> github: <https://github.com/junegunn/vim-plug>
+
+安装方式参考 vim-plug 的 github 仓库说明。如 unix 中使用的 vim，执行命令：
+
+```bash
+curl -fLo ~/.vim/autoload/plug.vim --create-dirs \
+    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
+```
+
+配置 vimrc ，编辑 vimrc 文件，添加如下配置：
+
+```vimrc
+" 指定插件安装的路径
+" 要注意避免使用 vim 标准路径名，如 'plugin'
+call plug#begin('~/.vim/plugged')
+
+" 插件列表，将要安装的插件添加到这里
+" 可以使用插件的简单引用, 如 https://github.com/mhinz/vim-startify
+Plug 'mhinz/vim-startify'
+
+" 也可以使用完整的 git 地址，如
+" Plug 'https://github.com/mhinz/vim-startify.git'
+
+" 多个插件可以写到一行，使用 | 分隔
+" Plug 'xxx/xxx' | Plug 'yyy/yyy'
+
+" 还可以指定使用的 git 分支、tag 版本等信息，具体参考官方文档
+
+" 初始化插件系统
+call plug#end()
+```
+
+使用 vim-plug 安装插件：
+
+1. 在配置文件中添加了需要的插件，在 `call plug#begin('~/.vim/plugged')` 和 `call plug#end()`  之间增加插件的名称，如安装 vim-startify 插件，添加 `Plug 'mhinz/vim-startify'`
+2. 重启 vim ，或者使用 source 重新加载一下 vimrc 文件 `:source ~/.vimrc` 
+3. 在 vim 中执行命令 `:PlugInstall` ，之后 vim-plug 就会自动下载插件并安装好。
+
+  重新打开 vim 发现安装的 vim-startify 插件已经生效：![](http://blog-images.qiniu.wqf31415.xyz/vim_plug_startify.png "vim-startify")
+
+
+
+##### 查找 vim 插件
+
+- 直接到 GitHub 上找，很多插件都托管在 GitHub 上了。
+- Vim Awesome 上汇总了各种类型的vim插件： <https://vimawesome.com/> 
+
+##### 插件推荐
+
+- 修改启动界面: <https://github.com/mhinz/vim-startify> 
+
+- 状态栏美化: <https://github.com/vim-airline/vim-airline> 
+
+  ![](http://blog-images.qiniu.wqf31415.xyz/vim_plug_airline.png "vim-airline") 
+
+- 增加代码缩进线条: https://github.com/Yggdroot/indentLine
+
+- 文件目录树: https://github.com/scrooloose/nerdtree
+
+  使用 `:NERDTreeToggle` 命令打开文件树，可以添加映射到配置项： `map <C-n> :NERDTreeToggle<CR>` 使用快捷键 <kbd>ctrl</kbd> + <kbd>n</kbd> 快速打开/关闭文件目录树。
+
+  启动 vim 时打开文件树: `autocmd vimenter * NERDTree` 
+
+  查找当前文件位置: `nnoremap <leader>v :NERDTreeFind<cr>` 
+
+  ![](http://blog-images.qiniu.wqf31415.xyz/vim_plug_nerdtree.png "nerdtree")
+
+- 模糊搜索: <https://github.com/ctrlpvim/ctrlp.vim> 
+
+- 移动到任意位置: <https://github.com/easymotion/vim-easymotion> 
+
+- 包裹操作: <https://github.com/tpope/vim-surround> 
+
+- 在项目文件中模糊搜索: <https://github.com/junegunn/fzf.vim> 
+
+- 批量搜索替换: <https://github.com/brooth/far.vim> 
+
+- golang 插件，代码补全、重构、自动格式化、自动导入等: <https://github.com/fatih/vim-go> 
+
+- python 插件: <https://github.com/python-mode/python-mode> 
+
+- 代码大纲: <https://github.com/majutsushi/tagbar> 
+
+- 高亮你感兴趣的词: <https://github.com/lfv89/vim-interestingwords> 
+
+- 异步补全插件: <https://github.com/Shougo/deoplete.nvim> 
 
 ### 成神
 
