@@ -36,18 +36,17 @@ categories:
 
 <div><div id="nav"><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Windows</a><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Linux</a><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Mac OS</a></div><div id="option" style="width: 100%;border: 2px solid #ccc;padding: 5px;margin-top: 2px;border-radius: 5px;"><div id="Windows">下载exe安装程序，安装时全都选默认的，一直点下一步就OK了！</div><div id="Linux">运行指令<b>sudo apt-get install git</b></div><div id="Mac OS">从AppStore安装Xcode，Xcode集成了Git，不过默认没有安装，你需要运行Xcode，选择菜单“Xcode”->“Preferences”，在弹出窗口中找到“Downloads”，选择“Command Line Tools”，点“Install”就可以完成安装了。</div></div></div>
 <script>var oUl=document.getElementById('nav');var oDiv=document.getElementById('option');var oLis=oUl.getElementsByTagName('a');var oOptDivs=oDiv.getElementsByTagName('div');for(var i=0;i<oLis.length;i++){hideDiv();document.getElementById('Windows').style.display='block';oLis[i].style.display='inlineblock';oLis[i].onclick=function(){hideDiv();showDiv(this.innerHTML);}}function showDiv(id) {var odiv=document.getElementById(id);odiv.style.display='block';}function hideDiv() {for (var i=0;i<oOptDivs.length;i++){oOptDivs[i].style.display='none';}}</script>
-
 ---------------------------------------
 
 ### 3 开始使用git
 
 我们这里以windows操作系统为例，其它系统操作大同小异。
 
-#### 基本配置
-
 在windows安装git的同时会默认安装 git bash 插件，我们在桌面上右击鼠标就能看到 `git bsah here` 选项，点击后将在桌面打开 git bash 命令行工具：
 
 ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_0.png "git bash here")
+
+
 
 git bash 命令行如下图所示：
 ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_cli.png "Git Bash 命令行")
@@ -55,14 +54,22 @@ git bash 命令行如下图所示：
 我们可以输入 `git --version` 来查看git版本
 ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_gitVersion.png "查看git版本")
 
-在第一次使用git时要设置用户名、邮箱信息，在以后的每一次提交修改时都会用到这些信息
+#### 获取帮助
+
+在 git bash 中执行 `git --help` 即可查看帮助信息，会列举出一些git 的命令及功能。
+
+在 git 命令中添加 `--help` 参数，还可以用来查看一些命令的帮助信息，如我们想查看 `git config` 命令的帮助信息，执行 `git config --help` 即可，将会在浏览器中打开帮助信息的网页。
+
+#### 基本配置
+
+在第一次使用git时要设置 **用户名** 、 **邮箱信息** ，在以后的每一次提交修改时都会用到这些信息，不配置的话，每次提交代码到远程仓库时都要重新输入。
 ```
 git config --global user.name "wqf31415"
 git config --global user.email wqf31415@hotmail.com
 ```
 第一句指令是设置用户名，用英文的双引号括起来，第二句是设置邮箱
 
-设置好之后我们可以在 git bash 命令行工具中输入 `git config --list` 查看设置结果
+设置好之后没有提示，我们可以在 git bash 命令行工具中输入 `git config --list` 查看设置结果
 ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_config_list.png "查看git设置")
 
 也可以输入 `git config user.name` 单独查看用户名
@@ -79,18 +86,26 @@ git config --global user.email wqf31415@hotmail.com
 ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_status_1.png "git 仓库状态") 
 根据输出的结果，我们可以看到仓库中没有跟踪的文件，现在所有的文件和目录都没有跟踪。
 
- #### 添加文件
+ #### 添加文件到暂存区(stage)
 
-在初始化仓库后，仓库中的文件其实还没有被跟踪，就是git现在还不知道需要记录版本变化的文件，我们要把需要跟踪的文件添加进去：
+在初始化仓库后，仓库中的文件其实还没有被跟踪，就是git现在还不知道需要记录版本变化的文件，我们要把需要跟踪的文件添加进暂存区：
+
+##### 添加单个文件
 
  `git add 1.txt` 将 1.txt 文件添加到仓库，添加时要输入文件名和扩展名，windows 中 git bash 默认是不支持输入中文的，所以用这种方式不能添加以中文命名的文件，可以使用下面的方式将全部文件都添加进仓库，避免了输入文件名；
  ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_single_file.png "添加单个文件")
  添加文件后我们再查看仓库状态，发现 1.txt 文件已经不在未跟踪文件列表里了，而是在 **changes to be committed** 下，意思是已经跟踪的文件被改变了，可以提交了。
 
+##### 添加同一类型的文件
+
  `git add *.html`将所有 html 文件添加到仓库，*为通配符，用这种方式可以向git仓库添加一个类型的文件；
  ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_one_type_files.png "添加一个类型的文件")
 
- `git add .` 直接将目录下所有文件添加到git仓库；
+> 采用通配符的方式，我们还可以模糊匹配，如文件名太长，但知道结尾是 `xx.txt` ，就可以使用 `git add *xx.txt` 来添加文件
+
+##### 添加所有文件
+
+`git add .` 直接将目录下所有文件添加到git仓库；
  ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_all_files.png "添加所有文件")
 
  #### 删除已添加的文件
@@ -105,25 +120,42 @@ git config --global user.email wqf31415@hotmail.com
  `git commit -m 'change description'` 引号括起来的是对修改内容的描述；
  ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_m.png "提交修改")
 
- 此外，也可以用 `git commit` 命令来提交，提交后还会启动编辑模式让你输入修改描述：
- （我们将 1.txt 添加进来并提交）
+ 此外，也可以用 `git commit` 命令来提交，提交后还会启动 vim 编辑器让你输入修改描述：
+ 按 <kbd>a</kbd>、<kbd>i</kbd>、<kbd>o</kbd> 键可以进入插入模式，然后就可以输入提交信息了。
  ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit.png "输入修改内容描述")
- 在输入完成后，按 **ESC** 键退出输入状态，然后 **Shift + ;**，再输入 **q!** 或 **wq!** （不保存改动，wq!是保存文件的写入修改）退出。
+ 在输入完成后，按 <kbd>Esc</kbd> 键退出输入模式，再输入命令 `:wq` 保存并退出，或 `:wq!` 强制保存并退出。输入命令 `:q` 退出 vim 编辑，或 `:q!` 不保存修改强制退出。
 
- ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_2.png "提交1.txt")
+![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_2.png "提交1.txt")
+
  在所有文件添加完成后，我们查看仓库状态发现显示 **On branch master nothing to commit, working tree clean** ，就是说所有的文件修改都提交了，工作树很干净了。
 
  #### 连接远程git仓库
 
- 现在我们本地git仓库已经建立好了，已经可以管理本地文件了，但这样是不够的，git最大的功能还在于多人协作，所以需要有一个远端仓库服务器，这样在不同电脑终端都可以进行工作了。
+ 现在我们本地 git 仓库已经建立好了，已经可以管理本地文件了，但这样是不够的，git 最大的功能还在于多人协作，所以需要有一个远端仓库服务器，这样在不同电脑终端都可以进行工作了。
 
  现在最简单的就是在 git 托管平台建一个仓库，把本地仓库托管到git平台，最常用的有 **github** 、 **coding** 、 **oschina** ，这里以国内的 coding 为例。
 
-  [https://coding.net/](https://coding.net/) 注册、登陆后新建一个项目 **git-test** ，不要勾选创建 `README.md` 选项，项目创建好后将仓库的地址复制下来，我的仓库地址是 **https://git.coding.net/wqf31415/git-test.git** 。
+##### 注册并创建远程仓库
 
-  然后回到本地 git-test 目录下打开 git bash ，运行 `git remote add origin https://git.coding.net/wqf31415/git-test.git` ，后面是远端仓库的地址。
+ 打开 Coding 的地址 [https://coding.net/](https://coding.net/) ，完成注册、登陆后，新建一个项目 **git-test** ，不要勾选创建 `README.md` 选项，项目创建好后，将仓库的地址复制下来，我的仓库地址是 **https://git.coding.net/wqf31415/git-test.git** 。
 
-  最后用 `git push -u origin master` 将本地仓库文件推送到远端仓库，第一次要加 `-u` ，以后就直接运行 `git push origin master` 。
+##### 给本地仓库添加远程仓库地址
+
+  回到本地下打开 git bash ，进入本地 git 仓库目录，执行下述命令，最后面就是刚才复制的远端仓库地址。
+
+```bash
+git remote add origin https://git.coding.net/wqf31415/git-test.git
+```
+
+> 注意，命令中的 `origin` 是对远程仓库的命名，可以更改，添加完成后也可以使用 git 命令修改。
+>
+> 可以给一个本地仓库添加多个远程仓库，提交时使用设置的远端仓库名标识。
+
+##### 将本地修改内容提交到远程仓库
+
+  用 `git push -u origin master` 将本地仓库文件推送到远端仓库，第一次要加 `-u` ，以后就直接运行 `git push origin master` 。
+
+> `origin` 是远程仓库名， `master` 是远程仓库分支名。
 
   #### 将远端仓库克隆到本地
 
