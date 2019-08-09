@@ -78,10 +78,54 @@ git config --global user.email wqf31415@hotmail.com
 #### 初始化git仓库
 
 `git init` 指令用于初始化一个仓库
-我们可以在一个空的文件夹里初始化仓库，也可以在一个用文件的文件夹里初始化，只需要我们在要初始化的文件空白区域右击打开 git bash 工具，执行 `git init` 命令即可，执行完成后将会在该目录下创建一个名叫 `.git` 的隐藏文件夹，这里面存放的是git仓库的所有必须文件。
+我们可以在一个空的文件夹里初始化仓库，也可以在一个用文件的文件夹里初始化，只需要我们在要初始化的文件空白区域右击打开 git bash 工具，执行 `git init` 命令即可，执行完成后将会在该目录下创建一个名叫 `.git` 的隐藏文件夹，这里面存放的是git仓库的所有信息文件。
  ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_init.png "初始化git仓库")
 
+#### 设置忽略文件
+
+在项目中，有些文件我们希望不用提交到 git 管理，如编译后的文件或日志输出文件，此时，我们就需要将这些文件或目录添加到忽略列表中。
+
+在根目录中新建一个文本文件，名为 `.gitignore` ，看名称就知道是 git 忽略文件的作用了！
+
+将需要忽略的文件或路径写到这个文件中，每一行就是一个忽略规则。使用 `#` 注释，使用 `*` 匹配所有，例如：
+
+```
+# Node 
+######################
+/node/**
+/node_tmp/**
+/node_modules/
+
+######################
+# SASS
+######################
+.sass-cache/**
+
+######################
+# Eclipse
+######################
+*.pydevproject
+.project
+.metadata
+/tmp/**
+/tmp/**/*
+*.tmp
+*.bak
+*.swp
+*~.nib
+local.properties
+.classpath
+.settings/**
+.loadpath
+/src/main/resources/rebel.xml
+```
+
+
+
+添加完成后，将此文件加入 git 版本库并提交，以后再 add 文件时就会忽略配置的文件或目录了。
+
 #### 查看仓库状态
+
 因为在用 git bash 向 git 仓库中添加文件时，添加成功时没有任何信息显示，为了查看我们是否添加成功，我们需要使用 `git status` 指令来查看git仓库状态：
 ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_status_1.png "git 仓库状态") 
 根据输出的结果，我们可以看到仓库中没有跟踪的文件，现在所有的文件和目录都没有跟踪。
@@ -153,24 +197,30 @@ git remote add origin https://git.coding.net/wqf31415/git-test.git
 
 ##### 将本地修改内容提交到远程仓库
 
-  用 `git push -u origin master` 将本地仓库文件推送到远端仓库，第一次要加 `-u` ，以后就直接运行 `git push origin master` 。
+  用 `git push -u origin master` 将本地仓库文件推送到远端仓库，第一次要加 `-u` ，以后就直接运行 `git push origin master` 。在提交到远程仓库时，需要输入用户名、密码，可以设置用户名和保存密码，详见文章结尾。
 
-> `origin` 是远程仓库名， `master` 是远程仓库分支名。
+> `origin` 是远程仓库名， `master` 是远程仓库分支名。可以将内容提交到不同远程仓库的不同分支。
 
   #### 将远端仓库克隆到本地
 
   运行 `git clone https://git.coding.net/wqf31415/git-test.git` 将远端仓库克隆到本地，后面 url 是git仓库地址。
 
-  然后就可以在本地愉快的写代码了。
+  这样就可以把一个新的远程仓库代码下载到本地，然后就可以在本地<s><i>愉快的</i></s>写代码了。
 
-  在本地修改后，依次运行下列代码将修改提交到远端仓库：
-  ```
+  在本地代码编辑完成后，依次运行下列代码将修改提交到远端仓库：
+  ```bash
     git add .
     git commit -m 'change description'
     git push origin master
   ```
 
------------------
+当远程仓库有更新时，可以使用 `git pull` 命令将更新内容拉取下来：
+
+```bash
+git pull origin master
+```
+
+------
 
   ### 总结
 
