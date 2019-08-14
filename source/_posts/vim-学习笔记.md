@@ -583,25 +583,35 @@ call plug#end()
 
   ![](http://blog-images.qiniu.wqf31415.xyz/vim_plug_nerdtree.png "nerdtree")
 
-- 模糊搜索: <https://github.com/ctrlpvim/ctrlp.vim> 
+- 模糊搜索: ctrlp.vim，<https://github.com/ctrlpvim/ctrlp.vim> 
 
-- 移动到任意位置: <https://github.com/easymotion/vim-easymotion> 
+- 移动到任意位置: vim-easymotion， 大大增强了 vim 本就强大的移动功能，<https://github.com/easymotion/vim-easymotion> 
 
-- 包裹操作: <https://github.com/tpope/vim-surround> 
+- 包裹操作: vim-surround，对于成对操作的内容很有帮助，如编辑 html 文档， <https://github.com/tpope/vim-surround> 
 
-- 在项目文件中模糊搜索: <https://github.com/junegunn/fzf.vim> 
+- 在项目文件中模糊搜索: fzf.vim， <https://github.com/junegunn/fzf.vim> 
 
-- 批量搜索替换: <https://github.com/brooth/far.vim> 
+- 批量搜索替换: far.vim，<https://github.com/brooth/far.vim> 
 
-- golang 插件，代码补全、重构、自动格式化、自动导入等: <https://github.com/fatih/vim-go> 
+- golang 插件，vim-go，代码补全、重构、自动格式化、自动导入等: <https://github.com/fatih/vim-go> 
 
-- python 插件: <https://github.com/python-mode/python-mode> 
+- python 插件: python-mode， 使用 vim 开发 python， <https://github.com/python-mode/python-mode> 
 
-- 代码大纲: <https://github.com/majutsushi/tagbar> 
+- 代码大纲: tagbar，方便快捷浏览代码，快速跳转， <https://github.com/majutsushi/tagbar> 
 
-- 高亮你感兴趣的词: <https://github.com/lfv89/vim-interestingwords> 
+- 高亮你感兴趣的词: vim-interestingwords， <https://github.com/lfv89/vim-interestingwords> 
 
-- 异步补全插件: <https://github.com/Shougo/deoplete.nvim> 
+- 异步补全插件: deoplete.nvim，支持异步补全，防止插件运行时导致 vim 操作卡顿， <https://github.com/Shougo/deoplete.nvim> 
+
+- 格式化插件: vim-autoformat 和 Neoformat，需要安装对应语言的格式化库，如 python 格式化的 autopep8，js 的 prettier 等
+
+- 静态检查: neomake 和 ale 是两种常用的静态检查插件，需要安装对应语言的静态检查库，如 eslint、pylint、golint 等
+
+- 注释插件: vim-commentary ，可以根据文件类型不同使用不同的注释风格，使用命令 gc 注释和取消注释
+
+- vim 中使用 git : Fugitive，直接在 vim 中执行命令调用 git，如 Gedit、Gdiff、Gblame、Gcommit 等
+
+- 在 vim 中显示文件变动: vim-gitgutter ，修改文件后可以显示当前文件的变动
 
 ### 成神
 
@@ -615,8 +625,18 @@ vim 脚本可以实现功能强大的 vim 插件，vimscript 是一种简单的�
 >
 > 中文: <http://learnvimscriptthehardway.onefloweroneworld.com/> 
 
+### 其他
+
+#### Tmux
+
+Tmux 是一个强大的终端复用工具，通过 brew (mac) 或 apt-get (ubantu) 命令安装，可以复用终端、分屏、托管进程等。
+
+#### Neovim
+
+Neovim 是一个新的 vim 版本，支持异步特性，具有更加丰富的特性和扩展，开发更活跃，而且可以嵌入到很多 GUI 中，界面更加美观。
 
 ### 参考资料
+
 - [Vim from GitHub : vim online](https://www.vim.org/git.php) 
 - [How to install Vim Text Editor on Windows 10/8/7](https://www.thewindowsclub.com/install-vim-text-editor-on-windows) 
 - [Modes in Vim | freeCodeCamp Guide](https://guide.freecodecamp.org/vim/modes/) 
@@ -626,4 +646,4 @@ vim 脚本可以实现功能强大的 vim 插件，vimscript 是一种简单的�
 
 ### 小结
 
-这篇文章总体上介绍了 vim 编辑器的用法，包含的面比较广，但可能并不是很深入，属于走马观花式的概览，目的是希望能
+这篇文章总体上介绍了 vim 编辑器的用法，包含的面比较广，但并不是很深入，属于走马观花式的概览，目的是希望能够对 vim 有个概念，知道它能做什么，有什么用法，激发对 vim 的兴趣就最好了。
