@@ -77,8 +77,15 @@ theme: next
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
-  repo: 
-    github: https://github.com/wqf31415/wqf31415.github.io.git,master
-    coding: https://git.coding.net/wqf31415/wqf31415.git,master
-  message: ":sparkles: Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
+  - type: git
+    repo: 
+      github: https://github.com/wqf31415/wqf31415.github.io.git,master
+      coding: https://git.coding.net/wqf31415/wqf31415.git,master
+    message: ":sparkles: Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
+  - type: sftp 
+    host: www.wqf31415.xyz
+    port: 22
+    user: hexo
+    pass: 
+
+
