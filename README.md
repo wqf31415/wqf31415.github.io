@@ -38,7 +38,7 @@ git clone https://github.com/theme-next/hexo-theme-next themes/next
 ```
 
 ### 修改主题配置
-在 `themes_config` 目录中存了主题相关的配置，将其中配置文件 `_config.yml` 复制到 `themes/next/` 目录下覆盖文件：
+在 `themes_config` 目录中存了主题相关的配置文件备份，将其中配置文件 `_config.yml` 复制到 `themes/next/` 目录下覆盖文件：
 ```bash
 cp themes_config/next/_config.yml themes/next/
 ```
@@ -62,4 +62,12 @@ hexo server
 ```
 
 访问 <http://localhost:4000> ，查看页面显示是否正确。
+
+## 新建博客
+
+
+
+## 部署
+
+> Hexo 官方文档： <https://hexo.io/docs/deployment.html> 
 
