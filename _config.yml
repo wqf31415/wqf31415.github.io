@@ -81,4 +81,4 @@ deploy:
   repo: 
     github: https://github.com/wqf31415/wqf31415.github.io.git,master
     coding: https://git.coding.net/wqf31415/wqf31415.git,master
-  
+  message: ":sparkles: Site updated: {{ now('YYYY-MM-DD HH:mm:ss') }}"
