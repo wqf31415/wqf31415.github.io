@@ -45,7 +45,7 @@ cp themes_config/next/_config.yml themes/next/
 ### 修改翻译错误
 在博客中可能存在一些自定义的菜单项，显示为英文，如需要修改成显示中文，则可以修改 `themes/next/languages/zh-CN.yml` 中的配置，在 `menu` 一项中添加需要的字段配置即可。
 
-### 生成博客页面
+### 渲染博客内容并开启预览
 先使用命令清除已生成的页面：
 ```bash
 hexo clean
@@ -63,11 +63,29 @@ hexo server
 
 访问 <http://localhost:4000> ，查看页面显示是否正确。
 
-## 新建博客
+## 新建博文
 
+使用 hexo 命令创建一篇新博文：
 
+```bash
+hexo new "新博文的名称"
+```
+
+命令执行完成后，将在 `source/_post` 目录下生成新的博文文件，是一个 markdown 格式的文档，将新博文的内容写在这个文档中即可。
 
 ## 部署
 
 > Hexo 官方文档： <https://hexo.io/docs/deployment.html> 
+
+使用以下命令即可将博客部署到相应平台上：
+
+```bash
+hexo deploy
+```
+
+也可以使用简写命令 `hexo d` 。
+
+当前已有部署方式包括 git 和 sftp 两种，其中使用的 git 平台是 GitHub 和 coding.me ，sftp 部署地址为 www.wqf31415.xyz ，**注意：如果需要部署到 sftp ，需要修改博客跟目录中 `_config.yml` ，将 sftp 的密码填上。
+
+
 
