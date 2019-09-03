@@ -154,5 +154,16 @@ public class HelloController {
 
 ### 注意事项
 
+#### 禁用缓存，开发时模板引擎实时生效
+
+在开发时我们可以添加配置项来禁用 thymeleaf 的缓存，这样在修改页面后，不重启项目就能看到效果了：
+
+```properties
+#禁用模板引擎的缓存
+spring.thymeleaf.cache=false
+```
+
+在使用 InteliJ IDEA 开发时，修改完页码后，可以按 <kbd>Ctrl</kbd> + <kbd>F9</kbd> 快捷键，把项目 Build 一下，然后就可以刷新页面查看效果了。
+
 ### 小结
 
