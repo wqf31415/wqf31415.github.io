@@ -133,7 +133,7 @@ dir C:\Users\Administrator\Desktop\picture\*.jpg /b -> list.txt
 
 ### 完结
 
-这篇文章讲解了利用 Excel 批量生成 windows 命令行指令，并创建 bat 批处理文件，以此来批量修改文件名。希望这个方法可以为你打开新的思路来使用 Excel 和 windows 命令！
+这篇文章讲解了利用 Excel 批量生成 windows 命令行指令，并创建 bat 批处理文件，以此来批量修改文件名。希望这个方法可以为你提供新的思路，来使用 Excel 和 windows 命令，完成更多样的批量操作！
 
 
 

@@ -9,62 +9,65 @@ categories:
 
 ---
 
-摘要：在用hexo + github/coding 搭建好博客之后，最重要的就是写博文，更新博客内容，这篇文章教你使用github来管理hexo博客的源文件和发布文件，让你能够轻松的在多个电脑上更新博客！用hexo成功生成本地静态博客文件后，我们的博客已经可以在github的page上看到，现在要做的就是把生成博客的源文件上传到git仓库。可以单独创建一个仓库来存放源文件，也可以在page文件的仓库里新建一个分支来存储，推荐第二种方法，在一个仓库里既存放发布博客的静态文件，又存放开发文件。
+摘要：在用 hexo + github/coding 搭建好博客之后，最重要的就是写博文，更新博客内容，这篇文章教你使用 git 来管理 hexo 博客的源文件和发布文件，让你能够轻松的在多个电脑上更新博客！用 hexo 成功生成本地静态博客文件后，我们的博客已经可以在 github 的 page 上看到，现在要做的就是把生成博客的源文件上传到git仓库。可以单独创建一个仓库来存放源文件，也可以在 page 文件的仓库里新建一个分支来存储，推荐第二种方法，在一个仓库里既存放发布博客的静态文件，又存放开发文件。
 
-​        在最开始的时候，我的博客是在公司电脑生成的，在回家后也想更新博客，于是就遇到了一些麻烦，该怎么把资源文件同步到其他电脑上呢？参考了简书上@长仙人 的文章[多台电脑使用Hexo](http://www.jianshu.com/p/4bcf2848b3fc '多台电脑使用Hexo') 在github的仓库里建了两个分枝，一个用了放发布的博客文件，一个用了放源文件，完美解决！
+​        在最开始的时候，我的博客是在公司电脑生成的，在回家后也想更新博客，于是就遇到了一些麻烦，该怎么把资源文件同步到其他电脑上呢？参考了简书上@长仙人 的文章 [多台电脑使用Hexo](http://www.jianshu.com/p/4bcf2848b3fc '多台电脑使用Hexo') 在 github 的仓库里建了两个分枝，一个用了放发布的博客文件，一个用了放源文件，完美解决！
 
 <!-- more -->
 
 ---
 
-### 把博客源文件上传到github
+### 把博客源文件上传到 github
 
-1. 初始化Git仓库，把博客源文件上传到github，进入博客文件夹，右击空白区域，运行“Git Bash Here”
+1. 初始化Git仓库，把博客源文件上传到 github ，进入博客文件夹，右击空白区域，运行“Git Bash Here”
 
-   ``````
-   初始化git仓库，运行指令：
+   ``````bash
+   // 初始化git仓库，运行指令：
    	git init
-   添加远程仓库信息，后面的url为自己的github仓库地址：
+   //添加远程仓库信息，后面的url为自己的github仓库地址：
    	git remote add origin https://github.com/wqf31415/wqf31415.github.io.git
    ``````
 
 2. 新建分支source，并自动切换到source分支
 
-   ``````
+   ``````bash
    git checkout -b source
    ``````
 
 3. 将源文件提交到github
 
-   ``````
+   ``````bash
    git add .
    git commit -m "upload source"
    git push -u origin source
    ``````
 
-   完成了上述操作后，在github的 wqf31415.github.io 仓库中就有两个分支，master分支用于存放hexo部署的博客文件，source分支存放hexo所需的源文件，可以克隆仓库到任意电脑，切换到source就可以对博客进行更新维护。
+   完成了上述操作后，在 github 的 wqf31415.github.io 仓库中就有两个分支，master 分支用于存放hexo部署的博客文件，source 分支存放 hexo 所需的源文件，可以克隆仓库到任意电脑，切换到 source 就可以对博客进行更新维护。
 
 ----
 
 ### 在不同电脑上更新博客
 
-1. 首先要安装好[nodejs](https://nodejs.org/en/ 'nodejs')和[git](https://git-scm.com/ 'git') 
+1. 首先要安装好 [nodejs](https://nodejs.org/en/ 'nodejs') 和 [git](https://git-scm.com/ 'git') 
 
 2. 克隆项目源文件到本地
 
-   ``````
+   ``````bash
    git clone https://github.com/wqf31415/wqf31415.github.io.git
    ``````
 
 3. 进入文件目录并切换分支
 
-   `cd wqf31415.github.io`
-
-   `git checkout source`
+   ```bash
+   cd wqf31415.github.io
+   git checkout source
+   ```
 
 4. 运行npm安装hexo
 
-   `npm install hexo-deployer-git --save`
+   ```bash
+   npm install hexo-deployer-git --save
+   ```
 
 5. 用hexo在本地试运行
 
@@ -76,7 +79,7 @@ categories:
 
    > 在本地预览时，可能会报错 WARN No layout: index.html 错误。
    >
-   > 原因是博客用的是[next主题](http://theme-next.iissnan.com/getting-started.html 'next官网') ，在克隆source分支到本地后，发现next文件夹是空的，需要重新安装NexT：
+   > 原因是博客用的是 [next主题](http://theme-next.iissnan.com/getting-started.html 'next官网') ，在克隆source分支到本地后，发现next文件夹是空的，需要重新安装 NexT：
    >
    >  `git clone https://github.com/iissnan/hexo-theme-next themes/next` 
    >
@@ -94,13 +97,13 @@ categories:
 
 ### 写新的文章
 
-1. 运行hexo新建命令：
+1. 运行 hexo 新建博文的命令：
 
    `hexo new '文章标题'`
 
-   在命令运行成功后，将在`source/_posts` 目录下生成 `文章标题.md` ，用markdown编辑器编写即可；
+   在命令运行成功后，将在`source/_posts` 目录下生成 `文章标题.md` ，用 markdown 编辑器编写即可；
 
-2. 文章撰写、修改完成后，需要运行hexo生成博客静态文件：
+2. 文章撰写、修改完成后，需要运行 hexo 生成博客静态文件：
 
    `hexo clean` 清除缓存
 
@@ -117,7 +120,6 @@ categories:
    `git commit -m '修改描述'` 提交修改
 
    `git push origin source` 把本地仓库推送到远端仓库
-
 
 ---
 

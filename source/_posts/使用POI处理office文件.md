@@ -198,7 +198,7 @@ public class PoiDemoApp {
 
 #### 在 SpringBoot 项目中使用 POI
 
-##### 创建 SpringBoot 项目，并在依赖中添加 POI 的依赖
+##### 创建 SpringBoot web 项目，并在依赖中添加 POI 的依赖
 
 > demo 项目的 git 地址：https://git.coding.net/wqf31415/spring-boot-poi.git
 

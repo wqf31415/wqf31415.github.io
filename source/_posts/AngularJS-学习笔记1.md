@@ -14,7 +14,6 @@ date: 2017-05-03 13:41:21
 
 
 <script src="http://onrk0ex3b.bkt.clouddn.com/angular/angular.min.js"></script>
-
 ### 第一个 Demo 体验 Angular 的双向数据绑定
 ```html
 <!DOCTYPE html>
@@ -33,8 +32,6 @@ date: 2017-05-03 13:41:21
 ```
 
 <iframe src="http://wqf31415.coding.me/Demo/angularJSDemo/1.html" name="iframe_a" style="border: 1px solid #ccc"></iframe>
-
-
 <!-- more -->
 ------
 
@@ -49,7 +46,7 @@ AngularJS 最大的四个特点是： **MVC模式** ， **模块化** ， **双�
 
 MVC : 即 Model Controller View 设计模式，Model 为数据模型，View 视图层，负责展示，Controller 为业务逻辑和控制逻辑，使用 MVC 模式使开发职责清晰，代码模块化，方便复用。
 
-
+### 
 
 
 

@@ -31,7 +31,7 @@ Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创�
 
 
 
-### 安装 vim
+### 安装  vim 分几步？
 
 #### Windows
 在 Windows 系统中安装 vim 非常简单, 只有三步: 下载、安装、使用。
@@ -49,13 +49,15 @@ Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创�
 > 此外, 在 Windows 中安装 git 后, 在 gitbash 中也可以使用 vim 。
 
 #### Linux
-使用 linux 的安装包管理工具安装, 如:
+Linux 系统下安装 vim 只需要 1 步，使用 linux 的安装包管理工具安装, 如:
 
 ```bash
 sudo apt install vim
 ```
 
 #### Apple OS X
+
+在 mac 下安装 vim 也只需要 1 步：
 
 ```bash
  brew install vim
@@ -80,7 +82,7 @@ sudo make install
 
 ### vim 五大模式
 
-在 vim 中存在 5 中编辑模式，分别是：正常模式(normal)、插入模式(insert)、命令模式(command)、可视模式(visual)、替换模式(replace)。
+划重点：在 vim 中存在 5 种编辑模式，分别是：正常模式(normal)、插入模式(insert)、命令模式(command)、可视模式(visual)、替换模式(replace)。
 
 进入 vim 时处于正常模式，是 vim 核心模式，可以从正常模式切换到其他模式，并通过按 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd> + <kbd>[</kbd> 键从其他模式返回正常模式。
 正常模式下，按 <kbd>a</kbd>、<kbd>A</kbd>、<kbd>i</kbd>、<kbd>I</kbd>、<kbd>o</kbd>、<kbd>O</kbd> 进入插入模式，可编辑文档内容；
@@ -143,7 +145,7 @@ sudo make install
 
 
 
-#### 光标移动
+#### 光标移动（重点）
 
 vim 在 normal 模式下，提供了很多的命令来移动光标，用来快速定位。可以使用键盘上下左右键移动光标，也可以使用 <kbd>h</kbd> 、 <kbd>j</kbd> 、 <kbd>k</kbd> 、 <kbd>l</kbd> 来移动光标，在 insert 模式下使用 上下左右 键移动光标。
 
@@ -252,7 +254,7 @@ vim 替换命令示例：
 
 在 Vim 中可以把单词 、句子 、段落当作一个文本对象来操作，如 `diw` 可以删除光标处的一个单词。
 
-```
+```bath
 [number]<command>[text object]
 ```
 
