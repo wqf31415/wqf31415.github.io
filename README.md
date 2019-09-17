@@ -85,7 +85,7 @@ hexo deploy
 
 也可以使用简写命令 `hexo d` 。
 
-当前已有部署方式包括 git 和 sftp 两种，其中使用的 git 平台是 GitHub 和 coding.me ，sftp 部署地址为 www.wqf31415.xyz ，**注意：如果需要部署到 sftp ，需要修改博客跟目录中 `_config.yml` ，将 sftp 的密码填上。
+> 当前已有部署方式包括 git 和 sftp 两种，其中使用的 git 平台是 GitHub 和 coding.me ，sftp 部署地址为 www.wqf31415.xyz ，**注意：如果需要使用 sftp 部署 ，需要修改博客根目录中的配置文件 `_config.yml` ，将 sftp 的密码填上**。
 
 
 
