@@ -96,18 +96,18 @@
 
 
 
-  <meta name="description" content="JHipster 核心 —— 创建实体（Create Entity）当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：  一张数据库表； 一个 Liquibase 修改集； 一个 JPA 实体； 一个 Spring Data JPA 仓库对象； 一个 spring MVC 的控制器，实现了基础的增、查、删、改方法； 一个 Angular 路由、组件和ser">
+  <meta name="description" content="写在前面的话：这篇文章中使用的 jhipster 版本是 3.12.2 ，还是使用 yo 来构建的，在最新版本中已经不需要使用 yo 了，创建实体的过程也有一些差异。  JHipster 核心 —— 创建实体（Create Entity）当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：  一张数据库表； 一个 Liquibase 修改集； 一个 JPA">
 <meta name="keywords" content="java,web,JHipster">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JHipster 学习笔记2">
 <meta property="og:url" content="http://blog.wqf31415.xyz/2017/09/12/JHipster-学习笔记2/index.html">
 <meta property="og:site_name" content="This_Wei">
-<meta property="og:description" content="JHipster 核心 —— 创建实体（Create Entity）当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：  一张数据库表； 一个 Liquibase 修改集； 一个 JPA 实体； 一个 Spring Data JPA 仓库对象； 一个 spring MVC 的控制器，实现了基础的增、查、删、改方法； 一个 Angular 路由、组件和ser">
+<meta property="og:description" content="写在前面的话：这篇文章中使用的 jhipster 版本是 3.12.2 ，还是使用 yo 来构建的，在最新版本中已经不需要使用 yo 了，创建实体的过程也有一些差异。  JHipster 核心 —— 创建实体（Create Entity）当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：  一张数据库表； 一个 Liquibase 修改集； 一个 JPA">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:updated_time" content="2019-03-04T08:55:26.240Z">
+<meta property="og:updated_time" content="2019-09-05T03:48:11.687Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="JHipster 学习笔记2">
-<meta name="twitter:description" content="JHipster 核心 —— 创建实体（Create Entity）当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：  一张数据库表； 一个 Liquibase 修改集； 一个 JPA 实体； 一个 Spring Data JPA 仓库对象； 一个 spring MVC 的控制器，实现了基础的增、查、删、改方法； 一个 Angular 路由、组件和ser">
+<meta name="twitter:description" content="写在前面的话：这篇文章中使用的 jhipster 版本是 3.12.2 ，还是使用 yo 来构建的，在最新版本中已经不需要使用 yo 了，创建实体的过程也有一些差异。  JHipster 核心 —— 创建实体（Create Entity）当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：  一张数据库表； 一个 Liquibase 修改集； 一个 JPA">
 
 
 
@@ -432,7 +432,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-03-04 16:55:26" itemprop="dateModified" datetime="2019-03-04T16:55:26+08:00">2019-03-04</time>
+                <time title="修改时间：2019-09-05 11:48:11" itemprop="dateModified" datetime="2019-09-05T11:48:11+08:00">2019-09-05</time>
               
             
           </span>
@@ -484,7 +484,10 @@
       
 
       
-        <h2 id="JHipster-核心-——-创建实体（Create-Entity）"><a href="#JHipster-核心-——-创建实体（Create-Entity）" class="headerlink" title="JHipster 核心 —— 创建实体（Create Entity）"></a>JHipster 核心 —— 创建实体（Create Entity）</h2><p>当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：</p>
+        <blockquote>
+<p>写在前面的话：这篇文章中使用的 jhipster 版本是 3.12.2 ，还是使用 yo 来构建的，在最新版本中已经不需要使用 yo 了，创建实体的过程也有一些差异。</p>
+</blockquote>
+<h2 id="JHipster-核心-——-创建实体（Create-Entity）"><a href="#JHipster-核心-——-创建实体（Create-Entity）" class="headerlink" title="JHipster 核心 —— 创建实体（Create Entity）"></a>JHipster 核心 —— 创建实体（Create Entity）</h2><p>当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：</p>
 <ul>
 <li>一张数据库表；</li>
 <li>一个 Liquibase 修改集；</li>
@@ -826,7 +829,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">28</span>
+                    <span class="site-state-item-count">30</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -958,7 +961,11 @@
                     
                       
                     
-                    <span class="site-state-item-count">45</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">47</span>
                     <span class="site-state-item-name">标签</span>
                   </a>
                 </div>
