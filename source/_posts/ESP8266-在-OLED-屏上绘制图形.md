@@ -10,47 +10,61 @@ categories:
 
 ### 写在前面
 
-在购买 ESP8266 开发板时，选择了带 OLED 屏的套餐，于是研究了一下怎么在屏幕上显示图像，自己用画图写了一个 `Hello!` ，将它显示到了 OLED 屏幕上。
+在购买 ESP8266 开发板时，选择了带 0.96 OLED 屏的套餐，于是研究了一下怎么在屏幕上显示图像，自己用画图写了一个 `Hello!` ，将它显示到了 OLED 屏幕上。
 
 ### 概述
 
-这篇文章主要讲述了用 Arduino 编写代码，将自己绘制的图片显示到 ESP8266 连接的 OLED 屏幕上，会讲到 ESP8266 如何连接 OLED，下载 Arduino 的 ACROBOTIC  SSD 1306 库，修改其中的 DrawLogo 示例，替换成自己的图片。
+这篇文章主要讲述了用 Arduino 编写代码，将自己绘制的图片显示到 ESP8266 连接的 OLED 屏幕上，会讲到 ESP8266 如何连接 OLED，下载 Arduino 的 ACROBOTIC  SSD 1306 库，修改其中的 DrawLogo 示例，替换成自己的图片以及将位图转换成字节数组。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_show.jpg)
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_show.jpg "效果图")
 
 <!-- more -->
 
+### 技术要点
+
+我们会使用 ACROBOTIC 提供 SSD1306 的库和 ESP8266 SDK 中提供的 Wire 库，使用 I2C 协议与 OLED 通信，具体可以查看文末的参考资料链接。
+
 ### ESP8266 连接 OLED
 
-我们会使用 ACROBOTIC SSD1306 的库来
+在 OLED 这边有 4 个针脚，分别是 GND(GND)、VCC(3.3V供电)、SCL(串行时钟线)、SDA(双向串行数据线)，分别与 ESP8266 开发板的 G、3V、D1、D2 连接，如图：
 
 
-
-### 绘制图形
-
-使用 Windows 自带的画图绘制图像。
-
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello.png)
-
-保存为 bmp 位图。
-
-![](http://blog-images.qiniu.wqf31415.xyz/hello.bmp)
+我们使用 ESP8266 的 3V 和 G 用于给 OLED 供电，还需要调用 Wire 库来与 OLED 通信，在 Arduino 的 Wire 库中为 I2C 协议设置的默认 GPIO， GPIO5 为 SCL，GPIO4 为 SDA，对应查看 ESP8266 的针脚配置， GPIO5 为 D1，GPIO4 为 D2。
 
 
+### 操作流程
 
-使用网上下载的工具将位图转成字节 数组
+#### 绘制图形
 
-> 下载地址： <http://source.qiniu.wqf31415.xyz/Image2Lcd.zip>
+使用 Windows 自带的画图绘制一个 128x64 像素大小的图像，也可以使用其他工具，如 ps 。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_tool.png)
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello.png "绘制图片")
+
+保存为 bmp 位图文件。
+
+![](http://blog-images.qiniu.wqf31415.xyz/hello.bmp "位图文件")
+
+#### 将图片转成字节数组
+
+> Image2Lcd 下载地址： <http://source.qiniu.wqf31415.xyz/Image2Lcd.zip>
+> Mac 中可以使用 LCD Creater：<http://csmithsoftware.com/LCD_Creator/LCD_Creator.dmg>
+
+使用网上下载的 **Image2Lcd** 工具将位图转成字节数组，点击 **打开** 选择刚才保存的 bmp 文件，按如图所示设置参数：
+
+>  输出数据类型：C语言数组(*.c)
+>
+> 扫描模式：数据水平字节垂直
+>
+> 最大宽度和高度：128  64
+>
+> 勾选 **字节内像素数据反序** 选项
+
+点击 **保存** 即可将数据保存到文件。
+
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_tool.png "Image2Lcd")
 
 
-
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_lib.png)
-
-
-
-hello.c
+打开保存的文件，里面是如下内容，是一个 c 语言定义的 char 数组，长度为 1024，一个字节表示 1 x 8 列中的像素数量，如希望下半部全部点亮，就使用 `00001111`，对应十六进制 0x0F。
 
 ```c
 const unsigned char gImage_hello[1024] = { /* 0X22,0X01,0X80,0X00,0X40,0X00, */
@@ -121,7 +135,19 @@ const unsigned char gImage_hello[1024] = { /* 0X22,0X01,0X80,0X00,0X40,0X00, */
 };
 ```
 
+#### 下载 ACROBOTIC SSD1306库
 
+点击 Arduino 菜单栏 **“项目” - “加载库” - “管理库”** ，在弹出的库管理窗口的搜索框中输入 `ACROBOTIC SSD1306` ，选择一个版本安装，一般选择最新版就可以了。
+
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_lib.png "ACROBOTIC SSD1306库")
+
+安装完成后，在 Arduino 的示例中就可以找到 ACROBOTIC SSD1306 相关的示例了。
+
+#### 程序代码
+
+打开 ACROBOTIC SSD1306 示例文件中的 `DrawLogo`，官方示例可以在 OLED 上显示 ACROBOTIC 的 logo，我们替换其中字节数组的内容，换成我们自己图片生成的字节数组(用 Image2Lcd 工具生成的数组第一行有一些图像头信息，把这些删掉)。
+
+> 注意定义数组时使用的 **PROGMEM** 关键字，加上这个之后，数组会存到开发板的 FlashROM 中，而不是 RAM 中，这样可以防止 Arduino 出现动态内存不足的问题。
 
 ```c++
 #include <Wire.h>
@@ -197,9 +223,9 @@ static unsigned char HELLO[] PROGMEM ={
 void setup()
 {
   Wire.begin();	
-  oled.init();                      // Initialze SSD1306 OLED display
-  oled.clearDisplay();              // Clear screen
-  oled.drawBitmap(HELLO, 1024);   // 1024 pixels for logo
+  oled.init();                      // 初始化
+  oled.clearDisplay();              // 清除屏幕
+  oled.drawBitmap(HELLO, 1024);   // 1024 像素
 }
 
 void loop()
@@ -207,3 +233,16 @@ void loop()
 }
 ```
 
+#### 上传代码查看结果
+
+将代码上传到 ESP8266 上，即可看到我们自己绘制的图像显示到了 OLED 上。
+
+### 参考资料
+
+- [I2C协议（上）——基础介绍 - 知乎](https://zhuanlan.zhihu.com/p/26579936 )
+- [SSD1306(OLED驱动芯片)指令详解](https://blog.csdn.net/notMine/article/details/79317782 ) 
+- [Arduino - 利用PROGMEM将数据写到闪存（程序存储空间）](https://blog.csdn.net/sdlgq/article/details/88720706 ) 
+- [ACROBOTIC | Fun and Unique Electronics for Everyone!](https://learn.acrobotic.com/tutorials/post/esp8266-oled-display-using-i2 )
+
+### 小结
+千万不要迷信卖家提供的资料！我购买 ESP8266 的卖家提供的资料中，ESP8266 开发板与 OLED 的接线是错的，SCL 和 SDA 接反了，这个倒没啥，程序可以修改参数。但 VCC 和 GND 也接反了，我插上之后，立马就感觉 OLED 开始发烫，烫手那种，赶紧给拔了。。。然后自己到网上找资料，总算调试出来了，这对新人小白来说太不友好了。。。初次接触 ESP8266 ，以上内容如果有错误之处，请帮忙指出，感激不尽！
