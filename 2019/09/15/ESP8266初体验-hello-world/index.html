@@ -104,18 +104,18 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="写在前面近期在 B站 上看到了一些使用 esp8266 开发板制作小东西的视频，有 wifi 杀手、实时显示B站粉丝数、显示天气信息等等，而一块 esp8266 开发板才十几块钱，也就一顿饭钱，于是心痒痒上淘宝买了一块来玩玩，花了两小时下软件和资源类库，花了半小时调通一个 hello world 代码，把其中过程记录一下。 概要本文主要内容包括购买 ESP8266 开发板，安装与配置开发使用的 A">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png"ESP8266 开发板"">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png"ESP8266 wifi 模块"">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_preferences.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_board_manage.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_connect_computer.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_upload.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_com_output.png">
-<meta property="og:updated_time" content="2019-09-19T11:52:48.869Z">
+<meta property="og:updated_time" content="2019-09-20T09:51:42.695Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="ESP8266初体验 hello world">
 <meta name="twitter:description" content="写在前面近期在 B站 上看到了一些使用 esp8266 开发板制作小东西的视频，有 wifi 杀手、实时显示B站粉丝数、显示天气信息等等，而一块 esp8266 开发板才十几块钱，也就一顿饭钱，于是心痒痒上淘宝买了一块来玩玩，花了两小时下软件和资源类库，花了半小时调通一个 hello world 代码，把其中过程记录一下。 概要本文主要内容包括购买 ESP8266 开发板，安装与配置开发使用的 A">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png"ESP8266 开发板"">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png">
 
 
 
@@ -440,7 +440,7 @@
                 
                   <span class="post-meta-item-text">更新于</span>
                 
-                <time title="修改时间：2019-09-19 19:52:48" itemprop="dateModified" datetime="2019-09-19T19:52:48+08:00">2019-09-19</time>
+                <time title="修改时间：2019-09-20 17:51:42" itemprop="dateModified" datetime="2019-09-20T17:51:42+08:00">2019-09-20</time>
               
             
           </span>
@@ -496,10 +496,10 @@
 <h3 id="概要"><a href="#概要" class="headerlink" title="概要"></a>概要</h3><p>本文主要内容包括购买 ESP8266 开发板，安装与配置开发使用的 Arduino IDE，使用 Arduino 编写一个 hello world 代码，然后烧录到 ESP8266 中，使用 Arduino 查看串口输出结果。</p>
 <h3 id="什么是-ESP8266"><a href="#什么是-ESP8266" class="headerlink" title="什么是 ESP8266"></a>什么是 ESP8266</h3><p>ESP8266 是 <a href="https://www.espressif.com/" target="_blank" rel="noopener">乐鑫信息科技公司</a> 开发的一款 wifi 模块，具有低功耗、高集成度的 wifi 芯片，内封了 8 Mbit 的 Flash，集成了低功耗的 32 位 <abbr title="微控制单元(Microcontroller Unit；MCU)">MCU</abbr>，带有 16 位精简模式，主频支持 80 MHz 和 160 Mhz，支持 RTOS，支持标准 IEEE802.11 b/g/n 协议，完整的 TCP/IP 协议栈。用户可以使用该模块为现有的设备添加联网功能，也可以构建独立的网络控制器。</p>
 <p>简单来说就是一个 wifi 模块，可以通过 wifi 联网或提供 wifi 服务，带了一个微处理器，我们可以写入自己的程序，比如联网调取 bilibili 接口获取用户粉丝数量，并通过 LCD 屏显示出来。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png&quot;ESP8266 开发板&quot;" alt=""></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png" alt="" title="ESP8266 开发板"></p>
 <a id="more"></a>
 <h3 id="购买-ESP8266-开发板"><a href="#购买-ESP8266-开发板" class="headerlink" title="购买 ESP8266 开发板"></a>购买 ESP8266 开发板</h3><p>可以上京东或淘宝购买，直接搜索 “ESP8266开发板”，如上图，可以直接使用 安卓数据线接入电脑使用。注意：一般直接搜索 “ESP8266” 找到的是 wifi 模块（如下图），需要另外使用烧录工具，会稍微麻烦一点。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png&quot;ESP8266 wifi 模块&quot;" alt=""></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png" alt="" title="ESP8266 wifi 模块"></p>
 <h3 id="安装开发工具-Arduino-IDE"><a href="#安装开发工具-Arduino-IDE" class="headerlink" title="安装开发工具 Arduino IDE"></a>安装开发工具 Arduino IDE</h3><p>到 Arduino 官网下载 IDE 安装包，支持 Windows、Linux、MacOS，其中对于 Win 8.1 或 Win 10 系统，可以直接在 <a href="https://www.microsoft.com/zh-cn/p/arduino-ide/9nblggh4rsd8?ocid=badge&amp;rtc=1#activetab=pivot:overviewtab" target="_blank" rel="noopener">微软应用商店</a> 安装。</p>
 <blockquote>
 <p>中文官网：<a href="https://www.arduino.cn/" target="_blank" rel="noopener">https://www.arduino.cn/</a></p>
