@@ -26,10 +26,11 @@ categories:
 
 ### ESP8266 连接 OLED
 
-在 OLED 这边有 4 个针脚，分别是 GND(GND)、VCC(3.3V供电)、SCL(串行时钟线)、SDA(双向串行数据线)，分别与 ESP8266 开发板的 G、3V、D1、D2 连接，如图：
+在 OLED 这边有 4 个针脚，分别是 GND(GND)、VCC(3.3V供电)、SCL(串行时钟线)、SDA(双向串行数据线)，分别与 ESP8266 开发板的 G、3V、D1、D2 连接，即 **GND -> G** 、 **VCC -> 3V** 、 **SCL -> D1** 、 **SDA -> D2** 。
 
+> 原理：我们使用 ESP8266 的 3V 和 G 用于给 OLED 供电，还需要调用 Wire 库来与 OLED 通信，在 Arduino 的 Wire 库中为 I2C 协议设置的默认 GPIO， GPIO5 为 SCL，GPIO4 为 SDA，对应查看 ESP8266 的针脚配置， GPIO5 为 D1，GPIO4 为 D2。
 
-我们使用 ESP8266 的 3V 和 G 用于给 OLED 供电，还需要调用 Wire 库来与 OLED 通信，在 Arduino 的 Wire 库中为 I2C 协议设置的默认 GPIO， GPIO5 为 SCL，GPIO4 为 SDA，对应查看 ESP8266 的针脚配置， GPIO5 为 D1，GPIO4 为 D2。
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board_pins.png "ESP8266 引脚分布图")
 
 
 ### 操作流程
@@ -235,7 +236,7 @@ void loop()
 
 #### 上传代码查看结果
 
-将代码上传到 ESP8266 上，即可看到我们自己绘制的图像显示到了 OLED 上。
+将代码上传到 ESP8266 上，即可看到我们自己绘制的图像显示到了 OLED 上，显示内容如文章开头的效果图一样。
 
 ### 参考资料
 
