@@ -26,7 +26,7 @@ ESP8266 是 [乐鑫信息科技公司](https://www.espressif.com/) 开发的一�
 
 简单来说就是一个 wifi 模块，可以通过 wifi 联网或提供 wifi 服务，带了一个微处理器，我们可以写入自己的程序，比如联网调取 bilibili 接口获取用户粉丝数量，并通过 LCD 屏显示出来。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png"ESP8266 开发板")
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png "ESP8266 开发板")
 
 
 
@@ -38,7 +38,7 @@ ESP8266 是 [乐鑫信息科技公司](https://www.espressif.com/) 开发的一�
 
 可以上京东或淘宝购买，直接搜索 “ESP8266开发板”，如上图，可以直接使用 安卓数据线接入电脑使用。注意：一般直接搜索 “ESP8266” 找到的是 wifi 模块（如下图），需要另外使用烧录工具，会稍微麻烦一点。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png"ESP8266 wifi 模块")
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png "ESP8266 wifi 模块")
 
 
 
