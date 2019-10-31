@@ -10,11 +10,15 @@ categories:
 
 ### 写在前面
 
-在购买 ESP8266 开发板时，选择了带 0.96 OLED 屏的套餐，于是研究了一下怎么在屏幕上显示图像，自己用画图写了一个 `Hello!` ，将它显示到了 OLED 屏幕上。
+在购买 ESP8266 开发板时，选择了带 0.96 OLED 屏的套餐，于是研究了一下怎么在屏幕上显示图像，自己用画图写了一个 `Hello!` ，将它显示到了 OLED 屏幕上。将信息显示到屏幕上是一种比较方便的交互方式，可以直观的查看设备运行状况。
 
 ### 概述
 
-这篇文章主要讲述了用 Arduino 编写代码，将自己绘制的图片显示到 ESP8266 连接的 OLED 屏幕上，会讲到 ESP8266 如何连接 OLED，下载 Arduino 的 ACROBOTIC  SSD 1306 库，修改其中的 DrawLogo 示例，替换成自己的图片以及将位图转换成字节数组。
+这篇文章主要讲述了用 Arduino 编写代码，将自己绘制的图片显示到 ESP8266 连接的 OLED 屏幕上。要点包括： 
+- ESP8266 开发板的引脚分布：讲解如何连接 4 针的 OLED 屏，接线方式
+- Arduino 库管理的使用：下载 Arduino 的 ACROBOTIC  SSD 1306 库
+- 使用第三方库中的示例：修改其中的 DrawLogo 示例，替换成自己的图片
+- 将位图（png）转换成字节数组。
 
 ![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_show.jpg "效果图")
 
@@ -148,7 +152,7 @@ const unsigned char gImage_hello[1024] = { /* 0X22,0X01,0X80,0X00,0X40,0X00, */
 
 打开 ACROBOTIC SSD1306 示例文件中的 `DrawLogo`，官方示例可以在 OLED 上显示 ACROBOTIC 的 logo，我们替换其中字节数组的内容，换成我们自己图片生成的字节数组(用 Image2Lcd 工具生成的数组第一行有一些图像头信息，把这些删掉)。
 
-> 注意定义数组时使用的 **PROGMEM** 关键字，加上这个之后，数组会存到开发板的 FlashROM 中，而不是 RAM 中，这样可以防止 Arduino 出现动态内存不足的问题。
+> 注意定义数组时使用的 **PROGMEM** 关键字，加上这个之后，数组会存到开发板的 FlashROM 中，而不是 RAM 中，这样可以防止单片机出现动态内存不足的问题。
 
 ```c++
 #include <Wire.h>
