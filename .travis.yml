@@ -18,6 +18,7 @@ install:
   
 script:
   - git clone https://github.com/iissnan/hexo-theme-next themes/next
+  - cp themes_config/next/_config.yml themes/next/
   - hexo clean
   - hexo generate
 
@@ -25,7 +26,7 @@ after_success:
   - git config --local user.name "travis-ci"
   - git config --local user.email "deploy@travis-ci.org"
   - sed -i'' "s~https://github.com/~https://${GIT_REPO_TOKEN}@github.com/~" _config.yml
-  - sed -i'' "s~https://git.coding.net/~https://${GIT_CODING_REPO_TOKEN}@git.coding.net/~" _config.yml
+  - sed -i'' "s~https://git.coding.net/~https://wqf31415:${GIT_CODING_REPO_TOKEN}@git.coding.net/~" _config.yml
   - hexo deploy > /dev/null
   
 notifications:
