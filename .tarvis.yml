@@ -1,0 +1,34 @@
+# .tarvis.yml
+language: node_js # 指定语言环境
+node_js:
+  - "10" # 指定 nodejs 版本
+dist: trusty # 指定系统版本，trusty 是 ubuntu 14.04 发行版的名称
+sudo: required # 是否需要 sudo 权限
+
+branches:
+  only: 
+  - source
+
+before_install:
+  - npm install -g hexo
+  - npm install -g hexo-cli 
+
+install:
+  - npm install
+  
+sript:
+  - git clone https://github.com/iissnan/hexo-theme-next themes/next
+  - hexo clean
+  - hexo generate
+
+after_success:
+  - git config --local user.name "travis-ci"
+  - git config --local user.email "deploy@travis-ci.org"
+  - sed -i'' "s~git@github.com:~https://${GIT_REPO_TOKEN}@github.com/~" _config.yml
+  - hexo deploy > /dev/null
+  
+notifications:
+  enail: true
+  
+  
+
