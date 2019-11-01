@@ -16,7 +16,7 @@ before_install:
 install:
   - npm install
   
-sript:
+script:
   - git clone https://github.com/iissnan/hexo-theme-next themes/next
   - hexo clean
   - hexo generate
