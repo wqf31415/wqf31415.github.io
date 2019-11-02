@@ -88,4 +88,5 @@ hexo deploy
 > 当前已有部署方式包括 git 和 sftp 两种，其中使用的 git 平台是 GitHub 和 coding.me ，sftp 部署地址为 www.wqf31415.xyz ，**注意：如果需要使用 sftp 部署 ，需要修改博客根目录中的配置文件 `_config.yml` ，将 sftp 的密码填上**。
 
 
-
+## 错误排除
+- 使用 sftp 部署时发生错误，可能原因是部署目录服务器中放在了 Tomcat 中，Tomcat 运行导致文件被占用，不能被 ftp 上传修改，需要关闭服务器上 Tomcat 后再次尝试
