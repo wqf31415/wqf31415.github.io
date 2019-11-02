@@ -110,6 +110,6 @@ deploy:
     host: 118.24.50.165
     port: 22
     user: hexo
-    pass: 
+    pass: sftppass
 
 
