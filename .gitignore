@@ -5,14 +5,3 @@ db.json
 node_modules/
 public/
 .deploy*/
-themes/
-######################
-# Intellij
-######################
-.idea/
-*.iml
-*.iws
-*.ipr
-*.ids
-*.orig
-.idea/workspace.xml
