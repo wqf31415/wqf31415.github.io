@@ -2,10 +2,10 @@
 title: ESP8266初体验 hello world
 date: 2019-09-15 14:30:02
 tags:
-- loT
+- IoT
 - esp8266
 categories:
-- 技术
+- Arduino
 ---
 
 ### 写在前面
