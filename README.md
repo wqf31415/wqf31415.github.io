@@ -33,6 +33,7 @@ npm install
 
 ### 下载主题
 当前使用的是 [NexT](https://theme-next.org) 主题，下载方式，进入项目根目录，执行：
+
 ```bash
 git clone https://github.com/theme-next/hexo-theme-next themes/next
 ```
@@ -43,7 +44,11 @@ git clone https://github.com/theme-next/hexo-theme-next themes/next
 cp themes_config/next/_config.yml themes/next/
 ```
 ### 修改翻译错误
-在博客中可能存在一些自定义的菜单项，显示为英文，如需要修改成显示中文，则可以修改 `themes/next/languages/zh-CN.yml` 中的配置，在 `menu` 一项中添加需要的字段配置即可。
+在博客中可能存在一些自定义的菜单项，显示为英文，如需要修改成显示中文，则可以修改 `themes/next/languages/zh-CN.yml` 中的配置，在 `menu` 一项中添加需要的字段配置即可。也可以将写好的配置文件复制在 next 主题的目录中，执行命令：
+
+```bash
+cp themes_config/next/languages/zh-CN.yml themes/next/languages/
+```
 
 ### 渲染博客内容并开启预览
 先使用命令清除已生成的页面：
@@ -89,4 +94,9 @@ hexo deploy
 
 
 ## 错误排除
-- 使用 sftp 部署时发生错误，可能原因是部署目录服务器中放在了 Tomcat 中，Tomcat 运行导致文件被占用，不能被 ftp 上传修改，需要关闭服务器上 Tomcat 后再次尝试
+- 使用 sftp 部署时发生错误(错误信息如下)，可能原因是部署目录服务器中放在了 Tomcat 中，Tomcat 运行导致文件被占用，不能被 ftp 上传修改，需要关闭服务器上 Tomcat 后再次尝试
+  ```
+  FATAL Something's wrong. Maybe you can find the solution here: https://hexo.io/docs/troubleshooting.html
+Error: Bad message
+    at SFTPStream._transform (/home/travis/build/wqf31415/wqf31415.github.io/node_modules/ssh2-streams/lib/sftp.js:410:27)
+  ```
