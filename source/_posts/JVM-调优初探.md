@@ -22,11 +22,15 @@ categories:
 3. 怀疑消息消费代码效率太低，测试发现在消息积压过多时，消费速度严重下降，可能是线程太多，处理不过来；
 4. 检查代码发现，应用开启后不断的从消息队列拿数据，生成任务对象放到了一个 LinkedBlockingQueue 中，这个 queue 没有指定容量，使用的是最大容量 Integer.MAX_VALUE ，怀疑是放入了太多的数据，把内存占满了；
 
+
+
 <!-- more -->
 
-### 使用 jdk 中自带的工具监测 java 应用程序
 
-#### jps - 查看正在运行的 java 进程
+
+### 使用 jdk 中自带的工具监控 java 进程
+
+#### jps - 查看运行的 java 进程
 ##### 功能
 全称 JavaVirtual Machine Process Status Tool ，用于查看当前运行的 java 进程，可输出进程号 pid 、名称及参数。
 
@@ -56,7 +60,12 @@ Java 程序启动后，会在 `java.io.tmpdir` 指定的目录下生成 `hsperfd
 `java.io.tmpdir` 在 windows 系统下默认为 `C:\Users\Administrator\AppData\Local\Temp\hsperfdata_Administrator` ，Linux 下默认为 `/tmp/hsperfdata_{userName}/` 。
 ![](http://blog-images.qiniu.wqf31415.xyz/jps_hsperfdata_windows.png "Windows 下的 hsperfdata 目录及文件") 
 
-##### 启动 jstatd
+#### 启动 jstatd 允许远程监控
+
+> jstatd 是一个基于 RMI (远程方法调用，Remove Method Invocation) 的服务程序，用于监控基于 HotSpot 的 JVM 中资源的创建及销毁，提供了一个接口允许远程的监控工具连接到本地的 JVM 执行命令。
+
+##### 操作步骤
+
 1. 创建策略文件 `jstatd.all.policy` ，文件内容如下：
 ``````
 grant codebase "file:${java.home}/../lib/tools.jar" {
@@ -90,15 +99,55 @@ C:\Users\Administrator\Desktop>jps 172.16.19.233
 22300 Launcher
 ``````
 
-##### 参考资料：
-> jvm 性能调优工具之 jps： https://www.jianshu.com/p/d39b2e208e72
-> Java jstatd详解： https://www.cnblogs.com/tulianghui/p/5918345.html
+##### 参考资料
+> jvm 性能调优工具之 jps： <https://www.jianshu.com/p/d39b2e208e72>
+>
+> Java jstatd详解： <https://www.cnblogs.com/tulianghui/p/5918345.html> 
+>
+> java jvm常用命令工具——jstatd命令(Java Statistics Monitoring Daemon)：<https://www.iteye.com/blog/bijian1013-2221434> 
 
-#### jconsole
-Java Monitoring and Management Console，一种基于 JMX 的，对 JVM 性能和资源消耗的可视化监视、管理工具。
+
+
+------
+
+#### jmap 查看内存使用情况与生成堆 dump
+
+> jmap 可以用来查看内存使用情况，生成 java 程序的 dump 文件，查看对内对象的统计信息，查看类加载器 (ClassLoader) 的信息和 finalizer 队列
+
+##### 使用方法
+
+命令行执行如下命令，pid 是 java 进程 id，可以通过 **jps** 命令查看获得。
+
+```bash
+jmap <pid>
+```
+
+![](http://blog-images.qiniu.wqf31415.xyz/jmap_help.png "jmap -help")
+
+------
+
+#### jstack
+
+> jstack 用于查看或导出 java 程序线程堆栈信息。
+
+##### 使用方法
+
+命令行执行， pid 是 java 程序 id，通过 **jps** 工具查询获取
+
+```bash
+jstack <pid>
+```
+
+![](http://blog-images.qiniu.wqf31415.xyz/jstack_help.png "jstack -help")
+
+------
+
+#### jconsole 可视化监控 JVM
+> Java Monitoring and Management Console，一种基于 JMX 的，对 JVM 性能和资源消耗的可视化监视、管理工具。
 
 ##### 本地使用 jconsole
 在 Windows 系统下，命令行执行`jconsole` 命令，或打开 jdk 的 bin 目录下的 `jconsole.exe` ，打开后会自动检索当前机器上运行的 java 进程，选择需要查看的，点击 `连接` 即可。
+
 ![](http://blog-images.qiniu.wqf31415.xyz/jconsole_1.png "jconsole")
 
 如果连接失败可以添加以下配置后再试，如果是用 Tomcat 运行的，就加到 Tomcat 的启动参数里，如果是开发时用 IDE 运行的，就加到 IDE 的配置里。：
@@ -150,12 +199,57 @@ user 123456
 在其他机器上启动 jconsole ，使用远程连接，填入设定的地址、端口，以及用户名、密码，点击 “连接” 即可在监控远程服务器上的 java 程序。
 
 ##### 参考资料
-> JConsole远程连接配置: https://www.cnblogs.com/think-in-java/p/6138439.html
-> 使用JCONSOLE远程监控JVM: https://www.cnblogs.com/Dhouse/p/7827175.html
-> JVM的SNMP监控配置: https://www.cnblogs.com/zhukunrong/p/3860803.html
+> JConsole远程连接配置: <https://www.cnblogs.com/think-in-java/p/6138439.html> 
+>
+> 使用JCONSOLE远程监控JVM: <https://www.cnblogs.com/Dhouse/p/7827175.html> 
+>
+> JVM的SNMP监控配置: <https://www.cnblogs.com/zhukunrong/p/3860803.html> 
 
-#### jstack
 
-#### jvisualvm
+
+
+
+
+
+------
+
+#### jvisualvm 可视化监控 JVM
+> 功能比较齐全的可视化监控 JVM 的工具，可以查看监视内存使用情况，查看线程状态等，可以监控本地或远程的 JVM。
+>
 > 官方文档：[http://visualvm.github.io/documentation.html](http://visualvm.github.io/documentation.html "VisualVM 官方文档")
 
+##### 打开方式
+
+命令行执行如下命令，将打开 jvisualvm 工具界面：
+
+```bash
+jvisualvm
+```
+
+![](http://blog-images.qiniu.wqf31415.xyz/jvisualvm.png "jvisualvm")
+
+可视化操作，非常方便，可以在左侧选择本地或远程运行的 java 进程，监视效果如下：
+
+![](http://blog-images.qiniu.wqf31415.xyz/jvisualvm_monitor.png "jvisualvm 监视 java 进程")
+
+
+
+------
+
+### Arthas 阿里巴巴开源 Java 诊断工具
+
+> Arthas (阿尔萨斯) 是 Alibaba 开源的 java 诊断工具，深受开发者喜爱。
+>
+> Arthas 用户文档: <https://alibaba.github.io/arthas/>
+
+![](http://blog-images.qiniu.wqf31415.xyz/arthas.png)
+
+> 还没体验过，以后体验过再来写！
+
+
+
+### 总结
+
+这篇文章主要介绍了几种 jvm 监控调试的工具，我利用这些工具监控 java 项目在启动时的情况，最后发现项目启动时创建了大量的对象，结合代码分析，确认是项目中使用了不限长度的任务处理 Queue ，当任务积压时，程序不断的创建任务并放入任务队列，导致内存耗尽，频繁 gc。所以我们限制了任务队列容量，使用阻塞的 Queue，最终解决了问题。
+
+虽然我们最终解决了问题，但由于自身对 JVM 认识不深，很多时候工具输出结果看不懂，导致难以定位问题，看来用这些工具的基础是了解 JVM，所以，下一步的目标是学习 JVM 相关的知识！
