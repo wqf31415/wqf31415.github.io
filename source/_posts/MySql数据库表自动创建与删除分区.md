@@ -14,8 +14,11 @@ categories:
 数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。
 
 ### 环境
+
 - 操作系统: Windows 7
+
 - 数据库：MySQL 5.7
+
 - 工具：Navicat for MySQL 10.1.7
 
 ![](http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg)
@@ -24,13 +27,13 @@ categories:
 
 ### 数据库与表
 
-- 数据库：cma
+- 创建数据库(cma)并指定字符集(utf8)
 
   ``````sql
-  CREATE DATABASE cma；
+  CREATE DATABASE cma DEFAULT CHARSET utf8；
   ``````
 
-- 表：meteorology_sensor
+- 创建表(meteorology_sensor)，指定引擎(InnoDB)
 
   ``````sql
   create table meteorology_sensor (id bigint COMMENT '主键，自动生成' not null auto_increment, collected_time timestamp COMMENT '数据采集时间', component_id char(17) COMMENT '被监测设备ID', device_code char(17) COMMENT '设备编号' not null, device_id bigint COMMENT '设备Id', protocol_version char(5) COMMENT '数据上传时使用的版本号,值为：v2010、v2015', send_state tinyint(1) COMMENT '推送CAG状态，1 成功，0 未推送，-1 推送失败', air_pressure decimal(10,1) COMMENT '气压，浮点数，精确到小数点后1位，单位：hPa', air_temperature decimal(10,1) COMMENT '气温，浮点数，精确到小数点后1位，单位：℃', alarm_flag smallint COMMENT '报警标识，新协议没有这个字段', average_wind_direction10min smallint COMMENT '10分钟平均风向，无符号整数，单位：°', average_wind_speed10min decimal(10,1) COMMENT '十分钟平均风速，浮点数，精确到小数点后1位，单位：m/s', extreme_wind_speed decimal(10,1) COMMENT '极大风速，浮点数，精确到小数点后1位，单位：m/s', humidity smallint COMMENT '湿度，无符号整数，单位：%RH', max_wind_speed decimal(10,1) COMMENT '最大大风速，浮点数，精确到小数点后1位，单位：m/s', precipitation decimal(10,1) COMMENT '降雨量，浮点数，精确到小数点后1位，单位：mm', precipitation_intensity decimal(10,1) COMMENT '降水强度，浮点数，精确到小数点后1位，单位：mm/min', radiation_intensity smallint COMMENT '光辐射强度，无符号整数，单位：W/m2', second_time_stamp Timestamp COMMENT '报文中的时间戳', standard_wind_speed decimal(10,1) COMMENT '标准风速，浮点数，精确到小数点后1位，单位：m/s', primary key (id)) ENGINE=InnoDB
@@ -54,7 +57,8 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
 
 #### 初始分区
 
-按时间范围分区，每年按季度分区，每3个月为一个分区。
+按时间范围分区，每年按季度分区，每3个月为一个分区。分区的范围应该根据实际数据量来确定，如数据量较小，可以考虑加大分区的时间范围，防止分区文件过多。
+
 > 注意：最后要建一个 less than (maxvalue) 的分区(p_future)，将超过设定分区时间的数据都放到这个分区里。
 
 - 使用 Navicat 进行分区
@@ -93,9 +97,13 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
 
 #### 创建新分区的存储过程
 
+为了使用方便，在定义存储过程时，指定了 3 个参数，分别是：要进行分区的数据库名(p_schema)、要进行分区的表名(p_table)、要多添加的月数(p_months_to_add)。
+
   ``````sql
+-- 如果存储过程已经存在，将其删除
 DROP PROCEDURE IF EXISTS cma.create_new_partitions;
 
+-- 定义创建分区的存储过程
 DELIMITER $$
 CREATE PROCEDURE cma.create_new_partitions(p_schema varchar(64), p_table varchar(64), p_months_to_add int)
 -- 参数：
@@ -284,9 +292,13 @@ DELIMITER ;
 
 #### 创建删除分区存储过程
 
-  ``````sql
-  DROP PROCEDURE IF EXISTS cma.drop_old_partitions;
+同样的，为了使用方便，在定义删除分区的存储过程时也指定了几个参数，分别是：数据库名(p_schema)、表名(p_table)、保留的分区数(p_months_to_keep)、删除分区等待时间(p_seconds_to_sleep)。
 
+  ``````sql
+-- 如果存储过程已经存在，将其删除
+DROP PROCEDURE IF EXISTS cma.drop_old_partitions;
+
+-- 定义删除分区的存储过程
 DELIMITER $$
 CREATE PROCEDURE cma.drop_old_partitions(p_schema varchar(64), p_table varchar(64), p_months_to_keep int, p_seconds_to_sleep int)
 -- 参数：
@@ -424,9 +436,13 @@ DELIMITER ;
 
 #### 创建删除老分区并创建新分区的存储过程
 
+为了能够实现自动的删除老分区和创建新分区，定义一个存储过程，调用上面定义的两个存储过程，传入上面两个存储过程需要的参数：数据库名(p_schema)、表名(p_table)、要多添加的月数(p_months_to_add)、保留的分区数(p_months_to_keep)、删除分区等待时间(p_seconds_to_sleep)。
+
   ``````sql
+-- 如果存储过程已经存在，将其删除
 DROP PROCEDURE IF EXISTS cma.perform_partition_maintenance;
 
+-- 定义删除老分区并创建新分区的存储过程
 DELIMITER $$
 CREATE PROCEDURE cma.perform_partition_maintenance(p_schema varchar(64), p_table varchar(64), p_months_to_add int, p_months_to_keep int, p_seconds_to_sleep int)
 	-- 先删除老的分区，再生成新的分区
@@ -448,10 +464,13 @@ DELIMITER ;
   
 #### 创建定时执行的事件
 
+创建定时事件：从现在时间开始，每隔一个月触发一次，将调用上面写的存储过程，完成自动删除老的分区，创建新的分区，修改事件中调用存储过程的参数，即可完成对其他表的自动分区管理。
+
   ``````sql
+-- 如果事件已经存在，将其删除  
 DROP EVENT if EXISTS cma.monthly_event_meteorology_sensor;
 
--- 创建定时事件：从现在时间开始，每隔一个月执行一次，自动删除老的分区，创建新的分区
+-- 创建定时事件：从现在时间开始，每隔一个月触发一次，将调用上面写的存储过程，完成自动删除老的分区，创建新的分区
 CREATE EVENT cma.monthly_event_meteorology_sensor
    ON SCHEDULE
    EVERY 1 MONTH
@@ -463,33 +482,48 @@ DO
 
 
 ### MySQL 中其它分区方式
+
 在上面的示例中，我们按字段值的范围(RANGE)进行分区，在 MySQL 中还提供的分区方式：
-- 范围分区(RANGE): 按连续的区间范围把数据分到不同分区中，要求分区范围不能重叠，而且必须连续。
+
+- 范围分区(RANGE): 按连续的区间范围把数据分到不同分区中，要求分区范围不能重叠，而且必须连续，常见的有按时间、自增的id进行分区。
+
 - 列表分区(LIST): 按枚举出的值进行分区，如按地理位置不同将数据分到不同区，东北、华北、华南...。
+
 - 散列分区(HASH): 基于给定的分区数，通过用户定义的计算后，将数据分到不同分区。这个函数可以包含MySQL 中有效的、产生非负整数值的任何表达式。
+
 - 键分区(KEY): 类似 HASH 分区，区别在于 KEY 分区只支持一列或多列，且MySQL服务器提供其自身的哈希函数。必须有一列或多列包含整数值。
+
 - 线性散列分区(LINEAR_HASH): 与常规哈希的区别在于，线性哈希功能使用的一个线性的2的幂（powers-of-two）运算法则，而常规哈希使用的是求哈希函数值的模数
+
 - 线性键(LINEAR_KEY): 与常规 KEY 的区别也是使用的一个线性的2的幂（powers-of-two）运算法则。
   
   
 ### 注意事项
+
 - 作为分区的字段需要设置为外键，否则无法分区。
+
 - 被分区的表中不能有外键，否则无法分区，分区时 mysql 会报 **1506** 错误。
-- 当使用 range 方式分区且最后一个分区为 less than maxvalue 时，手动添加新分区时，不能直接添加，会报 1481 错误(`MAXVALUE can only be used in last partition definition`)，需要将 future 分区分割成两个分区，使用如下方式：
+
+- 当使用 range 方式分区且最后一个分区为 less than maxvalue 时，手动添加新分区时，不能直接添加，会报 1481 错误(`MAXVALUE can only be used in last partition definition`)，需要将 future 分区分割成两个分区，可执行如下 sql 语句：
+
   ``````sql
 -- 将 battery_state 表中 future 分区重新划分，得到两个分区：p201906、future
 ALTER TABLE battery_state REORGANIZE PARTITION future INTO(
 PARTITION p201906 VALUES less than (UNIX_TIMESTAMP('2019-07-01')) ENGINE = InnoDB,
 PARTITION future VALUES less than MAXVALUE ENGINE = InnoDB
-)
+);
   ``````
 
 
 ### 参考资料
 - 数据库分区及分区优点: [https://blog.csdn.net/liukun321/article/details/45823795](https://blog.csdn.net/liukun321/article/details/45823795)
+
 - Automatic Partition Maintenance in MySQL and MariaDB: Part 3: [http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/](http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/)
+
 - MySQL表的四种分区类型: [https://www.cnblogs.com/mliudong/p/3625522.html](https://www.cnblogs.com/mliudong/p/3625522.html)
+
 - 深入解析MySQL分区（Partition）功能: [https://www.cnblogs.com/alamps/p/6740572.html](https://www.cnblogs.com/alamps/p/6740572.html)
+
 - MYSQL分区表功能测试简析: [https://www.cnblogs.com/tomcattd/p/3524259.html](https://www.cnblogs.com/tomcattd/p/3524259.html)
 
 ### 总结
