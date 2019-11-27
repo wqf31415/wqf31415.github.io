@@ -61,7 +61,7 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
 
 > 注意：最后要建一个 less than (maxvalue) 的分区(p_future)，将超过设定分区时间的数据都放到这个分区里。
 
-- 使用 Navicat 进行分区
+##### 使用 Navicat 进行分区
 
   1. 设计表 -> 选项 -> 分割区
 
@@ -77,7 +77,8 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
   
   4. 确定分区后，点击确定回到设计表界面，点击 “保存” 完成分区。
 
-- 使用 SQL 语句进行分区
+
+##### 使用 SQL 语句进行分区
 
   ``````sql
   ALTER TABLE cma.meteorology_sensor PARTITION by RANGE (UNIX_TIMESTAMP(collected_time))
@@ -91,8 +92,10 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
   );
   ``````
   
-- 查看分区文件
-  进入 MySQL 的数据存储目录下，查看数据库的文件，发现出现了如下的分区文件：
+  
+#### 查看分区文件
+  进入 MySQL 的数据存储目录下，查看数据库的文件，发现出现了如下的分区文件，说明初始分区正确：
+  
   ![](http://blog-images.qiniu.wqf31415.xyz/partition_file.png "分区文件")
 
 #### 创建新分区的存储过程
@@ -481,7 +484,9 @@ DO
   ``````
 
 
-### MySQL 中其它分区方式
+### 扩展
+
+#### MySQL 中其它分区方式
 
 在上面的示例中，我们按字段值的范围(RANGE)进行分区，在 MySQL 中还提供的分区方式：
 
