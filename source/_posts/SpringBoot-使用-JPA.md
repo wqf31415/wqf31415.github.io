@@ -13,15 +13,19 @@ categories:
 ---
 
 ### 内容概述
+
 这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询，Specification 查询。
 
 ### 什么是 JPA ？
+
 JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司提出的一套标准，用于将运行期对象持久化存储到数据库，具体实现的产品有： Hiberate、Eclipselink、Toplink、Spring Data JPA等。
 
 <!-- more -->
 
 ### 使用 spring-data-jpa
+
 #### 创建项目
+
 简单起见，直接使用 http://start.spring.io 来创建项目，添加3个依赖: `JPA` 、 `MySQL` 、 `Web` 。
 ![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png '创建 jpademo 项目') 
 demo 项目中的 pom.xml 如下：
@@ -86,7 +90,9 @@ demo 项目中的 pom.xml 如下：
 ``````
 
 #### 修改配置文件
+
 修改 `application.properties` 文件，添加连接数据源需要的 url、username、password ：
+
 ``````properties
 spring.datasource.url=jdbc:mysql://localhost:3306/testjpa?useUnicode=true&characterEncoding=utf8&useSSL=false
 spring.datasource.username=root
@@ -98,8 +104,10 @@ spring.jpa.show-sql=true
 ``````
 
 #### 创建实体
+
 实体类与数据库表对应，实体类中包含对象属性，相应的 setter、getter方法和 toString 方法。在 JPA 中通过给类添加 `@Entity` 注解表明这个类是实体类。
 创建一个 `domain` 包，创建一个 `Student` 类，给这个类加上 `@Entity` 注解，给主键字段加上 `@Id` 和 `@GeneratedValue` 注解，给其它字段加上 `@Column` 注解。
+
 ``````java
 package com.example.jpademo.domain;
 
@@ -174,6 +182,7 @@ public class Student {
 ``````
 
 #### 自动建表
+
 在 springboot jpa 项目配置文件中添加配置项 `spring.jpa.hibernate.ddl-auto=create` ，项目启动时会自动扫描全部实体类，并在数据库中创建相应的表。
 添加完实体类后，运行一下项目，发现打出的 sql 语句如下：
 
@@ -184,6 +193,7 @@ Hibernate: create table hibernate_sequence (next_val bigint) engine=MyISAM
 Hibernate: insert into hibernate_sequence values ( 1 )
 Hibernate: create table student (id bigint not null, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine=MyISAM
 ``````
+
 查看数据库，发现多了两张表: `hibernate_sequence` 和 `student`。**但是我们使用的 mysql 数据库，不需要sequence来做主键，只需要设置主键值自增就行了**。所以，我们把上面的 `Student` 类改一下，给 `id` 字段的 `@GeneratedValue` 加上主键生成策略参数，修改为 `@GeneratedValue(strategy = GenerationType.IDENTITY)` 。
 主键生成策略的可选项：
 
@@ -207,9 +217,11 @@ Hibernate: create table student (id bigint not null auto_increment, active bit, 
 spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
 ``````
 经过上面的修改后，建表语句变成了:
+
 ``````sql
 create table student (id bigint not null auto_increment, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine=InnoDB
 ``````
+
 观察后发现：**name 字段的最大长度为 255 ，而实际上我们并不需要这么大的容量**，所以我们需要限制一下，在 `name` 字段的 `@Column` 注解中添加 length 参数，改为 `@Column(length = 20)` ，这样修改后，生成的表将限制最大长度为 20。
 `@Column` 注解参数说明：
 
@@ -232,7 +244,7 @@ create table student (id bigint not null auto_increment, active bit, age integer
 
  `@Entity` 注解表明这个类是需要 orm 映射的，只有 `name` 一个参数，而 `@Table` 注解中可以修改一些映射的规则。
  `@Table` 注解参数：
- 
+
 |名称|说明|默认值|
 |:----:|:----:|:----:|
 |name|(可选) 表名|当前类名|
@@ -241,11 +253,14 @@ create table student (id bigint not null auto_increment, active bit, age integer
 |uniqueConstraints|(可选) 创建单个或联合唯一约束，可以在建表时添加索引|{}|
 
 例如：
+
 ``````java
 @Table(name = "tb_student",catalog = "test",schema = "testjpa",uniqueConstraints = {@UniqueConstraint(columnNames = {"name","age"})})
 // 将在 test 数据库中创建名为 tb_student 的表，查询时使用 testjpa 的用户查询，并给这张表添加 name 与 age 的唯一约束
 ``````
+
 建表时运行的 sql 如下，在建表完成后，给表添加了约束条件：
+
 ``````sql
 drop table if exists test.tb_student;
 create table test.tb_student (id bigint not null auto_increment, active bit, age smallint COMMENT '学生年龄', birthday datetime, name varchar(20), primary key (id)) engine=InnoDB;
@@ -253,11 +268,15 @@ alter table test.tb_student add constraint UKjryppi07bm3jtculd9mtfjtjf unique (n
 ``````
 
 #### 自动插入初始数据
+
 当配置项 `spring.jpa.hibernate.ddl-auto` 的值为 `create` 或 `create-drop` 时，项目启动建表完成后，会扫描 classpath 下(默认为resource目录)的 `import.sql` 文件，如果有就会执行这个脚本，我们可以在这里面添加插入数据的 sql，初始化数据库中的数据。
 
 #### 创建 Repository
+
 ##### 方式一 继承 JpaRepository 接口 (推荐)
+
 创建包 `repository` ，创建接口 `StudentRepository` 继承 `JpaRepository<T,ID>` ，其中 `JpaRepository` 需要指定两个泛型约束，T 为 Entity 实体类，ID 为该实体类的主键类型。这个接口包含了很多基本的增删改查方法，可以直接使用。
+
 ``````java
 package com.example.jpademo.repository;
 
@@ -268,8 +287,11 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
 }
 ``````
 
+
 ##### 方式二 使用 @RepositoryDefinition 注解
+
 创建接口 `TeacherRepository` ，添加注解 `@RepositoryDefinition`，这个注解有两个参数，`domainClass` 为实体类 class，`idClass` 为实体类主键的 class。这种方法创建的 Repository 接口中没有方法，需要自己添加。
+
 ``````java
 package com.example.jpademo.repository;
 
@@ -284,7 +306,9 @@ public interface TeacherRepository {
 
 
 #### 创建 Service
+
 推荐使用第一种方式创建 Repository ，其从父类继承了一些基本的 CRUD 方法，使用这些方法可以创建一个基础的 Service 。
+
 ``````java
 package com.example.jpademo.service;
 
@@ -321,8 +345,11 @@ public class StudentService {
 }
 ``````
 
+
 #### 创建 Controller
+
 使用上面创建的 Service 可以创建一个 Controller ，提供 restful 风格的 api 接口。
+
 ``````java
 package com.example.jpademo.web.rest;
 
@@ -414,8 +441,11 @@ public class StudentResource {
 }
 ``````
 
+
 #### 单元测试
+
 创建一个测试类，用来测试我们 controller 提供的接口。
+
 ``````java
 package com.example.jpademo.web.rest;
 
@@ -617,7 +647,9 @@ public class StudentResourceTest {
 }
 ``````
 
+
 其中新添加了一个测试工具类，代码如下：
+
 ``````java
 package com.example.jpademo.web.rest;
 
@@ -656,11 +688,15 @@ public class TestUtil {
 }
 ``````
 
+
 ### 自定义查询方法
+
 #### 创建查询方法
+
 以上创建的 demo 项目，已经可以自动建表，并具有基本的 CRUD 功能接口，并进行了单元测试。在实际项目中，查询需求多种多样，下面我们来看一下，在 spring data jpa 中可以怎么创建独特的查询方法。
 **在使用 spring data jpa 时，我们可以在 `Repository` 中定义一些方法，来实现一些查询功能。**
 如：我们要查询所有年龄大于 18 岁并且信息激活了的学生信息，只需要在 `StudentRepository` 中添加一个方法 `List<Student> findByAgeGreaterThanAndActiveTrue(int age);` ，不需要写任何实现类，就可以在 `StudentService` 中调用了。
+
 在 Spring Data 中，查询方法以 **find** 或 **read** 或 **get** 开头，后面跟字段名(字段名首字母大写)，再加上限制条件；
 JPA 自定义查询方法关键字：
 
@@ -685,20 +721,23 @@ JPA 自定义查询方法关键字：
 |Containing|findByNameContaining(String name)| .. where x.name like ?1|包含某，参数前后添加 %|
 |OrderBy|findByAgeOrderByNameDesc(int age)| .. where x.age = ?1 order by x.name desc|排序，Desc 为倒序排列，Asc 为正序排列，默认使用正序排列，所以正序排列可以不显式声明|
 |Not|findByNameNot(String name)| .. where x.name != ?!|不等于|
-|In|findByNameIn(List<String> nameList)| .. where x.name in ?1|在某范围内，参数类型为 Collection|
-|NotIn|findByNameNotIn(List<String> nameList)| .. where x.name not in ?1|不在某范围内，参数类型为Collection|
+|In| `findByNameIn(List<String> nameList)` | .. where x.name in ?1|在某范围内，参数类型为 Collection|
+|NotIn| `findByNameNotIn(List<String> nameList)` | .. where x.name not in ?1|不在某范围内，参数类型为Collection|
 |True|findByActiveTrue()| .. where x.active = true|真|
 |False|findByActiveFalse()| .. where x.active = false|假|
 |IgnoreCase|findByNameIgnoreCase(String name)| .. where UPPER(x.name) = UPPER(?1)|忽略大小写|
 
 #### 排序与分页
+
 可以在上述方法中加入 Sort 或 Pageable 参数，对结果进行排序或分页，如:
-``````java
+
+```java
 List<Student> findByAgeGreaterThan(int age, Pageable pageable);
-``````
+```
 
 
 #### 查询方法的解析流程
+
 > 参考：SpringDataJpa：JpaRepository增删改查 - 琦彦 - CSDN博客  https://blog.csdn.net/fly910905/article/details/78557110
 
 - Spring Data JPA 框架在解析方法名时，首先解析 前缀，如 find、findBy、read、readBy、get、getBy，然后解析剩下的部分，例如 Entity 为 Student，查询方法为 findByParentPhoneNumber
@@ -710,17 +749,20 @@ List<Student> findByAgeGreaterThan(int age, Pageable pageable);
 - 接着处理剩下的部分（**PhoneNumber**），先判断整体 **phoneNumber** 是否是 **parent** 的属性，如果是则按 **Student.parent.phoneNumber** 进行查询；否则继续从右往左截取判断，最终表示根据 **Student.parent.phone.number** 的值进行查询；
 
 > 注意：可能会有一种特殊情况，如在 **Student** 中包含一个 **parent** 属性，也有一个 **parentPhone** 属性，此时就会存在混淆。可以在属性间加上下划线 “_” 明确表达意图，如 `findByParent_PhoneNumber()` 或 `findByParentPhone_Number()` 。
-**强烈建议：无论是否存在混淆，都要在不同类层级之间加上下划线 “_” 分隔，增加代码可读性。**
+> **强烈建议：无论是否存在混淆，都要在不同类层级之间加上下划线 “_” 分隔，增加代码可读性。**
 
 
 #### 查询结果限制
-查询第一条记录： 
+
+查询第一条记录：
+
 ``````java
 Student findFirstByAgeLessThanOrderByNameDesc(int age);
 Student findTopByOrderByAge();
 ``````
 
 分页查询排序考前10条记录：
+
 ``````java
 Page<Student> queryFirst10ByName(String name, Pageable pageable);
 Slice<Student> findTop10ByLastName(String lastName,Pageable package);
@@ -730,22 +772,27 @@ List<Student> findTop10ByLastName(String lastName, Pageable package);
 
 
 #### 计数查询与删除方法
+
 计数查询方法以 **countBy** 开头，如：
+
 ``````java
 Long countByAgeLessThan(int age);
 ``````
 
 删除方法以 **deleteBy** 开头，如：
+
 ``````java
 void deleteByName(String name);
 ``````
 
 
 ### JPQL 查询
+
 > JPQL 全称 Java Persistence Query Language，即 Java 持久化查询语言，与原生 SQL 语句类似，完全面向对象，通过实体名与属性名访问，不是表名和表的字段名，不支持 INSERT 操作。
 **注意：这里用的是实体名，默认为类名，可以在 @Entity 注解中修改实体名，如 @Entity("tb_student") 查询时要使用 tb_student **
 
 #### JPQL 的 SELECT
+
 语法：
 ``````sql
 SELECT ... FROM ... [WHERE ...] [GROUP BY ... [HAVING ...]] [ORDER BY ...] 
@@ -770,6 +817,7 @@ where 子句条件关键字：
 - 使用参数名传参，使用 “:paramName” 的方式，这种方式不用管参数顺序，paramName 为参数名，参数名需要使用 @Param("paramName") 注解指定的名称，而不是方法的参数名称；
 - 使用 SPEL 的取值表达式进行参数绑定；
 下面的 UPDATE 和 DELETE 语句中都可以使用这些方式传参。示例：
+
 ``````java
 	// 按参数位置绑定
     @Query("select student from Student as student where student.birthday between ?1 and ?2")
@@ -804,18 +852,21 @@ where 子句条件关键字：
     Page<Student> findStudentAgeGreaterThan(int age, Pageable pageable);
 	
 ``````
+
 > 注意语句中使用的都是实体名和属性名，不是表名和表中字段名。
 
 查询结果分页，可以在查询方法中加入 Pageable pageable 参数，即可对查询结果进行分页。
 
 #### JPQL 的 UPDATE
 语法：
+
 ``````sql
 UPDATE ... SET ... [WHERE ...]
 ``````
 
 **温馨提示：在使用时需要添加 @Modified 和 @Query 注解，在调用的 Service 方法上要添加 @Transaction 注解，否则会报缺少事务控制的错。**
 示例：
+
 ``````java
     @Modifying
     @Query("update Student s set s.age = ?1 where name = ?2")
@@ -823,13 +874,16 @@ UPDATE ... SET ... [WHERE ...]
 ``````
 
 #### JPQL 的 DELETE
+
 语法：
+
 ``````sql
 DELETE FROM ... [WHERE ...]
 ``````
 
 **与 UPDATE 的使用方式相同，也需要添加 @Modified 和 @Query 注解，在调用的 Service 方法上要添加 @Transaction 注解，否则会报错。**
 示例：
+
 ``````java
     @Modifying
     @Query("delete from Student s where s.name = ?1")
@@ -837,18 +891,22 @@ DELETE FROM ... [WHERE ...]
 ``````
 
 #### 联合查询
+
 在 JPQL 中可以使用 **join** 、**left join** 、**right join** 进行联表查询，用法与原生 sql 相同。
 示例：
+
 ``````java
     @Query(value = "SELECT d FROM Device d JOIN d.pole p JOIN p.circuit c WHERE c.id = :circuitId AND d.hidden = 0")
     List<Device> findDevicesByGivenCircuitId(@Param("circuitId") Long circuitId);
 ``````
 
 #### 关联查询与部分字段映射投影
+
 当需要从多张表或一张字段很多的表中查询，但结果只需要一部分字段数据时，就需要用到投影了。
 第一种方法，使用 VM （View Module）
 查询两张表，取部分字段组成新的对象，如取 Student 的 id、name、age字段，取 Classes 的 name 字段，组成 StudentVM 对象，可以分页查询，需要创建 StudentVM 类，并创建包含所需字段的构造方法。
 查询方法：
+
 ``````java
 	// 查询结果转VM
     @Query("select new com.example.jpademo.web.rest.vm.StudentVM(s.id,s.name,s.age,c.name as className) from Student s left join s.classes c")
@@ -856,6 +914,7 @@ DELETE FROM ... [WHERE ...]
 ``````
 
 StudentVM 类：
+
 ``````java
 package com.example.jpademo.web.rest.vm;
 
@@ -881,6 +940,7 @@ public class StudentVM {
 
 第二种方法，使用 projection 接口。
 创建 StudentProjection 接口，添加需要字段的 getXXX 方法，其中 XXX 要与查询语句中的别名对应，不一致时可以使用 `@Value` 注解调整，如：
+
 ``````java
 package com.example.jpademo.web.rest.vm;
 
@@ -908,9 +968,11 @@ public interface StudentProjection {
 ``````
 
 #### JPQL 命名查询
+
 命名查询的查询语句会在加载类的时候就生成，在后续的查询中直接使用，可以提高后续的查询速度。
 定义命名查询时，需要在实体类上添加 @NamedQueries 注解，只有一个参数，接收 @NamedQuery 注解的数组；@NamedQuery 注解主要两个参数，一个是查询名称 name，命名方式为 `实体名.查询方法名` ，查询方法名为 Repository 中的查询名，另一个参数为查询语句 query。
 实体类例如：
+
 ``````java
 package com.example.jpademo.domain;
 
@@ -937,6 +999,7 @@ public class Classes {
 ``````
 
 对应的 Repository 为：
+
 ``````java
 package com.example.jpademo.repository;
 
@@ -954,7 +1017,9 @@ public interface ClassesRepository extends JpaRepository<Classes,Long> {
 ``````
 
 #### JPQL 函数
+
 JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期。
+
 - 字符串处理函数
 
 |函数|功能|示例|
@@ -984,10 +1049,13 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 |current_timestamp()|取当前时间戳|current_timestamp() ---> 2019-01-15 15:54:45|
 
 ### 原生查询
+
 #### 简单的原生查询
+
 使用原生的 sql 语句进行查询，在一些复杂的，或 JPQL 无法实现的情况下可以使用。需要添加 @Query 注解，在 value 参数中声明使用的 sql 语句，nativeQuery 参数设置为 true 。
 原生查询时传参方式与 JPQL 一致。
 示例：
+
 ``````java
     @Query(value = "select s.* from tb_student s where s.active = 1 and s.age = :age",nativeQuery = true)
     List<Student> findActiveStudentByAge(@Param("age") int age);
@@ -998,16 +1066,21 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 	// 可以实现增删改查各种操作
 ``````
 
+
 #### 分页的原生查询
+
 需要分页查询时，需要传 Pageable pageable 参数，在 @Query 注解中声明 countQuery，值为统计查询结果数量的 sql 语句。
+
 ``````java
     @Query(value = "select s.* from tb_student s where s.active = 1",countQuery = "select count(s.id) from tb_student s where s.active = 1",nativeQuery = true)
     Page<Student> findActiveStudentPage(Pageable pageable);
 ``````
 
 #### 联表的原生查询
-使用原生 sql 进行联表查询后，不能自动封装成对象，查询结果返回的类型是 Object，多个结果则返回 List<Object> 或 Page<Object> ，其中的每一个 Object 实际是一个 Object 数组，数组每个元素则是查询的字段值，查询完成后需要自己转换成对象。
+
+使用原生 sql 进行联表查询后，不能自动封装成对象，查询结果返回的类型是 Object，多个结果则返回 `List<Object>` 或 `Page<Object>` ，其中的每一个 Object 实际是一个 Object 数组，数组每个元素则是查询的字段值，查询完成后需要自己转换成对象。
 举个例子，查询 Student 中的 id、name、age 与 Classes 中的 name ，查询方法如下：
+
 ``````java
     @Query(value = "SELECT s.id,s.name,s.age,c.name FROM tb_student s LEFT JOIN classes c ON s.classes_id = c.id",nativeQuery = true)
     List<Object> findStudentInfo();
@@ -1032,7 +1105,9 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
     }
 ``````
 
+
 分享一下，下面是我写过最复杂的原生查询方法：
+
 ``````java
     /**
      * 查询给定时间和id列表的设备上下线记录，包括上下线时间
@@ -1092,9 +1167,11 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 
 
 ### Specification 查询
+
 以上的查询方法使用的查询语句都是固定的，使用起来有时会不灵活，在 Spring Data JPA 中可以使用 Specification 接口实现动态 sql 查询。
 
-要使用 Specification 就需要让 Repository 接口继承 JpaSpecificationExecutor<T> 接口，这个接口指定的泛型类型是当前 Repository 对应的实体类型。如：
+要使用 Specification 就需要让 Repository 接口继承 `JpaSpecificationExecutor<T>` 接口，这个接口指定的泛型类型是当前 Repository 对应的实体类型。如：
+
 ``````java
 public interface StudentRepository extends JpaRepository<Student,Long>,JpaSpecificationExecutor<Student> {
 
@@ -1102,6 +1179,7 @@ public interface StudentRepository extends JpaRepository<Student,Long>,JpaSpecif
 ``````
 
 查看 Specification 接口源码，发现其中有 5 个查询方法，有查单条记录的，有查列表的，可以分页、排序，但其中都有一个 Specification 类型的参数：
+
 ``````java
 package org.springframework.data.jpa.repository;
 
@@ -1167,8 +1245,9 @@ public interface JpaSpecificationExecutor<T> {
 }
 ``````
 
-Specification 是一个接口，我们需要自己创建实现类，在下例中为了演示方便，直接创建的匿名类。在这个接口中有 3 个参数，**Root<T>** 指定查询的实体类型，**CriteriaQuery<?>** 定义高级查询功能，**CriteriaBuilder** 用于创建标准查询、联合查询、表达式、条件、排序。
+Specification 是一个接口，我们需要自己创建实现类，在下例中为了演示方便，直接创建的匿名类。在这个接口中有 3 个参数，`Root<T>` 指定查询的实体类型，`CriteriaQuery<?>` 定义高级查询功能，**CriteriaBuilder** 用于创建标准查询、联合查询、表达式、条件、排序。
 示例：
+
 ``````java
 @Service
 @Transactional
@@ -1212,9 +1291,13 @@ public class StudentService {
 ``````
 
 ### 多数据源
+
 #### 相同数据库
+
 ##### 配置多数据源
+
 修改配置文件，添加多个数据源的配置信息。
+
 ``````properties
 server.port=8989
 spring.application.name=JpaDemo
@@ -1243,6 +1326,7 @@ spring.data.elasticsearch.cluster-nodes=127.0.0.1:9300
 ``````
 
 添加数据源配置类
+
 ``````java
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -1274,11 +1358,14 @@ public class DataSourceConfig {
 ``````
 
 不同数据源的 JPA 属性配置
-> entityManagerFactoryRef -》 配置的连接工厂
-transactionManagerRef -》 事务管理器
-basePackages -》 扫描 Repository 的包
+
+> entityManagerFactoryRef → 配置的连接工厂
+transactionManagerRef → 事务管理器
+basePackages → 扫描 Repository 的包
+
 
 主数据源: 
+
 ``````java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -1342,6 +1429,7 @@ public class PrimaryConfig {
 ``````
 
 第二数据源:
+
 ``````java
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -1403,13 +1491,17 @@ public class SecondaryConfig {
 
 
 ##### 将不同数据域的实体类、Repository 放到不同包下
+
 如上面配置类中配置的，分别将不同数据实体类放到 `com.example.jpademo.domain` 和 `com.example.jpademo.domain2` 包中，将对应的 Repository 分别放到 `com.example.jpademo.repository` 和 `com.example.jpademo.repository2` 包中。
 
 ##### 编写服务类与接口进行测试
+
 剩下的 Service 类和 Controller 跟正常的没有差别了，这里不再赘述。
 
 #### 不同数据库
+
 如在我的项目中要使用到关系型数据库 MySql 和全文检索 Elasticsearch（简称ES） ，可以在存入 MySql 中的实体类上添加 `@Entity` 注解，在需要存入 ES 的实体上添加 `@Document` 注解，如果两边都要存，可以同时添加两个注解。
+
 ``````java
 // 存入 MySql 的数据实体
 @Entity
@@ -1432,6 +1524,7 @@ public class Author{
 ``````
 
 创建对应的 Repository
+
 ``````java
 // 存入 MySql 的数据实体仓库
 interface UserRepository extends JpaRepository<User,Long>{
@@ -1443,59 +1536,73 @@ public interface BookSearchRepository extends ElasticsearchRepository<Book, Stri
 ``````
 
 ### JPA 的缺点
+
 - 联表查询不方便，两个没有关联的表做 join 操作比较繁琐。
 - 框架定制重，不便优化 sql 查询，不如 mybatis 自由度高。
 
 ### 注意事项
+
 #### JPA 是一套标准
+
 在概念上要理解 JPA 是一套标准，而不是具体实现。
 
 #### 驱动错误 
 使用 spring-data-jpa 2.x 版本时，报错：
+
 ``````
 Loading class 'com.mysql.jdbc.Driver'. This is deprecated. The new driver class is 'com.mysql.cj.jdbc.Driver'. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.
 ``````
+
 原因是： `com.mysql.jdbc.Driver` 已经弃用了，现在使用 `com.mysql.cj.jdbc.Driver` ，是通过 SPI 自动注册的，不需要手动加载驱动类。
 修改方法：
+
 ``````properties
 # 将配置文件中的 jdbc 驱动改成现在用的这个
 com.mysql.jdbc.Driver=com.mysql.cj.jdbc.Driver
 ``````
 
 #### 时区错误
+
 使用 spring-data-jpa 2.x 版本时，报错：
+
 ``````
 java.sql.SQLException: The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is unrecognized or represents more than one time
-`````` 
+``````
+
 原因是：检测到数据库使用的时区不对，mysql默认的是美国的时区，而我们中国大陆要比他们迟8小时，采用+8:00格式。
 修改方法：
-- 修改数据库时区配置；
+
+- 方法一: 修改数据库时区配置；
+
   ``````sql
--- 方法一
 -- 以 root 用户登录 mysql 数据库，运行以下命令
 set global time_zone='+8:00';
 -- 查看是否修改成功： 
 -- show variables like '%time_zone%';
   ``````
+
 或者修改 mysql 配置文件：
-  ``````ini
+  
+  ```ini
 # 配置文件位置：C:\Program Files\MySQL\MySQL Server 5.7\my.ini
 # 修改 [mysqld] 下的 default-time-zone 配置为 '+08:00'
 [mysqld]
 default-time-zone='+08:00'
-  ``````
+  ```
 
-- 修改配置文件中的url，添加时区参数；
+- 方法二: 修改配置文件中的url，添加时区参数；
+
   ``````properties
-# 方法二
 # 在 url 中添加当前系统时区参数
 # GMT%2B8 代表： 东八区(GMT+8)
 spring.datasource.url=jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
   ``````
 
 #### 实体匹配错误
+
 在 Repository 查询方法中使用 JPQL 时，项目启动报错
 查询方法为：
+
 ``````java
     @Modifying
     @Query("DELETE FROM Student s WHERE s.name = ?1")
@@ -1503,6 +1610,7 @@ spring.datasource.url=jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
 ``````
 
 错误日志主要内容如下：
+
 ``````
 org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'studentService': Unsatisfied dependency expressed through field 'studentRepository'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'studentRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract void com.example.jpademo.repository.StudentRepository.deleteStudentByName(java.lang.String)!
 ...
@@ -1511,6 +1619,7 @@ Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.Qu
 ``````
 
 错误的意思是 Student 实体不能匹配，这时首先需要检查实体的属性名和查询语句中的是否对应；如果能够对应，再检查实体类，是否在 @Entity 注解中指定了名称，例如注解为 `@Entity("tb_student")` ，则在 JPQL 查询语句中要使用 tb_student ，而不能使用 Student，正确的查询方法如下：
+
 ``````java
     @Modifying
     @Query("DELETE FROM tb_student s WHERE s.name = ?1")
@@ -1518,6 +1627,7 @@ Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.Qu
 ``````
 
 #### 原生 sql 进行分页查询时报错提示不能使用排序和分页
+
 查询方法：
 
 ``````java
@@ -1544,10 +1654,12 @@ Cannot use native queries with dynamic sorting and/or pagination in method publi
 ``````
 
 ### 参考资料
+
 - springboot(十三)：springboot小技巧: [http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html](http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html)
 - SpringBoot 2.x 整合 jpa实现多数据源: [https://blog.csdn.net/qq_26440803/article/details/83316743](https://blog.csdn.net/qq_26440803/article/details/83316743)
 
 ### 其它
+
 DEMO：https://git.dev.tencent.com/wqf31415/springboot-jpa-demo.git
 由于笔者能力有限，文章中若有错误与不足之处希望大佬们能够指出。
 
