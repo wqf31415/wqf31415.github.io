@@ -23,7 +23,7 @@ Postman 提供企业版，提供了更加强大的测试功能。
 
 ### 其他测试工具
 - SoapUI
-  [SoapUI](https://www.soapui.org) 号称世界上最高级的 REST 和 SOAP 接、口自动化测试工具。用于接口功能测试、性能测试、权限测试、API Mock 测试、数据驱动测试与生成测试报表。
+  [SoapUI](https://www.soapui.org) 号称世界上最高级的 REST 和 SOAP 接口自动化测试工具。用于接口功能测试、性能测试、权限测试、API Mock 测试、数据驱动测试与生成测试报表。
 
 - Katalon Studio
   [Katalon Studio](https://www.katalon.com/) 是一个免费、健壮、跨平台的测试工具，高度可定制的自动化测试，用于 Web 和移动 app 测试。
