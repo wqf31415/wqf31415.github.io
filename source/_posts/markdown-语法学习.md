@@ -16,19 +16,23 @@ categories:
 下面这个是用来尝试 markdown 语法的：
 
 <iframe src="http://wqf31415.coding.me/app/markdown-viewer.html" name="iframe_a" style="border: 1px solid #ccc;width: 100%; height: 500px;"></iframe>
-
-
 <!-- more -->
 
 ### 概念
 > [官网][] Markdown is a text-to-HTML conversion tool for web writers. Markdown allows you to write using an easy-to-read, easy-to-write plain text format, then convert it to structurally valid XHTML (or HTML).
 
-Markdown 是一种易读、易写的纯文本格式语法工具，帮网络作者将文本文档转成 HTML 或 XHTML。
-Markdown 不是 HTML 的替代品或类似产品，只是它的一个子集，包含了部分 HTML 元素，让你不学习 HTML 就可以写出漂亮的文章。Markdown 的特点是轻量化、易读易写、支持插入图片、图表、代码或数学式，很多论坛上使用 markdown 来发表文章或撰写说明文档，如 Github、reddit、CSDN、印象笔记、简书等。
+Markdown 是一种易读、易写的纯文本格式语法工具，帮助网络作者将文本文档转成 HTML 或 XHTML。
+
+Markdown 不是 HTML 的替代品或类似产品，只是它的一个子集，包含了部分 HTML 元素，让你不用学习 HTML 就可以写出漂亮的文章。Markdown 的特点是轻量化、易读易写，支持插入图片、图表、代码或数学式。很多论坛上都在使用 markdown 来发表文章或撰写说明文档，如 Github、reddit、CSDN、印象笔记、简书等。
+
+
 
 ### 基本语法
+
 #### 标题
+
 在 markdown 中，标题以 `#` 字符指定，与标题文字间以空格分隔，`#` 字符数量限定标题级数，一般支持 6 级标题，对应 HTML 中的 `H1` ~ `H6` 标签。如：
+
 ```markdown
 markdown:
 ## 二级标题
@@ -39,8 +43,12 @@ html：
 <h4>四级标题</h4>
 ```
 
+---
+
 #### 段落
+
 在 markdown 中，每一行普通文字就是一个 段落，不同段落需要使用空行分隔，没有空行的两行文字将会呈现在一个段落中，中间会添加一个 `<br>` 标签，段落对应 HTML 中 `p` 标签。如：
+
 ```markdown
 markdown:
 这是一个段落。
@@ -53,13 +61,18 @@ html:
 <p>第二段。</p>
 ```
 
+---
+
 #### 文字样式
+
 - **加粗**: 使用双 `*` 或双 `_` 包裹得到加粗的文字，对应 HTML 的 `strong` 标签，如  `**加粗文字**`，将得到 `<strong>加粗文字</strong>`，效果：**加粗文字**。
 - _倾斜_ : 使用 单 `*` 或单 `_` 包裹得到倾斜的文字，对应 HTML 的 `em` 标签，如 `*倾斜文字*`，将得到 `<em>倾斜文字</em>`，效果：*倾斜文字*。
 
+---
 
 #### 分割线
-使用三个及以上连续或以空格分隔的 `-` 或 `_` 或 `*`  添加分割线，用于分隔文章，对应 HTML 中的 `<hr/>` 标签。注意分割线上方必须要有空行，否则不生效。
+
+使用三个及以上连续或以空格分隔的 `-` 或 `_` 或 `*`  添加分割线，用于分隔文章，对应 HTML 中的 `<hr/>` 标签。注意分割线上方必须要有空行，否则不生效。以下都是合法的分割线格式：
 ```markdown
 ---
 ----
@@ -79,7 +92,9 @@ ____________________
 - - - - - - - - - - - - - - - - - - - -
 
 #### 引用块
+
 使用 `> ` 定义引用块，对应 HTML 中的 `blockquote` 标签，添加二级引用块时使用两个 `>` 符号，中间用空格分隔；引用块分段时，使用 `>` 指定一个空行。如：
+
 ```markdown
 markdown:
 > 引用块 
@@ -90,10 +105,10 @@ markdown:
 html:
 <blockquote>
   <p>引用块 </p>
-<blockquote>
-  <p>二级引用块。</p>
-</blockquote>
-<p>引用块第二段</p>
+    <blockquote>
+      <p>二级引用块。</p>
+    </blockquote>
+    <p>引用块第二段</p>
 </blockquote>
 ```
 
@@ -103,10 +118,14 @@ html:
 >
 > 引用块第二段
 
+---
 
 #### 列表
+
 ##### 无序列表
+
 使用 `-` 或 `+` 或 `*` 定义无序列表，对应 HTML 中 `ul`，这三个符号可以混用，使用缩进指定列表层级，如在列表项下方空两格，可以指定子列表项。示例：
+
 ```markdown
 markdown:
 - 列表项1
@@ -158,7 +177,9 @@ html:
 * 列表项6
 
 ##### 有序列表
-使用数字加 `.`来添加有序列表，对应 HTML 中 `ol` 标签，使用缩进确定列表层级，数字值与顺序不影响最终结果。示例：
+
+使用数字加 `.`来添加有序列表，对应 HTML 中 `ol` 标签，使用缩进确定列表层级， **数字值与顺序不影响最终结果** 。示例：
+
 ```markdown
 markdown
 1. 列表项1
@@ -195,21 +216,26 @@ html：
 
 效果(不同编辑器渲染效果可能略有不同)：
 1. 列表项1
-  列表项1内容
+列表项1内容
 2. 列表项2
   9. 子项1
-  10. 子项2
-  11. 子项3
+  7. 子项2
+  15. 子项3
 3. 列表项3
   1. 子项1
-  2. 子项2
+  1. 子项2
+
     子项内容。
-  3. 子项3
-    0. 子子项1
-    1. 子子项2
+  1. 子项3
+        0. 子子项1
+        0. 子子项2
+
+---
 
 #### 表格
+
 使用 `|` 符号创建表格，第一行为表头，第二行使用 `:` 与 `----` 指定每一列的对其方式，`：` 在左边为左对齐，在右边为右对齐，在两边为居中对齐，没有 `:` 时不指定对齐方式。示例：
+
 ```markdown
 markdown:
 |列1|列2|列3|列4|
@@ -251,13 +277,15 @@ html:
 | 左对齐  | 居中对齐 |  右对齐 | 默认对齐 |
 | 1    |  2   |    3 | 4    |
 
+---
 
 #### 代码与代码块
+
 **代码**：使用反引号 `` `代码` `` 包裹内容来指定代码，使用两个反引号 ` `` ` 来显示单反引号，对应 HTML 中 `<code>代码</code>` 标签；
+
 **代码块**：使用多个(3个或更多)反引号来指定代码块，生成的 HTML 内容会被 `<pre><code>代码内容</code></pre>` 标签包裹以此保留代码的缩进信息。在代码块起始标记后可添加语言类型，以指定代码的语言类型，结束代码块需要与起始定义保持相同数量的代引号。示例：
 
 > 注：需要在代码中显示反单引号 `` ` `` 时，用其他数量的反单引号组合包裹要显示的反单引号即可。如需要显示 1 个反单引号时，就用两个 单引号包裹这一个单引号，中间用空格分隔，<code>\`\` \` \`\`</code> ，效果：`` ` ``。如果要显示两个反引号时，就用一个单引号包裹，<code>\` \`\` \`</code>，效果：` `` `。
-
 
 ``````markdown
 markdown：
@@ -287,11 +315,14 @@ html:
 
 ``const b = 1.2 ``
 
-​```java
+```java
 String c = "hello";
-​```
+```
+
+---
 
 #### 链接
+
 给文字添加超链接，需要使用 `[文本内容](url "说明")`，对应 HTML 中 `<a href="url" title="说明">文本内容</a>` 标签。
 
 引用模式，适合需要多次引用的链接：
@@ -304,17 +335,20 @@ String c = "hello";
 > 使用引用模式时，使用的 id 和链接名是不区分大小写的，如 `mYbLOG` 与 `MyBlog` 是可以引用的。
 > 在编译成 html 时，引用定义将不存在。
 
-```markdown
 markdown：
+```markdown
 [我的博客](http://blog.wqf31415.xyz "打开我的博客")
 [引用模式][1]
 [MyBlog][]
 [mYbLOG][]
 
 [1]: http://blog.wqf31415.xyz "引用模式"
-[MyBlog]: <http://blog.wqf31415.xyz> '引用模式2'
+[MyBlog]: <http://blog.wqf31415.xyz> "引用模式2"
+```
 
 HTML：
+
+```html
 <p>
   <a href="http://blog.wqf31415.xyz" title="打开我的博客">我的博客</a><br/>
   <a href="http://blog.wqf31415.xyz" title="引用模式">引用模式</a><br/>
@@ -332,7 +366,10 @@ HTML：
 [1]: http://blog.wqf31415.xyz "引用模式"
 [MyBlog]: <http://blog.wqf31415.xyz> "引用模式2"
 
+---
+
 #### 图片
+
 使用 `![图片名](url "标题")` 来插入图片，对应 HTML 中 `<img src="url" alt="图片名" title="标题"/>` 标签。
 使用引用模式：
 - 使用 `[id]: url "图片标题"` 来定义链接信息，使用 `![说明信息][id]` 来引用图片。
@@ -351,13 +388,16 @@ html:
 </p>
 ```
 
-，效果：
+效果：
 ![这是个灯泡](http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "灯泡")
 ![这是引用模式的][dengpao]
 
 [dengpao]: http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "引用模式-灯泡"
 
+---
+
 #### 转义字符
+
 在文章中需要显示 markdown 语法关键字符时，为了避免被编译成 HTML 标签，可以使用反斜杠 `\` 来添加转义字符，在输入成 HTML 时显示原字符。
 可使用的转义字符:
 
@@ -376,10 +416,14 @@ html:
 |\.|点|\\\.|
 |\!|叹号|\\\!|
 
+
+
 ### 编辑器
+
 markdown 是纯文本的，所以原则上只要是文本编辑器都可以写，用系统自带的文本编辑器就可以，但使用一些工具，或在文本编辑器中添加相应插件，可以让 markdown 书写更加顺畅，更能体现 markdown 易读易写的哲学。
 
 #### Typora
+
 > 官网: <https://typora.io/>
 
 ![](http://blog-images.qiniu.wqf31415.xyz/typora.png "Typora")
@@ -394,7 +438,10 @@ windows 平台中五星推荐的编辑器。
 - 多平台，支持 mac OS、Windows、Linux。
 - 更新活跃，Typora 更新频率很高，差不多每半个月就会有新版本。
 
+
+
 #### Mou
+
 > 官网：<http://25.io/mou/>
 
 ![](http://blog-images.qiniu.wqf31415.xyz/mou.png "Mou")
@@ -407,9 +454,12 @@ windows 平台中五星推荐的编辑器。
 - 自动补全英文单词
 - 字数统计
 
+
+
 ### 一些技巧
 
 #### 使用 HTML 标签
+
 在 markdown 文档中，可以直接添加行内 html 标签，如 `<del>删除线</del>` 、`<abbr title="Not Only SQL">NoSQL</abbr>`、`<kbd>Ctrl</kbd> + <kbd>C</kbd>`等，效果：<del>删除线</del> 、<abbr title="Not Only SQL">NoSQL</abbr> 、<kbd>Ctrl</kbd> + <kbd>C</kbd>。
 
 利用这一特性，我们可以还可以在 markdown 文档中嵌入音频、视频等，甚至可以使用 `iframe` 标签嵌入一个 html 页面。
@@ -419,13 +469,12 @@ windows 平台中五星推荐的编辑器。
 ![](http://blog-images.qiniu.wqf31415.xyz/wangyiyunyinyue_url.png "网易云音乐外链")
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28188427&auto=1&height=66"></iframe>
-
 使用相同方法可以插入 bilibili 的视频，例如：
 
 <iframe height="415" width="544" src="//player.bilibili.com/player.html?aid=48918074&cid=85668198&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 
-
 #### Markdown Math 数学公式
+
 在 Typora 、CSDN 中支持数学公式，用法为 `$LaTex符号$` ，其中 LaTex符号 可以参考 [莱斯大学LaTex Math在线PDF手册](https://www.caam.rice.edu/~heinken/latex/symbols.pdf ) 
 如: `$\alpha$、$\pi$、$\approx $` 效果( _由于 hexo 博客里不支持数学公式，下面公式的示例效果都是在 Typora 中的展示效果_ )：
 ![](http://blog-images.qiniu.wqf31415.xyz/markdown_latex.png "Typora 中 LaTex 符号")
@@ -446,8 +495,11 @@ $$
 ![](http://blog-images.qiniu.wqf31415.xyz/markdown_latex_2.png "Typora 中 LaTex 公式")
 
 
+
 #### 流程图
+
 我们可以在 markdown 文档中编写流程图、甘特图、UML图，但支持的平台比较少，我现在找到的只有在 typora、CSDN中支持。以下示例均在 Typora 中实现。
+
 > 图表的语法参考：<https://mermaidjs.github.io/>
 
 用法是使用 "```" 包裹图的代码，代码类型标记为 **mermaid**，例如：
@@ -462,7 +514,9 @@ $$
 效果：
 ![](http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_02.png "甘特图")
 
+
 #### 图床
+
 由于在 markdown 中插入的图片时需要指定图片链接，在文章发布在网上时就需要先找地方存起来，将其链接添加到文章中，这个存放图片并提供链接访问的地方就成为图床。
 
 - 七牛云
@@ -477,21 +531,24 @@ $$
 - 阿里云OSS存储服务
   一些服务商提供了对象存储服务，需要付费使用，可以上传图片、音频、视频等文件。
 
-### 应用场景
+
+
+### Markdown 使用场景
 
 - 个人博客
-  如 Hexo 博客，就是使用 markdown 来写文章，最终渲染成 html 页面。
+  如 Hexo 博客，就是使用 markdown 来写文章，Hexo 解析 markdown 文档并渲染成 html 页面。
 
 - 论坛文章
-  如 [CSDN 博客](https://www.csdn.net/ )、[简书](https://www.jianshu.com/ )、[GitBook](https://www.gitbook.com/ ) 等论坛也使用 markdown 来发布文章。
+  如 [CSDN 博客](https://www.csdn.net/ )、[简书](https://www.jianshu.com/ )、[GitBook](https://www.gitbook.com/ ) 等论坛支持使用 markdown 来发布文章。
 
 - 笔记文章
-  在[印象笔记](https://www.yinxiang.com/ ) 中，现在已经支持创建 markdown 笔记了。
+  在 [印象笔记](https://www.yinxiang.com/ ) 中，现在已经支持创建 markdown 笔记了。
 
 - git 仓库项目描述
   在 [github](https://github.com/ )、[Coding](https://coding.net/ )、[码云](https://gitee.com/ ) 等代码托管平台都支持 markdown 的项目描述文件 `README.md` 。
 
 ### 参考资料
+
 - [官网][]
 - [维基百科](https://zh.wikipedia.org/wiki/Markdown )
 - [使用Markdown输出LaTex数学公式](https://segmentfault.com/a/1190000018527239 )
@@ -501,4 +558,5 @@ $$
 - [Hexo博客中插入音乐/视频/](https://www.jianshu.com/p/26a7fc7cc185 )
 - [使用Markdown输出LaTex数学公式](https://segmentfault.com/a/1190000018527239 )
 - [mermaid · GitBook](https://mermaidjs.github.io/ )
+
 
