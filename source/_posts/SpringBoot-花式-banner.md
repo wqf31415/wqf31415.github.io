@@ -54,7 +54,7 @@ SpringBoot 默认寻找banner的顺序是：
   |     banner.location     | org.springframework.core.io.Resource |        banner 文件，默认值：`classpath:banner.txt`        |
 
 - SpringBoot 2.x 中的 banner 配置项
-  配置项的名称改成了 `spring.banner.xxx` ，如 1.x 中的 `banner.charset` 改成了 `spring.banner.charset` ，配置内容和默认值与 1.x 相同，可以参考上表。
+  配置项的名称增加了前缀 `spring.` ，改成了 `spring.banner.xxx` ，如 1.x 中的 `banner.charset` 改成了 `spring.banner.charset` ，配置内容和默认值与 1.x 相同，可以参考上表。
 
 ### 更换 banner
 
@@ -97,7 +97,7 @@ SpringBoot 默认寻找banner的顺序是：
 
  如果发现图片有点大了，可以退回到上一步，设置图片输出大小，重新获得txt 文本。
 
-我们看现在这个 banner，在控制台中输出时，被压扁了，我们要把它拉开，在每个字符后面添加一个空格。将文本粘贴到一个空白 word 文档中，按 `Ctrl + F` 键调出查找功能对话框，在 `替换` 选项卡中，勾选上使用通配符，在上面输入问号 `?` ，在下面输入 ^& 加一个空格，点击 `全部替换` 。将全部文本复制到 `banner.txt` 中。
+我们看现在这个 banner，在控制台中输出时，被压扁了，我们要把它撑开，在每个字符后面添加一个空格。将文本粘贴到一个空白 word 文档中，按 `Ctrl + F` 键调出查找功能对话框，在 `替换` 选项卡中，勾选上使用通配符，在上面输入问号 `?` ，在下面输入 ^& 加一个空格，点击 `全部替换` 。将全部文本复制到 `banner.txt` 中。
 
 ![](http://blog-images.qiniu.wqf31415.xyz/img2txt-4.png "使用 Word 给每个字符间添加空格")
 
