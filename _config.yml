@@ -105,7 +105,7 @@ deploy:
     repo: 
       github: https://github.com/wqf31415/wqf31415.github.io.git,master
       coding: https://git.coding.net/wqf31415/wqf31415.git,master
-      message: ":dango: 增加新文章: {{ now('YYYY-MM-DD HH:mm:ss') }}"
+      message: ":stew: 修复百度统计失效: {{ now('YYYY-MM-DD HH:mm:ss') }}"
   - type: sftp 
     host: 118.24.50.165
     port: 22

@@ -99,6 +99,7 @@ sudo make install
 ![](http://blog-images.qiniu.wqf31415.xyz/vim_start.png ) 
 
 正如初始界面中提示的，我们可以输入命令查看帮助、保存或退出，输入命令后按 <kbd>回车</kbd> 执行：
+
 |指令|作用|
 |:----|:----|
 |`:help iccf`  | 查看说明|
