@@ -21,7 +21,7 @@ categories:
 
 本文主要内容包括购买 ESP8266 开发板，安装与配置开发使用的 Arduino IDE，使用 Arduino 编写一个 hello world 代码，然后烧录到 ESP8266 中，使用 Arduino 查看串口输出结果。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png"ESP8266 开发板")
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png "ESP8266 开发板")
 
 ### 什么是 ESP8266
 
