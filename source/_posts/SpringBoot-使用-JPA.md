@@ -4,7 +4,7 @@ date: 2018-11-23 14:27:32
 tags:
 - java
 - spring
-- SpringBoot
+- springboot
 - jpa
 - 数据库
 - database
@@ -1582,7 +1582,7 @@ set global time_zone='+8:00';
   ``````
 
 或者修改 mysql 配置文件：
-  
+
   ```ini
 # 配置文件位置：C:\Program Files\MySQL\MySQL Server 5.7\my.ini
 # 修改 [mysqld] 下的 default-time-zone 配置为 '+08:00'
@@ -1593,6 +1593,8 @@ default-time-zone='+08:00'
 - 方法二: 修改配置文件中的url，添加时区参数；
 
   ``````properties
+  
+  ``````
 # 在 url 中添加当前系统时区参数
 # GMT%2B8 代表： 东八区(GMT+8)
 spring.datasource.url=jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
@@ -1603,11 +1605,11 @@ spring.datasource.url=jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
 在 Repository 查询方法中使用 JPQL 时，项目启动报错
 查询方法为：
 
-``````java
+​``````java
     @Modifying
     @Query("DELETE FROM Student s WHERE s.name = ?1")
     void deleteStudentByName(String name);
-``````
+  ``````
 
 错误日志主要内容如下：
 

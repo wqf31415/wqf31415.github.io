@@ -4,6 +4,7 @@ date: 2019-06-13 15:35:22
 tags:
 - vim
 - 工具
+- 编辑器
 categories:
 - 工具
 ---
@@ -11,16 +12,19 @@ categories:
 ### 概述
 这篇文章介绍了文本编辑器 vim 的用法, 以及一些实用插件。
 
-
 ### vim 是个啥?
+
+![](http://blog-images.qiniu.wqf31415.xyz/vim_logo.png"vim")
 
 Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创建、修改多种类型文本。在多数 UNIX 系统和 Apple OS X 中集成了 vi。vi 是 vim 的子集, vim 具有 vi 的所有功能, 且拥有更多的实用特性。
 > 官网: <https://www.vim.org/> 
 > Github: <https://github.com/vim/vim> 
 
-![](http://blog-images.qiniu.wqf31415.xyz/vim_logo.png "vim")
+
 
 <!-- more -->
+
+
 
 ### 为啥要用 vim ?
 

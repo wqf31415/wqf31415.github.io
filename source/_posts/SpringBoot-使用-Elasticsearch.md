@@ -14,15 +14,19 @@ categories:
 ### 本文概述
 本文简单介绍了 Elasticsearch 是什么，在 windows 环境下的安装 Elasticsearch，在 SpringBoot 项目中使用 Elasticsearch 对数据进行增删改查操作。
 
+![](http://blog-images.qiniu.wqf31415.xyz/search.jpg)
+
 ### 什么是 Elasticsearch？
 > Elasticsearch(简称 ES) 是一个开源的、高扩展性的分布式全文搜索和分析引擎，能够迅速、近乎实时的对大量数据进行存储、分析、检索，可以满足应用复杂的搜索特性和需求。
 官网：[https://www.elastic.co/products/elasticsearch](https://www.elastic.co/products/elasticsearch) 
 
 Elasticsearch 的核心是 Lucene ，使用 Java 进行封装，隐藏了 Lucene 的复杂性，提供 Java API 和 RESTful API，方便使用。
 
-![](http://blog-images.qiniu.wqf31415.xyz/search.jpg)
+
 
 <!-- more -->
+
+
 
 ### Elasticsearch 的应用场景
 - 作为应用的全文搜索引擎，使用关键字在数量巨大的文档中定位；

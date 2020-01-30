@@ -3,7 +3,7 @@ title: 在本地安装配置Tomcat8服务器
 date: 2017-04-06 15:57:11
 tags:
 - web
-- Tomcat
+- tomcat
 - 服务器
 categories:
 - 技术
@@ -43,7 +43,6 @@ categories:
 
 同时新建一个变量 **CATALINA_BASE** ，变量值是刚才的安装目录 **E:\tomcat\apache-tomcat-8.5.14**
 
-
 ------
 
 
@@ -76,7 +75,6 @@ categories:
 进入 **bin** 目录，打开命令行，运行 **service.bat install** 即可将 tomcat 服务器添加到 windows 服务中，在服务中即可启动或关闭 tomcat ，在这个命令中可以对服务命名 **service.bat install tomcat8** 。
 
 运行 **service.bat remove tomcat** 即可从服务中删除 tomcat 。
-
 
 ------
 

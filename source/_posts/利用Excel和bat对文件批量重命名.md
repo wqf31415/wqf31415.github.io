@@ -2,7 +2,7 @@
 title: 利用Excel和bat对文件批量重命名
 date: 2018-08-03 18:54:54
 tags:
-- Excel
+- excel
 - bat
 categories:
 - 技术

@@ -3,7 +3,8 @@ title: 如何维护hexo静态博客
 date: 2017-02-11 12:25:47
 tags: 
 - hexo
-- git
+- gi
+- blog
 categories: 
 - 技术
 

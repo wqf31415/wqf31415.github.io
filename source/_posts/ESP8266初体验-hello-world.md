@@ -4,6 +4,9 @@ date: 2019-09-15 14:30:02
 tags:
 - IoT
 - esp8266
+- arduino
+- 开发板
+- 硬件
 categories:
 - Arduino
 ---
@@ -18,15 +21,13 @@ categories:
 
 本文主要内容包括购买 ESP8266 开发板，安装与配置开发使用的 Arduino IDE，使用 Arduino 编写一个 hello world 代码，然后烧录到 ESP8266 中，使用 Arduino 查看串口输出结果。
 
-
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png"ESP8266 开发板")
 
 ### 什么是 ESP8266
 
 ESP8266 是 [乐鑫信息科技公司](https://www.espressif.com/) 开发的一款 wifi 模块，具有低功耗、高集成度的 wifi 芯片，内封了 8 Mbit 的 Flash，集成了低功耗的 32 位 <abbr title="微控制单元(Microcontroller Unit；MCU)">MCU</abbr>，带有 16 位精简模式，主频支持 80 MHz 和 160 Mhz，支持 RTOS，支持标准 IEEE802.11 b/g/n 协议，完整的 TCP/IP 协议栈。用户可以使用该模块为现有的设备添加联网功能，也可以构建独立的网络控制器。
 
 简单来说就是一个 wifi 模块，可以通过 wifi 联网或提供 wifi 服务，带了一个微处理器，我们可以写入自己的程序，比如联网调取 bilibili 接口获取用户粉丝数量，并通过 LCD 屏显示出来。
-
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png "ESP8266 开发板")
 
 
 

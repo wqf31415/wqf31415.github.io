@@ -1,7 +1,7 @@
 ---
 title: AngularJS 学习笔记1
 tags:
-  - Angular
+  - angular
   - 前端
 categories:
   - 技术

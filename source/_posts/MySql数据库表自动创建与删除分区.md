@@ -13,6 +13,8 @@ categories:
 
 数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。
 
+![](http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg)
+
 ### 环境
 
 - 操作系统: Windows 7
@@ -21,9 +23,11 @@ categories:
 
 - 工具：Navicat for MySQL 10.1.7
 
-![](http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg)
+
 
 <!-- more -->
+
+
 
 ### 数据库与表
 
@@ -70,11 +74,11 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
   2. 添加分区( less than )
 
   ![](http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_2.png "Navicat 分区2")
-  
+
   3. 添加最后一个分区( less than maxvalue)
-  
+
   ![](http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_3.png "Navicat 分区3")
-  
+
   4. 确定分区后，点击确定回到设计表界面，点击 “保存” 完成分区。
 
 
@@ -91,11 +95,11 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
   PARTITION p_future VALUES LESS THAN (MAXVALUE)
   );
   ``````
-  
-  
+
+
 #### 查看分区文件
   进入 MySQL 的数据存储目录下，查看数据库的文件，发现出现了如下的分区文件，说明初始分区正确：
-  
+
   ![](http://blog-images.qiniu.wqf31415.xyz/partition_file.png "分区文件")
 
 #### 创建新分区的存储过程
@@ -464,7 +468,7 @@ BEGIN
 END$$
 DELIMITER ;
   ``````
-  
+
 #### 创建定时执行的事件
 
 创建定时事件：从现在时间开始，每隔一个月触发一次，将调用上面写的存储过程，完成自动删除老的分区，创建新的分区，修改事件中调用存储过程的参数，即可完成对其他表的自动分区管理。
