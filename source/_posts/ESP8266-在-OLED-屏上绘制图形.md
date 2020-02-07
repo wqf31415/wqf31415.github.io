@@ -15,7 +15,7 @@ categories:
 
 在购买 ESP8266 开发板时，选择了带 0.96 OLED 屏的套餐，于是研究了一下怎么在屏幕上显示图像，自己用画图写了一个 `Hello!` ，将它显示到了 OLED 屏幕上。将信息显示到屏幕上是一种比较方便的交互方式，可以直观的查看设备运行状况。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_show.jpg"效果图")
+![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_show.jpg "效果图")
 
 ### 概述
 
