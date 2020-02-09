@@ -82,7 +82,7 @@ categories:
    >
    > 原因是博客用的是 [next主题](http://theme-next.iissnan.com/getting-started.html 'next官网') ，在克隆source分支到本地后，发现next文件夹是空的，需要重新安装 NexT：
    >
-   >  `git clone https://github.com/iissnan/hexo-theme-next themes/next` 
+   >  `git clone https://github.com/theme-next/hexo-theme-next themes/next` 
    >
    > 然后重新预览：
    >
