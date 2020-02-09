@@ -1,9 +1,9 @@
 # .tarvis.yml
 language: node_js # 指定语言环境
 node_js:
-  - "10" # 指定 nodejs 版本
-dist: trusty # 指定系统版本，trusty 是 ubuntu 14.04 发行版的名称
-sudo: required # 是否需要 sudo 权限
+  - 10 # 指定 nodejs 版本
+
+sudo: false # 是否需要 sudo 权限
 
 branches:
   only: 
@@ -11,7 +11,6 @@ branches:
 
 before_install:
   - npm install -g hexo
-#  - npm install -g hexo-cli 
 
 install:
   - npm install
@@ -20,19 +19,28 @@ script:
   - git clone https://github.com/theme-next/hexo-theme-next themes/next
   - cp themes_config/next/_config.yml themes/next/
   - cp themes_config/next/languages/zh-CN.yml themes/next/languages/
-  - hexo clean
   - hexo generate
+
+deploy:
+  provider: pages
+  skip-cleanup: true
+  target_branch: master # 部署的目标分支，默认为 gh_pages 分支
+  github-token: $GIT_REPO_TOKEN # 在 Travis CI 环境变量中添加的 github 访问令牌名
+  keep-history: true
+  on:
+    branch: source # 源码分支
+  local-dir: public # 要部署内容的目录
 
 after_success:
   - git config --local user.name "travis-ci"
   - git config --local user.email "deploy@travis-ci.org"
-  - sed -i'' "s~https://github.com/~https://${GIT_REPO_TOKEN}@github.com/~" _config.yml
+#  - sed -i'' "s~https://github.com/~https://${GIT_REPO_TOKEN}@github.com/~" _config.yml
   - sed -i'' "s~https://git.coding.net/~https://wqf31415:${GIT_CODING_REPO_TOKEN}@git.coding.net/~" _config.yml
   - sed -i'' "s~sftppass~${SFTP_PASS}~" _config.yml
   - hexo deploy > /dev/null
   
 notifications:
-  enail: true
+  email: true
   
   
 
