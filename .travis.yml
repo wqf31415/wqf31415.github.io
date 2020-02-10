@@ -35,7 +35,7 @@ after_success:
 # ### 打包成 war 包，通过 ftp 上传到服务器
   - jar -cvfM blog.war -C ./public/ . # 将 public 目录下所有文件打包到 blog.war 中
   # 上传 war 包到服务器
-  - "curl --ftp-create-dirs -T ./blog.war ftp://hexo:${FTP_PASS}@www.wqf31415.xyz/blog.war"
+  - "curl --ftp-create-dirs -T ./blog.war ftp://hexo:X19900423.14159@www.wqf31415.xyz/blog.war"
 # ### 推送到 coding.net 
   - git config --local user.name "travis-ci"
   - git config --local user.email "deploy@travis-ci.org"
