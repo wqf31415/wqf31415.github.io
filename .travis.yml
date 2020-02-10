@@ -32,13 +32,14 @@ deploy:
   local-dir: public # 要部署内容的目录
 
 after_success:
+# ### 打包成 war 包，通过 ftp 上传到服务器
   - jar -cvfM blog.war -C ./public/ . # 将 public 目录下所有文件打包到 blog.war 中
   - curl --ftp-create-dirs -T ./blog.war ftp://hexo:${FTP_PASS}@www.wqf31415.xyz/blog.war # 上传 war 包到服务器
+# ### 推送到 coding.net 
   - git config --local user.name "travis-ci"
   - git config --local user.email "deploy@travis-ci.org"
-#  - sed -i'' "s~https://github.com/~https://${GIT_REPO_TOKEN}@github.com/~" _config.yml
+  - sed -i '/wqf31415.github.io.git,master/d' _config.yml
   - sed -i'' "s~https://git.coding.net/~https://wqf31415:${GIT_CODING_REPO_TOKEN}@git.coding.net/~" _config.yml
-#  - sed -i'' "s~sftppass~${SFTP_PASS}~" _config.yml
   - hexo deploy > /dev/null
   
 notifications:
