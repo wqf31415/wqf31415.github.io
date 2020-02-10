@@ -41,7 +41,7 @@ after_success:
   - git config --local user.email "deploy@travis-ci.org"
   - sed -i '/wqf31415.github.io.git,master/d' _config.yml
   - tail _config.yml
-  - sed -i'' "s~https://git.coding.net/~https://wqf31415:${GIT_CODING_REPO_TOKEN}@wqf31415.coding.net/~" _config.yml
+  - sed -i'' "s~https://e.coding.net/~https://${GIT_CODING_TOKEN_USERNAME}:${GIT_CODING_REPO_TOKEN}@wqf31415.coding.net/~" _config.yml
   - tail _config.yml
   - hexo deploy > /dev/null
   

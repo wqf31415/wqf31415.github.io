@@ -102,7 +102,7 @@ deploy:
   - type: git
     repo: 
       github: https://github.com/wqf31415/wqf31415.github.io.git,master
-      coding: https://git.coding.net/wqf31415/wqf31415.git,master
+      coding: https://e.coding.net/wqf31415/wqf31415.git,master
       message: ":wine_glass: 完成新文章: {{ now('YYYY-MM-DD HH:mm:ss') }}"
 #  - type: sftp 
 #    host: 118.24.50.165
