@@ -43,10 +43,15 @@ after_success:
   - tail _config.yml
   - sed -i'' "s~https://e.coding.net/~https://${GIT_CODING_TOKEN_USERNAME}:${GIT_CODING_REPO_TOKEN}@wqf31415.coding.net/~" _config.yml
   - tail _config.yml
-  - hexo deploy > /dev/null
+  - hexo deploy
   
 notifications:
-  email: true
+  email: 
+    recipients:
+      - wqf31415@hotmail.com
+      - wqf31415@wqf31415.xyz
+    on_success: change # default: change
+    on_failure: always # default: always
   
   
 
