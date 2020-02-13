@@ -640,11 +640,11 @@ vim 脚本可以实现功能强大的 vim 插件，vimscript 是一种简单的�
 
 #### Tmux
 
-Tmux 是一个强大的终端复用工具，通过 brew (mac) 或 apt-get (ubantu) 命令安装，可以复用终端、分屏、托管进程等。
+Tmux [https://github.com/tmux/tmux](https://github.com/tmux/tmux) 是一个强大的终端复用工具，通过 brew (mac) 或 apt-get (ubantu) 命令安装，可以复用终端、分屏、托管进程等。
 
 #### Neovim
 
-Neovim 是一个新的 vim 版本，支持异步特性，具有更加丰富的特性和扩展，开发更活跃，而且可以嵌入到很多 GUI 中，界面更加美观。
+Neovim [https://neovim.io](https://neovim.io) 是一个新的 vim 版本，支持异步特性，具有更加丰富的特性和扩展，开发更活跃，而且可以嵌入到很多 GUI 中，界面更加美观。
 
 ### 参考资料
 
