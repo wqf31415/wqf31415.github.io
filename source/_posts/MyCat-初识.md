@@ -242,7 +242,89 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 
 在 `schema.xml` 中的 `datanode` 标签用来定义数据节点，也就是所谓的数据分片。一个 dataNode 就是一个独立的数据分片。
 
+```xml
+<dataNode name="dn1" dataHost="lch3307" database="db1" ></dataNode>
+```
+
+上述配置定义了一个名为 `dn1` 的数据节点，使用名为 `lch3307` 的数据库实例上的 `db1` 物理数据库。
+
+| 属性     | 功能                                                         | 值     | 数量  |
+| -------- | ------------------------------------------------------------ | ------ | ----- |
+| name     | 数据节点名称，需要唯一，在 `table` 标签中会用到这个名字      | String | （1） |
+| dataHost | 定义这个分片属于哪个数据库实例，属性值引用的是 `dataHost` 标签的 `name` 属性 | String | （1） |
+| database | 定义分片属于哪个具体数据库实例的具体数据库                   | String | （1） |
+
 ##### dataHost 标签
+
+`schema.xml` 中的 `dataHost` 标签用于定义数据库实例、读写分离配置、心跳语句。
+
+```xml
+<dataHost name="localhost1" maxCon="1000" minCon="10" balance="0"
+writeType="0" dbType="mysql" dbDriver="native">
+    <heartbeat>select user()</heartbeat>
+    <!-- can have multi write hosts -->
+    <writeHost host="hostM1" url="localhost:3306" user="root" 
+    password="123456">
+    <!-- can have multi read hosts -->
+    <!-- <readHost host="hostS1" url="localhost:3306" user="root" password="123456"
+    /> -->
+    </writeHost>
+    <!-- <writeHost host="hostM2" url="localhost:3316" user="root" password="123456"/> -->
+</dataHost>
+```
+
+
+
+| 属性      | 功能                                                         | 值      | 数量  |
+| --------- | ------------------------------------------------------------ | ------- | ----- |
+| name      | 数据主机名称，在 `dataNode` 标签中会引用                     | String  | （1） |
+| maxCon    | 每个读写实例连接池最大连接，<abbr title="标签内嵌的 writeHost 和 readHost 都会使用这个属性值来确定实例化连接池的最大连接数">注</abbr> | Integer | （1） |
+| minCon    | 每个读写实例连接池最小连接，初始化连接池的大小               | Integer | （1） |
+| balance   | 负载均衡类型：<br /> `0` 不开启读写分离，所有读操作都发送到当前可用的 writeHost 上；<br /> `1` 全部的 readHost 的 stand by writeHost 参与 select 语句的负载均衡，<abbr title="当双主双从模式（M1→S1，M2→S2，且 M1 和 M2 互为主备），正常情况下，M2，S1，S2 都参与 select 语句的负载均衡">举例</abbr>；<br /> `2` 所有读操作都随机在 writeHost、readHost 上分发；<br /> `3` 所有读请求随机分发到 writeHost 对应的 readHost 执行，writeHost 不负担读压力。 | Integer | （1） |
+| writeType | 负载均衡类型：<br /> `0` 所有写操作都发送到第一个配置的 writeHost ，第一个挂了切到第二个还生存的 writeHost，重启后以切换后的为准，切换记录在配置文件 `dnindex.properties` ；<br /> `1` 所有写操作都随机打发送到配置的 writeHost，1.5 版本后废弃不推荐 | Integer | （1） |
+| dbType    | 后端连接的数据库类型，目前支持二级制的 mysql 协议，还有其他使用 JDBC 连接的数据库，如 MongoDB、Oracle、spark 等 | String  | （1） |
+| dbDriver  | 连接后端数据库使用的 Driver，目前可选值有 `native` (使用二进制 mysql 协议，可以使用 MySQL 和 MariaDB)、`JDBC` 可以连接使用 JDBC 驱动的数据库。 | String  | （1） |
+
+######  heartbeat 标签
+
+指定用于检测后端数据库的心跳语句。MySQL 可以使用 `select user()` ，Oracle 可以使用 `select 1 from dual` 。
+
+###### writeHost 、 readHost 标签
+
+指定数据库相关配置，用于实例化后端连接池，writeHost 指定写实例，readHost 指定读实例。
+
+在一个 dataHost 内可以定义多个 writeHost 和 readHost，但是如果 writeHost 指定的数据库宕机，那么这个 writeHost 绑定的所有 readHost 都将不可用。另一方面由于这个 writeHost 宕机系统会自动检测到，并切换到备用的 writeHost 。
+
+```xml
+
+```
+
+
+
+| 属性         | 功能                                                         | 值     | 数量  |
+| ------------ | ------------------------------------------------------------ | ------ | ----- |
+| host         | 标识不同的实例，一般 writeHost 使用 *M1，readHost 使用 *S1   | String | （1） |
+| url          | 后端实例连接地址，如果使用 `native` 的 dbDriver，一般是 `host:port` 形式；<br />如果是 JDBC 或其他 dbDriver，则需要特殊指定，如使用 JDBC 时指定为 `jdbc:mysql://localhost:3306` | String | （1） |
+| password     | 数据库连接密码                                               | String | （1） |
+| user         | 数据库用户名                                                 | String | （1） |
+| weight       | 在 readHost 中作为 readHost 中作为读节点的权重               | String | （1） |
+| usingDecrypt | 是否读密码加密：`0` 不加密，`1` 使用加密程序对密码加密       | String | （1） |
+
+> 对密码加密的命令：
+>
+> `java -cp Mycat-server-xxx.jar io.mycat.util.DecryUtil 1:host:user:password`
+>
+> 参数中的 `1` 是 db 端加密标志，`host` 为 dataHost 的 host 名称
+
+
+
+##### server.xml 配置
+
+
+
+##### rule.xml 配置
+
+
 
 #### 测试
 
