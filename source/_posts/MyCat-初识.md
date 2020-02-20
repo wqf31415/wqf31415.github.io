@@ -18,7 +18,7 @@ date: 2020-02-19 13:38:58
 
 > 官网：<http://www.mycat.io> 
 
-MyCat 是一个国内的、开源的、通用（兼容绝大多数数据库）的、高性能的、分布式的数据库中间件。Mycat 是用 java 语言编写的，基于阿里开源稳定的 Cobar 演变而来，经过开发团队彻底重构，使用 NIO 重构了网络模块，优化了 Buffer 内核，增强了聚合、Join 等基本特性。
+MyCat 是一个国内的、开源的、通用（兼容绝大多数数据库）的、高性能的、分布式的数据库中间件。Mycat 是用 java 语言编写的，基于阿里开源稳定的 Cobar 演变而来，经过开发团队彻底重构，使用 NIO 重构网络模块，优化 Buffer 内核，增强聚合、Join 等功能，是一个强大的数据库中间件。
 
 
 
@@ -108,7 +108,7 @@ MyCat 崇尚开源，承诺永不收费，永不闭源，持续推送开源社�
 
 > MyCat 就是 MySQL Server，而 MyCat 后面连接的 MySQL Server，就好像是 MySQL 的存储引擎，如 InnoDB、MyISAM 等。因此，MyCat 本身并不存储数据，数据是在后端的 MySQL 上存储的，因此数据可靠性以及事物等都是 MySQL 保证的。简单说，MyCat 就是 MySQL 最佳伴侣，它在一定程度上让 MySQL 拥有跟 Oracle PK 的能力。
 
-#####软件工程师
+##### 软件工程师
 
 > MyCat 就是一个近似等于 MySQL 的数据库服务器，你可以用连接 MySQL 的方式去连接 MyCat（除了端口不同，MyCat 默认端口 8066，而非 MySQL 的 3306），大多数情况，可以用你熟悉的对象映射框架使用 MyCat，但建议对于分片表，尽量使用基础的 SQL 语句，因为这样能达到最佳性能，特别是几千万甚至几百亿条记录的情况下。
 
@@ -148,7 +148,7 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 
 我使用的是 Windows 操作系统来做测试，下载对应压缩包后，将其解压出来，放到一个没有中文和空格的目录下。
 
-进入 `bin` 目录，运行 `mycat.bat` 就可以在控制台中启动程序，也可以运行 `startup_nowrap.bat` 启动。
+进入 `bin` 目录，运行命令 `mycat.bat console` 就可以在控制台中启动程序，也可以运行 `startup_nowrap.bat` 启动。
 
 #### MyCat 配置
 
@@ -169,7 +169,7 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 </firewall>
 ```
 
-##### Schema 配置
+##### Schema 标签
 
 在 `Schema.xml` 中可以配置 MyCat 逻辑库、表、分片规则、DataNode 和 DataSource，搞懂这些配置是使用 MyCat 的基础。
 
@@ -181,6 +181,8 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 </schema>
 ```
 
+以上配置定义了一个逻辑库 `TESTDB` ，不检查 SQL 语句中的 schema，如果查询语句中没有 `limit` 限制查询数量，将自动添加 `limit 100` 限制查询 100 条记录；在逻辑库中定义了一张逻辑表 `travelrecord` 。
+
 `schema` 标签相关属性：
 
 | 属性           | 功能                                                         | 值          | 数量限制 |
@@ -189,20 +191,22 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 | checkSQLschema | 是否检查 SQL语句中的 schema，如果跟当前 `schema` 中名称相同，则会将 sql 中的 schema 去掉 | Boolean     | (1)      |
 | sqlMaxLimit    | 如果 sql 语句中没有 limit 限定查询条数，将自动添加查询限定条数 | Integer     | (1)      |
 
-##### table 配置
+##### table 标签
 
-`table` 标签用于定义逻辑表，所有需要拆分的表都需要在这个标签中定义。
+在 `Schema.xml` 中 `table` 标签用于定义逻辑表，所有需要拆分的表都需要在这个标签中定义。
 
 ```xml
 <table name="travelrecord" dataNode="dn1,dn2,dn3" rule="auto-sharding-long"></table>
 ```
+
+以上配置定义了一张逻辑表，名叫 `travelrecord` ，使用数据节点 `dn1` 、`dn2` 、 `dn3` ，数据将被分片存储到这三个节点上，指定分片规则使用 `auto-sharding-long` ，具体规则要到 `/conf/rule.xml` 文件中找到名为 `auto-sharding-long` 的配置。
 
 相关属性：
 
 | 属性          | 功能                                                         | 值      | 数量     |
 | ------------- | ------------------------------------------------------------ | ------- | -------- |
 | name          | d                                                            | String  | （1）    |
-| dataNode      | 逻辑表所属的分片节点，<abbr title="这个属性的值需要和 dataNode 标签中的 name 属性值相互对应">注</abbr> | String  | （1..*） |
+| dataNode      | 逻辑表所属的分片节点，如果只有一个节点即为不分片表，<abbr title="这个属性的值需要和 dataNode 标签中的 name 属性值相互对应">注</abbr> | String  | （1..*） |
 | rule          | 逻辑表使用的规则名称，规则名称在 `rule.xml` 中定义，<abbr title="这个属性值必须与 tableRule 标签中的 name 属性值对应">注</abbr> | String  | （0..1） |
 | ruleRequired  | 指定表是否绑定分片规则，<abbr title="如果值为 true 但未配置具体 rule 程序会报错">注</abbr> | Boolean | （0..1） |
 | primaryKey    | 逻辑表对应真实表的主键，<abbr title="分片规则是使用非主键进行分片，在使用主键查询时，将会发送查询语句到所有配置的 DN 上；如果使用该属性配置真实表的主键，那么MyCat会缓存主键与具体DN的信息，下次再使用非主角进行查询时就不会进行广播式查询，而是直接发送查询语句给具体的 DN">例如</abbr> | String  | （1）    |
@@ -211,7 +215,34 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 | subTables     | 分表，添加方式：`subTables="t_order$1-2,t_order3"`           | String  | （1）    |
 | needAddLimit  | 是否需要自动在每条语句后面加上 limit 限制。默认为 `true` ，默认限制数量为 `100` | Boolean | （0..1） |
 
+###### childTable 标签
 
+在 `table` 标签内，可以使用 `childTable` 来定义 E-R 分片的子表，通过标签上的属性与父表进行关联。
+
+```xml
+<table name="customer" primaryKey="ID" dataNode="dn1,dn2" rule="sharding-by-intfile">
+    <childTable name="orders" primaryKey="ID" joinKey="customer_id" parentKey="id">
+        <childTable name="order_items" joinKey="order_id" parentKey="id" />
+    </childTable>
+    <childTable name="customer_addr" primaryKey="ID" joinKey="customer_id" parentKey="id" />
+</table>
+```
+
+以上配置定义了子表 `orders` 和 `customer_addr` ，子表中的 `customer_id` 与父表 `customer` 中的 `id` 关联；在 `orders` 表中又定义了子表 `order_items` 。
+
+| 属性         | 功能                                         | 值      | 数量     |
+| ------------ | -------------------------------------------- | ------- | -------- |
+| name         | 子表表名                                     | String  | （1）    |
+| joinKey      | 插入子表时用这个列的值查找父表存储的数据节点 | String  | （1）    |
+| parentKey    | 父表中建立关系的列名                         | String  | （1）    |
+| primaryKey   | 当前表主键                                   | String  | （0..1） |
+| needAddLimit | 是否需要添加 limit 限制                      | Boolean | （0..1） |
+
+##### dataNode 标签
+
+在 `schema.xml` 中的 `datanode` 标签用来定义数据节点，也就是所谓的数据分片。一个 dataNode 就是一个独立的数据分片。
+
+##### dataHost 标签
 
 #### 测试
 
@@ -222,10 +253,11 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 ### 参考资料
 
 - [《MyCat 权威指南》](http://www.mycat.io/document/mycat-definitive-guide.pdf) 
+- [MyCat WiKi](https://github.com/MyCATApache/Mycat-Server/wiki)
 
 
 
 ### 总结
 
-官方文档真的特别良心，从基本原理到实际应用场景，应有尽有，而且都是中文，真是太棒了！只是有一点不太好，pdf 文档阅读没有目录大纲，内容又特别多，导致看的时候想要跳一下要翻到文档开头的目录去找。另外文档中有个别错别字，不过影响不大。总的来说，这次 MyCat 初体验非常舒心！
+官方文档真的特别良心，从基本原理到实际应用场景，应有尽有，而且**都是中文**，真是太棒了！只是有一点不太好，pdf 文档阅读没有目录大纲，内容又特别多，导致看的时候想要跳一下要翻到文档开头的目录去找。另外文档中有个别错别字，不过影响不大。总的来说，这次 MyCat 初体验非常舒心！
 
