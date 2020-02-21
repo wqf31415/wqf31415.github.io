@@ -150,6 +150,14 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 
 进入 `bin` 目录，运行命令 `mycat.bat console` 就可以在控制台中启动程序，也可以运行 `startup_nowrap.bat` 启动。
 
+正确启动后，MyCat 默认连接端口是 `8066` ，可以使用数据库管理工具连接，或使用mysql 在命令中连接，如使用命令： `mysql -P8066 -uroot -p` 
+
+![](http://blog-images.qiniu.wqf31415.xyz/mysql_connect_mycat.png)
+
+> 注意：登陆用户名和密码在 `/conf/server.xml` 中配置，在其中的 `user` 标签中指定了用户名、密码和访问权限。
+
+
+
 #### MyCat 配置
 
 ##### 防火墙配置
@@ -320,6 +328,30 @@ writeType="0" dbType="mysql" dbDriver="native">
 
 ##### server.xml 配置
 
+保存了 MyCat 需要的系统配置信息，在代码内的直接映射类为 `SystemConfig` 类。
+
+###### user 标签
+
+用于定义登陆用户和权限。
+
+```xml
+<user name="user">
+    <property name="password">123456</property>
+    <property name="schemas">TESTDB,db1</property>
+    <property name="readOnly">true</property>
+</user>
+```
+
+如上配置，定义了一个名叫 `user` 的用户，密码是 `123456` ，可以访问 `TESTDB` 和 `db1` 数据库，但只有读取权限。
+
+在 `user` 标签里可以指定一些属性，可以修改对应名称属性标签中的值：
+
+| 属性名称 | 功能                                  |
+| -------- | ------------------------------------- |
+| password | 密码                                  |
+| schemas  | 可访问的数据库，多个数据库以 `,` 分隔 |
+| readOnly |                                       |
+
 
 
 ##### rule.xml 配置
@@ -329,6 +361,49 @@ writeType="0" dbType="mysql" dbDriver="native">
 #### 测试
 
 
+
+### 遇到的问题
+
+#### JRE 环境中缺少 'server' JVM
+
+使用命令 `mycat.bat console` 启动 MyCat 时，提示 `Error: missing 'server' JVM at 'G:\develop\Java\jre1.8.0_121\bin\server\jvm.dll'.` ，具体错误日志如下：
+
+```
+wrapper  | --> Wrapper Started as Console
+wrapper  | Launching a JVM...
+jvm 1    | Error: missing `server' JVM at `G:\develop\Java\jre1.8.0_121\bin\server\jvm.dll'.
+jvm 1    | Please install or use the JRE or JDK that contains these missing components.
+wrapper  | JVM exited while loading the application.
+```
+
+##### 解决方法
+
+将 `JAVA_HOME/jdk1.8.0_121/jre/bin` 目录下的 `server` 文件夹复制到 `jre1.8.0_121/bin/` 目录下。
+
+
+
+#### JVM 配置参数无效
+
+我是用的是 JDK 8 ，在使用 `mycat.bat console` 启动 MyCat 时，提示设置最大堆容量 `-Xmx4G` 无效，超过了最大可用空间。
+
+```
+wrapper  | --> Wrapper Started as Console
+wrapper  | Launching a JVM...
+jvm 1    | Error: Could not create the Java Virtual Machine.
+jvm 1    | Error: A fatal exception has occurred. Program will exit.
+jvm 1    | Java HotSpot(TM) Server VM warning: ignoring option MaxPermSize=64M; support was removed in 8.0
+jvm 1    | Invalid maximum heap size: -Xmx4G
+jvm 1    | The specified size exceeds the maximum representable size.
+wrapper  | JVM exited while loading the application.
+```
+
+
+
+##### 解决办法
+
+打开 `/conf/wrapper.conf` 文件，搜索 `-Xmx4G` ，大概在 36 行，在这一行前面加一个 `#` ，将其注释掉即可。
+
+![](http://blog-images.qiniu.wqf31415.xyz/mycat_jvm_param_error.png)
 
 
 
