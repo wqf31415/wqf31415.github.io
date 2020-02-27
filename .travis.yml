@@ -36,6 +36,7 @@ after_success:
   - jar -cvfM blog.war -C ./public/ . # 将 public 目录下所有文件打包到 blog.war 中
   # 上传 war 包到服务器
   #  - curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${FTP_PASS} -T ./blog.war ftp://118.24.50.165/blog.war
+  - curl -u hexo:${FTP_PASS} ftp://www.wqf31415.xyz/ -s
 # ### 推送到 coding.net 
   - git config --local user.name "travis-ci"
   - git config --local user.email "deploy@travis-ci.org"
