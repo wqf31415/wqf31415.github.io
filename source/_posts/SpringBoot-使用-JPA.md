@@ -1583,20 +1583,19 @@ set global time_zone='+8:00';
 
 或者修改 mysql 配置文件：
 
+> 配置文件位置：C:\Program Files\MySQL\MySQL Server 5.7\my.ini
+> 修改 [mysqld] 下的 default-time-zone 配置为 '+08:00'
+
   ```ini
-# 配置文件位置：C:\Program Files\MySQL\MySQL Server 5.7\my.ini
-# 修改 [mysqld] 下的 default-time-zone 配置为 '+08:00'
 [mysqld]
 default-time-zone='+08:00'
   ```
 
 - 方法二: 修改配置文件中的url，添加时区参数；
 
+> 在 url 中添加当前系统时区参数, `GMT%2B8` 代表： 东八区(GMT+8)
+
   ``````properties
-  
-  ``````
-# 在 url 中添加当前系统时区参数
-# GMT%2B8 代表： 东八区(GMT+8)
 spring.datasource.url=jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
   ``````
 
@@ -1605,28 +1604,28 @@ spring.datasource.url=jdbc:mysql://localhost:3306/test?serverTimezone=GMT%2B8
 在 Repository 查询方法中使用 JPQL 时，项目启动报错
 查询方法为：
 
-​``````java
+``````java
     @Modifying
     @Query("DELETE FROM Student s WHERE s.name = ?1")
     void deleteStudentByName(String name);
-  ``````
+``````
 
 错误日志主要内容如下：
 
-``````
+  ``````
 org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name 'studentService': Unsatisfied dependency expressed through field 'studentRepository'; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'studentRepository': Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract void com.example.jpademo.repository.StudentRepository.deleteStudentByName(java.lang.String)!
 ...
 Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: Student is not mapped [DELETE FROM Student s WHERE s.name = ?1]
 ...
-``````
+  ``````
 
 错误的意思是 Student 实体不能匹配，这时首先需要检查实体的属性名和查询语句中的是否对应；如果能够对应，再检查实体类，是否在 @Entity 注解中指定了名称，例如注解为 `@Entity("tb_student")` ，则在 JPQL 查询语句中要使用 tb_student ，而不能使用 Student，正确的查询方法如下：
 
-``````java
+```java
     @Modifying
     @Query("DELETE FROM tb_student s WHERE s.name = ?1")
     void deleteStudentByName(String name);
-``````
+```
 
 #### 原生 sql 进行分页查询时报错提示不能使用排序和分页
 
