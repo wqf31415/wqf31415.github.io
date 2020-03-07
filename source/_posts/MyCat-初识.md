@@ -346,19 +346,129 @@ writeType="0" dbType="mysql" dbDriver="native">
 
 在 `user` 标签里可以指定一些属性，可以修改对应名称属性标签中的值：
 
-| 属性名称 | 功能                                  |
-| -------- | ------------------------------------- |
-| password | 密码                                  |
-| schemas  | 可访问的数据库，多个数据库以 `,` 分隔 |
-| readOnly |                                       |
+| 属性名称   | 功能                                                         |
+| ---------- | ------------------------------------------------------------ |
+| password   | 密码                                                         |
+| schemas    | 可访问的数据库，多个数据库以 `,` 分隔                        |
+| readOnly   | 限制用户是否只读                                             |
+| benchmark  | mycat 连接服务器处理：benchmark 基准，当前端的整体连接数达到基准数值时，开始拒绝该用户的连接，0 或者不设置表示不限制 |
+| useDecrypt | 是否对密码加密，默认值 0 不加密，1 加密                      |
 
+> 使用加密程序对密码进行加密，加密命令是执行 mycat.jar 程序：
+>
+> `java -cp Mycat-server-xxx.jar io.mycat.util.DecryptUtil 0:user:password`
+>
+> `Mycat-server-xxx.jar` 是mycat download 目录文件
+>
+> `0:user:password` 中 0 是前端加密标志
 
+###### privileges 标签
+
+对用户 scheme 和下级的 table 进行精细化权限控制，其中 check 属性指定是否进行权限检查，默认值 false。
+
+privileges 下可以配置多个 scheme，对多个库和表进行精细的 DML 权限控制。
+
+在 scheme 和 table 中的 dml 值为四位数字，依次用于指定 insert、update、select、delete 权限，有权限则将对应位置的数字值为1，没有权限则值为 0。如只有查询权限则 `dml="0010"` 。
+
+```xml
+<user name="user">
+    <property name="password">123456</property>
+    <property name="schemas">TESTDB,db1</property>
+    <privileges check="true">
+    	<scheme name="TESTDB" dml="0110">
+    		<table name="table_1" dml="0111"/>
+    	</scheme>
+    </privileges>
+</user>
+```
+
+###### system 标签
+
+system 标签用于配置系统参数，这个标签中全都使用 property 子标签来配置参数，property 标签中的 name 属性就是要配置的系统参数。
+
+- **charset 属性** ：设置字符集
+
+  ```xml
+  <system>
+  	<property name="charset">utf8</property>
+  </system>
+  ```
+
+  > 如果需要使用 utf8mb2 等特殊字符集，可以在 index_to_charset.properties 配置中配置数据库短的字符集 ID=字符集
+  >
+  > 配置字符集时，一定要保持 mycat 和后端数据库的字符集一致。
+
+- **defaultSqlParser 属性** ：指定 sql 解析器，1.4 以后默认值为：`druidparser` ，可选值 `fdbparser` 
+
+- **processors** ： 指定系统可用线程数，默认为 CPU 核心线程数，影响 `processorBufferPool`、`processorBufferLocalPercent`、`processorExecutor` 属性，`NIOProcessor` 的个数也是由这个参数指定的，所以调优的时候可以适当调高这个数值。
+
+- TCP 连接相关参数
+
+- MySql 连接相关参数
+
+- 心跳属性
+
+- 服务相关属性：`bindIp` 服务绑定 IP 地址，默认 `0.0.0.0` ；`serverPort` 服务端口，默认 8066；`managePort` myCat 管理端口，默认 9066
+
+- *fakeMySQLVersion* ：模拟的 MySQL 版本，默认值为 5.6 版本，支持 5.5、5.6。不建议修改这个值，可能会导致错误
+
+- 全局表一致性检测
 
 ##### rule.xml 配置
+
+`rule.xml` 中配置了表拆分的规则，可以灵活的对表使用不同的分片算法，或对表使用相同算法，但参数不同。
+
+###### tableRule 标签
+
+定义表规则
+
+```xml
+<tableRule name="rule1">
+    <rule>
+        <columns>id</columns>
+        <algorithm>func1</algorithm>
+    </rule>
+</tableRule>
+```
+
+> name 指定唯一名称，区分不同的表规则
+>
+> rule 中指定分片使用的列和算法
+>
+> columns 指定分片使用的列
+>
+> algorithm 指定分片算法，指定算法时引用 function 标签中的 name 属性
+
+###### function 标签
+
+```xml
+<function name="hash-int"
+class="io.mycat.route.function.PartitionByFileMap">
+	<property name="mapFile">partition-hash-int.txt</property>
+</function>
+```
+
+> name 为分片算法名称
+>
+> class 为算法具体类名称
+>
+> property 为算法中使用的一些属性
 
 
 
 #### 测试
+
+修改好 mycat 配置，使用命令 `mycat console` 启动，启动后可以使用 mysql 自带的命令行工具连接 mycat：
+
+```bash
+mysql -P8066 -uroot -p
+```
+
+也可以使用像 navicat 之类的数据库管理工具连接，数据库类型选择 MySQL，修改端口为 mycat 端口 8066，填入设定的用户名，密码即可完成连接。
+
+正确连接 mycat 后，可以查看到在 scheme.xml 中配置的逻辑库。
+
+在使用 sql 插入数据前，需要先到具体的后端数据库中创建相应的实体库和表，否则插入数据会报错。
 
 
 
