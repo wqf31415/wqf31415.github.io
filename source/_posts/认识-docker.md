@@ -66,19 +66,11 @@ Docker 的出现就解决了不同技术运行环境的协调问题，让我们�
 
 ##### 场景
 
-利用 docker 的容器化特性，在开发、测试、运维工作中都可以用来配置环境，保证环境一致。
+利用 docker 的容器化特性，在开发、测试、运维工作中都可以用来配置环境，保证环境一致，做到一处编译，到处运行。
 
-
+利用 docker 容器打包应用软件及整体运行环境，简化部署运行过程，即使不了解该软件的人都可以轻松运行起来。
 
 ### 概念
-
-#### 容器(Container)
-
-
-
-#### 镜像(Image)
-
-
 
 #### docker 程序
 
@@ -112,11 +104,53 @@ Docker 的出现就解决了不同技术运行环境的协调问题，让我们�
 
 
 
+#### docker 化应用的存在形式
+
+在用户角度来看，用户只想要运行软件，不关心软件背后所需的操作系统、运行依赖，所以，使用 docker 可以把软件和它依赖的环境（包括操作系统和共享库等）、依赖的配置文件打包一起，以虚拟机的形式放到官方仓库，供大家使用。
+
+但每个程序都要包含依赖的操作系统，将导致一个程序的体积变得很大。docker 的 **分层** 和 **写时拷贝策略** ，解决了包含操作系统的应用程序比较大的问题。
+
+##### 分层的概念
+
+在 docker 中，把一个应用分为任意多个层，比如操作系统是第一层，依赖库和第三方软件是第二层，应用的软件包和配置文件是第三层。如果两个应用有相同的底层，就可以共享这些层。
+
+##### 写时拷贝策略
+
+docker 中共享层存在冲突问题，比如 A 应用需要修改操作系统某个配置，B 应用不需要修改。为了解决这个问题，docker 规定层次是有优先级的，上层和下层有相同的文件和配置时，上层覆盖下层，数据以上层的数据为准。docker 给每个应用一个优先级最高的空白层，如果需要修改下层的文件，就将这个文件拷贝到这个优先级最高的空白层进行修改，保证下层的文件不做任何修改。
+
+##### 让虚拟机轻量化
+
+以 OpenVZ、 VServer、 LXC 为 代表 的 容器 类 虚拟 机， 是一 种 内核 虚拟 化 技术， 与 宿主 机 运行 在 相同 Linux 内核， 不需要 指令 级 模拟， 性能 消耗 非常 小， 是 非常 轻量级 的 虚拟 化 容器， 虚拟 容器 的 系统 资源 消耗 和 一个 普通 的 进程 差不多。 Docker 就是 使用 LXC（ 后来 又 推出 libcontainer） 让 虚拟 机 变得 轻量 化。
+
+
+
+##### 镜像与容器
+
+在 docker 仓库中的应用都是以镜像(Image)方式存在的，把镜像从 docker 仓库中拉取到本机，以这个镜像为模板启动应用，就叫容器(Container)。基于一个镜像可以创建多个名字不同但功能相同的容器。
+
+在镜像中包含了软件运行需要的完整文件系统和程序包，没有动态生成新文件的需求。在作为容器运行时，就可能需要修改文件（输出日志、生成数据文件等），这时就需要空白层来做写时拷贝。
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_image_container_layer.png)
+
+
+
+##### docker 应用版本更新
+
+在 docker 中，使用分层来完成应用版本的增量更新，当需要修改应用时，在最上面新建一个层，把所有修改内容都拷贝到这一层中，覆盖底层内容。在其他机器上需要拉取更新时，只需要拉取最新这一层的修改内容即可完成版本更新。
+
+
+
 ### 初体验
 
 #### 安装 docker
 
 ##### Windows
+
+从官方网站下载 Docker 桌面版安装包，安装后启动即可。
+
+> Docker Desktop for Windows ：<https://hub.docker.com/editions/community/docker-ce-desktop-windows> 
+
+>注意：**docker 桌面版需要 Windows 10 专业版或企业版 64 位的系统。** 老版本系统需要使用 [Docker Toolbox](https://docs.docker.com/toolbox/overview/) 运行。
 
 
 
@@ -186,35 +220,169 @@ sudo usemod -aG docker wqf
 
 ##### 测试
 
-安装完成后，我们使用 docker 运行 hello-world 来检查是否安装成功。打开终端，运行命令：
+安装完成后，使用命令行执行 `docker version` 查看 docker 版本。
+
+也可以使用 docker 运行 hello-world 来检查是否安装成功。打开终端，运行命令：
 
 ```bash
 docker run hello-world
 ```
 
+运行结果：
+
+```
+Unable to find image 'hello-world:latest' locally
+latest: Pulling from library/hello-world
+1b930d010525: Pull complete
+Digest: sha256:f9dfddf63636d84ef479d645ab5885156ae030f611a56f3a7ac7f2fdd86d7e4e
+Status: Downloaded newer image for hello-world:latest
+
+Hello from Docker!
+This message shows that your installation appears to be working correctly.
+
+To generate this message, Docker took the following steps:
+ 1. The Docker client contacted the Docker daemon.
+ 2. The Docker daemon pulled the "hello-world" image from the Docker Hub.
+    (amd64)
+ 3. The Docker daemon created a new container from that image which runs the
+    executable that produces the output you are currently reading. 4. The Docker daemon streamed that output to the Docker client, which sent it
+    to your terminal.
+
+To try something more ambitious, you can run an Ubuntu container with:
+ $ docker run -it ubuntu bash
+
+Share images, automate workflows, and more with a free Docker ID:  https://hub.docker.com/
+
+For more examples and ideas, visit:
+ https://docs.docker.com/get-started/
+```
 
 
-#### 寻找镜像
+
+#### docker 命令
+
+> 运行 `docker` 命令，可以获取 docker 命令的帮助信息。
+>
+> 运行 `docker COMMAND --help` ，可以获取具体指令的帮助信息。
+
+docker 命令的基本用法是：
+
+```bash
+docker [OPTIONS] COMMAND
+```
+
+> - OPTIONS：选项、参数，可选
+> - COMMAND：命令
 
 
 
-#### 拉取镜像
+##### 寻找镜像
+
+###### 终端
+
+`docker search 关键字` ，按关键字在仓库中检索镜像。如查找 nginx 镜像：`docker search nginx` 
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_search_nginx.png)
+
+> 检索结果分为五项，分别是：
+>
+> - **NAME** 镜像全名，一般包含作者和镜像名
+> - **DESCRIPTION** 描述信息
+> - **STARS** 镜像获得的点赞数
+> - **OFFICIAL** 是否官方发布
+> - **AUTOMATED** 自动构建
+
+###### 网页
+
+另一种查找镜像的方式是通过 docker 仓库提供的 web 页面搜索，登陆 <https://hub.docker.com> ，在搜索框中输入关键字点击搜索即可。
+
+使用网页搜索镜像的好处是，有很多关于镜像的说明信息，包括如果拉取、运行，如何配置等。
 
 
 
-#### 运行镜像
+##### 拉取镜像
+
+`docker pull 镜像名` ，从仓库中拉取执行名称的镜像到本地，需要使用镜像全名，如 `docker pull nginx` 。
+
+可以在镜像名后加上`:` 和标签，以此拉取拉取的版本，如果不指定，则默认拉取最新版本，最新版本标签统一为 `latest` 。
+
+拉取最新版本 nginx 的命令如下，其中 `:latest` 可以省略：
+
+```bash
+docker pull nginx:latest
+```
+
+拉取 perl 版本 nginx 命令为：
+
+```bash
+docker pull nginx:perl
+```
+
+拉取最新版 nginx 镜像：
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_pull_nginx.png)
 
 
 
-#### 测试
+##### 运行镜像
+
+`docker run 镜像` 命令用来运行指定镜像，运行起来之后就是一个独立的容器了，可以通过 `docker ps` 来查看运行起来的容器。
+
+一般在运行时会指定一些参数，比如设置容器名称，设置端口映射，设置后台运行等等。比如运行一个 nginx 应用：
+
+```bash
+docker run --name my-nginx -d -p 9080:80 nginx
+```
+
+> 参数说明：
+>
+> - *--name* 指定容器名称，后面跟的就是容器名称，这里是 `my-nginx` 。如果不指定名称，将会随机生成名称。
+> - *-d* 指定容器在后台运行，如果不加这个参数，容器将在前台运行
+> - *-p* 指定端口映射，这里的 `9080:80` 可以把宿主机的 9080 端口映射到容器中的 80 端口
+
+运行结果：
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_run_nginx.png)
+
+命令执行后输出的这一段文字是运行成功输出的容器 ID。
 
 
 
-#### 查看运行状态
+##### 测试
+
+使用 docker 启动了 nginx 后，我们可以在浏览器中访问指定的映射端口(这里是 9080)，访问地址 <http://localhost:9080/> ，出现 nginx 的欢迎页面，说明容器运行正常。
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_run_nginx_result.png)
 
 
 
-#### 停止运行
+##### 查看运行状态
+
+使用 `docker ps` 命令查看正在运行的容器，可以加 `-a` 参数来查看包含未启动的容器。
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_ps.png)
+
+> 输出内容有六项，分别是：
+>
+> - **CONTAINER ID** 容器ID，显示的是容器 ID 前12位
+> - **IMAGE** 镜像
+> - **COMMAND** 启动容器的命令 
+> - **CREATED** 容器创建时间
+> - **STATUS** 容器状态，正在运行的容器会显示 `Up` 和运行时长
+> - **PORTS** 端口映射，这里的 `0.0.0.0:9080->80/tcp` 是将本机的 9080 端口映射到容器的 80 端口，tcp 协议
+> - **NAMES** 容器名称
+
+
+
+##### 停止运行的容器
+
+`docker stop 容器名` ，停止指定名称的容器。如停止运行的 `my-nginx` 容器：
+
+```bash
+docker stop my-nginx
+```
+
+> 除了使用容器名称来停止运行的容器之外，还可以通过容器 ID 或容器 ID 缩写来停止容器，容器 ID 可以通过 `docker ps` 获取。
 
 
 
@@ -225,6 +393,13 @@ docker run hello-world
 docker 需要使用到电脑的虚拟化功能，如果未开启这个功能，将导致 docker 运行失败。在 windows 10 电脑任务管理器中的 `性能` 一栏中可以看到是否启用虚拟化功能，如图：
 
 ![](http://blog-images.qiniu.wqf31415.xyz/docker_windows_virtual.png) 
+
+
+
+### 参考资料
+
+- 李金榜. 循序渐进学Docker (容器技术系列) . 机械工业出版社
+- Empowering App Development for Developers | Docker: <https://www.docker.com/> 
 
 
 
