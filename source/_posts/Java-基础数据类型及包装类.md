@@ -17,7 +17,18 @@ date: 2020-02-12 22:03:21
 
 在 Java 语言中，提供了 8 种基本数据类型，6 种数字类型(4 种整数类型，2 种浮点型)， 2 种字符型，这些基本数据类型从 Java 发布以来就是 java 语言的一部分。
 
+| 类型    | 大小   | 最小值            | 最大值                               | 初始值           | 包装类    |
+| ------- | ------ | ----------------- | ------------------------------------ | ---------------- | --------- |
+| byte    | 8bits  | -2<sup>7</sup>    | 2<sup>7</sup>-1                      | 0                | Byte      |
+| short   | 16bits | -2<sup>15</sup>   | 2<sup>15</sup>-1                     | 0                | Short     |
+| int     | 32bits | -2<sup>31</sup>   | 2<sup>31</sup>-1                     | 0                | Integer   |
+| long    | 64bits | -2<sup>63</sup>   | 2<sup>63</sup>-1                     | 0                | Long      |
+| float   | 32bits | 2<sup>-126</sup>  | (2-2<sup>-23</sup>)x2<sup>127</sup>  | 0.0f             | Float     |
+| double  | 64bits | 2<sup>-1022</sup> | (2-2<sup>-52</sup>)x2<sup>1023</sup> | 0.0d             | Double    |
+| boolean | --     | --                | --                                   | false            | Boolean   |
+| char    | 16bits | Unicode 0         | Unicode 2<sup>16</sup>-1             | '\u0000' 即 null | Character |
 
+> Java 中基本类型所占内存空间大小固定，基本数据类型存放在堆栈中，Boolean 类型没有空间大小。
 
 <!-- more -->
 
@@ -154,7 +165,7 @@ double d2 = 1_1.23E3D; // 11230.0
 
 
 
-####小结
+#### 小结
 
 对于整形数据类型的最大值与最小值，就看它的存储空间的位数 x，最小值就是 -2<sup>x-1</sup> ，最大值就是 2<sup>x-1</sup> - 1，指数减一是因为整形数据的首位是符号位要去掉。比如整形 int，4 字节，存储空间有 4 × 8 = 32 位，所以整形数据类型的最大值就是  -2<sup>31</sup> ，最大值就是 2<sup>31</sup>-1 。
 
@@ -283,7 +294,7 @@ public Short(String s) throws NumberFormatException {
 - 判断数值合法的方法：`isFinite(float)` ， `isNaN()` 
 
 - 转换成十六进制字符串的方法：`toHexString(float)` 
-- 等
+- ......
 
 
 
@@ -326,6 +337,12 @@ Boolean 类中的 `compareTo(Boolean)` 方法在两个对象值相同时，返�
 > 注意：长度更大的类型转换成长度小的类型时，会损失精度。
 
 字符类型和布尔类型不能转换成数值类型。
+
+
+
+### 参考资料
+
+- Java八大基本类型详解_Java_呆呆papa-CSDN博客 <https://blog.csdn.net/weixin_42089228/article/details/104905036> 
 
 
 
