@@ -41,6 +41,8 @@ json 中的数据值类型包括：
 
 json 对象包含在 `{}` 中，内容是一个无序的**键(key)/值(value)对**集合，键都是字符串
 
+
+
 ### 使用
 
 
@@ -60,6 +62,7 @@ json 对象包含在 `{}` 中，内容是一个无序的**键(key)/值(value)对
 
 ### 参考资料
 
-- 使用JSON Schema校验JSON数据是否合规: <https://blog.csdn.net/zjg379569986/article/details/84634803>
+- 使用JSON Schema校验JSON数据是否合规: <https://blog.csdn.net/zjg379569986/article/details/84634803> 
 - JSON Schema 详解: <https://blog.csdn.net/swinfans/article/details/89231247> 
-- 
+- JSON简介 - 简书: <https://www.jianshu.com/p/1970a209672f> 
+- JSON: <https://www.json.org/json-zh.html> 
