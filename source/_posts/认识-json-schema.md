@@ -732,6 +732,8 @@ http://json-schema.org/draft-04/schema#
 
 
 
+
+
 ### 使用
 
 json schema 是一个概念，有很多第三方提供的实现，包括各种编程语言的，如 C、C++、Java、JavaScript 等，可以用来校验 json，或生成 json。
@@ -755,7 +757,8 @@ json schema 是一个概念，有很多第三方提供的实现，包括各种�
 
 ### 参考资料
 
-- 使用JSON Schema校验JSON数据是否合规: <https://blog.csdn.net/zjg379569986/article/details/84634803>
+- 使用JSON Schema校验JSON数据是否合规: <https://blog.csdn.net/zjg379569986/article/details/84634803> 
 - JSON Schema 详解: <https://blog.csdn.net/swinfans/article/details/89231247> 
 
-  
+- JSON简介 - 简书: <https://www.jianshu.com/p/1970a209672f> 
+- JSON: <https://www.json.org/json-zh.html> 
