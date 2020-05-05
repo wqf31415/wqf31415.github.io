@@ -8,7 +8,7 @@ tags:
 - office
 - excel
 categories:
-- 技术
+- java
 ---
 
 Apache POI 官网：[http://poi.apache.org/](http://poi.apache.org/)

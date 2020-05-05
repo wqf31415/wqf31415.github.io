@@ -6,7 +6,7 @@ tags:
 - database
 - 数据库
 categories:
-- 技术
+- mysql
 ---
 
 ### 简述

@@ -6,7 +6,7 @@ tags:
 - mysql
 - bug
 categories: 
-- 技术
+- mysql
 ---
 
 ### 问题描述
@@ -157,4 +157,4 @@ categories:
      </bean>
     ``````
 
-    ​
+    

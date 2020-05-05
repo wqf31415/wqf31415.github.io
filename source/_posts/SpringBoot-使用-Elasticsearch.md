@@ -8,7 +8,7 @@ tags:
 - nosql
 - elasticsearch
 categories:
-- 技术
+- java
 ---
 
 ### 本文概述

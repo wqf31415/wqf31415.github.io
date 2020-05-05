@@ -5,7 +5,7 @@ tags:
 - java
 - jvm
 categories:
-- 技术
+- java
 ---
 
 ### 简介

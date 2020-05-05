@@ -4,7 +4,7 @@ date: 2018-04-07 13:31:44
 tags:
 - java
 categories:
-- 技术
+- java
 ---
 
 ### 关于本系列文章

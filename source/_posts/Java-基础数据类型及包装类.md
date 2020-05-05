@@ -3,7 +3,7 @@ title: Java 基本数据类型及包装类
 tags:
   - java
 categories:
-  - 技术
+  - java
 date: 2020-02-12 22:03:21
 ---
 

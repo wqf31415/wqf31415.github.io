@@ -3,7 +3,7 @@ title: Java 关键字
 tags:
   - java 
 categories:
-  - 技术
+  - java
 date: 2019-12-24 18:12:43
 ---
 

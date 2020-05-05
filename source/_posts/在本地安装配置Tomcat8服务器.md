@@ -6,7 +6,7 @@ tags:
 - tomcat
 - 服务器
 categories:
-- 技术
+- 工具
 ---
 
 > 摘要：本篇文章讲解在 windows 系统下，本地安装配置 Tomcat 服务器！

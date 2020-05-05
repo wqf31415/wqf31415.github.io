@@ -6,7 +6,7 @@ tags:
 - spring
 - springboot
 categories:
-- 技术
+- java
 ---
 
 ## 什么是 SpringBoot ?

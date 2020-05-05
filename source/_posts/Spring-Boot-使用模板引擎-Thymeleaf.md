@@ -6,7 +6,7 @@ tags:
 - thymeleaf
 - springboot
 categories:
-- 技术
+- java
 ---
 
 ### 概述

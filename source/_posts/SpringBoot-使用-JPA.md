@@ -9,7 +9,7 @@ tags:
 - 数据库
 - database
 categories:
-- 技术
+- java
 ---
 
 ### 内容概述
