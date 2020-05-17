@@ -464,15 +464,18 @@ windows 平台中五星推荐的编辑器。
 
 利用这一特性，我们可以还可以在 markdown 文档中嵌入音频、视频等，甚至可以使用 `iframe` 标签嵌入一个 html 页面。
 
-例如，我们插入网易云音乐的播放器：
+例如，网易云音乐中以 iframe 形式分享音乐，将分享的 html 代码粘贴到 markdown 中即可使用：
 
 ![](http://blog-images.qiniu.wqf31415.xyz/wangyiyunyinyue_url.png "网易云音乐外链")
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28188427&auto=1&height=66"></iframe>
-使用相同方法可以插入 bilibili 的视频，例如：
+使用相同方法可以在 markdown 文档插入分享的 bilibili 的视频，例如：
+
+```html
+<iframe height="415" width="544" src="//player.bilibili.com/player.html?aid=48918074&cid=85668198&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+```
 
 <iframe height="415" width="544" src="//player.bilibili.com/player.html?aid=48918074&cid=85668198&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-
 #### Markdown Math 数学公式
 
 在 Typora 、CSDN 中支持数学公式，用法为 `$LaTex符号$` ，其中 LaTex符号 可以参考 [莱斯大学LaTex Math在线PDF手册](https://www.caam.rice.edu/~heinken/latex/symbols.pdf ) 
