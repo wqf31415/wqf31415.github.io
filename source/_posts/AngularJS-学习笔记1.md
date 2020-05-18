@@ -32,7 +32,7 @@ date: 2017-05-03 13:41:21
 </html>
 ```
 
-<iframe src="http://wqf31415.coding.me/Demo/angularJSDemo/1.html" name="iframe_a" style="border: 1px solid #ccc"></iframe>
+<iframe src="http://demo.x99.ink/angularJSDemo/1.html" name="iframe_a" style="border: 1px solid #ccc"></iframe>
 <!-- more -->
 ------
 
