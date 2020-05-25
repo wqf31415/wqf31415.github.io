@@ -186,21 +186,21 @@ AngularJs 控制器是一个常规的 JavaScript 对象，用来增强 Angular �
 
 过滤器用来格式化表达式中的值，如格式化日期时间显示格式、取两位小数等，过滤器可以用在视图模板（templates）、控制器（controllers）或服务（services）中。
 
-过滤器的使用方式是：`{{ expression | filter }}` ，过滤器支持链式使用：`{{ expression | filter1 | filter2 }}` 
+过滤器的使用方式是在表达式后面加 `|` 然后加上过滤器 ，AngularJs 过滤器支持链式调用。
 
 ##### AngularJs 过滤器
 
-| 过滤器    | 描述                                           | 示例                                                         |
-| --------- | ---------------------------------------------- | ------------------------------------------------------------ |
-| currency  | 格式化数字为货币格式，如果不加参数，默认为 `$` | ``{{num|currency:"￥"}}``                                    |
-| date      | 日期格式化                                     | ``{{dateObj|date:'yyyy-MM-dd hh:mm:ss'}}``                   |
-| filter    | 从数组中选择出符合条件的子集                   | ``{{arr|filter:'d'}}`` 选出数组中含有字母 `d` 的元素，并以数组形式返回 |
-| json      | 格式化json对象                                 | ``{{jsonStr|json}}``                                         |
-| limitTo   | 限制数组长度或字符串长度                       | ``{{arr|limitTo:'3'}}``                                      |
-| lowercase | 格式化字符串为小写                             | ``{{str|lowercase}}``                                        |
-| uppercase | 格式化字符串为大写                             | ``{{str|uppercase}}``                                        |
-| number    | 格式化数字                                     | ``{{num|number:2}}`` 保留2位小数                             |
-| orderBy   | 根据某个表达式排列数组                         | ``{{arr|orderBy:'age':true}}`` 按 `age` 属性从大到小排序     |
+| 过滤器    | 描述                                           |
+| --------- | ---------------------------------------------- |
+| currency  | 格式化数字为货币格式，如果不加参数，默认为 `$` |
+| date      | 日期格式化                                     |
+| filter    | 从数组中选择出符合条件的子集                   |
+| json      | 格式化json对象                                 |
+| limitTo   | 限制数组长度或字符串长度                       |
+| lowercase | 格式化字符串为小写                             |
+| uppercase | 格式化字符串为大写                             |
+| number    | 格式化数字                                     |
+| orderBy   | 根据某个表达式排列数组                         |
 
 ##### 自定义过滤器
 
@@ -210,7 +210,7 @@ AngularJs 支持自定义过滤器，使用 `filter` 方法给模块添加过滤
 
 ```html
 	<body ng-app="myApp" ng-controller="myCtrl">
-		<p>数字：{{score|number:2}}</p>
+		<p>数字(保留2位小数)：{{score|number:2}}</p>
 		<p>货币：{{money|currency:"￥"}}</p>
 		<p>时间：{{time|date:'yyyy-MM-dd HH:mm:ss'}}</p>
 		<p>数组：{{arr|filter:'c'}}</p>
