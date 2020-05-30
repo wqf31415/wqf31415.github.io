@@ -476,6 +476,7 @@ windows 平台中五星推荐的编辑器。
 ```
 
 <iframe height="415" width="544" src="//player.bilibili.com/player.html?aid=48918074&cid=85668198&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
+
 #### Markdown Math 数学公式
 
 在 Typora 、CSDN 中支持数学公式，用法为 `$LaTex符号$` ，其中 LaTex符号 可以参考 [莱斯大学LaTex Math在线PDF手册](https://www.caam.rice.edu/~heinken/latex/symbols.pdf ) 
