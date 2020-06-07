@@ -84,17 +84,17 @@ Wireshark 支持使用过滤器来限定要捕获的数据，Wireshark 的捕获
 
 ##### 基础过滤器
 
-- 协议：如 `tcp`、`udp` 用来指定只捕获 TCP 或 UDP 协议的数据。在 `tcp` 或 `udp` 关键词后，可以使用 port、portrange 来补充限定端口的条件，如捕获 tcp 协议在 80 端口上的网络数据：`tcp port 80` ，`udp portrange 8080-8090` 
-- 端口：使用 `port` 指定捕获的端口，如 `port 80` 捕获 80 端口的数据；
-- 端口范围：使用 `portrange` 指定捕获的端口范围，如 `portrange 8080-8090` 
-- 主机：使用 `host` 指定捕获发往或来自指定主机的数据，如 `host 192.168.0.11` 或 `host www.wqf31415.xyz` ，或 ipv6 地址，如：`host 2001:db8::1` 
-- IP段：使用 `net` 捕获指定 ip 范围内的网络数据，如 `net 192.168.0.0/24` 或 `net 192.168.0.0 mask 255.255.255.0` 
-- 源地址：使用 `src` 捕获指定发出请求的网络数据，需要加 host、net、port、portrange 来指定具体捕获条件，不能单独使用，如 `src host 127.0.0.1` ，`src port 8650` 
-- 目标地址：使用 `dst` 捕获发往指定地址的网络数据，需要加 host、net、port、portrange 来指定具体捕获条件，不能单独使用，如 `dst host 192.168.0.11` ，`dst port 8080` 
-- 以太网：使用 `ether` 指定捕获以太网数据，不能单独使用需要加 host、proto、src、dst、broadcast、multicast 来使用，如 `ether proto 0x888e`  
-- IPV4：使用 `ip` 指定只捕获 ipv4 网络数据
-- 广播：使用 `broadcast` 指定捕获广播数据
-- 多播：使用 `multicast` 指定捕获多播数据
+- **协议**：如 `tcp`、`udp` 用来指定只捕获 TCP 或 UDP 协议的数据。在 `tcp` 或 `udp` 关键词后，可以使用 port、portrange 来补充限定端口的条件，如捕获 tcp 协议在 80 端口上的网络数据：`tcp port 80` ，`udp portrange 8080-8090` 
+- **端口**：使用 `port` 指定捕获的端口，如 `port 80` 捕获 80 端口的数据；
+- **端口范围**：使用 `portrange` 指定捕获的端口范围，如 `portrange 8080-8090` 
+- **主机**：使用 `host` 指定捕获发往或来自指定主机的数据，如 `host 192.168.0.11` 或 `host www.wqf31415.xyz` ，或 ipv6 地址，如：`host 2001:db8::1` 
+- **IP段**：使用 `net` 捕获指定 ip 范围内的网络数据，如 `net 192.168.0.0/24` 或 `net 192.168.0.0 mask 255.255.255.0` 
+- **源地址**：使用 `src` 捕获指定发出请求的网络数据，需要加 host、net、port、portrange 来指定具体捕获条件，不能单独使用，如 `src host 127.0.0.1` ，`src port 8650` 
+- **目标地址**：使用 `dst` 捕获发往指定地址的网络数据，需要加 host、net、port、portrange 来指定具体捕获条件，不能单独使用，如 `dst host 192.168.0.11` ，`dst port 8080` 
+- **以太网**：使用 `ether` 指定捕获以太网数据，不能单独使用需要加 host、proto、src、dst、broadcast、multicast 来使用，如 `ether proto 0x888e`  
+- **IPV4**：使用 `ip` 指定只捕获 ipv4 网络数据
+- **广播**：使用 `broadcast` 指定捕获广播数据
+- **多播**：使用 `multicast` 指定捕获多播数据
 
 
 
@@ -137,6 +137,10 @@ Wireshark 过滤表达式的比较运算符用于将字段和值进行比较，�
 - 按协议过滤：如过滤出 tcp 协议的网络数据，只需要输入 `tcp` 即可。
 - 按 ip 地址过滤：如 `ip.addr == 192.0.2.1` ，`ip.src == 192.168.0.102` 
 - 按端口过滤：按端口过滤时，要首先指定协议，如 `tcp.port eq 80` ，`udp.port in {80 90}`  
+- 按帧长度过滤：如 `frame.len == 1560` 
+- 按http内容类型过滤，如 `http.content_type contains "application/octet-steam"` ，`http.content_type[0:4] == text` ，这里的 `[0:4]` 是指从第 0 个字节开始计算，总长度为 4 字节的字符串
+- 按http响应状态码过滤：如 `http.response.code == 404` 
+- 按http请求方法过滤：如 `http.request.method == "POST"` 
 
 
 
