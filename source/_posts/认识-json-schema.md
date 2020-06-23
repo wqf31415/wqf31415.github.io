@@ -180,7 +180,7 @@ string、number、object、array、boolean、null
 }
 ```
 
-###### 倍乘吉数（multipleOf）
+###### 倍乘数（multipleOf）
 
 属性 `multipleOf` 属性用来限定数值是指定数的倍乘数，如属性值设定为 `10`，则 `0`，`20`， `120` 可以通过校验，`24` 不能通过校验。
 
@@ -195,10 +195,10 @@ string、number、object、array、boolean、null
 
 限定数值范围的属性有四种： 
 
-- `minimum`  最小值，大于或等于这个值
-- `exclusiveMinimum` 值需要大于这个值  
-- `maximum`  最大值，需要小于或等于这个值
-- `exclusiveMaximum`   需要小于这个值
+- `minimum`  最小值（包含该值）
+- `exclusiveMinimum` 最小值（不包含该值）  
+- `maximum`  最大值（包含该值）
+- `exclusiveMaximum`  最大值（不包含该值）
 
 上限和下限的属性可以同时使用，如限定 `0 ≤ X < 60` ：
 
