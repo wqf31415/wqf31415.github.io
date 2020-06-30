@@ -485,7 +485,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 /**
  * Created by Administrator on 2018/12/13.
  *
- * @author WeiQuanfu
+ * @author wqf31415
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = JpademoApplication.class)
