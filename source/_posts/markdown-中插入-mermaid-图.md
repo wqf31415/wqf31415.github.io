@@ -175,6 +175,9 @@ M-.描述.-N
 - Mermaid 实用教程: <https://blog.csdn.net/fenghuizhidao/article/details/79440583> 0
 - Markdown里面使用mermaid画流程图: <https://blog.csdn.net/Subson/article/details/78054689> 
 - Hexo中插入mermaid diagrams : <https://blog.csdn.net/Olivia_Vang/article/details/92987859> 
+- Hexo中引入Mermaid流程图: <https://tyloafer.github.io/posts/7790/> 
+
+
 
 ### 总结
 
