@@ -1024,7 +1024,7 @@ vendors:
   # Example:
   # mermaid: //cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js
   # mermaid: //cdnjs.cloudflare.com/ajax/libs/mermaid/8.0.0/mermaid.min.js
-  mermaid:
+  #mermaid: https://cdn.bootcdn.net/ajax/libs/mermaid/8.6.4/mermaid.min.js
 
   # Internal version: 1.2.1
   # Example:
