@@ -111,7 +111,7 @@ deploy:
 #    pass: sftppass
 
 mermaid:
-  enable: false
+  enable: true
   cdn: //cdn.bootcdn.net/ajax/libs/mermaid/8.6.4/mermaid.min.js
   version: 8.6.4
   options:
