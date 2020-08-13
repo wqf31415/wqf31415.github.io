@@ -1,153 +1,100 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN,en,default">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-<meta name="theme-color" content="#222"/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="This_Wei" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0"/>
-
-<link rel="stylesheet" href="/css/main.css?v=7.1.2"/>
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png?v=7.1.2">
-
-
-  <link rel="mask-icon" href="/uploads/favicon.png?v=7.1.2" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
+<script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    version: '7.1.2',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
     fancybox: false,
-    fastclick: false,
+    mediumzoom: false,
     lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    pangu: false,
     algolia: {
-      applicationID: '',
+      appID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
   };
 </script>
 
-
-  
-
-
-
-
-  <meta name="description" content="摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。   官方说明文档：https://git-scm.com/book/zh/v2  1 什么是git？一句话：git是现今世界上最先进的分布式版本控制工具 。 简单点：git是分布式版本控制工具 。 再简单点：git是版本控制工具 。">
-<meta name="keywords" content="git">
+  <meta name="description" content="摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。   官方说明文档：https:&#x2F;&#x2F;git-scm.com&#x2F;book&#x2F;zh&#x2F;v2   1 什么是git？ 一句话：git是现今世界上最先进的分布式版本控制工具 。 简单点：git是分布式版本控制工具 。 再简单点：git是版本控制工具 。">
+<meta name="keywords" content="git,版本控制">
 <meta property="og:type" content="article">
 <meta property="og:title" content="小白都能学会的Git操作">
-<meta property="og:url" content="http://blog.wqf31415.xyz/2017/02/23/小白都能学会的Git操作/index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;blog.wqf31415.xyz&#x2F;2017&#x2F;02&#x2F;23&#x2F;%E5%B0%8F%E7%99%BD%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84Git%E6%93%8D%E4%BD%9C&#x2F;index.html">
 <meta property="og:site_name" content="This_Wei">
-<meta property="og:description" content="摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。   官方说明文档：https://git-scm.com/book/zh/v2  1 什么是git？一句话：git是现今世界上最先进的分布式版本控制工具 。 简单点：git是分布式版本控制工具 。 再简单点：git是版本控制工具 。">
+<meta property="og:description" content="摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。   官方说明文档：https:&#x2F;&#x2F;git-scm.com&#x2F;book&#x2F;zh&#x2F;v2   1 什么是git？ 一句话：git是现今世界上最先进的分布式版本控制工具 。 简单点：git是分布式版本控制工具 。 再简单点：git是版本控制工具 。">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_logo.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_workflow.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_0.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_cli.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_gitVersion.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_config_list.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_look_username.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_init.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_status_1.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_single_file.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_one_type_files.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_all_files.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_rm_single_file.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_m.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_2.png">
-<meta property="og:updated_time" content="2019-08-09T08:14:58.694Z">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_logo.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_workflow.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_gitBash_0.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_gitBash_cli.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_gitBash_gitVersion.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_config_list.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_look_username.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_init.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_status_1.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_add_single_file.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_add_one_type_files.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_add_all_files.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_rm_single_file.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_commit_m.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_commit.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_commit_2.png">
+<meta property="og:updated_time" content="2020-03-19T03:25:24.954Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="小白都能学会的Git操作">
-<meta name="twitter:description" content="摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。   官方说明文档：https://git-scm.com/book/zh/v2  1 什么是git？一句话：git是现今世界上最先进的分布式版本控制工具 。 简单点：git是分布式版本控制工具 。 再简单点：git是版本控制工具 。">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git/git_logo.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;git&#x2F;git_logo.png">
+
+<link rel="canonical" href="http://blog.wqf31415.xyz/2017/02/23/%E5%B0%8F%E7%99%BD%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84Git%E6%93%8D%E4%BD%9C/">
 
 
-
-
-
-  
-  
-  <link rel="canonical" href="http://blog.wqf31415.xyz/2017/02/23/小白都能学会的Git操作/"/>
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
   <title>小白都能学会的Git操作 | This_Wei</title>
   
-
-
-
-
 
 
   <script>
@@ -163,12 +110,8 @@
 
 
 
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -177,9 +120,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -193,304 +135,143 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
-    
 
-    <div class="custom-logo-site-title">
+    <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">This_Wei</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-    
+        <h1 class="site-subtitle" itemprop="description">Come on!</h1>
       
-        <p class="site-subtitle">Come on!</p>
-      
-    
-    
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
   </div>
 </div>
-
 
 
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-commonweal">
+        <li class="menu-item menu-item-commonweal">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br/>公益 404</a>
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-weather">
+        <li class="menu-item menu-item-weather">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/weather/" rel="section"><i class="menu-item-icon fa fa-fw fa-snowflake-o"></i> <br/>天气</a>
+    <a href="/weather/" rel="section"><i class="fa fa-fw fa-snowflake-o"></i>天气</a>
 
   </li>
+  </ul>
 
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
 </nav>
-
-
-
-  
-
-
-
 </div>
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-
+  <div class="posts-expand">
+      
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/02/23/小白都能学会的Git操作/"/>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/02/23/%E5%B0%8F%E7%99%BD%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84Git%E6%93%8D%E4%BD%9C/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="This_Wei"/>
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！"/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei"/>
+      <meta itemprop="name" content="This_Wei">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">小白都能学会的Git操作
-
-              
-            
-          </h1>
-        
+        <h2 class="post-title" itemprop="name headline">
+          小白都能学会的Git操作
+        </h2>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">发表于</span>
 
               <time title="创建时间：2017-02-23 09:24:09" itemprop="dateCreated datePublished" datetime="2017-02-23T09:24:09+08:00">2017-02-23</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
+            </span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
-                <time title="修改时间：2019-08-09 16:14:58" itemprop="dateModified" datetime="2019-08-09T16:14:58+08:00">2019-08-09</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-03-19 11:25:24" itemprop="dateModified" datetime="2020-03-19T11:25:24+08:00">2020-03-19</time>
+              </span>
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
-
-                
-                
-              
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
             </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
 
           
 
         </div>
       </header>
-    
 
     
     
@@ -498,73 +279,116 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
         <p>摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_logo.png" alt="git" title="git"></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_logo.png" alt="git" title="git" /></p>
 <blockquote>
 <p>官方说明文档：<a href="https://git-scm.com/book/zh/v2" target="_blank" rel="noopener">https://git-scm.com/book/zh/v2</a></p>
 </blockquote>
-<h3 id="1-什么是git？"><a href="#1-什么是git？" class="headerlink" title="1 什么是git？"></a>1 什么是git？</h3><p>一句话：<strong>git是现今世界上最先进的分布式版本控制工具</strong> 。</p>
+<h3 id="1-什么是git"><a class="markdownIt-Anchor" href="#1-什么是git"></a> 1 什么是git？</h3>
+<p>一句话：<strong>git是现今世界上最先进的分布式版本控制工具</strong> 。</p>
 <p>简单点：<strong>git是分布式版本控制工具</strong> 。</p>
 <p>再简单点：<strong>git是版本控制工具</strong> 。</p>
 <a id="more"></a>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_workflow.png" alt="" title="git 工作流"></p>
-<p>这里面就有几个概念要理解一下了，<strong>“最先进”</strong>  这个是毫无疑问的，全球最知名的互联网公司包括Google、Facebook、微软、twitter 等等都在使用 git。<br><strong>“版本控制工具”</strong> 英文名Concurrent Version System （CVS）,提供完备的版本管理功能，用于存储、追踪目录（文件夹）和文件的修改历史，是软件开发者的必备工具，是软件公司的基础设施 。简单来说就是用来记录文件的修改历史的，让你可以回到以前的状态，犹如word里面的Ctrl + Z 撤销功能，软件记录下你前面的操作，如果不小心失误了，就可以撤销操作返回到上一个状态。<br><strong>“分布式”</strong> 就是git仓库信息是分布在每个克隆仓库中的，就是说一旦你克隆了这个仓库到本地，那你本地的仓库里就有仓库的所有 <code>历史记录</code> 。分布式之前的模式是集中式，代表是SVN（Subversion），存在一个中央服务器，每次编辑后的修改被记录到中央仓库。</p>
-<hr>
-<h3 id="2-安装git"><a href="#2-安装git" class="headerlink" title="2 安装git"></a>2 安装git</h3><p><div><div id="nav"><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;" target="_blank" rel="noopener">Windows</a><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;" target="_blank" rel="noopener">Linux</a><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;" target="_blank" rel="noopener">Mac OS</a></div><div id="option" style="width: 100%;border: 2px solid #ccc;padding: 5px;margin-top: 2px;border-radius: 5px;"><div id="Windows">下载exe安装程序，安装时全都选默认的，一直点下一步就OK了！</div><div id="Linux">运行指令<b>sudo apt-get install git</b></div><div id="Mac OS">从AppStore安装Xcode，Xcode集成了Git，不过默认没有安装，你需要运行Xcode，选择菜单“Xcode”-&gt;“Preferences”，在弹出窗口中找到“Downloads”，选择“Command Line Tools”，点“Install”就可以完成安装了。</div></div></div></p>
-<h2 id="var-oUl-document-getElementById-‘nav’-var-oDiv-document-getElementById-‘option’-var-oLis-oUl-getElementsByTagName-‘a’-var-oOptDivs-oDiv-getElementsByTagName-‘div’-for-var-i-0-i"><a href="#var-oUl-document-getElementById-‘nav’-var-oDiv-document-getElementById-‘option’-var-oLis-oUl-getElementsByTagName-‘a’-var-oOptDivs-oDiv-getElementsByTagName-‘div’-for-var-i-0-i" class="headerlink" title="var oUl=document.getElementById(‘nav’);var oDiv=document.getElementById(‘option’);var oLis=oUl.getElementsByTagName(‘a’);var oOptDivs=oDiv.getElementsByTagName(‘div’);for(var i=0;i"></a><script>var oUl=document.getElementById(‘nav’);var oDiv=document.getElementById(‘option’);var oLis=oUl.getElementsByTagName(‘a’);var oOptDivs=oDiv.getElementsByTagName(‘div’);for(var i=0;i<oLis.length;i++){hideDiv();document.getElementById('Windows').style.display='block';oLis[i].style.display='inlineblock';oLis[i].onclick=function(){hideDiv();showDiv(this.innerHTML);}}function showDiv(id) {var odiv=document.getElementById(id);odiv.style.display='block';}function hideDiv() {for (var i=0;i<oOptDivs.length;i++){oOptDivs[i].style.display='none';}}</script></h2><h3 id="3-开始使用git"><a href="#3-开始使用git" class="headerlink" title="3 开始使用git"></a>3 开始使用git</h3><p>我们这里以windows操作系统为例，其它系统操作大同小异。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_workflow.png" alt="" title="git 工作流" /></p>
+<p>这里面就有几个概念要理解一下了，<strong>“最先进”</strong>  这个是毫无疑问的，全球最知名的互联网公司包括Google、Facebook、微软、twitter 等等都在使用 git。<br />
+<strong>“版本控制工具”</strong> 英文名Concurrent Version System （CVS）,提供完备的版本管理功能，用于存储、追踪目录（文件夹）和文件的修改历史，是软件开发者的必备工具，是软件公司的基础设施 。简单来说就是用来记录文件的修改历史的，让你可以回到以前的状态，犹如word里面的Ctrl + Z 撤销功能，软件记录下你前面的操作，如果不小心失误了，就可以撤销操作返回到上一个状态。<br />
+<strong>“分布式”</strong> 就是git仓库信息是分布在每个克隆仓库中的，就是说一旦你克隆了这个仓库到本地，那你本地的仓库里就有仓库的所有 <code>历史记录</code> 。分布式之前的模式是集中式，代表是SVN（Subversion），存在一个中央服务器，每次编辑后的修改被记录到中央仓库。</p>
+<hr />
+<h3 id="2-安装git"><a class="markdownIt-Anchor" href="#2-安装git"></a> 2 安装git</h3>
+<div><div id="nav"><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Windows</a><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Linux</a><a href="javascript:void(0)" style="display: inline-block;width: 80px; text-align: center;line-height: 1.5em;">Mac OS</a></div><div id="option" style="width: 100%;border: 2px solid #ccc;padding: 5px;margin-top: 2px;border-radius: 5px;"><div id="Windows">下载exe安装程序，安装时全都选默认的，一直点下一步就OK了！</div><div id="Linux">运行指令<b>sudo apt-get install git</b></div><div id="Mac OS">从AppStore安装Xcode，Xcode集成了Git，不过默认没有安装，你需要运行Xcode，选择菜单“Xcode”->“Preferences”，在弹出窗口中找到“Downloads”，选择“Command Line Tools”，点“Install”就可以完成安装了。</div></div></div>
+<script>var oUl=document.getElementById('nav');var oDiv=document.getElementById('option');var oLis=oUl.getElementsByTagName('a');var oOptDivs=oDiv.getElementsByTagName('div');for(var i=0;i<oLis.length;i++){hideDiv();document.getElementById('Windows').style.display='block';oLis[i].style.display='inlineblock';oLis[i].onclick=function(){hideDiv();showDiv(this.innerHTML);}}function showDiv(id) {var odiv=document.getElementById(id);odiv.style.display='block';}function hideDiv() {for (var i=0;i<oOptDivs.length;i++){oOptDivs[i].style.display='none';}}</script>
+---------------------------------------
+<h3 id="3-开始使用git"><a class="markdownIt-Anchor" href="#3-开始使用git"></a> 3 开始使用git</h3>
+<p>我们这里以windows操作系统为例，其它系统操作大同小异。</p>
 <p>在windows安装git的同时会默认安装 git bash 插件，我们在桌面上右击鼠标就能看到 <code>git bsah here</code> 选项，点击后将在桌面打开 git bash 命令行工具：</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_0.png" alt="" title="git bash here"></p>
-<p>git bash 命令行如下图所示：<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_cli.png" alt="" title="Git Bash 命令行"></p>
-<p>我们可以输入 <code>git --version</code> 来查看git版本<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_gitVersion.png" alt="" title="查看git版本"></p>
-<h4 id="获取帮助"><a href="#获取帮助" class="headerlink" title="获取帮助"></a>获取帮助</h4><p>在 git bash 中执行 <code>git --help</code> 即可查看帮助信息，会列举出一些git 的命令及功能。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_0.png" alt="" title="git bash here" /></p>
+<p>git bash 命令行如下图所示：<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_cli.png" alt="" title="Git Bash 命令行" /></p>
+<p>我们可以输入 <code>git --version</code> 来查看git版本<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_gitVersion.png" alt="" title="查看git版本" /></p>
+<h4 id="获取帮助"><a class="markdownIt-Anchor" href="#获取帮助"></a> 获取帮助</h4>
+<p>在 git bash 中执行 <code>git --help</code> 即可查看帮助信息，会列举出一些git 的命令及功能。</p>
 <p>在 git 命令中添加 <code>--help</code> 参数，还可以用来查看一些命令的帮助信息，如我们想查看 <code>git config</code> 命令的帮助信息，执行 <code>git config --help</code> 即可，将会在浏览器中打开帮助信息的网页。</p>
-<h4 id="基本配置"><a href="#基本配置" class="headerlink" title="基本配置"></a>基本配置</h4><p>在第一次使用git时要设置 <strong>用户名</strong> 、 <strong>邮箱信息</strong> ，在以后的每一次提交修改时都会用到这些信息，不配置的话，每次提交代码到远程仓库时都要重新输入。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;wqf31415&quot;</span><br><span class="line">git config --global user.email wqf31415@hotmail.com</span><br></pre></td></tr></table></figure></p>
+<h4 id="基本配置"><a class="markdownIt-Anchor" href="#基本配置"></a> 基本配置</h4>
+<p>在第一次使用git时要设置 <strong>用户名</strong> 、 <strong>邮箱信息</strong> ，在以后的每一次提交修改时都会用到这些信息，不配置的话，每次提交代码到远程仓库时都要重新输入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git config --global user.name &quot;wqf31415&quot;</span><br><span class="line">git config --global user.email wqf31415@hotmail.com</span><br></pre></td></tr></table></figure>
 <p>第一句指令是设置用户名，用英文的双引号括起来，第二句是设置邮箱</p>
-<p>设置好之后没有提示，我们可以在 git bash 命令行工具中输入 <code>git config --list</code> 查看设置结果<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_config_list.png" alt="" title="查看git设置"></p>
-<p>也可以输入 <code>git config user.name</code> 单独查看用户名<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_look_username.png" alt="" title="查看git用户名"></p>
-<h4 id="初始化git仓库"><a href="#初始化git仓库" class="headerlink" title="初始化git仓库"></a>初始化git仓库</h4><p><code>git init</code> 指令用于初始化一个仓库<br>我们可以在一个空的文件夹里初始化仓库，也可以在一个用文件的文件夹里初始化，只需要我们在要初始化的文件空白区域右击打开 git bash 工具，执行 <code>git init</code> 命令即可，执行完成后将会在该目录下创建一个名叫 <code>.git</code> 的隐藏文件夹，这里面存放的是git仓库的所有信息文件。<br> <img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_init.png" alt="" title="初始化git仓库"></p>
-<h4 id="设置忽略文件"><a href="#设置忽略文件" class="headerlink" title="设置忽略文件"></a>设置忽略文件</h4><p>在项目中，有些文件我们希望不用提交到 git 管理，如编译后的文件或日志输出文件，此时，我们就需要将这些文件或目录添加到忽略列表中。</p>
+<p>设置好之后没有提示，我们可以在 git bash 命令行工具中输入 <code>git config --list</code> 查看设置结果<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_config_list.png" alt="" title="查看git设置" /></p>
+<p>也可以输入 <code>git config user.name</code> 单独查看用户名<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_look_username.png" alt="" title="查看git用户名" /></p>
+<h4 id="初始化git仓库"><a class="markdownIt-Anchor" href="#初始化git仓库"></a> 初始化git仓库</h4>
+<p><code>git init</code> 指令用于初始化一个仓库<br />
+我们可以在一个空的文件夹里初始化仓库，也可以在一个用文件的文件夹里初始化，只需要我们在要初始化的文件空白区域右击打开 git bash 工具，执行 <code>git init</code> 命令即可，执行完成后将会在该目录下创建一个名叫 <code>.git</code> 的隐藏文件夹，这里面存放的是git仓库的所有信息文件。<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_init.png" alt="" title="初始化git仓库" /></p>
+<h4 id="设置忽略文件"><a class="markdownIt-Anchor" href="#设置忽略文件"></a> 设置忽略文件</h4>
+<p>在项目中，有些文件我们希望不用提交到 git 管理，如编译后的文件或日志输出文件，此时，我们就需要将这些文件或目录添加到忽略列表中。</p>
 <p>在根目录中新建一个文本文件，名为 <code>.gitignore</code> ，看名称就知道是 git 忽略文件的作用了！</p>
 <p>将需要忽略的文件或路径写到这个文件中，每一行就是一个忽略规则。使用 <code>#</code> 注释，使用 <code>*</code> 匹配所有，例如：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"># Node </span><br><span class="line">######################</span><br><span class="line">/node/**</span><br><span class="line">/node_tmp/**</span><br><span class="line">/node_modules/</span><br><span class="line"></span><br><span class="line">######################</span><br><span class="line"># SASS</span><br><span class="line">######################</span><br><span class="line">.sass-cache/**</span><br><span class="line"></span><br><span class="line">######################</span><br><span class="line"># Eclipse</span><br><span class="line">######################</span><br><span class="line">*.pydevproject</span><br><span class="line">.project</span><br><span class="line">.metadata</span><br><span class="line">/tmp/**</span><br><span class="line">/tmp/**/*</span><br><span class="line">*.tmp</span><br><span class="line">*.bak</span><br><span class="line">*.swp</span><br><span class="line">*~.nib</span><br><span class="line">local.properties</span><br><span class="line">.classpath</span><br><span class="line">.settings/**</span><br><span class="line">.loadpath</span><br><span class="line">/src/main/resources/rebel.xml</span><br></pre></td></tr></table></figure>
 <p>添加完成后，将此文件加入 git 版本库并提交，以后再 add 文件时就会忽略配置的文件或目录了。</p>
-<h4 id="查看仓库状态"><a href="#查看仓库状态" class="headerlink" title="查看仓库状态"></a>查看仓库状态</h4><p>因为在用 git bash 向 git 仓库中添加文件时，添加成功时没有任何信息显示，为了查看我们是否添加成功，我们需要使用 <code>git status</code> 指令来查看git仓库状态：<br><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_status_1.png" alt="" title="git 仓库状态"><br>根据输出的结果，我们可以看到仓库中没有跟踪的文件，现在所有的文件和目录都没有跟踪。</p>
-<h4 id="添加文件到暂存区-stage"><a href="#添加文件到暂存区-stage" class="headerlink" title="添加文件到暂存区(stage)"></a>添加文件到暂存区(stage)</h4><p>在初始化仓库后，仓库中的文件其实还没有被跟踪，就是git现在还不知道需要记录版本变化的文件，我们要把需要跟踪的文件添加进暂存区：</p>
-<h5 id="添加单个文件"><a href="#添加单个文件" class="headerlink" title="添加单个文件"></a>添加单个文件</h5><p> <code>git add 1.txt</code> 将 1.txt 文件添加到仓库，添加时要输入文件名和扩展名，windows 中 git bash 默认是不支持输入中文的，所以用这种方式不能添加以中文命名的文件，可以使用下面的方式将全部文件都添加进仓库，避免了输入文件名；<br> <img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_single_file.png" alt="" title="添加单个文件"><br> 添加文件后我们再查看仓库状态，发现 1.txt 文件已经不在未跟踪文件列表里了，而是在 <strong>changes to be committed</strong> 下，意思是已经跟踪的文件被改变了，可以提交了。</p>
-<h5 id="添加同一类型的文件"><a href="#添加同一类型的文件" class="headerlink" title="添加同一类型的文件"></a>添加同一类型的文件</h5><p> <code>git add *.html</code>将所有 html 文件添加到仓库，*为通配符，用这种方式可以向git仓库添加一个类型的文件；<br> <img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_one_type_files.png" alt="" title="添加一个类型的文件"></p>
+<h4 id="查看仓库状态"><a class="markdownIt-Anchor" href="#查看仓库状态"></a> 查看仓库状态</h4>
+<p>因为在用 git bash 向 git 仓库中添加文件时，添加成功时没有任何信息显示，为了查看我们是否添加成功，我们需要使用 <code>git status</code> 指令来查看git仓库状态：<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_status_1.png" alt="" title="git 仓库状态" /><br />
+根据输出的结果，我们可以看到仓库中没有跟踪的文件，现在所有的文件和目录都没有跟踪。</p>
+<h4 id="添加文件到暂存区stage"><a class="markdownIt-Anchor" href="#添加文件到暂存区stage"></a> 添加文件到暂存区(stage)</h4>
+<p>在初始化仓库后，仓库中的文件其实还没有被跟踪，就是git现在还不知道需要记录版本变化的文件，我们要把需要跟踪的文件添加进暂存区：</p>
+<h5 id="添加单个文件"><a class="markdownIt-Anchor" href="#添加单个文件"></a> 添加单个文件</h5>
+<p><code>git add 1.txt</code> 将 1.txt 文件添加到仓库，添加时要输入文件名和扩展名，windows 中 git bash 默认是不支持输入中文的，所以用这种方式不能添加以中文命名的文件，可以使用下面的方式将全部文件都添加进仓库，避免了输入文件名；<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_single_file.png" alt="" title="添加单个文件" /><br />
+添加文件后我们再查看仓库状态，发现 1.txt 文件已经不在未跟踪文件列表里了，而是在 <strong>changes to be committed</strong> 下，意思是已经跟踪的文件被改变了，可以提交了。</p>
+<h5 id="添加同一类型的文件"><a class="markdownIt-Anchor" href="#添加同一类型的文件"></a> 添加同一类型的文件</h5>
+<p><code>git add *.html</code>将所有 html 文件添加到仓库，*为通配符，用这种方式可以向git仓库添加一个类型的文件；<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_one_type_files.png" alt="" title="添加一个类型的文件" /></p>
 <blockquote>
 <p>采用通配符的方式，我们还可以模糊匹配，如文件名太长，但知道结尾是 <code>xx.txt</code> ，就可以使用 <code>git add *xx.txt</code> 来添加文件</p>
 </blockquote>
-<h5 id="添加所有文件"><a href="#添加所有文件" class="headerlink" title="添加所有文件"></a>添加所有文件</h5><p><code>git add .</code> 直接将目录下所有文件添加到git仓库；<br> <img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_all_files.png" alt="" title="添加所有文件"></p>
-<h4 id="删除已添加的文件"><a href="#删除已添加的文件" class="headerlink" title="删除已添加的文件"></a>删除已添加的文件</h4><p> 如果不小心把不需要跟踪的文件（如1.txt）添加到了仓库，可以使用 <code>git rm --cached 1.txt</code> 将文件从已添加文件中删除：<br> <img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_rm_single_file.png" alt="" title="删除已添加文件"><br> 我们看到 1.txt 又回到了未跟踪文件列表。</p>
-<h4 id="提交文件"><a href="#提交文件" class="headerlink" title="提交文件"></a>提交文件</h4><p> 在用 <code>git add .</code> 指令添加所有文件后，我们就需要提交修改过的文件到仓库：<br> <code>git commit -m &#39;change description&#39;</code> 引号括起来的是对修改内容的描述；<br> <img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_m.png" alt="" title="提交修改"></p>
-<p> 此外，也可以用 <code>git commit</code> 命令来提交，提交后还会启动 vim 编辑器让你输入修改描述：<br> 按 <kbd>a</kbd>、<kbd>i</kbd>、<kbd>o</kbd> 键可以进入插入模式，然后就可以输入提交信息了。<br> <img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit.png" alt="" title="输入修改内容描述"><br> 在输入完成后，按 <kbd>Esc</kbd> 键退出输入模式，再输入命令 <code>:wq</code> 保存并退出，或 <code>:wq!</code> 强制保存并退出。输入命令 <code>:q</code> 退出 vim 编辑，或 <code>:q!</code> 不保存修改强制退出。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_2.png" alt="" title="提交1.txt"></p>
-<p> 在所有文件添加完成后，我们查看仓库状态发现显示 <strong>On branch master nothing to commit, working tree clean</strong> ，就是说所有的文件修改都提交了，工作树很干净了。</p>
-<h4 id="连接远程git仓库"><a href="#连接远程git仓库" class="headerlink" title="连接远程git仓库"></a>连接远程git仓库</h4><p> 现在我们本地 git 仓库已经建立好了，已经可以管理本地文件了，但这样是不够的，git 最大的功能还在于多人协作，所以需要有一个远端仓库服务器，这样在不同电脑终端都可以进行工作了。</p>
-<p> 现在最简单的就是在 git 托管平台建一个仓库，把本地仓库托管到git平台，最常用的有 <strong>github</strong> 、 <strong>coding</strong> 、 <strong>oschina</strong> ，这里以国内的 coding 为例。</p>
-<h5 id="注册并创建远程仓库"><a href="#注册并创建远程仓库" class="headerlink" title="注册并创建远程仓库"></a>注册并创建远程仓库</h5><p> 打开 Coding 的地址 <a href="https://coding.net/" target="_blank" rel="noopener">https://coding.net/</a> ，完成注册、登陆后，新建一个项目 <strong>git-test</strong> ，不要勾选创建 <code>README.md</code> 选项，项目创建好后，将仓库的地址复制下来，我的仓库地址是 <strong><a href="https://git.coding.net/wqf31415/git-test.git" target="_blank" rel="noopener">https://git.coding.net/wqf31415/git-test.git</a></strong> 。</p>
-<h5 id="给本地仓库添加远程仓库地址"><a href="#给本地仓库添加远程仓库地址" class="headerlink" title="给本地仓库添加远程仓库地址"></a>给本地仓库添加远程仓库地址</h5><p>  回到本地下打开 git bash ，进入本地 git 仓库目录，执行下述命令，最后面就是刚才复制的远端仓库地址。</p>
+<h5 id="添加所有文件"><a class="markdownIt-Anchor" href="#添加所有文件"></a> 添加所有文件</h5>
+<p><code>git add .</code> 直接将目录下所有文件添加到git仓库；<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_all_files.png" alt="" title="添加所有文件" /></p>
+<h4 id="删除已添加的文件"><a class="markdownIt-Anchor" href="#删除已添加的文件"></a> 删除已添加的文件</h4>
+<p>如果不小心把不需要跟踪的文件（如1.txt）添加到了仓库，可以使用 <code>git rm --cached 1.txt</code> 将文件从已添加文件中删除：<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_rm_single_file.png" alt="" title="删除已添加文件" /><br />
+我们看到 1.txt 又回到了未跟踪文件列表。</p>
+<h4 id="提交文件"><a class="markdownIt-Anchor" href="#提交文件"></a> 提交文件</h4>
+<p>在用 <code>git add .</code> 指令添加所有文件后，我们就需要提交修改过的文件到仓库：<br />
+<code>git commit -m 'change description'</code> 引号括起来的是对修改内容的描述；<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_m.png" alt="" title="提交修改" /></p>
+<p>此外，也可以用 <code>git commit</code> 命令来提交，提交后还会启动 vim 编辑器让你输入修改描述：<br />
+按 <kbd>a</kbd>、<kbd>i</kbd>、<kbd>o</kbd> 键可以进入插入模式，然后就可以输入提交信息了。<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit.png" alt="" title="输入修改内容描述" /><br />
+在输入完成后，按 <kbd>Esc</kbd> 键退出输入模式，再输入命令 <code>:wq</code> 保存并退出，或 <code>:wq!</code> 强制保存并退出。输入命令 <code>:q</code> 退出 vim 编辑，或 <code>:q!</code> 不保存修改强制退出。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_2.png" alt="" title="提交1.txt" /></p>
+<p>在所有文件添加完成后，我们查看仓库状态发现显示 <strong>On branch master nothing to commit, working tree clean</strong> ，就是说所有的文件修改都提交了，工作树很干净了。</p>
+<h4 id="连接远程git仓库"><a class="markdownIt-Anchor" href="#连接远程git仓库"></a> 连接远程git仓库</h4>
+<p>现在我们本地 git 仓库已经建立好了，已经可以管理本地文件了，但这样是不够的，git 最大的功能还在于多人协作，所以需要有一个远端仓库服务器，这样在不同电脑终端都可以进行工作了。</p>
+<p>现在最简单的就是在 git 托管平台建一个仓库，把本地仓库托管到git平台，最常用的有 <strong>github</strong> 、 <strong>coding</strong> 、 <strong>oschina</strong> ，这里以国内的 coding 为例。</p>
+<h5 id="注册并创建远程仓库"><a class="markdownIt-Anchor" href="#注册并创建远程仓库"></a> 注册并创建远程仓库</h5>
+<p>打开 Coding 的地址 <a href="https://coding.net/" target="_blank" rel="noopener">https://coding.net/</a> ，完成注册、登陆后，新建一个项目 <strong>git-test</strong> ，不要勾选创建 <code>README.md</code> 选项，项目创建好后，将仓库的地址复制下来，我的仓库地址是 <strong><a href="https://git.coding.net/wqf31415/git-test.git" target="_blank" rel="noopener">https://git.coding.net/wqf31415/git-test.git</a></strong> 。</p>
+<h5 id="给本地仓库添加远程仓库地址"><a class="markdownIt-Anchor" href="#给本地仓库添加远程仓库地址"></a> 给本地仓库添加远程仓库地址</h5>
+<p>回到本地下打开 git bash ，进入本地 git 仓库目录，执行下述命令，最后面就是刚才复制的远端仓库地址。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin https://git.coding.net/wqf31415/git-test.git</span><br></pre></td></tr></table></figure>
 <blockquote>
 <p>注意，命令中的 <code>origin</code> 是对远程仓库的命名，可以更改，添加完成后也可以使用 git 命令修改。</p>
 <p>可以给一个本地仓库添加多个远程仓库，提交时使用设置的远端仓库名标识。</p>
 </blockquote>
-<h5 id="将本地修改内容提交到远程仓库"><a href="#将本地修改内容提交到远程仓库" class="headerlink" title="将本地修改内容提交到远程仓库"></a>将本地修改内容提交到远程仓库</h5><p>  用 <code>git push -u origin master</code> 将本地仓库文件推送到远端仓库，第一次要加 <code>-u</code> ，以后就直接运行 <code>git push origin master</code> 。在提交到远程仓库时，需要输入用户名、密码，可以设置用户名和保存密码，详见文章结尾。</p>
+<h5 id="将本地修改内容提交到远程仓库"><a class="markdownIt-Anchor" href="#将本地修改内容提交到远程仓库"></a> 将本地修改内容提交到远程仓库</h5>
+<p>用 <code>git push -u origin master</code> 将本地仓库文件推送到远端仓库，第一次要加 <code>-u</code> ，以后就直接运行 <code>git push origin master</code> 。在提交到远程仓库时，需要输入用户名、密码，可以设置用户名和保存密码，详见文章结尾。</p>
 <blockquote>
 <p><code>origin</code> 是远程仓库名， <code>master</code> 是远程仓库分支名。可以将内容提交到不同远程仓库的不同分支。</p>
 </blockquote>
-<h4 id="将远端仓库克隆到本地"><a href="#将远端仓库克隆到本地" class="headerlink" title="将远端仓库克隆到本地"></a>将远端仓库克隆到本地</h4><p>  运行 <code>git clone https://git.coding.net/wqf31415/git-test.git</code> 将远端仓库克隆到本地，后面 url 是git仓库地址。</p>
-<p>  这样就可以把一个新的远程仓库代码下载到本地，然后就可以在本地<s><i>愉快的</i></s>写代码了。</p>
-<p>  在本地代码编辑完成后，依次运行下列代码将修改提交到远端仓库：<br>  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'change description'</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure></p>
+<h4 id="将远端仓库克隆到本地"><a class="markdownIt-Anchor" href="#将远端仓库克隆到本地"></a> 将远端仓库克隆到本地</h4>
+<p>运行 <code>git clone https://git.coding.net/wqf31415/git-test.git</code> 将远端仓库克隆到本地，后面 url 是git仓库地址。</p>
+<p>这样就可以把一个新的远程仓库代码下载到本地，然后就可以在本地<s><i>愉快的</i></s>写代码了。</p>
+<p>在本地代码编辑完成后，依次运行下列代码将修改提交到远端仓库：</p>
+  <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">'change description'</span></span><br><span class="line">git push origin master</span><br></pre></td></tr></table></figure>
 <p>当远程仓库有更新时，可以使用 <code>git pull</code> 命令将更新内容拉取下来：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git pull origin master</span><br></pre></td></tr></table></figure>
-<hr>
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>  git 是一个很有用的工具，其用途不仅仅在于程序员控制代码版本，也可以用于多人协作创作小说、剧本等，在平时写文档的时候用来保存历史版本，或多版本管理非常方便，需要的时候还可以把不同分支内容合并到一起。只要是文本形式的文件，都可以很好的使用 git 来做版本控制，但对于其它非文本文件，虽然不是很好控制内容，但对整个项目的文件来说还是很好用的，比如我也用 Construct 2 创建的 h5 游戏项目，就可以使用 git 来管理项目版本，可以打分支尝试不同的设计，但是合并分支功能可能就会出问题。</p>
-<h4 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h4><p>本篇文章主要记述了 git 的安装和最基本使用，涉及到的 git 指令如下：</p>
+<hr />
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>git 是一个很有用的工具，其用途不仅仅在于程序员控制代码版本，也可以用于多人协作创作小说、剧本等，在平时写文档的时候用来保存历史版本，或多版本管理非常方便，需要的时候还可以把不同分支内容合并到一起。只要是文本形式的文件，都可以很好的使用 git 来做版本控制，但对于其它非文本文件，虽然不是很好控制内容，但对整个项目的文件来说还是很好用的，比如我也用 Construct 2 创建的 h5 游戏项目，就可以使用 git 来管理项目版本，可以打分支尝试不同的设计，但是合并分支功能可能就会出问题。</p>
+<h4 id="常用命令"><a class="markdownIt-Anchor" href="#常用命令"></a> 常用命令</h4>
+<p>本篇文章主要记述了 git 的安装和最基本使用，涉及到的 git 指令如下：</p>
 <p><code>git --version</code>  查看 git 版本</p>
 <p><code>git config --global user.name &quot;username&quot;</code>  设置全局的 git 用户，加 <code>--global</code> 将设置为全局配置</p>
 <p><code>git config --global user.email user@xxx.xx</code>  设置全局的 git 邮箱</p>
@@ -576,81 +400,52 @@
 <p><code>git add *.html</code>  添加所有 .html 文件到仓库</p>
 <p><code>git add .</code>  添加所有文件到仓库</p>
 <p><code>git rm cached 1.txt</code>  从已添加文件中删除 1.txt 文件</p>
-<p><code>git commit -m &#39;some information&#39;</code>  提交文件，并添加一些描述信息</p>
+<p><code>git commit -m 'some information'</code>  提交文件，并添加一些描述信息</p>
 <p><code>git commit</code>  提交文件，打开 vim 窗口输入描述信息</p>
 <p><code>git remote add origin https://git.coding.net/wqf31415/git-test.git</code>  为本地仓库添加远端仓库地址</p>
 <p><code>git push -u origin master</code>  将本地仓库推送到远端仓库的 master 分支，第一次要加 <code>-u</code> ，以后不加</p>
 <p><code>git clone https://git.coding.net/wqf31415/git-test.git</code>  克隆远端仓库到本地</p>
 <p><code>git pull origin master</code>  拉取远端仓库的 master 分支，并自动合并到当前分支</p>
-<h4 id="git-保存密码命令"><a href="#git-保存密码命令" class="headerlink" title="git 保存密码命令"></a>git 保存密码命令</h4><p><code>git config --global credential.helper store</code> 长期存储 git 服务器的密码</p>
+<h4 id="git-保存密码命令"><a class="markdownIt-Anchor" href="#git-保存密码命令"></a> git 保存密码命令</h4>
+<p><code>git config --global credential.helper store</code> 长期存储 git 服务器的密码</p>
 <p><code>git config --global credential.helper cache</code> 设置 git 保存密码，有效期 15 分钟</p>
-<p><code>git config credential.helper &#39;cache --timeout=3600&#39;</code> 设置 git 保存密码，有效期 3600 秒</p>
+<p><code>git config credential.helper 'cache --timeout=3600'</code> 设置 git 保存密码，有效期 3600 秒</p>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        
-          
-        
-        <div class="post-tags">
-          
-            <a href="/tags/git/" rel="tag"># git</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/02/22/教你从0开始搭建个人博客/" rel="next" title="教你从0开始搭建个人博客">
-                <i class="fa fa-chevron-left"></i> 教你从0开始搭建个人博客
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/%E7%89%88%E6%9C%AC%E6%8E%A7%E5%88%B6/" rel="tag"># 版本控制</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/02/28/解决mysql连接隔夜失效问题/" rel="prev" title="解决mysql连接隔夜失效问题">
-                解决mysql连接隔夜失效问题 <i class="fa fa-chevron-right"></i>
-              </a>
-            
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2017/02/22/%E6%95%99%E4%BD%A0%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/" rel="next" title="教你从0开始搭建个人博客">
+                  <i class="fa fa-chevron-left"></i> 教你从0开始搭建个人博客
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2017/02/28/%E8%A7%A3%E5%86%B3mysql%E8%BF%9E%E6%8E%A5%E9%9A%94%E5%A4%9C%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/" rel="prev" title="解决mysql连接隔夜失效问题">
+                  解决mysql连接隔夜失效问题 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
           </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+      </footer>
+    
   </article>
-
+  
+  
+  
 
   </div>
 
@@ -658,323 +453,124 @@
           </div>
           
 
-  
-    <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODg3NC81NDQ0"></div>
-    </div>
-
-  
-
-
-
         </div>
-        
           
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-inner">
 
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是git"><span class="nav-number">1.</span> <span class="nav-text"> 1 什么是git？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装git"><span class="nav-number">2.</span> <span class="nav-text"> 2 安装git</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-开始使用git"><span class="nav-number">3.</span> <span class="nav-text"> 3 开始使用git</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取帮助"><span class="nav-number">3.1.</span> <span class="nav-text"> 获取帮助</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本配置"><span class="nav-number">3.2.</span> <span class="nav-text"> 基本配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化git仓库"><span class="nav-number">3.3.</span> <span class="nav-text"> 初始化git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置忽略文件"><span class="nav-number">3.4.</span> <span class="nav-text"> 设置忽略文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看仓库状态"><span class="nav-number">3.5.</span> <span class="nav-text"> 查看仓库状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加文件到暂存区stage"><span class="nav-number">3.6.</span> <span class="nav-text"> 添加文件到暂存区(stage)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加单个文件"><span class="nav-number">3.6.1.</span> <span class="nav-text"> 添加单个文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加同一类型的文件"><span class="nav-number">3.6.2.</span> <span class="nav-text"> 添加同一类型的文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加所有文件"><span class="nav-number">3.6.3.</span> <span class="nav-text"> 添加所有文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除已添加的文件"><span class="nav-number">3.7.</span> <span class="nav-text"> 删除已添加的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交文件"><span class="nav-number">3.8.</span> <span class="nav-text"> 提交文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接远程git仓库"><span class="nav-number">3.9.</span> <span class="nav-text"> 连接远程git仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注册并创建远程仓库"><span class="nav-number">3.9.1.</span> <span class="nav-text"> 注册并创建远程仓库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#给本地仓库添加远程仓库地址"><span class="nav-number">3.9.2.</span> <span class="nav-text"> 给本地仓库添加远程仓库地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#将本地修改内容提交到远程仓库"><span class="nav-number">3.9.3.</span> <span class="nav-text"> 将本地修改内容提交到远程仓库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将远端仓库克隆到本地"><span class="nav-number">3.10.</span> <span class="nav-text"> 将远端仓库克隆到本地</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">4.</span> <span class="nav-text"> 总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用命令"><span class="nav-number">4.1.</span> <span class="nav-text"> 常用命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-保存密码命令"><span class="nav-number">4.2.</span> <span class="nav-text"> git 保存密码命令</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">This_Wei</p>
-              <div class="site-description motion-element" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">30</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                      <a href="/categories/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">3</span>
-                    <span class="site-state-item-name">分类</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">47</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-            <div class="links-of-author motion-element">
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ &rarr; http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="http://github.com/wqf31415" title="GitHub &rarr; http://github.com/wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="http://weibo.com/wqf31415" title="Weibo &rarr; http://weibo.com/wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-webo"></i>Weibo</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="/wqf31415@hotmail.com" title="E-Mail &rarr; wqf31415@hotmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
-            </div>
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="This_Wei"
+    src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
       </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ &amp;rarr; http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=629170023&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo &amp;rarr; https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail &amp;rarr; mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
 
-            
-            
-            
-            
 
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-什么是git？"><span class="nav-number">1.</span> <span class="nav-text">1 什么是git？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-安装git"><span class="nav-number">2.</span> <span class="nav-text">2 安装git</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#var-oUl-document-getElementById-‘nav’-var-oDiv-document-getElementById-‘option’-var-oLis-oUl-getElementsByTagName-‘a’-var-oOptDivs-oDiv-getElementsByTagName-‘div’-for-var-i-0-i"><span class="nav-number"></span> <span class="nav-text">var oUl=document.getElementById(‘nav’);var oDiv=document.getElementById(‘option’);var oLis=oUl.getElementsByTagName(‘a’);var oOptDivs=oDiv.getElementsByTagName(‘div’);for(var i=0;i&lt;oLis.length;i++){hideDiv();document.getElementById(&#39;Windows&#39;).style.display=&#39;block&#39;;oLis[i].style.display=&#39;inlineblock&#39;;oLis[i].onclick=function(){hideDiv();showDiv(this.innerHTML);}}function showDiv(id) {var odiv=document.getElementById(id);odiv.style.display=&#39;block&#39;;}function hideDiv() {for (var i=0;i&lt;oOptDivs.length;i++){oOptDivs[i].style.display=&#39;none&#39;;}}</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#3-开始使用git"><span class="nav-number">1.</span> <span class="nav-text">3 开始使用git</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取帮助"><span class="nav-number">1.1.</span> <span class="nav-text">获取帮助</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#基本配置"><span class="nav-number">1.2.</span> <span class="nav-text">基本配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#初始化git仓库"><span class="nav-number">1.3.</span> <span class="nav-text">初始化git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#设置忽略文件"><span class="nav-number">1.4.</span> <span class="nav-text">设置忽略文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查看仓库状态"><span class="nav-number">1.5.</span> <span class="nav-text">查看仓库状态</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#添加文件到暂存区-stage"><span class="nav-number">1.6.</span> <span class="nav-text">添加文件到暂存区(stage)</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#添加单个文件"><span class="nav-number">1.6.1.</span> <span class="nav-text">添加单个文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加同一类型的文件"><span class="nav-number">1.6.2.</span> <span class="nav-text">添加同一类型的文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#添加所有文件"><span class="nav-number">1.6.3.</span> <span class="nav-text">添加所有文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除已添加的文件"><span class="nav-number">1.7.</span> <span class="nav-text">删除已添加的文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交文件"><span class="nav-number">1.8.</span> <span class="nav-text">提交文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#连接远程git仓库"><span class="nav-number">1.9.</span> <span class="nav-text">连接远程git仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#注册并创建远程仓库"><span class="nav-number">1.9.1.</span> <span class="nav-text">注册并创建远程仓库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#给本地仓库添加远程仓库地址"><span class="nav-number">1.9.2.</span> <span class="nav-text">给本地仓库添加远程仓库地址</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#将本地修改内容提交到远程仓库"><span class="nav-number">1.9.3.</span> <span class="nav-text">将本地修改内容提交到远程仓库</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将远端仓库克隆到本地"><span class="nav-number">1.10.</span> <span class="nav-text">将远端仓库克隆到本地</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#常用命令"><span class="nav-number">2.1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#git-保存密码命令"><span class="nav-number">2.2.</span> <span class="nav-text">git 保存密码命令</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
+      </div>
 
     </div>
   </aside>
-  
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
-    <footer id="footer" class="footer">
+    <footer class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
-  <span class="with-love" id="animate">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">This_Wei</span>
-
-  
-
-  
 </div>
 
 
-
-
-
-
-
-
-  <div class="footer-custom"><div style="margin:0 0; padding:5px 0;"><a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">蜀ICP备18009638号 </p></a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">川公网安备 51011502000320号</p></a></div></div>
+<script src='https:'></script>
+<script>
+if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
+</script>
 
 
         
+
+
+
+
 
 
 
@@ -986,149 +582,56 @@
         
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
   </div>
 
   
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme: 'forest',
+      logLevel: 3,
+      flowchart: { curve: 'linear' },
+      gantt: { axisFormat: '%m/%d/%Y' },
+      sequence: { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
 </script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=3.4.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.2"></script>
-
-  <script src="/js/motion.js?v=7.1.2"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/schemes/muse.js?v=7.1.2"></script>
-
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.2"></script>
-<script src="/js/post-details.js?v=7.1.2"></script>
-
-
-
-  
-
-
-  <script src="/js/next-boot.js?v=7.1.2"></script>
-
-
-  
-
-  
-
-  
-
-  
-
-
-  
-    <script>
-  window.livereOptions = {
-    refer: '2017/02/23/小白都能学会的Git操作/'
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-</script>
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   
 

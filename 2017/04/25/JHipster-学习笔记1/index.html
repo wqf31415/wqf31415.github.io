@@ -1,139 +1,86 @@
 <!DOCTYPE html>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-<html class="theme-next mist use-motion" lang="zh-CN,en,default">
+<html lang="zh-CN">
 <head>
-  <meta charset="UTF-8"/>
-<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2"/>
-<meta name="theme-color" content="#222"/>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.0.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+  <link rel="alternate" href="/atom.xml" title="This_Wei" type="application/atom+xml">
+
+<link rel="stylesheet" href="/css/main.css">
 
 
+<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css?v=4.7.0"/>
-
-<link rel="stylesheet" href="/css/main.css?v=7.1.2"/>
-
-
-  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png?v=7.1.2">
-
-
-  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png?v=7.1.2">
-
-
-  <link rel="mask-icon" href="/uploads/favicon.png?v=7.1.2" color="#222">
-
-
-
-
-
-
-
-<script id="hexo.configurations">
+<script id="hexo-configurations">
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
     scheme: 'Mist',
-    version: '7.1.2',
-    sidebar: {"position":"left","display":"post","offset":12,"onmobile":false,"dimmer":false},
-    back2top: true,
-    back2top_sidebar: false,
+    version: '7.5.0',
+    exturl: false,
+    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
+    copycode: {"enable":false,"show_result":false,"style":null},
+    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
+    bookmark: {"enable":true,"color":"#222","save":"auto"},
     fancybox: false,
-    fastclick: false,
+    mediumzoom: false,
     lazyload: false,
-    tabs: true,
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    pangu: false,
     algolia: {
-      applicationID: '',
+      appID: '',
       apiKey: '',
       indexName: '',
       hits: {"per_page":10},
       labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    }
+    },
+    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
+    path: '',
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    translation: {
+      copy_button: '复制',
+      copy_success: '复制成功',
+      copy_failure: '复制失败'
+    },
+    sidebarPadding: 40
   };
 </script>
 
-
-  
-
-
-
-
-  <meta name="description" content="写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档:  https://www.jhipster.tech/docum">
+  <meta name="description" content="写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档: https:&#x2F;&#x2F;www.jhipster.tech&#x2F;docume">
 <meta name="keywords" content="java,web,JHipster">
 <meta property="og:type" content="article">
 <meta property="og:title" content="JHipster 学习笔记1">
-<meta property="og:url" content="http://blog.wqf31415.xyz/2017/04/25/JHipster-学习笔记1/index.html">
+<meta property="og:url" content="http:&#x2F;&#x2F;blog.wqf31415.xyz&#x2F;2017&#x2F;04&#x2F;25&#x2F;JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01&#x2F;index.html">
 <meta property="og:site_name" content="This_Wei">
-<meta property="og:description" content="写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档:  https://www.jhipster.tech/docum">
+<meta property="og:description" content="写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档: https:&#x2F;&#x2F;www.jhipster.tech&#x2F;docume">
 <meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/jhipster_index_error.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;what_is_jhipster.png">
+<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;jhipster_index_error.png">
 <meta property="og:updated_time" content="2019-08-06T03:46:45.854Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="JHipster 学习笔记1">
-<meta name="twitter:description" content="写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档:  https://www.jhipster.tech/docum">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png">
+<meta name="twitter:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;image&#x2F;what_is_jhipster.png">
+
+<link rel="canonical" href="http://blog.wqf31415.xyz/2017/04/25/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
 
 
-
-
-
-  
-  
-  <link rel="canonical" href="http://blog.wqf31415.xyz/2017/04/25/JHipster-学习笔记1/"/>
-
-
-
-<script id="page.configurations">
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
+    isHome: false,
+    isPost: true,
+    isPage: false,
+    isArchive: false
   };
 </script>
 
   <title>JHipster 学习笔记1 | This_Wei</title>
   
-
-
-
-
 
 
   <script>
@@ -149,12 +96,8 @@
 
 
 
-
-
-
   <noscript>
   <style>
-  .use-motion .motion-element,
   .use-motion .brand,
   .use-motion .menu-item,
   .sidebar-inner,
@@ -163,9 +106,8 @@
   .use-motion .comments,
   .use-motion .post-header,
   .use-motion .post-body,
-  .use-motion .collection-title { opacity: initial; }
+  .use-motion .collection-header { opacity: initial; }
 
-  .use-motion .logo,
   .use-motion .site-title,
   .use-motion .site-subtitle {
     opacity: initial;
@@ -179,304 +121,143 @@
 
 </head>
 
-<body itemscope itemtype="http://schema.org/WebPage" lang="zh-CN">
-
-  
-  
-    
-  
-
-  <div class="container sidebar-position-left page-post-detail">
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
     <div class="headband"></div>
 
-    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
-      <div class="header-inner"><div class="site-brand-wrapper">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
   <div class="site-meta">
-    
 
-    <div class="custom-logo-site-title">
+    <div>
       <a href="/" class="brand" rel="start">
         <span class="logo-line-before"><i></i></span>
         <span class="site-title">This_Wei</span>
         <span class="logo-line-after"><i></i></span>
       </a>
     </div>
-    
+        <h1 class="site-subtitle" itemprop="description">Come on!</h1>
       
-        <p class="site-subtitle">Come on!</p>
-      
-    
-    
   </div>
 
   <div class="site-nav-toggle">
-    <button aria-label="切换导航栏">
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-      <span class="btn-bar"></span>
-    </button>
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
   </div>
 </div>
-
 
 
 <nav class="site-nav">
   
-    <ul id="menu" class="menu">
-      
-        
-        
-        
-          
-          <li class="menu-item menu-item-home">
+  <ul id="menu" class="menu">
+        <li class="menu-item menu-item-home">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br/>首页</a>
+    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-tags">
+        <li class="menu-item menu-item-tags">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br/>标签</a>
+    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-categories">
+        <li class="menu-item menu-item-categories">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br/>分类</a>
+    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-archives">
+        <li class="menu-item menu-item-archives">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br/>归档</a>
+    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-commonweal">
+        <li class="menu-item menu-item-commonweal">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br/>公益 404</a>
+    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
 
   </li>
-        
-        
-        
-          
-          <li class="menu-item menu-item-weather">
+        <li class="menu-item menu-item-weather">
 
-    
-    
-    
-      
-    
-
-    
-
-    <a href="/weather/" rel="section"><i class="menu-item-icon fa fa-fw fa-snowflake-o"></i> <br/>天气</a>
+    <a href="/weather/" rel="section"><i class="fa fa-fw fa-snowflake-o"></i>天气</a>
 
   </li>
+  </ul>
 
-      
-      
-    </ul>
-  
-
-  
-    
-
-  
-
-  
 </nav>
-
-
-
-  
-
-
-
 </div>
     </header>
 
     
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
 
 
-    <main id="main" class="main">
+    <main class="main">
       <div class="main-inner">
         <div class="content-wrap">
           
-          <div id="content" class="content">
+
+          <div class="content">
             
 
-  <div id="posts" class="posts-expand">
-    
-
-  
-
+  <div class="posts-expand">
+      
   
   
-  
-
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/04/25/JHipster-学习笔记1/"/>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/04/25/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="This_Wei"/>
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！"/>
-      <meta itemprop="image" content="/images/avatar.gif"/>
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
     </span>
 
     <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei"/>
+      <meta itemprop="name" content="This_Wei">
     </span>
-
-    
       <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">JHipster 学习笔记1
-
-              
-            
-          </h1>
-        
+        <h2 class="post-title" itemprop="name headline">
+          JHipster 学习笔记1
+        </h2>
 
         <div class="post-meta">
-          <span class="post-time">
-
-            
-            
-            
-
-            
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-calendar-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-
-              
-                
-              
+              <span class="post-meta-item-text">发表于</span>
 
               <time title="创建时间：2017-04-25 13:58:44" itemprop="dateCreated datePublished" datetime="2017-04-25T13:58:44+08:00">2017-04-25</time>
-            
-
-            
-              
-
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
+            </span>
+              <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="fa fa-calendar-check-o"></i>
                 </span>
-                
-                  <span class="post-meta-item-text">更新于</span>
-                
+                <span class="post-meta-item-text">更新于</span>
                 <time title="修改时间：2019-08-06 11:46:45" itemprop="dateModified" datetime="2019-08-06T11:46:45+08:00">2019-08-06</time>
-              
-            
-          </span>
-
-          
-            <span class="post-category">
-            
-              <span class="post-meta-divider">|</span>
-            
+              </span>
+            <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="fa fa-folder-o"></i>
               </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing"><a href="/categories/技术/" itemprop="url" rel="index"><span itemprop="name">技术</span></a></span>
-
-                
-                
-              
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index">
+                    <span itemprop="name">技术</span>
+                  </a>
+                </span>
             </span>
-          
-
-          
-            
-            
-          
-
-          
-          
-
-          
-
-          
 
           
 
         </div>
       </header>
-    
 
     
     
@@ -484,55 +265,85 @@
     <div class="post-body" itemprop="articleBody">
 
       
-      
-
-      
         <blockquote>
 <p>写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档:</p>
-<p> <a href="https://www.jhipster.tech/documentation-archive/" target="_blank" rel="noopener">https://www.jhipster.tech/documentation-archive/</a></p>
+<p><a href="https://www.jhipster.tech/documentation-archive/" target="_blank" rel="noopener">https://www.jhipster.tech/documentation-archive/</a></p>
 </blockquote>
-<h2 id="JHipster-是什么？"><a href="#JHipster-是什么？" class="headerlink" title="JHipster 是什么？"></a>JHipster 是什么？</h2><blockquote>
+<h2 id="jhipster-是什么"><a class="markdownIt-Anchor" href="#jhipster-是什么"></a> JHipster 是什么？</h2>
+<blockquote>
 <p>摘要：初次接触 JHipster ，认识它是什么，并创建一个 demo 项目来体验一下。</p>
 </blockquote>
-<h3 id="JHipster-是什么？能吃吗？"><a href="#JHipster-是什么？能吃吗？" class="headerlink" title="JHipster 是什么？能吃吗？"></a>JHipster 是什么？能吃吗？</h3><h4 id="下定义"><a href="#下定义" class="headerlink" title="下定义"></a>下定义</h4><blockquote>
+<h3 id="jhipster-是什么能吃吗"><a class="markdownIt-Anchor" href="#jhipster-是什么能吃吗"></a> JHipster 是什么？能吃吗？</h3>
+<h4 id="下定义"><a class="markdownIt-Anchor" href="#下定义"></a> 下定义</h4>
+<blockquote>
 <p>根据官方自己的描述：JHipster就是一个用来创建 Spring Boot - Angular 项目的 Yeoman 代码生成器。</p>
 </blockquote>
 <p>简单的说 <strong>JHipster就是一个代码生成器</strong> ，帮我们自动生成一个 java web 项目源码，后台使用 Spring Boot ，前端使用 Angular 。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png" alt="" title="这就是 Jhipster"> </p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png" alt="" title="这就是 Jhipster" /></p>
 <a id="more"></a>
-<h4 id="类似的技术"><a href="#类似的技术" class="headerlink" title="类似的技术"></a>类似的技术</h4><p>一些 java web 项目代码生成工具：</p>
+<h4 id="类似的技术"><a class="markdownIt-Anchor" href="#类似的技术"></a> 类似的技术</h4>
+<p>一些 java web 项目代码生成工具：</p>
 <ul>
 <li>rapid-generator ：提供了struts2，springmvc，ibatis， hibernate的相应模板，可分别生成model，dao，manager和controller的代码， 包括hibernate的hbm.xml，ibatis的mapper.xml，jsp文件都可以生成。</li>
 <li>AutoJCode ：一个在线生成 java web 项目的网站，<a href="http://www.autojcode.com/" target="_blank" rel="noopener">http://www.autojcode.com/</a>。</li>
 <li>Guns: 国内开源的java web代码生成工具，基于 SpringBoot，致力于做更简洁的后台管理系统,完美整合springmvc + shiro + mybatis-plus + beetl + flowable!Guns项目代码简洁，注释丰富，上手容易，同时Guns包含许多基础模块(用户管理,角色管理,部门管理,字典管理等10个模块)，可以直接作为一个后台管理系统的脚手架！地址：<a href="https://gitee.com/naan1993/guns" target="_blank" rel="noopener">https://gitee.com/naan1993/guns</a>。</li>
 </ul>
-<h4 id="与同类技术相比的优缺点"><a href="#与同类技术相比的优缺点" class="headerlink" title="与同类技术相比的优缺点"></a>与同类技术相比的优缺点</h4><p>JHipster 生成的是完整的现代的 web 应用项目，具有时尚、现代、高性能、稳定等特点，集合了多种最新的开发技术。</p>
-<h4 id="组成部分"><a href="#组成部分" class="headerlink" title="组成部分"></a>组成部分</h4><p>jhipster 采用的核心技术栈是 <strong>Spring Boot</strong> 和 <strong>Angular</strong> ,分别用于后端和前端。整体构建采用 <strong>Yeoman</strong> ，其中后端采用 <strong>maven</strong> 或 <strong>gradle</strong> 工具构建，前端采用 <strong>Bower</strong> 构建。以下内容不一定都会用到，请根据自己的需求进行取舍。</p>
+<h4 id="与同类技术相比的优缺点"><a class="markdownIt-Anchor" href="#与同类技术相比的优缺点"></a> 与同类技术相比的优缺点</h4>
+<p>JHipster 生成的是完整的现代的 web 应用项目，具有时尚、现代、高性能、稳定等特点，集合了多种最新的开发技术。</p>
+<h4 id="组成部分"><a class="markdownIt-Anchor" href="#组成部分"></a> 组成部分</h4>
+<p>jhipster 采用的核心技术栈是 <strong>Spring Boot</strong> 和 <strong>Angular</strong> ,分别用于后端和前端。整体构建采用 <strong>Yeoman</strong> ，其中后端采用 <strong>maven</strong> 或 <strong>gradle</strong> 工具构建，前端采用 <strong>Bower</strong> 构建。以下内容不一定都会用到，请根据自己的需求进行取舍。</p>
 <p>客户端涉及到的组件：<strong>HTML5</strong> 、 <strong>CSS3</strong> 、 <strong>Bootstrap</strong> 、 <strong>AngularJS</strong> 、 <strong>JQuery</strong> 、 <strong>Websockets</strong> 、 <strong>Yarn</strong> 、 <strong>Webpack</strong> 、 <strong>Bower</strong> 、 <strong>Gulp</strong> 、 <strong>Sass</strong> 、 <strong>Browsersync</strong> 、 <strong>Karma</strong> 、 <strong>Protractor</strong></p>
 <p>服务器端组件：<strong>Spring Boot</strong> 、 <strong>Spring Security</strong> 、 <strong>Netflix OSS</strong> 、 <strong>Consul</strong> 、 <strong>Gradle</strong> 、 <strong>Maven</strong> 、 <strong>Hibernate</strong> 、 <strong>Liquibase</strong> 、 <strong>MySQL</strong> 、 <strong>PostgreSQL</strong> 、 <strong>Oracle</strong> 、 <strong>MongeDB</strong> 、 <strong>Cassandra</strong> 、 <strong>EhCache</strong> 、 <strong>Hazelcast</strong> 、 <strong>ElasticSearch</strong> 、 <strong>Kafka</strong> 、 <strong>Swagger</strong> 、 <strong>ELK Stack</strong> 、 <strong>Prometheus</strong> 、 <strong>Thymeleaf</strong> 、 <strong>Gatling</strong> 、 <strong>Cucumber</strong></p>
 <p>部署组件：<strong>Docker</strong> 、 <strong>Kubernates</strong> 、 <strong>Heroku</strong> 、 <strong>CloudFoundry</strong> 、 <strong>AWS</strong> 、 <strong>Rancher</strong></p>
-<hr>
-<h3 id="为什么会出现-JHipster？"><a href="#为什么会出现-JHipster？" class="headerlink" title="为什么会出现 JHipster？"></a>为什么会出现 JHipster？</h3><h4 id="解决什么问题？"><a href="#解决什么问题？" class="headerlink" title="解决什么问题？"></a>解决什么问题？</h4><p>一键搭建 web 应用，简化了很多重复的工作环节，自动创建实体与相关的增删改查的Repository、Service、Controller等方法，自动补全相关配置，开发者只需关注业务逻辑的实现即可，JHipster 帮助我们简化了工作。</p>
-<h4 id="没有-JHipster-前怎么做？"><a href="#没有-JHipster-前怎么做？" class="headerlink" title="没有 JHipster 前怎么做？"></a>没有 JHipster 前怎么做？</h4><p>打开 IDE 创建 java web 项目，一个一个创建实体，创建数据库表，增删改查的方法都要自己一点一点的写，手动添加配置信息，很多重复的工作。</p>
-<hr>
-<h3 id="干一波？"><a href="#干一波？" class="headerlink" title="干一波？"></a>干一波？</h3><h4 id="预备，安装需要的组件"><a href="#预备，安装需要的组件" class="headerlink" title="预备，安装需要的组件"></a>预备，安装需要的组件</h4><h5 id="JDK"><a href="#JDK" class="headerlink" title="JDK"></a>JDK</h5><p>JHipster 是一个创建 java-web 项目的工具，所以说最基本的就是 java 开发环境，安装 jdk1.8 。</p>
-<h5 id="Maven-或-Gradle-（可选）"><a href="#Maven-或-Gradle-（可选）" class="headerlink" title="Maven 或 Gradle （可选）"></a>Maven 或 Gradle （可选）</h5><p>为了创建 java 后台框架，我们用 Maven 或 Gradle 来管理所有的依赖资源。</p>
-<h5 id="Git"><a href="#Git" class="headerlink" title="Git"></a>Git</h5><p>在创建项目过程中需要通过 Git 下载资源。</p>
-<h5 id="NodeJS"><a href="#NodeJS" class="headerlink" title="NodeJS"></a>NodeJS</h5><p>需要用到 npm 来下载前端需要的组件资源。<br>从官网下载并安装 Node.js ，蒋自动安装 npm 包管理器。</p>
+<hr />
+<h3 id="为什么会出现-jhipster"><a class="markdownIt-Anchor" href="#为什么会出现-jhipster"></a> 为什么会出现 JHipster？</h3>
+<h4 id="解决什么问题"><a class="markdownIt-Anchor" href="#解决什么问题"></a> 解决什么问题？</h4>
+<p>一键搭建 web 应用，简化了很多重复的工作环节，自动创建实体与相关的增删改查的Repository、Service、Controller等方法，自动补全相关配置，开发者只需关注业务逻辑的实现即可，JHipster 帮助我们简化了工作。</p>
+<h4 id="没有-jhipster-前怎么做"><a class="markdownIt-Anchor" href="#没有-jhipster-前怎么做"></a> 没有 JHipster 前怎么做？</h4>
+<p>打开 IDE 创建 java web 项目，一个一个创建实体，创建数据库表，增删改查的方法都要自己一点一点的写，手动添加配置信息，很多重复的工作。</p>
+<hr />
+<h3 id="干一波"><a class="markdownIt-Anchor" href="#干一波"></a> 干一波？</h3>
+<h4 id="预备安装需要的组件"><a class="markdownIt-Anchor" href="#预备安装需要的组件"></a> 预备，安装需要的组件</h4>
+<h5 id="jdk"><a class="markdownIt-Anchor" href="#jdk"></a> JDK</h5>
+<p>JHipster 是一个创建 java-web 项目的工具，所以说最基本的就是 java 开发环境，安装 jdk1.8 。</p>
+<h5 id="maven-或-gradle-可选"><a class="markdownIt-Anchor" href="#maven-或-gradle-可选"></a> Maven 或 Gradle （可选）</h5>
+<p>为了创建 java 后台框架，我们用 Maven 或 Gradle 来管理所有的依赖资源。</p>
+<h5 id="git"><a class="markdownIt-Anchor" href="#git"></a> Git</h5>
+<p>在创建项目过程中需要通过 Git 下载资源。</p>
+<h5 id="nodejs"><a class="markdownIt-Anchor" href="#nodejs"></a> NodeJS</h5>
+<p>需要用到 npm 来下载前端需要的组件资源。<br />
+从官网下载并安装 Node.js ，蒋自动安装 npm 包管理器。</p>
 <blockquote>
 <p>在国内使用时，强烈推荐配置 npm 淘宝镜像，使用 cnpm 下载安装组件速度更快，参考：<a href="http://npm.taobao.org/" target="_blank" rel="noopener">http://npm.taobao.org/</a></p>
 </blockquote>
-<h5 id="Yeoman"><a href="#Yeoman" class="headerlink" title="Yeoman"></a>Yeoman</h5><p>能快速构建漂亮的网络应用，Yeoman主要提供了三个工具：脚手架（yo），构建工具（grunt），包管理器（bower）。这三个工具是分别独立开发的，但是需要配合使用，来实现我们更高效的工作流模式。<br><code>npm install -g yo</code></p>
+<h5 id="yeoman"><a class="markdownIt-Anchor" href="#yeoman"></a> Yeoman</h5>
+<p>能快速构建漂亮的网络应用，Yeoman主要提供了三个工具：脚手架（yo），构建工具（grunt），包管理器（bower）。这三个工具是分别独立开发的，但是需要配合使用，来实现我们更高效的工作流模式。<br />
+<code>npm install -g yo</code></p>
 <blockquote>
 <p>其中 <code>-g</code> 是全局安装的意思，这样不管在哪个位置都可以使用了。</p>
 </blockquote>
-<h5 id="Bower"><a href="#Bower" class="headerlink" title="Bower"></a>Bower</h5><p>前端包管理器。<br><code>npm install -g bower</code></p>
-<h5 id="Gulp"><a href="#Gulp" class="headerlink" title="Gulp"></a>Gulp</h5><p>gulp是前端开发过程中对代码进行构建的工具，是自动化项目的构建利器；她不仅能对网站资源进行优化，而且在开发过程中很多重复的任务能够使用正确的工具自动完成；使用她，我们不仅可以很愉快的编写代码，而且大大提高我们的工作效率。<br><code>npm install -g gulp-cli</code></p>
-<h5 id="JHipster"><a href="#JHipster" class="headerlink" title="JHipster"></a>JHipster</h5><p>安装 JHipster 的构建器，默认安装最新的发行版本，现在已经有4.x 的发行版本了，但本文中示例使用的是 3.12.2 版本，可使用npm指定安装3.x版本。<br>安装最新版本 jhipster 代码生成器（2018-05-07 当前最新发行版本：4.14.3）<br><code>npm install -g generator-jhipster</code></p>
-<p>安装 3.12.2 版本的 jhipster 代码生成器<br><code>npm install -g generator-jhipster@3.12.2</code></p>
-<hr>
-<h4 id="搞点实际的，跟着官方说明建一个-demo"><a href="#搞点实际的，跟着官方说明建一个-demo" class="headerlink" title="搞点实际的，跟着官方说明建一个 demo"></a>搞点实际的，跟着官方说明建一个 demo</h4><h5 id="快速开始"><a href="#快速开始" class="headerlink" title="快速开始"></a>快速开始</h5><p>打开命令行，进入到想要的目录下： <code>f:</code> （我将demo项目放在了F盘根目录下）<br>创建项目目录： <code>mkdir myJHipsterDemo</code> ；<br>进入目录下： <code>cd myJHipsterDemo</code>；<br>执行构建命令： <code>yo jhipster</code> ；</p>
-<h5 id="根据需要，填写信息和选项"><a href="#根据需要，填写信息和选项" class="headerlink" title="根据需要，填写信息和选项"></a>根据需要，填写信息和选项</h5><h6 id="你要创建哪种类型的应用程序？"><a href="#你要创建哪种类型的应用程序？" class="headerlink" title="你要创建哪种类型的应用程序？"></a>你要创建哪种类型的应用程序？</h6><blockquote>
+<h5 id="bower"><a class="markdownIt-Anchor" href="#bower"></a> Bower</h5>
+<p>前端包管理器。<br />
+<code>npm install -g bower</code></p>
+<h5 id="gulp"><a class="markdownIt-Anchor" href="#gulp"></a> Gulp</h5>
+<p>gulp是前端开发过程中对代码进行构建的工具，是自动化项目的构建利器；她不仅能对网站资源进行优化，而且在开发过程中很多重复的任务能够使用正确的工具自动完成；使用她，我们不仅可以很愉快的编写代码，而且大大提高我们的工作效率。<br />
+<code>npm install -g gulp-cli</code></p>
+<h5 id="jhipster"><a class="markdownIt-Anchor" href="#jhipster"></a> JHipster</h5>
+<p>安装 JHipster 的构建器，默认安装最新的发行版本，现在已经有4.x 的发行版本了，但本文中示例使用的是 3.12.2 版本，可使用npm指定安装3.x版本。<br />
+安装最新版本 jhipster 代码生成器（2018-05-07 当前最新发行版本：4.14.3）<br />
+<code>npm install -g generator-jhipster</code></p>
+<p>安装 3.12.2 版本的 jhipster 代码生成器<br />
+<code>npm install -g generator-jhipster@3.12.2</code></p>
+<hr />
+<h4 id="搞点实际的跟着官方说明建一个-demo"><a class="markdownIt-Anchor" href="#搞点实际的跟着官方说明建一个-demo"></a> 搞点实际的，跟着官方说明建一个 demo</h4>
+<h5 id="快速开始"><a class="markdownIt-Anchor" href="#快速开始"></a> 快速开始</h5>
+<p>打开命令行，进入到想要的目录下： <code>f:</code> （我将demo项目放在了F盘根目录下）<br />
+创建项目目录： <code>mkdir myJHipsterDemo</code> ；<br />
+进入目录下： <code>cd myJHipsterDemo</code>；<br />
+执行构建命令： <code>yo jhipster</code> ；</p>
+<h5 id="根据需要填写信息和选项"><a class="markdownIt-Anchor" href="#根据需要填写信息和选项"></a> 根据需要，填写信息和选项</h5>
+<h6 id="你要创建哪种类型的应用程序"><a class="markdownIt-Anchor" href="#你要创建哪种类型的应用程序"></a> 你要创建哪种类型的应用程序？</h6>
+<blockquote>
 <p>Which type of application would you like to create?</p>
 </blockquote>
 <p>（我们选择默认的，创建一个完整的，包括前端后端的应用）</p>
@@ -542,15 +353,18 @@
 <li>Microservice gateway：微服务网关。</li>
 <li>JHipster UAA server [BETA]：在微服务中，这是一个保护微服务的 OAuth2 认证服务器。</li>
 </ul>
-<h6 id="你的应用程序的基础名称是什么？"><a href="#你的应用程序的基础名称是什么？" class="headerlink" title="你的应用程序的基础名称是什么？"></a>你的应用程序的基础名称是什么？</h6><blockquote>
+<h6 id="你的应用程序的基础名称是什么"><a class="markdownIt-Anchor" href="#你的应用程序的基础名称是什么"></a> 你的应用程序的基础名称是什么？</h6>
+<blockquote>
 <p>What is the base name of your application?</p>
 </blockquote>
 <p>输入创建的项目名，这里我输入 <strong>myJHipsterDemo</strong></p>
-<h6 id="你默认的-Java-包名称是什么？"><a href="#你默认的-Java-包名称是什么？" class="headerlink" title="你默认的 Java 包名称是什么？"></a>你默认的 Java 包名称是什么？</h6><blockquote>
+<h6 id="你默认的-java-包名称是什么"><a class="markdownIt-Anchor" href="#你默认的-java-包名称是什么"></a> 你默认的 Java 包名称是什么？</h6>
+<blockquote>
 <p>What is your default Java package name?</p>
 </blockquote>
-<p>一般我们项目的包命名的习惯是公司域名的倒写加项目名，根据自己的需要输入。比如这里我输入了：<strong>xyz.wqf31415.myJHipsterDemo</strong> </p>
-<h6 id="你想要使用哪种类型的身份验证？"><a href="#你想要使用哪种类型的身份验证？" class="headerlink" title="你想要使用哪种类型的身份验证？"></a>你想要使用哪种类型的身份验证？</h6><blockquote>
+<p>一般我们项目的包命名的习惯是公司域名的倒写加项目名，根据自己的需要输入。比如这里我输入了：<strong>xyz.wqf31415.myJHipsterDemo</strong></p>
+<h6 id="你想要使用哪种类型的身份验证"><a class="markdownIt-Anchor" href="#你想要使用哪种类型的身份验证"></a> 你想要使用哪种类型的身份验证？</h6>
+<blockquote>
 <p>Which type of authentication would you like to use?</p>
 </blockquote>
 <p>（我们选择默认的）</p>
@@ -559,21 +373,25 @@
 <li>OAuth 2.0 认证机制，JHipster 随后提供必要的 OAuth2 服务器代码和数据库表。</li>
 <li>使用 JSON Web 令牌（JWT）的机制。</li>
 </ul>
-<h6 id="你想使用的数据库类型？"><a href="#你想使用的数据库类型？" class="headerlink" title="你想使用的数据库类型？"></a>你想使用的数据库类型？</h6><blockquote>
+<h6 id="你想使用的数据库类型"><a class="markdownIt-Anchor" href="#你想使用的数据库类型"></a> 你想使用的数据库类型？</h6>
+<blockquote>
 <p>Which type of database would you like to use?</p>
 </blockquote>
 <p>（我们选择 SQL 数据库）</p>
 <ul>
 <li>No database：无数据库，仅在微服务应用程序时使用。</li>
 <li>An SQL database：SQL 数据库，使用Spring Data JPA 访问，如 H2 , MySQL , MariaDB , PostgreSQL , MSSQL , Oracle。</li>
-<li>MongoDB </li>
+<li>MongoDB</li>
 <li>Cassandra</li>
 </ul>
-<h6 id="你要使用哪个生产数据库？"><a href="#你要使用哪个生产数据库？" class="headerlink" title="你要使用哪个生产数据库？"></a>你要使用哪个生产数据库？</h6><blockquote>
+<h6 id="你要使用哪个生产数据库"><a class="markdownIt-Anchor" href="#你要使用哪个生产数据库"></a> 你要使用哪个生产数据库？</h6>
+<blockquote>
 <p>Which production database would you like to use?</p>
 </blockquote>
-<p>选择用于生产环境的数据库，如果要使用 Oracle 数据库，需要手动安装 Oracle JDBC 驱动程序 。<br>（我们选择MySql数据库。）</p>
-<h6 id="在开发环境中使用哪个数据库？"><a href="#在开发环境中使用哪个数据库？" class="headerlink" title="在开发环境中使用哪个数据库？"></a>在开发环境中使用哪个数据库？</h6><blockquote>
+<p>选择用于生产环境的数据库，如果要使用 Oracle 数据库，需要手动安装 Oracle JDBC 驱动程序 。<br />
+（我们选择MySql数据库。）</p>
+<h6 id="在开发环境中使用哪个数据库"><a class="markdownIt-Anchor" href="#在开发环境中使用哪个数据库"></a> 在开发环境中使用哪个数据库？</h6>
+<blockquote>
 <p>Which development database would you like to use?</p>
 </blockquote>
 <p>选择用于开发环境的数据库，可选的有：（我们选择MySQL）</p>
@@ -582,15 +400,20 @@
 <li>H2 数据存储在磁盘上，功能还在测试（不支持 windows 系统）</li>
 <li>与生产环境数据库相同</li>
 </ul>
-<h6 id="要使用-Hibernate-中使用二级缓存吗？"><a href="#要使用-Hibernate-中使用二级缓存吗？" class="headerlink" title="要使用 Hibernate 中使用二级缓存吗？"></a>要使用 Hibernate 中使用二级缓存吗？</h6><blockquote>
+<h6 id="要使用-hibernate-中使用二级缓存吗"><a class="markdownIt-Anchor" href="#要使用-hibernate-中使用二级缓存吗"></a> 要使用 Hibernate 中使用二级缓存吗？</h6>
+<blockquote>
 <p>Do you want to use Hibernate 2nd level cache?</p>
 </blockquote>
-<p>在实际开发中，为了性能考虑，建议使用缓存，选择 <strong>encache</strong> 开启本地缓存，或选择 <strong>Hazelcast</strong> 开启分布式缓存，用于集群环境。<br>（现在只是为了体验，我们选择不开启二级缓存）</p>
-<h6 id="你要使用-Maven-或-Gradle-吗？"><a href="#你要使用-Maven-或-Gradle-吗？" class="headerlink" title="你要使用 Maven 或 Gradle 吗？"></a>你要使用 Maven 或 Gradle 吗？</h6><blockquote>
+<p>在实际开发中，为了性能考虑，建议使用缓存，选择 <strong>encache</strong> 开启本地缓存，或选择 <strong>Hazelcast</strong> 开启分布式缓存，用于集群环境。<br />
+（现在只是为了体验，我们选择不开启二级缓存）</p>
+<h6 id="你要使用-maven-或-gradle-吗"><a class="markdownIt-Anchor" href="#你要使用-maven-或-gradle-吗"></a> 你要使用 Maven 或 Gradle 吗？</h6>
+<blockquote>
 <p>Would you like to use Maven or Gradle?</p>
 </blockquote>
-<p>可以选择构建 java 应用的程序，Maven 更稳定，更成熟，Gradle 更灵活，更易于扩展。<br>（我们选择Maven）</p>
-<h6 id="你想要使用哪些其他技术？"><a href="#你想要使用哪些其他技术？" class="headerlink" title="你想要使用哪些其他技术？"></a>你想要使用哪些其他技术？</h6><blockquote>
+<p>可以选择构建 java 应用的程序，Maven 更稳定，更成熟，Gradle 更灵活，更易于扩展。<br />
+（我们选择Maven）</p>
+<h6 id="你想要使用哪些其他技术"><a class="markdownIt-Anchor" href="#你想要使用哪些其他技术"></a> 你想要使用哪些其他技术？</h6>
+<blockquote>
 <p>Which other technologies would you like to use?</p>
 </blockquote>
 <p>这是一个多项选择，可以为应用程序添加一个或几个其他技术，<strong>注意是按空格键选定/取消，回车键确定</strong>。选项有：（我们选中第一项，然后回车）</p>
@@ -601,23 +424,28 @@
 <li>WebSockets using Spring Websocket ：使用 Spring Websocket 启用 Websockets；</li>
 <li>Asynchronous messages using Apache Kafka ：使用 Apache Kafka 作为发布/订阅消息代理。</li>
 </ul>
-<h6 id="你希望客户端使用哪个框架？"><a href="#你希望客户端使用哪个框架？" class="headerlink" title="你希望客户端使用哪个框架？"></a>你希望客户端使用哪个框架？</h6><blockquote>
-<p>Which Framework would you like to use for the client? </p>
+<h6 id="你希望客户端使用哪个框架"><a class="markdownIt-Anchor" href="#你希望客户端使用哪个框架"></a> 你希望客户端使用哪个框架？</h6>
+<blockquote>
+<p>Which Framework would you like to use for the client?</p>
 </blockquote>
 <p>（我们选默认的，直接回车）</p>
 <ul>
 <li>AngularJS 1.x 版本</li>
 <li>Angular 2+ 版本（测试），正处于测试阶段，可能不适合生产使用</li>
 </ul>
-<h6 id="是否为-CSS-使用-LibSass-样式表预处理器？"><a href="#是否为-CSS-使用-LibSass-样式表预处理器？" class="headerlink" title="是否为 CSS 使用 LibSass 样式表预处理器？"></a>是否为 CSS 使用 LibSass 样式表预处理器？</h6><blockquote>
+<h6 id="是否为-css-使用-libsass-样式表预处理器"><a class="markdownIt-Anchor" href="#是否为-css-使用-libsass-样式表预处理器"></a> 是否为 CSS 使用 LibSass 样式表预处理器？</h6>
+<blockquote>
 <p>Would you like to use the LibSass stylesheet preprocessor for your CSS?</p>
 </blockquote>
 <p>Node-sass 是简化 CSS 设计的很好方式，如需自动配置，需要运行 Gulp 服务器。（选默认，直接回车）</p>
-<h6 id="是否启动-Angular-翻译功能？"><a href="#是否启动-Angular-翻译功能？" class="headerlink" title="是否启动 Angular 翻译功能？"></a>是否启动 Angular 翻译功能？</h6><blockquote>
+<h6 id="是否启动-angular-翻译功能"><a class="markdownIt-Anchor" href="#是否启动-angular-翻译功能"></a> 是否启动 Angular 翻译功能？</h6>
+<blockquote>
 <p>Would you like to enable translation support with Angular Translate?</p>
 </blockquote>
-<p> 默认情况，JHipster 的客户端和服务器端都支持国际化，但国际化会让管理稍微困难一些，可以选择不安装此功能。<br> （我们选择开启，随后会让我们选择想要语言，我们选择英语和简体中文）</p>
-<h6 id="要使用的测试框架？"><a href="#要使用的测试框架？" class="headerlink" title="要使用的测试框架？"></a>要使用的测试框架？</h6><blockquote>
+<p>默认情况，JHipster 的客户端和服务器端都支持国际化，但国际化会让管理稍微困难一些，可以选择不安装此功能。<br />
+（我们选择开启，随后会让我们选择想要语言，我们选择英语和简体中文）</p>
+<h6 id="要使用的测试框架"><a class="markdownIt-Anchor" href="#要使用的测试框架"></a> 要使用的测试框架？</h6>
+<blockquote>
 <p>Which testing frameworks would you like to use?</p>
 </blockquote>
 <p>（不是很懂这个，我们选默认的）</p>
@@ -626,95 +454,78 @@
 <li>Behaviour tests using Cucumber ：使用 Cucumber 的行为测试；</li>
 <li>Angular integration tests with Protractor ：使用 Protractor 进行 Angular 积分测试。</li>
 </ul>
-<h5 id="下载安装依赖包"><a href="#下载安装依赖包" class="headerlink" title="下载安装依赖包"></a>下载安装依赖包</h5><p>以上所有选项根据项目需要来选，现在只是为了建个 demo 体验下，所以能不选的就不选，能少选的就少选，哈哈~~<br>完成选项后会自动运行 <code>npm intall &amp;&amp; bower install</code> ；<br>这个过程需要等待很长一段时间，为了能快一点，我们按 <strong>Ctrl + C</strong> ，温柔的把进程停止，执行下面的指令：<br><code>cnpm install</code><br>这是用的淘宝npm镜像，在国内用速度更快更稳定，如果没有设定淘宝镜像，可以参考这里的方法：淘宝 NPM 镜像 <a href="https://npm.taobao.org/" target="_blank" rel="noopener">https://npm.taobao.org/</a>，运行完成后，执行下面命令：<br><code>bower install</code></p>
+<h5 id="下载安装依赖包"><a class="markdownIt-Anchor" href="#下载安装依赖包"></a> 下载安装依赖包</h5>
+<p>以上所有选项根据项目需要来选，现在只是为了建个 demo 体验下，所以能不选的就不选，能少选的就少选，哈哈~~<br />
+完成选项后会自动运行 <code>npm intall &amp;&amp; bower install</code> ；<br />
+这个过程需要等待很长一段时间，为了能快一点，我们按 <strong>Ctrl + C</strong> ，温柔的把进程停止，执行下面的指令：<br />
+<code>cnpm install</code><br />
+这是用的淘宝npm镜像，在国内用速度更快更稳定，如果没有设定淘宝镜像，可以参考这里的方法：淘宝 NPM 镜像 <a href="https://npm.taobao.org/" target="_blank" rel="noopener">https://npm.taobao.org/</a>，运行完成后，执行下面命令：<br />
+<code>bower install</code></p>
 <p>再运行 <code>gulp install</code> ，完成后即可导入IDEA</p>
-<h5 id="运行和测试"><a href="#运行和测试" class="headerlink" title="运行和测试"></a>运行和测试</h5><p>下载相关依赖后就可以开始运行了，可以在 IDE 中运行，也可以使用 Maven 或 Gradle 运行项目。</p>
+<h5 id="运行和测试"><a class="markdownIt-Anchor" href="#运行和测试"></a> 运行和测试</h5>
+<p>下载相关依赖后就可以开始运行了，可以在 IDE 中运行，也可以使用 Maven 或 Gradle 运行项目。</p>
 <p>打开 <a href="http://127.0.0.1:8080/" target="_blank" rel="noopener">http://127.0.0.1:8080/</a>  进行预览</p>
-<hr>
-<h3 id="踩过的一些小坑"><a href="#踩过的一些小坑" class="headerlink" title="踩过的一些小坑"></a>踩过的一些小坑</h3><h4 id="运行-gulp-install-时报错："><a href="#运行-gulp-install-时报错：" class="headerlink" title="运行 gulp install 时报错："></a>运行 gulp install 时报错：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bower components directory does not exist at E:\testJHipster\src\main\webapp\bower_components</span><br></pre></td></tr></table></figure>
+<hr />
+<h3 id="踩过的一些小坑"><a class="markdownIt-Anchor" href="#踩过的一些小坑"></a> 踩过的一些小坑</h3>
+<h4 id="运行-gulp-install-时报错"><a class="markdownIt-Anchor" href="#运行-gulp-install-时报错"></a> 运行 gulp install 时报错：</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Bower components directory does not exist at E:\testJHipster\src\main\webapp\bower_components</span><br></pre></td></tr></table></figure>
 <p>说明 bower 组件目录不存在，手动创建该目录。但还是重新运行 <code>bower install</code> 命令来的更靠谱点</p>
-<h4 id="创建项目时选择了MySQL数据库，启动项目时报错"><a href="#创建项目时选择了MySQL数据库，启动项目时报错" class="headerlink" title="创建项目时选择了MySQL数据库，启动项目时报错"></a>创建项目时选择了MySQL数据库，启动项目时报错</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Unknown error 1049</span><br><span class="line">	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:528)</span><br><span class="line">	at com.zaxxer.hikari.pool.HikariPool.&lt;init&gt;(HikariPool.java:118)</span><br><span class="line">	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:94)</span><br></pre></td></tr></table></figure>
-<p>初始化连接池失败，原因可能是：1）数据库连接的用户名或密码错误，2）没有创建项目需要的数据库<br>解决办法是打开 <strong>src/main/resources/config/application-dev.yml</strong> ，按下面的设置自己的用户名（username）和密码（password），并手动在本地数据库中创建需要的数据库：<strong>myJHipsterDemo</strong><br><figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span>    </span><br><span class="line"><span class="attr">    datasource:</span></span><br><span class="line"><span class="attr">        type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span></span><br><span class="line"><span class="attr">        url:</span> <span class="attr">jdbc:mysql://localhost:3306/myJHipsterDemo?useUnicode=true&amp;characterEncoding=UTF8&amp;useSSL=true</span></span><br><span class="line"><span class="attr">        name:</span></span><br><span class="line"><span class="attr">        username:</span> <span class="string">root</span></span><br><span class="line"><span class="attr">        password:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="导入-IDEA-后能运行，但打开页面显示产生了一个错误"><a href="#导入-IDEA-后能运行，但打开页面显示产生了一个错误" class="headerlink" title="导入 IDEA 后能运行，但打开页面显示产生了一个错误"></a>导入 IDEA 后能运行，但打开页面显示产生了一个错误</h4><p><img src="http://blog-images.qiniu.wqf31415.xyz/image/jhipster_index_error.png" alt="" title="出现了一个错误"><br>根据提示，在项目根目录下打开命令行，依次执行 <code>bower install</code> 和 <code>gulp install</code></p>
-<h4 id="运行-bower-install-命令时报错："><a href="#运行-bower-install-命令时报错：" class="headerlink" title="运行 bower install 命令时报错："></a>运行 bower install 命令时报错：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bower swagger-ui#2.1.5      ECMDERR Failed to execute &quot;git ls-remote --tags --heads https://github.com/wordnik/swagger-ui.git&quot;, exit code of #128 fatal: unable to access &apos;https://github .com/wordnik/swagger-ui.git/&apos;: SSL read: error:00000000:lib(0):func(0):reason(0), errno 10054</span><br></pre></td></tr></table></figure>
+<h4 id="创建项目时选择了mysql数据库启动项目时报错"><a class="markdownIt-Anchor" href="#创建项目时选择了mysql数据库启动项目时报错"></a> 创建项目时选择了MySQL数据库，启动项目时报错</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">com.zaxxer.hikari.pool.HikariPool$PoolInitializationException: Failed to initialize pool: Unknown error 1049</span><br><span class="line">	at com.zaxxer.hikari.pool.HikariPool.checkFailFast(HikariPool.java:528)</span><br><span class="line">	at com.zaxxer.hikari.pool.HikariPool.&lt;init&gt;(HikariPool.java:118)</span><br><span class="line">	at com.zaxxer.hikari.HikariDataSource.getConnection(HikariDataSource.java:94)</span><br></pre></td></tr></table></figure>
+<p>初始化连接池失败，原因可能是：1）数据库连接的用户名或密码错误，2）没有创建项目需要的数据库<br />
+解决办法是打开 <strong>src/main/resources/config/application-dev.yml</strong> ，按下面的设置自己的用户名（username）和密码（password），并手动在本地数据库中创建需要的数据库：<strong>myJHipsterDemo</strong></p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span>    </span><br><span class="line">    <span class="attr">datasource:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span></span><br><span class="line">        <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/myJHipsterDemo?useUnicode=true&amp;characterEncoding=UTF8&amp;useSSL=true</span></span><br><span class="line">        <span class="attr">name:</span></span><br><span class="line">        <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">        <span class="attr">password:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<h4 id="导入-idea-后能运行但打开页面显示产生了一个错误"><a class="markdownIt-Anchor" href="#导入-idea-后能运行但打开页面显示产生了一个错误"></a> 导入 IDEA 后能运行，但打开页面显示产生了一个错误</h4>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/jhipster_index_error.png" alt="" title="出现了一个错误" /><br />
+根据提示，在项目根目录下打开命令行，依次执行 <code>bower install</code> 和 <code>gulp install</code></p>
+<h4 id="运行-bower-install-命令时报错"><a class="markdownIt-Anchor" href="#运行-bower-install-命令时报错"></a> 运行 bower install 命令时报错：</h4>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bower swagger-ui#2.1.5      ECMDERR Failed to execute &quot;git ls-remote --tags --heads https://github.com/wordnik/swagger-ui.git&quot;, exit code of #128 fatal: unable to access &apos;https://github .com/wordnik/swagger-ui.git/&apos;: SSL read: error:00000000:lib(0):func(0):reason(0), errno 10054</span><br></pre></td></tr></table></figure>
 <p>原因是 git SSH 配置有问题，重新配置 SSH 即可。</p>
-<hr>
-<h3 id="他山之石"><a href="#他山之石" class="headerlink" title="他山之石"></a>他山之石</h3><ol>
+<hr />
+<h3 id="他山之石"><a class="markdownIt-Anchor" href="#他山之石"></a> 他山之石</h3>
+<ol>
 <li><a href="https://jhipster.github.io/" target="_blank" rel="noopener">JHipster 官网</a></li>
 <li><a href="http://jy03100000.iteye.com/blog/2279525" target="_blank" rel="noopener">使用Rapid generator 4.0.6 自动生成代码</a></li>
 <li><a href="http://www.autojcode.com/" target="_blank" rel="noopener">AutoJCode</a></li>
 <li><a href="https://npm.taobao.org/" target="_blank" rel="noopener">淘宝 NPM 镜像</a></li>
 </ol>
 
-      
     </div>
 
     
-
-    
-    
-    
-
-    
-
-    
-      
     
     
 
-    
-
-    <footer class="post-footer">
-      
-        
-          
-        
-        <div class="post-tags">
-          
-            <a href="/tags/java/" rel="tag"># java</a>
-          
-            <a href="/tags/web/" rel="tag"># web</a>
-          
-            <a href="/tags/JHipster/" rel="tag"># JHipster</a>
-          
-        </div>
-      
-
-      
-      
-      
-
-      
-        <div class="post-nav">
-          <div class="post-nav-next post-nav-item">
-            
-              <a href="/2017/04/06/在本地安装配置Tomcat8服务器/" rel="next" title="在本地安装配置Tomcat8服务器">
-                <i class="fa fa-chevron-left"></i> 在本地安装配置Tomcat8服务器
-              </a>
-            
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/web/" rel="tag"># web</a>
+              <a href="/tags/JHipster/" rel="tag"># JHipster</a>
           </div>
 
-          <span class="post-nav-divider"></span>
+        
 
-          <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/05/03/AngularJS-学习笔记1/" rel="prev" title="AngularJS 学习笔记1">
-                AngularJS 学习笔记1 <i class="fa fa-chevron-right"></i>
-              </a>
-            
+          <div class="post-nav">
+            <div class="post-nav-next post-nav-item">
+                <a href="/2017/04/06/%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AETomcat8%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="next" title="在本地安装配置Tomcat8服务器">
+                  <i class="fa fa-chevron-left"></i> 在本地安装配置Tomcat8服务器
+                </a>
+            </div>
+
+            <span class="post-nav-divider"></span>
+
+            <div class="post-nav-prev post-nav-item">
+                <a href="/2017/05/03/AngularJS-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="prev" title="AngularJS 学习笔记1">
+                  AngularJS 学习笔记1 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
           </div>
-        </div>
-      
-
-      
-      
-    </footer>
-  </div>
-  
-  
-  
+      </footer>
+    
   </article>
-
+  
+  
+  
 
   </div>
 
@@ -722,323 +533,124 @@
           </div>
           
 
-  
-    <div class="comments" id="comments">
-      <div id="lv-container" data-id="city" data-uid="MTAyMC8yODg3NC81NDQ0"></div>
-    </div>
-
-  
-
-
-
         </div>
-        
           
   
-  <div class="sidebar-toggle">
-    <div class="sidebar-toggle-line-wrap">
-      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
-      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
-    </div>
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
   </div>
 
-  <aside id="sidebar" class="sidebar">
+  <aside class="sidebar">
     <div class="sidebar-inner">
 
-      
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
 
-      
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            站点概览
-          </li>
-        </ul>
-      
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#jhipster-是什么"><span class="nav-number">1.</span> <span class="nav-text"> JHipster 是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jhipster-是什么能吃吗"><span class="nav-number">1.1.</span> <span class="nav-text"> JHipster 是什么？能吃吗？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下定义"><span class="nav-number">1.1.1.</span> <span class="nav-text"> 下定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类似的技术"><span class="nav-number">1.1.2.</span> <span class="nav-text"> 类似的技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与同类技术相比的优缺点"><span class="nav-number">1.1.3.</span> <span class="nav-text"> 与同类技术相比的优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组成部分"><span class="nav-number">1.1.4.</span> <span class="nav-text"> 组成部分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么会出现-jhipster"><span class="nav-number">1.2.</span> <span class="nav-text"> 为什么会出现 JHipster？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解决什么问题"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 解决什么问题？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#没有-jhipster-前怎么做"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 没有 JHipster 前怎么做？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#干一波"><span class="nav-number">1.3.</span> <span class="nav-text"> 干一波？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预备安装需要的组件"><span class="nav-number">1.3.1.</span> <span class="nav-text"> 预备，安装需要的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#jdk"><span class="nav-number">1.3.1.1.</span> <span class="nav-text"> JDK</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#maven-或-gradle-可选"><span class="nav-number">1.3.1.2.</span> <span class="nav-text"> Maven 或 Gradle （可选）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#git"><span class="nav-number">1.3.1.3.</span> <span class="nav-text"> Git</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#nodejs"><span class="nav-number">1.3.1.4.</span> <span class="nav-text"> NodeJS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#yeoman"><span class="nav-number">1.3.1.5.</span> <span class="nav-text"> Yeoman</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#bower"><span class="nav-number">1.3.1.6.</span> <span class="nav-text"> Bower</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#gulp"><span class="nav-number">1.3.1.7.</span> <span class="nav-text"> Gulp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jhipster"><span class="nav-number">1.3.1.8.</span> <span class="nav-text"> JHipster</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搞点实际的跟着官方说明建一个-demo"><span class="nav-number">1.3.2.</span> <span class="nav-text"> 搞点实际的，跟着官方说明建一个 demo</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#快速开始"><span class="nav-number">1.3.2.1.</span> <span class="nav-text"> 快速开始</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#根据需要填写信息和选项"><span class="nav-number">1.3.2.2.</span> <span class="nav-text"> 根据需要，填写信息和选项</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#你要创建哪种类型的应用程序"><span class="nav-number">1.3.2.2.1.</span> <span class="nav-text"> 你要创建哪种类型的应用程序？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你的应用程序的基础名称是什么"><span class="nav-number">1.3.2.2.2.</span> <span class="nav-text"> 你的应用程序的基础名称是什么？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你默认的-java-包名称是什么"><span class="nav-number">1.3.2.2.3.</span> <span class="nav-text"> 你默认的 Java 包名称是什么？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你想要使用哪种类型的身份验证"><span class="nav-number">1.3.2.2.4.</span> <span class="nav-text"> 你想要使用哪种类型的身份验证？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你想使用的数据库类型"><span class="nav-number">1.3.2.2.5.</span> <span class="nav-text"> 你想使用的数据库类型？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你要使用哪个生产数据库"><span class="nav-number">1.3.2.2.6.</span> <span class="nav-text"> 你要使用哪个生产数据库？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#在开发环境中使用哪个数据库"><span class="nav-number">1.3.2.2.7.</span> <span class="nav-text"> 在开发环境中使用哪个数据库？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#要使用-hibernate-中使用二级缓存吗"><span class="nav-number">1.3.2.2.8.</span> <span class="nav-text"> 要使用 Hibernate 中使用二级缓存吗？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你要使用-maven-或-gradle-吗"><span class="nav-number">1.3.2.2.9.</span> <span class="nav-text"> 你要使用 Maven 或 Gradle 吗？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你想要使用哪些其他技术"><span class="nav-number">1.3.2.2.10.</span> <span class="nav-text"> 你想要使用哪些其他技术？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你希望客户端使用哪个框架"><span class="nav-number">1.3.2.2.11.</span> <span class="nav-text"> 你希望客户端使用哪个框架？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#是否为-css-使用-libsass-样式表预处理器"><span class="nav-number">1.3.2.2.12.</span> <span class="nav-text"> 是否为 CSS 使用 LibSass 样式表预处理器？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#是否启动-angular-翻译功能"><span class="nav-number">1.3.2.2.13.</span> <span class="nav-text"> 是否启动 Angular 翻译功能？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#要使用的测试框架"><span class="nav-number">1.3.2.2.14.</span> <span class="nav-text"> 要使用的测试框架？</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下载安装依赖包"><span class="nav-number">1.3.2.3.</span> <span class="nav-text"> 下载安装依赖包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行和测试"><span class="nav-number">1.3.2.4.</span> <span class="nav-text"> 运行和测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#踩过的一些小坑"><span class="nav-number">1.4.</span> <span class="nav-text"> 踩过的一些小坑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#运行-gulp-install-时报错"><span class="nav-number">1.4.1.</span> <span class="nav-text"> 运行 gulp install 时报错：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建项目时选择了mysql数据库启动项目时报错"><span class="nav-number">1.4.2.</span> <span class="nav-text"> 创建项目时选择了MySQL数据库，启动项目时报错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入-idea-后能运行但打开页面显示产生了一个错误"><span class="nav-number">1.4.3.</span> <span class="nav-text"> 导入 IDEA 后能运行，但打开页面显示产生了一个错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行-bower-install-命令时报错"><span class="nav-number">1.4.4.</span> <span class="nav-text"> 运行 bower install 命令时报错：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#他山之石"><span class="nav-number">1.5.</span> <span class="nav-text"> 他山之石</span></a></li></ol></li></ol></div>
+      </div>
+      <!--/noindex-->
 
       <div class="site-overview-wrap sidebar-panel">
-        <div class="site-overview">
-          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-            
-              <p class="site-author-name" itemprop="name">This_Wei</p>
-              <div class="site-description motion-element" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
-          </div>
-
-          
-            <nav class="site-state motion-element">
-              
-                <div class="site-state-item site-state-posts">
-                
-                  <a href="/archives/">
-                
-                    <span class="site-state-item-count">30</span>
-                    <span class="site-state-item-name">日志</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-categories">
-                  
-                    
-                      <a href="/categories/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">3</span>
-                    <span class="site-state-item-name">分类</span>
-                  </a>
-                </div>
-              
-
-              
-                
-                
-                <div class="site-state-item site-state-tags">
-                  
-                    
-                      <a href="/tags/">
-                    
-                  
-                    
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                      
-                    
-                    <span class="site-state-item-count">47</span>
-                    <span class="site-state-item-name">标签</span>
-                  </a>
-                </div>
-              
-            </nav>
-          
-
-          
-
-          
-
-          
-            <div class="links-of-author motion-element">
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ &rarr; http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="http://github.com/wqf31415" title="GitHub &rarr; http://github.com/wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="http://weibo.com/wqf31415" title="Weibo &rarr; http://weibo.com/wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-webo"></i>Weibo</a>
-                </span>
-              
-                <span class="links-of-author-item">
-                  
-                  
-                    
-                  
-                  
-                    
-                  
-                  <a href="/wqf31415@hotmail.com" title="E-Mail &rarr; wqf31415@hotmail.com"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
-                </span>
-              
-            </div>
-          
-
-          
-
-          
-          
-
-          
-            
-          
-          
-
-        </div>
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <img class="site-author-image" itemprop="image" alt="This_Wei"
+    src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
       </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="feed-link motion-element">
+    <a href="/atom.xml" rel="alternate">
+      <i class="fa fa-rss"></i>RSS
+    </a>
+  </div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ &amp;rarr; http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=629170023&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo &amp;rarr; https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail &amp;rarr; mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+      </span>
+  </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
 
-            
-            
-            
-            
 
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#JHipster-是什么？"><span class="nav-number">1.</span> <span class="nav-text">JHipster 是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#JHipster-是什么？能吃吗？"><span class="nav-number">1.1.</span> <span class="nav-text">JHipster 是什么？能吃吗？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#下定义"><span class="nav-number">1.1.1.</span> <span class="nav-text">下定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#类似的技术"><span class="nav-number">1.1.2.</span> <span class="nav-text">类似的技术</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与同类技术相比的优缺点"><span class="nav-number">1.1.3.</span> <span class="nav-text">与同类技术相比的优缺点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#组成部分"><span class="nav-number">1.1.4.</span> <span class="nav-text">组成部分</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么会出现-JHipster？"><span class="nav-number">1.2.</span> <span class="nav-text">为什么会出现 JHipster？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#解决什么问题？"><span class="nav-number">1.2.1.</span> <span class="nav-text">解决什么问题？</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#没有-JHipster-前怎么做？"><span class="nav-number">1.2.2.</span> <span class="nav-text">没有 JHipster 前怎么做？</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#干一波？"><span class="nav-number">1.3.</span> <span class="nav-text">干一波？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#预备，安装需要的组件"><span class="nav-number">1.3.1.</span> <span class="nav-text">预备，安装需要的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#JDK"><span class="nav-number">1.3.1.1.</span> <span class="nav-text">JDK</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Maven-或-Gradle-（可选）"><span class="nav-number">1.3.1.2.</span> <span class="nav-text">Maven 或 Gradle （可选）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Git"><span class="nav-number">1.3.1.3.</span> <span class="nav-text">Git</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#NodeJS"><span class="nav-number">1.3.1.4.</span> <span class="nav-text">NodeJS</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Yeoman"><span class="nav-number">1.3.1.5.</span> <span class="nav-text">Yeoman</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Bower"><span class="nav-number">1.3.1.6.</span> <span class="nav-text">Bower</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Gulp"><span class="nav-number">1.3.1.7.</span> <span class="nav-text">Gulp</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#JHipster"><span class="nav-number">1.3.1.8.</span> <span class="nav-text">JHipster</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#搞点实际的，跟着官方说明建一个-demo"><span class="nav-number">1.3.2.</span> <span class="nav-text">搞点实际的，跟着官方说明建一个 demo</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#快速开始"><span class="nav-number">1.3.2.1.</span> <span class="nav-text">快速开始</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#根据需要，填写信息和选项"><span class="nav-number">1.3.2.2.</span> <span class="nav-text">根据需要，填写信息和选项</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#你要创建哪种类型的应用程序？"><span class="nav-number">1.3.2.2.1.</span> <span class="nav-text">你要创建哪种类型的应用程序？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你的应用程序的基础名称是什么？"><span class="nav-number">1.3.2.2.2.</span> <span class="nav-text">你的应用程序的基础名称是什么？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你默认的-Java-包名称是什么？"><span class="nav-number">1.3.2.2.3.</span> <span class="nav-text">你默认的 Java 包名称是什么？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你想要使用哪种类型的身份验证？"><span class="nav-number">1.3.2.2.4.</span> <span class="nav-text">你想要使用哪种类型的身份验证？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你想使用的数据库类型？"><span class="nav-number">1.3.2.2.5.</span> <span class="nav-text">你想使用的数据库类型？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你要使用哪个生产数据库？"><span class="nav-number">1.3.2.2.6.</span> <span class="nav-text">你要使用哪个生产数据库？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#在开发环境中使用哪个数据库？"><span class="nav-number">1.3.2.2.7.</span> <span class="nav-text">在开发环境中使用哪个数据库？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#要使用-Hibernate-中使用二级缓存吗？"><span class="nav-number">1.3.2.2.8.</span> <span class="nav-text">要使用 Hibernate 中使用二级缓存吗？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你要使用-Maven-或-Gradle-吗？"><span class="nav-number">1.3.2.2.9.</span> <span class="nav-text">你要使用 Maven 或 Gradle 吗？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你想要使用哪些其他技术？"><span class="nav-number">1.3.2.2.10.</span> <span class="nav-text">你想要使用哪些其他技术？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#你希望客户端使用哪个框架？"><span class="nav-number">1.3.2.2.11.</span> <span class="nav-text">你希望客户端使用哪个框架？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#是否为-CSS-使用-LibSass-样式表预处理器？"><span class="nav-number">1.3.2.2.12.</span> <span class="nav-text">是否为 CSS 使用 LibSass 样式表预处理器？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#是否启动-Angular-翻译功能？"><span class="nav-number">1.3.2.2.13.</span> <span class="nav-text">是否启动 Angular 翻译功能？</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#要使用的测试框架？"><span class="nav-number">1.3.2.2.14.</span> <span class="nav-text">要使用的测试框架？</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#下载安装依赖包"><span class="nav-number">1.3.2.3.</span> <span class="nav-text">下载安装依赖包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#运行和测试"><span class="nav-number">1.3.2.4.</span> <span class="nav-text">运行和测试</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#踩过的一些小坑"><span class="nav-number">1.4.</span> <span class="nav-text">踩过的一些小坑</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#运行-gulp-install-时报错："><span class="nav-number">1.4.1.</span> <span class="nav-text">运行 gulp install 时报错：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#创建项目时选择了MySQL数据库，启动项目时报错"><span class="nav-number">1.4.2.</span> <span class="nav-text">创建项目时选择了MySQL数据库，启动项目时报错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入-IDEA-后能运行，但打开页面显示产生了一个错误"><span class="nav-number">1.4.3.</span> <span class="nav-text">导入 IDEA 后能运行，但打开页面显示产生了一个错误</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#运行-bower-install-命令时报错："><span class="nav-number">1.4.4.</span> <span class="nav-text">运行 bower install 命令时报错：</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#他山之石"><span class="nav-number">1.5.</span> <span class="nav-text">他山之石</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
-      
-
-      
+      </div>
 
     </div>
   </aside>
-  
+  <div id="sidebar-dimmer"></div>
 
 
-        
       </div>
     </main>
 
-    <footer id="footer" class="footer">
+    <footer class="footer">
       <div class="footer-inner">
-        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
-  <span class="with-love" id="animate">
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">This_Wei</span>
-
-  
-
-  
 </div>
 
 
-
-
-
-
-
-
-  <div class="footer-custom"><div style="margin:0 0; padding:5px 0;"><a href="http://www.beian.miit.gov.cn" rel="noopener" target="_blank" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">蜀ICP备18009638号 </p></a>&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">川公网安备 51011502000320号</p></a></div></div>
+<script src='https:'></script>
+<script>
+if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
+</script>
 
 
         
+
+
+
+
 
 
 
@@ -1050,149 +662,56 @@
         
       </div>
     </footer>
-
-    
-      <div class="back-to-top">
-        <i class="fa fa-arrow-up"></i>
-        
-      </div>
-    
-
-    
-
-    
-
-    
   </div>
 
   
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+<script src="/js/schemes/muse.js"></script>
+<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+
+  
+  <script>
+    (function(){
+      var bp = document.createElement('script');
+      var curProtocol = window.location.protocol.split(':')[0];
+      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(bp, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
 
 <script>
-  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
-    window.Promise = null;
-  }
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme: 'forest',
+      logLevel: 3,
+      flowchart: { curve: 'linear' },
+      gantt: { axisFormat: '%m/%d/%Y' },
+      sequence: { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
 </script>
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-  <script src="/lib/jquery/index.js?v=3.4.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
-
-  
-  <script src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
-
-
-  
-
-
-  <script src="/js/utils.js?v=7.1.2"></script>
-
-  <script src="/js/motion.js?v=7.1.2"></script>
-
-
-
-  
-  
-
-
-  <script src="/js/schemes/muse.js?v=7.1.2"></script>
-
-
-
-
-  
-  <script src="/js/scrollspy.js?v=7.1.2"></script>
-<script src="/js/post-details.js?v=7.1.2"></script>
-
-
-
-  
-
-
-  <script src="/js/next-boot.js?v=7.1.2"></script>
-
-
-  
-
-  
-
-  
-
-  
-
-
-  
-    <script>
-  window.livereOptions = {
-    refer: '2017/04/25/JHipster-学习笔记1/'
-  };
-  (function(d, s) {
-    var j, e = d.getElementsByTagName(s)[0];
-    if (typeof LivereTower === 'function') { return; }
-    j = d.createElement(s);
-    j.src = 'https://cdn-city.livere.com/js/embed.dist.js';
-    j.async = true;
-    e.parentNode.insertBefore(j, e);
-  })(document, 'script');
-</script>
-
-  
-
-
-  
-
-
-
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
-
-  
 
   
 
