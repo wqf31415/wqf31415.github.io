@@ -11,7 +11,7 @@ categories:
 
 ### 概述
 
-mermaid 用于在 markdown 插入文档图，本文介绍了在 markdown 中使用 mermaid 的技巧。 
+mermaid 用于在 markdown 插入文档图，本文介绍了在 markdown 中使用 mermaid 插入图形的技巧。 
 
 
 
@@ -19,7 +19,7 @@ mermaid 用于在 markdown 插入文档图，本文介绍了在 markdown 中使�
 
 > mermaid github: <https://github.com/mermaid-js/mermaid> 
 
-mermaid 美人鱼，是用文本语法来描述文档图形的工具，可以描述流程图、时序图、甘特图。在markdown 文档中可以使用 mermaid 文本插入文档图形，比如：
+mermaid 美人鱼，是用文本语法来描述文档图形的工具，可以描述流程图、时序图、甘特图、类图等。在markdown 文档中可以使用 mermaid 文本插入文档图形，比如：
 
 ```mermaid
 graph TB;
@@ -39,7 +39,7 @@ C-->D
 
 #### 图表方向
 
-Mermaid 图表支持多种方向的图形，在 mermaid 描述开始时，使用 `graph 方向描述词;` 规定图表方向，将决定图的走向。
+Mermaid 图表支持多种方向的图形，在 mermaid 描述开始时，使用 `graph 方向描述词;` 规定图表方向，将决定图的走向，即箭头的默认方向。
 
 方向描述：
 
@@ -108,16 +108,16 @@ judge{菱形}
 
 两个节点 ID 中间加连线标识即可连接节点，如使用箭头连接 A 、B节点，写作 `A-->B` 。
 
-| 连线标识                  | 说明             |
-| ------------------------- | ---------------- |
-| `>`                       | 加箭头           |
-| `-`                       | 不加箭头         |
-| `--`                      | 单线             |
-| `--描述--` 或 `---|描述|` | 带描述文字的单线 |
-| `==`                      | 粗线             |
-| `==描述==`                | 带描述文字的粗线 |
-| `-.-`                     | 虚线             |
-| `-.描述.-`                | 带描述文字的虚线 |
+| 连线标识                  | 说明                                                         |
+| ------------------------- | ------------------------------------------------------------ |
+| `>`                       | 加箭头，下面的所有连线都可以在最后面加上 `>` 来绘制带箭头的连线 |
+| `-`                       | 不加箭头                                                     |
+| `--`                      | 单线                                                         |
+| `--描述--` 或 `---|描述|` | 带描述文字的单线                                             |
+| `==`                      | 粗线                                                         |
+| `==描述==`                | 带描述文字的粗线                                             |
+| `-.-`                     | 虚线                                                         |
+| `-.描述.-`                | 带描述文字的虚线                                             |
 
 举例：
 
@@ -173,8 +173,12 @@ M-.描述.-N
 ### 参考资料
 
 - Mermaid 实用教程: <https://blog.csdn.net/fenghuizhidao/article/details/79440583> 0
-
 - Markdown里面使用mermaid画流程图: <https://blog.csdn.net/Subson/article/details/78054689> 
+- Hexo中插入mermaid diagrams : <https://blog.csdn.net/Olivia_Vang/article/details/92987859> 
+- Hexo中引入Mermaid流程图: <https://tyloafer.github.io/posts/7790/> 
+
+
 
 ### 总结
 
+在文档中，图形的表现力要远大于文字，在平时用 markdown 写文档的时候，可以采用 mermaid 插入图形，让表述更加准确易读。
