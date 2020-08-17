@@ -4,65 +4,41 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.0.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
   <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
-  <link rel="alternate" href="/atom.xml" title="This_Wei" type="application/atom+xml">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '7.5.0',
-    exturl: false,
-    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":true,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    translation: {
-      copy_button: '复制',
-      copy_success: '复制成功',
-      copy_failure: '复制失败'
-    },
-    sidebarPadding: 40
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="内容概述 这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询，Specification 查询。  什么是 JPA ？ JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司">
-<meta name="keywords" content="springboot,java,数据库,spring,database,jpa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="SpringBoot 使用 JPA">
-<meta property="og:url" content="http:&#x2F;&#x2F;blog.wqf31415.xyz&#x2F;2018&#x2F;11&#x2F;23&#x2F;SpringBoot-%E4%BD%BF%E7%94%A8-JPA&#x2F;index.html">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2018/11/23/SpringBoot-%E4%BD%BF%E7%94%A8-JPA/index.html">
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="内容概述 这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询，Specification 查询。  什么是 JPA ？ JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司">
-<meta property="og:locale" content="zh-CN">
-<meta property="og:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;spring_boot_jpa_start.png">
-<meta property="og:updated_time" content="2020-06-29T06:32:37.236Z">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png">
+<meta property="article:published_time" content="2018-11-23T14:27:32.000Z">
+<meta property="article:modified_time" content="2020-08-17T04:19:59.749Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="jpa">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http:&#x2F;&#x2F;blog-images.qiniu.wqf31415.xyz&#x2F;spring_boot_jpa_start.png">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png">
 
 <link rel="canonical" href="http://blog.wqf31415.xyz/2018/11/23/SpringBoot-%E4%BD%BF%E7%94%A8-JPA/">
 
@@ -71,10 +47,9 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: true,
-    isPage: false,
-    isArchive: false
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -126,19 +101,6 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">This_Wei</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-        <h1 class="site-subtitle" itemprop="description">Come on!</h1>
-      
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -146,45 +108,64 @@
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">This_Wei</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
 
   </li>
         <li class="menu-item menu-item-commonweal">
 
-    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+    <a href="/404/" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a>
 
   </li>
         <li class="menu-item menu-item-weather">
 
-    <a href="/weather/" rel="section"><i class="fa fa-fw fa-snowflake-o"></i>天气</a>
+    <a href="/weather/" rel="section"><i class="snowflake-o fa-fw"></i>天气</a>
 
   </li>
   </ul>
-
 </nav>
+
+
+
+
 </div>
     </header>
 
@@ -201,14 +182,13 @@
         <div class="content-wrap">
           
 
-          <div class="content">
+          <div class="content post posts-expand">
             
 
-  <div class="posts-expand">
-      
+    
   
   
-  <article itemscope itemtype="http://schema.org/Article" class="post-block " lang="zh-CN">
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2018/11/23/SpringBoot-%E4%BD%BF%E7%94%A8-JPA/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -221,35 +201,33 @@
       <meta itemprop="name" content="This_Wei">
     </span>
       <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
+        <h1 class="post-title" itemprop="name headline">
           SpringBoot 使用 JPA
-        </h2>
+        </h1>
 
         <div class="post-meta">
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
+                <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2018-11-23 14:27:32" itemprop="dateCreated datePublished" datetime="2018-11-23T14:27:32+08:00">2018-11-23</time>
+              <time title="创建时间：2018-11-23 14:27:32" itemprop="dateCreated datePublished" datetime="2018-11-23T14:27:32+00:00">2018-11-23</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
+                  <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-06-29 14:32:37" itemprop="dateModified" datetime="2020-06-29T14:32:37+08:00">2020-06-29</time>
+                <time title="修改时间：2020-08-17 04:19:59" itemprop="dateModified" datetime="2020-08-17T04:19:59+00:00">2020-08-17</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
+                <i class="far fa-folder"></i>
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index">
-                    <span itemprop="name">java</span>
-                  </a>
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
                 </span>
             </span>
 
@@ -285,7 +263,7 @@ demo 项目中的 pom.xml 如下：</p>
 <h4 id="自动建表"><a class="markdownIt-Anchor" href="#自动建表"></a> 自动建表</h4>
 <p>在 springboot jpa 项目配置文件中添加配置项 <code>spring.jpa.hibernate.ddl-auto=create</code> ，项目启动时会自动扫描全部实体类，并在数据库中创建相应的表。<br />
 添加完实体类后，运行一下项目，发现打出的 sql 语句如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Hibernate: drop table if exists hibernate_sequence</span><br><span class="line">Hibernate: drop table if exists student</span><br><span class="line">Hibernate: create table hibernate_sequence (next_val bigint) engine=MyISAM</span><br><span class="line">Hibernate: insert into hibernate_sequence values ( 1 )</span><br><span class="line">Hibernate: create table student (id bigint not null, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine=MyISAM</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Hibernate: drop table if exists hibernate_sequence</span><br><span class="line">Hibernate: drop table if exists student</span><br><span class="line">Hibernate: create table hibernate_sequence (next_val bigint) engine&#x3D;MyISAM</span><br><span class="line">Hibernate: insert into hibernate_sequence values ( 1 )</span><br><span class="line">Hibernate: create table student (id bigint not null, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine&#x3D;MyISAM</span><br></pre></td></tr></table></figure>
 <p>查看数据库，发现多了两张表: <code>hibernate_sequence</code> 和 <code>student</code>。<strong>但是我们使用的 mysql 数据库，不需要sequence来做主键，只需要设置主键值自增就行了</strong>。所以，我们把上面的 <code>Student</code> 类改一下，给 <code>id</code> 字段的 <code>@GeneratedValue</code> 加上主键生成策略参数，修改为 <code>@GeneratedValue(strategy = GenerationType.IDENTITY)</code> 。<br />
 主键生成策略的可选项：</p>
 <table>
@@ -315,7 +293,7 @@ demo 项目中的 pom.xml 如下：</p>
 </tbody>
 </table>
 <p>重新运行项目，查看日志，发现打出了下面的 sql 语句：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hibernate: drop table if exists student</span><br><span class="line">Hibernate: create table student (id bigint not null auto_increment, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine=MyISAM</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hibernate: drop table if exists student</span><br><span class="line">Hibernate: create table student (id bigint not null auto_increment, active bit, age integer, birthday datetime, name varchar(255), primary key (id)) engine&#x3D;MyISAM</span><br></pre></td></tr></table></figure>
 <p>**请注意建表语句的最后面 “engine=MyISAM” **，发现使用的存储引擎是 <code>MyISAM</code> ，即 My Indexed Sequential Access Method，<code>MyISAM</code> 读取速度很快，不占用大量内存和存储资源，但不支持事务、外来键、索引，适用于有很多 count() 、查询频繁插入不频繁、不需要事务的表。<br />
 我们一般需要事务，所以使用的存储引擎是 <code>InnoDB</code> ，如果想改成这种存储引擎，需要在项目配置文件 <code>application.properties</code> 中添加如下配置项：</p>
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不加这句则默认为 MyISAM 引擎</span></span><br><span class="line"><span class="meta">spring.jpa.database-platform</span>=<span class="string">org.hibernate.dialect.MySQL5InnoDBDialect</span></span><br></pre></td></tr></table></figure>
@@ -911,13 +889,13 @@ basePackages → 扫描 Repository 的包</p>
 <p>在概念上要理解 JPA 是一套标准，而不是具体实现。</p>
 <h4 id="驱动错误"><a class="markdownIt-Anchor" href="#驱动错误"></a> 驱动错误</h4>
 <p>使用 spring-data-jpa 2.x 版本时，报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Loading class &apos;com.mysql.jdbc.Driver&apos;. This is deprecated. The new driver class is &apos;com.mysql.cj.jdbc.Driver&apos;. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Loading class &#39;com.mysql.jdbc.Driver&#39;. This is deprecated. The new driver class is &#39;com.mysql.cj.jdbc.Driver&#39;. The driver is automatically registered via the SPI and manual loading of the driver class is generally unnecessary.</span><br></pre></td></tr></table></figure>
 <p>原因是： <code>com.mysql.jdbc.Driver</code> 已经弃用了，现在使用 <code>com.mysql.cj.jdbc.Driver</code> ，是通过 SPI 自动注册的，不需要手动加载驱动类。<br />
 修改方法：</p>
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 将配置文件中的 jdbc 驱动改成现在用的这个</span></span><br><span class="line"><span class="meta">com.mysql.jdbc.Driver</span>=<span class="string">com.mysql.cj.jdbc.Driver</span></span><br></pre></td></tr></table></figure>
 <h4 id="时区错误"><a class="markdownIt-Anchor" href="#时区错误"></a> 时区错误</h4>
 <p>使用 spring-data-jpa 2.x 版本时，报错：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.sql.SQLException: The server time zone value &apos;ÖÐ¹ú±ê×¼Ê±¼ä&apos; is unrecognized or represents more than one time</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java.sql.SQLException: The server time zone value &#39;ÖÐ¹ú±ê×¼Ê±¼ä&#39; is unrecognized or represents more than one time</span><br></pre></td></tr></table></figure>
 <p>原因是：检测到数据库使用的时区不对，mysql默认的是美国的时区，而我们中国大陆要比他们迟8小时，采用+8:00格式。<br />
 修改方法：</p>
 <ul>
@@ -944,16 +922,16 @@ basePackages → 扫描 Repository 的包</p>
 查询方法为：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Modifying</span></span><br><span class="line"><span class="meta">@Query</span>(<span class="string">"DELETE FROM Student s WHERE s.name = ?1"</span>)</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteStudentByName</span><span class="params">(String name)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>错误日志主要内容如下：</p>
-  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &apos;studentService&apos;: Unsatisfied dependency expressed through field &apos;studentRepository&apos;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &apos;studentRepository&apos;: Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract void com.example.jpademo.repository.StudentRepository.deleteStudentByName(java.lang.String)!</span><br><span class="line">...</span><br><span class="line">Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: Student is not mapped [DELETE FROM Student s WHERE s.name = ?1]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.beans.factory.UnsatisfiedDependencyException: Error creating bean with name &#39;studentService&#39;: Unsatisfied dependency expressed through field &#39;studentRepository&#39;; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name &#39;studentRepository&#39;: Invocation of init method failed; nested exception is java.lang.IllegalArgumentException: Validation failed for query for method public abstract void com.example.jpademo.repository.StudentRepository.deleteStudentByName(java.lang.String)!</span><br><span class="line">...</span><br><span class="line">Caused by: java.lang.IllegalArgumentException: org.hibernate.hql.internal.ast.QuerySyntaxException: Student is not mapped [DELETE FROM Student s WHERE s.name &#x3D; ?1]</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
 <p>错误的意思是 Student 实体不能匹配，这时首先需要检查实体的属性名和查询语句中的是否对应；如果能够对应，再检查实体类，是否在 @Entity 注解中指定了名称，例如注解为 <code>@Entity(&quot;tb_student&quot;)</code> ，则在 JPQL 查询语句中要使用 tb_student ，而不能使用 Student，正确的查询方法如下：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Modifying</span></span><br><span class="line"><span class="meta">@Query</span>(<span class="string">"DELETE FROM tb_student s WHERE s.name = ?1"</span>)</span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">deleteStudentByName</span><span class="params">(String name)</span></span>;</span><br></pre></td></tr></table></figure>
 <h4 id="原生-sql-进行分页查询时报错提示不能使用排序和分页"><a class="markdownIt-Anchor" href="#原生-sql-进行分页查询时报错提示不能使用排序和分页"></a> 原生 sql 进行分页查询时报错提示不能使用排序和分页</h4>
 <p>查询方法：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Query</span>(value = <span class="string">"select d.* from device d where d.sensor &amp; ?1 = ?1 "</span></span><br><span class="line">    ,nativeQuery = <span class="keyword">true</span></span><br><span class="line">    ,countQuery = <span class="string">"select count(*) from Device d where d.sensor &amp; ?1 = ?1"</span>)</span><br><span class="line"><span class="function">Page&lt;Device&gt; <span class="title">findBySensorType</span><span class="params">(Long sensorType,Pageable pageable)</span></span>;</span><br></pre></td></tr></table></figure>
 <p>错误提示信息如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.data.jpa.repository.query.InvalidJpaQueryMethodException: </span><br><span class="line">Cannot use native queries with dynamic sorting and/or pagination in method public abstract org.springframework.data.domain.Page com.xx.xxxx.repository.XxxRepository.findBySensorType(java.lang.Long,org.springframework.data.domain.Pageable)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.data.jpa.repository.query.InvalidJpaQueryMethodException: </span><br><span class="line">Cannot use native queries with dynamic sorting and&#x2F;or pagination in method public abstract org.springframework.data.domain.Page com.xx.xxxx.repository.XxxRepository.findBySensorType(java.lang.Long,org.springframework.data.domain.Pageable)</span><br></pre></td></tr></table></figure>
 <p>解决方法是在查询语句中加上 <code>ORDER BY ?#{ #pageable }</code> ，修改后如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Query(value = &quot;select d.* from device d where d.sensor &amp; ?1 = ?1 order by ?#&#123; #pageable &#125;&quot;</span><br><span class="line">    ,nativeQuery = true</span><br><span class="line">    ,countQuery = &quot;select count(*) from Device d where d.sensor &amp; ?1 = ?1&quot;)</span><br><span class="line">Page&lt;Device&gt; findBySensorType(Long sensorType,Pageable pageable);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Query(value &#x3D; &quot;select d.* from device d where d.sensor &amp; ?1 &#x3D; ?1 order by ?#&#123; #pageable &#125;&quot;</span><br><span class="line">    ,nativeQuery &#x3D; true</span><br><span class="line">    ,countQuery &#x3D; &quot;select count(*) from Device d where d.sensor &amp; ?1 &#x3D; ?1&quot;)</span><br><span class="line">Page&lt;Device&gt; findBySensorType(Long sensorType,Pageable pageable);</span><br></pre></td></tr></table></figure>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
 <ul>
 <li>springboot(十三)：springboot小技巧: <a href="http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html" target="_blank" rel="noopener">http://www.ityouknow.com/springboot/2017/06/22/springboot-tips.html</a></li>
@@ -981,21 +959,18 @@ basePackages → 扫描 Repository 的包</p>
 
         
 
-          <div class="post-nav">
-            <div class="post-nav-next post-nav-item">
-                <a href="/2018/08/03/%E5%88%A9%E7%94%A8Excel%E5%92%8Cbat%E5%AF%B9%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/" rel="next" title="利用Excel和bat对文件批量重命名">
-                  <i class="fa fa-chevron-left"></i> 利用Excel和bat对文件批量重命名
-                </a>
-            </div>
 
-            <span class="post-nav-divider"></span>
-
-            <div class="post-nav-prev post-nav-item">
-                <a href="/2019/01/11/JVM-%E8%B0%83%E4%BC%98%E5%88%9D%E6%8E%A2/" rel="prev" title="JVM 调优初探">
-                  JVM 调优初探 <i class="fa fa-chevron-right"></i>
-                </a>
-            </div>
-          </div>
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2018/08/03/%E5%88%A9%E7%94%A8Excel%E5%92%8Cbat%E5%AF%B9%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/" rel="prev" title="利用Excel和bat对文件批量重命名">
+      <i class="fa fa-chevron-left"></i> 利用Excel和bat对文件批量重命名
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2019/01/11/JVM-%E8%B0%83%E4%BC%98%E5%88%9D%E6%8E%A2/" rel="next" title="JVM 调优初探">
+      JVM 调优初探 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
       </footer>
     
   </article>
@@ -1003,11 +978,32 @@ basePackages → 扫描 Repository 的包</p>
   
   
 
-  </div>
 
 
           </div>
           
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
 
         </div>
           
@@ -1038,8 +1034,8 @@ basePackages → 扫描 Repository 的包</p>
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <img class="site-author-image" itemprop="image" alt="This_Wei"
-    src="/uploads/avatar.jpg">
+    <img class="site-author-image" itemprop="image" alt="This_Wei"
+      src="/uploads/avatar.jpg">
   <p class="site-author-name" itemprop="name">This_Wei</p>
   <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
 </div>
@@ -1048,7 +1044,7 @@ basePackages → 扫描 Repository 的包</p>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1061,28 +1057,23 @@ basePackages → 扫描 Repository 的包</p>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
-  <div class="feed-link motion-element">
-    <a href="/atom.xml" rel="alternate">
-      <i class="fa fa-rss"></i>RSS
-    </a>
-  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ &amp;rarr; http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=629170023&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="qq fa-fw"></i>QQ</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://github.com/wqf31415" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://weibo.com/wqf31415" title="Weibo &amp;rarr; https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wqf31415@hotmail.com" title="E-Mail &amp;rarr; mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -1101,6 +1092,8 @@ basePackages → 扫描 Repository 的包</p>
     <footer class="footer">
       <div class="footer-inner">
         
+
+        
   <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
       <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
@@ -1110,17 +1103,12 @@ basePackages → 扫描 Repository 的包</p>
   &copy; 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">This_Wei</span>
 </div>
-
-
-<script src='https:'></script>
-<script>
-if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
-</script>
-
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
 
         
 
@@ -1131,11 +1119,6 @@ if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
 
 
 
-
-
-
-
-        
       </div>
     </footer>
   </div>
@@ -1144,21 +1127,47 @@ if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/muse.js"></script>
-<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
 
 
 
   
   <script>
     (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
   </script>
 
 
@@ -1177,16 +1186,15 @@ if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
 if (document.querySelectorAll('pre.mermaid').length) {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
     mermaid.initialize({
-      theme: 'forest',
-      logLevel: 3,
-      flowchart: { curve: 'linear' },
-      gantt: { axisFormat: '%m/%d/%Y' },
-      sequence: { actorMargin: 50 }
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
     });
   }, window.mermaid);
 }
 </script>
-
 
 
   

@@ -4,60 +4,30 @@
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
 <meta name="theme-color" content="#222">
-<meta name="generator" content="Hexo 4.0.0">
+<meta name="generator" content="Hexo 4.2.1">
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
   <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
-  <link rel="alternate" href="/atom.xml" title="This_Wei" type="application/atom+xml">
 
 <link rel="stylesheet" href="/css/main.css">
 
 
-<link rel="stylesheet" href="/lib/font-awesome/css/font-awesome.min.css">
-
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
 
 <script id="hexo-configurations">
-  var NexT = window.NexT || {};
-  var CONFIG = {
-    root: '/',
-    scheme: 'Mist',
-    version: '7.5.0',
-    exturl: false,
-    sidebar: {"position":"right","display":"post","offset":12,"onmobile":false},
-    copycode: {"enable":false,"show_result":false,"style":null},
-    back2top: {"enable":true,"sidebar":false,"scrollpercent":false},
-    bookmark: {"enable":true,"color":"#222","save":"auto"},
-    fancybox: false,
-    mediumzoom: false,
-    lazyload: false,
-    pangu: false,
-    algolia: {
-      appID: '',
-      apiKey: '',
-      indexName: '',
-      hits: {"per_page":10},
-      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
-    },
-    localsearch: {"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},
-    path: '',
-    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
-    translation: {
-      copy_button: '复制',
-      copy_success: '复制成功',
-      copy_failure: '复制失败'
-    },
-    sidebarPadding: 40
-  };
-</script>
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"right","display":"post","offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
 
   <meta name="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
 <meta property="og:type" content="website">
 <meta property="og:title" content="This_Wei">
-<meta property="og:url" content="http:&#x2F;&#x2F;blog.wqf31415.xyz&#x2F;tags&#x2F;%E5%9F%BA%E9%87%91&#x2F;index.html">
+<meta property="og:url" content="http://blog.wqf31415.xyz/tags/%E5%9F%BA%E9%87%91/index.html">
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-<meta property="og:locale" content="zh-CN">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:author" content="This_Wei">
 <meta name="twitter:card" content="summary">
 
 <link rel="canonical" href="http://blog.wqf31415.xyz/tags/%E5%9F%BA%E9%87%91/">
@@ -67,10 +37,9 @@
   // https://hexo.io/docs/variables.html
   CONFIG.page = {
     sidebar: "",
-    isHome: false,
-    isPost: false,
-    isPage: false,
-    isArchive: false
+    isHome : false,
+    isPost : false,
+    lang   : 'zh-CN'
   };
 </script>
 
@@ -122,19 +91,6 @@
 
     <header class="header" itemscope itemtype="http://schema.org/WPHeader">
       <div class="header-inner"><div class="site-brand-container">
-  <div class="site-meta">
-
-    <div>
-      <a href="/" class="brand" rel="start">
-        <span class="logo-line-before"><i></i></span>
-        <span class="site-title">This_Wei</span>
-        <span class="logo-line-after"><i></i></span>
-      </a>
-    </div>
-        <h1 class="site-subtitle" itemprop="description">Come on!</h1>
-      
-  </div>
-
   <div class="site-nav-toggle">
     <div class="toggle" aria-label="切换导航栏">
       <span class="toggle-line toggle-line-first"></span>
@@ -142,45 +98,64 @@
       <span class="toggle-line toggle-line-last"></span>
     </div>
   </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">This_Wei</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
 </div>
 
 
+
+
 <nav class="site-nav">
-  
-  <ul id="menu" class="menu">
+  <ul id="menu" class="main-menu menu">
         <li class="menu-item menu-item-home">
 
-    <a href="/" rel="section"><i class="fa fa-fw fa-home"></i>首页</a>
+    <a href="/" rel="section"><i class="home fa-fw"></i>首页</a>
 
   </li>
         <li class="menu-item menu-item-tags">
 
-    <a href="/tags/" rel="section"><i class="fa fa-fw fa-tags"></i>标签</a>
+    <a href="/tags/" rel="section"><i class="tags fa-fw"></i>标签</a>
 
   </li>
         <li class="menu-item menu-item-categories">
 
-    <a href="/categories/" rel="section"><i class="fa fa-fw fa-th"></i>分类</a>
+    <a href="/categories/" rel="section"><i class="th fa-fw"></i>分类</a>
 
   </li>
         <li class="menu-item menu-item-archives">
 
-    <a href="/archives/" rel="section"><i class="fa fa-fw fa-archive"></i>归档</a>
+    <a href="/archives/" rel="section"><i class="archive fa-fw"></i>归档</a>
 
   </li>
         <li class="menu-item menu-item-commonweal">
 
-    <a href="/404/" rel="section"><i class="fa fa-fw fa-heartbeat"></i>公益 404</a>
+    <a href="/404/" rel="section"><i class="heartbeat fa-fw"></i>公益 404</a>
 
   </li>
         <li class="menu-item menu-item-weather">
 
-    <a href="/weather/" rel="section"><i class="fa fa-fw fa-snowflake-o"></i>天气</a>
+    <a href="/weather/" rel="section"><i class="snowflake-o fa-fw"></i>天气</a>
 
   </li>
   </ul>
-
 </nav>
+
+
+
+
 </div>
     </header>
 
@@ -197,7 +172,7 @@
         <div class="content-wrap">
           
 
-          <div class="content">
+          <div class="content tag">
             
 
   
@@ -213,7 +188,7 @@
 
       
     <div class="collection-year">
-      <h2 class="collection-header">2020</h2>
+      <span class="collection-header">2020</span>
     </div>
 
   <article itemscope itemtype="http://schema.org/Article">
@@ -221,17 +196,17 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-05-25T23:13:30+08:00"
+              datetime="2020-05-25T23:13:30+00:00"
               content="2020-05-25">
           05-25
         </time>
       </div>
 
-      <h3 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/05/25/%E8%AE%A4%E8%AF%86%E5%92%8C%E6%8A%95%E8%B5%84%E6%8C%87%E6%95%B0%E5%9F%BA%E9%87%91/" itemprop="url">
             <span itemprop="name">认识和投资指数基金</span>
           </a>
-      </h3>
+      </div>
 
     </header>
   </article>
@@ -241,17 +216,17 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-05-13T12:28:50+08:00"
+              datetime="2020-05-13T12:28:50+00:00"
               content="2020-05-13">
           05-13
         </time>
       </div>
 
-      <h3 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/05/13/%E8%AF%BB%E3%80%8A%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E7%9A%84%E9%80%89%E8%B4%AD%E4%B8%8E%E7%BB%84%E5%90%88%E6%8A%80%E5%B7%A7%E3%80%8B%E4%B8%8B/" itemprop="url">
             <span itemprop="name">读《基金投资的选购与组合技巧》下</span>
           </a>
-      </h3>
+      </div>
 
     </header>
   </article>
@@ -261,17 +236,17 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-05-12T23:46:50+08:00"
+              datetime="2020-05-12T23:46:50+00:00"
               content="2020-05-12">
           05-12
         </time>
       </div>
 
-      <h3 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/05/12/%E8%AF%BB%E3%80%8A%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E7%9A%84%E9%80%89%E8%B4%AD%E4%B8%8E%E7%BB%84%E5%90%88%E6%8A%80%E5%B7%A7%E3%80%8B%E4%B8%AD/" itemprop="url">
             <span itemprop="name">读《基金投资的选购与组合技巧》中</span>
           </a>
-      </h3>
+      </div>
 
     </header>
   </article>
@@ -281,17 +256,17 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-05-02T20:46:50+08:00"
+              datetime="2020-05-02T20:46:50+00:00"
               content="2020-05-02">
           05-02
         </time>
       </div>
 
-      <h3 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/05/02/%E8%AF%BB%E3%80%8A%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E7%9A%84%E9%80%89%E8%B4%AD%E4%B8%8E%E7%BB%84%E5%90%88%E6%8A%80%E5%B7%A7%E3%80%8B%E4%B8%8A/" itemprop="url">
             <span itemprop="name">读《基金投资的选购与组合技巧》上</span>
           </a>
-      </h3>
+      </div>
 
     </header>
   </article>
@@ -301,17 +276,17 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-03-29T20:49:43+08:00"
+              datetime="2020-03-29T20:49:43+00:00"
               content="2020-03-29">
           03-29
         </time>
       </div>
 
-      <h3 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/03/29/%E8%AE%A4%E8%AF%86%E5%9F%BA%E9%87%91/" itemprop="url">
             <span itemprop="name">认识基金</span>
           </a>
-      </h3>
+      </div>
 
     </header>
   </article>
@@ -321,17 +296,17 @@
 
       <div class="post-meta">
         <time itemprop="dateCreated"
-              datetime="2020-03-08T20:20:10+08:00"
+              datetime="2020-03-08T20:20:10+00:00"
               content="2020-03-08">
           03-08
         </time>
       </div>
 
-      <h3 class="post-title">
+      <div class="post-title">
           <a class="post-title-link" href="/2020/03/08/%E5%9F%BA%E9%87%91%E4%B8%83%E6%AD%A5%E5%AE%9A%E6%8A%95%E6%B3%95/" itemprop="url">
             <span itemprop="name">基金七步定投法</span>
           </a>
-      </h3>
+      </div>
 
     </header>
   </article>
@@ -348,6 +323,28 @@
 
           </div>
           
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
 
         </div>
           
@@ -377,8 +374,8 @@
 
       <div class="site-overview-wrap sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
-  <img class="site-author-image" itemprop="image" alt="This_Wei"
-    src="/uploads/avatar.jpg">
+    <img class="site-author-image" itemprop="image" alt="This_Wei"
+      src="/uploads/avatar.jpg">
   <p class="site-author-name" itemprop="name">This_Wei</p>
   <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
 </div>
@@ -387,7 +384,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">64</span>
+          <span class="site-state-item-count">65</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -400,28 +397,23 @@
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">76</span>
+        <span class="site-state-item-count">78</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
 </div>
-  <div class="feed-link motion-element">
-    <a href="/atom.xml" rel="alternate">
-      <i class="fa fa-rss"></i>RSS
-    </a>
-  </div>
   <div class="links-of-author motion-element">
       <span class="links-of-author-item">
-        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ &amp;rarr; http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v=3&amp;uin=629170023&amp;site=qq&amp;menu=yes" rel="noopener" target="_blank"><i class="fa fa-fw fa-qq"></i>QQ</a>
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="qq fa-fw"></i>QQ</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://github.com/wqf31415" title="GitHub &amp;rarr; https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
       </span>
       <span class="links-of-author-item">
-        <a href="https://weibo.com/wqf31415" title="Weibo &amp;rarr; https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="fa fa-fw fa-weibo"></i>Weibo</a>
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
       </span>
       <span class="links-of-author-item">
-        <a href="mailto:wqf31415@hotmail.com" title="E-Mail &amp;rarr; mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
       </span>
   </div>
 
@@ -440,6 +432,8 @@
     <footer class="footer">
       <div class="footer-inner">
         
+
+        
   <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
       <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
@@ -449,17 +443,12 @@
   &copy; 
   <span itemprop="copyrightYear">2020</span>
   <span class="with-love">
-    <i class="fa fa-heart"></i>
+    <i class="heart"></i>
   </span>
   <span class="author" itemprop="copyrightHolder">This_Wei</span>
 </div>
-
-
-<script src='https:'></script>
-<script>
-if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
-</script>
-
+  <div class="powered-by">由 <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://mist.theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Mist</a> 强力驱动
+  </div>
 
         
 
@@ -470,11 +459,6 @@ if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
 
 
 
-
-
-
-
-        
       </div>
     </footer>
   </div>
@@ -483,21 +467,47 @@ if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
   <script src="/lib/anime.min.js"></script>
   <script src="/lib/velocity/velocity.min.js"></script>
   <script src="/lib/velocity/velocity.ui.min.js"></script>
-<script src="/js/utils.js"></script><script src="/js/motion.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
 <script src="/js/schemes/muse.js"></script>
-<script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
 
 
 
   
   <script>
     (function(){
-      var bp = document.createElement('script');
-      var curProtocol = window.location.protocol.split(':')[0];
-      bp.src = (curProtocol === 'https') ? 'https://zz.bdstatic.com/linksubmit/push.js' : 'http://push.zhanzhang.baidu.com/push.js';
-      var s = document.getElementsByTagName("script")[0];
-      s.parentNode.insertBefore(bp, s);
-    })();
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
   </script>
 
 
@@ -516,16 +526,15 @@ if (window.mermaid) { mermaid.initialize({theme: 'forest'});}
 if (document.querySelectorAll('pre.mermaid').length) {
   NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
     mermaid.initialize({
-      theme: 'forest',
-      logLevel: 3,
-      flowchart: { curve: 'linear' },
-      gantt: { axisFormat: '%m/%d/%Y' },
-      sequence: { actorMargin: 50 }
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
     });
   }, window.mermaid);
 }
 </script>
-
 
 
   
