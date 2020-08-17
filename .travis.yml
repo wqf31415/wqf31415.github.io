@@ -20,7 +20,7 @@ script:
   - cp themes_config/next/_config.yml themes/next/
   - cp themes_config/next/languages/zh-CN.yml themes/next/languages/
   - echo "{% if (theme.mermaid.enable) %}" >> themes/next/layout/_partials/footer.swig
-  - echo "<script src='https:{{theme.mermaid.cdn}}'></script>" >> themes/next/layout/_partials/footer.swig
+  - echo '<script src="https:{{theme.mermaid.cdn}}"></script>' >> themes/next/layout/_partials/footer.swig
   - echo "<script>" >> themes/next/layout/_partials/footer.swig
   - echo "if (window.mermaid) { mermaid.initialize({theme: 'forest'});}" >> themes/next/layout/_partials/footer.swig
   - echo "</script>" >> themes/next/layout/_partials/footer.swig
