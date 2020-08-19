@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="概述 在开发中很容易遇到树状结构的数据，比如公司管理层级、比如目录结构等等，当用关系型数据库存储这些数据时，如何设计存储结构以提高查询效率就是一个问题了。这篇文章介绍了使用闭包（Closure Table）表来存储树状结构数据。 graph TD; A((A)) --- B((B)) A --- C((C)) B --- D((D)) B --- E((E)) B --- F((F)) C --">
+<meta property="og:type" content="article">
+<meta property="og:title" content="闭包表存储树状结构数据">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 在开发中很容易遇到树状结构的数据，比如公司管理层级、比如目录结构等等，当用关系型数据库存储这些数据时，如何设计存储结构以提高查询效率就是一个问题了。这篇文章介绍了使用闭包（Closure Table）表来存储树状结构数据。 graph TD; A((A)) --- B((B)) A --- C((C)) B --- D((D)) B --- E((E)) B --- F((F)) C --">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-08-18T09:18:44.000Z">
+<meta property="article:modified_time" content="2020-08-19T11:38:21.012Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="数据结构">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="database">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.wqf31415.xyz/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>闭包表存储树状结构数据 | This_Wei</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">This_Wei</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+        <li class="menu-item menu-item-weather">
+
+    <a href="/weather/" rel="section"><i class="snowflake-o fa-fw"></i>天气</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          闭包表存储树状结构数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-18 09:18:44" itemprop="dateCreated datePublished" datetime="2020-08-18T09:18:44+00:00">2020-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-19 11:38:21" itemprop="dateModified" datetime="2020-08-19T11:38:21+00:00">2020-08-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>在开发中很容易遇到树状结构的数据，比如公司管理层级、比如目录结构等等，当用关系型数据库存储这些数据时，如何设计存储结构以提高查询效率就是一个问题了。这篇文章介绍了使用闭包（Closure Table）表来存储树状结构数据。</p>
+<pre class="mermaid">graph TD;
+A((A)) --- B((B))
+A --- C((C))
+B --- D((D))
+B --- E((E))
+B --- F((F))
+C --- G((G))</pre>
+<h3 id="闭包表"><a class="markdownIt-Anchor" href="#闭包表"></a> 闭包表</h3>
+<p>闭包表是一张记录树中所有节点以及节点之间的距离的关系表。使用闭包表能够轻松的查询结点的所有子孙节点、父节点，能够按距离查询。但闭包表的使用也会带来一些问题，因为闭包表中记录了所有节点之间的关系，所以在新增节点或修改节点时，都需要变更闭包表，要小心的维护这个表才能保证查询结果正确。</p>
+<a id="more"></a>
+<h3 id="传统做法"><a class="markdownIt-Anchor" href="#传统做法"></a> 传统做法</h3>
+<p>在传统做法中，为了存储树状数据，需要在数据中增加字段指向其上级。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> Long parentId; <span class="comment">// 上级的 ID</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这种方式很容易理解，很方便查找一个职员的直属上级和一个领导的直属下级。但也存在一些问题，当管理层级大于两级后就会比较麻烦，如查找一个领导的所有下属职员，或者查询一个员工的所有上级领导，一般需要使用递归来查询。</p>
+<h3 id="使用闭包表"><a class="markdownIt-Anchor" href="#使用闭包表"></a> 使用闭包表</h3>
+<h4 id="实体设计"><a class="markdownIt-Anchor" href="#实体设计"></a> 实体设计</h4>
+<p>使用闭包表后，实体中就可以不添加上级 id 了，但需要另一张表来存储节点关联信息。</p>
+<ul>
+<li>
+<p>Employee.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Employee</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>EmployeePath.java</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">EmployeePath</span> </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> Long ancestorId; <span class="comment">// 祖先ID</span></span><br><span class="line">    <span class="keyword">private</span> Long descendantId; <span class="comment">// 子孙ID</span></span><br><span class="line">    <span class="keyword">private</span> Integer deepth; <span class="comment">// 节点深度</span></span><br><span class="line">    <span class="keyword">private</span> Boolean leaf; <span class="comment">// 是否叶子节点</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>在闭包表中，<em>ancestorId</em> 是上级 ID，<em>descendantId</em> 是下级 ID，<em>depth</em> 是上级到下级的层数，<em>leaf</em> 表示该节点是否是叶子节点。</p>
+<h4 id="数据示例"><a class="markdownIt-Anchor" href="#数据示例"></a> 数据示例</h4>
+<pre class="mermaid">graph TB;
+a((A:1)) --- b((B:2))
+a --- c((C:3))
+b --- d((D:4))
+b --- e((E:5))
+c --- f((F:6))
+c --- g((G:7))
+d --- h((H:8))</pre>
+<h4 id="示例数据-employee"><a class="markdownIt-Anchor" href="#示例数据-employee"></a> 示例数据 employee</h4>
+<table>
+<thead>
+<tr>
+<th>id</th>
+<th>name</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>A</td>
+</tr>
+<tr>
+<td>2</td>
+<td>B</td>
+</tr>
+<tr>
+<td>3</td>
+<td>C</td>
+</tr>
+<tr>
+<td>4</td>
+<td>D</td>
+</tr>
+<tr>
+<td>5</td>
+<td>E</td>
+</tr>
+<tr>
+<td>6</td>
+<td>F</td>
+</tr>
+<tr>
+<td>7</td>
+<td>G</td>
+</tr>
+<tr>
+<td>8</td>
+<td>H</td>
+</tr>
+</tbody>
+</table>
+<h4 id="闭包表示例数据-employee_path"><a class="markdownIt-Anchor" href="#闭包表示例数据-employee_path"></a> 闭包表示例数据 employee_path</h4>
+<p>在记录节点关系的闭包表中，包含节点的所有上级与节点自身的关系记录，还有一条节点自身的记录。如示例中的 <code>H</code> 节点，其上级分别是 <code>D</code> 、<code>B</code> 、<code>A</code> ，所以在关系表中需要添加 <code>H</code> 节点自身（深度为 0），以及 <code>D-H</code> 、<code>B-H</code> 、<code>A-H</code> 的记录，他们的深度分别是 1、2、3。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">ancestorId</th>
+<th style="text-align:center">descendantId</th>
+<th style="text-align:center">deepth</th>
+<th style="text-align:center">leaf</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">0</td>
+</tr>
+<tr>
+<td style="text-align:center">8</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">3</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">8</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">…</td>
+<td style="text-align:center">…</td>
+<td style="text-align:center">…</td>
+<td style="text-align:center">…</td>
+</tr>
+</tbody>
+</table>
+<h4 id="查询示例"><a class="markdownIt-Anchor" href="#查询示例"></a> 查询示例</h4>
+<ul>
+<li>
+<p>查找 <code>D</code> 节点(id=4)的所有上级节点：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> e.* <span class="keyword">from</span> employee e, employee_path ep <span class="keyword">where</span> e.id =ep.ancestorId <span class="keyword">and</span> ep.descendantId = <span class="number">4</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查找 <code>B</code> 节点(id=2)的所有下级节点：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">select</span> e.* <span class="keyword">from</span> employee e, employee_path ep <span class="keyword">where</span> e.id = ep.descendantId <span class="keyword">and</span> ep.ancestorId = <span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="更新闭包表数据"><a class="markdownIt-Anchor" href="#更新闭包表数据"></a> 更新闭包表数据</h4>
+<p>当我们增加节点或修改数据的层级结构时，都需要更新闭包表中的数据。当新增一个节点时，需要取出其所有父节点，添加所有父节点到当前节点的关系记录。当修改一个节点关联时，需要先把原有的记录都删除，然后添加这个节点的所有上级和下级节点的关联关系。删除时需要删除所有包含这个节点的记录。</p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>使用闭包表在查询多层级的树状结构数据时非常方便，但维护这个表中的关联关系会有些麻烦，要非常小心。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" rel="tag"># 数据结构</a>
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+              <a href="/tags/database/" rel="tag"># database</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/16/Android-%E6%89%8B%E6%9C%BA%E8%A3%85%E6%9C%BA%E8%BD%AF%E4%BB%B6/" rel="prev" title="Android 手机装机软件">
+      <i class="fa fa-chevron-left"></i> Android 手机装机软件
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#闭包表"><span class="nav-number">2.</span> <span class="nav-text"> 闭包表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#传统做法"><span class="nav-number">3.</span> <span class="nav-text"> 传统做法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用闭包表"><span class="nav-number">4.</span> <span class="nav-text"> 使用闭包表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#实体设计"><span class="nav-number">4.1.</span> <span class="nav-text"> 实体设计</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据示例"><span class="nav-number">4.2.</span> <span class="nav-text"> 数据示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#示例数据-employee"><span class="nav-number">4.3.</span> <span class="nav-text"> 示例数据 employee</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#闭包表示例数据-employee_path"><span class="nav-number">4.4.</span> <span class="nav-text"> 闭包表示例数据 employee_path</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询示例"><span class="nav-number">4.5.</span> <span class="nav-text"> 查询示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#更新闭包表数据"><span class="nav-number">4.6.</span> <span class="nav-text"> 更新闭包表数据</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">5.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="This_Wei"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">66</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.jsdelivr.net/npm/mermaid@8/dist/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
