@@ -28,7 +28,7 @@
 <meta property="og:description" content="概述 mermaid 用于在 markdown 插入文档图，本文介绍了在 markdown 中使用 mermaid 插入图形的技巧。  认识 mermaid 图  mermaid github: https:&#x2F;&#x2F;github.com&#x2F;mermaid-js&#x2F;mermaid  mermaid 美人鱼，是用文本语法来描述文档图形的工具，可以描述流程图、时序图、甘特图、类图等。在markdown 文档中">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-08-13T06:47:08.000Z">
-<meta property="article:modified_time" content="2020-08-19T12:21:29.405Z">
+<meta property="article:modified_time" content="2020-08-20T11:27:33.129Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="markdown">
 <meta property="article:tag" content="js">
@@ -214,7 +214,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-08-19 12:21:29" itemprop="dateModified" datetime="2020-08-19T12:21:29+00:00">2020-08-19</time>
+                <time title="修改时间：2020-08-20 11:27:33" itemprop="dateModified" datetime="2020-08-20T11:27:33+00:00">2020-08-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -401,15 +401,22 @@ A --> B
 	end
 D --> E</pre>
 <h4 id="时序图"><a class="markdownIt-Anchor" href="#时序图"></a> 时序图</h4>
-<h3 id="markdown-里支持的-mermaid-图"><a class="markdownIt-Anchor" href="#markdown-里支持的-mermaid-图"></a> markdown 里支持的 mermaid 图</h3>
+<h4 id="甘特图"><a class="markdownIt-Anchor" href="#甘特图"></a> 甘特图</h4>
 <h3 id="支持-mermaid-的编辑器及平台"><a class="markdownIt-Anchor" href="#支持-mermaid-的编辑器及平台"></a> 支持 mermaid 的编辑器及平台</h3>
 <p>经典的 markdown 文档编辑器 typora 已经支持 mermaid 图，支持实时预览，当语法出错时还能给予错误提示。</p>
-<p>CSDN 博客也是用 markdown 语法编辑的，其中也支持</p>
+<p>CSDN 博客文章也是用 markdown 语法编辑的，其中也支持 mermaid。</p>
 <h3 id="在-hexo-博客中使用-mermaid"><a class="markdownIt-Anchor" href="#在-hexo-博客中使用-mermaid"></a> 在 hexo 博客中使用 mermaid</h3>
+<p>在 hexo 中使用 mermaid 需要添加 Hexo 的 mermaid 过滤器 <code>hexo-filter-mermaid-diagrams</code> ，可以使用 yarn 或 npm 安装：</p>
+<ul>
+<li>yarn: <code>yarn add hexo-filter-mermaid-diagrams</code></li>
+<li>npm: <code>npm install hexo-filter-mermaid-diagrams</code></li>
+</ul>
+<p>然后需要根据使用的主题修改配置，我使用的是 next 主题，最新版的 next 主题不需要修改配置，直接部署即可。</p>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
 <ul>
 <li>Mermaid 实用教程: <a href="https://blog.csdn.net/fenghuizhidao/article/details/79440583" target="_blank" rel="noopener">https://blog.csdn.net/fenghuizhidao/article/details/79440583</a> 0</li>
 <li>Markdown里面使用mermaid画流程图: <a href="https://blog.csdn.net/Subson/article/details/78054689" target="_blank" rel="noopener">https://blog.csdn.net/Subson/article/details/78054689</a></li>
+<li>如何在Markdown中画流程图: <a href="https://www.jianshu.com/p/b421cc723da5" target="_blank" rel="noopener">https://www.jianshu.com/p/b421cc723da5</a></li>
 <li>Hexo中插入mermaid diagrams : <a href="https://blog.csdn.net/Olivia_Vang/article/details/92987859" target="_blank" rel="noopener">https://blog.csdn.net/Olivia_Vang/article/details/92987859</a></li>
 <li>Hexo中引入Mermaid流程图: <a href="https://tyloafer.github.io/posts/7790/" target="_blank" rel="noopener">https://tyloafer.github.io/posts/7790/</a></li>
 </ul>
@@ -500,7 +507,7 @@ D --> E</pre>
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#认识-mermaid-图"><span class="nav-number">2.</span> <span class="nav-text"> 认识 mermaid 图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mermaid-语法"><span class="nav-number">3.</span> <span class="nav-text"> mermaid 语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#流程图-flow"><span class="nav-number">3.1.</span> <span class="nav-text"> 流程图 flow</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图表方向"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 图表方向</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#节点定义"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 节点定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#节点间的连线"><span class="nav-number">3.1.3.</span> <span class="nav-text"> 节点间的连线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#子图表"><span class="nav-number">3.1.4.</span> <span class="nav-text"> 子图表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.2.</span> <span class="nav-text"> 时序图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#markdown-里支持的-mermaid-图"><span class="nav-number">4.</span> <span class="nav-text"> markdown 里支持的 mermaid 图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持-mermaid-的编辑器及平台"><span class="nav-number">5.</span> <span class="nav-text"> 支持 mermaid 的编辑器及平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-hexo-博客中使用-mermaid"><span class="nav-number">6.</span> <span class="nav-text"> 在 hexo 博客中使用 mermaid</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#认识-mermaid-图"><span class="nav-number">2.</span> <span class="nav-text"> 认识 mermaid 图</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mermaid-语法"><span class="nav-number">3.</span> <span class="nav-text"> mermaid 语法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#流程图-flow"><span class="nav-number">3.1.</span> <span class="nav-text"> 流程图 flow</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#图表方向"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 图表方向</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#节点定义"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 节点定义</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#节点间的连线"><span class="nav-number">3.1.3.</span> <span class="nav-text"> 节点间的连线</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#子图表"><span class="nav-number">3.1.4.</span> <span class="nav-text"> 子图表</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#时序图"><span class="nav-number">3.2.</span> <span class="nav-text"> 时序图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#甘特图"><span class="nav-number">3.3.</span> <span class="nav-text"> 甘特图</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#支持-mermaid-的编辑器及平台"><span class="nav-number">4.</span> <span class="nav-text"> 支持 mermaid 的编辑器及平台</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在-hexo-博客中使用-mermaid"><span class="nav-number">5.</span> <span class="nav-text"> 在 hexo 博客中使用 mermaid</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
