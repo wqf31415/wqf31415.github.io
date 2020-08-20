@@ -184,9 +184,7 @@ D --> E
 
 
 
-
-
-### markdown 里支持的 mermaid 图
+#### 甘特图
 
 
 
@@ -196,11 +194,18 @@ D --> E
 
 经典的 markdown 文档编辑器 typora 已经支持 mermaid 图，支持实时预览，当语法出错时还能给予错误提示。
 
-CSDN 博客也是用 markdown 语法编辑的，其中也支持
+CSDN 博客文章也是用 markdown 语法编辑的，其中也支持 mermaid。
 
 
 
 ### 在 hexo 博客中使用 mermaid
+
+在 hexo 中使用 mermaid 需要添加 Hexo 的 mermaid 过滤器 `hexo-filter-mermaid-diagrams` ，可以使用 yarn 或 npm 安装：
+
+- yarn: `yarn add hexo-filter-mermaid-diagrams` 
+- npm: `npm install hexo-filter-mermaid-diagrams` 
+
+然后需要根据使用的主题修改配置，我使用的是 next 主题，最新版的 next 主题不需要修改配置，直接部署即可。
 
 
 
@@ -208,6 +213,7 @@ CSDN 博客也是用 markdown 语法编辑的，其中也支持
 
 - Mermaid 实用教程: <https://blog.csdn.net/fenghuizhidao/article/details/79440583> 0
 - Markdown里面使用mermaid画流程图: <https://blog.csdn.net/Subson/article/details/78054689> 
+- 如何在Markdown中画流程图: <https://www.jianshu.com/p/b421cc723da5> 
 - Hexo中插入mermaid diagrams : <https://blog.csdn.net/Olivia_Vang/article/details/92987859> 
 - Hexo中引入Mermaid流程图: <https://tyloafer.github.io/posts/7790/> 
 
