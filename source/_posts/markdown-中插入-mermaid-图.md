@@ -37,7 +37,9 @@ C-->D
 
 ### mermaid 语法
 
-#### 流程图 flow
+#### 流程图 （Flow Chart）
+
+流程图是用来展示程序执行流程的图，在 mermaid 中使用 `graph` 关键字声明，声明词需要放到第一行，后面需要指定图表方向。
 
 ##### 图表方向
 
@@ -160,33 +162,163 @@ M-.描述.-N
 
 ```
 graph TB;
-A --> B
+A --> B{B}
 	subgraph 子图表
 		B --> C
 		C --> D
+		B --> D
 	end
 D --> E
 ```
 
 ```mermaid
 graph TB;
-A --> B
+A --> B{B}
 	subgraph 子图表
 		B --> C
 		C --> D
+		B --> D
 	end
 D --> E
 ```
 
 
 
-#### 时序图
+#### 序列图（Sequence Diagram）
+
+序列图使用 `sequenceDiagram` 关键字声明，图形语法为 `[参与者1][消息线][参与者2]:消息体` ，如果没有消息体，需要输入空格，否则会报错。
+
+```mermaid
+sequenceDiagram
+A ->> B : How are you?
+B ->> A : I'm fine, thank you. And you?
+A ->> B : I'm fine, too.
+```
+
+##### 参与者
+
+在序列图中可以使用 `participant` 来定义参与者。
+
+```
+sequenceDiagram
+    participant 小明 
+    participant 小红
+    participant 小刚
+```
+
+效果
+
+```mermaid
+sequenceDiagram
+    participant 小明 
+    participant 小红
+    participant 小刚
+```
+
+##### 消息线
+
+| 语法   | 说明                       |
+| ------ | -------------------------- |
+| `->`   | 无箭头实线                 |
+| `-->`  | 无箭头虚线                 |
+| `->>`  | 有箭头实线                 |
+| `-->>` | 有箭头虚线                 |
+| `-x`   | 末端为叉的实线（表示异步） |
+| `--x`  | 末端为叉的虚线（表示异步） |
+
+示例：
+
+```
+sequenceDiagram
+    A -> B : 
+    B --> A : 
+    A ->> B : 
+    B -->> A : 
+    A -x B : 
+    B --x A : 
+```
 
 
 
-#### 甘特图
+```mermaid
+sequenceDiagram
+    A -> B : 
+    B --> A : 
+    A ->> B : 
+    B -->> A : 
+    A -x B : 
+    B --x A : 
+	
+```
+
+##### 处理中
+
+在消息线末尾增加 `+` ，则消息接收者进入当前消息的处理中状态，
+
+在消息线末尾增加 `-` ，则消息接收者离开当前消息处理中状态。
+
+```
+sequenceDiagram
+    A ->>+ B : 
+    B ->> B : 
+    B ->>- A : 
+    A ->>+ C : 
+    C ->>- B :  
+    B -->> A : 
+```
 
 
+
+```mermaid
+sequenceDiagram
+    A ->>+ B : 
+    B ->> B : 
+    B ->>- A : 
+    A ->>+ C : 
+    C ->>- B :  
+    B -->> A : 
+
+```
+
+##### 标注
+
+使用 `Note 位置 参与者 : 标注文字` 来添加标注，位置可以是：
+
+| 标注位置 | 含义 |
+| -------- | ---- |
+|          |      |
+|          |      |
+|          |      |
+
+
+
+##### 循环
+
+
+
+##### 判断
+
+
+
+
+
+#### 甘特图（Gantt）
+
+
+
+#### 类图（Class Diagram）
+
+
+
+#### 饼图（Pie Chart）
+
+
+
+#### 状态图（State Diagram）
+
+
+
+#### 用户旅程图（User Journey Diagram）
 
 
 
@@ -205,7 +337,7 @@ CSDN 博客文章也是用 markdown 语法编辑的，其中也支持 mermaid。
 - yarn: `yarn add hexo-filter-mermaid-diagrams` 
 - npm: `npm install hexo-filter-mermaid-diagrams` 
 
-然后需要根据使用的主题修改配置，我使用的是 next 主题，最新版的 next 主题不需要修改配置，直接部署即可。
+然后需要根据使用的主题修改配置与模板文件，我使用的是 next 主题，最新版的 next 主题不需要修改配置，直接部署即可支持 mermaid 。
 
 
 
