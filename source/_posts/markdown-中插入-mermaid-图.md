@@ -172,7 +172,7 @@ D --> E
 
 #### 序列图（Sequence Diagram）
 
-序列图使用 `sequenceDiagram` 关键字声明，图形语法为 `[参与者1][消息线][参与者2]:消息体` ，如果没有消息体，需要输入空格，否则会报错。
+序列图使用 `sequenceDiagram` 关键字声明，图形语法为 `[参与者1][消息线][参与者2]:消息体` ，如果没有消息体，需要输入空格作为消息体，否则会报错。需要注意的是，有时空格会被忽略，导致解析出错，如果解析出错可以检查一下。
 
 ```mermaid
 sequenceDiagram
@@ -191,8 +191,8 @@ sequenceDiagram
     Participant h As 小红
     PARTICIPANT g AS 小刚
     m ->> h : hi
-    h ->> g : hi
-    g ->> m : hi
+    h ->> g : hello
+    g ->> m : ok
 ```
 
 效果
@@ -203,8 +203,8 @@ sequenceDiagram
     Participant h As 小红
     PARTICIPANT g AS 小刚
     m ->> h : hi
-    h ->> g : hi
-    g ->> m : hi
+    h ->> g : hello
+    g ->> m : ok
 ```
 
 ##### 消息线
@@ -222,24 +222,24 @@ sequenceDiagram
 
 ```
 sequenceDiagram
-    A -> B : 
-    B --> A : 
-    A ->> B : 
-    B -->> A : 
-    A -x B : 
-    B --x A : 
+    A -> B : 1
+    B --> A : 2
+    A ->> B : 3
+    B -->> A : 4
+    A -x B : 5
+    B --x A :6
 ```
 
 
 
 ```mermaid
 sequenceDiagram
-    A -> B : 
-    B --> A : 
-    A ->> B : 
-    B -->> A : 
-    A -x B : 
-    B --x A : 
+    A -> B : 1
+    B --> A : 2
+    A ->> B : 3
+    B -->> A : 4
+    A -x B : 5
+    B --x A :6
 ```
 
 ##### 处理中
