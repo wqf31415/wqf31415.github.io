@@ -355,31 +355,31 @@ sequenceDiagram;
 
 ```
 sequenceDiagram;
-    participant a As 小明
-    participant b As 小花
-    a ->> b : 能做我女票吗？
-    alt 同意
-        b ->> a: 好啊
-    else 不同意
-        b ->> a: 你是个好人
+    participant a As 女生
+    participant b As 男生
+    a ->> b : 你身高多少啊？
+    alt 大于 180cm
+        b ->> a: 我身高一米八，想亲我的话要踮脚哦
+    else 小于 180cm
+        b ->> a: 怎么？这么快就对我的身体感兴趣了？
     end
-    opt 其他消息
-        b ->> a: 你好吗
+    opt 开车
+        b ->> a: 你是问站着的时候，还是躺着的时候？
     end
 ```
 
 ```mermaid
 sequenceDiagram;
-    participant a As 小明
-    participant b As 小花
-    a ->> b : 能做我女票吗？
-    alt 同意
-        b ->> a: 好啊
-    else 不同意
-        b ->> a: 你是个好人
+    participant a As 女生
+    participant b As 男生
+    a ->> b : 你身高多少啊？
+    alt 大于 180cm
+        b ->> a: 我身高一米八，想亲我的话要踮脚哦
+    else 小于 180cm
+        b ->> a: 怎么？这么快就对我的身体感兴趣了？
     end
-    opt 其他消息
-        b ->> a: 你好吗
+    opt 开车
+        b ->> a: 你是问站着的时候，还是躺着的时候？
     end
 ```
 
