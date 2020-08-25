@@ -130,6 +130,18 @@ docker cp my-redis:/data/dump.rdb ./
 
 
 
+#### 更多操作
+
+使用 `docker container` 可以操作容器，如
+
+- `docker container start` 启动容器
+- `docker container stop` 关闭正在运行的容器
+- `docker container kill` 杀死正在运行的容器
+
+更多操作可以使用 `docker container --help` 查看帮助信息。
+
+
+
 ### 多容器管理
 
 > Docker 倡导 `一个容器一个进程`，如果一个服务需要多个进程，就需要创建多个容器组成一个系统，相互分工和配合来对外提供完整的服务。
