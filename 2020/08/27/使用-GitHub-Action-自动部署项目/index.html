@@ -1,0 +1,561 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="概述 这篇文章简单的介绍了使用 GitHub 的 Action 工具自动部署项目。  什么是 GitHub Action Action 是 GitHub 提供了的持续集成工具，可以自动对 GitHub 仓库上构建、测试、封装、发行或部署项目。提供了自定义自动化软件设计开发工作流的功能，还可以发现、创建和共享操作，并可以将操作合并到完全自定义的工作流程中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 GitHub Action 自动部署项目">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章简单的介绍了使用 GitHub 的 Action 工具自动部署项目。  什么是 GitHub Action Action 是 GitHub 提供了的持续集成工具，可以自动对 GitHub 仓库上构建、测试、封装、发行或部署项目。提供了自定义自动化软件设计开发工作流的功能，还可以发现、创建和共享操作，并可以将操作合并到完全自定义的工作流程中。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_2.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_3.png">
+<meta property="article:published_time" content="2020-08-27T08:56:53.000Z">
+<meta property="article:modified_time" content="2020-08-27T12:07:32.116Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="github">
+<meta property="article:tag" content="ci">
+<meta property="article:tag" content="持续集成">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_1.png">
+
+<link rel="canonical" href="http://blog.wqf31415.xyz/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>使用 GitHub Action 自动部署项目 | This_Wei</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">This_Wei</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+        <li class="menu-item menu-item-weather">
+
+    <a href="/weather/" rel="section"><i class="snowflake-o fa-fw"></i>天气</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 GitHub Action 自动部署项目
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-08-27 08:56:53 / 修改时间：12:07:32" itemprop="dateCreated datePublished" datetime="2020-08-27T08:56:53+00:00">2020-08-27</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章简单的介绍了使用 GitHub 的 Action 工具自动部署项目。</p>
+<h3 id="什么是-github-action"><a class="markdownIt-Anchor" href="#什么是-github-action"></a> 什么是 GitHub Action</h3>
+<p>Action 是 GitHub 提供了的持续集成工具，可以自动对 GitHub 仓库上构建、测试、封装、发行或部署项目。提供了自定义自动化软件设计开发工作流的功能，还可以发现、创建和共享操作，并可以将操作合并到完全自定义的工作流程中。</p>
+<a id="more"></a>
+<h3 id="体验"><a class="markdownIt-Anchor" href="#体验"></a> 体验</h3>
+<h4 id="配置工作流程"><a class="markdownIt-Anchor" href="#配置工作流程"></a> 配置工作流程</h4>
+<p>创建仓库 <code>test</code> ，在 <code>.github/workflows</code> 目录下创建工作流配置文件，使用 <code>.yml</code> 或 <code>.yaml</code> 文件编辑工作流配置。如 <code>myAction.yml</code> ：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">my-action</span> <span class="comment"># 名称</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> <span class="string">[</span> <span class="string">master</span> <span class="string">]</span> <span class="comment"># 当推送代码到 master 时触发任务</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span> <span class="comment"># 任务</span></span><br><span class="line">  <span class="attr">build:</span> <span class="comment"># 定义一个 id 为 build 的任务项</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span> <span class="comment"># 运行平台</span></span><br><span class="line">    <span class="attr">steps:</span> <span class="comment"># 任务步骤</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span> <span class="comment"># 使用官方提供的操作</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">one-line</span> <span class="string">script</span> <span class="comment"># 自定义任务名</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">Hello,</span> <span class="string">world!</span> <span class="comment"># 自定义任务命令，打印 Hello, world!</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">multi-line</span> <span class="string">script</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">Add</span> <span class="string">other</span> <span class="string">action</span> <span class="string">to</span> <span class="string">build,</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">test,</span> <span class="string">and</span> <span class="string">deploy</span> <span class="string">your</span> <span class="string">project.</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上述配置了名为 <code>my-action</code> 的Action，将在推送代码到 <code>master</code> 分支时触发工作任务，任务执行平台为最新的 Ubuntu 平台</p>
+</blockquote>
+<h4 id="提交代码查看效果"><a class="markdownIt-Anchor" href="#提交代码查看效果"></a> 提交代码查看效果</h4>
+<p>提交代码到 <code>test</code> 仓库的 <code>master</code> 分支，点击 <code>Actions</code> 标签，将展示工作执行结果：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/github_action_1.png" alt="" /></p>
+<p>点击下方的记录，查看详情：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/github_action_2.png" alt="" /></p>
+<p>点击 <code>build</code> 查看构建的日志详情：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/github_action_3.png" alt="" /></p>
+<p>查看输出的日志，可以看到我们在配置文件中定义的任务都被正确执行了。</p>
+<h3 id="工作流程配置"><a class="markdownIt-Anchor" href="#工作流程配置"></a> 工作流程配置</h3>
+<p>GitHub Action 的工作流配置都是以 yaml 文件配置，都需要放到项目仓库下的 <code>.github/workflows</code> 目录下。</p>
+<h4 id="任务名称-name"><a class="markdownIt-Anchor" href="#任务名称-name"></a> 任务名称 name</h4>
+<p>配置文件中以 <code>name</code> 项配置工作流程的名称，将在仓库操作页面展示该名称。如果省略 <code>name</code> 将设置为相对于仓库根目录的工作流程文件路径。</p>
+<h4 id="触发条件-on"><a class="markdownIt-Anchor" href="#触发条件-on"></a> 触发条件 on</h4>
+<p><code>on</code> 项配置工作流触发事件，值可以是单一事件、事件数组、事件类型数组或事件配置 map。</p>
+<h5 id="任意推送代码到任意分支时触发"><a class="markdownIt-Anchor" href="#任意推送代码到任意分支时触发"></a> 任意推送代码到任意分支时触发</h5>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span> <span class="string">push</span></span><br></pre></td></tr></table></figure>
+<h5 id="在-push-或-pull-时触发"><a class="markdownIt-Anchor" href="#在-push-或-pull-时触发"></a> 在 push 或 pull 时触发</h5>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span> <span class="string">[push,</span> <span class="string">pull_request]</span></span><br></pre></td></tr></table></figure>
+<h5 id="推送到指定分支时触发"><a class="markdownIt-Anchor" href="#推送到指定分支时触发"></a> 推送到指定分支时触发</h5>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span> </span><br><span class="line">  <span class="attr">push:</span> </span><br><span class="line">    <span class="attr">branches:</span> <span class="string">[master]</span></span><br></pre></td></tr></table></figure>
+<h5 id="定时触发"><a class="markdownIt-Anchor" href="#定时触发"></a> 定时触发</h5>
+<p>定时触发的最小间隔是 5 分钟。如下为每 30 分钟触发一次：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">schedule:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">cron:</span> <span class="string">'*/30 * * * *'</span></span><br></pre></td></tr></table></figure>
+<h4 id="环境变量-env"><a class="markdownIt-Anchor" href="#环境变量-env"></a> 环境变量 env</h4>
+<p><code>env</code> 项目用于配置环境变量，可用于工作流中所有作业和步骤，还可以设置为仅适用于作业或步骤的环境变量。如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="attr">SERVER:</span> <span class="string">production</span></span><br></pre></td></tr></table></figure>
+<h4 id="默认设置-defaults"><a class="markdownIt-Anchor" href="#默认设置-defaults"></a> 默认设置 defaults</h4>
+<p>将应用到工作流程中所有作业的默认设置，如果有多个默认设置时，以最近的为准。</p>
+<h4 id="工作任务-jobs"><a class="markdownIt-Anchor" href="#工作任务-jobs"></a> 工作任务 jobs</h4>
+<p><code>jobs</code> 用于定义一项或多项作业，作业默认是并行运行，可以在作业配置中 <code>need</code> 项中指定依赖的作业项。</p>
+<p>每项作业有必须关联一个唯一的 ID，ID 为字符串，必须以字母或下划线开头，只能包含字母、数字、下划线 <code>_</code> 或横杠 <code>-</code> ，如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">my_job_1:</span> <span class="comment"># 作业ID</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">my</span> <span class="string">first</span> <span class="string">job</span></span><br><span class="line">  <span class="attr">_other-job:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">other</span> <span class="string">job</span></span><br></pre></td></tr></table></figure>
+<h5 id="工作任务中的配置项"><a class="markdownIt-Anchor" href="#工作任务中的配置项"></a> 工作任务中的配置项</h5>
+<p>工作任务中的配置项是定义在 <code>jobs.&lt;job_id&gt;</code> 下的配置项。</p>
+<ul>
+<li>
+<p><code>runs-on</code> 项指定运行的环境</p>
+</li>
+<li>
+<p><code>name</code> 名称，在查看执行日志时显示</p>
+</li>
+<li>
+<p><code>need</code> 指定当前任务之前必须完成的作业，可以是一个任务ID或任务ID数组，如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">job1:</span></span><br><span class="line">  <span class="attr">job2:</span></span><br><span class="line">    <span class="attr">need:</span> <span class="string">job1</span></span><br><span class="line">  <span class="attr">job3:</span></span><br><span class="line">    <span class="attr">need:</span> <span class="string">[job1,job2]</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>steps</code> 定义一系列任务</p>
+</li>
+</ul>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>GitHub 操作文档: <a href="https://docs.github.com/cn/actions" target="_blank" rel="noopener">https://docs.github.com/cn/actions</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>GitHub 提供的 action 可以免费使用，而且配置简单，还能使用别人分享的配置，可以替换 Travis CI 完成项目的自动构建与部署。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/github/" rel="tag"># github</a>
+              <a href="/tags/ci/" rel="tag"># ci</a>
+              <a href="/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" rel="tag"># 持续集成</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/08/24/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/" rel="prev" title="docker 容器管理">
+      <i class="fa fa-chevron-left"></i> docker 容器管理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-github-action"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 GitHub Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#体验"><span class="nav-number">3.</span> <span class="nav-text"> 体验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置工作流程"><span class="nav-number">3.1.</span> <span class="nav-text"> 配置工作流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交代码查看效果"><span class="nav-number">3.2.</span> <span class="nav-text"> 提交代码查看效果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作流程配置"><span class="nav-number">4.</span> <span class="nav-text"> 工作流程配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#任务名称-name"><span class="nav-number">4.1.</span> <span class="nav-text"> 任务名称 name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#触发条件-on"><span class="nav-number">4.2.</span> <span class="nav-text"> 触发条件 on</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#任意推送代码到任意分支时触发"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 任意推送代码到任意分支时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在-push-或-pull-时触发"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 在 push 或 pull 时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#推送到指定分支时触发"><span class="nav-number">4.2.3.</span> <span class="nav-text"> 推送到指定分支时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定时触发"><span class="nav-number">4.2.4.</span> <span class="nav-text"> 定时触发</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境变量-env"><span class="nav-number">4.3.</span> <span class="nav-text"> 环境变量 env</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#默认设置-defaults"><span class="nav-number">4.4.</span> <span class="nav-text"> 默认设置 defaults</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作任务-jobs"><span class="nav-number">4.5.</span> <span class="nav-text"> 工作任务 jobs</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#工作任务中的配置项"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 工作任务中的配置项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="This_Wei"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">68</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="http://www.beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.bootcdn.net/ajax/libs/mermaid/8.7.0/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
