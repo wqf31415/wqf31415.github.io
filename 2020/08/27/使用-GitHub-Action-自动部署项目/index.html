@@ -31,7 +31,7 @@
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_2.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_3.png">
 <meta property="article:published_time" content="2020-08-27T08:56:53.000Z">
-<meta property="article:modified_time" content="2020-08-27T12:07:32.116Z">
+<meta property="article:modified_time" content="2020-08-28T12:03:07.476Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="工具">
 <meta property="article:tag" content="github">
@@ -211,10 +211,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2020-08-27 08:56:53 / 修改时间：12:07:32" itemprop="dateCreated datePublished" datetime="2020-08-27T08:56:53+00:00">2020-08-27</time>
+              <time title="创建时间：2020-08-27 08:56:53" itemprop="dateCreated datePublished" datetime="2020-08-27T08:56:53+00:00">2020-08-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-08-28 12:03:07" itemprop="dateModified" datetime="2020-08-28T12:03:07+00:00">2020-08-28</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -282,21 +288,54 @@
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">my_job_1:</span> <span class="comment"># 作业ID</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">my</span> <span class="string">first</span> <span class="string">job</span></span><br><span class="line">  <span class="attr">_other-job:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">other</span> <span class="string">job</span></span><br></pre></td></tr></table></figure>
 <h5 id="工作任务中的配置项"><a class="markdownIt-Anchor" href="#工作任务中的配置项"></a> 工作任务中的配置项</h5>
 <p>工作任务中的配置项是定义在 <code>jobs.&lt;job_id&gt;</code> 下的配置项。</p>
-<ul>
-<li>
-<p><code>runs-on</code> 项指定运行的环境</p>
-</li>
-<li>
-<p><code>name</code> 名称，在查看执行日志时显示</p>
-</li>
-<li>
-<p><code>need</code> 指定当前任务之前必须完成的作业，可以是一个任务ID或任务ID数组，如：</p>
+<h6 id="runs-on"><a class="markdownIt-Anchor" href="#runs-on"></a> <code>runs-on</code></h6>
+<p>指定运行的环境，取值：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>虚拟环境</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>windows-latest</code> 或 <code>windows-2019</code></td>
+<td>Windows Server 2019</td>
+</tr>
+<tr>
+<td><code>ubuntu-20.04</code></td>
+<td>Ubuntu 20.04</td>
+</tr>
+<tr>
+<td><code>ubuntu-latest</code> 或 <code>ubuntu-18.04</code></td>
+<td>Ubuntu 18.04</td>
+</tr>
+<tr>
+<td><code>ubuntu-16.04</code></td>
+<td>Ubuntu 16.04</td>
+</tr>
+<tr>
+<td><code>macos-latest</code> 或 <code>macos-10.15</code></td>
+<td>macOS Catalina 10.15</td>
+</tr>
+</tbody>
+</table>
+<h6 id="name"><a class="markdownIt-Anchor" href="#name"></a> <code>name</code></h6>
+<p>指定任务名称，在查看执行日志时显示</p>
+<h6 id="need"><a class="markdownIt-Anchor" href="#need"></a> <code>need</code></h6>
+<p>指定当前任务之前必须完成的作业，可以是一个任务ID或任务ID数组，如：</p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">job1:</span></span><br><span class="line">  <span class="attr">job2:</span></span><br><span class="line">    <span class="attr">need:</span> <span class="string">job1</span></span><br><span class="line">  <span class="attr">job3:</span></span><br><span class="line">    <span class="attr">need:</span> <span class="string">[job1,job2]</span></span><br></pre></td></tr></table></figure>
-</li>
-<li>
-<p><code>steps</code> 定义一系列任务</p>
-</li>
-</ul>
+<h6 id="outputs"><a class="markdownIt-Anchor" href="#outputs"></a> <code>outputs</code></h6>
+<p>定义此作业的输出内容，供下游作业使用。如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">job1:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">outputs:</span></span><br><span class="line">      <span class="attr">output1:</span> <span class="string">$&#123;&#123;steps.step1.test&#125;&#125;</span></span><br><span class="line">      <span class="attr">output2:</span> <span class="string">$&#123;&#123;steps.step2.test&#125;&#125;</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">step1</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">"::set-output name=test::hello"</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">step2</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">"::set-output name=test::world"</span></span><br><span class="line">  <span class="attr">job2:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">needs:</span> <span class="string">job1</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">echo</span> <span class="string">$&#123;&#123;needs.job1.outputs.output1&#125;&#125;</span> <span class="string">$&#123;&#123;needs.job1.outputs.output2&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="if"><a class="markdownIt-Anchor" href="#if"></a> <code>if</code></h6>
+<p>指定作业运行的条件，只有满足条件才会执行。如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">job1:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">$&#123;&#123;github.event_name</span> <span class="string">==</span> <span class="string">'pull_request'</span> <span class="string">&amp;&amp;</span> <span class="string">github.event.action</span> <span class="string">==</span> <span class="string">'unassigned'</span> <span class="string">&#125;&#125;</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">echo</span> <span class="string">xxxxx</span></span><br></pre></td></tr></table></figure>
+<h6 id="steps"><a class="markdownIt-Anchor" href="#steps"></a> <code>steps</code></h6>
+<p>定义一系列任务步骤，步骤可以运行命令、运行设置任务，或者运行个人仓库、公共仓库中的操作或 Docker 注册中发布的操作。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">my-job:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">my</span> <span class="string">job</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Print</span> <span class="string">hello</span></span><br><span class="line">        <span class="attr">env:</span> </span><br><span class="line">          <span class="attr">MY_NAME:</span> <span class="string">Jack</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">hello</span> <span class="string">$MY_NAME</span></span><br></pre></td></tr></table></figure>
+<h6 id="timeout-minutes"><a class="markdownIt-Anchor" href="#timeout-minutes"></a> <code>timeout-minutes</code></h6>
+<p>指定超时时间，默认值为 360 分钟。</p>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
 <ul>
 <li>GitHub 操作文档: <a href="https://docs.github.com/cn/actions" target="_blank" rel="noopener">https://docs.github.com/cn/actions</a></li>
@@ -386,7 +425,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-github-action"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 GitHub Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#体验"><span class="nav-number">3.</span> <span class="nav-text"> 体验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置工作流程"><span class="nav-number">3.1.</span> <span class="nav-text"> 配置工作流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交代码查看效果"><span class="nav-number">3.2.</span> <span class="nav-text"> 提交代码查看效果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作流程配置"><span class="nav-number">4.</span> <span class="nav-text"> 工作流程配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#任务名称-name"><span class="nav-number">4.1.</span> <span class="nav-text"> 任务名称 name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#触发条件-on"><span class="nav-number">4.2.</span> <span class="nav-text"> 触发条件 on</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#任意推送代码到任意分支时触发"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 任意推送代码到任意分支时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在-push-或-pull-时触发"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 在 push 或 pull 时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#推送到指定分支时触发"><span class="nav-number">4.2.3.</span> <span class="nav-text"> 推送到指定分支时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定时触发"><span class="nav-number">4.2.4.</span> <span class="nav-text"> 定时触发</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境变量-env"><span class="nav-number">4.3.</span> <span class="nav-text"> 环境变量 env</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#默认设置-defaults"><span class="nav-number">4.4.</span> <span class="nav-text"> 默认设置 defaults</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作任务-jobs"><span class="nav-number">4.5.</span> <span class="nav-text"> 工作任务 jobs</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#工作任务中的配置项"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 工作任务中的配置项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-github-action"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 GitHub Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#体验"><span class="nav-number">3.</span> <span class="nav-text"> 体验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#配置工作流程"><span class="nav-number">3.1.</span> <span class="nav-text"> 配置工作流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#提交代码查看效果"><span class="nav-number">3.2.</span> <span class="nav-text"> 提交代码查看效果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#工作流程配置"><span class="nav-number">4.</span> <span class="nav-text"> 工作流程配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#任务名称-name"><span class="nav-number">4.1.</span> <span class="nav-text"> 任务名称 name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#触发条件-on"><span class="nav-number">4.2.</span> <span class="nav-text"> 触发条件 on</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#任意推送代码到任意分支时触发"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 任意推送代码到任意分支时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#在-push-或-pull-时触发"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 在 push 或 pull 时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#推送到指定分支时触发"><span class="nav-number">4.2.3.</span> <span class="nav-text"> 推送到指定分支时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#定时触发"><span class="nav-number">4.2.4.</span> <span class="nav-text"> 定时触发</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#环境变量-env"><span class="nav-number">4.3.</span> <span class="nav-text"> 环境变量 env</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#默认设置-defaults"><span class="nav-number">4.4.</span> <span class="nav-text"> 默认设置 defaults</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#工作任务-jobs"><span class="nav-number">4.5.</span> <span class="nav-text"> 工作任务 jobs</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#工作任务中的配置项"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 工作任务中的配置项</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#runs-on"><span class="nav-number">4.5.1.1.</span> <span class="nav-text"> runs-on</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#name"><span class="nav-number">4.5.1.2.</span> <span class="nav-text"> name</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#need"><span class="nav-number">4.5.1.3.</span> <span class="nav-text"> need</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#outputs"><span class="nav-number">4.5.1.4.</span> <span class="nav-text"> outputs</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#if"><span class="nav-number">4.5.1.5.</span> <span class="nav-text"> if</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#steps"><span class="nav-number">4.5.1.6.</span> <span class="nav-text"> steps</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#timeout-minutes"><span class="nav-number">4.5.1.7.</span> <span class="nav-text"> timeout-minutes</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
