@@ -152,24 +152,102 @@ jobs:
 
 工作任务中的配置项是定义在 `jobs.<job_id>` 下的配置项。
 
-- `runs-on` 项指定运行的环境
+###### `runs-on` 
 
-- `name` 名称，在查看执行日志时显示
+指定运行的环境，取值：
 
-- `need` 指定当前任务之前必须完成的作业，可以是一个任务ID或任务ID数组，如：
+| 值                                 | 虚拟环境             |
+| ---------------------------------- | -------------------- |
+| `windows-latest` 或 `windows-2019` | Windows Server 2019  |
+| `ubuntu-20.04`                     | Ubuntu 20.04         |
+| `ubuntu-latest` 或 `ubuntu-18.04`  | Ubuntu 18.04         |
+| `ubuntu-16.04`                     | Ubuntu 16.04         |
+| `macos-latest` 或 `macos-10.15`    | macOS Catalina 10.15 |
 
-  ```yaml
-  jobs:
-    job1:
-    job2:
-      need: job1
-    job3:
-      need: [job1,job2]
-  ```
 
-- `steps` 定义一系列任务
 
-  
+###### `name` 
+
+指定任务名称，在查看执行日志时显示
+
+###### `need` 
+
+指定当前任务之前必须完成的作业，可以是一个任务ID或任务ID数组，如：
+
+```yaml
+jobs:
+  job1:
+  job2:
+    need: job1
+  job3:
+    need: [job1,job2]
+```
+
+###### `outputs` 
+
+定义此作业的输出内容，供下游作业使用。如：
+
+```yaml
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    outputs:
+      output1: ${{steps.step1.test}}
+      output2: ${{steps.step2.test}}
+    steps:
+      - id: step1
+        run: echo "::set-output name=test::hello"
+      - id: step2
+        run: echo "::set-output name=test::world"
+  job2:
+    runs-on: ubuntu-latest
+    needs: job1
+    steps:
+      - run: echo ${{needs.job1.outputs.output1}} ${{needs.job1.outputs.output2}}
+```
+
+###### `if` 
+
+指定作业运行的条件，只有满足条件才会执行。如：
+
+```yaml
+jobs:
+  job1:
+    runs-on: ubuntu-latest
+    if: ${{github.event_name == 'pull_request' && github.event.action == 'unassigned' }}
+    steps:
+      run: echo xxxxx
+    
+```
+
+
+
+###### `steps` 
+
+定义一系列任务步骤，步骤可以运行命令、运行设置任务，或者运行个人仓库、公共仓库中的操作或 Docker 注册中发布的操作。
+
+```yml
+jobs:
+  my-job:
+    name: my job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print hello
+        env: 
+          MY_NAME: Jack
+        run: |
+          echo hello $MY_NAME
+```
+
+
+
+###### `timeout-minutes` 
+
+指定超时时间，默认值为 360 分钟。
+
+
+
+
 
 ### 参考资料
 
