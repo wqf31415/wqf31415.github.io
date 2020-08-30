@@ -224,7 +224,7 @@ jobs:
 
 ###### `steps` 
 
-定义一系列任务步骤，步骤可以运行命令、运行设置任务，或者运行个人仓库、公共仓库中的操作或 Docker 注册中发布的操作。
+定义一系列任务步骤，步骤将顺序执行，如果一个失败随后的任务将不执行。在步骤中可以运行命令、运行设置任务，或者运行个人仓库、公共仓库中的操作或 Docker 注册中发布的操作。
 
 ```yml
 jobs:
@@ -232,12 +232,34 @@ jobs:
     name: my job
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2 # 使用官方提供的检出仓库操作
       - name: Print hello
         env: 
           MY_NAME: Jack
         run: |
           echo hello $MY_NAME
 ```
+
+> steps 中一些常用配置项：
+>
+> - `uses` ：使用自定义或 github 社区提供的操作
+>
+> - `uses.with` ：为使用的操作添加附加条件
+>
+> - `id` ：步骤的 ID ，方便引用
+>
+> - `name` ：为步骤命名
+>
+> - `run` ：运行命令，如果是多条命令使用 `|` 符号标识，如：
+>
+>   ```yml
+>   - name: Run a one-line script # 自定义任务名
+>     run: echo Hello, world! # 自定义任务命令，打印 Hello, world!
+>   - name: Run a multi-line script
+>     run: |
+>       echo Add other action to build,
+>       echo test, and deploy your project.
+>   ```
 
 
 
@@ -246,6 +268,105 @@ jobs:
 指定超时时间，默认值为 360 分钟。
 
 
+
+#### 使用密码
+
+在构建与部署过程中，我们可能需要用的一些加密信息，这时我们需要在仓库设置中添加加密信息，需要输入名称和值。
+
+![](http://blog-images.qiniu.wqf31415.xyz/github_repo_add_secret.png)
+
+在使用密码时，可以作为输入参数或者环境变量，如使用名为 `MY_PWD` 的加密信息：
+
+```yml
+steps:
+  - name use secrets
+    with:
+      my_pwd: ${{secrets.MY_PWD}}
+    env:
+      my_pwd: ${{secrets.MY_PWD}}
+    run: |
+      example-command "$my_pwd"
+```
+
+
+
+#### 使用预置的操作
+
+操作是一系列特定作业步骤的组合，可以完成特定的任务，可以创建自己的操作，也可以使用 github 社区分享的操作。比如使用官方的检出仓库的操作：
+
+```yaml
+- uses: action/checkout@2 # action 为作者，这里是github官方，checkout 是操作名，@2 是指定操作版本为 2
+```
+
+> 参考：<https://github.com/marketplace/actions/checkout> 
+
+当在线编辑 action 工作流配置文件时，在编辑页面右侧的 Marketplace 选项卡中可以检索社区分享的操作，点击后可查看操作的介绍。
+
+![](http://blog-images.qiniu.wqf31415.xyz/github_edit_action_conf_marketplace.png)
+
+
+
+更多的操作可以到 github marketplace 中的 action 类别中查找：<https://github.com/marketplace?type=actions> 
+
+
+
+### 实战
+
+> 背景：项目是一个 hexo 博客，在 github 仓库中 `source` 分支存储模块资源与配置信息。现在需要每次提交代码到 source 分支时触发工作流，完成博客自动编译，编译前需要下载博客主题并替换配置文件，编译完成后将项目打包，通过 sftp 上传到服务器。
+
+配置详情：
+
+```yml
+# 名称
+name: Deploy to my server
+
+# 当提交代码到 source 分支时触发工作流
+on:
+  push:
+    branch: [source]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest # 使用Ubuntu 18.04 运行
+    name: Job to deploy blog
+    steps:
+      # 检出项目source分支代码
+      - name: Checkout
+        id: checkout
+        uses: actions/checkout@v2
+        with:
+          ref: source
+      # 设置使用 node 12
+      - name: use node
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12'
+      # 安装 hexo-cli 工具，用于编译项目
+      - name: install hexo-cli
+        run: npm install hexo-cli -g
+      # 安装项目依赖
+      - name: Install dependencies
+        run: npm install
+      # 下载 next 主题
+      - name: download theme
+        run: git clone https://github.com/theme-next/hexo-theme-next themes/next
+      # 复制我的主题配置文件到 next 主题中进行替换
+      - name: cp config
+        run: |
+          cp themes_config/next/_config.yml themes/next/
+          cp themes_config/next/languages/zh-CN.yml themes/next/languages/
+      # 编译生成项目文件
+      - name: Hexo generate
+        run: hexo generate
+      # 使用 jar 工具打包项目编译获得的文件
+      - name: Pack with jar
+        run: jar -cvfM blog.war -C ./public/ .
+      # 使用 sftp 工具上传项目打包文件到我的服务器
+      - name: Upload file
+        run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://118.24.50.165/blog.war
+```
+
+> 以上配置完全复制了手动打包部署的全过程，其中有些可以进行优化，比如对 npm 组件加上缓存提升打包速度；在 `.gitmodules` 中配置 next 主题项目为子模块，以便在检出项目代码的同时也拉取 next 主题的代码。
 
 
 
