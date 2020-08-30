@@ -31,8 +31,8 @@ jobs:
           cp themes_config/next/languages/zh-CN.yml themes/next/languages/
       - name: Hexo generate
         run: hexo generate
-      - name: Package
-        run: tar -cvfM blog.war -C ./public/ .
+      - name: Pack with jar
+        run: jar -cvfM blog.war -C ./public/ .
       - name: Upload file
         run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://118.24.50.165/blog.war
         
