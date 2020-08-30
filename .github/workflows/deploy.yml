@@ -10,12 +10,19 @@ jobs:
     name: Job to deploy blog
     steps:
       - name: Checkout
+        id: checkout
         uses: actions/checkout@v2
         with:
           ref: source
-          submodules: true
+          # submodules: true
       - name: Install dependencies
         run: npm ci
+      - name: download theme
+        run: git clone https://github.com/theme-next/hexo-theme-next themes/next
+      - name: cp config
+        run: |
+          cp themes_config/next/_config.yml themes/next/
+          cp themes_config/next/languages/zh-CN.yml themes/next/languages/
       - name: Hexo generate
         run: hexo generate
       - name: Package
