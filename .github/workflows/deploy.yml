@@ -1,0 +1,25 @@
+name: Deploy to my server
+
+on:
+  push:
+    branch: [source]
+    
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    name: Job to deploy blog
+    steps:
+      - name: Checkout
+        uses: action/checkout@v2.3.2
+        with:
+          ref: source
+          submodules: true
+      - name: Install dependencies
+        run: npm ci
+      - name: Hexo generate
+        run: hexo generate
+      - name: Package
+        run: tar -cvfM blog.war -C ./public/ .
+      - name: Upload file
+        run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://118.24.50.165/blog.war
+        
