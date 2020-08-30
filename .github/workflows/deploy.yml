@@ -15,6 +15,10 @@ jobs:
         with:
           ref: source
           # submodules: true
+      - name: use node
+        run: actions/setup-node@v1
+        with:
+          node-version: '12.x'
       - name: Install dependencies
         run: npm ci
       - name: download theme
