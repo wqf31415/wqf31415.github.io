@@ -10,7 +10,7 @@ jobs:
     name: Job to deploy blog
     steps:
       - name: Checkout
-        uses: action/checkout@v2.3.2
+        uses: actions/checkout@v2
         with:
           ref: source
           submodules: true
