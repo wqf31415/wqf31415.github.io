@@ -150,7 +150,11 @@ docker 中共享层存在冲突问题，比如 A 应用需要修改操作系统�
 
 > Docker Desktop for Windows ：<https://hub.docker.com/editions/community/docker-ce-desktop-windows> 
 
->注意：**docker 桌面版需要 Windows 10 专业版或企业版 64 位的系统。** 老版本系统需要使用 [Docker Toolbox](https://docs.docker.com/toolbox/overview/) 运行。
+>注意：**docker 桌面版需要 Windows 10 专业版/企业版 15063 以上版本 64 位的系统，或者 Windows 10 家庭版 19018以上版本。** 老版本系统需要使用 [Docker Toolbox](https://docs.docker.com/toolbox/overview/) 运行。
+>
+>> Windows 如何查看自己的系统版本？
+>>
+>> 按快捷键 <kbd>Win</kbd> + <kbd>R</kbd> 运行 `msinfo32` ，即可调出系统信息窗口，可以看到当前系统版本信息。
 
 
 
