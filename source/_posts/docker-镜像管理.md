@@ -5,12 +5,14 @@ tags:
   - 工具
 categories:
   - 工具
-date: 2020-08-12 17:53:40
+date: 2020-09-09 19:35:40
 ---
 
 ### 概述
 
 镜像是 docker 的精髓，只有了解 docker 镜像，才能真正理解 docker 的内涵。这篇文章介绍了镜像相关的操作和对镜像的操作。
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_whale_2.jpg)
 
 
 

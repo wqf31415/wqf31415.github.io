@@ -5,12 +5,14 @@ tags:
   - 工具
 categories:
   - 工具
-date: 2020-08-12 17:58:51
+date: 2020-09-09 10:05:51
 ---
 
 ### 概述
 
 这篇文章讲解了 docker 的相关概念，使用 docker 官方仓库管理镜像，搭建私有的 docker 仓库。
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_whale.jpg)
 
 
 
