@@ -20,17 +20,23 @@
     var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-<meta property="og:type" content="website">
-<meta property="og:title" content="This_Wei">
-<meta property="og:url" content="http://blog.wqf31415.xyz/archives/index.html">
+  <meta name="description" content="概述 这篇文章讲解了 docker 的相关概念，使用 docker 官方仓库管理镜像，搭建私有的 docker 仓库。   什么是docker仓库 Docker 仓库用于存储镜像，是镜像分发、部署的关键，概念类似于 maven 仓库和 git 仓库。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker 仓库管理">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2020/09/12/docker-%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="This_Wei">
-<meta property="og:description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+<meta property="og:description" content="概述 这篇文章讲解了 docker 的相关概念，使用 docker 官方仓库管理镜像，搭建私有的 docker 仓库。   什么是docker仓库 Docker 仓库用于存储镜像，是镜像分发、部署的关键，概念类似于 maven 仓库和 git 仓库。">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_whale.jpg">
+<meta property="article:published_time" content="2020-09-12T20:09:51.000Z">
+<meta property="article:modified_time" content="2020-09-12T12:12:19.649Z">
 <meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="工具">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_whale.jpg">
 
-<link rel="canonical" href="http://blog.wqf31415.xyz/archives/">
+<link rel="canonical" href="http://blog.wqf31415.xyz/2020/09/12/docker-%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86/">
 
 
 <script id="page-configurations">
@@ -38,12 +44,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>归档 | This_Wei</title>
+  <title>docker 仓库管理 | This_Wei</title>
   
 
 
@@ -172,235 +178,144 @@
         <div class="content-wrap">
           
 
-          <div class="content archive">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        
-        <span class="collection-header">不错! 目前共计 70 篇日志。 继续努力。</span>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/09/12/docker-%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          docker 仓库管理
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2020-09-12 20:09:51 / 修改时间：12:12:19" itemprop="dateCreated datePublished" datetime="2020-09-12T20:09:51+00:00">2020-09-12</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2020</span>
-    </div>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-12T20:09:51+00:00"
-              content="2020-09-12">
-          09-12
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/12/docker-%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86/" itemprop="url">
-            <span itemprop="name">docker 仓库管理</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-09-09T19:35:40+00:00"
-              content="2020-09-09">
-          09-09
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/09/09/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86/" itemprop="url">
-            <span itemprop="name">docker 镜像管理</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-27T08:56:53+00:00"
-              content="2020-08-27">
-          08-27
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/" itemprop="url">
-            <span itemprop="name">使用 GitHub Action 自动部署项目</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-24T09:03:32+00:00"
-              content="2020-08-24">
-          08-24
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/24/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/" itemprop="url">
-            <span itemprop="name">docker 容器管理</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-18T09:18:44+00:00"
-              content="2020-08-18">
-          08-18
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/" itemprop="url">
-            <span itemprop="name">闭包表存储树状结构数据</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-16T17:39:53+00:00"
-              content="2020-08-16">
-          08-16
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/16/Android-%E6%89%8B%E6%9C%BA%E8%A3%85%E6%9C%BA%E8%BD%AF%E4%BB%B6/" itemprop="url">
-            <span itemprop="name">Android 手机装机软件</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-13T06:47:08+00:00"
-              content="2020-08-13">
-          08-13
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/13/markdown-%E4%B8%AD%E6%8F%92%E5%85%A5-mermaid-%E5%9B%BE/" itemprop="url">
-            <span itemprop="name">markdown 中插入 mermaid 图</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-11T19:29:16+00:00"
-              content="2020-08-11">
-          08-11
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/11/SpringBoot-AOP/" itemprop="url">
-            <span itemprop="name">SpringBoot AOP</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-09T13:17:30+00:00"
-              content="2020-08-09">
-          08-09
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/09/%E8%AE%A4%E8%AF%86%E6%AD%A3%E5%BF%B5/" itemprop="url">
-            <span itemprop="name">认识正念</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2020-08-08T15:57:16+00:00"
-              content="2020-08-08">
-          08-08
-        </time>
-      </div>
-
-      <div class="post-title">
-          <a class="post-title-link" href="/2020/08/08/SpringBoot-%E9%A1%B9%E7%9B%AE%E9%85%8D%E7%BD%AE/" itemprop="url">
-            <span itemprop="name">SpringBoot 项目配置</span>
-          </a>
-      </div>
-
-    </header>
-  </article>
-
+        <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章讲解了 docker 的相关概念，使用 docker 官方仓库管理镜像，搭建私有的 docker 仓库。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/docker_whale.jpg" alt="" /></p>
+<h3 id="什么是docker仓库"><a class="markdownIt-Anchor" href="#什么是docker仓库"></a> 什么是docker仓库</h3>
+<p>Docker 仓库用于存储镜像，是镜像分发、部署的关键，概念类似于 maven 仓库和 git 仓库。</p>
+<a id="more"></a>
+<h3 id="使用仓库"><a class="markdownIt-Anchor" href="#使用仓库"></a> 使用仓库</h3>
+<p>在实际场景中，由开发或运维人员制作应用程序镜像，然后上传到镜像仓库，需要使用时直接从仓库中拉取镜像来运行。</p>
+<p>相关命令：</p>
+<ul>
+<li>
+<p><code>docker search</code> 从仓库中检索镜像</p>
+</li>
+<li>
+<p><code>docker push</code> 推送镜像到仓库</p>
+</li>
+<li>
+<p><code>docker pull</code> 从仓库拉取镜像</p>
+</li>
+<li>
+<p><code>docker login</code> 登录仓库</p>
+</li>
+</ul>
+<h3 id="官方仓库"><a class="markdownIt-Anchor" href="#官方仓库"></a> 官方仓库</h3>
+<p>Docker 官方维护了一个共有仓库 Docker Hub：<a href="https://hub.docker.com/" target="_blank" rel="noopener">https://hub.docker.com/</a> ，docker 默认使用官方仓库，从官方仓库中搜索和拉取镜像不需要登录账户。如果需要上传和分享自己的镜像，就需要登录 Docker Hub 账户。</p>
+<h3 id="国内仓库"><a class="markdownIt-Anchor" href="#国内仓库"></a> 国内仓库</h3>
+<p>在国内使用 Docker 官方仓库可能受网速影响较大，此时，我们可以修改配置使用国内的镜像仓库，如使用网易的镜像源：</p>
+<p>修改 docker 配置文件 <code>/etc/docker/daemon.json</code> ，添加内容：</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">"registry-mirrors":["http://hub-mirror.c.163.com"]</span><br></pre></td></tr></table></figure>
+<p>国内一些云平台提供了 docker 镜像仓库服务，如：</p>
+<ul>
+<li>阿里云：<a href="https://www.aliyun.com/" target="_blank" rel="noopener">https://www.aliyun.com/</a></li>
+<li>网易数帆：<a href="https://www.163yun.com/" target="_blank" rel="noopener">https://www.163yun.com/</a></li>
+</ul>
+<h3 id="私有仓库"><a class="markdownIt-Anchor" href="#私有仓库"></a> 私有仓库</h3>
+<p>使用官方仓库也可以上传私有镜像，如果应用程序的保密性要求较高或处于封闭的网络环境，则可以选择创建自己的私有仓库。</p>
+<p>Docker 官方提供了 <strong>docker-registry</strong> 组件用于创建私有镜像仓库。</p>
+<h4 id="使用镜像运行仓库"><a class="markdownIt-Anchor" href="#使用镜像运行仓库"></a> 使用镜像运行仓库</h4>
+<p>可以使用官方提供的 docker-registry 镜像来运行仓库，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -p 5000:5000 registry</span><br></pre></td></tr></table></figure>
+<h4 id="使用-apt-工具安装仓库"><a class="markdownIt-Anchor" href="#使用-apt-工具安装仓库"></a> 使用 apt 工具安装仓库</h4>
+<p>在 Ubuntu 环境下使用 apt 安装 docker-registry：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install docker-registry</span><br></pre></td></tr></table></figure>
+<h4 id="仓库配置"><a class="markdownIt-Anchor" href="#仓库配置"></a> 仓库配置</h4>
+<p>默认情况下，docker-registry 使用 <code>config_sample.yml</code> 进行各种配置，rpm 方式则使用 <code>/etc/docker-registry.yml</code>  。配置文件提供了不同的模板，可以针对不同的环境选择不同的模板。</p>
+<h4 id="仓库安全"><a class="markdownIt-Anchor" href="#仓库安全"></a> 仓库安全</h4>
+<p>目前 docker-registry 没有提供安全认证，所有知道 URL 的人都可以上传镜像，为了防止安全问题，可以使用 Nginx 构建一个带认证功能的私有仓库。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>Docker 国内仓库和镜像：<a href="https://www.cnblogs.com/wushuaishuai/p/9984228.html" target="_blank" rel="noopener">https://www.cnblogs.com/wushuaishuai/p/9984228.html</a></li>
+<li>Docker 使用国内镜像仓库： <a href="https://blog.csdn.net/qq_32510597/article/details/105873846" target="_blank" rel="noopener">https://blog.csdn.net/qq_32510597/article/details/105873846</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>团队协同使用 docker 时，必然需要用仓库来管理和分享镜像，一般情况下使用官方仓库或国内云平台商家提供的云仓库服务就可以满足需求。如果对资源保密性要求较高，则需要自己搭建私有的 docker 仓库，对于私有仓库需要注意安全相关配置。</p>
 
     </div>
-  </div>
-  
-  
-  
 
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/09/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86/" rel="prev" title="docker 镜像管理">
+      <i class="fa fa-chevron-left"></i> docker 镜像管理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
   
-  <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/archives/page/2/">2</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/7/">7</a><a class="extend next" rel="next" href="/archives/page/2/"><i class="fa fa-angle-right" aria-label="下一页"></i></a>
-  </nav>
+  
+  
 
 
 
@@ -452,6 +367,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是docker仓库"><span class="nav-number">2.</span> <span class="nav-text"> 什么是docker仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用仓库"><span class="nav-number">3.</span> <span class="nav-text"> 使用仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#官方仓库"><span class="nav-number">4.</span> <span class="nav-text"> 官方仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#国内仓库"><span class="nav-number">5.</span> <span class="nav-text"> 国内仓库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#私有仓库"><span class="nav-number">6.</span> <span class="nav-text"> 私有仓库</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#使用镜像运行仓库"><span class="nav-number">6.1.</span> <span class="nav-text"> 使用镜像运行仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用-apt-工具安装仓库"><span class="nav-number">6.2.</span> <span class="nav-text"> 使用 apt 工具安装仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仓库配置"><span class="nav-number">6.3.</span> <span class="nav-text"> 仓库配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#仓库安全"><span class="nav-number">6.4.</span> <span class="nav-text"> 仓库安全</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
