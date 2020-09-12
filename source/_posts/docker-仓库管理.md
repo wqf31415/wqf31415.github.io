@@ -5,7 +5,7 @@ tags:
   - 工具
 categories:
   - 工具
-date: 2020-09-09 10:05:51
+date: 2020-09-12 20:09:51
 ---
 
 ### 概述
@@ -56,7 +56,10 @@ Docker 官方维护了一个共有仓库 Docker Hub：<https://hub.docker.com/> 
 "registry-mirrors":["http://hub-mirror.c.163.com"]
 ```
 
+国内一些云平台提供了 docker 镜像仓库服务，如：
 
+- 阿里云：<https://www.aliyun.com/> 
+- 网易数帆：<https://www.163yun.com/> 
 
 
 
@@ -88,9 +91,13 @@ sudo apt install docker-registry
 
 #### 仓库配置
 
+默认情况下，docker-registry 使用 `config_sample.yml` 进行各种配置，rpm 方式则使用 `/etc/docker-registry.yml`  。配置文件提供了不同的模板，可以针对不同的环境选择不同的模板。
+
 
 
 #### 仓库安全
+
+目前 docker-registry 没有提供安全认证，所有知道 URL 的人都可以上传镜像，为了防止安全问题，可以使用 Nginx 构建一个带认证功能的私有仓库。
 
 
 
@@ -103,3 +110,4 @@ sudo apt install docker-registry
 
 ### 总结
 
+团队协同使用 docker 时，必然需要用仓库来管理和分享镜像，一般情况下使用官方仓库或国内云平台商家提供的云仓库服务就可以满足需求。如果对资源保密性要求较高，则需要自己搭建私有的 docker 仓库，对于私有仓库需要注意安全相关配置。
