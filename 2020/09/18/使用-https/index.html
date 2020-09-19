@@ -1,0 +1,587 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="概述 这篇文章介绍了 https 的用途、原理以及在实际项目中的部署使用。  什么是 HTTPS 超文本传输安全协议（HyperText Transfer Protocol Secure ，缩写：HTTPS）是一种通过计算机网络进行安全通信的传输协议，HTTPS 使用 HTTP 进行通信，但增加了 SSL&#x2F;TLS 来加密数据包。HTTPS 开发的目的是提供网站服务器的身份认证，保护交换资料的隐私">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 https">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2020/09/18/%E4%BD%BF%E7%94%A8-https/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了 https 的用途、原理以及在实际项目中的部署使用。  什么是 HTTPS 超文本传输安全协议（HyperText Transfer Protocol Secure ，缩写：HTTPS）是一种通过计算机网络进行安全通信的传输协议，HTTPS 使用 HTTP 进行通信，但增加了 SSL&#x2F;TLS 来加密数据包。HTTPS 开发的目的是提供网站服务器的身份认证，保护交换资料的隐私">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/https_work_flow.jpg">
+<meta property="article:published_time" content="2020-09-18T14:04:38.000Z">
+<meta property="article:modified_time" content="2020-09-19T09:20:41.445Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/https_work_flow.jpg">
+
+<link rel="canonical" href="http://blog.wqf31415.xyz/2020/09/18/%E4%BD%BF%E7%94%A8-https/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>使用 https | This_Wei</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">This_Wei</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+        <li class="menu-item menu-item-weather">
+
+    <a href="/weather/" rel="section"><i class="snowflake-o fa-fw"></i>天气</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/09/18/%E4%BD%BF%E7%94%A8-https/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 https
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-18 14:04:38" itemprop="dateCreated datePublished" datetime="2020-09-18T14:04:38+00:00">2020-09-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-09-19 09:20:41" itemprop="dateModified" datetime="2020-09-19T09:20:41+00:00">2020-09-19</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了 https 的用途、原理以及在实际项目中的部署使用。</p>
+<h3 id="什么是-https"><a class="markdownIt-Anchor" href="#什么是-https"></a> 什么是 HTTPS</h3>
+<p>超文本传输安全协议（<strong>H</strong>yper<strong>T</strong>ext <strong>T</strong>ransfer <strong>P</strong>rotocol <strong>S</strong>ecure ，缩写：HTTPS）是一种通过计算机网络进行安全通信的传输协议，HTTPS 使用 HTTP 进行通信，但增加了 SSL/TLS 来加密数据包。HTTPS 开发的目的是提供网站服务器的身份认证，保护交换资料的隐私与完整性。</p>
+<p>简单来说 HTTPS 是一种网络传输协议，HTTPS = HTTP + SSL/TLS 。</p>
+<a id="more"></a>
+<h3 id="为什么要用-https"><a class="markdownIt-Anchor" href="#为什么要用-https"></a> 为什么要用 HTTPS</h3>
+<p>HTTPS 的主要作用是在不安全的网络上传建一个安全信道，在使用适当的加密包和服务器证书可被验证且可被信任，对窃听和中间人攻击提供合理的防护。</p>
+<p>使用 HTTPS 的好处包括：</p>
+<ul>
+<li>保证数据传输安全，通过传输加密和身份认证防止流量劫持，保证数据完整</li>
+<li>增加用户信任度，在浏览器中访问 https 的网站会提示网站安全</li>
+<li>提升网站排名，相对于 HTTP 网站，使用 HTTPS 加密的网站在搜索引擎结果排名会更高</li>
+</ul>
+<h3 id="与-http-对比"><a class="markdownIt-Anchor" href="#与-http-对比"></a> 与 HTTP 对比</h3>
+<p>HTTPS 与 HTTP 的主要不同点：</p>
+<table>
+<thead>
+<tr>
+<th>不同项</th>
+<th>HTTP</th>
+<th>HTTPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安全性</td>
+<td>明文传输，安全性低</td>
+<td>加密传输，数据安全</td>
+</tr>
+<tr>
+<td>复杂性</td>
+<td>低</td>
+<td>需要使用 SSL 证书，部署相对复杂</td>
+</tr>
+<tr>
+<td>标准端口</td>
+<td>80</td>
+<td>443</td>
+</tr>
+<tr>
+<td>协议层</td>
+<td>基于应用层</td>
+<td>基于传输层</td>
+</tr>
+<tr>
+<td>浏览器</td>
+<td>提示不安全</td>
+<td>有绿色的安全锁，提示安全</td>
+</tr>
+</tbody>
+</table>
+<h3 id="https-原理"><a class="markdownIt-Anchor" href="#https-原理"></a> HTTPS 原理</h3>
+<h4 id="工作流程"><a class="markdownIt-Anchor" href="#工作流程"></a> 工作流程</h4>
+<p>HTTPS 工作流程如下图所示：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/https_work_flow.jpg" alt="" /></p>
+<h4 id="证书验证"><a class="markdownIt-Anchor" href="#证书验证"></a> 证书验证</h4>
+<p>使用 HTTPS 需要到第三方证书颁发机构（Certificate Authority）申请证书，证书颁发机构通过验证相关信息，如公钥、组织信息、域名等信息，通过验证后才会签发认证文件——证书。</p>
+<p>证书中包含的信息有：</p>
+<ul>
+<li>证书颁发机构CA</li>
+<li>证书的有效期</li>
+<li>公钥</li>
+<li>证书所有者</li>
+<li>签名</li>
+<li>…</li>
+</ul>
+<p>客户端发送请求给服务端获取到证书后，会对证书信息进行校验，判断证书是否来源于内置的受信任的证书颁发机构，如果找不到将会提示证书不被信任。</p>
+<p>如果来自于受信任机构，浏览器从操作系统中取出颁发证书机构的公钥，对证书里的签名进行解密，浏览器使用相同的 hash 算法计算出服务器发来的证书的hash值，将这个计算的hash值与证书中签名做对比，如果一致说明服务器发来的证书合法，未被冒充。</p>
+<p>通过验证后，浏览器从证书中取出公钥，用于后续的加密。</p>
+<h4 id="数据加密传输"><a class="markdownIt-Anchor" href="#数据加密传输"></a> 数据加密传输</h4>
+<p>通过证书验证后，浏览器从证书中取得服务器公钥；</p>
+<p>浏览器使用公钥加密随机密码，并将加密后的随机密码传输到服务器；</p>
+<p>服务器使用私钥解密获得随机密码；</p>
+<p>双方把这个随机密码作为对称加密的密钥，对后续的数据进行加密传输。</p>
+<h3 id="使用-https"><a class="markdownIt-Anchor" href="#使用-https"></a> 使用 HTTPS</h3>
+<h4 id="本地开发使用"><a class="markdownIt-Anchor" href="#本地开发使用"></a> 本地开发使用</h4>
+<p>本地开发时需要使用 HTTPS 时，建议使用 openssl 自己颁发证书，然后将其添加到浏览器的受信任证书列表中。</p>
+<h4 id="实际项目使用"><a class="markdownIt-Anchor" href="#实际项目使用"></a> 实际项目使用</h4>
+<p>在实际项目中，我们需要到证书颁发机构申请证书。</p>
+<p>国内 SSL 供应商：</p>
+<ul>
+<li>腾讯云：<a href="https://cloud.tencent.com/product/ssl" target="_blank" rel="noopener">https://cloud.tencent.com/product/ssl</a></li>
+<li>阿里云：<a href="https://www.aliyun.com/product/security/markets/aliyun/product/cas" target="_blank" rel="noopener">https://www.aliyun.com/product/security/markets/aliyun/product/cas</a></li>
+</ul>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>HTTPS原理看了很多，这个是最清晰的：<a href="http://www.easemob.com/news/3706" target="_blank" rel="noopener">http://www.easemob.com/news/3706</a></li>
+<li>深入理解HTTPS工作原理：<a href="https://segmentfault.com/a/1190000018992153" target="_blank" rel="noopener">https://segmentfault.com/a/1190000018992153</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag"># 网络</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"># 服务器</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/12/docker-%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86/" rel="prev" title="docker 仓库管理">
+      <i class="fa fa-chevron-left"></i> docker 仓库管理
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是-https"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#为什么要用-https"><span class="nav-number">3.</span> <span class="nav-text"> 为什么要用 HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#与-http-对比"><span class="nav-number">4.</span> <span class="nav-text"> 与 HTTP 对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https-原理"><span class="nav-number">5.</span> <span class="nav-text"> HTTPS 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#工作流程"><span class="nav-number">5.1.</span> <span class="nav-text"> 工作流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#证书验证"><span class="nav-number">5.2.</span> <span class="nav-text"> 证书验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#数据加密传输"><span class="nav-number">5.3.</span> <span class="nav-text"> 数据加密传输</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-https"><span class="nav-number">6.</span> <span class="nav-text"> 使用 HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#本地开发使用"><span class="nav-number">6.1.</span> <span class="nav-text"> 本地开发使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实际项目使用"><span class="nav-number">6.2.</span> <span class="nav-text"> 实际项目使用</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">8.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="This_Wei"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">71</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">77</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.bootcdn.net/ajax/libs/mermaid/8.7.0/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
