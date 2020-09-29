@@ -13,7 +13,7 @@ date: 2020-09-18 14:04:38
 
 这篇文章介绍了 https 的用途、原理以及在实际项目中的部署使用。
 
-
+![](http://blog-images.qiniu.wqf31415.xyz/https.jpg)
 
 ### 什么是 HTTPS
 
@@ -96,16 +96,24 @@ HTTPS 工作流程如下图所示：
 
 本地开发时需要使用 HTTPS 时，建议使用 openssl 自己颁发证书，然后将其添加到浏览器的受信任证书列表中。
 
+> OpenSSL: <https://www.openssl.org> 
+
 
 
 #### 实际项目使用
 
-在实际项目中，我们需要到证书颁发机构申请证书。
+在实际项目中，我们需要到证书颁发机构申请证书，需要付费，有些平台首年可以免费使用，如阿里云的 `DigiCert` 品牌的 `单域名型` 证书，腾讯云、七牛云、新浪云的 `TrustAsia` 品牌的 `单域名型` 证书。
 
 国内 SSL 供应商：
 
 - 腾讯云：<https://cloud.tencent.com/product/ssl> 
 - 阿里云：<https://www.aliyun.com/product/security/markets/aliyun/product/cas> 
+- 七牛云：<https://portal.qiniu.com/certificate/ssl> 
+- 新浪云：<https://ssl.sinacloud.com/> 
+
+免费 SSL 供应商：
+
+- Let's Encrypt：<https://letsencrypt.org/zh-cn/> 
 
 
 
