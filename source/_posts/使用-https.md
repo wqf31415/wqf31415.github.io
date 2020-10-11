@@ -92,15 +92,15 @@ HTTPS 工作流程如下图所示：
 
 ### 使用 HTTPS
 
-#### 本地开发使用
+#### 本地开发
 
-本地开发时需要使用 HTTPS 时，建议使用 openssl 自己颁发证书，然后将其添加到浏览器的受信任证书列表中。
+本地开发调试中需要使用 HTTPS 时，建议使用 openssl 自己颁发证书，然后将其添加到浏览器的受信任证书列表中。
 
 > OpenSSL: <https://www.openssl.org> 
 
 
 
-#### 实际项目使用
+#### 实际项目
 
 在实际项目中，我们需要到证书颁发机构申请证书，需要付费，有些平台首年可以免费使用，如阿里云的 `DigiCert` 品牌的 `单域名型` 证书，腾讯云、七牛云、新浪云的 `TrustAsia` 品牌的 `单域名型` 证书。
 
@@ -115,14 +115,54 @@ HTTPS 工作流程如下图所示：
 
 - Let's Encrypt：<https://letsencrypt.org/zh-cn/> 
 
+下面介绍使用 Let's Encrypt 生成证书的方法。
+
+- 下载并安装 certbot：<https://certbot.eff.org/> ，Let's Encrypt 使用 certbot 客户端来获取、安装和更新证书，所以首先需要根据使用的服务器操作系统下载安装 certbot 客户端，如我的 Windows 服务器需要下载安装包进行安装，安装完成后可以运行 `certbot --help` 命令查看帮助信息。
+- 执行生成证书的命令：如果能够关闭网站服务，可以先关闭网站服务(因为需要使用 80 端口)，执行命令 `certbot certonly --standalone` ；如果需要保持网站服务在 80 端口上运行，执行命令 `certbot certonly --webroot` 。
+
+#### 部署 HTTPS
+
+##### Tomcat
+
+
+
+##### Nginx
+
+获得证书后，修改 nginx 配置，配置内容如下：
+
+```
+# 为了节约篇幅省略了其他不相关配置
+http{
+    server {
+        listen       443 ssl;
+        server_name  www.wqf31415.xyz; # 网站域名
+
+        ssl_certificate      C:\\server\\nginx-1.13.12\\ssl\\certificate.crt; # 证书配置
+        ssl_certificate_key  C:\\server\\nginx-1.13.12\\ssl\\www.wqf31415.xyz.key; # 私钥
+
+        ssl_session_cache    shared:SSL:1m;
+        ssl_session_timeout  5m;
+
+        ssl_ciphers  HIGH:!aNULL:!MD5;
+        ssl_prefer_server_ciphers  on;
+
+        location / {
+                     proxy_pass http://127.0.0.1:8080/blog/;
+              }
+    }
+}
+```
+
 
 
 ### 参考资料
 
 - HTTPS原理看了很多，这个是最清晰的：<http://www.easemob.com/news/3706> 
 - 深入理解HTTPS工作原理：<https://segmentfault.com/a/1190000018992153> 
+- 使用 Let's Encrypt（Certbot） 配置 HTTPS：<https://www.cnblogs.com/ly-radiata/articles/6119374.html> 
 
 
 
 ### 总结
 
+使用 https 能够让网站信息传输更加安全，让用户使用的更加放心，建议有能力的网站都使用 https。使用 https 将导致一些部署的麻烦，但其实也不算很困难，还需要考虑的是购买商业证书需要支付的高昂费用。
