@@ -28,7 +28,7 @@
 <meta property="og:description" content="概述 这篇文章介绍了微服务的概念、微服务的优缺点以及 java 中常见的微服务架构。  什么是微服务 微服务（Microservice）是将一个大而全的服务按照一定的规则拆分成多个小的服务，每个小的服务可以独立运行并负责一部分职责，这些独立的小的服务即为微服务。每个微服务可以独立开发、部署，可以使用不同的技术、编程语言实现，提高了开发的灵活性。">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2020-09-12T20:27:48.000Z">
-<meta property="article:modified_time" content="2020-10-14T14:13:03.625Z">
+<meta property="article:modified_time" content="2020-10-14T14:31:02.952Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="微服务">
 <meta name="twitter:card" content="summary">
@@ -212,7 +212,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-10-14 14:13:03" itemprop="dateModified" datetime="2020-10-14T14:13:03+00:00">2020-10-14</time>
+                <time title="修改时间：2020-10-14 14:31:02" itemprop="dateModified" datetime="2020-10-14T14:31:02+00:00">2020-10-14</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -272,12 +272,19 @@
 <h4 id="微服务架构的组件"><a class="markdownIt-Anchor" href="#微服务架构的组件"></a> 微服务架构的组件</h4>
 <h5 id="服务注册中心"><a class="markdownIt-Anchor" href="#服务注册中心"></a> 服务注册中心</h5>
 <p>系统中所有服务都需要在注册中心注册服务，服务提供方在注册时将自己的服务信息写入注册中心，服务调用方通过注册中心查找需要的服务信息。</p>
+<p>常用的微服务注册中心有：Spring Cloud Eureka、Apache Zookeeper、Consul、Nacos 等</p>
 <h5 id="服务网关"><a class="markdownIt-Anchor" href="#服务网关"></a> 服务网关</h5>
 <p>服务网关又称 API 网关，是服务调用的唯一入口，可以在这里实现用户鉴权、动态路由、灰度发布、负载限流等功能。</p>
+<p>常见技术：Spring Cloud Zuul、Spring Reactor 等</p>
 <h5 id="负载均衡"><a class="markdownIt-Anchor" href="#负载均衡"></a> 负载均衡</h5>
 <p>调用服务时，负载均衡负责将服务调用请求发送到合适的服务提供方。</p>
+<p>常见技术：Spring Cloud Ribbon、Dubbo 等</p>
 <h5 id="配置中心"><a class="markdownIt-Anchor" href="#配置中心"></a> 配置中心</h5>
 <p>将本地化的配置信息注册到配置中心，实现程序包在开发、测试、生产环境的无差别行，方便程序迁移。</p>
+<p>常见技术：Spring Cloud Config、Nacos</p>
+<h5 id="服务容错"><a class="markdownIt-Anchor" href="#服务容错"></a> 服务容错</h5>
+<p>通过断路器（或称为熔断器）等机制保证服务调用发生异常时能够快速返回结果，避免大量的同步等待。</p>
+<p>常见技术：Hystrix</p>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
 <ul>
 <li>黑马程序员. 微服务架构基础</li>
@@ -367,7 +374,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是微服务"><span class="nav-number">2.</span> <span class="nav-text"> 什么是微服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的起因"><span class="nav-number">3.</span> <span class="nav-text"> 微服务的起因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务与传统服务"><span class="nav-number">4.</span> <span class="nav-text"> 微服务与传统服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的优势"><span class="nav-number">5.</span> <span class="nav-text"> 微服务的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的劣势"><span class="nav-number">6.</span> <span class="nav-text"> 微服务的劣势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务架构"><span class="nav-number">7.</span> <span class="nav-text"> 微服务架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#微服务架构的组件"><span class="nav-number">7.1.</span> <span class="nav-text"> 微服务架构的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#服务注册中心"><span class="nav-number">7.1.1.</span> <span class="nav-text"> 服务注册中心</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#服务网关"><span class="nav-number">7.1.2.</span> <span class="nav-text"> 服务网关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#负载均衡"><span class="nav-number">7.1.3.</span> <span class="nav-text"> 负载均衡</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置中心"><span class="nav-number">7.1.4.</span> <span class="nav-text"> 配置中心</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是微服务"><span class="nav-number">2.</span> <span class="nav-text"> 什么是微服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的起因"><span class="nav-number">3.</span> <span class="nav-text"> 微服务的起因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务与传统服务"><span class="nav-number">4.</span> <span class="nav-text"> 微服务与传统服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的优势"><span class="nav-number">5.</span> <span class="nav-text"> 微服务的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的劣势"><span class="nav-number">6.</span> <span class="nav-text"> 微服务的劣势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务架构"><span class="nav-number">7.</span> <span class="nav-text"> 微服务架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#微服务架构的组件"><span class="nav-number">7.1.</span> <span class="nav-text"> 微服务架构的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#服务注册中心"><span class="nav-number">7.1.1.</span> <span class="nav-text"> 服务注册中心</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#服务网关"><span class="nav-number">7.1.2.</span> <span class="nav-text"> 服务网关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#负载均衡"><span class="nav-number">7.1.3.</span> <span class="nav-text"> 负载均衡</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置中心"><span class="nav-number">7.1.4.</span> <span class="nav-text"> 配置中心</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#服务容错"><span class="nav-number">7.1.5.</span> <span class="nav-text"> 服务容错</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
