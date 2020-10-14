@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 4.2.1">
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="概述 这篇文章介绍了微服务的概念、微服务的优缺点以及 java 中常见的微服务架构。  什么是微服务 微服务（Microservice）是将一个大而全的服务按照一定的规则拆分成多个小的服务，每个小的服务可以独立运行并负责一部分职责，这些独立的小的服务即为微服务。每个微服务可以独立开发、部署，可以使用不同的技术、编程语言实现，提高了开发的灵活性。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识微服务">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了微服务的概念、微服务的优缺点以及 java 中常见的微服务架构。  什么是微服务 微服务（Microservice）是将一个大而全的服务按照一定的规则拆分成多个小的服务，每个小的服务可以独立运行并负责一部分职责，这些独立的小的服务即为微服务。每个微服务可以独立开发、部署，可以使用不同的技术、编程语言实现，提高了开发的灵活性。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2020-09-12T20:27:48.000Z">
+<meta property="article:modified_time" content="2020-10-14T14:13:03.625Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="微服务">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="http://blog.wqf31415.xyz/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>认识微服务 | This_Wei</title>
+  
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?a9ae05f60f2381461fd768206baffe20";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">This_Wei</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+        <li class="menu-item menu-item-commonweal">
+
+    <a href="/404/" rel="section"><i class="fa fa-heartbeat fa-fw"></i>公益 404</a>
+
+  </li>
+        <li class="menu-item menu-item-weather">
+
+    <a href="/weather/" rel="section"><i class="snowflake-o fa-fw"></i>天气</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          认识微服务
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-12 20:27:48" itemprop="dateCreated datePublished" datetime="2020-09-12T20:27:48+00:00">2020-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-10-14 14:13:03" itemprop="dateModified" datetime="2020-10-14T14:13:03+00:00">2020-10-14</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了微服务的概念、微服务的优缺点以及 java 中常见的微服务架构。</p>
+<h3 id="什么是微服务"><a class="markdownIt-Anchor" href="#什么是微服务"></a> 什么是微服务</h3>
+<p>微服务（Microservice）是将一个大而全的服务按照一定的规则拆分成多个小的服务，每个小的服务可以独立运行并负责一部分职责，这些独立的小的服务即为微服务。每个微服务可以独立开发、部署，可以使用不同的技术、编程语言实现，提高了开发的灵活性。</p>
+<a id="more"></a>
+<h3 id="微服务的起因"><a class="markdownIt-Anchor" href="#微服务的起因"></a> 微服务的起因</h3>
+<p>随着互联网技术的发展，传统的单体应用架构已经无法满足生产需求了，微服务随之产生。微服务在传统软件应用架构基础上，将系统业务按功能拆分成更加细粒度的服务，每个服务都是一个独立的应用，它们对外提供公共的 API，独立承担对外服务的职责。</p>
+<h3 id="微服务与传统服务"><a class="markdownIt-Anchor" href="#微服务与传统服务"></a> 微服务与传统服务</h3>
+<p>在传统单体应用架构中，通常使用模块化设计，程序编码完成后将会被打包部署为一个具体的应用。单体应用易于开发、调试和部署，非常适合一些小规模的应用。传统单体应用也存在一些问题，如：</p>
+<ul>
+<li>随着应用复杂度增加，更新、维护变得困难</li>
+<li>难以扩展，只能重复部署多个完整应用来扩展</li>
+<li>影响开发效率，一个大的应用启动时间会更长</li>
+<li>可靠性低，系统中某个模块出问题可能导致整个应用崩溃</li>
+<li>不利于技术更新，单体应用开发时只能选择统一的技术栈进行开发，更新时所有模块都需要同步更新</li>
+</ul>
+<h3 id="微服务的优势"><a class="markdownIt-Anchor" href="#微服务的优势"></a> 微服务的优势</h3>
+<p>微服务相对于传统单体服务，通过将整体服务划分为多个独立的小规模服务，具有如下优势：</p>
+<ul>
+<li><strong>复杂度可控</strong>，划分出的微服务复杂度降低，开发和维护起来更加容易</li>
+<li><strong>独立部署</strong>，微服务中的每一个服务都可以单独部署，当某个服务发生变化时只需要单独修改这一个服务，编译并部署它，而不需要修改整个应用</li>
+<li><strong>技术选型更灵活</strong>，微服务架构中，每个服务可以根据需要选择合适的实现技术，更新升级时也更容易</li>
+<li><strong>易于容错</strong>，传统单体服务中出现的故障可能会在进程内扩散，导致整个服务不可用。而微服务中的故障将会隔离在当前服务中，还能通过重试、平稳退化等机制增加容错能力</li>
+<li><strong>易于扩展</strong>，微服务架构中可以根据业务需要对特定服务进行横向扩展</li>
+<li><strong>功能特定</strong>，每个服务专注特定的功能，开发人员也可以完全专注于这一特定功能进行开发，对于大团队来说可以进一步提高开发效率</li>
+</ul>
+<h3 id="微服务的劣势"><a class="markdownIt-Anchor" href="#微服务的劣势"></a> 微服务的劣势</h3>
+<p>微服务架构也有一些问题，如：</p>
+<ul>
+<li>分布式系统的复杂性，微服务架构拆分系统后，开发人员需要处理分布式系统带来的复杂性，如分布式系统的测试、通信、事物、协调服务调用等</li>
+<li>部署与维护工作量，微服务应用对维护人员提出了更高的技术要求，维护多个服务也增加了维护工作量，尤其是使用不同技术栈开发的微服务</li>
+</ul>
+<h3 id="微服务架构"><a class="markdownIt-Anchor" href="#微服务架构"></a> 微服务架构</h3>
+<p>微服务架构适合未来有一定的扩展复杂度，且有很大用户增量预期的应用，在初期可以按需要的功能开发，后续根据需要扩展。也适合那些规模较大、业务复杂度较高，且需要长期跟进的项目。</p>
+<h4 id="微服务架构的组件"><a class="markdownIt-Anchor" href="#微服务架构的组件"></a> 微服务架构的组件</h4>
+<h5 id="服务注册中心"><a class="markdownIt-Anchor" href="#服务注册中心"></a> 服务注册中心</h5>
+<p>系统中所有服务都需要在注册中心注册服务，服务提供方在注册时将自己的服务信息写入注册中心，服务调用方通过注册中心查找需要的服务信息。</p>
+<h5 id="服务网关"><a class="markdownIt-Anchor" href="#服务网关"></a> 服务网关</h5>
+<p>服务网关又称 API 网关，是服务调用的唯一入口，可以在这里实现用户鉴权、动态路由、灰度发布、负载限流等功能。</p>
+<h5 id="负载均衡"><a class="markdownIt-Anchor" href="#负载均衡"></a> 负载均衡</h5>
+<p>调用服务时，负载均衡负责将服务调用请求发送到合适的服务提供方。</p>
+<h5 id="配置中心"><a class="markdownIt-Anchor" href="#配置中心"></a> 配置中心</h5>
+<p>将本地化的配置信息注册到配置中心，实现程序包在开发、测试、生产环境的无差别行，方便程序迁移。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>黑马程序员. 微服务架构基础</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>我们必须认识到，微服务是互联网发展的必然产物，它的出现解决了传统单体应用的一些问题，但我们也正确的认识它，认识到微服务架构不一定适合所有场景，微服务架构适合的是复杂的大型的项目，更适合较大的开发团队。对于一些小型的项目，小型的团队，还是可以使用传统单体架构，既方便开发又方便部署，维护起来也更轻松。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" rel="tag"># 微服务</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2020/09/12/docker-%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86/" rel="prev" title="docker 仓库管理">
+      <i class="fa fa-chevron-left"></i> docker 仓库管理
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2020/09/18/%E4%BD%BF%E7%94%A8-https/" rel="next" title="使用 https">
+      使用 https <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是微服务"><span class="nav-number">2.</span> <span class="nav-text"> 什么是微服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的起因"><span class="nav-number">3.</span> <span class="nav-text"> 微服务的起因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务与传统服务"><span class="nav-number">4.</span> <span class="nav-text"> 微服务与传统服务</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的优势"><span class="nav-number">5.</span> <span class="nav-text"> 微服务的优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务的劣势"><span class="nav-number">6.</span> <span class="nav-text"> 微服务的劣势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#微服务架构"><span class="nav-number">7.</span> <span class="nav-text"> 微服务架构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#微服务架构的组件"><span class="nav-number">7.1.</span> <span class="nav-text"> 微服务架构的组件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#服务注册中心"><span class="nav-number">7.1.1.</span> <span class="nav-text"> 服务注册中心</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#服务网关"><span class="nav-number">7.1.2.</span> <span class="nav-text"> 服务网关</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#负载均衡"><span class="nav-number">7.1.3.</span> <span class="nav-text"> 负载均衡</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#配置中心"><span class="nav-number">7.1.4.</span> <span class="nav-text"> 配置中心</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">8.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">9.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="This_Wei"
+      src="/uploads/avatar.jpg">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">78</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener" target="_blank"><i class="weibo fa-fw"></i>Weibo</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener" target="_blank"><i class="envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" style="display: inline-block;"><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/muse.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+<script src="/js/bookmark.js"></script>
+
+
+
+
+  
+  <script>
+    (function(){
+      var canonicalURL, curProtocol;
+      //Get the <link> tag
+      var x=document.getElementsByTagName("link");
+		//Find the last canonical URL
+		if(x.length > 0){
+			for (i=0;i<x.length;i++){
+				if(x[i].rel.toLowerCase() == 'canonical' && x[i].href){
+					canonicalURL=x[i].href;
+				}
+			}
+		}
+    //Get protocol
+	    if (!canonicalURL){
+	    	curProtocol = window.location.protocol.split(':')[0];
+	    }
+	    else{
+	    	curProtocol = canonicalURL.split(':')[0];
+	    }
+      //Get current URL if the canonical URL does not exist
+	    if (!canonicalURL) canonicalURL = window.location.href;
+	    //Assign script content. Replace current URL with the canonical URL
+      !function(){var e=/([http|https]:\/\/[a-zA-Z0-9\_\.]+\.baidu\.com)/gi,r=canonicalURL,t=document.referrer;if(!e.test(r)){var n=(String(curProtocol).toLowerCase() === 'https')?"https://sp0.baidu.com/9_Q4simg2RQJ8t7jm9iCKT-xh_/s.gif":"//api.share.baidu.com/s.gif";t?(n+="?r="+encodeURIComponent(document.referrer),r&&(n+="&l="+r)):r&&(n+="?l="+r);var i=new Image;i.src=n}}(window);})();
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+if (document.querySelectorAll('pre.mermaid').length) {
+  NexT.utils.getScript('//cdn.bootcdn.net/ajax/libs/mermaid/8.7.0/mermaid.min.js', () => {
+    mermaid.initialize({
+      theme    : 'forest',
+      logLevel : 3,
+      flowchart: { curve     : 'linear' },
+      gantt    : { axisFormat: '%m/%d/%Y' },
+      sequence : { actorMargin: 50 }
+    });
+  }, window.mermaid);
+}
+</script>
+
+
+  
+
+  
+
+</body>
+</html>
