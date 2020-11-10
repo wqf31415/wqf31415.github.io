@@ -97,6 +97,8 @@ HTTPS 工作流程如下图所示：
 本地开发调试中需要使用 HTTPS 时，建议使用 openssl 自己颁发证书，然后将其添加到浏览器的受信任证书列表中。
 
 > OpenSSL: <https://www.openssl.org> 
+>
+> OpenSSL 是一个开源的软件库包，其中包含了密码算法、常用密钥、证书封装管理功能及实现 ssl 协议，主要有三个主要功能部分：SSL 协议库 libssl、应用程序命令工具以及密码算法库 libcrypto。
 
 
 
@@ -123,6 +125,25 @@ HTTPS 工作流程如下图所示：
 #### 部署 HTTPS
 
 ##### Tomcat
+
+以下示例配置本地 Tomcat 使用 https：
+
+- 使用 jdk 中自带的 keytool 工具生成 `tomcat.keystore` 
+
+  ```bash
+  keytool -genkey -alias tomcat -keyalg RSA -keystore tomcat.keystore
+  ```
+
+- 修改 Tomcat 配置中的 `server.xml` 
+
+  ```xml
+  <Connector port="8443" protocol="HTTP/1.1" SSLEnabled="true"
+             maxThreads="150" scheme="https" secure="true"
+             clientAuth="false" keystoreFile="conf/ssl/tomcat.keystore"
+             keystorePass='wqf123456' sslProtocol="TLS" />
+  ```
+
+- 访问：<https://localhost:8443> 
 
 
 
@@ -153,6 +174,18 @@ http{
 }
 ```
 
+nginx 配置 http 自动跳转 https：
+
+```
+http{
+	server {
+       listen       80;
+       server_name  www.wqf31415.xyz;
+	   return 301 https://$host$request_uri;
+    }
+}
+```
+
 
 
 ### 参考资料
@@ -160,6 +193,8 @@ http{
 - HTTPS原理看了很多，这个是最清晰的：<http://www.easemob.com/news/3706> 
 - 深入理解HTTPS工作原理：<https://segmentfault.com/a/1190000018992153> 
 - 使用 Let's Encrypt（Certbot） 配置 HTTPS：<https://www.cnblogs.com/ly-radiata/articles/6119374.html> 
+- OpenSSL简介: <https://blog.csdn.net/naioonai/article/details/80984032> 
+- 两步配置Tomcat+Openssl的https单向认证: <https://www.jianshu.com/p/dd3f02e784e1> 
 
 
 
