@@ -129,14 +129,20 @@ public class SampleController {
 
 #### 使用 IDEA 中提供的 Spring Initilizr 创建
 - 点击 Create New Project ，选择 **Spring Initilizr**，点击 **Next**
+  
+  > 初始化服务地址可以换成阿里的：https://start.aliyun.com/ 
+  >
+  > 使用阿里的创建 springboot 项目时的选项和官方的不太一样，创建的项目也略有不同，不过用起来同样方便。
+  
   ![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_02.png "选择 Spring Initilizr")
+  
+- 选择java版本、创建方式、打包方式、填写项目信息，点击 **Next** 
 
-- 选择java版本、创建方式、打包方式、填写项目信息，点击 **Next**
   ![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_03.png "选择java版本，填入项目信息")
 
 - 选择需要的依赖，这里列出了所有可能需要的库，根据需要进行选择，选择完成后点击 **Next**，现在只是创建简单的java web项目体验，所以我们只选择 **Web** 依赖，点击 **Next**
   ![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_04.png "选择需要的依赖")
-
+  
 - 填写项目名称及存储路径，点击 **Finish** 完成项目创建
   ![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_05.png "填写项目名称及存储路径")
 
