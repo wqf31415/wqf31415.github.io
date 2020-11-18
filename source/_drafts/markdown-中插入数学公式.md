@@ -10,6 +10,8 @@ categories:
 
 ### 概述
 
+这篇文件介绍了 LaTex 的概念以及如何在 markdown 文档中插入数学公式。
+
 
 
 ### 什么是 LaTex
