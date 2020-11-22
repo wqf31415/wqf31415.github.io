@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -295,7 +295,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -325,6 +325,92 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/09/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/" class="post-title-link" itemprop="url">微服务之服务发现</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-12 20:27:48" itemprop="dateCreated datePublished" datetime="2020-09-12T20:27:48+00:00">2020-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>在微服务架构中，服务发现可以说是最为核心和基础的模块，这个模块主要用于实现各个微服务实例的自动化注册和发现。这篇文章介绍了微服务架构中的服务发现技术，介绍了服务发现的概念与用法。</p>
+<h3 id="什么是服务发现"><a class="markdownIt-Anchor" href="#什么是服务发现"></a> 什么是服务发现</h3>
+<p>服务发现组件可以看作为一个服务中介，让服务提供者（生产者）在此进行服务注册，并为微服务调用者（消费者）提供服务信息。</p>
+<p>以生活中的例子来类比，在美团上有跑腿服务，小明闲置在家，于是去注册了一个账号，为人提供跑腿服务，此时小华需要人帮忙跑腿办点事，于是去美团上看，找到了小明，最终小明为小华提供了跑腿服务。在这个事件中，美团平台就扮演了服务发现角色，小明扮演服务提供方为人提供服务，小华作为服务调用者。如果有很多人注册提供跑腿服务，那消费者就可以拿到一个服务列表，可以从中选择一个服务。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/server-discovery.png" alt="" /></p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -379,7 +465,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -464,7 +550,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -550,7 +636,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -634,7 +720,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -719,7 +805,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -810,7 +896,7 @@ C --- G((G))</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -892,7 +978,7 @@ C --- G((G))</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
+                <time title="修改时间：2020-11-22 09:16:46" itemprop="dateModified" datetime="2020-11-22T09:16:46+00:00">2020-11-22</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -927,90 +1013,6 @@ A-->B & C-->D</pre>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/08/13/markdown-%E4%B8%AD%E6%8F%92%E5%85%A5-mermaid-%E5%9B%BE/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/08/11/SpringBoot-AOP/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/11/SpringBoot-AOP/" class="post-title-link" itemprop="url">SpringBoot AOP</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-11 19:29:16" itemprop="dateCreated datePublished" datetime="2020-08-11T19:29:16+00:00">2020-08-11</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2020-11-20 08:03:04" itemprop="dateModified" datetime="2020-11-20T08:03:04+00:00">2020-11-20</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>IOC 和 AOP 是 spring 的两大特性，这篇文章介绍了如何在 springboot 项目中使用 aop 特性。</p>
-<h3 id="aop"><a class="markdownIt-Anchor" href="#aop"></a> AOP</h3>
-<p>AOP，即 Aspect Oriented Programming，面向切面编程，通过预编译方式和运行期间动态代理实现程序功能的统一维护的一种技术。AOP 技术将业务逻辑进行横切，在其中加入统一的逻辑处理，这样做的好处是将与业务逻辑无关的代码独立出来，对业务逻辑代码没有侵入性。AOP 技术被广泛用在程序中的权限控制、日志记录、性能统计、安全控制、事务处理、异常处理等方面。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/11/SpringBoot-AOP/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1101,7 +1103,7 @@ A-->B & C-->D</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">72</span>
+          <span class="site-state-item-count">73</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
