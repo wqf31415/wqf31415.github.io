@@ -1170,7 +1170,7 @@ JPQL 中提供了一些内嵌的函数，可以处理字符串、计算和日期
 
 以上的查询方法使用的查询语句都是固定的，使用起来有时会不灵活，在 Spring Data JPA 中可以使用 Specification 接口实现动态 sql 查询。
 
-要使用 Specification 就需要让 Repository 接口继承 `JpaSpecificationExecutor<T>` 接口，这个接口指定的泛型类型是当前 Repository 对应的实体类型。如：
+使用 Specification 需要让 Repository 接口继承 `JpaSpecificationExecutor<T>` 接口，这个接口需要指定的泛型类型是当前 Repository 对应的实体类型。如：
 
 ``````java
 public interface StudentRepository extends JpaRepository<Student,Long>,JpaSpecificationExecutor<Student> {
@@ -1178,7 +1178,7 @@ public interface StudentRepository extends JpaRepository<Student,Long>,JpaSpecif
 }
 ``````
 
-查看 Specification 接口源码，发现其中有 5 个查询方法，有查单条记录的，有查列表的，可以分页、排序，但其中都有一个 Specification 类型的参数：
+查看 Specification 接口源码，发现其中有 5 个查询方法，有查单条记录的，查列表的，可以分页、排序，所有方法都接收一个 Specification 类型的参数：
 
 ``````java
 package org.springframework.data.jpa.repository;
@@ -1245,14 +1245,19 @@ public interface JpaSpecificationExecutor<T> {
 }
 ``````
 
-Specification 是一个接口，我们需要自己创建实现类，在下例中为了演示方便，直接创建的匿名类。在这个接口中有 3 个参数，`Root<T>` 指定查询的实体类型，`CriteriaQuery<?>` 定义高级查询功能，**CriteriaBuilder** 用于创建标准查询、联合查询、表达式、条件、排序。
+Specification 是一个接口，我们需要自己创建实现类，在下例中为了演示方便，直接创建的匿名类。在这个接口中有 3 个参数：
+
+- `Root<T>` 指定查询的实体类型，
+- `CriteriaQuery<?>` 定义高级查询功能，
+- `CriteriaBuilder` 用于创建标准查询、联合查询、表达式、条件、排序。
+
 示例：
 
 ``````java
 @Service
 @Transactional
 public class StudentService {
-    public List<Student> findStudentByCondition(String nameLike, Integer startAge, Integer endAge, ZonedDateTime startBirthday,ZonedDateTime endBirthday,Long classId){
+    public List<Student> findStudentByCondition(String nameLike, Integer startAge, Integer endAge, ZonedDateTime startBirthday, ZonedDateTime endBirthday, Long classId){
         Specification<Student> spec = new Specification<Student>() {
             @Override
             public Predicate toPredicate(Root<Student> root, CriteriaQuery<?> query, CriteriaBuilder criteriaBuilder) {
@@ -1527,7 +1532,7 @@ public class Author{
 
 ``````java
 // 存入 MySql 的数据实体仓库
-interface UserRepository extends JpaRepository<User,Long>{
+interface UserRepository extends JpaRepository<User, Long>{
 }
 
 // 存入 ES 的数据实体仓库
