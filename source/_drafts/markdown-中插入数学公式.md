@@ -8,6 +8,8 @@ categories:
 - 技术
 ---
 
+<link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"  rel="stylesheet"/>
+
 ### 概述
 
 这篇文件介绍了 LaTex 的概念以及如何在 markdown 文档中插入数学公式。
@@ -16,7 +18,12 @@ categories:
 
 ### 什么是 LaTex
 
+$$
+F(w)=\mathcal{F[f(t)]}={\int^{\infty}_{-\infty}}f(t)e^{-iwt}dt
+$$
 
+
+> 
 
 <!-- more -->
 
@@ -36,7 +43,7 @@ categories:
 
 ### 参考资料
 
-
+- 使用Markdown输出LaTex数学公式: <https://segmentfault.com/a/1190000018527239> 
 
 ### 总结
 

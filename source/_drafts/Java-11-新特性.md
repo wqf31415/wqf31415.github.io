@@ -80,6 +80,8 @@ JDK 11 中，`java.util.Collection` 接口中新增了 `default <T> T[] toArray(
 
 ##### 加强型密钥库机制
 
+引入了新的安全属性 `jceks.key.serialFilter` ，配置这个过滤器后，JCEKS KeyStore 在反序列化 SecretKeyEntry 中的加密 Key 对象时使用。
+
 
 
 ##### 实现 TLS 1.3 
@@ -127,6 +129,19 @@ java 11 中可以直接用 `java` 运行 `.java` 源码文件，如使用命令 
 
 > Oracle JDK 11 下载地址：<https://www.oracle.com/java/technologies/javase-jdk11-downloads.html> 
 
+> 我的电脑（Windows）上原本装了 JDK8，用于日常开发，现在想体验 JDK11，可以装两个版本 JDK ，通过修改环境变量中的 *JAVA_HOME* 来切换使用。
+
+下载 Oracle 官方的 JDK 11 压缩包后，将其解压到本地，然后配置环境变量，添加一个环境变量 `JDK11_HOME` ，值为解压的 JDK11 根目录，如：`G:\develop\Java\jdk-11.0.9` ，将 `JAVA_HOME` 配置改成 `%JDK11_HOME%` ，这样就可以使用新安装的 JDK 11 了。同时可以给原本的 JDK 8 也创建一个环境变量 `JDK8_HOME` ，值为 JDK 8 的根目录。需要切换时，只需要将 `JAVA_HOME` 的值修改为 `%JDK8_HOME%` 即可。
+
+完成配置后，打开命令行执行 `java -version` 查看 JAVA 版本信息：
+
+```
+PS C:\Users\Administrator\Desktop> java -version
+java version "11.0.9" 2020-10-20 LTS
+Java(TM) SE Runtime Environment 18.9 (build 11.0.9+7-LTS)
+Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.9+7-LTS, mixed mode)
+```
+
 
 
 ### 参考资料
@@ -145,5 +160,5 @@ java 11 中可以直接用 `java` 运行 `.java` 源码文件，如使用命令 
 
 ### 总结
 
-从官方网站看到的 JDK11 新特性，在学习 JDK 新特性的同时，也认识到了很多新技术，扩展了知识面。所以，想要获得成长和保持自身的不断更新状态，不妨花点时间关注一下正在用的技术栈的新特性，这些新特性的引入是开发团队深思熟虑才引入的，从这些更新点又能扩展到当前流行且稳定的新技术，这样不仅学到了新技术，又能扩展见识，真不错。
+从官方网站看到的 JDK11 新特性，在学习 JDK 新特性的同时，也认识到了很多新技术，扩展了知识面。所以，想要获得成长和保持自身的不断更新状态，不妨花点时间关注一下正在用的技术栈的新特性，这些新特性的引入是开发团队深思熟虑才引入的，从这些更新点又能扩展到当前流行且稳定的新技术，这样不仅学到了新技术，又能扩展见识，是个不错的提升方式。
 
