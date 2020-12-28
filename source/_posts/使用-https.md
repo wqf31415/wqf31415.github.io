@@ -90,6 +90,25 @@ HTTPS 工作流程如下图所示：
 
 
 
+### SSL 证书供应商
+
+国内 SSL 供应商：
+
+- 腾讯云：<https://cloud.tencent.com/product/ssl> 
+- 阿里云：<https://www.aliyun.com/product/security/markets/aliyun/product/cas> 
+- 七牛云：<https://portal.qiniu.com/certificate/ssl> 
+- 新浪云：<https://ssl.sinacloud.com/> 
+
+免费 SSL 供应商：
+
+- Let's Encrypt：<https://letsencrypt.org/zh-cn/> 
+
+- 数安时代: <https://certmall.trustauth.cn/Free> 
+
+  > 这个实际也是使用 Let's Encrypt 提供的免费证书，不过他们提供了可视化页面和操作指导，使用起来非常方便。
+
+
+
 ### 使用 HTTPS
 
 #### 本地开发
@@ -105,17 +124,6 @@ HTTPS 工作流程如下图所示：
 #### 实际项目
 
 在实际项目中，我们需要到证书颁发机构申请证书，需要付费，有些平台首年可以免费使用，如阿里云的 `DigiCert` 品牌的 `单域名型` 证书，腾讯云、七牛云、新浪云的 `TrustAsia` 品牌的 `单域名型` 证书。
-
-国内 SSL 供应商：
-
-- 腾讯云：<https://cloud.tencent.com/product/ssl> 
-- 阿里云：<https://www.aliyun.com/product/security/markets/aliyun/product/cas> 
-- 七牛云：<https://portal.qiniu.com/certificate/ssl> 
-- 新浪云：<https://ssl.sinacloud.com/> 
-
-免费 SSL 供应商：
-
-- Let's Encrypt：<https://letsencrypt.org/zh-cn/> 
 
 下面介绍使用 Let's Encrypt 生成证书的方法。
 
@@ -200,4 +208,4 @@ http{
 
 ### 总结
 
-使用 https 能够让网站信息传输更加安全，让用户使用的更加放心，建议有能力的网站都使用 https。使用 https 将导致一些部署的麻烦，但其实也不算很困难，还需要考虑的是购买商业证书需要支付的高昂费用。
+虽然项目使用 https 部署会有点麻烦，购买商业证书还需要考虑费用支出，但使用了 https 能够让网站信息传输更加安全，让用户使用的更加放心，所以建议有能力的网站考虑使用 https。
