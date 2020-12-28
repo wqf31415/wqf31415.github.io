@@ -367,6 +367,16 @@ public class HelloService {
 ### 部署及运行打包的项目
 - jar 包：使用 `java -jar <文件名>` 命令运行 jar 包，在target目录下打开命令行工具，执行指令 `java -jar demo-0.0.1-SNAPSHOT.jar`，项目可以正常启动，并可以在浏览器中访问，说明打包正确。
 
+  > 在使用 jar 包运行时，可以在运行命令中指定运行参数，如
+  >
+  > 设定字符编码为 UTF-8，防止乱码：
+  >
+  > `java -jar -Dfile.encoding=utf-8 demo.jar` 
+  >
+  > 设置运行的端口：
+  >
+  > `java -jar --server.port=8081 demo.jar` 
+
 - war 包：使用 Tomcat 运行 war 包，如果在 pom.xml 中设置的打包方式是 war，使用maven打包出来的将是一个 war 包，我们可以把它放到 Tomcat 的 webapps 路径下，启动 Tomcat 时将会自动解压并运行项目，在浏览器中测试是否能够正常访问。
 
 
