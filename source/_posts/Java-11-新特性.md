@@ -14,6 +14,10 @@ Oracle JDK 每半年发布一个版本，现在最新的已经到 15 了，不�
 
 
 
+![](http://blog-images.qiniu.wqf31415.xyz/coffee-java11.jpg)
+
+
+
 <!-- more -->
 
 
@@ -48,19 +52,35 @@ JDK 11 中，`java.util.Collection` 接口中新增了 `default <T> T[] toArray(
 
 #### 嵌套访问控制
 
+直接支持嵌套成员内部的私有访问，而不再通过自动生成的桥接方法 `access$100` 。新的嵌套 API 用于验证并允许嵌套成员内的私有反射访问。
 
+Class 类中新增了用于嵌套类的操作方法：`getNestHost()` 方法用于获得嵌套的最外层类，`getNestMembers()` 方法用于获取所有与当前类有嵌套关系的类（包括外层的和内层的），`isNestmateOf(Class c)` 方法用于判断与其他类是否有嵌套关系。
 
 
 
 #### 编译线程动态分配
 
+新增了命令行参数 `-XX:+UseDynamicNumberOfCompilerThreads` 用于动态控制编译线程。在分层编译模式下自动开启，虚拟机不考虑用内存大小和编译请求数量，直接在开始时使用系统多个 CPU 开启大量编译线程，这将导致过多的线程处于闲置状态，无意义的消耗内存资源。针对这个问题，新的实现方式只为每个类型开启一个编译线程，然后动态处理后续线程的分配。
+
 
 
 #### 可扩展低延迟的垃圾收集器
 
+JDK 11 中的 ZGC 是一个可扩展低延迟的垃圾收集器，ZGC 的优势包括：
+
+- 暂停时间不超过 10ms；
+- 暂停时间不增加堆和 live-set 大小；
+- 可处理几百字节到超过兆字节的堆。
+
+ZGC 是并发垃圾收集器，意味着在线程执行同时就能完成繁重的挖掘工作（标记、压缩、引用处理、清除字符串表等），这极大程度上降低了对应用响应时间的影响。
+
+ZGC 当前还是一个实验特性，如需启用需要组合使用参数 `-XX:+UnlockExperimentalVMOptions` 和 `-XX:+UseZG` 。
+
 
 
 #### 低开销堆分析
+
+提供了一种低开销的对分配取样方式，可用 JVMTI  访问。
 
 
 
@@ -151,10 +171,12 @@ Java HotSpot(TM) 64-Bit Server VM 18.9 (build 11.0.9+7-LTS, mixed mode)
 - java10 var关键字浅析: <https://blog.csdn.net/guohengcook/article/details/81266957> 
 - java11新特性HttpClient: <https://www.cnblogs.com/liubaihui/p/12125461.html> 
 - java11新特性---Nest-Based Access Control(嵌套访问控制): <https://blog.csdn.net/weixin_34013044/article/details/91466789> 
+- Java 11 –基于嵌套的访问控制: <https://blog.csdn.net/cyan20115/article/details/106541001> 
 - 成娟娟, 郑昉昱, 林璟锵, 董建阔. Curve25519椭圆曲线算法GPU高速实现[J]. 信息网络安全, 2017, 17(9): 122-127.
 - Curve25519加密算法: <https://blog.csdn.net/u011897062/article/details/89633193> 
 - Curve25519加密解密: <https://blog.csdn.net/marko_zheng/article/details/100882231> 
 - 浅谈 TLS 1.3: <http://blog.itpub.net/31559359/viewspace-2286705/> 
+- Java黑科技之源：JVMTI完全解读:<https://blog.csdn.net/duqi_2009/article/details/94518203> 
 
 
 

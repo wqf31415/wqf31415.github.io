@@ -12,7 +12,7 @@ categories:
 
 ### 概述
 
-这篇文件介绍了 LaTex 的概念以及如何在 markdown 文档中插入数学公式。
+这篇文件介绍了 LaTex 的概念与应用，介绍了如何在 markdown 文档中插入数学公式与在 hexo 博客中显示 LaTex 公式。
 
 
 
