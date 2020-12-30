@@ -527,8 +527,19 @@ PARTITION future VALUES less than MAXVALUE ENGINE = InnoDB
 );
   ``````
 
+- 如果想要合并两个分区，可以使用如下 SQL：
+
+  ```sql
+  -- 合并最后一个分区和 future 分区
+  ALTER TABLE battery_state REORGANIZE PARTITION p202112,future INTO (PARTITION future VALUES less than MAXVALUE);
+  -- 合并两个分区,注意最后面使用函数获得时间戳的地方要用括号括起来，否则会报错
+  ALTER TABLE battery_state REORGANIZE PARTITION p202102,p202104 INTO (PARTITION p202104 VALUES less than (UNIX_TIMESTAMP('2021-05-01')));
+  ```
+
+  
 
 ### 参考资料
+
 - 数据库分区及分区优点: [https://blog.csdn.net/liukun321/article/details/45823795](https://blog.csdn.net/liukun321/article/details/45823795)
 
 - Automatic Partition Maintenance in MySQL and MariaDB: Part 3: [http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/](http://www.geoffmontee.com/automatic-partition-maintenance-in-mysql-and-mariadb-part-3/)
