@@ -178,6 +178,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2021/01/06/markdown-%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/06/markdown-%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" class="post-title-link" itemprop="url">markdown 中插入数学公式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-01-06 15:10:08 / 修改时间：07:22:04" itemprop="dateCreated datePublished" datetime="2021-01-06T15:10:08+00:00">2021-01-06</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"  rel="stylesheet"/>
+<h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文件介绍了 LaTex 的概念与应用，介绍了如何在 markdown 文档中插入数学公式与在 hexo 博客中显示 LaTex 公式。</p>
+<h3 id="什么是-latex"><a class="markdownIt-Anchor" href="#什么是-latex"></a> 什么是 LaTex</h3>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math><semantics><mrow><mi>F</mi><mo stretchy="false">(</mo><mi>w</mi><mo stretchy="false">)</mo><mo>=</mo><mrow><mi mathvariant="script">F</mi><mo stretchy="false">[</mo><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><mo stretchy="false">]</mo></mrow><mo>=</mo><msubsup><mo>∫</mo><mrow><mo>−</mo><mi mathvariant="normal">∞</mi></mrow><mi mathvariant="normal">∞</mi></msubsup><mi>f</mi><mo stretchy="false">(</mo><mi>t</mi><mo stretchy="false">)</mo><msup><mi>e</mi><mrow><mo>−</mo><mi>i</mi><mi>w</mi><mi>t</mi></mrow></msup><mi>d</mi><mi>t</mi></mrow><annotation encoding="application/x-tex">F(w)=\mathcal{F[f(t)]}={\int^{\infty}_{-\infty}}f(t)e^{-iwt}dt
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathdefault" style="margin-right:0.13889em;">F</span><span class="mopen">(</span><span class="mord mathdefault" style="margin-right:0.02691em;">w</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord"><span class="mord mathcal" style="margin-right:0.09931em;">F</span><span class="mopen">[</span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mclose">]</span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.384573em;vertical-align:-0.970281em;"></span><span class="mord"><span class="mop"><span class="mop op-symbol large-op" style="margin-right:0.44445em;position:relative;top:-0.0011249999999999316em;">∫</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.414292em;"><span style="top:-1.7880500000000001em;margin-left:-0.44445em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mtight">∞</span></span></span></span><span style="top:-3.8129000000000004em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">∞</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.970281em;"><span></span></span></span></span></span></span></span><span class="mord mathdefault" style="margin-right:0.10764em;">f</span><span class="mopen">(</span><span class="mord mathdefault">t</span><span class="mclose">)</span><span class="mord"><span class="mord mathdefault">e</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.874664em;"><span style="top:-3.113em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">−</span><span class="mord mathdefault mtight">i</span><span class="mord mathdefault mtight" style="margin-right:0.02691em;">w</span><span class="mord mathdefault mtight">t</span></span></span></span></span></span></span></span></span><span class="mord mathdefault">d</span><span class="mord mathdefault">t</span></span></span></span></span></p>
+<blockquote>
+<p>LaTex，读作 <code>/ˈlɑːtɛk/</code> ，写作 L<sup>A</sup>T<sub>E</sub>X，是基于 T<sub>E</sub>X 的一种排版系统，由美国计算机科学家莱斯利·兰伯特在20世纪80年代初期开发，利用这种格式系统的处理，即使用户没有排版和程序设计的知识也可以充分发挥由TEX所提供的强大功能，不必一一亲自去设计或校对，能在几天，甚至几小时内生成很多具有书籍质量的印刷品。对于生成复杂表格和数学公式，这一点表现得尤为突出。因此它非常适用于生成高印刷质量的科技和数学、物理文档。这个系统同样适用于生成从简单的信件到完整书籍的所有其他种类的文档。——维基百科。</p>
+</blockquote>
+<p>在 markdown 中也可以使用 LaTex 插入数学公式，如上展示的傅里叶变换公式。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/06/markdown-%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2021/01/04/%E8%A7%82%E3%80%8A%E6%A3%8B%E9%AD%82%E3%80%8B%E6%9C%89%E6%84%9F%E2%80%94%E2%80%94%E8%AE%A4%E8%AF%86%E5%A4%8D%E7%9B%98/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -201,10 +285,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-01-04 22:02:48 / 修改时间：14:17:22" itemprop="dateCreated datePublished" datetime="2021-01-04T22:02:48+00:00">2021-01-04</time>
+              <time title="创建时间：2021-01-04 22:02:48" itemprop="dateCreated datePublished" datetime="2021-01-04T22:02:48+00:00">2021-01-04</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -290,7 +380,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -372,7 +462,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -427,6 +517,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">认识微服务</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-09-12 20:27:48" itemprop="dateCreated datePublished" datetime="2020-09-12T20:27:48+00:00">2020-09-12</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了微服务的概念、微服务的优缺点以及 java 中常见的微服务架构。</p>
+<h3 id="什么是微服务"><a class="markdownIt-Anchor" href="#什么是微服务"></a> 什么是微服务</h3>
+<p>微服务（Microservice）是将一个大而全的服务按照一定的规则拆分成多个小的服务，每个小的服务可以独立运行并负责一部分职责，这些独立的小的服务即为微服务。每个微服务可以独立开发、部署，可以使用不同的技术、编程语言实现，提高了开发的灵活性。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/09/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -458,7 +632,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -513,90 +687,6 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/" class="post-title-link" itemprop="url">认识微服务</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-09-12 20:27:48" itemprop="dateCreated datePublished" datetime="2020-09-12T20:27:48+00:00">2020-09-12</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BE%AE%E6%9C%8D%E5%8A%A1/" itemprop="url" rel="index"><span itemprop="name">微服务</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>这篇文章介绍了微服务的概念、微服务的优缺点以及 java 中常见的微服务架构。</p>
-<h3 id="什么是微服务"><a class="markdownIt-Anchor" href="#什么是微服务"></a> 什么是微服务</h3>
-<p>微服务（Microservice）是将一个大而全的服务按照一定的规则拆分成多个小的服务，每个小的服务可以独立运行并负责一部分职责，这些独立的小的服务即为微服务。每个微服务可以独立开发、部署，可以使用不同的技术、编程语言实现，提高了开发的灵活性。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/09/12/%E8%AE%A4%E8%AF%86%E5%BE%AE%E6%9C%8D%E5%8A%A1/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/09/12/docker-%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -628,7 +718,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -713,7 +803,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -799,7 +889,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -883,7 +973,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
+                <time title="修改时间：2021-01-06 07:22:04" itemprop="dateModified" datetime="2021-01-06T07:22:04+00:00">2021-01-06</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -914,97 +1004,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/08/24/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">闭包表存储树状结构数据</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-18 09:18:44" itemprop="dateCreated datePublished" datetime="2020-08-18T09:18:44+00:00">2020-08-18</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-04 14:17:22" itemprop="dateModified" datetime="2021-01-04T14:17:22+00:00">2021-01-04</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>在开发中很容易遇到树状结构的数据，比如公司管理层级、比如目录结构等等，当用关系型数据库存储这些数据时，如何设计存储结构以提高查询效率就是一个问题了。这篇文章介绍了使用闭包（Closure Table）表来存储树状结构数据。</p>
-<pre class="mermaid">graph TD;
-A((A)) --- B((B))
-A --- C((C))
-B --- D((D))
-B --- E((E))
-B --- F((F))
-C --- G((G))</pre>
-<h3 id="闭包表"><a class="markdownIt-Anchor" href="#闭包表"></a> 闭包表</h3>
-<p>闭包表是一张记录树中所有节点以及节点之间的距离的关系表。使用闭包表能够轻松的查询结点的所有子孙节点、父节点，能够按距离查询。但闭包表的使用也会带来一些问题，因为闭包表中记录了所有节点之间的关系，所以在新增节点或修改节点时，都需要变更闭包表，要小心的维护这个表才能保证查询结果正确。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1095,7 +1094,7 @@ C --- G((G))</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">76</span>
+          <span class="site-state-item-count">77</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
