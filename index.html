@@ -178,6 +178,89 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2021/01/10/esp8266-%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/01/10/esp8266-%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF/" class="post-title-link" itemprop="url">esp8266 远程点灯</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-01-10 17:39:00 / 修改时间：14:03:13" itemprop="dateCreated datePublished" datetime="2021-01-10T17:39:00+00:00">2021-01-10</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Arduino/" itemprop="url" rel="index"><span itemprop="name">Arduino</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>ESP8266 自带 wifi 功能，很容易实现远程控制，这篇文章介绍了使用 esp8266 实现远程控制 LED 灯开关。</p>
+<h3 id="远程控制原理"><a class="markdownIt-Anchor" href="#远程控制原理"></a> 远程控制原理</h3>
+<p>方式一：</p>
+<p>使用 ESP8266 以 AP (Access Point)模式开启 wifi 服务，客户端连接 wifi 访问指定的地址，以此发送控制命令。</p>
+<p>方式二：</p>
+<p>ESP8266 以 STA (Station)模式连接网络，然后开启 http 服务，用户访问服务地址发送命令。</p>
+<p>方式三：</p>
+<p>ESP8266 以 STA (Station)模式连接网络，使用某种通信协议（如UDP、TCP、MQTT等）与远端服务器保持连接，客户调用远端服务器提供的方法给 ESP8266 发送控制命令。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/01/10/esp8266-%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2021/01/09/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%BA%94%E7%94%A8ics/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -201,10 +284,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-01-09 22:01:32 / 修改时间：14:18:53" itemprop="dateCreated datePublished" datetime="2021-01-09T22:01:32+00:00">2021-01-09</time>
+              <time title="创建时间：2021-01-09 22:01:32" itemprop="dateCreated datePublished" datetime="2021-01-09T22:01:32+00:00">2021-01-09</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -290,7 +379,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -380,7 +469,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -467,7 +556,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -549,7 +638,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -635,7 +724,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -721,7 +810,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -805,7 +894,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -890,7 +979,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
+                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -922,90 +1011,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/09/09/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/" class="post-title-link" itemprop="url">使用 GitHub Action 自动部署项目</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-08-27 08:56:53" itemprop="dateCreated datePublished" datetime="2020-08-27T08:56:53+00:00">2020-08-27</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-09 14:18:53" itemprop="dateModified" datetime="2021-01-09T14:18:53+00:00">2021-01-09</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>这篇文章简单的介绍了使用 GitHub 的 Action 工具自动部署项目。</p>
-<h3 id="什么是-github-action"><a class="markdownIt-Anchor" href="#什么是-github-action"></a> 什么是 GitHub Action</h3>
-<p>Action 是 GitHub 提供了的持续集成工具，可以自动对 GitHub 仓库上构建、测试、封装、发行或部署项目。提供了自定义自动化软件设计开发工作流的功能，还可以发现、创建和共享操作，并可以将操作合并到完全自定义的工作流程中。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1096,7 +1101,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">78</span>
+          <span class="site-state-item-count">79</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
