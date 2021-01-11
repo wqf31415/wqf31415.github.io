@@ -178,6 +178,106 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/06/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/06/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/" class="post-title-link" itemprop="url">设计模式之访问者模式</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-06-17 15:13:32" itemprop="dateCreated datePublished" datetime="2020-06-17T15:13:32+00:00">2020-06-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了访问者模式（Visitor Pattern）的概念、优缺点、使用场景以及代码示例。</p>
+<h3 id="访问者模式的定义"><a class="markdownIt-Anchor" href="#访问者模式的定义"></a> 访问者模式的定义</h3>
+<blockquote>
+<p>Represent an operation to be performed on the elements of an object structure. Visitor lets you define a new operation without changing the classes of the elements on which it operates.</p>
+<p>封装一些作用于某种数据结构中的各元素的操作，它可以在不改变数据结构的前提下定义作用于用于这些元素的新的操作。</p>
+<p>——《设计模式之禅》</p>
+</blockquote>
+<p>访问者模式的目的是将数据结构和操作分离，用于数据结构固定，操作易变的场景，例如给不同的主管生成不同的报表。</p>
+<h3 id="uml-类图"><a class="markdownIt-Anchor" href="#uml-类图"></a> UML 类图</h3>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/visitor-pattern.png" alt="" /></p>
+<blockquote>
+<ul>
+<li><strong>Visitor</strong> 抽象访问者，接口或抽象类，申明访问者可以访问哪些元素，通过 <code>visit</code> 方法的参数来定义哪些对象可以访问。</li>
+<li><strong>ConcreateVisitor</strong> 具体访问者，定义了对每个元素访问时的具体操作</li>
+<li><strong>Element</strong> 抽象元素，接口或抽象类，申明接受哪一类访问者，通过 <code>accept</code> 方法参数来指定。</li>
+<li><strong>ConcreateElement</strong> 具体元素，实现 <code>accept</code> 方法，通常都是 <code>visitor.visit(this)</code></li>
+<li><strong>ObjectStruture</strong> 结构对象，元素产生者，一般容纳在多个不同类、不同接口的容器，如 List、Set、Map 等。</li>
+</ul>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/06/17/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%AE%BF%E9%97%AE%E8%80%85%E6%A8%A1%E5%BC%8F/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/06/03/%E7%BD%91%E7%BB%9C%E6%8A%93%E5%8C%85%E5%88%86%E6%9E%90%E5%B7%A5%E5%85%B7%E2%80%94%E2%80%94Wireshark/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -209,7 +309,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -296,7 +396,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -382,7 +482,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -467,7 +567,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -558,7 +658,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -644,7 +744,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -730,7 +830,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -816,7 +916,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -906,7 +1006,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
+                <time title="修改时间：2021-01-11 14:22:01" itemprop="dateModified" datetime="2021-01-11T14:22:01+00:00">2021-01-11</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -937,88 +1037,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/03/29/%E8%AE%A4%E8%AF%86%E5%9F%BA%E9%87%91/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/03/24/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/03/24/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" class="post-title-link" itemprop="url">面向对象的设计原则</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-03-24 11:03:45" itemprop="dateCreated datePublished" datetime="2020-03-24T11:03:45+00:00">2020-03-24</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-10 14:03:13" itemprop="dateModified" datetime="2021-01-10T14:03:13+00:00">2021-01-10</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>这篇文章讲解了面向对象的设计原则。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/03/24/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1109,7 +1127,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">79</span>
+          <span class="site-state-item-count">80</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
