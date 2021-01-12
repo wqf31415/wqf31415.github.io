@@ -24,6 +24,8 @@ date: 2021-01-11 16:07:43
 
 ### 代码实现
 
+下述代码示例使用 springboot 实现了 websocket 服务端，提供了访问页面，打开多个页面即可实现简易聊天室功能。
+
 #### 后端
 
 ##### 创建 springboot 工程并引入依赖
@@ -212,7 +214,15 @@ public class MsgResponseDTO {
 
 #### 前端
 
-index.html:
+在项目 `main` 目录下创建 `webapp` 目录，新建 `index.html` 文件，引入了 SockJS 和 STOMP 库，使用 STOMP 与服务端建立 websocket 通信。
+
+> 代码说明：
+>
+> `connect()` 函数使用 SockJS 和 stomp.js 打开与后端 `/websocket/tracker` 的连接，这个地址是后端开启的等待连接的地址。连接成功后，订阅 `/topic/response` 消息通道，服务端将把消息推送到这个地址。收到后台消息推送后，前端将消息展示出来。
+>
+> `sendMsg()` 函数用于给后端发送消息，将数据发送到 `/app/msg` ，这个地址分为两部分，`/app` 是配置类中配置的前缀，`/msg` 是消息处理类上标明的映射地址（由后端的 `MyMessageCtrl.sendMsg()` 方法接收处理）。
+
+`src/main/webapp/index.html` :
 
 ```html
 <!DOCTYPE html>
@@ -320,7 +330,11 @@ index.html:
 </html>
 ```
 
+#### 测试
 
+启动项目后，使用浏览器访问项目地址，这里的是 <http://localhost:8989> 。点击 `连接` 按钮，与后端建立连接，然后输入名称与消息内容，点击 `发送` 即可完成消息发送，下方将显示后端推送的消息。可以打开多个页面访问进行测试，这样就形成了一个简易聊天室。
+
+![](http://blog-images.qiniu.wqf31415.xyz/springboot-websocket-demo.png)
 
 ### 参考资料
 
