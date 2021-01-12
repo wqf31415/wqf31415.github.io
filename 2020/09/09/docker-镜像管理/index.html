@@ -30,7 +30,7 @@
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_whale_2.jpg">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_image_container_layer.png">
 <meta property="article:published_time" content="2020-09-09T19:35:40.000Z">
-<meta property="article:modified_time" content="2021-01-12T03:25:28.221Z">
+<meta property="article:modified_time" content="2021-01-12T10:39:25.233Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="工具">
 <meta property="article:tag" content="docker">
@@ -216,7 +216,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-12 03:25:28" itemprop="dateModified" datetime="2021-01-12T03:25:28+00:00">2021-01-12</time>
+                <time title="修改时间：2021-01-12 10:39:25" itemprop="dateModified" datetime="2021-01-12T10:39:25+00:00">2021-01-12</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -489,7 +489,10 @@
 <p>创建触发命令基，由 ONBUILD 创建的命令集在当前 Dockerfile 执行过程中不会触发，当此镜像被其他镜像当作基础镜像使用时，将会触发执行。</p>
 <h5 id="编译镜像"><a class="markdownIt-Anchor" href="#编译镜像"></a> 编译镜像</h5>
 <p>进入 Dockerfile 文件目录，使用 <code>docker build</code> 命令编译 Dockerfile ，通过 <code>-t</code> 选项给镜像指定名字（带版本号）。如：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t image_redis:v1.0</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t image_redis:v1.0 .</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意这个命令要指定编译的路径，最后面的 <code>.</code> 表示当前路径，不能忽略。</p>
+</blockquote>
 <p>编译过程有九步，每一步对应 Dockerfile 的一个关键字，每执行完一步，都会生成一个临时文件层，当所有命令都执行成功后，docker 会记录执行过程中用到的所有文件层，并用一个名字来标记这一组文件层。这一组文件层就是镜像。</p>
 <h5 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h5>
 <ul>
