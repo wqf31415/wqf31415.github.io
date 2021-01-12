@@ -356,8 +356,10 @@ WORKDIR /path/to/workdir
 进入 Dockerfile 文件目录，使用 `docker build` 命令编译 Dockerfile ，通过 `-t` 选项给镜像指定名字（带版本号）。如：
 
 ```bash
-docker build -t image_redis:v1.0
+docker build -t image_redis:v1.0 .
 ```
+
+> 注意这个命令要指定编译的路径，最后面的 `.` 表示当前路径，不能忽略。
 
 编译过程有九步，每一步对应 Dockerfile 的一个关键字，每执行完一步，都会生成一个临时文件层，当所有命令都执行成功后，docker 会记录执行过程中用到的所有文件层，并用一个名字来标记这一组文件层。这一组文件层就是镜像。
 
