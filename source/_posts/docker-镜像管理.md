@@ -187,7 +187,24 @@ docker image pull [OPTIONS] NAME[:TAG|@DIGEST]
 
 #### 通过 Dockerfile 创建
 
-Dockerfile 是一个描述了 docker 镜像编译顺序、编译规则的脚本文件，是一个文本文件。
+Dockerfile 是一个描述了 docker 镜像编译顺序、编译规则的脚本文件，是一个文本文件，跟 Makefile 的概念类似。
+
+##### 示例：
+
+这是一个最简单的 Dockerfile 示例，用来将一个打包好的 springboot 项目 jar 包构建成一个 docker 镜像。
+
+```cmake
+# 使用 openjdk8 镜像，添加 java 环境
+FROM openjdk:8-jre-alpine
+# 将打包后的项目文件添加到镜像中，并改名为 app.jar
+ADD docker-demo-0.0.1-SNAPSHOT.jar app.jar
+# 对外暴露的端口
+EXPOSE 8080
+# 启动时运行的命令
+ENTRYPOINT ["java","-jar","/app.jar"]
+```
+
+
 
 ##### Dockerfile 语法
 
@@ -313,6 +330,13 @@ ENV <key>=<value> <key>=<value> ...
 - `ENTRYPOINT ["executable","param1","param2"]` 官方推荐用法，可以指定执行的二进制程序和参数。
 - `ENTRYPOINT command param1 param2` 命令将使用 `/bin/sh -C` 执行。
 
+> CMD 指令和 ENTRYPOINT 指令都是为镜像指定容器启动后的命令，都可以指定 shell 或 exec 函数调用的方式执行命令，当存在多个 CMD 指令或 ENTRYPOINT 指令时，只有最后一个生效。
+>
+> 他们的差异是：
+>
+> - CMD 指令指定的容器启动时命令可被 docker run 指定的命令覆盖，而 ENTRYPOINT 指令指定的命令不能被覆盖，而是将 docker run 指定的参数当作 ENTRYPOINT 指定命令的参数。
+> - CMD 指令可以为 ENTRYPOINT 指令设置默认参数，而且可以被 docker run 指定的参数覆盖。
+
 
 
 ###### VOLUME
@@ -391,6 +415,7 @@ docker build -t image_redis:v1.0 .
 
 - 李金榜. 循序渐进学Docker
 - 张涛. Docker全攻略
+- Docker学习之Dockerfile:CMD与ENTRYPOINT： <https://blog.csdn.net/wuce_bai/article/details/88997725> 
 
 
 
