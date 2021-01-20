@@ -835,3 +835,4 @@ docker-compose -f docker/app.yml up
 
 通过开源的 maven 插件，能够非常方便的将 springboot 项目打包并制作成镜像，能够方便的使用容器技术来部署项目。尤其是微服务项目，能够方便的开启多个服务来进行测试。
 
+示例项目地址：<https://github.com/wqf31415/docker-demo.git> 
