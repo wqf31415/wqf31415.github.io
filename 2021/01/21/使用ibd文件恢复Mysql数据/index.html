@@ -20,17 +20,24 @@
     var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-<meta property="og:type" content="website">
-<meta property="og:title" content="This_Wei">
-<meta property="og:url" content="http://blog.wqf31415.xyz/categories/js/index.html">
+  <meta name="description" content="概述 这篇文章介绍了使用 ibd 文件还原 MySQL 数据的方法。   ibd 简介 MySQL 中默认使用 InnoDB 存储引擎存储数据，存储数据和索引生成的文件就是以 .ibd 为后缀，利用 ibd 文件可以完成数据迁移与还原。 ibd 文件以页为单位进行管理，默认情况下页大小为 16kb，ibd 文件大小必然是 16k 的整数倍，页结构分为页头（38字节）、页身（16338字节）、页尾">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用ibd文件恢复Mysql数据">
+<meta property="og:url" content="http://blog.wqf31415.xyz/2021/01/21/%E4%BD%BF%E7%94%A8ibd%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8DMysql%E6%95%B0%E6%8D%AE/index.html">
 <meta property="og:site_name" content="This_Wei">
-<meta property="og:description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+<meta property="og:description" content="概述 这篇文章介绍了使用 ibd 文件还原 MySQL 数据的方法。   ibd 简介 MySQL 中默认使用 InnoDB 存储引擎存储数据，存储数据和索引生成的文件就是以 .ibd 为后缀，利用 ibd 文件可以完成数据迁移与还原。 ibd 文件以页为单位进行管理，默认情况下页大小为 16kb，ibd 文件大小必然是 16k 的整数倍，页结构分为页头（38字节）、页身（16338字节）、页尾">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/binary_data.jpg">
+<meta property="article:published_time" content="2021-01-21T23:04:43.000Z">
+<meta property="article:modified_time" content="2021-01-22T15:57:30.700Z">
 <meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="database">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/binary_data.jpg">
 
-<link rel="canonical" href="http://blog.wqf31415.xyz/categories/js/">
+<link rel="canonical" href="http://blog.wqf31415.xyz/2021/01/21/%E4%BD%BF%E7%94%A8ibd%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8DMysql%E6%95%B0%E6%8D%AE/">
 
 
 <script id="page-configurations">
@@ -38,12 +45,12 @@
   CONFIG.page = {
     sidebar: "",
     isHome : false,
-    isPost : false,
+    isPost : true,
     lang   : 'zh-CN'
   };
 </script>
 
-  <title>分类: js | This_Wei</title>
+  <title>使用ibd文件恢复Mysql数据 | This_Wei</title>
   
 
 
@@ -172,51 +179,128 @@
         <div class="content-wrap">
           
 
-          <div class="content category">
+          <div class="content post posts-expand">
             
 
+    
   
   
-  
-  <div class="post-block">
-    <div class="posts-collapse">
-      <div class="collection-title">
-        <h2 class="collection-header">js
-          <small>分类</small>
-        </h2>
-      </div>
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2021/01/21/%E4%BD%BF%E7%94%A8ibd%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8DMysql%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用ibd文件恢复Mysql数据
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-01-21 23:04:43" itemprop="dateCreated datePublished" datetime="2021-01-21T23:04:43+00:00">2021-01-21</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
-    <div class="collection-year">
-      <span class="collection-header">2017</span>
+        <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了使用 ibd 文件还原 MySQL 数据的方法。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/binary_data.jpg" alt="" /></p>
+<h3 id="ibd-简介"><a class="markdownIt-Anchor" href="#ibd-简介"></a> ibd 简介</h3>
+<p>MySQL 中默认使用 InnoDB 存储引擎存储数据，存储数据和索引生成的文件就是以 <code>.ibd</code> 为后缀，利用 ibd 文件可以完成数据迁移与还原。</p>
+<p>ibd 文件以页为单位进行管理，默认情况下页大小为 16kb，ibd 文件大小必然是 16k 的整数倍，页结构分为页头（38字节）、页身（16338字节）、页尾（8字节）。</p>
+<a id="more"></a>
+<h3 id="相关概念"><a class="markdownIt-Anchor" href="#相关概念"></a> 相关概念</h3>
+<p>如果 MySQL 数据库使用的是 InnoDB 引擎，没有开启独立表空间，所有的数据库表信息和元数据都会写入 ibdata 文件，这样时间久了文件会变得很大，影响数据库性能。如果开启了独立表空间，ibdata 文件只会存储一下引擎相关的索引空间，实际数据都会写入独立的 frm 和 ibd 文件里。</p>
+<ul>
+<li>frm 文件：保存了每个表的元数据，包括表结构的定义等，与数据库引擎无关。</li>
+<li>ibd 文件：存放数据和索引的文件（使用 InnoDB 并开启了独立表空间）。</li>
+</ul>
+<h3 id="操作步骤"><a class="markdownIt-Anchor" href="#操作步骤"></a> 操作步骤</h3>
+<h4 id="创建表"><a class="markdownIt-Anchor" href="#创建表"></a> 创建表</h4>
+<p>创建一张与原表结构一致的表，创建数据库后查看数据存储目录，发现有表的 frm 文件。</p>
+<h4 id="删除表空间"><a class="markdownIt-Anchor" href="#删除表空间"></a> 删除表空间</h4>
+<p>删除新建表的表空间，执行命令删除表空间：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> &lt;table_name&gt; DISCARD <span class="keyword">TABLESPACE</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="拷贝-ibd-文件"><a class="markdownIt-Anchor" href="#拷贝-ibd-文件"></a> 拷贝 ibd 文件</h4>
+<p>将包含数据的 ibd 文件拷贝到新创建表的数据目录下。</p>
+<h4 id="导入表空间"><a class="markdownIt-Anchor" href="#导入表空间"></a> 导入表空间</h4>
+<p>执行下述 sql 添加表空间。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">ALTER</span> <span class="keyword">TABLE</span> &lt;table_name&gt; <span class="keyword">IMPORT</span> <span class="keyword">TABLESPACE</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>MySQL InnoDB ibd 文件格式解析: <a href="https://baijiahao.baidu.com/s?id=1651899113311145118" target="_blank" rel="noopener">https://baijiahao.baidu.com/s?id=1651899113311145118</a></li>
+<li>mysql从.ibd文件恢复数据: <a href="https://blog.csdn.net/wearegouest/article/details/79538618" target="_blank" rel="noopener">https://blog.csdn.net/wearegouest/article/details/79538618</a></li>
+<li>MySQL如何利用ibd文件恢复数据: <a href="https://www.sohu.com/a/147397553_733939" target="_blank" rel="noopener">https://www.sohu.com/a/147397553_733939</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>利用 ibd 文件可以将数据从出错的数据库中拯救出来，亦可以用来迁移大量数据，直接拷贝文件比导出数据到文件再导入的效率要高很多。</p>
+
     </div>
 
-  <article itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+    
+    
+    
 
-      <div class="post-meta">
-        <time itemprop="dateCreated"
-              datetime="2017-05-03T13:41:21+00:00"
-              content="2017-05-03">
-          05-03
-        </time>
-      </div>
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/database/" rel="tag"># database</a>
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+          </div>
 
-      <div class="post-title">
-          <a class="post-title-link" href="/2017/05/03/AngularJS-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" itemprop="url">
-            <span itemprop="name">AngularJS 学习笔记1</span>
-          </a>
-      </div>
+        
 
-    </header>
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/01/20/%E4%B8%AD%E5%9B%BD%E8%A1%8C%E6%94%BF%E5%8C%BA%E5%9F%9F%E5%8F%8A%E7%BC%96%E5%8F%B7/" rel="prev" title="中国行政区域及编号">
+      <i class="fa fa-chevron-left"></i> 中国行政区域及编号
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
   </article>
-
-    </div>
-  </div>
   
   
-  
-
   
 
 
@@ -269,6 +353,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#概述"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ibd-简介"><span class="nav-number">2.</span> <span class="nav-text"> ibd 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#相关概念"><span class="nav-number">3.</span> <span class="nav-text"> 相关概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#操作步骤"><span class="nav-number">4.</span> <span class="nav-text"> 操作步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#创建表"><span class="nav-number">4.1.</span> <span class="nav-text"> 创建表</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#删除表空间"><span class="nav-number">4.2.</span> <span class="nav-text"> 删除表空间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#拷贝-ibd-文件"><span class="nav-number">4.3.</span> <span class="nav-text"> 拷贝 ibd 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#导入表空间"><span class="nav-number">4.4.</span> <span class="nav-text"> 导入表空间</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">5.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
