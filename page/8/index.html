@@ -178,6 +178,90 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2018/04/20/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2018/04/20/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" class="post-title-link" itemprop="url">SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2018-04-20 11:14:47" itemprop="dateCreated datePublished" datetime="2018-04-20T11:14:47+00:00">2018-04-20</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+<p>最近在用 springboot 做 web 项目，其中一个实体中使用了 java8 中的 ZonedDateTime 来记录时间，但是前端页面在使用 POST 或 PUT 提交请求，出错了，错误主要提示信息如下：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.validation.BindException: </span><br><span class="line">Failed to convert property value of type 'java.lang.String' to required type 'java.time.ZonedDateTime'</span><br></pre></td></tr></table></figure>
+<p>读过错误提示后知道是在数据验证绑定时，字段的类型转换错误，前端传的是一个字符串格式的时间，格式为：yyyy-MM-dd HH:mm:ss ，后端方法接收的参数是一个对象，交由spring 自动绑定，绑定时发现参数值不是一个 ZonedDateTime 对象，所以报了类型转换错误。因此，解决思路是写一个方法来完成这个字符串格式时间 和 ZonedDateTime 对象的转换。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2018/04/20/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2018/04/07/%E9%87%8D%E8%B5%B0Java%E9%95%BF%E5%BE%81%E8%B7%AF-Java%E6%98%AF%E4%BB%80%E4%B9%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -209,7 +293,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -297,7 +381,7 @@ Java 编写的程序既是编译型的，又是解释型的，程序代码经过
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -466,7 +550,7 @@ Java 编写的程序既是编译型的，又是解释型的，程序代码经过
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -554,7 +638,7 @@ Java 编写的程序既是编译型的，又是解释型的，程序代码经过
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -656,7 +740,7 @@ Java 编写的程序既是编译型的，又是解释型的，程序代码经过
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -743,7 +827,7 @@ Java 编写的程序既是编译型的，又是解释型的，程序代码经过
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -829,7 +913,7 @@ Java 编写的程序既是编译型的，又是解释型的，程序代码经过
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -924,7 +1008,7 @@ Java 编写的程序既是编译型的，又是解释型的，程序代码经过
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1014,7 +1098,7 @@ Java 编写的程序既是编译型的，又是解释型的，程序代码经过
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
+                <time title="修改时间：2021-01-23 09:32:52" itemprop="dateModified" datetime="2021-01-23T09:32:52+00:00">2021-01-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -1058,95 +1142,6 @@ the Connector/J connection property ‘autoReconnect=true’ to avoid this probl
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2017/02/28/%E8%A7%A3%E5%86%B3mysql%E8%BF%9E%E6%8E%A5%E9%9A%94%E5%A4%9C%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2017/02/23/%E5%B0%8F%E7%99%BD%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84Git%E6%93%8D%E4%BD%9C/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2017/02/23/%E5%B0%8F%E7%99%BD%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84Git%E6%93%8D%E4%BD%9C/" class="post-title-link" itemprop="url">小白都能学会的Git操作</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2017-02-23 09:24:09" itemprop="dateCreated datePublished" datetime="2017-02-23T09:24:09+00:00">2017-02-23</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-01-22 15:57:30" itemprop="dateModified" datetime="2021-01-22T15:57:30+00:00">2021-01-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <p>摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/git/git_logo.png" alt="git" title="git" /></p>
-<blockquote>
-<p>官方说明文档：<a href="https://git-scm.com/book/zh/v2" target="_blank" rel="noopener">https://git-scm.com/book/zh/v2</a></p>
-</blockquote>
-<h3 id="1-什么是git"><a class="markdownIt-Anchor" href="#1-什么是git"></a> 1 什么是git？</h3>
-<p>一句话：<strong>git是现今世界上最先进的分布式版本控制工具</strong> 。</p>
-<p>简单点：<strong>git是分布式版本控制工具</strong> 。</p>
-<p>再简单点：<strong>git是版本控制工具</strong> 。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2017/02/23/%E5%B0%8F%E7%99%BD%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84Git%E6%93%8D%E4%BD%9C/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1237,7 +1232,7 @@ the Connector/J connection property ‘autoReconnect=true’ to avoid this probl
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">84</span>
+          <span class="site-state-item-count">85</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
