@@ -50,15 +50,17 @@ json 中的数据值类型包括：
 - 空：`null` 
 - 布尔型：包括 `false` 和 `true` 
 - json 对象：json对象以 `{}` 包含，内容可以是 0 到多个键值对，如 `{"name":"ZhangSan","age":18}`
-- 数组：以 `[]` 包含，数组值可以是字符串、数值、空、布尔型、json对象、数组，可以是其中一类，也可以是它们的组合，每个值用逗号 `，` 分隔 ，如 `["string",123,null,false,{"a":"b"}]` 
+- 数组：以 `[]` 包含，数组值可以是字符串、数值、空、布尔型、json对象、数组，可以是其中一类，也可以是它们的组合，每个值用英文逗号 `,` 分隔 ，如 `["string",123,null,false,{"a":"b"}]` 
 
 
 
 #### 什么是 schema
 
-schema 意为纲要、模式，是对事物结构性特征的描述。json schema 就是用于描述 json 对象结构的工具，可以限定 json 的组成结构、键值类型、可选值等，在生成 json 文档时可以作为指导，也可以用 json schema 来验证 json 结构是否正确。
+schema 意为纲要、模式，是对事物结构性特征的描述。
 
-类似的东西还有 xml 的 DTD（文档类型定义），其作用就是定义合法的 XML 文档构建模块，可以用来验证 xml 文档的结构合法性。
+json schema 就是用于描述 json 对象结构的工具，可以限定 json 的组成结构、键值类型、可选值等，在生成 json 文档时可以作为指导，也可以用 json schema 来验证 json 结构是否正确。
+
+类似的技术还有 xml 的 DTD（文档类型定义），其作用是定义合法的 xml 文档构建模块，可以用来验证 xml 文档的结构合法性。
 
 
 
@@ -66,7 +68,7 @@ schema 意为纲要、模式，是对事物结构性特征的描述。json schem
 
 #### 定义一个 json schema
 
-在 json schema 中的 `type` 关键字用于限定值的类型，如下限定类型为字符串：
+在 json schema 中， `type` 关键字用于限定值的类型，如下限定类型为字符串：
 
 ```json
 {"type":"string"}
@@ -113,7 +115,7 @@ string、number、object、array、boolean、null
 
 ###### 字符串长度（length）
 
-此外，还可以限定字符串的长度，使用 `minLength` 属性设定字符串最小长度，使用 `maxLength` 属性设定字符串最大长度。
+json schema 可以限定字符串的长度，使用 `minLength` 属性设定字符串最小长度，使用 `maxLength` 属性设定字符串最大长度。
 
 ```json
 {
@@ -142,7 +144,7 @@ string、number、object、array、boolean、null
 
 `format` 用于指定字符串的格式化方式，如日期时间的字符串格式化方式 `date-time` 格式化结果为 `2029-04-19T17:01:39+08:00` 。
 
-可选项包括：
+可选项示例：
 
 - 时期和时间格式化：`date-time`、`time` 、`date` 
 
@@ -154,7 +156,7 @@ string、number、object、array、boolean、null
 - json 指针：`json-pointer` 、`relative-json-pointer`
 - Regular 表达式：`regex` 
 
-> 详情参考：<http://json-schema.org/understanding-json-schema/reference/string.html#format> 
+> 更多选项请参考：<http://json-schema.org/understanding-json-schema/reference/string.html#format> 
 
 
 
@@ -182,7 +184,7 @@ string、number、object、array、boolean、null
 
 ###### 倍乘数（multipleOf）
 
-属性 `multipleOf` 属性用来限定数值是指定数的倍乘数，如属性值设定为 `10`，则 `0`，`20`， `120` 可以通过校验，`24` 不能通过校验。
+属性 `multipleOf` 属性用来限定数值是指定数的倍乘数，如属性值设定为 `10`，则 `0`，`20`， `120` 可以通过校验，`24` 不能通过校验，因为不是 10 的倍数。
 
 ```json
 {
@@ -214,7 +216,7 @@ string、number、object、array、boolean、null
 
 ##### 对象 object
 
-类型值 `object` 用来限定值为 json 对象，任何非法的 json 对象或json 数组都不能通过校验。
+类型值 `object` 用来限定值为 json 对象，任何非法的 json 对象或 json 数组都不能通过校验。
 
 ```json
 {"type":"object"}
@@ -738,7 +740,7 @@ http://json-schema.org/draft-04/schema#
 
 json schema 是一个概念，有很多第三方提供的实现，包括各种编程语言的，如 C、C++、Java、JavaScript 等，可以用来校验 json，或生成 json。
 
-> http://json-schema.org/implementations.html
+> 官方推荐的实现：<http://json-schema.org/implementations.html> 
 
 
 
