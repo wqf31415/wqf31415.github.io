@@ -95,6 +95,8 @@ SonarQube 默认界面为英文，可安装中文包，方便使用。
 
 ##### 分析代码
 
+###### 使用令牌分析
+
 创建令牌后，页面会提示分析项目，根据页面提示选择项目构建类型，SonarQube 会给出检测方法。
 
 ![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_maven.png)
@@ -107,6 +109,26 @@ mvn sonar:sonar \
   -Dsonar.host.url=http://localhost:9000 \
   -Dsonar.login=8eb24fc4c59931effa3bb6f44a63f9e3071690b5
 ```
+
+> 这里使用了生成的令牌进行身份验证，这个令牌如需多次使用，要记住，不能再次查看已生成的令牌内容。如果忘记，可以删除令牌重新生成。
+>
+> 参数说明：
+>
+> - `sonar.projectKey` : 项目标识，注意不是显示的项目名，可以在项目页面查看项目信息，里面有项目标识
+> - `sonar.host.url` : SonarQube 的服务地址
+> - `sonar.login` : SonarQube 登陆令牌或登陆用户名
+
+
+
+###### 不使用令牌分析
+
+在不使用令牌进行分析时，可以在执行的命令中指定用户名（`sonar.login`）和密码（`sonar.password`），如：
+
+```bash
+mvn sonar:sonar -Dsonar.projectKey=test-demo -Dsonar.host.url=http://localhost:9000 -Dsonar.login=admin -Dsonar.password=123456
+```
+
+
 
 执行结果：
 
@@ -161,8 +183,7 @@ wrapper.java.command=G:\develop\Java\jdk-11.0.9\bin\java
 ### 参考资料
 
 - 11个实用的代码质量审核和管理工具: <https://baijiahao.baidu.com/s?id=1654313325850883156> 
-
-  
+- 手把手使用SonarQube分析、改善项目代码质量: <https://www.imooc.com/article/291857/> 
 
 ### 总结
 
