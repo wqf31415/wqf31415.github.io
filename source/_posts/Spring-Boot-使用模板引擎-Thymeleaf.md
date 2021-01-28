@@ -10,7 +10,7 @@ categories:
 ---
 
 ### 概述
-在这篇文章中介绍了Thymeleaf 模板引擎，以及在 SpringBoot 项目中使用 Thymeleaf 模板引擎渲染页面。
+在这篇文章中介绍了 Thymeleaf 模板引擎，以及在 SpringBoot 项目中使用 Thymeleaf 模板引擎渲染页面。
 
 ### 什么是模板引擎
 在 MVC 架构中，实行模型(Model)、视图(View)和控制器(Controller)分离，降低代码耦合性，模板引擎就是用来渲染视图展示页面的。
@@ -165,5 +165,38 @@ spring.thymeleaf.cache=false
 
 在使用 InteliJ IDEA 开发时，修改完页码后，可以按 <kbd>Ctrl</kbd> + <kbd>F9</kbd> 快捷键，把项目 Build 一下，然后就可以刷新页面查看效果了。
 
-### 小结
+#### 页面中的 JavaScript 符号错误
 
+当模板页面中使用 JavaScript 脚本时，某些字符将导致解析错误，如 `<` 、 `>` 、`&` 等。例如：
+
+```html
+<script>
+    function test(){
+        for (var i=0; i < 10; i++){
+            console.log(i);
+        }
+    }
+</script>
+```
+
+**解决办法**：
+
+将导致错误的代码用 `/* <![CDATA[ */` 和 `/* ]]> */` 括起来，如下：
+
+```html
+<script>
+    function test(){
+        /* <![CDATA[ */
+        for (var i=0; i < 10; i++){
+            console.log(i);
+        }
+        /* ]]> */
+    }
+</script>
+```
+
+
+
+### 总结
+
+虽然现在项目开发都讲究前后端分离，但模板引擎在某些特定场景下使用还是非常方便，比如生成通知邮件页面、广告页面等。
