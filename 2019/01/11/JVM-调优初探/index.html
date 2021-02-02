@@ -37,7 +37,7 @@
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jvisualvm_monitor.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arthas.png">
 <meta property="article:published_time" content="2019-01-11T09:58:19.000Z">
-<meta property="article:modified_time" content="2021-02-02T04:42:21.048Z">
+<meta property="article:modified_time" content="2021-02-02T10:03:26.781Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="jvm">
@@ -223,7 +223,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-02 04:42:21" itemprop="dateModified" datetime="2021-02-02T04:42:21+00:00">2021-02-02</time>
+                <time title="修改时间：2021-02-02 10:03:26" itemprop="dateModified" datetime="2021-02-02T10:03:26+00:00">2021-02-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -260,13 +260,14 @@
 <li>检查代码发现，应用开启后不断的从消息队列拿数据，生成任务对象放到了一个 LinkedBlockingQueue 中，这个 queue 没有指定容量，使用的是最大容量 Integer.MAX_VALUE ，怀疑是放入了太多的数据，把内存占满了；</li>
 </ol>
 <a id="more"></a>
-<h3 id="使用-jdk-中自带的工具监控-java-进程"><a class="markdownIt-Anchor" href="#使用-jdk-中自带的工具监控-java-进程"></a> 使用 jdk 中自带的工具监控 java 进程</h3>
-<h4 id="jps-查看运行的-java-进程"><a class="markdownIt-Anchor" href="#jps-查看运行的-java-进程"></a> jps - 查看运行的 java 进程</h4>
+<h3 id="jdk-自带的监测工具"><a class="markdownIt-Anchor" href="#jdk-自带的监测工具"></a> JDK 自带的监测工具</h3>
+<p>以下工具是 Oracle JDK 1.8 中自带的一些 JVM 监测和分析工具，在 JDK 目录下的 <code>/bin</code> 目录中就能找到。</p>
+<h4 id="jps"><a class="markdownIt-Anchor" href="#jps"></a> jps</h4>
 <h5 id="功能"><a class="markdownIt-Anchor" href="#功能"></a> 功能</h5>
-<p>全称 JavaVirtual Machine Process Status Tool ，用于查看当前运行的 java 进程，可输出进程号 pid 、名称及参数。</p>
+<p>JAVA 虚拟机程序状态工具，全称 JavaVirtual Machine Process Status Tool ，用于查看当前运行的 java 进程，可输出进程号 pid 、名称及参数。</p>
 <h5 id="用法"><a class="markdownIt-Anchor" href="#用法"></a> 用法</h5>
 <p>直接在命令行执行 <code>jps</code> 命令即可，结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator&gt; jps</span><br><span class="line">12480 JpademoApplication</span><br><span class="line">14272 Launcher</span><br><span class="line">11604 HyiomsApp</span><br><span class="line">11736</span><br><span class="line">6440 RemoteMavenServer</span><br><span class="line">13932 Jps</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator&gt; jps</span><br><span class="line">12480 JpademoApplication</span><br><span class="line">14272 Launcher</span><br><span class="line">11604 MyApp</span><br><span class="line">11736</span><br><span class="line">6440 RemoteMavenServer</span><br><span class="line">13932 Jps</span><br></pre></td></tr></table></figure>
 <p>可选参数：</p>
 <ul>
 <li><code>-help</code> 查看帮助信息</li>
@@ -278,92 +279,97 @@
 <li><code>[&lt;hostid&gt;]</code> 远程调用，查询其它机器上的 java 进程，需要在待查看机器上启动 jstatd 。hostid： <code>[protocol:][[//]hostname][:port][/servername]</code></li>
 </ul>
 <h5 id="jps-原理"><a class="markdownIt-Anchor" href="#jps-原理"></a> jps 原理</h5>
-<p>Java 程序启动后，会在 <code>java.io.tmpdir</code> 指定的目录下生成 <code>hsperfdata_XXX</code> 的文件夹，XXX 为操作系统用户名，里面的文件就是以 java 进程号命名的，通过解析这些文件获取相关的参数信息。<br />
-<code>java.io.tmpdir</code> 在 windows 系统下默认为 <code>C:\Users\Administrator\AppData\Local\Temp\hsperfdata_Administrator</code> ，Linux 下默认为 <code>/tmp/hsperfdata_{userName}/</code> 。<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/jps_hsperfdata_windows.png" alt="" title="Windows 下的 hsperfdata 目录及文件" /></p>
-<h4 id="启动-jstatd-允许远程监控"><a class="markdownIt-Anchor" href="#启动-jstatd-允许远程监控"></a> 启动 jstatd 允许远程监控</h4>
+<p>Java 程序启动后，会在 <code>java.io.tmpdir</code> 指定的目录下生成 <code>hsperfdata_XXX</code> 的文件夹，XXX 为操作系统用户名，里面的文件就是以 java 进程号命名的，通过解析这些文件获取相关的参数信息。</p>
 <blockquote>
-<p>jstatd 是一个基于 RMI (远程方法调用，Remove Method Invocation) 的服务程序，用于监控基于 HotSpot 的 JVM 中资源的创建及销毁，提供了一个接口允许远程的监控工具连接到本地的 JVM 执行命令。</p>
+<p><code>java.io.tmpdir</code> 在 windows 系统下默认为： <code>C:\Users\Administrator\AppData\Local\Temp\hsperfdata_Administrator</code></p>
+<p>Linux 下默认为： <code>/tmp/hsperfdata_{userName}/</code> 。</p>
 </blockquote>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/jps_hsperfdata_windows.png" alt="" title="Windows 下的 hsperfdata 目录及文件" /></p>
+<hr />
+<h4 id="jstatd"><a class="markdownIt-Anchor" href="#jstatd"></a> jstatd</h4>
+<p>jstatd 是一个基于 RMI (远程方法调用，Remove Method Invocation) 的服务程序，用于监控基于 HotSpot 的 JVM 中资源的创建及销毁，为远程监控工具提供接口，让他们能够连接到本地的 JVM 和执行命令。</p>
 <h5 id="操作步骤"><a class="markdownIt-Anchor" href="#操作步骤"></a> 操作步骤</h5>
 <ol>
-<li>创建策略文件 <code>jstatd.all.policy</code> ，文件内容如下：</li>
+<li>创建安全访问策略文件 <code>jstatd.all.policy</code> ，文件内容为：</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grant codebase &quot;file:$&#123;java.home&#125;&#x2F;..&#x2F;lib&#x2F;tools.jar&quot; &#123;</span><br><span class="line">                    permission java.security.AllPermission;</span><br><span class="line">              &#125;;</span><br></pre></td></tr></table></figure>
 <ol start="2">
-<li>运行命令 <code>jstatd -J-Djava.security.policy=jstatd.all.policy</code> 启动 jstatd 。<br />
-参数含义：<br />
-<code>-J</code> 参数是一个公共的参数，如 jps、 jstat 等命令都可以接收这个参数。 由于 jps、 jstat 命令本身也是 Java 应用程序， -J 参数可以为 jps 等命令本身设置 Java 虚拟机参数。<br />
-<code>-Djava.security.policy</code> 指定策略文件<br />
-<code>-Djava.rmi.server.hostname</code> 指定服务器的ip地址（可忽略）<br />
-默认情况下， jstatd 开启在 1099 端口上开启 RMI 服务器。</li>
+<li>
+<p>运行如下命令启动 jstatd 服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstatd -J-Djava.security.policy=jstatd.all.policy</span><br></pre></td></tr></table></figure>
+</li>
 </ol>
-<p>在 Windows 下启动后查看 1099 端口监听情况：</p>
+<blockquote>
+<p>参数含义：</p>
+<ul>
+<li><code>-J</code> 参数是一个公共的参数，如 jps、 jstat 等命令都可以接收这个参数。 由于 jps、 jstat 命令本身也是 Java 应用程序， -J 参数可以为 jps 等命令本身设置 Java 虚拟机参数。</li>
+<li><code>-Djava.security.policy</code> 指定策略文件</li>
+<li><code>-Djava.rmi.server.hostname</code> 指定服务器的 ip 地址（可忽略）<br />
+默认情况下， jstatd 开启在 1099 端口上开启 RMI 服务器。</li>
+</ul>
+</blockquote>
+<p>在 Windows 下启动后查看 1099 端口监听情况，发现进程号为 5984 的程序监听了 1099 端口：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator\Desktop&gt; netstat -ano | findstr 1099</span><br><span class="line">  TCP    0.0.0.0:1099           0.0.0.0:0              LISTENING       5984</span><br><span class="line">  TCP    172.16.19.233:1099     172.16.19.233:64912    ESTABLISHED     5984</span><br><span class="line">  TCP    172.16.19.233:64912    172.16.19.233:1099     ESTABLISHED     5984</span><br><span class="line">  TCP    [::]:1099              [::]:0                 LISTENING       5984</span><br></pre></td></tr></table></figure>
-<p>使用 jps 远程查看 java 进程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop&gt;jps 172.16.19.233</span><br><span class="line">12480 JpademoApplication</span><br><span class="line">5984 Jstatd</span><br><span class="line">11736</span><br><span class="line">22280 HyiomsApp</span><br><span class="line">22300 Launcher</span><br></pre></td></tr></table></figure>
-<h5 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h5>
-<blockquote>
-<p>jvm 性能调优工具之 jps： <a href="https://www.jianshu.com/p/d39b2e208e72" target="_blank" rel="noopener">https://www.jianshu.com/p/d39b2e208e72</a></p>
-<p>Java jstatd详解： <a href="https://www.cnblogs.com/tulianghui/p/5918345.html" target="_blank" rel="noopener">https://www.cnblogs.com/tulianghui/p/5918345.html</a></p>
-<p>java jvm常用命令工具——jstatd命令(Java Statistics Monitoring Daemon)：<a href="https://www.iteye.com/blog/bijian1013-2221434" target="_blank" rel="noopener">https://www.iteye.com/blog/bijian1013-2221434</a></p>
-</blockquote>
+<p>使用 jps 远程查看 java 进程，看到进程号为 5984 的程序是 Jstatd：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop&gt;jps 172.16.19.233</span><br><span class="line">12480 JpademoApplication</span><br><span class="line">5984 Jstatd</span><br><span class="line">11736</span><br><span class="line">22280 MyApp</span><br><span class="line">22300 Launcher</span><br></pre></td></tr></table></figure>
 <hr />
-<h4 id="jmap-查看内存使用情况与生成堆-dump"><a class="markdownIt-Anchor" href="#jmap-查看内存使用情况与生成堆-dump"></a> jmap 查看内存使用情况与生成堆 dump</h4>
-<blockquote>
+<h4 id="jmap"><a class="markdownIt-Anchor" href="#jmap"></a> jmap</h4>
 <p>jmap 可以用来查看内存使用情况，生成 java 程序的 dump 文件，查看对内对象的统计信息，查看类加载器 (ClassLoader) 的信息和 finalizer 队列</p>
-</blockquote>
 <h5 id="使用方法"><a class="markdownIt-Anchor" href="#使用方法"></a> 使用方法</h5>
 <p>命令行执行如下命令，pid 是 java 进程 id，可以通过 <strong>jps</strong> 命令查看获得。</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap &lt;pid&gt;</span><br></pre></td></tr></table></figure>
 <p><img src="http://blog-images.qiniu.wqf31415.xyz/jmap_help.png" alt="" title="jmap -help" /></p>
 <hr />
 <h4 id="jstack"><a class="markdownIt-Anchor" href="#jstack"></a> jstack</h4>
-<blockquote>
 <p>jstack 用于查看或导出 java 程序线程堆栈信息。</p>
-</blockquote>
 <h5 id="使用方法-2"><a class="markdownIt-Anchor" href="#使用方法-2"></a> 使用方法</h5>
 <p>命令行执行， pid 是 java 程序 id，通过 <strong>jps</strong> 工具查询获取</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack &lt;pid&gt;</span><br></pre></td></tr></table></figure>
 <p><img src="http://blog-images.qiniu.wqf31415.xyz/jstack_help.png" alt="" title="jstack -help" /></p>
 <hr />
-<h4 id="jconsole-可视化监控-jvm"><a class="markdownIt-Anchor" href="#jconsole-可视化监控-jvm"></a> jconsole 可视化监控 JVM</h4>
+<h4 id="jconsole"><a class="markdownIt-Anchor" href="#jconsole"></a> jconsole</h4>
 <blockquote>
 <p>Java Monitoring and Management Console，一种基于 JMX 的，对 JVM 性能和资源消耗的可视化监视、管理工具。</p>
 </blockquote>
-<h5 id="本地使用-jconsole"><a class="markdownIt-Anchor" href="#本地使用-jconsole"></a> 本地使用 jconsole</h5>
+<h5 id="本地使用"><a class="markdownIt-Anchor" href="#本地使用"></a> 本地使用</h5>
 <p>在 Windows 系统下，命令行执行<code>jconsole</code> 命令，或打开 jdk 的 bin 目录下的 <code>jconsole.exe</code> ，打开后会自动检索当前机器上运行的 java 进程，选择需要查看的，点击 <code>连接</code> 即可。</p>
 <p><img src="http://blog-images.qiniu.wqf31415.xyz/jconsole_1.png" alt="" title="jconsole" /></p>
 <p>如果连接失败可以添加以下配置后再试，如果是用 Tomcat 运行的，就加到 Tomcat 的启动参数里，如果是开发时用 IDE 运行的，就加到 IDE 的配置里。：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Dcom.sun.management.jmxremote</span><br><span class="line">-Dcom.sun.management.jmxremote.port&#x3D;8011</span><br><span class="line">-Dcom.sun.management.jmxremote.ssl&#x3D;false</span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate&#x3D;false</span><br></pre></td></tr></table></figure>
-<h5 id="远程使用-jconsole"><a class="markdownIt-Anchor" href="#远程使用-jconsole"></a> 远程使用 jconsole</h5>
+<h5 id="远程使用"><a class="markdownIt-Anchor" href="#远程使用"></a> 远程使用</h5>
 <ol>
-<li>添加配置<br />
-首先要修改远程机器上的配置，如果只是内网测试，可以用上面的配置，不验证用户名、密码。如果需要验证则可以使用下面的配置：</li>
+<li>添加配置</li>
 </ol>
+<p>首先要修改远程机器上的配置，如果只是内网测试，可以用上面的配置，不验证用户名、密码。如果需要验证则可以使用下面的配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F; 远程连接地址</span><br><span class="line">-Djava.rmi.server.hostname&#x3D;172.16.19.233</span><br><span class="line">-Dcom.sun.management.jmxremote</span><br><span class="line">&#x2F;&#x2F; 远程连接端口号</span><br><span class="line">-Dcom.sun.management.jmxremote.port&#x3D;9999</span><br><span class="line">&#x2F;&#x2F; 是否需要用户认证</span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate&#x3D;true</span><br><span class="line">&#x2F;&#x2F; 是否通过 ssl 连接</span><br><span class="line">-Dcom.sun.management.jmxremote.ssl&#x3D;false</span><br><span class="line">&#x2F;&#x2F; 指定用户名密码文件</span><br><span class="line">-Dcom.sun.management.jmxremote.pwd.file&#x3D;C:&#x2F;Program Files (x86)&#x2F;Java&#x2F;jdk1.8.0_111&#x2F;jre&#x2F;lib&#x2F;management&#x2F;jmxremote.password</span><br></pre></td></tr></table></figure>
 <ol start="2">
-<li>添加用户<br />
-在上面的配置中，我们指定远程连接密码文件在 $JAVA_HOME/jre/lib/management/ 目录下，默认在这个目录下有几个文件：</li>
+<li>添加用户</li>
 </ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jmxremote.access				---- 定义用户与权限</span><br><span class="line">jmxremote.password.template		---- 定义用户与密码，远程连接密码配置模板文件，可以复制这个文件修改成自己需要的用户与密码，在 Linux 下需要把复制的文件权限设置为 600</span><br><span class="line">management.properties			---- 默认用户名权限文件和用户名密码文件为 $JAVA_HOME&#x2F;jre&#x2F;lib&#x2F;management&#x2F; 目录下的 jmxremote.access 和 jmxremote.password 文件，可以在此配置文件中修改</span><br><span class="line">snmp.acl.template				---- SNMP 监控连接配置</span><br></pre></td></tr></table></figure>
-<p>修改 <code>jmxremote.access</code> 文件，添加用户名和权限：</p>
+<p>在上面的配置中，我们指定远程连接密码文件在 $JAVA_HOME/jre/lib/management/ 目录下，默认在这个目录下有几个文件：</p>
+<pre><code>| 文件                          | 功能                                                         |
+| ----------------------------- | ------------------------------------------------------------ |
+| `jmxremote.access`            | 定义用户与权限                                               |
+| `jmxremote.password.template` | 定义用户与密码，远程连接密码配置模板文件，可以复制这个文件修改成自己需要的用户与密码，在 Linux 下需要把复制的文件权限设置为 600 |
+| `management.properties`       | 默认用户名权限文件和用户名密码文件为 `$JAVA_HOME/jre/lib/management/` 目录下的 `jmxremote.access` 和 `jmxremote.password` 文件，可以在此配置文件中修改 |
+| `snmp.acl.template`           | SNMP 监控连接配置                                            |
+
+
+
+修改 `jmxremote.access` 文件，添加用户名和权限：
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user   readonly</span><br></pre></td></tr></table></figure>
-<p>复制 <code>jmxremote.password.template</code> 修改文件名为 <code>jmxremote.password</code> ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 <code>chmod 600 jmxremote.password</code> ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：<br />
-复制 <code>jmxremote.password.template</code> 修改文件名为 <code>jmxremote.password</code> ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 <code>chmod 600 jmxremote.password</code> ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：</p>
+
+复制 `jmxremote.password.template` 修改文件名为 `jmxremote.password` ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 `chmod 600 jmxremote.password` ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：
+复制 `jmxremote.password.template` 修改文件名为 `jmxremote.password` ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 `chmod 600 jmxremote.password` ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：
+
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user 123456</span><br></pre></td></tr></table></figure>
+</code></pre>
 <ol start="3">
-<li>启动应用程序，远程连接<br />
-在其他机器上启动 jconsole ，使用远程连接，填入设定的地址、端口，以及用户名、密码，点击 “连接” 即可在监控远程服务器上的 java 程序。</li>
+<li>启动应用程序，远程连接</li>
 </ol>
-<h5 id="参考资料-2"><a class="markdownIt-Anchor" href="#参考资料-2"></a> 参考资料</h5>
-<blockquote>
-<p>JConsole远程连接配置: <a href="https://www.cnblogs.com/think-in-java/p/6138439.html" target="_blank" rel="noopener">https://www.cnblogs.com/think-in-java/p/6138439.html</a></p>
-<p>使用JCONSOLE远程监控JVM: <a href="https://www.cnblogs.com/Dhouse/p/7827175.html" target="_blank" rel="noopener">https://www.cnblogs.com/Dhouse/p/7827175.html</a></p>
-<p>JVM的SNMP监控配置: <a href="https://www.cnblogs.com/zhukunrong/p/3860803.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhukunrong/p/3860803.html</a></p>
-</blockquote>
+<p>在其他机器上启动 jconsole ，使用远程连接，填入设定的地址、端口，以及用户名、密码，点击 “连接” 即可在监控远程服务器上的 java 程序。</p>
 <hr />
-<h4 id="jvisualvm-可视化监控-jvm"><a class="markdownIt-Anchor" href="#jvisualvm-可视化监控-jvm"></a> jvisualvm 可视化监控 JVM</h4>
+<h4 id="jvisualvm"><a class="markdownIt-Anchor" href="#jvisualvm"></a> jvisualvm</h4>
 <blockquote>
 <p>功能比较齐全的可视化监控 JVM 的工具，可以查看监视内存使用情况，查看线程状态等，可以监控本地或远程的 JVM。</p>
 <p>官方文档：<a href="http://visualvm.github.io/documentation.html" target="_blank" rel="noopener" title="VisualVM 官方文档">http://visualvm.github.io/documentation.html</a></p>
@@ -375,7 +381,7 @@
 <p>可视化操作，非常方便，可以在左侧选择本地或远程运行的 java 进程，监视效果如下：</p>
 <p><img src="http://blog-images.qiniu.wqf31415.xyz/jvisualvm_monitor.png" alt="" title="jvisualvm 监视 java 进程" /></p>
 <hr />
-<h3 id="arthas-阿里巴巴开源-java-诊断工具"><a class="markdownIt-Anchor" href="#arthas-阿里巴巴开源-java-诊断工具"></a> Arthas 阿里巴巴开源 Java 诊断工具</h3>
+<h3 id="arthas"><a class="markdownIt-Anchor" href="#arthas"></a> Arthas</h3>
 <blockquote>
 <p>Arthas (阿尔萨斯) 是 Alibaba 开源的 java 诊断工具，深受开发者喜爱。</p>
 <p>Arthas 用户文档: <a href="https://alibaba.github.io/arthas/" target="_blank" rel="noopener">https://alibaba.github.io/arthas/</a></p>
@@ -384,9 +390,30 @@
 <blockquote>
 <p>还没体验过，以后体验过再来写！</p>
 </blockquote>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>
+<p>jvm 性能调优工具之 jps： <a href="https://www.jianshu.com/p/d39b2e208e72" target="_blank" rel="noopener">https://www.jianshu.com/p/d39b2e208e72</a></p>
+</li>
+<li>
+<p>Java jstatd详解： <a href="https://www.cnblogs.com/tulianghui/p/5918345.html" target="_blank" rel="noopener">https://www.cnblogs.com/tulianghui/p/5918345.html</a></p>
+</li>
+<li>
+<p>java jvm常用命令工具——jstatd命令(Java Statistics Monitoring Daemon)：<a href="https://www.iteye.com/blog/bijian1013-2221434" target="_blank" rel="noopener">https://www.iteye.com/blog/bijian1013-2221434</a></p>
+</li>
+<li>
+<p>JConsole远程连接配置: <a href="https://www.cnblogs.com/think-in-java/p/6138439.html" target="_blank" rel="noopener">https://www.cnblogs.com/think-in-java/p/6138439.html</a></p>
+</li>
+<li>
+<p>使用JCONSOLE远程监控JVM: <a href="https://www.cnblogs.com/Dhouse/p/7827175.html" target="_blank" rel="noopener">https://www.cnblogs.com/Dhouse/p/7827175.html</a></p>
+</li>
+<li>
+<p>JVM的SNMP监控配置: <a href="https://www.cnblogs.com/zhukunrong/p/3860803.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhukunrong/p/3860803.html</a></p>
+</li>
+</ul>
 <h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
-<p>这篇文章主要介绍了几种 jvm 监控调试的工具，我利用这些工具监控 java 项目在启动时的情况，最后发现项目启动时创建了大量的对象，结合代码分析，确认是项目中使用了不限长度的任务处理 Queue ，当任务积压时，程序不断的创建任务并放入任务队列，导致内存耗尽，频繁 gc。所以我们限制了任务队列容量，使用阻塞的 Queue，最终解决了问题。</p>
-<p>虽然我们最终解决了问题，但由于自身对 JVM 认识不深，很多时候工具输出结果看不懂，导致难以定位问题，看来用这些工具的基础是了解 JVM，所以，下一步的目标是学习 JVM 相关的知识！</p>
+<p>这篇文章主要介绍了几种 jvm 监控调试的工具，我利用这些工具监控 java 项目在启动时的情况，最后发现项目启动时创建了大量的对象，结合代码分析，确认是项目中使用了不限长度的任务处理 Queue ，当任务积压时，程序不断的创建任务并放入任务队列，导致内存耗尽，频繁 gc。最终我们限制了任务队列容量，使用阻塞的 Queue，解决了问题。</p>
+<p>虽然我们最终解决了问题，但由于自身对 JVM 认识不深，很多时候工具输出结果看不懂，导致难以定位问题，所以，还需要补充更多 JVM 相关的知识才行。</p>
 
     </div>
 
@@ -471,7 +498,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text"> 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">2.</span> <span class="nav-text"> 遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text"> 思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用-jdk-中自带的工具监控-java-进程"><span class="nav-number">4.</span> <span class="nav-text"> 使用 jdk 中自带的工具监控 java 进程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jps-查看运行的-java-进程"><span class="nav-number">4.1.</span> <span class="nav-text"> jps - 查看运行的 java 进程</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#功能"><span class="nav-number">4.1.1.</span> <span class="nav-text"> 功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用法"><span class="nav-number">4.1.2.</span> <span class="nav-text"> 用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jps-原理"><span class="nav-number">4.1.3.</span> <span class="nav-text"> jps 原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#启动-jstatd-允许远程监控"><span class="nav-number">4.2.</span> <span class="nav-text"> 启动 jstatd 允许远程监控</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#操作步骤"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 操作步骤</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参考资料"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 参考资料</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jmap-查看内存使用情况与生成堆-dump"><span class="nav-number">4.3.</span> <span class="nav-text"> jmap 查看内存使用情况与生成堆 dump</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用方法"><span class="nav-number">4.3.1.</span> <span class="nav-text"> 使用方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jstack"><span class="nav-number">4.4.</span> <span class="nav-text"> jstack</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用方法-2"><span class="nav-number">4.4.1.</span> <span class="nav-text"> 使用方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jconsole-可视化监控-jvm"><span class="nav-number">4.5.</span> <span class="nav-text"> jconsole 可视化监控 JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#本地使用-jconsole"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 本地使用 jconsole</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#远程使用-jconsole"><span class="nav-number">4.5.2.</span> <span class="nav-text"> 远程使用 jconsole</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#参考资料-2"><span class="nav-number">4.5.3.</span> <span class="nav-text"> 参考资料</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jvisualvm-可视化监控-jvm"><span class="nav-number">4.6.</span> <span class="nav-text"> jvisualvm 可视化监控 JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#打开方式"><span class="nav-number">4.6.1.</span> <span class="nav-text"> 打开方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#arthas-阿里巴巴开源-java-诊断工具"><span class="nav-number">5.</span> <span class="nav-text"> Arthas 阿里巴巴开源 Java 诊断工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text"> 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#遇到的问题"><span class="nav-number">2.</span> <span class="nav-text"> 遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#思路"><span class="nav-number">3.</span> <span class="nav-text"> 思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jdk-自带的监测工具"><span class="nav-number">4.</span> <span class="nav-text"> JDK 自带的监测工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jps"><span class="nav-number">4.1.</span> <span class="nav-text"> jps</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#功能"><span class="nav-number">4.1.1.</span> <span class="nav-text"> 功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#用法"><span class="nav-number">4.1.2.</span> <span class="nav-text"> 用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jps-原理"><span class="nav-number">4.1.3.</span> <span class="nav-text"> jps 原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jstatd"><span class="nav-number">4.2.</span> <span class="nav-text"> jstatd</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#操作步骤"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 操作步骤</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jmap"><span class="nav-number">4.3.</span> <span class="nav-text"> jmap</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用方法"><span class="nav-number">4.3.1.</span> <span class="nav-text"> 使用方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jstack"><span class="nav-number">4.4.</span> <span class="nav-text"> jstack</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#使用方法-2"><span class="nav-number">4.4.1.</span> <span class="nav-text"> 使用方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jconsole"><span class="nav-number">4.5.</span> <span class="nav-text"> jconsole</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#本地使用"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 本地使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#远程使用"><span class="nav-number">4.5.2.</span> <span class="nav-text"> 远程使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jvisualvm"><span class="nav-number">4.6.</span> <span class="nav-text"> jvisualvm</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#打开方式"><span class="nav-number">4.6.1.</span> <span class="nav-text"> 打开方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#arthas"><span class="nav-number">5.</span> <span class="nav-text"> Arthas</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#参考资料"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#总结"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
