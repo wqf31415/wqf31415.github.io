@@ -161,11 +161,11 @@ jstack <pid>
 > Java Monitoring and Management Console，一种基于 JMX 的，对 JVM 性能和资源消耗的可视化监视、管理工具。
 
 ##### 本地使用
-在 Windows 系统下，命令行执行`jconsole` 命令，或打开 jdk 的 bin 目录下的 `jconsole.exe` ，打开后会自动检索当前机器上运行的 java 进程，选择需要查看的，点击 `连接` 即可。
+在 Windows 系统下，命令行执行 `jconsole` 命令，或打开 jdk 的 bin 目录下的 `jconsole.exe` ，打开后会自动检索当前机器上运行的 java 进程，选择需要查看的，点击 `连接` 即可。
 
 ![](http://blog-images.qiniu.wqf31415.xyz/jconsole_1.png "jconsole")
 
-如果连接失败可以添加以下配置后再试，如果是用 Tomcat 运行的，就加到 Tomcat 的启动参数里，如果是开发时用 IDE 运行的，就加到 IDE 的配置里。：
+如果连接失败可以添加如下 JVM 参数配置后再试，如果是用 Tomcat 运行的，就加到 Tomcat 的启动参数里（修改 `bin/catalina.bat` ，修改 `JAVA_OPTS` ）；如果是开发时用 IDE 运行的，就加到 IDE 的项目启动配置里。
 ``````
 -Dcom.sun.management.jmxremote
 -Dcom.sun.management.jmxremote.port=8011
@@ -176,7 +176,7 @@ jstack <pid>
 ##### 远程使用
 1. 添加配置
 
-  首先要修改远程机器上的配置，如果只是内网测试，可以用上面的配置，不验证用户名、密码。如果需要验证则可以使用下面的配置：
+首先要修改远程机器上的项目 jvm 参数配置，如果只是内网测试，可以用上面的配置，不验证用户名、密码。使用远程监控一般需要添加验证，可以使用下面的配置：
 
 ``````
 // 远程连接地址
@@ -193,32 +193,30 @@ jstack <pid>
 ``````
 
 2. 添加用户
-    
+   
+
 在上面的配置中，我们指定远程连接密码文件在 $JAVA_HOME/jre/lib/management/ 目录下，默认在这个目录下有几个文件：
-    
-    | 文件                          | 功能                                                         |
-    | ----------------------------- | ------------------------------------------------------------ |
-    | `jmxremote.access`            | 定义用户与权限                                               |
-    | `jmxremote.password.template` | 定义用户与密码，远程连接密码配置模板文件，可以复制这个文件修改成自己需要的用户与密码，在 Linux 下需要把复制的文件权限设置为 600 |
-    | `management.properties`       | 默认用户名权限文件和用户名密码文件为 `$JAVA_HOME/jre/lib/management/` 目录下的 `jmxremote.access` 和 `jmxremote.password` 文件，可以在此配置文件中修改 |
-    | `snmp.acl.template`           | SNMP 监控连接配置                                            |
-    
-    
-    
-    修改 `jmxremote.access` 文件，添加用户名和权限：
-    
-    ```
-    user   readonly
-    ```
-    
-    复制 `jmxremote.password.template` 修改文件名为 `jmxremote.password` ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 `chmod 600 jmxremote.password` ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：
-    复制 `jmxremote.password.template` 修改文件名为 `jmxremote.password` ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 `chmod 600 jmxremote.password` ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：
-    
-    ```
-    user 123456
-    ```
-    
-    
+| 文件                          | 功能                                                         |
+| ----------------------------- | ------------------------------------------------------------ |
+| `jmxremote.access`            | 定义用户与权限                                               |
+| `jmxremote.password.template` | 定义用户与密码，远程连接密码配置模板文件，可以复制这个文件修改成自己需要的用户与密码，在 Linux 下需要把复制的文件权限设置为 600 |
+| `management.properties`       | 默认用户名权限文件和用户名密码文件为 `$JAVA_HOME/jre/lib/management/` 目录下的 `jmxremote.access` 和 `jmxremote.password` 文件，可以在此配置文件中修改 |
+| `snmp.acl.template`           | SNMP 监控连接配置                                            |
+
+修改 `jmxremote.access` 文件，添加用户名和权限：
+  ```
+user   readonly
+  ```
+
+  复制 `jmxremote.password.template` 修改文件名为 `jmxremote.password` ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 `chmod 600 jmxremote.password` ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：
+  复制 `jmxremote.password.template` 修改文件名为 `jmxremote.password` ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 `chmod 600 jmxremote.password` ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：
+
+```
+user 123456
+```
+
+
+
 
 3. 启动应用程序，远程连接
 
