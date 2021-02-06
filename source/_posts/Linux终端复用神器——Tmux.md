@@ -86,11 +86,11 @@ Tmux 支持让当前 session 在后台运行，处于后台时，正在运行的
 tmux detach
 ```
 
-快捷键： <kbd>Ctrl</kbd> + <kbd>B</kbd>  <kbd>d</kbd> 
+快捷键： <kbd>Ctrl</kbd> + <kbd>b</kbd>  <kbd>d</kbd> 
 
 > 快捷键说明：
 >
-> 本文中所有快捷键需要在 tmux 会话中使用，需要先按 <kbd>Ctrl</kbd> + <kbd>B</kbd> 进入命令接收模式，然后输入命令，这里按 <kbd>d</kbd> 键即可让会话在后台运行。
+> 本文中所有快捷键需要在 tmux 会话中使用，需要先按 <kbd>Ctrl</kbd> + <kbd>b</kbd> 进入命令接收模式，然后松开，输入命令，这里再按 <kbd>d</kbd> 键即可让会话在后台运行。
 
 
 
@@ -123,7 +123,7 @@ tmux attach -t foo
 
 #### 切换会话
 
-在 tmux 会话中，执行如下命令即可切换到指定会话：
+在 tmux 会话中，执行如下命令即可切换到会话 `boo`：
 
 ```bash
 tmux switch -t boo
@@ -133,7 +133,7 @@ tmux switch -t boo
 
 
 
-#### 杀死会话
+#### 关闭会话
 
 ```bash
 tmux kill-session -t foo
@@ -327,4 +327,4 @@ tmux swap-pane -D
 
 ### 总结
 
-Tmux 是一个非常方便的工具，使用方式有点类似于 vim，这个配合 vim 使用一定很酷。 
+Tmux 是一个非常方便的工具，使用方式有点类似于 vim，这个配合 vim 使用一定很酷，想想 Tmux 划分窗口，然后 vim 再划分窗口，那得多少窗口啊。。。 
