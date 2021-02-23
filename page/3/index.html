@@ -180,6 +180,97 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/uploads/avatar.jpg">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/" class="post-title-link" itemprop="url">闭包表存储树状结构数据</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2020-08-18 09:18:44" itemprop="dateCreated datePublished" datetime="2020-08-18T09:18:44+00:00">2020-08-18</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>在开发中很容易遇到树状结构的数据，比如公司管理层级、比如目录结构等等，当用关系型数据库存储这些数据时，如何设计存储结构以提高查询效率就是一个问题了。这篇文章介绍了使用闭包（Closure Table）表来存储树状结构数据。</p>
+<pre class="mermaid">graph TD;
+A((A)) --- B((B))
+A --- C((C))
+B --- D((D))
+B --- E((E))
+B --- F((F))
+C --- G((G))</pre>
+<h3 id="闭包表"><a class="markdownIt-Anchor" href="#闭包表"></a> 闭包表</h3>
+<p>闭包表是一张记录树中所有节点以及节点之间的距离的关系表。使用闭包表能够轻松的查询结点的所有子孙节点、父节点，能够按距离查询。但闭包表的使用也会带来一些问题，因为闭包表中记录了所有节点之间的关系，所以在新增节点或修改节点时，都需要变更闭包表，要小心的维护这个表才能保证查询结果正确。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/08/16/Android-%E6%89%8B%E6%9C%BA%E8%A3%85%E6%9C%BA%E8%BD%AF%E4%BB%B6/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -211,7 +302,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -293,7 +384,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -382,7 +473,7 @@ A-->B & C-->D</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -466,7 +557,7 @@ A-->B & C-->D</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -551,7 +642,7 @@ A-->B & C-->D</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -645,7 +736,7 @@ A-->B & C-->D</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -730,7 +821,7 @@ A-->B & C-->D</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -830,7 +921,7 @@ A-->B & C-->D</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -917,7 +1008,7 @@ A-->B & C-->D</pre>
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
+                <time title="修改时间：2021-02-23 11:13:56" itemprop="dateModified" datetime="2021-02-23T11:13:56+00:00">2021-02-23</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -949,91 +1040,6 @@ A-->B & C-->D</pre>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2020/05/30/%E5%BF%AB%E9%80%9F%E9%98%85%E8%AF%BB%E6%8A%80%E5%B7%A7/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="http://blog.wqf31415.xyz/2020/05/25/%E8%AE%A4%E8%AF%86%E5%92%8C%E6%8A%95%E8%B5%84%E6%8C%87%E6%95%B0%E5%9F%BA%E9%87%91/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/uploads/avatar.jpg">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/2020/05/25/%E8%AE%A4%E8%AF%86%E5%92%8C%E6%8A%95%E8%B5%84%E6%8C%87%E6%95%B0%E5%9F%BA%E9%87%91/" class="post-title-link" itemprop="url">认识和投资指数基金</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">发表于</span>
-
-              <time title="创建时间：2020-05-25 23:13:30" itemprop="dateCreated datePublished" datetime="2020-05-25T23:13:30+00:00">2020-05-25</time>
-            </span>
-              <span class="post-meta-item">
-                <span class="post-meta-item-icon">
-                  <i class="far fa-calendar-check"></i>
-                </span>
-                <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-02-22 10:26:51" itemprop="dateModified" datetime="2021-02-22T10:26:51+00:00">2021-02-22</time>
-              </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">分类于</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/%E7%90%86%E8%B4%A2/" itemprop="url" rel="index"><span itemprop="name">理财</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>这篇文章介绍了指数基金的概念以及优缺点，讲解了如何挑选指数基金，投资指数基金。</p>
-<h3 id="什么是指数基金"><a class="markdownIt-Anchor" href="#什么是指数基金"></a> 什么是指数基金？</h3>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/stock_exchange.jpg" alt="" /></p>
-<p>指数基金是跟踪特定指数的基金，以该指数的成分股为投资对象，通过购买该指数全部或部分成分股构建投资组合，获得以指数相同的业绩走势。如跟踪上证50指数的易方达上证50指数（110003），跟踪中证白酒指数的招商中证白酒指数分级基金（161725）。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2020/05/25/%E8%AE%A4%E8%AF%86%E5%92%8C%E6%8A%95%E8%B5%84%E6%8C%87%E6%95%B0%E5%9F%BA%E9%87%91/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
@@ -1124,7 +1130,7 @@ A-->B & C-->D</pre>
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">86</span>
+          <span class="site-state-item-count">87</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
