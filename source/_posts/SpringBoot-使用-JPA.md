@@ -1362,14 +1362,15 @@ public class DataSourceConfig {
 }
 ``````
 
-不同数据源的 JPA 属性配置
-
-> entityManagerFactoryRef → 配置的连接工厂
-transactionManagerRef → 事务管理器
-basePackages → 扫描 Repository 的包
 
 
 主数据源: 
+
+> `@EnableJpaRepositories` 注解参数说明：
+>
+> - *entityManagerFactoryRef* → 配置的连接工厂
+> - *transactionManagerRef* → 事务管理器
+> - *basePackages* → 扫描 Repository 的包
 
 ``````java
 import org.springframework.beans.factory.annotation.Autowired;
@@ -1434,6 +1435,8 @@ public class PrimaryConfig {
 ``````
 
 第二数据源:
+
+与主数据源相似，只是除掉了 `@Primary` 注解。
 
 ``````java
 import org.springframework.beans.factory.annotation.Autowired;
