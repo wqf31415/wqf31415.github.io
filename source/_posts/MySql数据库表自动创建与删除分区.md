@@ -40,7 +40,29 @@ categories:
 - 创建表(meteorology_sensor)，指定引擎(InnoDB)
 
   ``````sql
-  create table meteorology_sensor (id bigint COMMENT '主键，自动生成' not null auto_increment, collected_time timestamp COMMENT '数据采集时间', component_id char(17) COMMENT '被监测设备ID', device_code char(17) COMMENT '设备编号' not null, device_id bigint COMMENT '设备Id', protocol_version char(5) COMMENT '数据上传时使用的版本号,值为：v2010、v2015', send_state tinyint(1) COMMENT '推送CAG状态，1 成功，0 未推送，-1 推送失败', air_pressure decimal(10,1) COMMENT '气压，浮点数，精确到小数点后1位，单位：hPa', air_temperature decimal(10,1) COMMENT '气温，浮点数，精确到小数点后1位，单位：℃', alarm_flag smallint COMMENT '报警标识，新协议没有这个字段', average_wind_direction10min smallint COMMENT '10分钟平均风向，无符号整数，单位：°', average_wind_speed10min decimal(10,1) COMMENT '十分钟平均风速，浮点数，精确到小数点后1位，单位：m/s', extreme_wind_speed decimal(10,1) COMMENT '极大风速，浮点数，精确到小数点后1位，单位：m/s', humidity smallint COMMENT '湿度，无符号整数，单位：%RH', max_wind_speed decimal(10,1) COMMENT '最大大风速，浮点数，精确到小数点后1位，单位：m/s', precipitation decimal(10,1) COMMENT '降雨量，浮点数，精确到小数点后1位，单位：mm', precipitation_intensity decimal(10,1) COMMENT '降水强度，浮点数，精确到小数点后1位，单位：mm/min', radiation_intensity smallint COMMENT '光辐射强度，无符号整数，单位：W/m2', second_time_stamp Timestamp COMMENT '报文中的时间戳', standard_wind_speed decimal(10,1) COMMENT '标准风速，浮点数，精确到小数点后1位，单位：m/s', primary key (id)) ENGINE=InnoDB
+  CREATE TABLE meteorology_sensor (
+  	id BIGINT COMMENT '主键，自动生成' NOT NULL auto_increment,
+  	collected_time TIMESTAMP COMMENT '数据采集时间',
+  	component_id CHAR (17) COMMENT '被监测设备ID',
+  	device_code CHAR (17) COMMENT '设备编号' NOT NULL,
+  	device_id BIGINT COMMENT '设备Id',
+  	protocol_version CHAR (5) COMMENT '数据上传时使用的版本号,值为：v2010、v2015',
+  	send_state TINYINT (1) COMMENT '推送CAG状态，1 成功，0 未推送，-1 推送失败',
+  	air_pressure DECIMAL (10, 1) COMMENT '气压，浮点数，精确到小数点后1位，单位：hPa',
+  	air_temperature DECIMAL (10, 1) COMMENT '气温，浮点数，精确到小数点后1位，单位：℃',
+  	alarm_flag SMALLINT COMMENT '报警标识，新协议没有这个字段',
+  	average_wind_direction10min SMALLINT COMMENT '10分钟平均风向，无符号整数，单位：°',
+  	average_wind_speed10min DECIMAL (10, 1) COMMENT '十分钟平均风速，浮点数，精确到小数点后1位，单位：m/s',
+  	extreme_wind_speed DECIMAL (10, 1) COMMENT '极大风速，浮点数，精确到小数点后1位，单位：m/s',
+  	humidity SMALLINT COMMENT '湿度，无符号整数，单位：%RH',
+  	max_wind_speed DECIMAL (10, 1) COMMENT '最大大风速，浮点数，精确到小数点后1位，单位：m/s',
+  	precipitation DECIMAL (10, 1) COMMENT '降雨量，浮点数，精确到小数点后1位，单位：mm',
+  	precipitation_intensity DECIMAL (10, 1) COMMENT '降水强度，浮点数，精确到小数点后1位，单位：mm/min',
+  	radiation_intensity SMALLINT COMMENT '光辐射强度，无符号整数，单位：W/m2',
+  	second_time_stamp TIMESTAMP COMMENT '报文中的时间戳',
+  	standard_wind_speed DECIMAL (10, 1) COMMENT '标准风速，浮点数，精确到小数点后1位，单位：m/s',
+  	PRIMARY KEY (id)
+  ) ENGINE = INNODB
   ``````
 
 > 注意：这里指定字符集和数据库引擎是因为项目中需要，跟分区没有关系，也可以不指定或使用其他的。
