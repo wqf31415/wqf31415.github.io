@@ -22,15 +22,15 @@
     var CONFIG = {"hostname":"blog.wqf31415.xyz","root":"/","scheme":"Mist","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="概述 这篇文章介绍了 redis 支持的数据类型，以及对这些数据类型的操作与使用场景。  认识 Redis Redis 是一个开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。 Redis 存储时的键一般用字符串，但不限于字符串，也可以是任何二进制序列，比如一个 jpeg 文件的内容，但建议不要太长">
+  <meta name="description" content="概述 这篇文章介绍了 redis 支持的数据类型，以及对这些数据类型的操作与使用场景。  认识 Redis Redis ，全称 Remote Dictionary Server（远程数据服务），是一个使用 C 开发的开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。 Redis 存储时的键一般用字符">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Redis 数据结构与应用">
 <meta property="og:url" content="http://blog.wqf31415.xyz/2021/04/09/Redis-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%BA%94%E7%94%A8/index.html">
 <meta property="og:site_name" content="This_Wei">
-<meta property="og:description" content="概述 这篇文章介绍了 redis 支持的数据类型，以及对这些数据类型的操作与使用场景。  认识 Redis Redis 是一个开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。 Redis 存储时的键一般用字符串，但不限于字符串，也可以是任何二进制序列，比如一个 jpeg 文件的内容，但建议不要太长">
+<meta property="og:description" content="概述 这篇文章介绍了 redis 支持的数据类型，以及对这些数据类型的操作与使用场景。  认识 Redis Redis ，全称 Remote Dictionary Server（远程数据服务），是一个使用 C 开发的开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。 Redis 存储时的键一般用字符">
 <meta property="og:locale" content="zh_CN">
 <meta property="article:published_time" content="2021-04-09T18:40:08.000Z">
-<meta property="article:modified_time" content="2021-04-16T07:17:04.885Z">
+<meta property="article:modified_time" content="2021-04-19T01:25:39.239Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="redis">
 <meta property="article:tag" content="nosql">
@@ -215,7 +215,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-04-16 07:17:04" itemprop="dateModified" datetime="2021-04-16T07:17:04+00:00">2021-04-16</time>
+                <time title="修改时间：2021-04-19 01:25:39" itemprop="dateModified" datetime="2021-04-19T01:25:39+00:00">2021-04-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -241,7 +241,7 @@
         <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
 <p>这篇文章介绍了 redis 支持的数据类型，以及对这些数据类型的操作与使用场景。</p>
 <h3 id="认识-redis"><a class="markdownIt-Anchor" href="#认识-redis"></a> 认识 Redis</h3>
-<p>Redis 是一个开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。</p>
+<p>Redis ，全称 <strong>Remote Dictionary Server</strong>（远程数据服务），是一个使用 C 开发的开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。</p>
 <p>Redis 存储时的键一般用字符串，但不限于字符串，也可以是任何二进制序列，比如一个 jpeg 文件的内容，但建议不要太长，会消耗内存，而且计算成本很高。存储的值支持多种类型的数据结构，包括：string（字符串）、list（链表）、set（集合）、sorted set（有序集合）、hash（字典）、bitmap（位操作）、hyperloglog（基数统计）、geospatial（地理信息）。</p>
 <blockquote>
 <p>Redis 官网：</p>
@@ -1244,8 +1244,13 @@
 <h3 id="使用场景"><a class="markdownIt-Anchor" href="#使用场景"></a> 使用场景</h3>
 <h4 id="缓存"><a class="markdownIt-Anchor" href="#缓存"></a> 缓存</h4>
 <p>Redis 读取速度快，还提供多种数据类型能够满足各种缓存场景。</p>
+<p>一般有两种方式：</p>
+<ul>
+<li>读取前，先去读 Redis，如果没有数据，读取数据库，将数据存入Redis。</li>
+<li>插入数据时，同时写入 Redis。</li>
+</ul>
 <h4 id="消息队列"><a class="markdownIt-Anchor" href="#消息队列"></a> 消息队列</h4>
-<p>使用 List 能够轻松构建消息队列或栈，达到异步处理的效果，还能让程序解耦合。</p>
+<p>使用 Redis 中 List 的丰富操作方式，能够轻松构建消息队列或栈，达到异步处理的效果，还能让程序解耦合。</p>
 <h4 id="实时消息广播"><a class="markdownIt-Anchor" href="#实时消息广播"></a> 实时消息广播</h4>
 <p>使用 Pub/Sub 能够实现实时的消息广播，能够构建实时聊天系统。</p>
 <h4 id="最新数据"><a class="markdownIt-Anchor" href="#最新数据"></a> 最新数据</h4>
@@ -1271,6 +1276,14 @@
 </blockquote>
 <h4 id="计数器"><a class="markdownIt-Anchor" href="#计数器"></a> 计数器</h4>
 <p>Redis 的命令都是原子性的，可以轻松利用 incr 、decr 命令构建计数器。</p>
+<p>使用场景如：</p>
+<ul>
+<li>高并发的秒杀活动</li>
+<li>分布式序列号的生成</li>
+<li>限制一个手机号发多少条短信</li>
+<li>一个接口一分钟限制多少请求</li>
+<li>一个接口限制调用多少次</li>
+</ul>
 <h4 id="分布式锁"><a class="markdownIt-Anchor" href="#分布式锁"></a> 分布式锁</h4>
 <p>在分布式系统中锁能够保证共享资源的同步，使用 redis 命令原子性的特点能够实现分布式锁。</p>
 <p>锁要满足的条件：</p>
@@ -1292,6 +1305,7 @@
 <p>利用 Redis 的位操作能够实现大量用户的签到记录。比如使用用户的id（整形）作为要记录的位置，用户签到后，将这一位置的值置为 1，这样就能方便的记录大量用户的签到记录。</p>
 <h4 id="定时操作"><a class="markdownIt-Anchor" href="#定时操作"></a> 定时操作</h4>
 <p>使用 Sorted Set，设置 score 为定时操作的时间戳，这样就能通过时间排序，查出需要定时处理的内容，如定时清理过期数据。</p>
+<p>另外，还可以利用 Redis 的键过期功能，创建监听器监听 key 失效事件，在 key 过期时，完成定时处理的逻辑。</p>
 <h4 id="去重"><a class="markdownIt-Anchor" href="#去重"></a> 去重</h4>
 <p>利用 Redis 的 Set 能够自动排除重复元素，只需要将元素往 set 中添加即可，还能够方便的对多个集合取交集、并集。</p>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
@@ -1301,6 +1315,7 @@
 <li>使用Redis实现实时排行榜: <a href="https://www.cnblogs.com/zhaoyan001/p/10782260.html" target="_blank" rel="noopener">https://www.cnblogs.com/zhaoyan001/p/10782260.html</a></li>
 <li>Redis分布式锁的正确实现方式: <a href="https://www.cnblogs.com/moxiaotao/p/10829799.html" target="_blank" rel="noopener">https://www.cnblogs.com/moxiaotao/p/10829799.html</a></li>
 <li>分布式锁之Redis实现: <a href="https://www.jianshu.com/p/47fd7f86c848" target="_blank" rel="noopener">https://www.jianshu.com/p/47fd7f86c848</a></li>
+<li>Redis 入门：Redis 概念和基础: <a href="https://toutiao.io/posts/47fg3nq" target="_blank" rel="noopener">https://toutiao.io/posts/47fg3nq</a></li>
 </ul>
 <h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
 <p>Redis 是一个很好有的中间件，可用来做消息队列，可以用来做数据缓存，还可以用来做分布式锁，学好基本数据结构的存取，才能更好的用在实际项目中。</p>
