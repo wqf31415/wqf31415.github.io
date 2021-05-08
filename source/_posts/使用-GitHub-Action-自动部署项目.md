@@ -370,6 +370,14 @@ jobs:
 
 
 
+### 工具
+
+**act**，github 中的一个开源项目，可以在本地运行 Github Action，在调试的时候非常方便。
+
+项目地址：<https://github.com/nektos/act> 
+
+
+
 ### 参考资料
 
 - GitHub 操作文档: <https://docs.github.com/cn/actions> 
