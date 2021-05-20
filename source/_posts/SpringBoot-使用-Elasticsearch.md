@@ -142,7 +142,7 @@ Elasticsearch 的核心是 Lucene ，使用 Java 进行封装，隐藏了 Lucene
 ``````
 
 #### 添加配置
-修改 SpringBoot 配置文件，将 `application.properties` 改为 `application.yml`，并添加如下配置：
+修改 SpringBoot 配置文件，将 `application.properties` 改为 `application.yml` (个人习惯使用 yml，使用 properties 配置也可以)，并添加如下配置：
 ``````yml
 spring:
   data:
@@ -265,8 +265,8 @@ public class UserResource {
 ![](http://blog-images.qiniu.wqf31415.xyz/elasticsearch_2.png)
 
 ### 注意事项
-#### ES 客户端版本与服务器版本要一致使用
-使用 `spring-boot-starter-data-elasticsearch` 时，要注意 SpringBoot 的版本中使用的 Elasticsearch client 的版本，在 springboot 2.x中， 2.0.8.RELEASE 以下使用的是 5.x 的 client，相应的 Elasticsearch 也要使用 5.x 的版本，否则项目启动时连接 ES 时会报错。在 SpringBoot 2.10.RELEASE 及以上的版本中，使用的 6.x 的客户端，需要使用 6.x 的 Elasticsearch。
+#### ES 客户端版本与服务器版本要保持一致
+使用 `spring-boot-starter-data-elasticsearch` 时，要注意 SpringBoot 的版本中使用的 Elasticsearch client 的版本，在 springboot 2.x中， 2.0.8.RELEASE 以下使用的是 5.x 的 client，相应的 Elasticsearch 也要使用 5.x 的版本，否则项目启动时连接 ES 时会报错。在 SpringBoot 2.10.RELEASE 及以上的版本中，使用的 6.x 的客户端，相应的也需要使用 6.x 的 Elasticsearch。
 
 #### Windows 中使用 Elasticsearch 6.x 时，报错
 
@@ -284,7 +284,7 @@ TempDirectory""`。
 org.elasticsearch.bootstrap.StartupException: ElasticsearchException[X-Pack is not supported and Machine Learning is not available for [windows-x86]; you can use the other X-Pack features (unsupported) by setting xpack.ml.enabled: false in elasticsearch.yml]
 ``````
 
-按提示中说的，修改配置文件 `config/elasticsearch.yml` ，添加如下配置项即可解决问题：
+错误提示 windows x86 系统不支持 X-Pack ，机器学习不可用，可以通过设置 `xpack.ml.enabled` 为 `false` 来解决。按提示中说的，修改配置文件 `config/elasticsearch.yml` ，添加如下配置项即可解决问题：
 ``````yml
 xpack.ml.enabled: false
 ``````
