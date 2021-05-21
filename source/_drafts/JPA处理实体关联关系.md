@@ -17,7 +17,12 @@ date: 2020-12-17 12:07:43
 
 ### 关联关系
 
-- 一对一
-- 一对多
-- 多对一
-- 多对多
+- 一对一（OneToOne）
+- 一对多（OneToMany）
+- 多对一（ManyToOne）
+- 多对多（ManyToMany）
+
+
+
+<!-- more -->
+
