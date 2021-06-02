@@ -112,6 +112,6 @@ deploy:
 
 mermaid:
   enable: true
-  cdn: //cdn.bootcdn.net/ajax/libs/mermaid/8.6.4/mermaid.min.js
-  version: 8.6.4
+  cdn: //cdn.bootcdn.net/ajax/libs/mermaid/8.9.3/mermaid.min.js
+  version: 8.9.3
   options:
