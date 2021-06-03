@@ -2,10 +2,10 @@
 title: Windows脚本编写
 date: 2021-02-03 18:55:08
 tags:
-- Windows
-- bat
+  - Windows
+  - bat
 categories:
-- 技术
+  - 技术
 ---
 
 ### 概述
