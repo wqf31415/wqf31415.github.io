@@ -12,7 +12,7 @@ categories:
 
 ### 概述
 
-springboot 的出现大大方便了 java 者使用 spring 开发项目，springboot 项目中使用配置简化了代码量，这篇文章讲解了在springboot 项目中使用的常见配置项，还介绍了如何使用自定义的配置项。
+springboot 的出现大大方便了 java 者使用 spring 开发项目，springboot 项目中使用配置简化了代码量，同时也增加了项目的灵活性。这篇文章讲解了在springboot 项目中使用的常见配置项，还介绍了如何使用自定义的配置项，以及让自定义的配置项拥有代码提示。
 
 
 
@@ -175,7 +175,7 @@ springboot 项目的默认配置文件是 `application.properties` ，我们也�
 
 #### 系列配置项
 
-对于多个配置项，我们可以创建配置类来批量获取，需要在配置类上添加 `@ConfigurationProperties` 来标记一个配置类，需要为参数 `prefix` 指定配置的前缀。然后需要添加 `@Component` 注解，将这个配置类注册到 spring 容器，或者在 springboot 启动类上使用 `@EnableConfigurationProperties({MyProperties.class})` 注解来注册自定义的配置类。在使用的时候，直接使用 `@Autowired` 注解注入配置类即可。
+对于多个配置项，我们可以创建配置类来批量获取，需要在配置类上添加 `@ConfigurationProperties` 来标记一个配置类，参数 `prefix` 指定配置的前缀。添加 `@Component` 注解，将这个配置类注册到 spring 容器，或者在 springboot 启动类上使用 `@EnableConfigurationProperties({MyProperties.class})` 注解来注册自定义的配置类。在使用的时候，直接使用 `@Autowired` 注解注入配置类即可。
 
 - application.yml
 
@@ -255,7 +255,7 @@ springboot 项目的默认配置文件是 `application.properties` ，我们也�
 
 - MyProperties.java
 
-  在字段上加的注释会在提示时显示，需要设置默认值的字段在配置类中定义时直接赋值。
+  自定义的配置类需要使用 `@ConfigurationProperties` 标识，才能被自动扫描到。配置类中字段上加的 java doc 注释会在提示时显示，有值的字段则为该字段的默认值。
 
   ```java
   @ConfigurationProperties(prefix = "my")
@@ -290,9 +290,11 @@ springboot 项目的默认配置文件是 `application.properties` ，我们也�
 
 - SbConfDemoApplication.java
 
+  在启动类中使用 `@SpringBootApplication` 注解声明需要扫描的配置类。
+
   ```java
   @SpringBootApplication
-  @EnableConfigurationProperties(value = MyProperties.class)
+  @EnableConfigurationProperties(value = {MyProperties.class})
   public class SbConfDemoApplication {
   
       public static void main(String[] args) {
@@ -306,9 +308,34 @@ springboot 项目的默认配置文件是 `application.properties` ，我们也�
 
 - application.properties
 
+  在配置文件中，只需要输入我们自定义的配置前缀，就会有相应的提示出现，提示内容包括配置项、说明、默认值以及字段类型。
+  
   ![](http://blog-images.qiniu.wqf31415.xyz/springboot-custom-conf-hint.gif)
 
-在配置文件中，只需要输入我们自定义的配置前缀，就会有相应的提示出现，提示内容包括配置项、说明、默认值以及字段类型。
+
+
+### SpringBoot 中的配置提示
+
+Spring Boot 的 jar包中包含了一个元数据（metadata）文件，其中包含了所有支持的配置项的说明，这个文件为 IDE 提供了帮助文本和代码提示，在 `application.yml` 或 `application.properties` 配置文件中可展示配置项代码提示。springboot 项目中的配置项元数据文件在 `spring-boot-autoconfigure` 包中，路径为：`META-INF/spring-configuration-metadata.json` 。
+
+在自己项目中，元数据文件通常情况下是在代表编译时生成，在编译时通过扫描项目中被 `@ConfigurationProperties` 注解标识的类，生成配置项信息。当然，也可以手动修改这个元数据文件来实现特殊效果或高级效果。**注意，需要引入 `spring-boot-configuration-processor` 依赖才能自动生成元数据文件。**
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-configuration-processor</artifactId>
+    <!-- 使用maven时，应将 optional 置为 true -->
+    <optional>true</optional>
+</dependency>
+```
+
+元数据文件在项目编译时生成，在 `target/classes/META-INF/spring-configuration-metadata.json` ，元数据文件以 json 格式呈现，其中：
+
+- `groups` 为配置项分组，如 `server.port` 和 `server.address` 都是 `server` 组。
+- `properties` 为具体的配置项。
+- `hints` 为额外添加的提示项。
+
+> 元数据文件中具体字段参考：<https://docs.spring.io/spring-boot/docs/2.5.0/reference/html/configuration-metadata.html> 
 
 
 
@@ -336,7 +363,15 @@ private List<String> likes;
 
 ### 参考资料
 
+- Configuration Metadata: <https://docs.spring.io/spring-boot/docs/2.5.0/reference/html/configuration-metadata.html> 
+
 - SpringBoot基本配置详解 : <https://www.cnblogs.com/eknown/p/11897014.html> 
+
 - SpringBoot 配置提示功能(超详细)_java_脚本之家: <https://www.jb51.net/article/173209.htm> 
+
 - Spring boot加载自定义配置路径文件之EnvironmentPostProcessor: <https://blog.csdn.net/yaomingyang/article/details/99463212> 
+
 - SpringBoot 如何让yml,properties配置文件有提示: <https://blog.csdn.net/xiongmaojiuxianfly/article/details/86630219> 
+
+  
+
