@@ -92,13 +92,12 @@ Vehicle <|-- Car
 
 类与接口的关系，类实现接口所有特性和行为。
 
-表现形式：虚线，带三角箭头，箭头指向接口。
+表现形式：虚线，带三角箭头，箭头指向接口。在接口名上可增加 `<<interface>>` 标明是一个接口类。
 
 ```mermaid
 classDiagram
 class Shape
-<<interfact>> Shape
-Shape : + draw()
+Shape : +draw()
 Shape <|.. Circle
 ```
 
@@ -181,7 +180,6 @@ class JobHistory{
 }
 JobHistory ..> Language
 class Language{
-	<<enum>>
 	FRENCH
 	ENGLISH
 	SPANISH
@@ -238,7 +236,7 @@ class Task{
 
 #### 在线工具
 
-### ProcessOn
+##### ProcessOn
 
 地址：<https://www.processon.com/> 
 
@@ -325,8 +323,6 @@ classDiagram
         +createProduct()
     }
 ```
-
-
 
 
 
