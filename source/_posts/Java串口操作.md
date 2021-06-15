@@ -225,6 +225,47 @@ Hex data: 68656c6c6f
 
 
 
+### 模拟串口工具
+
+#### Virtual Serial Port Driver (免费试用14天)
+
+> Download Virtual Serial Port Driver: <https://www.eltima.com/vspd-post-download.html> 
+
+为开发、测试、排错人员设计的串口工具，能够创建大量虚拟串口，解决系统没有串口的难题。Virtual Serial Port Driver 不能能单独使用，还能将高级特性直接集成到用户的产品中去。
+
+![](http://blog-images.qiniu.wqf31415.xyz/vspd.gif)
+
+
+
+#### Virtual Serial Ports Kit (免费试用14天)
+
+> Download Virtual Serial Port Kit: <https://www.virtual-serial-port.com/virtual-serial-port-kit-download.html> 
+
+能够创建使用虚拟零调制解调器线缆（virtual null-modem cable）连接的虚拟串口，让软件像连接真实的零调制解调器线缆一样工作。
+
+![](http://blog-images.qiniu.wqf31415.xyz/vspk.gif)
+
+
+
+#### Free Virtual Serial Ports (免费)
+
+> FREE Virtual Serial Ports driver, Rs-232 null modem emulator: <https://freevirtualserialports.com/> 
+
+Windows 平台下的串口模拟工具，能够创建使用虚拟零调制解调器线缆（virtual null-modem cable）连接的虚拟串口。支持 Win 10 32位和64位，支持Windows Server 2019。
+
+![](http://blog-images.qiniu.wqf31415.xyz/vspt.gif)
+
+完整版可免费试用14天，免费版可免费使用，但功能有限制，限制包括：
+
+- 没有永久设备
+- 不能创建远程网桥
+- 不能用户命名设备
+- 不支持多个设备使用相同模式
+- 不支持高级设备配置
+- 不能用于商业、政府和军事用途
+
+
+
 ### 参考资料
 
 - java 串口通信实现流程: <https://www.cnblogs.com/zhylioooo/p/7886189.html> 
