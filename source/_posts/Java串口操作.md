@@ -148,13 +148,13 @@ public class Test {
                   try {
                     // 获取输入流
                     inputStream = mySerialPort.getInputStream();
-                    byte[] readBuffer = new byte[inputStream.available()];
-                    int len = 0;
-                    while ((len = inputStream.read(readBuffer)) > 0) {
-                      System.out.println("Data len: " + len);
+                    while (inputStream.available() > 0) {
+                      int len = inputStream.available();
+                      byte[] readBuffer = new byte[len];
+                      inputStream.read(readBuffer);
                       String data = new String(readBuffer, 0, len).trim();
                       System.out.println("Receive data: " + data);
-                      // 打印字节
+                      // 打印收到的字节
                       System.out.print("Hex data: ");
                       for (byte b : readBuffer) {
                         String s = Integer.toHexString(0xFF & b);
