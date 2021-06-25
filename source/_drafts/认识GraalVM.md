@@ -26,6 +26,7 @@ categories:
 
 - Pedal to the metal: High-performance Java with GraalVM Native Image: <https://blogs.oracle.com/javamagazine/pedal-to-the-metal-high-performance-java-with-graalvm-native-image> 
 - GraalVM：微服务时代的Java: <https://zhuanlan.zhihu.com/p/137836206> 
+- 历数GraalVM的十大用途: <https://www.infoq.cn/article/graalvm-ten-things> 
 
 
 
