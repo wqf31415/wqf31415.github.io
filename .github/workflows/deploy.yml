@@ -34,5 +34,5 @@ jobs:
       - name: Pack with jar
         run: jar -cvfM blog.war -C ./public/ .
       - name: Upload file
-        run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://118.24.50.165/blog.war
+        run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://www.wqf31415.xyz/blog.war
         
