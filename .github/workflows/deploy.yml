@@ -38,11 +38,8 @@ jobs:
         # run sftp ${{secrets.SFTP_USER}}@www.wqf31415.xyz/blog
         # run ${{secrets.SFTP_PASS}}
         # run put ./blog.war ./
-        uses: wangyucode/sftp-upload-action@v1.1
+        uses: Atyn/simple-sftp-action@0.0.2
         with:
-          host: www.wqf31415.xyz
-          port: 22
-          username: ${{secrets.SFTP_USER}}
-          password: ${{secrets.SFTP_PASS}}
-          localDir: ./blog.war
-          remoteDir: ./
+          url: ${{secrets.SFTP_USER}}:${{secrets.SFTP_PASS}}@www.wqf31415.xyz/blog
+          localdir: ./blog.war
+
