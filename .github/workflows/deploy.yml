@@ -35,11 +35,17 @@ jobs:
         run: jar -cvfM blog.war -C ./public/ .
       - name: Upload file
         # run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://www.wqf31415.xyz/blog.war
-        # run sftp ${{secrets.SFTP_USER}}@www.wqf31415.xyz/blog
-        # run ${{secrets.SFTP_PASS}}
-        # run put ./blog.war ./
-        uses: Atyn/simple-sftp-action@0.0.2
-        with:
-          url: ${{secrets.SFTP_USER}}:${{secrets.SFTP_PASS}}@www.wqf31415.xyz/blog
-          localdir: ./blog.war
+        run: |
+          sftp ${{secrets.SFTP_USER}}@www.wqf31415.xyz/blog
+          ${{secrets.SFTP_PASS}}
+          put ./blog.war ./
+        #uses: wlixcc/SFTP-Deploy-Action@v1.2.1
+        #with:
+        #  username: ${{secrets.SFTP_USER}}
+        #  server: www.wqf31415.xyz
+        #  port: 22
+        #  ssh_private_key:
+        #  local_path: ./blog.war
+        #  remote_path: /
+
 
