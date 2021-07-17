@@ -36,7 +36,7 @@ jobs:
       - name: Upload file
         # run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://www.wqf31415.xyz/blog.war
         run: |
-          sftp ${{secrets.SFTP_USER}}@www.wqf31415.xyz/blog
+          sftp ${{secrets.SFTP_USER}}@www.wqf31415.xyz
           ${{secrets.SFTP_PASS}}
           put ./blog.war ./
         #uses: wlixcc/SFTP-Deploy-Action@v1.2.1
