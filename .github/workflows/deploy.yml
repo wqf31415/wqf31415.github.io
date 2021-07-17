@@ -9,31 +9,39 @@ jobs:
     runs-on: ubuntu-latest
     name: Job to deploy blog
     steps:
-      - name: Checkout
+      - name: checkout
         id: checkout
         uses: actions/checkout@v2
         with:
           ref: source
           # submodules: true
+
       - name: use node
         uses: actions/setup-node@v1
         with:
           node-version: '12'
+
       - name: install hexo-cli
         run: npm install hexo-cli -g
-      - name: Install dependencies
+
+      - name: install dependencies
         run: npm install
+
       - name: download theme
         run: git clone https://github.com/theme-next/hexo-theme-next themes/next
-      - name: cp config
+
+      - name: cp config file
         run: |
           cp themes_config/next/_config.yml themes/next/
           cp themes_config/next/languages/zh-CN.yml themes/next/languages/
-      - name: Hexo generate
+
+      - name: hexo generate
         run: hexo generate
-      - name: Pack with jar
+
+      - name: pack by jar
         run: jar -cvfM blog.war -C ./public/ .
-      - name: Upload file
+
+      - name: upload file by sftp
         uses: Creepios/sftp-action@v1.0.1
         with:
           host: 'www.wqf31415.xyz'
@@ -43,17 +51,4 @@ jobs:
           localPath: './blog.war'
           remotePath: './'
         # run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://www.wqf31415.xyz/blog.war
-        #run: |
-        #  sftp ${{secrets.SFTP_USER}}@www.wqf31415.xyz
-        #  ${{secrets.SFTP_PASS}}
-        #  put ./blog.war ./
-        #uses: wlixcc/SFTP-Deploy-Action@v1.2.1
-        #with:
-        #  username: ${{secrets.SFTP_USER}}
-        #  server: www.wqf31415.xyz
-        #  port: 22
-        #  ssh_private_key:
-        #  local_path: ./blog.war
-        #  remote_path: /
-
 
