@@ -36,7 +36,7 @@ date: 2021-05-28 17:35:43
 
 这里使用的连接工具是 [JavaRXTX](http://rxtx.qbang.org/wiki/index.php/Main_Page)，用于在java中实现串口和并行通信，它能够在64位/32位的Windows和Linux系统上使用。
 
-RXTX for Java: <http://fizzed.com/oss/rxtx-for-java> 
+> RXTX for Java: <http://fizzed.com/oss/rxtx-for-java> 
 
 注意：下载时要区分平台，网站提供了Windows版和Linux版，此外还需要区分系统架构，即区分64位和32位的 JVM，特别注意是 JVM 的版本，而不是系统的版本。
 
@@ -131,6 +131,12 @@ public class Test {
           // 添加串口事件监听器
           mySerialPort.addEventListener(new SerialPortEventListener() {
             public void serialEvent(SerialPortEvent serialPortEvent) {
+              // 休眠 25ms，解决数据断行问题
+              try {
+                Thread.sleep(25);
+              } catch (InterruptedException e) {
+                e.printStackTrace();
+              }
               switch (serialPortEvent.getEventType()) {
                 case SerialPortEvent.BI: // 通讯中断
                 case SerialPortEvent.OE: // 溢位错误
@@ -266,12 +272,45 @@ Windows 平台下的串口模拟工具，能够创建使用虚拟零调制解调
 
 
 
+### 注意事项
+
+#### 驱动版本
+
+RXTX 驱动在使用时需要区分架构版本，32位或64位，需要注意的是这个版本是指 JAVA 的版本，而不是操作系统的架构版本。
+
+
+
+#### 驱动配置
+
+使用 RXTX for Java 操作串口时，需要先配置驱动，将驱动文件拷贝到运行环境中，操作方式参考驱动下载一节，否则会报下面的错：
+
+```
+java.lang.UnsatisfiedLinkError: no rxtxSerial in java.library.path
+```
+
+
+
+#### 串口数据读取断行问题
+
+在实际情况中，读取串口数据时，可能会出现数据读取断行的问题，导致程序收到的数据被分成几段，可以在串口事件监听器中添加 `Thread.sleep(time)` 来短暂休眠，以此解决。其中 _time_ 是休眠时长，单位毫秒，这个值需要小于数据发送方的数据发送间隔。如传感器每 50ms 上传一次数据，则可选择休眠 25ms 。
+
+```java
+try {
+    Thread.sleep(25);
+} catch (InterruptedException e) {
+    e.printStackTrace();
+}
+```
+
+
+
 ### 参考资料
 
 - java 串口通信实现流程: <https://www.cnblogs.com/zhylioooo/p/7886189.html> 
 - java读写串口数据: <https://www.cnblogs.com/new-life/p/9345849.html> 
 - java串口通信编程实例: <http://www.elecfans.com/d/627763.html> 
 - 几款优秀的 Windows 虚拟串口模拟器: <https://blog.csdn.net/ybhuangfugui/article/details/106088618> 
+- Java使用RXTX读取串口: <https://blog.csdn.net/weixin_44613063/article/details/98593433> 
 
 
 
