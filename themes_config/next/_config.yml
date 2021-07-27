@@ -123,8 +123,9 @@ menu:
   archives: /archives/ || fa fa-archive
   #schedule: /schedule/ || fa fa-calendar
   #sitemap: /sitemap.xml || fa fa-sitemap
-  commonweal: /404/ || fa fa-heartbeat
-  weather: /weather/ || snowflake-o
+  #commonweal: /404/ || fa fa-heartbeat
+  # weather: /weather/ || snowflake-o
+  nav: /nav/ || fa fa-sitemap
 
 # Enable / Disable menu icons / item badges.
 menu_settings:
