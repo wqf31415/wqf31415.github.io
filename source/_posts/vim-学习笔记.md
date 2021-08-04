@@ -49,11 +49,10 @@ Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创�
 - 打开 vim 
   安装完成后, 可以在命令行中使用, 也可以使用 GUI 版, 使用 `gvim` 即可打开, 如下图: 
   ![](http://blog-images.qiniu.wqf31415.xyz/vim_on_win.png)
-  
 > 此外, 在 Windows 中安装 git 后, 在 gitbash 中也可以使用 vim 。
 
 #### Linux
-Linux 系统下安装 vim 只需要 1 步，使用 linux 的安装包管理工具安装, 如:
+Linux 系统下安装 vim 只需要 1 步，使用 linux 的安装包管理工具安装, 如 Ubuntu 中:
 
 ```bash
 sudo apt install vim
@@ -86,13 +85,13 @@ sudo make install
 
 ### vim 五大模式
 
-划重点：在 vim 中存在 5 种编辑模式，分别是：正常模式(normal)、插入模式(insert)、命令模式(command)、可视模式(visual)、替换模式(replace)。
+划重点：在 vim 中存在 5 种编辑模式，分别是：常规模式(normal)、插入模式(insert)、命令模式(command)、可视模式(visual)、替换模式(replace)。
 
-进入 vim 时处于正常模式，是 vim 核心模式，可以从正常模式切换到其他模式，并通过按 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd> + <kbd>[</kbd> 键从其他模式返回正常模式。
-正常模式下，按 <kbd>a</kbd>、<kbd>A</kbd>、<kbd>i</kbd>、<kbd>I</kbd>、<kbd>o</kbd>、<kbd>O</kbd> 进入插入模式，可编辑文档内容；
-正常模式下，输入 `:` 进入命令模式，在 `:` 后加上命令即可执行命令，如 `:wq` 保存修改并退出 vim， `:set nu` 设置 vim 显示行号；
-正常模式下，按 <kbd>v</kbd>、<kbd>V</kbd>、<kbd>Ctrl</kbd> + <kbd>v</kbd> 可进入可视模式，用于文档内容选择；
-正常模式下，按 <kbd>r</kbd> 键进入替换模式，输入内容将会替换光标所在位置的字符。
+进入 vim 时处于常规模式，是 vim 核心模式，可以从常规模式切换到其他模式，并通过按 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd> + <kbd>[</kbd> 键从其他模式返回常规模式。
+常规模式下，按 <kbd>a</kbd>、<kbd>A</kbd>、<kbd>i</kbd>、<kbd>I</kbd>、<kbd>o</kbd>、<kbd>O</kbd> 进入插入模式，可编辑文档内容；
+常规模式下，输入 `:` 进入命令模式，在 `:` 后加上命令即可执行命令，如 `:wq` 保存修改并退出 vim， `:set nu` 设置 vim 显示行号；
+常规模式下，按 <kbd>v</kbd>、<kbd>V</kbd>、<kbd>Ctrl</kbd> + <kbd>v</kbd> 可进入可视模式，用于文档内容选择；
+常规模式下，按 <kbd>r</kbd> 或 <kbd>R</kbd> 键进入替换模式，输入内容将会替换光标所在位置的字符。
 
 ### 基础操作
 
@@ -121,7 +120,7 @@ sudo make install
 
 ![](http://blog-images.qiniu.wqf31415.xyz/vim_insert_mode.png) 
 
-在插入模式中可以使用键盘上下左右键移动光标，编辑内容，使用退格键或 Delete 键删除内容。编辑完成后，按 <kbd>Esc</kbd> 键回到 normal 模式，输入 `:wq` <kbd>回车</kbd> 保存文件，也可以输入 `:wq` <kbd>回车</kbd> 保存并退出。 
+在插入模式中可以使用键盘上下左右键移动光标，编辑内容，使用退格键或 Delete 键删除内容。编辑完成后，按 <kbd>Esc</kbd> 键回到 normal 模式，输入 `:w` 然后按 <kbd>回车</kbd> 保存文件，也可以输入 `:wq` 然后按 <kbd>回车</kbd> 保存并退出。 
 
 | 指令                   | 作用                                                         |
 | ---------------------- | ------------------------------------------------------------ |
@@ -131,7 +130,7 @@ sudo make install
 | `I`                    | 在行首添加内容                                               |
 | `o`                    | 在当前行下发添加空行(open a line below)                      |
 | `O`                    | 在当前行上方添加空行                                         |
-| `u`                    | 撤销修改(Undo)                                               |
+| `u`                    | **撤销修改(Undo)**                                           |
 | `:w`                   | 写入文件(Written) ，即保存，如果是编辑一个新文件，可以在后面指定文件名，如 `:w test.txt` |
 | `:wq`  或 `:x` 或 `ZZ` | 保存并退出                                                   |
 | `:wqa`                 | 保存并退出所有窗口                                           |
@@ -147,6 +146,9 @@ sudo make install
 | `s`  | 替换(Substitute)，删除当前字符并进入插入模式                 |
 | `c`  | 修改(Change)，配合文本对象进行快速修改并进入插入模式，如 ciw 删除光标处的单词并进入插入模式 |
 | `r`  | 替换(Respace)，输入新字符替换当前字符                        |
+| `R`  | 连续替换，输入新字符替换光标所在字符，替换后光标自动后移，可持续替换光标位置字符 |
+| `x`  | 删除光标所在位置字符                                         |
+| `X`  | 删除光标位置前一个字符                                       |
 
 
 
@@ -312,7 +314,7 @@ Vim 一个缓冲区可以分割成多个窗口，每个窗口可以打开不同�
 | `:sp test.txt`     | 水平分屏并编辑 test.txt 文件 |
 | `:vs test.txt`     | 垂直分屏并编辑 test.txt 文件 |
 
-在多个窗口中移动时，可以在正常模式下先按 <kbd>Ctrl</kbd> + <kbd>w</kbd> 键，然后按 <kbd>k</kbd>、<kbd>j</kbd>、<kbd>h</kbd>、<kbd>l</kbd> 键或 <kbd>↑</kbd>、<kbd>↓</kbd>、<kbd>←</kbd>、<kbd>→</kbd> 左右键，在上下左右窗口间切换。
+在多个窗口中移动时，可以在常规模式下先按 <kbd>Ctrl</kbd> + <kbd>w</kbd> 键，然后按 <kbd>k</kbd>、<kbd>j</kbd>、<kbd>h</kbd>、<kbd>l</kbd> 键或 <kbd>↑</kbd>、<kbd>↓</kbd>、<kbd>←</kbd>、<kbd>→</kbd> 左右键，在上下左右窗口间切换。
 
 窗口操作快捷键：
 
@@ -398,7 +400,7 @@ git clone https://github.com/flazz/vim-colorschemes.git ~/.vim
 " 设置行号
 set nu
 
-" 主题配色
+" 主题配色(需要下载安装 vim-hybird 主题)
 colorscheme hybrid
 
  " 按 F2 进入粘贴模式
@@ -421,7 +423,7 @@ inoremap jj <Esc>`^
 " 使用 leader+w 直接保存(插入模式)
 inoremap <leader>w <Esc>:w<cr>
 
-" 使用 leader+w 直接保存(正入模式)
+" 使用 leader+w 直接保存(常规模式)
 noremap <leader>w :w<cr>
  
 " 切换 buffer
@@ -483,7 +485,7 @@ vim 中的映射有点复杂，源于 vim 有多种模式，每种模式都可�
 
 宏(macro) 可以看作是一系列命令的集合，可以使用宏录制一系列操作，然后用于回放，宏可以非常方便的把一系列命令用在多行文本上。
 
-在正常模式下，按一下 <kbd>q</kbd> ，然后再按一个字母作为宏名，然后就可以开始录制宏(如 `qa` 录制宏并保存到寄存器 a)，录制完成后回到正常模式，按 <kbd>q</kbd> 结束录制。录制完成后即可使用 `@{register}` ，来执行宏，如 `@a` 执行宏 a。 按 `@@` 执行上一个宏。
+在常规模式下，按一下 <kbd>q</kbd> ，然后再按一个字母作为宏名，然后就可以开始录制宏(如 `qa` 录制宏并保存到寄存器 a)，录制完成后回到常规模式，按 <kbd>q</kbd> 结束录制。录制完成后即可使用 `@{register}` ，来执行宏，如 `@a` 执行宏 a。 按 `@@` 执行上一个宏。
 
 > 例如我们想给文档中每一行开头和结尾都添加一个引号 `"` ，可以如下操作：
 >
