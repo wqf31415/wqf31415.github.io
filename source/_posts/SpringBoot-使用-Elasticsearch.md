@@ -294,7 +294,7 @@ xpack.ml.enabled: false
 当需要在局域网中访问本机部署的 Elasticsearch 服务时，需要修改配置文件 `config/elasticsearch.yml` 。
 
 - 将配置项 **network.host** 设置为 `0.0.0.0` ，表示允许任何 ip 访问。
-- **同时，最关键的是要添加一个配置项: transport.host ** ，配置为 `localhost` 。这一项在原本配置文件中是没有的，如果不配置，将可能无法启动 Elasticsearch 服务，错误提示：
+- 同时，**最关键的是要添加一个配置项: transport.host ** ，配置为 `localhost` 。这一项在原本配置文件中是没有的，如果不配置，将可能无法启动 Elasticsearch 服务，错误提示：
 
   ```
   bound or publishing to a non-loopback address, enforcing bootstrap checks
@@ -319,7 +319,7 @@ org.elasticsearch.transport.RemoteTransportException: [node-2][127.0.0.1:9301][i
 Caused by: org.elasticsearch.cluster.coordination.CoordinationStateRejectedException: join validation on cluster state with a different cluster uuid EzPv1978SbasB-zUOQjS6A than local cluster uuid srzgmzs4QiOTtOleJjed6Q, rejecting
 ```
 
-解决办法是将两个 ES 的 data 目录中的内容清除，重新启动即可。
+解决办法：将两个 ES 的 data 目录中的内容清除，重新启动即可。
 
 
 
