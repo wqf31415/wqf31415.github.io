@@ -132,7 +132,7 @@ cd 7000
 
 
 
-##### 启动集群
+##### 创建集群
 
 使用 `redis-cli` 工具创建集群：
 
@@ -171,6 +171,48 @@ redis-cli -c -p 7000
 
 
 #### create-cluster 脚本搭建
+
+Redis 提供了一个创建集群的脚本（`create-cluster`），使用这个脚本可以快速启动多个集群模式的 Redis 实例，并快速创建集群。在编译 Redis 源码后，脚本在 `utils/create-cluster/` 目录下，文件名为 `create-cluster`。只需执行下述命令，即可快速创建一个 6 节点（3主3从）的 Redis 集群。
+
+##### 启动 Redis 实例
+
+```bash
+./create-cluster start
+```
+
+默认将创建端口从 `30001` 开始的 6 个集群模式的 Redis 实例。
+
+![](http://blog-images.qiniu.wqf31415.xyz/script_start_cluster.png)
+
+
+
+##### 创建集群
+
+```bash
+./create-cluster create
+```
+
+创建集群，会将预设的主从分配方式打印出来，确认没问题输入 `yes` 。
+
+![](http://blog-images.qiniu.wqf31415.xyz/script_create_cluster.png)
+
+
+
+##### 关闭集群
+
+```bash
+./create-cluster stop
+```
+
+关闭集群中所有实例。
+
+![](http://blog-images.qiniu.wqf31415.xyz/script_stop_cluster.png)
+
+
+
+##### 注意事项
+
+使用 `create-cluster` 时，可以自行修改脚本，设置要启动的起始端口、实例数、从节点数等。
 
 
 
