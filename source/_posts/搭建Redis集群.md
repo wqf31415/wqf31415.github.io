@@ -4,7 +4,7 @@ tags:
   - redis
 categories:
   - 技术
-date: 2021-08-06 09:38:37
+date: 2021-08-27 14:29:37
 ---
 
 ### 概述
@@ -225,7 +225,7 @@ Redis 的官方 Docker 仓库地址：<https://hub.docker.com/_/redis>
 使用 Docker 运行 Redis 集群时，需要使用外部配置文件启动 Redis 容器，方式如下：
 
 ```bash
-docker run -v /myredis/conf:/usr/local/etc/redis --name myredis redis redis-server /usr/local/etc/redis/redis.conf
+docker run -v /myredis/conf:/usr/local/etc/redis --name myredis -d redis redis-server /usr/local/etc/redis/redis.conf
 ```
 
 > 命令解析：
@@ -236,6 +236,8 @@ docker run -v /myredis/conf:/usr/local/etc/redis --name myredis redis redis-serv
 >
 > `--name myredis` 是为运行的容器命名为 `myredis` 
 >
+> `-d` 是让容器在后台运行
+>
 > `redis` 是要运行的镜像，当前没有指定版本，则默认使用最新版，如需指定版本可在后面加冒号和版本号，如 `redis:6.2.5-alpine` 
 >
 > `redis-server /usr/local/etc/redis/redis.conf` 是容器启动命令，指定容器使用配置文件 `/usr/local/etc/redis/redis.conf` 启动，由于指定了目录映射，实际使用本地 `/myredis/conf/redis.conf` 启动
@@ -244,7 +246,7 @@ docker run -v /myredis/conf:/usr/local/etc/redis --name myredis redis redis-serv
 
 ##### 编写配置文件
 
-为了测试，这里仅使用最简单的配置：
+创建6个目录，以运行端口命名，分别是: `7000`、`7001`、`7002`、`7003`、`7004`、`7005` 。在目录中创建一份配置文件，内容如下所示，修改端口配置：
 
 ```lua
 port 7000
@@ -255,14 +257,104 @@ appendonly yes
 ```
 
 
-
 ##### 启动容器
+
+使用上一步创建的本地配置文件，运行 redis 容器：
+
+```bash
+docker run -v /root/projects/docker-redis-cluster/7000:/usr/local/etc/redis --name redis-node-1 --privileged=true -d redis redis-server /usr/local/etc/redis/redis.conf
+```
+
+注意需要将 `-v` 的参数修改成自己的配置存储路径，并修改容器命名，容器名冲突会无法启动。
+
+> 如果启动容器失败，可使用命令 `docker logs redis-node-1` 查看错误日志，如果出现权限错误，如：
+>
+> ```
+> Fatal error, can't open config file '/usr/local/etc/redis/redis.conf': Permission denied
+> ```
+>
+> 解决方法：
+>
+> 方法一 可以给容器增加特权，在启动命令中增加参数 `--privileged=true` ，完整命令如下：
+>
+> ```bash
+> docker run -v /root/projects/docker-redis-cluster/7000:/usr/local/etc/redis --name redis-node-1 --privileged=true -d redis redis-server /usr/local/etc/redis/redis.conf
+> ```
+>
+> 方式二 临时关闭selinux
+>
+> ```bash
+> setenforce 0
+> ```
 
 
 
 ##### 启动集群
 
+使用 redis-cli 创建并启动集群。
 
+要启动集群需要先知道各个节点的地址，使用 `docker inspect` 命令获取容器的地址：
+
+```bash
+docker inspect -f {{.NetworkSettings.Networks.bridge.IPAddress}} redis-node-1
+```
+
+我这里获取到的节点地址和端口如下：
+
+| 地址       | 端口 |
+| ---------- | ---- |
+| 172.17.0.4 | 7000 |
+| 172.17.0.5 | 7001 |
+| 172.17.0.6 | 7002 |
+| 172.17.0.7 | 7003 |
+| 172.17.0.8 | 7004 |
+| 172.17.0.9 | 7005 |
+
+然后使用 redis-cli 启动集群：
+
+使用 `docker exec` 命令打开某一节点的 bash：
+
+```bash
+docker exec -it redis-node-1 bash
+```
+
+创建并启动集群：
+
+```bash
+redis-cli --cluster create 172.17.0.4:7000 172.17.0.5:7001 172.17.0.6:7002 172.17.0.7:7003 172.17.0.8:7004 172.17.0.9:7005 --cluster-replicas 1
+```
+
+![](http://blog-images.qiniu.wqf31415.xyz/docker_create_redis_cluster.png)
+
+
+
+##### 测试
+
+在容器的 bash 中连接集群：
+
+```bash
+redis-cli -c -p 7000
+```
+
+然后使用 set 插入键值对，会看到重定向到不同的节点，说明集群运行正常。
+
+
+
+##### 注意事项
+
+上述使用 docker 创建的集群中节点地址是 docker 分配的，如果客户端和集群不在同一个网络中，就无法访问。
+
+解决办法：
+
+使用 `host` 网络模式启动节点容器，让容器和主机共享网络；并且开启端口映射，可以在外部访问。启动容器命令如下：
+
+```bash
+docker run -v /root/projects/docker-redis-cluster/7000:/usr/local/etc/redis --name redis-node-1 --p rivileged=true --net host -p 7000 -d redis redis-server /usr/local/etc/redis/redis.conf
+```
+
+> 与之前的启动命令相比，增加了参数 `--net host` 用于指定网络模式为 `host`，增加了参数 `-p 7000` 用于开放容器端口的访问。
+
+需要注意的是，这种方式启动容器后，容器的地址即为本机地址，创建集群时直接使用本地地址即可，无需使用 `docker inspect` 命令查看。
 
 
 
