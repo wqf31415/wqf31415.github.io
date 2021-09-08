@@ -13,6 +13,8 @@ date: 2021-09-07 13:10:59
 
 这篇文章介绍了 MySQL 数据库自动备份的方式，包括使用 Navicat 工具备份和使用 MySQL 自带的 `mysqldump` 工具备份。
 
+![](http://blog-images.qiniu.wqf31415.xyz/data-ball.jpg)
+
 <!-- more -->
 
 
