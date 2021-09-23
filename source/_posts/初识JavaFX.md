@@ -12,7 +12,7 @@ date: 2021-09-23 15:00:34
 
 这篇文章介绍了 Java FX ，以及创建 java FX 项目。
 
-
+![](http://images.qiniu.wqf31415.xyz/desk_1280.jpg)
 
 ### 关于 JavaFX
 
