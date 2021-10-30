@@ -157,33 +157,33 @@ public class SampleController {
 
 - 自动创建的pom.xml 内容如下：
   ``````xml
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  <?xml version="1.0" encoding="UTF-8"?>
+  <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-
+  
 	<groupId>com.example</groupId>
 	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
   	<!--打包类型-->
 	<packaging>jar</packaging>
-
+  
 	<name>demo</name>
 	<description>Demo project for Spring Boot</description>
-
+  
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
 		<version>1.5.8.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-
+  
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 	</properties>
-
+  
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -205,7 +205,7 @@ public class SampleController {
 			</plugin>
 		</plugins>
 	</build>
-</project>
+  </project>
   ``````
 
 #### 运行测试
@@ -355,16 +355,22 @@ public class HelloService {
 	</build>
 ``````
 
+
+
 ### 使用IDEA打包
+
 - 如图所示，点击IDEA侧边的 **Maven Projects** → 项目名 “**demo**” → **Lifecycle** → **package** 或 **install**，点击上方的绿色播放按钮“Run Maven Build”开始打包。使用IDEA 的maven项目管理功能打包完成后，提示 “ **BUILD SUCCESS** ”，说明打包成功，在项目根目录下的 target目录下存放着打包好的项目文件，文件名为：demo-0.0.1-SNAPSHOT.jar，如果打包方式为 war，将产生 .war 的包。
   ![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_maven_package_01.png "IDAE maven 打包")
 
-- 使用 maven 指令打包，进入到项目根目录，打开命令行工具，执行 maven 打打包命令 `mvn package` 或 maven 的安装命令 `mvn install` 开始打包，打包完成后提示 **BUILD SUCCESS**，说明打包成功，可以到target目录下查看打好的包。
+- 使用 maven 指令打包，进入到项目根目录，打开命令行工具，执行 maven 打打包命令 `mvn package` 或 maven 的安装命令 `mvn install` 开始打包，打包完成后提示 **BUILD SUCCESS**，说明打包成功，可以到target目录下查看打好的包。<small>(打包前最好先使用 `mvn clean` 清除以前编译的内容，或者使用 `mvn clean package` 命令先清空再编译打包。如果需要跳过测试可增加参数，如 `mvn clean package -D maven.test.skip=true` 。)</small> 
 
 - 使用 SpringBoot-CLI 打包，前面的示例中，我们可以只写一个 java 或groovy文件就用 springboot-cli 启动了项目，现在我们只需要执行 `spring jar app.jar *.java`，就可以打包成一个名叫 app.jar 的包了，同样可以执行 `spring jar app.jar *.groovy` 来打包groovy文件。使用 `spring init` 指令创建的项目也是maven项目，打包方式参考上面两条。
   ![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_06.png "使用springboot-cli打包")
 
+
+
 ### 部署及运行打包的项目
+
 - jar 包：使用 `java -jar <文件名>` 命令运行 jar 包，在target目录下打开命令行工具，执行指令 `java -jar demo-0.0.1-SNAPSHOT.jar`，项目可以正常启动，并可以在浏览器中访问，说明打包正确。
 
   > 在使用 jar 包运行时，可以在运行命令中指定运行参数，如
@@ -378,6 +384,50 @@ public class HelloService {
   > `java -jar --server.port=8081 demo.jar` 
 
 - war 包：使用 Tomcat 运行 war 包，如果在 pom.xml 中设置的打包方式是 war，使用maven打包出来的将是一个 war 包，我们可以把它放到 Tomcat 的 webapps 路径下，启动 Tomcat 时将会自动解压并运行项目，在浏览器中测试是否能够正常访问。
+
+
+
+###打包 web 资源
+
+当我们使用 SpringBoot 创建了 web 项目，web 前端的内容一般放在 `src/main/webapp` 目录下，打包时往往需要将前端的内容一起打包，这时需要修改 `pom.xml` 中打包配置，增加资源配置。在 `bulid` 项中增加子项 `resources` ，在其中的 `resource` 中添加要打包的资源。使用相同的方法还可以打包其它目录下的资源。
+
+示例：
+
+```xml
+<build>
+    <resources>
+        <!-- 打包 webapp 目录下的资源 -->
+        <resource>
+            <!-- 指定原始资源路径 -->
+            <directory>${basedir}/src/main/webapp</directory>
+            <!-- 打包后的路径 -->
+            <targetPath>META-INF/resources</targetPath>
+            <!-- 包含的资源 -->
+            <includes>
+                <include>**/**</include>
+            </includes>
+        </resource>
+        <!-- 打包 resources 目录下的资源 -->
+        <resource>
+        <directory>${basedir}/src/main/resources</directory>
+        <includes>
+            <include>**/**</include>
+        </includes>
+    </resource>
+    </resources>
+    </resources>
+    <plugins>
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+        </plugin>
+    </plugins>
+</build>
+```
+
+
+
+
 
 
 ## 完结撒花
