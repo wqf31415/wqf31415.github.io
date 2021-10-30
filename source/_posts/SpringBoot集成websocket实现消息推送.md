@@ -10,7 +10,7 @@ date: 2021-01-11 16:07:43
 
 ### 概述
 
-使用 websocket 能够长时间维持前端和后端的连接，方便前后端进行消息推送。这篇文章介绍了使用 springboot 实现 websocket 服务端，与前端进行消息推送。
+使用 websocket 能够长时间维持前端和后端的连接，方便前后端进行消息推送。在一些后端主动推送消息的场景中经常使用，比如后端主动推送异步处理的结果，主动推送收到的报警信息等。这篇文章介绍了使用 springboot 实现 websocket 服务端，与前端进行消息推送。
 
 
 
@@ -335,6 +335,32 @@ public class MsgResponseDTO {
 启动项目后，使用浏览器访问项目地址，这里的是 <http://localhost:8989> 。点击 `连接` 按钮，与后端建立连接，然后输入名称与消息内容，点击 `发送` 即可完成消息发送，下方将显示后端推送的消息。可以打开多个页面访问进行测试，这样就形成了一个简易聊天室。
 
 ![](http://blog-images.qiniu.wqf31415.xyz/springboot-websocket-demo.png)
+
+
+
+### 后端主动推送
+
+后端主动推送时，可以注入 `SimpMessageSendingOperations` 对象，然后使用其中的 `convertAndSend` 方法将消息发送到指定通道即可。
+
+示例代码：
+
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.stereotype.Service;
+
+@Service
+public class MsgService {
+    @Autowired
+    private SimpMessageSendingOperations simpMessageSendingOperations;
+    
+    public void sendMsg(){
+        simpMessageSendingOperations.convertAndSend("/topic/alarm", "收到一条报警信息");
+    }
+}
+```
+
+
 
 ### 参考资料
 
