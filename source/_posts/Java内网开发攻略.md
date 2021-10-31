@@ -1,0 +1,117 @@
+---
+title: Java内网开发攻略
+tags:
+  - java
+  - 开发
+categories:
+  - 技术
+date: 2021-10-31 20:37:13
+---
+
+### 概述
+
+在工作中，有时会遇到保密程度较高的项目，开发时不能连接外网，这时会有很多问题。这篇文章介绍了在没有外网的环境下开发 java 项目的一些经验，介绍了一些常见问题的解决方案。
+
+
+
+<!-- more -->
+
+
+
+### 离线环境
+
+其实，在内网中开发最重要的问题就是环境问题，从环境安装到依赖的类库下载，都会有点不方便。
+
+#### java
+
+需要从公网下载好需要的 jdk 包，拷贝到内网进行安装，此外建议下载相同版本的 jre，方便项目部署时使用。
+
+
+
+#### maven
+
+Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管理复杂的项目依赖，但在没有公网的环境中，maven 下载依赖包会是一件痛苦的事。
+
+我们可以在有公网环境的电脑上搭建 maven，然后创建一个maven 项目，引入项目需要的maven依赖，使用maven下载好所有依赖，然后把 maven 的本地仓库打包，拷贝到内网中，修改内网 maven 的本地仓库配置，指向拷贝进来的仓库路径即可。
+
+
+
+#### springboot
+
+当我们使用 idea 创建 SpringBoot 项目时，idea 会访问 spring 官方提供的项目初始化网站 <https://start.spring.io/> 生成初始化的项目文件。在内网环境中，无法访问该网站，导致无法创建项目。
+
+其实这个网站的是开源的，github 地址是：<https://github.com/spring-io/start.spring.io.git> 
+
+我们可以把这个项目的源码拉下来，到内网中运行起来，然后修改 idea 创建 SpringBoot 项目的 Server URL，改成我们运行的地址。
+
+但是有一个问题，当我们请求自己搭建的 start 服务创建项目时，start 服务会访问 spring 官网获取 SpringBoot 项目版本信息，地址是：<https://spring.io/project_metadata/spring-boot> ，内容类似下面的<small>(这个项目元信息会随着 SpringBoot 的版本更新而更新)</small>：
+
+```json
+{
+    "id":"spring-boot",
+    "name":"Spring Boot",
+    "projectReleases":[
+        {
+            "version":"2.6.0-SNAPSHOT",
+            "versionDisplayName":"2.6.0-SNAPSHOT",
+            "current":false,
+            "releaseStatus":"SNAPSHOT",
+            "snapshot":true
+        },
+        {
+            "version":"2.6.0-RC1",
+            "versionDisplayName":"2.6.0-RC1",
+            "current":false,
+            "releaseStatus":"PRERELEASE",
+            "snapshot":false
+        },
+        {
+            "version":"2.5.7-SNAPSHOT",
+            "versionDisplayName":"2.5.7-SNAPSHOT",
+            "current":false,
+            "releaseStatus":"SNAPSHOT",
+            "snapshot":true
+        },
+        {
+            "version":"2.5.6",
+            "versionDisplayName":"2.5.6",
+            "current":true,
+            "releaseStatus":"GENERAL_AVAILABILITY",
+            "snapshot":false
+        },
+        {
+            "version":"2.4.13-SNAPSHOT",
+            "versionDisplayName":"2.4.13-SNAPSHOT",
+            "current":false,
+            "releaseStatus":"SNAPSHOT",
+            "snapshot":true
+        },
+        {
+            "version":"2.4.12",
+            "versionDisplayName":"2.4.12",
+            "current":false,
+            "releaseStatus":"GENERAL_AVAILABILITY",
+            "snapshot":false
+        },
+        {
+            "version":"2.3.12.RELEASE",
+            "versionDisplayName":"2.3.12.RELEASE",
+            "current":false,
+            "releaseStatus":"GENERAL_AVAILABILITY",
+            "snapshot":false
+        }
+    ]
+}
+```
+
+为了能够创建项目，我们需要让内网的 start 服务能够获取到这个元信息。首先访问项目元信息的地址，获取信息数据。
+
+然后可以修改电脑 hosts 文件，让 `spring.io` 域名指向本地，然后在本地使用 nginx 让请求 `/project_metadata/spring-boot` 返回之前获取的元信息数据。这样就可以方便的创建项目了。
+
+或者修改 `start.spring.io` 项目的配置，修改 `initializr.env.spring-boot-metadata-url` 配置，指向本地能够返回项目元信息的请求地址即可。
+
+
+
+### 总结
+
+断网开发在一些银行项目、国家项目或科技项目中比较常见，其实也不用太在意，只要解决了开发环境问题就可以了。
