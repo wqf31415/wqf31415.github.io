@@ -387,7 +387,7 @@ public class HelloService {
 
 
 
-###打包 web 资源
+### 打包 web 资源
 
 当我们使用 SpringBoot 创建了 web 项目，web 前端的内容一般放在 `src/main/webapp` 目录下，打包时往往需要将前端的内容一起打包，这时需要修改 `pom.xml` 中打包配置，增加资源配置。在 `bulid` 项中增加子项 `resources` ，在其中的 `resource` 中添加要打包的资源。使用相同的方法还可以打包其它目录下的资源。
 
