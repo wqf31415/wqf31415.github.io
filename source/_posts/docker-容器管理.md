@@ -86,6 +86,9 @@ docker start container-id
 
 由于容器 ID 难以记忆，所以建议在创建容器时，使用 `--name` 为容器取一个别名，使用别名代替容器 ID 来操作容器。
 
+重启容器：
+
+`docker restart container-ID` 
 
 
 #### 查看容器
@@ -159,6 +162,14 @@ docker cp my-redis:/data/dump.rdb ./
 ```
 
 把文件拷贝到容器中后，可以使用 `docker exec -it my-redis bash` 进入容器，查看 `/data` 下的文件。
+
+
+
+#### 关闭容器
+
+关闭单个容器：`docker stop Container-ID` 
+
+关闭所有运行的容器：``docker stop `docker ps -q` ``
 
 
 
