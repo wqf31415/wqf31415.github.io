@@ -84,7 +84,7 @@ docker stop container-id
 docker start container-id
 ```
 
-由于容器 ID 难以记忆，所以建议在创建容器时，使用 `--name` 为容器取一个别名，使用别名代替容器 ID 来操作容器。
+由于容器 ID 难以记忆，所以建议在创建容器时，使用 `--name` 为容器取一个别名，使用别名代替容器 ID 来操作容器。注意容器名称不能重复。
 
 重启容器：
 
@@ -169,7 +169,11 @@ docker cp my-redis:/data/dump.rdb ./
 
 关闭单个容器：`docker stop Container-ID` 
 
-关闭所有运行的容器：``docker stop `docker ps -q` ``
+关闭所有运行的容器：
+
+```bash
+docker stop `docker ps -q`
+```
 
 
 
