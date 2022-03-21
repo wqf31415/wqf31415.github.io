@@ -177,7 +177,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 
-> .roles() 和 .authorities() 方法都是设置角色权限，但不能同时使用，同时使用时哪个放在后面哪个生效。
+> 注意上面代码中注释掉了一行，`.roles()` 和 `.authorities()` 方法用于设置角色、权限，但不能同时使用，同时使用时哪个放在后面哪个生效。
 >
 > 两者不同的是 role 添加进去的时候，spring security 默认帮你加个前缀 ROLE_ ，authority 不加前缀
 
@@ -189,7 +189,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 ```java
 package xyz.wqf;
-
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -251,17 +250,17 @@ public class SecuritydemoApplication {
 例如, 可以使用以下配置在内存中进行注册公开内存的身份验证 UserDetailsService:
 
 ```java
-   @Configuration
-   @EnableWebSecurity
-   public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-      // 在内存中添加 user 和 admin 用户
-      @Override
-      protected void configure(AuthenticationManagerBuilder auth) {
-          auth
+@Configuration
+@EnableWebSecurity
+public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+    // 在内存中添加 user 和 admin 用户
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) {
+        auth
             .inMemoryAuthentication().withUser("user").password("password").roles("USER").and()
-              .withUser("admin").password("password").roles("USER", "ADMIN");
-      }
-   }
+            .withUser("admin").password("password").roles("USER", "ADMIN");
+    }
+}
 ```
 
 
@@ -300,5 +299,5 @@ HttpSecurity 常用方法及说明
 
 ### 总结
 
-当我们没有自定义登陆页面时，Spring Security 给我们提供了一个默认的登陆页面，让我们可以完成登陆，然后能够访问其他接口。
+当没有自定义登陆页面时，Spring Security 提供了一个默认的登陆页面，访问需要权限的接口或页面时，需要完成登陆，然后才能正常访问。
 

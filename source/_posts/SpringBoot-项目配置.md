@@ -12,7 +12,7 @@ categories:
 
 ### 概述
 
-springboot 的出现大大方便了 java 者使用 spring 开发项目，springboot 项目中使用配置简化了代码量，同时也增加了项目的灵活性。这篇文章讲解了在springboot 项目中使用的常见配置项，还介绍了如何使用自定义的配置项，以及让自定义的配置项拥有代码提示。
+springboot 的出现大大方便了 java 者使用 spring 开发项目，springboot 项目中使用配置简化了代码，同时也增加了项目的灵活性。这篇文章讲解了在springboot 项目中使用的常见配置项，还介绍了如何使用自定义的配置项，以及让自定义的配置项拥有代码提示。
 
 
 
@@ -290,7 +290,7 @@ springboot 项目的默认配置文件是 `application.properties` ，我们也�
 
 - SbConfDemoApplication.java
 
-  在启动类中使用 `@SpringBootApplication` 注解声明需要扫描的配置类。
+  在启动类中使用 `@EnableConfigurationProperties` 注解声明需要扫描的配置类。
 
   ```java
   @SpringBootApplication
