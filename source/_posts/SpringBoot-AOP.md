@@ -132,6 +132,10 @@ public class MyAspect {
     public void beforeAdvice(JoinPoint joinPoint){
         System.out.println("Before advice start ...");
         System.out.println(joinPoint);
+        // 获取方法上的注解，将 joinPoint.getSignature() 强转成 MethodSignature 类型，然后可以获取 method 对象，从中获取方法上的注解
+        MethodSignature ms = (MethodSignature) joinPoint.getSignature();
+        MyAspectAnno anno = ms.getMethod().getAnnotation(MyAspectAnno.class);
+        System.out.println(anno);
         System.out.println("Before advice end ...");
     }
 
