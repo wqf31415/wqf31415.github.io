@@ -1,5 +1,10 @@
 ---
-
+title: 认识corn表达式
+tags:
+  - corn
+categories：
+  - 技术
+date: 2022-03-23 11:35:00
 ---
 
 ### 概要
