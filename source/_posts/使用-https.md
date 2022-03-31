@@ -109,6 +109,80 @@ HTTPS 工作流程如下图所示：
 
 
 
+### 使用 Certbot 获取免费证书
+
+> 在 Let's Encrypt 官方文档中，推荐**拥有命令行访问权限**的用户使用 Certbot ACME 客户端，它可以在不下线你的服务器的前提下自动执行证书颁发和安装。对于不需要自动配置的用户，Certbot 还提供专家模式，它易于使用，适用于许多操作系统，并有出色的文档。
+>
+> Certbot: <https://certbot.eff.org/> 
+
+示例：为我的域名 `www.wqf31415.xyz` 申请证书。
+
+首先域名解析到了我的服务器，能够通过浏览器访问到。
+
+然后下载并安装 Certbot，我的服务器是 Windows 系统，所以我下载的是 `certbot-beta-installer-win32.exe` ，双击安装后即可使用。
+
+以**管理员身份**打开命令行，或切换到管理员模式，然后执行命令: 
+
+```bash
+certbot.exe certonly
+```
+
+然后根据提示输入需要的信息：
+
+首先是选择权限验证方式，输入 1 或 2 进行选择。我选择的是第二种，放置验证文件到web服务的根目录。
+
+然后输入要注册证书的域名，在输入web 服务根目录的路径，等待程序执行。
+
+执行完成后，将会输出证书文件快捷访问文件的存放位置。我生成的文件放在了 `C:\Certbot\live\www.wqf31415.xyz\` 目录下。
+
+生成的文件包括 4 个 .pem 结尾的快捷方式文件(可以右键 `打开文件位置` 查找的原始文件)，和一个 README 说明文件：
+
+- `cert.pem` 
+- `chain.pem`
+- `fullchain.pem` 
+- `privkey.pem` 
+- `README` 
+
+执行结果：
+
+```
+PS C:\Users\Administrator\Desktop> certbot.exe certonly
+Saving debug log to C:\Certbot\log\letsencrypt.log
+
+How would you like to authenticate with the ACME CA?
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+1: Spin up a temporary webserver (standalone)
+2: Place files in webroot directory (webroot)
+- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+Select the appropriate number [1-2] then [enter] (press 'c' to cancel): 2
+Plugins selected: Authenticator webroot, Installer None
+Please enter in your domain name(s) (comma and/or space separated)  (Enter 'c'
+to cancel): www.wqf31415.xyz
+Obtaining a new certificate
+Performing the following challenges:
+http-01 challenge for www.wqf31415.xyz
+Input the webroot for www.wqf31415.xyz: (Enter 'c' to cancel): D:\xxx\tomcat\webapps\xxx
+Waiting for verification...
+Cleaning up challenges
+Subscribe to the EFF mailing list (email: wqf31415@hotmail.com).
+[1m
+IMPORTANT NOTES:
+[0m - Congratulations! Your certificate and chain have been saved at:
+   C:\Certbot\live\www.wqf31415.xyz\fullchain.pem
+   Your key file has been saved at:
+   C:\Certbot\live\www.wqf31415.xyz\privkey.pem
+   Your cert will expire on 2022-06-27. To obtain a new or tweaked
+   version of this certificate in the future, simply run certbot
+   again. To non-interactively renew *all* of your certificates, run
+   "certbot renew"
+ - If you like Certbot, please consider supporting our work by:
+
+   Donating to ISRG / Let's Encrypt:   https://letsencrypt.org/donate
+   Donating to EFF:                    https://eff.org/donate-le
+```
+
+
+
 ### 使用 HTTPS
 
 #### 本地开发
