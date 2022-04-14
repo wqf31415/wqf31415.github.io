@@ -18,7 +18,7 @@ categories:
 
 > GraalVM 官网: <https://www.graalvm.org/> 
 
-
+GraalVM 是一个高性能的 JDK 发行版，旨在加速 java 和其他 JVM 语言编写的应用程序的执行，同时还为 JavaScript、Ruby、Python 和其他许多流行语言提供了运行环境，允许用户编写多语言应用程序，通过 Truffle 语言实现框架将值从一种语言无缝的传递到另一种语言。
 
 
 
