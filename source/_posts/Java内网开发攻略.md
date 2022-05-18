@@ -46,11 +46,13 @@ Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管�
 
 - 下载 maven 压缩包：从 Apache maven 官网下载 maven 压缩包，解压，添加 bin 路径到系统环境变量 path 中，然后修改配置文件，添加阿里镜像源，提升下载速度。
 
-- 创建 pom.xml：创建最简单的 maven 项目依赖文件，添加自己需要的依赖，依赖的信息可以从 maven 在线仓库中搜索得到。
+- 创建 pom.xml：创建最简单的 maven 项目依赖文件，添加自己需要的依赖，依赖的信息可以从 maven 在线仓库 <https://mvn repository.com> 中搜索得到。
 
-- 执行命令下载依赖：在pom.xml 目录中打开命令行执行命令: `mvn -f pom.xml` ，等待依赖下载完成。
+- 执行命令下载依赖：在pom.xml 目录中打开命令行执行命令: `mvn -f pom.xml dependency:copy-dependencies` ，等待依赖下载完成。
 
 - 拷贝依赖包：将下载到本地的依赖文件打包，默认本地依赖保存路径是 `~/.m2` ，将其压缩打包后，传输到内网，使用时直接将其中内容解压，与内网原有依赖放在一起即可使用。
+
+- 更新idea本地仓库索引：进入 idea，点击菜单栏 File ，点 `Settings...` 进入设计界面，进入 `Build, Execution, Deployment` - `Build Tools` - `Maven` - `Repositories`，在右侧选择本地仓库（Type为Local），点击 `Update`。
 
 #### springboot
 
