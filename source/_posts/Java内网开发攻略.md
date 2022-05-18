@@ -48,6 +48,17 @@ Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管�
 
 - 创建 pom.xml：创建最简单的 maven 项目依赖文件，添加自己需要的依赖，依赖的信息可以从 maven 在线仓库 <https://mvn repository.com> 中搜索得到。
 
+  ```xml
+  <project>
+  <groupId>xx</groupId>
+  <artifactId>xx</artifactId>
+  <version>x</version>
+  <dependencies>
+  <!-- 把要下载的依赖定义粘贴到这里 -->
+  </dependencies>
+  </project>
+  ```
+
 - 执行命令下载依赖：在pom.xml 目录中打开命令行执行命令: `mvn -f pom.xml dependency:copy-dependencies` ，等待依赖下载完成。
 
 - 拷贝依赖包：将下载到本地的依赖文件打包，默认本地依赖保存路径是 `~/.m2` ，将其压缩打包后，传输到内网，使用时直接将其中内容解压，与内网原有依赖放在一起即可使用。
@@ -138,7 +149,9 @@ Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管�
 
 解决办法：删除依赖目录下的 `_remote.repositories` 文件
 
+> Tips: 可以写个简单的程序遍历仓库路径下所有文件，将  `_remote.repositories` 文件删除。
+
 
 ### 总结
 
-断网开发在一些银行项目、国家项目或科技项目中比较常见，其实也不用太在意，只要解决了开发环境问题就可以了。
+断网开发在一些银行项目、国家项目或科技项目中比较常见，其实也不用太担心，只要解决了开发环境问题就可以了。
