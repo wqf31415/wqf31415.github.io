@@ -153,6 +153,36 @@ Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管�
 
 > Tips: 可以写个简单的程序遍历仓库路径下所有文件，将  `_remote.repositories` 文件删除。
 
+```java
+public class App {
+  private static final String TARGET_FILE_NAME = "_remote.repositories";
+  public static void main(String[] args){
+    // 待处理的仓库目录
+    String basePath = "D:/develop/.m2/repo";
+    File pth = new File(basePath);
+    if (path.exists()){
+      handleFile(path, "|");
+    } else {
+      System.out.println("path ["+basePath+"] not exist");
+    }
+  }
+  
+  private static void handleFile(File file, String s){
+    System.out.println(s+file.getName());
+    if (file.isDirectory()){
+      File fs = file.listFiles();
+      for(File f: fs){
+        handleFile(f, s+"  ");
+      }
+    } else {
+      if(TARGET_FILE_NAME.equals(file.getName())){
+        file.delete();
+      }
+    }
+  }
+}
+```
+
 
 ### 总结
 
