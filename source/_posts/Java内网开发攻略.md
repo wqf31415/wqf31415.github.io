@@ -141,6 +141,22 @@ Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管�
 
 或者修改 `start.spring.io` 项目的配置，修改 `initializr.env.spring-boot-metadata-url` 配置，指向本地能够返回项目元信息的请求地址即可。
 
+> 介绍一种让 nginx 返回 json 数据的配置，可以用来返回 springboot 项目版本信息：
+
+```
+http {
+server {
+listen    80;
+server_name    localhost;
+
+location /project_metadata/spring-boot {
+default_type    application/json;
+return 200 '{"id":"spring-boot","name":"spring boot"}';
+}
+}
+}
+```
+
 ### 遇到的问题
 
 #### 打包时 maven 总是从远端仓库下载依赖
