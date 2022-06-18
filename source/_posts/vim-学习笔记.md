@@ -131,6 +131,7 @@ sudo make install
 | `o`                    | 在当前行下发添加空行(open a line below)                      |
 | `O`                    | 在当前行上方添加空行                                         |
 | `u`                    | **撤销修改(Undo)**                                           |
+| <kbd>Ctrl</kbd> + r    | 恢复撤销(Redo)                                               |
 | `:w`                   | 写入文件(Written) ，即保存，如果是编辑一个新文件，可以在后面指定文件名，如 `:w test.txt` |
 | `:wq`  或 `:x` 或 `ZZ` | 保存并退出                                                   |
 | `:wqa`                 | 保存并退出所有窗口                                           |
