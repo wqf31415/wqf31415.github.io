@@ -166,11 +166,11 @@ On Linux/MacOS, you can now install via "sudo make  install" or run GoAhead via:
 To run locally, put linux-x64-default/bin in your path
 ```
 
-编译完成的文件存放在 /bu
+编译完成的文件存放在 `/build` 目录下。
 
 
 
-#### 运行
+#### 安装运行
 
 上一步编译完后，在linux系统中可以执行下面命令将 GoAhead 安装到本地:
 
@@ -178,7 +178,7 @@ To run locally, put linux-x64-default/bin in your path
 sudo make install
 ```
 
-安装完成后，将在 `/etc/goahead` 存放 web 服务的配置文件，在 `/var/www/goahead` 目录存放页面文件，执行如下命令运行web 服务:
+安装完成后，将在 `/etc/goahead` 存放 web 服务的配置文件，在 `/var/www/goahead` 目录存放页面文件，执行如下命令启动 web 服务:
 
 ```bash
 goahead -v --home /etc/goahead/ /var/www/goahead/
@@ -190,7 +190,7 @@ goahead -v --home /etc/goahead/ /var/www/goahead/
 >
 > `-v`: 在控制台输出日志信息
 >
-> `--home /etc/goahead/`: 指定 web 服务根目录，其中包含了路由配置文件、权限配置文件、证书文件
+> `--home /etc/goahead/`: 指定 web 服务根目录，该目录中包含了路由配置文件、权限配置文件、证书文件
 >
 > `/var/www/goahead/`: 页面文件存放路径，包含主页 html 文件和一个图标文件
 
@@ -212,7 +212,7 @@ goahead: 2: Started http://*:80
 goahead: 2: Started https://*:443
 ```
 
-启动后，程序将绑定 80 端口提供 http 服务，绑定 443 端口提供 https 服务，访问 http://ip:80 或 https://ip:443（将 ip替换成你电脑ip，端口为默认端口，可省略不写），进入示例主页，页面标题为 `Home Page` ， 页面内容显示 `Congratulations! The server is up and running。` 
+启动后，程序将绑定 80 端口提供 http 服务，绑定 443 端口提供 https 服务，访问 http://ip:80 或 https://ip:443（将 ip替换成你电脑ip，端口为默认端口，也可省略不写），进入示例主页，页面标题为 `Home Page` ， 页面内容显示 `Congratulations! The server is up and running。` 
 
 > 注意：使用 https 访问时，可能会提示 `你的连接不是专用连接` 或证书不安全，这是因为证书原因，可忽略，点击 “高级” - “继续访问” 即可。
 
@@ -237,7 +237,7 @@ static void hello(Webs *wp){
 }
 ```
 
-这是一个 action 类型的请求函数，需要使用 `websDefineAction("hello", hello);` 注册成 action 处理函数，其中第一个 `"hello"` 是请求的名称，第二个 `hello` 是调用的处理函数。当用户请求 `/action/hello` 时，将会调用 hello 函数来处理请求。
+这是一个 action 类型的请求函数，需要使用 `websDefineAction("hello", hello);` 将上面写的函数注册成 action 处理函数，其中第一个 `"hello"` 是请求的名称(用户发送请求时使用)，第二个 `hello` 是调用的处理函数。当用户请求 `/action/hello` 时，将会调用 hello 函数来处理请求。
 
 
 
