@@ -214,11 +214,13 @@ Linux通常被打包成供个人计算机和服务器使用的 Linux 发行版�
 
 安装系统时需要先将系统镜像写入U盘，这里使用 ISO to USB 工具进行刻录。
 
+> 注意：U盘容量要大于镜像尺寸，写入U盘时将格式化U盘，注意备份U盘内容。
+
 ![](http://blog-images.qiniu.wqf31415.xyz/iso_to_usb.png) 
 
 一些镜像刻录工具：
 
-- ISO to USB：免费工具，英文操作界面，地址： <http://www.isotousb.com/> 
+- ISO to USB：免费小巧（1.6M），英文操作界面，地址： <http://www.isotousb.com/> 
 - UltraISO软碟通：收费软件，可免费试用，中文官方网站: <https://cn.ultraiso.net/> 
 
 
@@ -229,7 +231,7 @@ Linux通常被打包成供个人计算机和服务器使用的 Linux 发行版�
 
 > 进入 BIOS 的方法：
 >
-> 启动电脑时，多数电脑会出现品牌 logo 界面，会提示进入 BIOS 的按键，此时按对应的键即可进入。一般是 F2、F10 或 F12。
+> 启动电脑时，多数电脑会显示品牌 logo 画面，会提示进入 BIOS 的按键，此时按对应的键即可进入。一般是 F2、F10 或 F12。
 
 
 
