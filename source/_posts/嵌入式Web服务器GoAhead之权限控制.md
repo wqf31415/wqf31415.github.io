@@ -16,6 +16,8 @@ date: 2022-06-27 20:57:38
 
 > 本文中示例基于 GoAhead 5.2.0
 
+![](http://blog-images.qiniu.wqf31415.xyz/padlock-428549_1280.jpg)
+
 
 
 ### GoAhead 权限
