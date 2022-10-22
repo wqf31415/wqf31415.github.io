@@ -6,7 +6,7 @@ tags:
   - maven
   - springboot
 categories:
-  - 技术
+  - 开发
 date: 2021-10-31 20:37:13
 ---
 
