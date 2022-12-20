@@ -486,7 +486,7 @@ SR04 sr04 = SR04(2, 3);
 float distance = sr04.Get();
 ```
 
-> Arduino 还有很多第三方的类库可以使用，在 Github.com、Arduino.cc、Arduino.cn 等开源社区可以找到更多的类库。
+> Arduino 还有很多第三方的类库可以使用，在 Github.com、Arduino.cc 等开源社区可以找到更多的类库。
 
 ##### 编写 Arduino 类库
 
