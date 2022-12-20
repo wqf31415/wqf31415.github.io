@@ -47,8 +47,6 @@ ESP8266 是 [乐鑫信息科技公司](https://www.espressif.com/) 开发的一�
 
 到 Arduino 官网下载 IDE 安装包，支持 Windows、Linux、MacOS，其中对于 Win 8.1 或 Win 10 系统，可以直接在 [微软应用商店](https://www.microsoft.com/zh-cn/p/arduino-ide/9nblggh4rsd8?ocid=badge&rtc=1#activetab=pivot:overviewtab) 安装。
 
-> 中文官网：<https://www.arduino.cn/>
->
 > 英文官网：<https://www.arduino.cc/>
 
 
