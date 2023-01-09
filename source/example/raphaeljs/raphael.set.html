@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Raphael 集合</title>
+</head>
+<body>
+<div></div>
+<script src="raphael.min.js"></script>
+<div id="view"></div>
+<script>
+    let paper = Raphael('view', 300, 200);
+    let set = paper.set();
+    set.push(paper.circle(100,100, 50));
+    set.push(paper.circle(200,100, 50));
+    set.attr('fill', 'red');
+</script>
+</body>
+</html>

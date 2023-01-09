@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Raphael 快速开始</title>
+</head>
+<body>
+<script src="raphael.min.js"></script>
+<div>
+<figure class="highlight javascript">
+    <div class="table-container">
+        <table>
+            <tbody>
+            <tr>
+                <td class="gutter">
+<pre><span class="line">1</span>
+<span class="line">2</span>
+<span class="line">3</span>
+<span class="line">4</span>
+<span class="line">5</span>
+<span class="line">6</span>
+<span class="line">7</span>
+<span class="line">8</span>
+<span class="line">9</span>
+<span class="line">10</span>
+<span class="line">11</span>
+<span class="line">12</span>
+<span class="line">13</span>
+<span class="line">14</span>
+<span class="line">15</span>
+<span class="line">16</span></pre>
+                </td>
+                <td class="code">
+<pre class="code"><span class="line">// 创建画布, 宽 300， 高 200</span>
+<span class="line">const paper = Raphael('view', 300, 200);</span>
+<span class="line">// 绘制圆形, 圆心坐标(150,100), 半径 50</span>
+<span class="line">let circle = paper.circle(150, 100, 50);</span>
+<span class="line">// 圆形填充为红色(red)</span>
+<span class="line">circle.attr('fill', 'red');</span>
+<span class="line">// 给圆形添加点击事件处理函数, 实现点击切换颜色</span>
+<span class="line">circle.click(function (pointerEvent , x, y) {</span>
+<span class="line">    if (this.attr('fill') === 'red') {</span>
+<span class="line">        // 获取圆形填充属性值，值为 red 时，设置填充颜色为蓝色 blue</span>
+<span class="line">        this.attr('fill', 'blue');</span>
+<span class="line">    } else {</span>
+<span class="line">        // 否则设置填充颜色为红色 red</span>
+<span class="line">        this.attr('fill', 'red');</span>
+<span class="line">    }</span>
+<span class="line">});</span></pre>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</figure>
+</div>
+<div id="view"></div>
+<script>
+    // 创建画布, 宽 300， 高 200
+    const paper = Raphael('view', 300, 200);
+    // 绘制圆形, 圆心坐标(150,100), 半径 50
+    let circle = paper.circle(150, 100, 50);
+    // 圆形填充为红色(red)
+    circle.attr('fill', 'red');
+    // 给圆形添加点击事件处理函数, 实现点击切换颜色
+    circle.click(function (pointerEvent , x, y) {
+        if (this.attr('fill') === 'red') {
+            // 获取圆形填充属性值，值为 red 时，设置填充颜色为蓝色 blue
+            this.attr('fill', 'blue');
+        } else {
+            // 否则设置填充颜色为红色 red
+            this.attr('fill', 'red');
+        }
+    });
+</script>
+</body>
+</html>

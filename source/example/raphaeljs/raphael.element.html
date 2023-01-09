@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>raphael element</title>
+</head>
+<body>
+<script src="raphael.js"></script>
+<figure class="highlight javascript">
+    <div class="table-container">
+        <table>
+            <tbody>
+            <tr>
+            <td class="gutter">
+<pre><span class="line">1</span>
+<span class="line">2</span></pre>
+            </td>
+            <td class="code">
+                <pre><span><span class="keyword">let</span> <span class="title">paper</span> = Raphael(<span class="string">'raphael-view'</span>,800,600);</span>
+<span class="line">paper.circle(100,100,50).attr({fill:<span class="string">'#f00'</span>});</span></pre>
+            </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</figure>
+<div id="raphael-view"></div>
+<script>
+    let paper = Raphael('raphael-view',800,600);
+    paper.circle(100,100,50).attr({fill:'#f00'});
+</script>
+</body>
+</html>
