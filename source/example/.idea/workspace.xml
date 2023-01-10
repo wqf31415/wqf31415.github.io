@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a4d532f8-ef12-4344-82b3-08cc40726758" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/raphaeljs/index.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/raphaeljs/raphael.matrix.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/raphaeljs/raphael.quickstart.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/raphaeljs/raphael.set.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../_posts/前端矢量化图库RaphaelJs入门.md" beforeDir="false" afterPath="$PROJECT_DIR$/../_posts/前端矢量化图库RaphaelJs入门.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/raphaeljs/raphael.element.html" beforeDir="false" afterPath="$PROJECT_DIR$/raphaeljs/raphael.element.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../../themes/next" beforeDir="false" afterPath="$PROJECT_DIR$/../../themes/next" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
@@ -29,11 +26,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/raphaeljs/raphael.element.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
+            <state relative-caret-position="293">
+              <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
             </state>
           </provider>
         </entry>
@@ -41,7 +38,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/raphaeljs/raphael.quickstart.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1028">
+            <state relative-caret-position="1406">
               <caret line="75" column="7" lean-forward="true" selection-end-line="77" />
             </state>
           </provider>
@@ -68,7 +65,7 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/raphaeljs/raphael.matrix.html">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="247">
@@ -89,6 +86,7 @@
   <component name="FindInProjectRecents">
     <findStrings>
       <find>w3c</find>
+      <find>&lt;/pre&gt;</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -99,17 +97,18 @@
       <list>
         <option value="$PROJECT_DIR$/raphaeljs/index.html" />
         <option value="$PROJECT_DIR$/raphaeljs/raphael.quickstart.html" />
-        <option value="$PROJECT_DIR$/raphaeljs/raphael.element.html" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/raphaeljs/raphael.set.html" />
         <option value="$PROJECT_DIR$/raphaeljs/raphael.matrix.html" />
+        <option value="$PROJECT_DIR$/raphaeljs/raphael.element.html" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds">
+  <component name="ProjectFrameBounds" extendedState="6">
     <option name="x" value="-29" />
+    <option name="y" value="17" />
     <option name="width" value="1943" />
-    <option name="height" value="1038" />
+    <option name="height" value="1103" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
   <component name="ProjectView">
@@ -164,19 +163,19 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1673013727016</updated>
-      <workItem from="1673013728298" duration="8811000" />
+      <workItem from="1673013728298" duration="11657000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="8811000" />
+    <option name="totallyTimeSpent" value="11657000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-23" y="0" width="1554" height="830" extended-state="0" />
+    <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Favorites" side_tool="true" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24901186" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24966975" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="bottom" id="Docker" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" />
@@ -212,13 +211,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/raphaeljs/raphael.element.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="1" column="14" selection-start-line="1" selection-start-column="14" selection-end-line="1" selection-end-column="14" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/raphaeljs/raphael.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="53">
@@ -226,13 +218,6 @@
           <folding>
             <element signature="n#!!doc" expanded="true" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/raphaeljs/raphael.quickstart.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1028">
-          <caret line="75" column="7" lean-forward="true" selection-end-line="77" />
         </state>
       </provider>
     </entry>
@@ -247,6 +232,20 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="247">
           <caret line="13" column="29" selection-start-line="13" selection-start-column="23" selection-end-line="13" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/raphaeljs/raphael.quickstart.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1406">
+          <caret line="75" column="7" lean-forward="true" selection-end-line="77" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/raphaeljs/raphael.element.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="293">
+          <caret line="24" column="21" selection-start-line="24" selection-start-column="21" selection-end-line="24" selection-end-column="21" />
         </state>
       </provider>
     </entry>

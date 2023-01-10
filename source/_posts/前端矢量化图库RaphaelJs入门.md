@@ -18,13 +18,15 @@ date: 2023-01-05 21:52:48
 
 ### 关于 Raphael
 
+<svg height="200" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative; top: -0.6px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.3.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><circle cx="100" cy="100" r="30" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><rect x="160" y="70" width="80" height="60" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><ellipse cx="300" cy="100" rx="40" ry="30" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></ellipse><path fill="none" stroke="#000000" d="M360,130L380,70L420,130L440,70" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><image x="460" y="70" width="80" height="60" preserveAspectRatio="none" xlink:href="/example/raphaeljs/cat.jpg" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></image><text x="100" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Circle</tspan></text><text x="200" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Rect</tspan></text><text x="300" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Ellipse</tspan></text><text x="400" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Path</tspan></text><text x="500" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Image</tspan></text></svg>
+
 Raphael (读音：['ræfeɪəl]， <small>猜测原意为拉斐尔，意大利文艺复兴时期著名画家</small>)，Raphael 是一个开源的、轻量易用的、跨浏览器的前端矢量绘图工具库。Raphael 基于 SVG 与 VML 实现图形绘制，所有使用 Raphael 绘制的图形对象同时也是 DOM 对象，可以修改它们或给它们添加 JavaScript 事件处理函数。Raphael 设计目标是跨浏览器和易用，现已支持的浏览器包括 Firefox 3.0+、Safari 3.0+、Chrome 5.0+、Opera 9.5+、Internet Explorer 6.0+。
 
-> 官网：<https://dmitrybaranovskiy.github.io/raphael/> 
+> 官网: <https://dmitrybaranovskiy.github.io/raphael/> 
 >
 > Github: <https://github.com/DmitryBaranovskiy/raphael> 
 >
-> 下载：<https://github.com/DmitryBaranovskiy/raphael/releases> 
+> 下载: <https://github.com/DmitryBaranovskiy/raphael/releases> 
 
 
 
@@ -88,7 +90,7 @@ var paper = Raphael('view', 300, 200);
 | `setSize(width, height)`        | 修改画纸尺寸                                                 | 画纸新宽度、高度                                             | 无               |
 | `setStart()`                    | 集合记录开始，<small>从此函数开始到 `setFinish()` 函数中间绘制的元素添加并创建一个集合</small> | 无                                                           | 无               |
 | `setFinish()`                   | 集合记录结束                                                 | 无                                                           | Raphael 集合对象 |
-| `setViewBox(x, y, w, h, fit)`   | 设置画纸的视图框，<small>可用于缩放画纸</small>              | 新的 x 位置、<br>新的 y 位置、<br>宽度、<br>高度、<br>图形是否适配新的视图框 | 无               |
+| `setViewBox(x, y, w, h, fit)`   | 设置画纸的视图框，<small>可用于缩放画纸</small>              | 新的 x 位置、新的 y 位置、宽度、高度、图形是否适配新的视图框 | 无               |
 
 
 
@@ -257,7 +259,7 @@ set.attr('fill', 'red'); // 设置集合元素的填充颜色为红色 red
 
 #### 路径字符串(path string)
 
->用于描述路径的字符串，格式为命令（command）+ 参数，多命令依次追加。
+>用于描述路径的字符串，格式为命令（command）+ 参数，多个参数以空格或逗号分隔，多条命令依次追加。
 >
 >示例：`M10,30L30,40` 、`M10 20L10 40` 
 >
@@ -276,6 +278,8 @@ set.attr('fill', 'red'); // 设置集合元素的填充颜色为红色 red
 >| T    | 平滑贝塞尔曲线连线(smooth quadratic bezier curveto)          | `(x y)+`                                            |
 >| A    | 弧线(elliptical arc)                                         | `(rx ry x-axis-rotation large-arc-flag sweep x y)+` |
 >| R    | [ Catmull-Rom](http://en.wikipedia.org/wiki/Catmull–Rom_spline#Catmull.E2.80.93Rom_spline) 曲线 | `x1 y1 (x y)+`                                      |
+>
+>注：路径字符串中的命令也可以是小写字母，大写字母表示绝对定位，小写字母表示相对定位。
 
 
 
@@ -305,6 +309,12 @@ t100,100r30,100,100s2,2,100,100r45s1.5
 ### 使用示例
 
 #### 快速开始
+
+RaphaelJs 使用非常简单，首先引入 raphael.js 文件，然后创建一个容器元素并指定 id，然后创建画布，调用画布提供的函数绘制图形，随后可以给图形添加样式和事件处理函数。
+
+以下示例代码绘制了一个圆形，点击圆形可以改变颜色。
+
+查看示例效果: <a href="/example/raphaeljs/raphael.quickstart.html">/example/raphaeljs/raphael.quickstart.html</a>
 
 ```html
 <!DOCTYPE html>
@@ -337,6 +347,34 @@ t100,100r30,100,100s2,2,100,100r45s1.5
 </body>
 </html>
 ```
+
+
+
+#### 基础图形元素
+
+RaphaelJs 六大基础图形：圆形、矩形、椭圆形、路径、图像、文字。
+
+示例代码:
+
+```javascript
+let paper = Raphael('raphael-view',600,200);
+paper.circle(100, 100, 30); // 圆形
+paper.rect(160, 70, 80, 60); // 矩形
+paper.ellipse(300, 100,40, 30); // 椭圆形
+paper.path("M360,130L380,70L420,130L440,70"); // 路径
+paper.image("cat.jpg",460, 70, 80, 60); // 图像
+paper.text(100, 150, "Circle"); // 文字
+paper.text(200, 150, "Rect");
+paper.text(300, 150, "Ellipse");
+paper.text(400, 150, "Path");
+paper.text(500, 150, "Image");
+```
+
+显示效果: 
+
+<svg height="200" version="1.1" width="600" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative; top: -0.6px;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.3.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></defs><circle cx="100" cy="100" r="30" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><rect x="160" y="70" width="80" height="60" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><ellipse cx="300" cy="100" rx="40" ry="30" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></ellipse><path fill="none" stroke="#000000" d="M360,130L380,70L420,130L440,70" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><image x="460" y="70" width="80" height="60" preserveAspectRatio="none" xlink:href="/example/raphaeljs/cat.jpg" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></image><text x="100" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Circle</tspan></text><text x="200" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Rect</tspan></text><text x="300" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Ellipse</tspan></text><text x="400" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Path</tspan></text><text x="500" y="150" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.200003147125244" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Image</tspan></text></svg>
+
+查看示例效果: <a href="/example/raphaeljs/raphael.element.html" target="_self">/example/raphaeljs/raphael.element.html</a> 
 
 
 

@@ -13,11 +13,29 @@
             <tr>
             <td class="gutter">
 <pre><span class="line">1</span>
-<span class="line">2</span></pre>
+<span class="line">2</span>
+<span class="line">3</span>
+<span class="line">4</span>
+<span class="line">5</span>
+<span class="line">6</span>
+<span class="line">7</span>
+<span class="line">8</span>
+<span class="line">9</span>
+<span class="line">10</span>
+<span class="line">11</span></pre>
             </td>
             <td class="code">
-                <pre><span><span class="keyword">let</span> <span class="title">paper</span> = Raphael(<span class="string">'raphael-view'</span>,800,600);</span>
-<span class="line">paper.circle(100,100,50).attr({fill:<span class="string">'#f00'</span>});</span></pre>
+                <pre><span class="line">let paper = Raphael('raphael-view',500,200);</span>
+<span class="line">paper.circle(100, 100, 30); // 圆形</span>
+<span class="line">paper.rect(160, 70, 80, 60); // 矩形</span>
+<span class="line">paper.ellipse(300, 100,40, 30); // 椭圆形</span>
+<span class="line">paper.path("M360,130L380,70L420,130L440,70"); // 路径</span>
+<span class="line">paper.image("cat.jpg",460, 70, 80, 60); // 图像</span>
+<span class="line">paper.text(100, 150, "Circle"); // 文字</span>
+<span class="line">paper.text(200, 150, "Rect");</span>
+<span class="line">paper.text(300, 150, "Ellipse");</span>
+<span class="line">paper.text(400, 150, "Path");</span>
+<span class="line">paper.text(500, 150, "Image");</span></pre>
             </td>
             </tr>
             </tbody>
@@ -26,8 +44,17 @@
 </figure>
 <div id="raphael-view"></div>
 <script>
-    let paper = Raphael('raphael-view',800,600);
-    paper.circle(100,100,50).attr({fill:'#f00'});
+    let paper = Raphael('raphael-view',600,200);
+    paper.circle(100, 100, 30); // 圆形
+    paper.rect(160, 70, 80, 60); // 矩形
+    paper.ellipse(300, 100,40, 30); // 椭圆形
+    paper.path("M360,130L380,70L420,130L440,70"); // 路径
+    paper.image("cat.jpg",460, 70, 80, 60); // 图像
+    paper.text(100, 150, "Circle"); // 文字
+    paper.text(200, 150, "Rect");
+    paper.text(300, 150, "Ellipse");
+    paper.text(400, 150, "Path");
+    paper.text(500, 150, "Image");
 </script>
 </body>
 </html>
