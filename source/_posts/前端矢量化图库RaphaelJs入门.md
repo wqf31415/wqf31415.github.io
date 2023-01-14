@@ -102,6 +102,8 @@ var paper = Raphael('view', 300, 200);
 
 ##### 图形元素的主要属性
 
+这里的元素属性是指 Raphael 的元素对象的属性，而不是 svg 图形元素的属性。
+
 | 属性      | 类型   | 说明                                                         |
 | --------- | ------ | ------------------------------------------------------------ |
 | `id`      | number | 元素ID，可用于函数 `getById()` 查找元素                      |
@@ -110,6 +112,7 @@ var paper = Raphael('view', 300, 200);
 | `node`    | object | 元素的DOM对象<small>(因此你可以为其指定事件处理函数)</small> |
 | `paper`   | object | 元素所在的画纸对象                                           |
 | `raphael` | object | raphael 对象                                                 |
+| `matrix`  | object | 矩阵对象                                                     |
 
 
 
@@ -174,7 +177,7 @@ var paper = Raphael('view', 300, 200);
 
 
 
-##### 图形元素动画函数
+##### 图形元素动画函数 
 
 | 函数                      | 说明               | 参数                                                         | 返回值                                                       |
 | ------------------------- | ------------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -254,6 +257,49 @@ set.attr('fill', 'red'); // 设置集合元素的填充颜色为红色 red
 | `translate(x, y)`               | 转换矩阵                        | x、y    | 无                 |
 | `x(x, y)`                       | 返回给定点经过矩阵变换后的x坐标 | x、y    | x 坐标             |
 | `y(x, y)`                       | 返回给定点经过矩阵变换后的y坐标 | x、y    | y 坐标             |
+
+
+
+#### 图形元素的属性
+
+在 RaphaelJs 中，可以使用图形元素对象的 `attr()` 函数设置或获取元素的属性值，由于 RaphaelJs 是使用 svg 实现的，所以支持 svg 中的图形属性。
+
+##### 常用的一些 svg 属性
+
+| 属性               | 说明                                     | 值                                                          |
+| ------------------ | ---------------------------------------- | ----------------------------------------------------------- |
+| `cx`               | 圆心x坐标<small>(圆形和椭圆支持)</small> | 数值                                                        |
+| `cy`               | 圆心y坐标<small>(圆形和椭圆支持)</small> | 数值                                                        |
+| `r`                | 圆形半径                                 | 数值                                                        |
+| `rx`               | 椭圆x方向半径                            | 数值                                                        |
+| `ry`               | 椭圆y方向半径                            | 数值                                                        |
+| `dx`               | 元素或内容沿x轴方向移动距离              | 数值                                                        |
+| `dy`               | 元素或内容沿y轴方向移动距离              | 数值                                                        |
+| `fill`             | 图形内部填充颜色                         | 颜色字符串, 如 `'#f00'`、`'#ff0000'`、`'red'`               |
+| `fill-opacity`     | 填充透明度                               | 数值(0\~1), 如 `0.75`                                       |
+| `font-family`      | 字体                                     | 字符串, 如 `"Times New Roman"`                              |
+| `font-size`        | 字号                                     | 尺寸值, 如 `12px`、`1.2em`                                  |
+| `font-style`       | 字体样式，正常或斜体                     | `normal`、`italic`、`oblique`、`inherit`                    |
+| `font-weight`      | 字粗                                     | `normal`、`bold`、`bolder`、`lighter`、`inherit`            |
+| `height`           | 高度                                     | 数值                                                        |
+| `width`            | 宽度                                     | 数值                                                        |
+| `href`             | 链接                                     | 字符串                                                      |
+| `stroke`           | 轮廓颜色                                 | 颜色字符串                                                  |
+| `stroke-dasharray` | 轮廓虚线                                 | 表示虚线间隔长度的字符串, 如 `'--.'`、`-.`                  |
+| `stroke-opacity`   | 轮廓透明度                               | 数值(0\~1)                                                  |
+| `stroke-width`     | 轮廓线宽                                 | 宽度值, 如 `1.2em`、`3px`                                   |
+| `text-anchor`      | 文字对齐方式                             | `start`、`middle`、`end`                                    |
+| `title`            | 鼠标悬停时的提示文字                     | 字符串                                                      |
+| `transform`        | 变换                                     | 包含变换指令的字符串, 如 `"translate(30) rotate(45 50 50)"` |
+
+
+
+##### Raphael 中的属性
+
+| 属性          | 说明         | 值                                                           |
+| ------------- | ------------ | ------------------------------------------------------------ |
+| `arrow-end`   | 路径尾部箭头 | `<type>[-<width>[-<length>]]`, types: `classic`, `block`, `open`, `oval`, `diamond`, `none`, width: `wide`, `narrow`, `medium`, length: `long`, `short`, `midium` |
+| `arrow-start` | 路径头部箭头 | 同上                                                         |
 
 
 
@@ -378,6 +424,91 @@ paper.text(500, 150, "Image");
 
 
 
+#### 图形样式属性
+
+示例：
+
+```javascript
+let paper = Raphael('view', 800, 480);
+paper.circle(50, 50, 30);
+// 填充颜色及轮廓
+paper.circle(150, 50, 30).attr('fill', 'red').attr('stroke', 'blue');
+paper.circle(250, 50, 30).attr({fill: 'red', stroke: 'blue'});
+paper.circle(350, 50, 30).attr({fill: 'red', 'fill-opacity': 0.5, stroke: 'blue'});
+paper.circle(450, 50, 30).attr({stroke: 'blue', 'stroke-width': '5px', 'stroke-opacity': 0.5});
+paper.circle(550, 50, 30).attr({r: 40});
+// 虚线轮廓
+paper.circle(650, 50, 30).attr({'stroke-dasharray': '-'});
+paper.circle(750, 50, 30).attr({'stroke-dasharray': '.'});
+paper.circle(50, 150, 30).attr({'stroke-dasharray': '-.'});
+paper.circle(150, 150, 30).attr({'stroke-dasharray': '-..'});
+paper.circle(250, 150, 30).attr({'stroke-dasharray': '. '});
+paper.circle(350, 150, 30).attr({'stroke-dasharray': '- '});
+paper.circle(450, 150, 30).attr({'stroke-dasharray': '--'});
+paper.circle(550, 150, 30).attr({'stroke-dasharray': '- .'});
+paper.circle(650, 150, 30).attr({'stroke-dasharray': '--.'});
+paper.circle(750, 150, 30).attr({'stroke-dasharray': '--..'});
+// 路径箭头
+paper.path('M20,220L80,250').attr('arrow-end','classic-wide-long');
+paper.path('M120,220L180,250').attr('arrow-end','block-wide-long');
+paper.path('M220,220L280,250').attr('arrow-end','open-wide-long');
+paper.path('M320,220L380,250').attr('arrow-end','oval-wide-long');
+paper.path('M420,220L480,250').attr('arrow-end','diamond-wide-long');
+paper.path('M520,220L580,250').attr('arrow-end','classic-narrow-long');
+paper.path('M620,220L680,250').attr('arrow-end','classic-medium-long');
+paper.path('M720,220L780,250').attr('arrow-end','classic-wide-midium');
+paper.path('M20,290L80,320').attr('arrow-start','classic-wide-long');
+paper.path('M120,290L180,320').attr('arrow-start','block-wide-long');
+paper.path('M220,290L280,320').attr('arrow-start','open-wide-long');
+paper.path('M320,290L380,320').attr('arrow-start','oval-wide-long');
+paper.path('M420,290L480,320').attr('arrow-start','classic-wide-long').attr('arrow-end','classic-wide-long');
+paper.path('M520,290L580,320').attr('arrow-start','oval-wide-long').attr('arrow-end','classic-wide-long');
+paper.path('M620,290L680,320').attr('arrow-start','diamond-wide-long').attr('arrow-end','classic-wide-long');
+paper.path('M720,290L780,320').attr('arrow-start','oval-wide-midium').attr('arrow-end','classic-wide-long');
+// 文本位置、尺寸及粗细
+paper.rect(20, 360, 60, 30);
+paper.text(50, 375, "Text")
+paper.rect(120, 360, 60, 30);
+paper.text(150, 375, "Text").attr('text-anchor', 'start');
+paper.rect(220, 360, 60, 30);
+paper.text(250, 375, "Text").attr('text-anchor', 'middle');
+paper.rect(320, 360, 60, 30);
+paper.text(350, 375, "Text").attr('text-anchor', 'end');
+paper.rect(420, 360, 60, 30);
+paper.text(450, 375, "Text").attr('font-size', '18px');
+paper.rect(520, 360, 60, 30);
+paper.text(550, 375, "Text").attr('font-weight', 'bold');
+paper.rect(620, 360, 60, 30);
+paper.text(650, 375, "Text").attr('font-weight', 'bolder');
+paper.rect(720, 360, 60, 30);
+paper.text(750, 375, "Text").attr('font-weight', 'lighter');
+// 字体、样式及链接
+paper.rect(20, 430, 60, 30);
+paper.text(50, 445, "Text").attr('font','10px "Bookman Old Style"')
+paper.rect(120, 430, 60, 30);
+paper.text(150, 445, "Text").attr('font-family', 'Comic Sans MS');
+paper.rect(220, 430, 60, 30);
+paper.text(250, 445, "Text").attr('font-style', 'normal');
+paper.rect(320, 430, 60, 30);
+paper.text(350, 445, "Text").attr('font-style', 'italic');
+paper.rect(420, 430, 60, 30);
+paper.text(450, 445, "Text").attr('font-style', 'oblique');
+paper.rect(520, 430, 60, 30);
+paper.text(550, 445, "Text").attr('font-style', 'inherit');
+paper.rect(620, 430, 60, 30);
+paper.text(650, 445, "Link").attr('href', 'index.html');
+paper.rect(720, 430, 60, 30);
+paper.text(750, 445, "Link").attr('href', 'index.html').attr('target','new');
+```
+
+效果：
+
+<svg height="480" version="1.1" width="800" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="overflow: hidden; position: relative;"><desc style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Created with Raphaël 2.3.0</desc><defs style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><path stroke-linecap="round" d="M5,0 0,2.5 5,5 3.5,3 3.5,2z" id="raphael-marker-classic" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><marker id="raphael-marker-endclassic55-objyxiv8" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="rotate(180 2.5 2.5) scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><path stroke-linecap="round" d="M5,0 0,2.5 5,5z" id="raphael-marker-block" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><marker id="raphael-marker-endblock55-objb2zqm" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-block" transform="rotate(180 2.5 2.5) scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><path stroke-linecap="round" d="M6,1 1,3.5 6,6" id="raphael-marker-open" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><marker id="raphael-marker-endopen77-objhwiag" markerHeight="7" markerWidth="7" orient="auto" refX="4" refY="3.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-open" transform="rotate(180 3.5 3.5) scale(1,1)" stroke-width="1.0000" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><path stroke-linecap="round" d="M2.5,0A2.5,2.5,0,0,1,2.5,5 2.5,2.5,0,0,1,2.5,0z" id="raphael-marker-oval" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><marker id="raphael-marker-endoval55-objlusqf" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-oval" transform="rotate(180 2.5 2.5) scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><path stroke-linecap="round" d="M2.5,0 5,2.5 2.5,5 0,2.5z" id="raphael-marker-diamond" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><marker id="raphael-marker-enddiamond55-objf4quz" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-diamond" transform="rotate(180 2.5 2.5) scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endclassic52-objcmeky" markerHeight="2" markerWidth="5" orient="auto" refX="2.5" refY="1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="rotate(180 2.5 1) scale(1,0.4)" stroke-width="1.4286" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endclassic53-obju2p4z" markerHeight="3" markerWidth="5" orient="auto" refX="2.5" refY="1.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="rotate(180 2.5 1.5) scale(1,0.6)" stroke-width="1.2500" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endclassic35-objqovqd" markerHeight="5" markerWidth="3" orient="auto" refX="1.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="rotate(180 1.5 2.5) scale(0.6,1)" stroke-width="1.2500" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-startclassic55-objsvfco" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-startblock55-objin0l1" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-block" transform="scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-startopen77-objjip7p" markerHeight="7" markerWidth="7" orient="auto" refX="1" refY="3.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-open" transform="scale(1,1)" stroke-width="1.0000" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-startoval55-objie2so" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-oval" transform="scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-startclassic55-objwjj11" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endclassic55-objwjj11" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="rotate(180 2.5 2.5) scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-startoval55-obj0308v" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-oval" transform="scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endclassic55-obj0308v" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="rotate(180 2.5 2.5) scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-startdiamond55-obj2qjw1" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-diamond" transform="scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endclassic55-obj2qjw1" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="rotate(180 2.5 2.5) scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-startoval35-objyzghd" markerHeight="5" markerWidth="3" orient="auto" refX="1.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-oval" transform="scale(0.6,1)" stroke-width="1.2500" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker><marker id="raphael-marker-endclassic55-objyzghd" markerHeight="5" markerWidth="5" orient="auto" refX="2.5" refY="2.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><use xlink:href="#raphael-marker-classic" transform="rotate(180 2.5 2.5) scale(1,1)" stroke-width="1.0000" fill="#000" stroke="none" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></use></marker></defs><circle cx="50" cy="50" r="30" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="150" cy="50" r="30" fill="#ff0000" stroke="#0000ff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="250" cy="50" r="30" fill="#ff0000" stroke="#0000ff" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="350" cy="50" r="30" fill="#ff0000" stroke="#0000ff" fill-opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); fill-opacity: 0.5;"></circle><circle cx="450" cy="50" r="30" fill="none" stroke="#0000ff" stroke-width="5px" stroke-opacity="0.5" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); stroke-opacity: 0.5;"></circle><circle cx="550" cy="50" r="40" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="650" cy="50" r="30" fill="none" stroke="#000" stroke-dasharray="3,1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="750" cy="50" r="30" fill="none" stroke="#000" stroke-dasharray="1,1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="50" cy="150" r="30" fill="none" stroke="#000" stroke-dasharray="3,1,1,1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="150" cy="150" r="30" fill="none" stroke="#000" stroke-dasharray="3,1,1,1,1,1" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="250" cy="150" r="30" fill="none" stroke="#000" stroke-dasharray="1,3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="350" cy="150" r="30" fill="none" stroke="#000" stroke-dasharray="4,3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="450" cy="150" r="30" fill="none" stroke="#000" stroke-dasharray="8,3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="550" cy="150" r="30" fill="none" stroke="#000" stroke-dasharray="4,3,1,3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="650" cy="150" r="30" fill="none" stroke="#000" stroke-dasharray="8,3,1,3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><circle cx="750" cy="150" r="30" fill="none" stroke="#000" stroke-dasharray="8,3,1,3,1,3" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></circle><path fill="none" stroke="#000000" d="M20,220L80,250" marker-end="url(#raphael-marker-endclassic55-objyxiv8)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M120,220L180,250" marker-end="url(#raphael-marker-endblock55-objb2zqm)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M220,220L280,250" marker-end="url(#raphael-marker-endopen77-objhwiag)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M320,220L380,250" marker-end="url(#raphael-marker-endoval55-objlusqf)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M420,220L480,250" marker-end="url(#raphael-marker-enddiamond55-objf4quz)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M520,220L580,250" marker-end="url(#raphael-marker-endclassic52-objcmeky)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M620,220L680,250" marker-end="url(#raphael-marker-endclassic53-obju2p4z)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M720,220L780,250" marker-end="url(#raphael-marker-endclassic35-objqovqd)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M20,290C20,290,80,320,80,320" marker-start="url(#raphael-marker-startclassic55-objsvfco)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M120,290C120,290,180,320,180,320" marker-start="url(#raphael-marker-startblock55-objin0l1)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M220,290C220,290,280,320,280,320" marker-start="url(#raphael-marker-startopen77-objjip7p)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M320,290C320,290,380,320,380,320" marker-start="url(#raphael-marker-startoval55-objie2so)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M420,290C420,290,480,320,480,320" marker-start="url(#raphael-marker-startclassic55-objwjj11)" marker-end="url(#raphael-marker-endclassic55-objwjj11)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M520,290C520,290,580,320,580,320" marker-start="url(#raphael-marker-startoval55-obj0308v)" marker-end="url(#raphael-marker-endclassic55-obj0308v)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M620,290C620,290,680,320,680,320" marker-start="url(#raphael-marker-startdiamond55-obj2qjw1)" marker-end="url(#raphael-marker-endclassic55-obj2qjw1)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><path fill="none" stroke="#000000" d="M720,290C720,290,780,320,780,320" marker-start="url(#raphael-marker-startoval35-objyzghd)" marker-end="url(#raphael-marker-endclassic55-objyzghd)" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></path><rect x="20" y="360" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="50" y="375" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="120" y="360" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="150" y="375" text-anchor="start" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: start; font-family: Arial; font-size: 10px;"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="220" y="360" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="250" y="375" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="320" y="360" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="350" y="375" text-anchor="end" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: end; font-family: Arial; font-size: 10px;"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="420" y="360" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="450" y="375" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="18px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 18px;"><tspan dy="6" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="520" y="360" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="550" y="375" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px; font-weight: bold;" font-weight="bold"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="620" y="360" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="650" y="375" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px; font-weight: bolder;" font-weight="bolder"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="720" y="360" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="750" y="375" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px; font-weight: lighter;" font-weight="lighter"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="20" y="430" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="50" y="445" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font: 10px &quot;Bookman Old Style&quot;;" font="10px &quot;Bookman Old Style&quot;"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="120" y="430" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="150" y="445" text-anchor="middle" font-family="Comic Sans MS" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: &quot;Comic Sans MS&quot;; font-size: 10px;"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="220" y="430" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="250" y="445" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px; font-style: normal;" font-style="normal"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="320" y="430" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="350" y="445" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px; font-style: italic;" font-style="italic"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="420" y="430" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="450" y="445" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px; font-style: oblique;" font-style="oblique"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="520" y="430" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><text x="550" y="445" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px; font-style: inherit;" font-style="inherit"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Text</tspan></text><rect x="620" y="430" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><a xlink:href="index.html" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><text x="650" y="445" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Link</tspan></text></a><rect x="720" y="430" width="60" height="30" rx="0" ry="0" fill="none" stroke="#000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"></rect><a xlink:href="index.html" xlink:show="new" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);"><text x="750" y="445" text-anchor="middle" font-family="&quot;Arial&quot;" font-size="10px" stroke="none" fill="#000000" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0); text-anchor: middle; font-family: Arial; font-size: 10px;"><tspan dy="3.1999878883361816" style="-webkit-tap-highlight-color: rgba(0, 0, 0, 0);">Link</tspan></text></a></svg>
+
+查看示例效果: <a href="/example/raphaeljs/raphael.attribute.html" target="_self">/example/raphaeljs/raphael.attribute.html</a> 
+
+
+
 ### 总结
 
 RaphaelJs 是一个偏底层基础的矢量绘图库，支持绘制的图形包括圆形、椭圆、矩形、路径、文字，支持的交互事件包括点击、双击、拖拽、鼠标悬停、鼠标移入移出等，支持动画效果，支持设置修改 svg 标准属性，支持创建图形集合。RaphaelJs 能够完成最基础图形绘制功能，如果要实现复杂的图形绘制就需要自己编码和封装，比如要实现统计图，就需要自己绘制坐标轴，这需要根据数据计算坐标轴的位置、长度，绘制坐标轴上的刻度等等，如果要实现绘制图形的自适应就需要更多的编码和封装了。Raphael 的官网提供了很多精美的示例，实现了很酷炫的效果，但没提供代码，所以学习起来不太方便，只能看 api 文档，自己摸索，因此我把自己摸索的成果写成了这篇文章，记录下来将来使用时有所参考。
@@ -388,3 +519,5 @@ RaphaelJs 是一个偏底层基础的矢量绘图库，支持绘制的图形包�
 
 ### 参考资料
 
+- CSS3中的矩阵: <https://blog.csdn.net/flqbestboy/article/details/78110019> 
+- SVG参考手册: <http://www.verydoc.net/svg/> 

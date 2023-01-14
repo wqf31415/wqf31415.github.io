@@ -7,52 +7,7 @@
 <body>
 <script src="raphael.min.js"></script>
 <div>
-<figure class="highlight javascript">
-    <div class="table-container">
-        <table>
-            <tbody>
-            <tr>
-                <td class="gutter">
-<pre><span class="line">1</span>
-<span class="line">2</span>
-<span class="line">3</span>
-<span class="line">4</span>
-<span class="line">5</span>
-<span class="line">6</span>
-<span class="line">7</span>
-<span class="line">8</span>
-<span class="line">9</span>
-<span class="line">10</span>
-<span class="line">11</span>
-<span class="line">12</span>
-<span class="line">13</span>
-<span class="line">14</span>
-<span class="line">15</span>
-<span class="line">16</span></pre>
-                </td>
-                <td class="code">
-<pre class="code"><span class="line">// 创建画布, 宽 300， 高 200</span>
-<span class="line">const paper = Raphael('view', 300, 200);</span>
-<span class="line">// 绘制圆形, 圆心坐标(150,100), 半径 50</span>
-<span class="line">let circle = paper.circle(150, 100, 50);</span>
-<span class="line">// 圆形填充为红色(red)</span>
-<span class="line">circle.attr('fill', 'red');</span>
-<span class="line">// 给圆形添加点击事件处理函数, 实现点击切换颜色</span>
-<span class="line">circle.click(function (pointerEvent , x, y) {</span>
-<span class="line">    if (this.attr('fill') === 'red') {</span>
-<span class="line">        // 获取圆形填充属性值，值为 red 时，设置填充颜色为蓝色 blue</span>
-<span class="line">        this.attr('fill', 'blue');</span>
-<span class="line">    } else {</span>
-<span class="line">        // 否则设置填充颜色为红色 red</span>
-<span class="line">        this.attr('fill', 'red');</span>
-<span class="line">    }</span>
-<span class="line">});</span></pre>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-    </div>
-</figure>
+    <figure class="highlight html"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="meta-keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"zh"</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Raphael 快速开始<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"raphael.min.js"</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"view"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// 创建画布, 宽 300， 高 200</span></span></span><br><span class="line"><span class="actionscript">    <span class="keyword">const</span> paper = Raphael(<span class="string">'view'</span>, <span class="number">300</span>, <span class="number">200</span>);</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// 绘制圆形, 圆心坐标(150,100), 半径 50</span></span></span><br><span class="line"><span class="javascript">    <span class="keyword">let</span> circle = paper.circle(<span class="number">150</span>, <span class="number">100</span>, <span class="number">50</span>);</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// 圆形填充为红色(red)</span></span></span><br><span class="line"><span class="actionscript">    circle.attr(<span class="string">'fill'</span>, <span class="string">'red'</span>);</span></span><br><span class="line"><span class="actionscript">    <span class="comment">// 给圆形添加点击事件处理函数, 实现点击切换颜色</span></span></span><br><span class="line"><span class="actionscript">    circle.click(<span class="function"><span class="keyword">function</span> <span class="params">(pointerEvent&nbsp;, x, y)</span> </span>{</span></span><br><span class="line"><span class="actionscript">        <span class="keyword">if</span> (<span class="keyword">this</span>.attr(<span class="string">'fill'</span>) === <span class="string">'red'</span>) {</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 获取圆形填充属性值，值为 red 时，设置填充颜色为蓝色 blue</span></span></span><br><span class="line"><span class="actionscript">            <span class="keyword">this</span>.attr(<span class="string">'fill'</span>, <span class="string">'blue'</span>);</span></span><br><span class="line"><span class="actionscript">        } <span class="keyword">else</span> {</span></span><br><span class="line"><span class="actionscript">            <span class="comment">// 否则设置填充颜色为红色 red</span></span></span><br><span class="line"><span class="actionscript">            <span class="keyword">this</span>.attr(<span class="string">'fill'</span>, <span class="string">'red'</span>);</span></span><br><span class="line">        }</span><br><span class="line">    });</span><br><span class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></tbody></table></div></figure>
 </div>
 <div id="view"></div>
 <script>
