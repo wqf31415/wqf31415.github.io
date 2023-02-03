@@ -160,6 +160,7 @@ tar -xf mytar.tar
 
 ```bash
 zip -r myZip.zip a.txt b.md
+zip -r myDir.zip myDir/
 ```
 
 查看：
