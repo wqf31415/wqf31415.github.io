@@ -149,7 +149,7 @@ var paper = Raphael('view', 300, 200);
 | ------------------------------------------------------------ | ---------------------------- | ------------------------------------------------------------ | -------- |
 | `click(handler)`                                             | 设置对象的鼠标点击事件处理器 | 处理点击事件的函数，该函数可接受3个参数：event、x、y         | 元素对象 |
 | `dblclick(handler)`                                          | 设置对象的鼠标双击事件处理器 | 处理双击事件的函数，该函数可接受3个参数：event、x、y         | 元素对象 |
-| `drag(onmove, onstart, onend, [mcontext], [scontext], [econtext])` | 设置鼠标拖拽事件处理器       | 1. 移动过程中的事件处理函数(x,y,event);<br>2. 拖拽开始事件处理函数(dx,dy,x,y,event);<br>3. 拖拽结束事件处理函数(event);<br>4. 拖拽过程函数上下文;<br>5. 拖拽开始函数上下文;<br>6. 拖拽结束函数上下文; | 元素对象 |
+| `drag(onmove, onstart, onend, [mcontext], [scontext], [econtext])` | 设置鼠标拖拽事件处理器       | 1. 移动过程中的事件处理函数(dx,dy,x,y,event);<br>2. 拖拽开始事件处理函数(x,y,event);<br>3. 拖拽结束事件处理函数(event);<br>4. 拖拽过程函数上下文;<br>5. 拖拽开始函数上下文;<br>6. 拖拽结束函数上下文; | 元素对象 |
 | `hover(f_in, f_out, [icontext], [ocontext])`                 | 设置鼠标悬停事件             | 1. 鼠标移入事件处理函数;<br>2. 鼠标移出事件处理函数;<br>3. 鼠标移入函数上下文;<br>4. 鼠标移出函数上下文; | 元素对象 |
 | `mousedown(handler)`                                         | 设置鼠标按下事件处理函数     | 鼠标按下事件处理函数                                         | 元素对象 |
 | `mousemove(handler)`                                         | 设置鼠标拖动事件处理函数     | 鼠标拖动事件处理函数                                         | 元素对象 |
@@ -511,7 +511,53 @@ paper.text(750, 445, "Link").attr('href', 'index.html').attr('target','new');
 
 #### 交互事件
 
+在 RaphaelJs 中，我们可以给元素添加事件处理函数，包括点击、双击、拖拽、鼠标悬停、鼠标移入移出等，在图形中实现丰富的交互功能。
 
+示例：
+
+```javascript
+let paper = Raphael('view', 350, 200);
+let rect = paper.rect(0, 0, 300, 200);
+rect.attr({fill: 'white'}); // 设置图形填充，否则只能点击边框
+let text = null;
+// 点击矩形显示点击位置坐标
+rect.click(function (event, x, y) {
+    console.log('Click event: ', event, x, y);
+    if (text != null) {
+        text.remove();
+    }
+    text = paper.text(325, 10, "(" + event.layerX + "," + event.layerY + ")");
+});
+// 双击切换背景颜色，双击时会触发两次单击事件
+rect.dblclick(function (event, x, y) {
+    if (rect.attr("fill") === 'white') {
+        rect.attr({fill: 'gray'});
+    } else {
+        rect.attr({fill: 'white'});
+    }
+});
+// 绘制一个圆形，实现拖动效果
+circle = paper.circle(50, 50, 20).attr({fill: 'white'});
+circle.drag(function (dx, dy, x, y, event) {
+    console.log('On move: ', dx, dy, x, y, event);
+    circle.attr("cx", event.layerX);
+    circle.attr("cy", event.layerY);
+}, function (x, y, event) {
+    console.log('Move start: ', x, y, event)
+}, function (event) {
+    console.log('Move end: ', event);
+});
+// 给圆形添加hover处理函数，实现鼠标移入切换颜色
+circle.hover(function (event, x, y) {
+    console.log('Hover in: ', event, x, y);
+    circle.attr('fill', 'red');
+}, function (event, x, y) {
+    console.log('Hover out: ', event, x, y);
+    circle.attr('fill', 'white');
+});
+```
+
+查看示例效果: <a href="/example/raphaeljs/raphael.event.html" target="_self">/example/raphaeljs/raphael.event.html</a> 
 
 
 
