@@ -5,8 +5,12 @@
     <title>Raphael 集合</title>
 </head>
 <body>
-<div></div>
+<h3 id="code-id">代码</h3>
+<div>
+    <figure class="highlight javascript"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> paper = Raphael(<span class="string">'view'</span>, <span class="number">300</span>, <span class="number">200</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="keyword">set</span> = paper.<span class="keyword">set</span>(); // 创建集合</span><br><span class="line"><span class="keyword">set</span>.push(paper.circle(100,100, 50)); // 添加元素</span><br><span class="line"><span class="keyword">set</span>.push(paper.circle(200,100, 50)); // 添加元素</span><br><span class="line"><span class="keyword">set</span>.attr('fill', 'red'); // 设置集合元素的填充颜色为红色 red</span><br></pre></td></tr></tbody></table></div></figure>
+</div>
 <script src="raphael.min.js"></script>
+<h3 id="res-id">结果</h3>
 <div id="view"></div>
 <script>
     let paper = Raphael('view', 300, 200);
