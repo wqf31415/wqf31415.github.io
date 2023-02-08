@@ -513,7 +513,7 @@ paper.text(750, 445, "Link").attr('href', 'index.html').attr('target','new');
 
 在 RaphaelJs 中，我们可以给元素添加事件处理函数，包括点击、双击、拖拽、鼠标悬停、鼠标移入移出等，在图形中实现丰富的交互功能。
 
-示例：
+示例（<a href="/example/raphaeljs/raphael.event.html" target="_self">查看示例效果</a>）：
 
 ```javascript
 let paper = Raphael('view', 350, 200);
@@ -557,13 +557,78 @@ circle.hover(function (event, x, y) {
 });
 ```
 
-查看示例效果: <a href="/example/raphaeljs/raphael.event.html" target="_self">/example/raphaeljs/raphael.event.html</a> 
-
 
 
 #### 动画效果
 
+在 RaphaelJs 中，可以给图形元素添加动画效果，有两种方式：
 
+- 使用 `Raphael.animation()` 函数创建动画对象 ，然后使用元素对象的 `animate()` 函数绑定动画对象。
+- 使用元素对象的 `animate()` 函数直接添加动画效果。
+
+> 区别：创建动画对象可以复用动画，同时可以给动画添加延迟执行和重复执行；直接给元素对象添加动画则不能实现延迟和重复执行。
+
+示例（<a href="/example/raphaeljs/raphael.animate.html" target="_self">查看示例效果</a>）：
+
+```javascript
+let paper = Raphael('view', 400, 200);
+// 一个闪烁的圆圈
+let circle1 = paper.circle(50, 50, 30).attr({fill: 'white'});
+let anim1 = Raphael.animation({fill: 'red'}, 500).repeat(Infinity);
+circle1.animate(anim1);
+
+// 点击切换颜色动画的圆圈
+let circle2 = paper.circle(150, 50, 30).attr({fill: 'white'});
+circle2.click(function (event, x, y) {
+    if (circle2.attr("fill") === 'white') {
+        circle2.animate({fill: 'red'}, 500, "liner", function () {
+            // 动画结束时的回调函数
+            console.log("Animation end callback");
+        });
+    } else {
+        circle2.animate({fill: 'white'}, 500);
+    }
+});
+
+// 半径扩大的圆形
+let circle3 = paper.circle(250, 50, 1).attr({fill: 'white'});
+let anim3 = Raphael.animation({r: 30}, 1000).repeat(Infinity);
+circle3.animate(anim3);
+
+// 移动的圆形
+let circle4 = paper.circle(320, 50, 30).attr({fill: 'white'});
+let anim4 = Raphael.animation({cx: 370}, 1000).repeat(Infinity);
+circle4.animate(anim4);
+
+// 使用 Raphael.animation() 函数创建动画对象时，第三个参数是动画缓和效果
+// 不同的动画缓和效果
+let anim5 = Raphael.animation({cy: 190}, 1000, "linear"); // 线性
+paper.circle(10, 110, 10).attr({fill: 'white'}).animate(anim5);
+
+let anim6 = Raphael.animation({cy: 190}, 1000, "<"); // 缓入，等同  “easeIn” 、 “ease-in”
+paper.circle(30, 110, 10).attr({fill: 'white'}).animate(anim6);
+
+let anim7 = Raphael.animation({cy: 190}, 1000, ">"); // 缓出，等同 “easeOut” 、 “ease-out”
+paper.circle(50, 110, 10).attr({fill: 'white'}).animate(anim7);
+
+let anim8 = Raphael.animation({cy: 190}, 1000, "<>"); // 缓入缓出，等同 “easeInOut” 、 “ease-in-out”
+paper.circle(70, 110, 10).attr({fill: 'white'}).animate(anim8);
+
+let anim9 = Raphael.animation({cy: 190}, 1000, "backIn"); // 后移进入，向后移动后进入，等同 “back-in”
+paper.circle(90, 110, 10).attr({fill: 'white'}).animate(anim9);
+
+let anim10 = Raphael.animation({cy: 190}, 1000, "backOut"); // 后移结束，结束时先冲出一段再向后移动，等同 “back-out”
+paper.circle(110, 110, 10).attr({fill: 'white'}).animate(anim10);
+
+let anim11 = Raphael.animation({cy: 190}, 1000, "elastic"); // 弹跳
+paper.circle(130, 110, 10).attr({fill: 'white'}).animate(anim11);
+
+let anim12 = Raphael.animation({cy: 190}, 1000, "bounce"); // 弹回
+paper.circle(150, 110, 10).attr({fill: 'white'}).animate(anim12);
+
+// 多个动画效果
+paper.circle(170, 110, 10).attr({fill: 'white'}).animate({cy: 190}, 1000).animate({fill: 'red'}, 1000); // 移动的同时改变颜色
+```
 
 
 

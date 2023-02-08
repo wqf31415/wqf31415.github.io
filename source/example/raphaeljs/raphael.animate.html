@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Raphael 动画</title>
+</head>
+<body>
+<script src="raphael.min.js"></script>
+<div>
+    <figure class="highlight javascript"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> paper = Raphael(<span class="string">'view'</span>, <span class="number">400</span>, <span class="number">200</span>);</span><br><span class="line"><span class="comment">// 一个闪烁的圆圈</span></span><br><span class="line"><span class="keyword">let</span> circle1 = paper.circle(<span class="number">50</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>});</span><br><span class="line"><span class="keyword">let</span> anim1 = Raphael.animation({<span class="attr">fill</span>: <span class="string">'red'</span>}, <span class="number">500</span>).repeat(<span class="literal">Infinity</span>);</span><br><span class="line">circle1.animate(anim1);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 点击切换颜色动画的圆圈</span></span><br><span class="line"><span class="keyword">let</span> circle2 = paper.circle(<span class="number">150</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>});</span><br><span class="line">circle2.click(<span class="function"><span class="keyword">function</span> (<span class="params">event, x, y</span>) </span>{</span><br><span class="line">    <span class="keyword">if</span> (circle2.attr(<span class="string">"fill"</span>) === <span class="string">'white'</span>) {</span><br><span class="line">        circle2.animate({<span class="attr">fill</span>: <span class="string">'red'</span>}, <span class="number">500</span>, <span class="string">"liner"</span>, <span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>{</span><br><span class="line">            <span class="comment">// 动画结束时的回调函数</span></span><br><span class="line">            <span class="built_in">console</span>.log(<span class="string">"Animation end callback"</span>);</span><br><span class="line">        });</span><br><span class="line">    } <span class="keyword">else</span> {</span><br><span class="line">        circle2.animate({<span class="attr">fill</span>: <span class="string">'white'</span>}, <span class="number">500</span>);</span><br><span class="line">    }</span><br><span class="line">});</span><br><span class="line"></span><br><span class="line"><span class="comment">// 半径扩大的圆形</span></span><br><span class="line"><span class="keyword">let</span> circle3 = paper.circle(<span class="number">250</span>, <span class="number">50</span>, <span class="number">1</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>});</span><br><span class="line"><span class="keyword">let</span> anim3 = Raphael.animation({<span class="attr">r</span>: <span class="number">30</span>}, <span class="number">1000</span>).repeat(<span class="literal">Infinity</span>);</span><br><span class="line">circle3.animate(anim3);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 移动的圆形</span></span><br><span class="line"><span class="keyword">let</span> circle4 = paper.circle(<span class="number">320</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>});</span><br><span class="line"><span class="keyword">let</span> anim4 = Raphael.animation({<span class="attr">cx</span>: <span class="number">370</span>}, <span class="number">1000</span>).repeat(<span class="literal">Infinity</span>);</span><br><span class="line">circle4.animate(anim4);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 使用 Raphael.animation() 函数创建动画对象时，第三个参数是动画缓和效果</span></span><br><span class="line"><span class="comment">// 不同的动画缓和效果</span></span><br><span class="line"><span class="keyword">let</span> anim5 = Raphael.animation({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>, <span class="string">"linear"</span>); <span class="comment">// 线性</span></span><br><span class="line">paper.circle(<span class="number">10</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate(anim5);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> anim6 = Raphael.animation({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>, <span class="string">"&lt;"</span>); <span class="comment">// 缓入，等同  “easeIn” 、 “ease-in”</span></span><br><span class="line">paper.circle(<span class="number">30</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate(anim6);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> anim7 = Raphael.animation({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>, <span class="string">"&gt;"</span>); <span class="comment">// 缓出，等同 “easeOut” 、 “ease-out”</span></span><br><span class="line">paper.circle(<span class="number">50</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate(anim7);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> anim8 = Raphael.animation({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>, <span class="string">"&lt;&gt;"</span>); <span class="comment">// 缓入缓出，等同 “easeInOut” 、 “ease-in-out”</span></span><br><span class="line">paper.circle(<span class="number">70</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate(anim8);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> anim9 = Raphael.animation({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>, <span class="string">"backIn"</span>); <span class="comment">// 后移进入，向后移动后进入，等同 “back-in”</span></span><br><span class="line">paper.circle(<span class="number">90</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate(anim9);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> anim10 = Raphael.animation({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>, <span class="string">"backOut"</span>); <span class="comment">// 后移结束，结束时先冲出一段再向后移动，等同 “back-out”</span></span><br><span class="line">paper.circle(<span class="number">110</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate(anim10);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> anim11 = Raphael.animation({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>, <span class="string">"elastic"</span>); <span class="comment">// 弹跳</span></span><br><span class="line">paper.circle(<span class="number">130</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate(anim11);</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> anim12 = Raphael.animation({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>, <span class="string">"bounce"</span>); <span class="comment">// 弹回</span></span><br><span class="line">paper.circle(<span class="number">150</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate(anim12);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 多个动画效果</span></span><br><span class="line">paper.circle(<span class="number">170</span>, <span class="number">110</span>, <span class="number">10</span>).attr({<span class="attr">fill</span>: <span class="string">'white'</span>}).animate({<span class="attr">cy</span>: <span class="number">190</span>}, <span class="number">1000</span>).animate({<span class="attr">fill</span>: <span class="string">'red'</span>}, <span class="number">1000</span>); <span class="comment">// 移动的同时改变颜色</span></span><br></pre></td></tr></tbody></table></div></figure>
+</div>
+<div id="view"></div>
+<script>
+    let paper = Raphael('view', 400, 200);
+    // 一个闪烁的圆圈
+    let circle1 = paper.circle(50, 50, 30).attr({fill: 'white'});
+    let anim1 = Raphael.animation({fill: 'red'}, 500).repeat(Infinity);
+    circle1.animate(anim1);
+
+    // 点击切换颜色动画的圆圈
+    let circle2 = paper.circle(150, 50, 30).attr({fill: 'white'});
+    circle2.click(function (event, x, y) {
+        if (circle2.attr("fill") === 'white') {
+            circle2.animate({fill: 'red'}, 500, "liner", function () {
+                // 动画结束时的回调函数
+                console.log("Animation end callback");
+            });
+        } else {
+            circle2.animate({fill: 'white'}, 500);
+        }
+    });
+
+    // 半径扩大的圆形
+    let circle3 = paper.circle(250, 50, 1).attr({fill: 'white'});
+    let anim3 = Raphael.animation({r: 30}, 1000).repeat(Infinity);
+    circle3.animate(anim3);
+
+    // 移动的圆形
+    let circle4 = paper.circle(320, 50, 30).attr({fill: 'white'});
+    let anim4 = Raphael.animation({cx: 370}, 1000).repeat(Infinity);
+    circle4.animate(anim4);
+
+    // 使用 Raphael.animation() 函数创建动画对象时，第三个参数是动画缓和效果
+    // 不同的动画缓和效果
+    let anim5 = Raphael.animation({cy: 190}, 1000, "linear"); // 线性
+    paper.circle(10, 110, 10).attr({fill: 'white'}).animate(anim5);
+
+    let anim6 = Raphael.animation({cy: 190}, 1000, "<"); // 缓入，等同  “easeIn” 、 “ease-in”
+    paper.circle(30, 110, 10).attr({fill: 'white'}).animate(anim6);
+
+    let anim7 = Raphael.animation({cy: 190}, 1000, ">"); // 缓出，等同 “easeOut” 、 “ease-out”
+    paper.circle(50, 110, 10).attr({fill: 'white'}).animate(anim7);
+
+    let anim8 = Raphael.animation({cy: 190}, 1000, "<>"); // 缓入缓出，等同 “easeInOut” 、 “ease-in-out”
+    paper.circle(70, 110, 10).attr({fill: 'white'}).animate(anim8);
+
+    let anim9 = Raphael.animation({cy: 190}, 1000, "backIn"); // 后移进入，向后移动后进入，等同 “back-in”
+    paper.circle(90, 110, 10).attr({fill: 'white'}).animate(anim9);
+
+    let anim10 = Raphael.animation({cy: 190}, 1000, "backOut"); // 后移结束，结束时先冲出一段再向后移动，等同 “back-out”
+    paper.circle(110, 110, 10).attr({fill: 'white'}).animate(anim10);
+
+    let anim11 = Raphael.animation({cy: 190}, 1000, "elastic"); // 弹跳
+    paper.circle(130, 110, 10).attr({fill: 'white'}).animate(anim11);
+
+    let anim12 = Raphael.animation({cy: 190}, 1000, "bounce"); // 弹回
+    paper.circle(150, 110, 10).attr({fill: 'white'}).animate(anim12);
+
+    // 多个动画效果
+    paper.circle(170, 110, 10).attr({fill: 'white'}).animate({cy: 190}, 1000).animate({fill: 'red'}, 1000); // 移动的同时改变颜色
+</script>
+</body>
+</html>
