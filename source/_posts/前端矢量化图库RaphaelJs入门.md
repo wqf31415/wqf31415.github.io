@@ -568,13 +568,21 @@ circle.hover(function (event, x, y) {
 
 > 区别：创建动画对象可以复用动画，同时可以给动画添加延迟执行和重复执行；直接给元素对象添加动画则不能实现延迟和重复执行。
 
+创建动画时，函数的第一个参数是动画结束时的元素属性对象，第二个参数是动画时长（单位毫秒），第三个参数是动画缓和效果，第四个参数是动画结束回调函数。
+
 示例（<a href="/example/raphaeljs/raphael.animate.html" target="_self">查看示例效果</a>）：
 
 ```javascript
 let paper = Raphael('view', 400, 200);
 // 一个闪烁的圆圈
 let circle1 = paper.circle(50, 50, 30).attr({fill: 'white'});
-let anim1 = Raphael.animation({fill: 'red'}, 500).repeat(Infinity);
+// 创建一个动画对象
+let anim1 = Raphael.animation({fill: 'red'}, 500);
+// 动画对象的 repeat() 函数用于设置动画重复次数，参数为重复次数，如果一直循环则传 Infinity
+anim1 = anim1.repeat(Infinity);
+// 动画对象的 delay() 函数用于设置动画延迟开始时间，单位毫秒
+// 注意，如果是循环的动画，则每次开始前都会延迟
+anim1 = anim1.delay(1000);
 circle1.animate(anim1);
 
 // 点击切换颜色动画的圆圈
@@ -628,6 +636,11 @@ paper.circle(150, 110, 10).attr({fill: 'white'}).animate(anim12);
 
 // 多个动画效果
 paper.circle(170, 110, 10).attr({fill: 'white'}).animate({cy: 190}, 1000).animate({fill: 'red'}, 1000); // 移动的同时改变颜色
+// paper.circle(170, 110, 10).attr({fill: 'white'}).animate({cy: 190, fill: 'red'}, 1000); // 与上面效果相同
+
+// 变形动画：向右平移 100 像素，同时旋转 90 度，同时 x 方向扩大 2 倍
+let anim13 = Raphael.animation({transform: 't100,0r90s2,1'}, 1000).repeat(Infinity);
+paper.circle(190, 110, 10).attr({fill: 'white'}).animate(anim13); // 变形动画
 ```
 
 
