@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>舒尔特图生成器</title>
+</head>
+<body>
+<script src="raphael.min.js"></script>
+<div>
+    <div>
+        <label for="num-input">行数：</label>
+        <input type="number" id="num-input" value="5" min="1" max="10">
+    </div>
+    <div>
+        <label for="stNum-input">初始值：</label>
+        <input type="number" id="stNum-input" value="1">
+    </div>
+    <button onclick="reloadDemo()">刷新</button>
+</div>
+<div id="view"></div>
+<script>
+    function showDemo() {
+        let num = document.getElementById('num-input').value;
+        if (!num ||num<1 || num>10) {
+            alert("行数错误");
+            return;
+        }
+        const paper = Raphael('view', 520, 520);
+        let w = 500 / num;
+        line = '';
+        for (let i = 0; i <= num; i++) {
+            line += 'M10 ' + (i * w + 10) + 'L510 ' + (i * w + 10);
+        }
+        for (let i = 0; i <= num; i++) {
+            line += 'M' + (i * w + 10) + ' 10L' + (i * w + 10) + ' 510';
+        }
+        let arr = [];
+        let startVal = Number.parseInt(document.getElementById('stNum-input').value);
+        for (let i = 0; i < Math.pow(num,2); i++) {
+            arr.push(startVal+i);
+        }
+        let fontSize = 26;
+        for (let i = 0; i < num; i++) {
+            for (let j = 0; j < num; j++) {
+                let index = Math.floor(Math.random() * arr.length);
+                paper.text(i * w + 10 + w / 2, j * w + 10 + w / 2, arr[index]).attr('font-size', fontSize);
+                arr.splice(index, 1);
+            }
+        }
+        paper.path(line);
+    }
+
+    function reloadDemo() {
+        document.getElementById('view').innerHTML = '';
+        showDemo();
+    }
+
+    window.onload = function(){
+        showDemo();
+    };
+</script>
+</body>
+</html>
