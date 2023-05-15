@@ -435,6 +435,8 @@ gantt
 
 #### 类图（Class Diagram）
 
+> 官网文档 Class diagrams | Mermaid: <https://mermaid.js.org/syntax/classDiagram.html> 
+
 ```
 classDiagram
     Client --> AbstractFactory
