@@ -4,23 +4,23 @@
 
 # Site
 title: This_Wei
-subtitle: "Come on!"
+subtitle: 'Come on!'
 description: '昨夜西风凋碧树，独上高楼，望尽天涯路！'
 keywords:
 author: This_Wei
 avatar: /uploads/avatar.jpg
 language: zh-CN
-timezone:
+timezone: ''
 baidu_analytics: 573d2959947383d4158d7b1756b9d63c
 
 # URL
-## If your site is put in a subdirectory, set url as 'http://yoursite.com/child' and root as '/child/'
-url: http://blog.wqf31415.xyz
-root: /
+## Set your site url here. For example, if you use GitHub Page, set url as 'https://username.github.io/project'
+url: https://www.wqf31415.xyz
 permalink: :year/:month/:day/:title/
 permalink_defaults:
 pretty_urls:
-  trailing_index: true # Set to false to remove trailing index.html from permalinks
+  trailing_index: true # Set to false to remove trailing 'index.html' from permalinks
+  trailing_html: true # Set to false to remove trailing '.html' from permalinks
 
 # Directory
 source_dir: source
@@ -31,9 +31,8 @@ category_dir: categories
 code_dir: downloads/code
 i18n_dir: :lang
 skip_render:
-- CNAME
-- README.MD
-
+  - CNAME
+  - README.MD
 # Writing
 new_post_name: :title.md # File name of new posts
 default_layout: post
@@ -41,7 +40,7 @@ titlecase: false # Transform title into titlecase
 external_link:
   enable: true # Open external links in new tab
   field: site # Apply to the whole site
-  exclude:
+  exclude: ''
 filename_case: 0
 render_drafts: false
 post_asset_folder: false
@@ -51,7 +50,14 @@ highlight:
   enable: true
   line_number: true
   auto_detect: false
-  tab_replace:
+  tab_replace: ''
+  wrap: true
+  hljs: false
+prismjs:
+  enable: false
+  preprocess: true
+  line_number: true
+  tab_replace: ''
 
 # Home page setting
 # path: Root path for your blogs index page. (default = '')
@@ -77,8 +83,8 @@ meta_generator: true
 ## http://momentjs.com/docs/#/displaying/format/
 date_format: YYYY-MM-DD
 time_format: HH:mm:ss
-## Use post's date for updated date unless set in front-matter
-use_date_for_updated: false
+## updated_option supports 'mtime', 'date', 'empty'
+updated_option: 'mtime'
 
 # Pagination
 ## Set per_page to 0 to disable pagination
@@ -97,18 +103,12 @@ ignore:
 theme: next
 
 # Deployment
-## Docs: https://hexo.io/docs/deployment.html
+## Docs: https://hexo.io/docs/one-command-deployment
 deploy:
-  - type: git
-    repo: 
-      github: https://github.com/wqf31415/wqf31415.github.io.git,master
-      #coding: https://e.coding.net/wqf31415/wqf31415.git,master
-      message: ":high_heel: 完成文章内容: {{ now('YYYY-MM-DD HH:mm:ss') }}"
-#  - type: sftp 
-#    host: 118.24.50.165
-#    port: 22
-#    user: hexo
-#    pass: sftppass
+  type: git
+  repo:
+    github: git@github.com:wqf31415/wqf31415.github.io.git,master
+    message: ":high_heel: 完成文章内容: {{ now('YYYY-MM-DD HH:mm:ss') }}"
 
 mermaid:
   enable: true
