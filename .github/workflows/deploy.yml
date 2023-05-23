@@ -27,8 +27,8 @@ jobs:
       - name: install dependencies
         run: npm install
 
-      - name: download theme
-        run: git clone https://github.com/theme-next/hexo-theme-next themes/next
+#      - name: download theme
+#        run: git clone https://github.com/theme-next/hexo-theme-next themes/next
 
       - name: cp config file
         run: |
