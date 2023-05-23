@@ -4,7 +4,7 @@
 这是使用 [Hexo](https://hexo.io/zh-cn/) 生成的静态博客，`master` 分支提供 page 页面访问， `source` 分支为博客资源。
 
 ## 运行环境
-- Node v10.15.3+
+- Node v12.13.0+
 - Npm 6.4.1+
 - Git 2.13.3+
 
@@ -35,7 +35,7 @@ npm install
 当前使用的是 [NexT](https://theme-next.org) 主题，下载方式，进入项目根目录，执行：
 
 ```bash
-git clone https://github.com/theme-next/hexo-theme-next themes/next
+git clone https://github.com/next-theme/hexo-theme-next themes/next
 ```
 
 ### 修改主题配置
