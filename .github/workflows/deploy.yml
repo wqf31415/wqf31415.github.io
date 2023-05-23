@@ -28,7 +28,7 @@ jobs:
         run: npm install
 
       - name: download theme
-        run: git clone git clone https://github.com/next-theme/hexo-theme-next themes/next
+        run: git clone https://github.com/next-theme/hexo-theme-next themes/next
 
 #      - name: download theme
 #        run: npm install hexo-theme-next
