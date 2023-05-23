@@ -27,16 +27,16 @@ jobs:
       - name: install dependencies
         run: npm install
 
-#      - name: download theme
-#        run: git clone https://github.com/theme-next/hexo-theme-next themes/next
-
       - name: download theme
-        run: npm install hexo-theme-next
+        run: git clone git clone https://github.com/next-theme/hexo-theme-next themes/next
 
-#      - name: cp config file
-#        run: |
-#          cp themes_config/next/_config.yml themes/next/
-#          cp themes_config/next/languages/zh-CN.yml themes/next/languages/
+#      - name: download theme
+#        run: npm install hexo-theme-next
+
+      - name: cp config file
+        run: |
+          cp themes_config/next/_config.yml themes/next/
+          cp themes_config/next/languages/zh-CN.yml themes/next/languages/
 
       - name: hexo generate
         run: hexo generate
