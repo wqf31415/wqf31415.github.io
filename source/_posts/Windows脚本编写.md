@@ -43,6 +43,7 @@ Windows 脚本又被称为批处理脚本，是包含一系列 DOS 命令的文�
 - 脚本文件后缀为 `.cmd` 或 `.bat` 
 - 关键字与变量名不区分大小写，例如：`REM` = `rem` = `rEM` ，`%JAVA_HOME%` = `%java_home%` = `%jAva_hOmE%` 
 - 一行为一条命令，按行读取命令，每次处理一行
+- 多行命令使用小括号 `()` 包裹
 
 
 
@@ -135,6 +136,8 @@ First param is: world
 > - `%~dp0` 返回当前脚本所在目录的全路径
 > - `%~n0` 返回当前脚本文件名（不含扩展名）
 > - `%~nx0` 返回当前脚本文件名（包括扩展名）
+
+
 
 #### 变量
 
@@ -388,20 +391,32 @@ echo 第三到倒数第三：%str:~2,-3%
 ```powershell
 @echo off
 set str=hello world
-echo 替换后:%str:world=bat%
+echo result: %str:world=bat%
 ```
 
 
 
 ###### 合并
 
+通过对多个变量取值，再赋值给另一个变量，以此完成字符串拼接。
+
 ```powershell
 @echo off
 set str1=hello
 set str2=world
 set str3=%str1% %str2%
-echo 合并：%str3%
+echo str3：%str3%
 ```
+
+输出结果: `str3: hello world` 
+
+> 注意：上面示例中 `set str3=%str1% %str2%` ，str1 和 str2 变量中间有一个空格，所以在 str3 中是包含这个空格的。
+
+
+
+##### 比较
+
+参考本文章节：常用命令-IF-字符串比较
 
 
 
@@ -410,7 +425,7 @@ echo 合并：%str3%
 Windows 脚本中的路径写法规则如下：
 
 - 文件及目录路径使用反斜杠 `\` 分隔，如：`D:\test\abc.txt` 
-- 文件及目录路径中包含空格时要用双引号括起来，如： `C:\Program Files\test\abc.txt` 
+- 文件及目录路径中包含空格时要用双引号括起来，如： `"C:\Program Files\test\abc.txt"` 
 - **不区分大小写** 
 
 
@@ -422,7 +437,7 @@ Windows 脚本中的路径写法规则如下：
 | 特殊符号 | 功能               | 说明                                                         |
 | -------- | ------------------ | ------------------------------------------------------------ |
 | `@`      | 命令回显屏蔽符     | 放在行首，屏蔽改行命令回显                                   |
-| `%`      | 变量引导符         | 用于获取变量值，如 `%1` 、 `%name%`                          |
+| `%`      | 变量引导符         | 用于获取变量值，如 `%1` 、 `%name%` 、`%%i`                  |
 | `>`      | (覆盖)输出重定向符 | 将输出结果以覆盖的方式传递到后面的范围，后写入的内容将覆盖之前的内容，如写入文件：`echo hello > hello.txt` ；写入控制台：`echo hello > con` ；将执行成功结果输出到控制台，执行失败结果输出到文件：`dir test 1> con 2> log.txt` |
 | `>>`     | (追加)输出重定向符 | 将输出结果以追加的方式传递到后面的范围，后写入的内容将追加在之前内容的后面，如写入文件: `echo hello >> hello.txt` 这种方式可用来输出日志 |
 | `<`      | 输入重定向符       | 从文件或设备中读取命令输入，默认从读取键盘输入               |
@@ -459,6 +474,12 @@ Windows 脚本中的路径写法规则如下：
 Windows 系统命令行默认使用 GBK 编码（编号: 936），如果需要显示中文，编写的脚本可以使用 `ANSI` 或 `GB2312` 编码。
 
 如果脚本使用 `utf8` 编码，可以使用 `chcp 65001` 命令，将当前命令行设置成使用 `utf8` 编码即可显示中文。
+
+```powershell
+@echo off
+chcp 65001
+echo 你好
+```
 
 
 
@@ -582,7 +603,7 @@ if exist test.cmd (echo exist) else (echo not exist)
 
 ##### 判断数字的比较符
 
-由于 `<` 、`>` 是特殊符号，所以不能用来判断，要用比较关键字：
+由于 `<` 、`>` 是用于输入重定向和输出重定向的特殊符号，不能用来判断，所以比较数值时要用比较关键字：
 
 | 关键字 | 功能     |
 | ------ | -------- |
@@ -689,6 +710,187 @@ goto :eof
 > 上面脚本判断参数是否为 1，如果是 1，就调用标签，否则就退出。
 >
 > 当运行 `call 1` 时，将输出 `it is one` 。
+
+
+
+#### 文件操作相关命令
+
+##### 创建目录-mkdir、md
+
+`mkdir` 与 `md` 命令用于创建目录及子目录。
+
+```powershell
+mkdir [<drive>:]<path>
+```
+
+示例：
+
+```powershell
+mkdir test
+mkdir D:\test
+mkdir D:\test\abc
+md test
+md D:\test
+md D:\test\abc
+```
+
+
+
+##### 删除文件-del、erase
+
+`del` 和 `earse` 命令用于删除文件，注意：使用 `del` 命令删除的文件将无法恢复。
+
+常用选项：
+
+- `/p` (Prompts) 删除文件前询问用户是否删除
+- `/s` (Subdirectories) 递归删除子目录中的文件
+- `/f` (Forces) 强制删除只读文件
+- `/q` (Quiet mode) 不打印删除提示信息
+
+示例：
+
+```powershell
+del a.txt
+del /p a.txt
+:: 删除当前目录及子目录中的所有 a.txt 文件
+del /s a.txt
+```
+
+
+
+##### 删除目录-rd、rmdir
+
+> `rd` 和 `rmdir` 命令相同，用于删除目录和目录下的内容。
+
+```powershell
+rmdir [<drive>:]<path> [/s [/q]]
+```
+
+选项：
+
+- `/s` 删除目录以及目录中的内容
+- `/q` 不输出删除信息
+
+示例：
+
+```powershell
+rd test
+rd /s D:\test
+rd /s /q D:\test
+rmdir test
+rmdir /s D:\test
+rmdir /s /q D:\test
+```
+
+
+
+##### 拷贝文件-copy
+
+`copy` 命令用于复制一个或多个文件到其他目录，该命令还可用于将多个文件合并为一个文件。
+
+常用选项：
+
+- `/y` 拷贝文件时默认覆盖同名文件
+- `/-y` 拷贝文件时，询问用户是否覆盖同名文件
+
+示例：
+
+```powershell
+copy test\a.txt test2\
+copy a.txt b.txt D:\test\
+copy /y *.txt D:\test
+copy /-y my-*.txt D:\test
+copy *.txt Combined.doc
+copy /b *.exe Combined.exe
+copy *.txt + *.ref *.doc
+```
+
+更多信息请参考官方文档：[copy | Microsoft Learn](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/copy) 
+
+
+##### 移动文件-move
+
+`move` 命令用于移动一个或多个文件到其他目录，此命令可用于修改文件名。
+
+```powershell
+move [<source>] [<target>]
+```
+
+选项：
+
+- `/y` 移动时默认确认覆盖同名文件
+- `/-y` 移动文件时，询问用户是否覆盖同名文件
+
+示例：
+
+```powershell
+move test\a.txt test2\
+move test\a.txt test\b.txt
+move test\abc\ test2\
+move /y test\abc test2\
+```
+
+
+
+##### 查看目录中的文件-dir
+
+`dir` 命令用于列举目录中的文件。
+
+常用选项：
+
+- `/s` 列举子目录中的文件
+
+示例：
+
+```powershell
+dir D:\test
+dir /s *.txt
+```
+
+更多信息参考官方文档: [dir | Microsoft Learn](https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir) 
+
+
+> 注：如果想在脚本中遍历文件夹中的内容，可以使用 `FOR` ，示例打印 E:\test 目录下所有 .txt 文件：
+>
+> ```powershell
+> @echo off
+> for /r E:\test\ %%i in (*.txt) do (
+>     echo %%i
+> )
+> ```
+>
+> 如果要匹配所有文件，把 `*.txt` 替换成 `*` 。
+
+
+
+##### 压缩与解压文件
+
+在 bat 中是没有包含压缩文件相关的命令，可以通过调用 WinRAR.exe 或其他支持命令行执行的压缩程序(如 [7-ZIP](https://www.7-zip.org/))，来完成目录、文件的压缩，以及解压文件。
+
+压缩文件示例：
+
+```power
+@echo off
+D:\WinRAR\WinRAR.exe a myScripts.zip *.bat
+```
+
+> 命令说明：
+>
+> - `D:\WinRAR\WinRAR.exe` 是 WinRAR 的可执行文件全路径，因为一般这个路径没有添加到系统 path 配置中，需要使用全路径调用
+> - `a` 是 WinRAR 的运行命令，含义是添加文件到压缩包
+> - `myScripts.zip` 是压缩包名
+> - `*.bat` 是要压缩的文件，也可以是目录，如 `test\` ，也可以是多个文件，如 `a.txt b.txt` 。
+
+
+
+解压文件示例：
+
+```powershell
+@echo off
+D:\WinRAR\WinRAR.exe x myScripts.zip myScripts\
+```
+
+> 更多：更多压缩命令与参数可以查看 WinRAR 的帮助文档，在 WinRAR 的安装目录下有一个 `WinRAR.chm` 文件，就是帮助文件，双击打开即可查看。
 
 
 
