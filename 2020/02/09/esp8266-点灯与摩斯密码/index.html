@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了使用 Arduino 开发 esp8266 的基础功能——点灯，用程序点亮 esp8266 板载 LED，另外还使用到了串口通信功能，实现电脑、手机与 esp8266 的通信功能，最后实现了使用 esp8266 输出摩斯密码信号的小应用。  Esp8266  乐鑫公司推出的低成本 wifi 模块，这里用到的是 esp8266 开发板，可以使用 Arduino 开发，是体验 A">
+<meta property="og:type" content="article">
+<meta property="og:title" content="esp8266 点灯与摩斯密码">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/02/09/esp8266-%E7%82%B9%E7%81%AF%E4%B8%8E%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了使用 Arduino 开发 esp8266 的基础功能——点灯，用程序点亮 esp8266 板载 LED，另外还使用到了串口通信功能，实现电脑、手机与 esp8266 的通信功能，最后实现了使用 esp8266 输出摩斯密码信号的小应用。  Esp8266  乐鑫公司推出的低成本 wifi 模块，这里用到的是 esp8266 开发板，可以使用 Arduino 开发，是体验 A">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_example_blink.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/serial_tool_spu.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/serial_tool_spu_test.png">
+<meta property="article:published_time" content="2020-02-09T14:46:00.000Z">
+<meta property="article:modified_time" content="2023-05-23T03:13:07.873Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="arduino">
+<meta property="article:tag" content="IoT">
+<meta property="article:tag" content="esp8266">
+<meta property="article:tag" content="开发板">
+<meta property="article:tag" content="硬件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/02/09/esp8266-%E7%82%B9%E7%81%AF%E4%B8%8E%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/02/09/esp8266-%E7%82%B9%E7%81%AF%E4%B8%8E%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81/","path":"2020/02/09/esp8266-点灯与摩斯密码/","title":"esp8266 点灯与摩斯密码"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>esp8266 点灯与摩斯密码 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#esp8266"><span class="nav-number">2.</span> <span class="nav-text"> Esp8266</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text"> 原料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A1%AC%E4%BB%B6"><span class="nav-number">3.1.</span> <span class="nav-text"> 硬件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text"> 软件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%82%B9%E7%81%AF-blink"><span class="nav-number">4.</span> <span class="nav-text"> 点灯 blink</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81"><span class="nav-number">5.</span> <span class="nav-text"> 摩斯密码</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89"><span class="nav-number">5.1.</span> <span class="nav-text"> 定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E6%AF%8D%E6%95%B0%E5%AD%97%E7%9A%84%E8%8E%AB%E6%96%AF%E5%AF%86%E7%A0%81"><span class="nav-number">5.2.</span> <span class="nav-text"> 字母数字的莫斯密码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#esp8266-%E8%BE%93%E5%87%BA%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81%E4%BF%A1%E5%8F%B7"><span class="nav-number">6.</span> <span class="nav-text"> esp8266 输出摩斯密码信号</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E5%90%8E%E7%9A%84%E4%BB%A3%E7%A0%81"><span class="nav-number">6.1.</span> <span class="nav-text"> 优化后的代码</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%8B%E6%9C%BA%E7%94%B5%E6%8A%A5%E6%9C%BA"><span class="nav-number">7.</span> <span class="nav-text"> 手机电报机</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3%E5%8F%91%E9%80%81%E5%8E%9F%E6%96%87"><span class="nav-number">7.1.</span> <span class="nav-text"> 串口发送原文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%8B%E6%9C%BA%E5%8F%91%E9%80%81%E5%8E%9F%E6%96%87"><span class="nav-number">7.2.</span> <span class="nav-text"> 手机发送原文</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">8.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">9.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/02/09/esp8266-%E7%82%B9%E7%81%AF%E4%B8%8E%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="esp8266 点灯与摩斯密码 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          esp8266 点灯与摩斯密码<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/esp8266-%E7%82%B9%E7%81%AF%E4%B8%8E%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-09 22:46:00" itemprop="dateCreated datePublished" datetime="2020-02-09T22:46:00+08:00">2020-02-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 11:13:07" itemprop="dateModified" datetime="2023-05-23T11:13:07+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Arduino/" itemprop="url" rel="index"><span itemprop="name">Arduino</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了使用 Arduino 开发 esp8266 的基础功能——点灯，用程序点亮 esp8266 板载 LED，另外还使用到了串口通信功能，实现电脑、手机与 esp8266 的通信功能，最后实现了使用 esp8266 输出摩斯密码信号的小应用。</p>
+<h3 id="esp8266"><a class="markdownIt-Anchor" href="#esp8266"></a> Esp8266</h3>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png" alt="" /></p>
+<p>乐鑫公司推出的低成本 wifi 模块，这里用到的是 esp8266 开发板，可以使用 Arduino 开发，是体验 Arduino 和硬件开发的好东西。</p>
+<span id="more"></span>
+<h3 id="原料"><a class="markdownIt-Anchor" href="#原料"></a> 原料</h3>
+<h4 id="硬件"><a class="markdownIt-Anchor" href="#硬件"></a> 硬件</h4>
+<ul>
+<li>esp8266 开发板：用于烧录程序、板载 LED 输出光电信号</li>
+<li>安卓手机：用串口通信给 esp8266 发送文本数据，需要支持 OTG 功能</li>
+<li>USB 连接线：用于 esp8266 连接电脑下载程序，连接手机串口通信</li>
+<li>OTG 转接线：用于手机连接 USB 线</li>
+</ul>
+<h4 id="软件"><a class="markdownIt-Anchor" href="#软件"></a> 软件</h4>
+<ul>
+<li>
+<p>Arduino IDE：PC 软件，用于开发 Arduino 程序，给 esp8266 烧录程序，串口监视器发送文本内容</p>
+</li>
+<li>
+<p>串口调试工具：Android 软件，用于手机通过串口给 esp8266 发送文本数据</p>
+</li>
+</ul>
+<h3 id="点灯-blink"><a class="markdownIt-Anchor" href="#点灯-blink"></a> 点灯 blink</h3>
+<p>硬件开发的第一节课——点灯。</p>
+<p>开发环境配置这里就不再赘述，可以参考：<a href="/2019/09/15/ESP8266初体验-hello-world/" target="_blank">ESP8266初体验 hello world</a></p>
+<p>将 esp8266 接到电脑上，在 Arduino IDE 中选择 <code>示例</code> - <code>ESP8266</code> - <code>Blink</code> ，打开官方的点灯示例代码，上传到开发板后即可看到开发板上 LED 闪烁效果。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_example_blink.png" alt="" /></p>
+<p>以下程序将使 esp8266 开发板上的 LED 循环闪烁，亮 1 秒，熄灭 2 秒，一直循环。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 设置内嵌 LED 的引脚(LED_BUILTIN)为输出模式</span></span><br><span class="line">  <span class="built_in">pinMode</span>(LED_BUILTIN, OUTPUT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 输出低电平，低电平将点亮 esp8266 板载 LED，因为实际上是 ESP-01 的低电平</span></span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="comment">// 等待 1s </span></span><br><span class="line">  <span class="built_in">delay</span>(<span class="number">1000</span>);</span><br><span class="line">  <span class="comment">// 输出高电平，高电平将熄灭 esp8266 板载 LED</span></span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="comment">// 等待 2s</span></span><br><span class="line">  <span class="built_in">delay</span>(<span class="number">2000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>整个程序理解起来比较容易，但需要注意的一点是，在 esp8266 开发板上，板载 LED 引脚 (<code>LED_BUILTIN</code>) 输出低电平时，LED 将会点亮；输出高电平时，LED 将会熄灭。</p>
+<p>另外一个问题是 <code>LED_BUILTIN</code> 这个引脚是几号引脚呢？这是一个定义好常量，在每一种开发板中，对应的引脚编号都不同，我们怎么才能知道具体是几号呢？一种方法是上网查资料，第二种是用串口打印输出，这个方法最直接。还有一种方法是去看开发板 SDK 的源码，这里以我们选择的 <code>Generic ESP8266 Module</code> 开发板为例，我们需要先找到 esp8266 SDK 的目录，一般是在 <code>~/AppData/Local/Arduino15/packages</code> ，这里放的是解压出来的 SDK 源码，最后我们可以在 <code>~/AppData/Local/Arduino15/packages/esp8266/hardware/esp8266/2.5.0/variants</code> 目录下，可以找到不同开发板定义引脚的头文件 <code>pins_arduino.h</code> 。</p>
+<h3 id="摩斯密码"><a class="markdownIt-Anchor" href="#摩斯密码"></a> 摩斯密码</h3>
+<h4 id="定义"><a class="markdownIt-Anchor" href="#定义"></a> 定义</h4>
+<p>莫斯密码 (Morse code)，又称摩尔斯电码，是一种时通时断的信号代码，通过不同的排列顺序表达不同的英文字母、数字和标点符号。莫斯密码是早期的数字化通信形式，但它和现代的 0 和 1 的二进制码不同，它有 5 种形式：点、划、点和划直接的停顿、每个字符之间的停顿、每个词之间中等的停顿以及句子之间长的停顿。</p>
+<p>莫斯电码部分规则：短促的点信号 <code>.</code> ，读 “滴”，保持一定时间的长信号 <code>-</code> ，读 “嗒”。点的时间长度为一个单位，一个线是点的 3 倍长度，每个线或者点之间的时间等于一个点的持续时间，两个字母之间的间隔时间与一个线的长度相同，两个单词之间的间隔等于7个点的持续时间。</p>
+<h4 id="字母数字的莫斯密码"><a class="markdownIt-Anchor" href="#字母数字的莫斯密码"></a> 字母数字的莫斯密码</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">原文</th>
+<th>编码</th>
+<th style="text-align:center">原文</th>
+<th>编码</th>
+<th style="text-align:center">原文</th>
+<th>编码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">a</td>
+<td>.-</td>
+<td style="text-align:center">m</td>
+<td>–</td>
+<td style="text-align:center">y</td>
+<td>-.–</td>
+</tr>
+<tr>
+<td style="text-align:center">b</td>
+<td>-…</td>
+<td style="text-align:center">n</td>
+<td>-.</td>
+<td style="text-align:center">z</td>
+<td>–…</td>
+</tr>
+<tr>
+<td style="text-align:center">c</td>
+<td>-.-.</td>
+<td style="text-align:center">o</td>
+<td>—</td>
+<td style="text-align:center">0</td>
+<td>-----</td>
+</tr>
+<tr>
+<td style="text-align:center">d</td>
+<td>-…</td>
+<td style="text-align:center">p</td>
+<td>.–.</td>
+<td style="text-align:center">1</td>
+<td>.----</td>
+</tr>
+<tr>
+<td style="text-align:center">e</td>
+<td>.</td>
+<td style="text-align:center">q</td>
+<td>–.-</td>
+<td style="text-align:center">2</td>
+<td>…—</td>
+</tr>
+<tr>
+<td style="text-align:center">f</td>
+<td>…-.</td>
+<td style="text-align:center">r</td>
+<td>.-.</td>
+<td style="text-align:center">3</td>
+<td>…–</td>
+</tr>
+<tr>
+<td style="text-align:center">g</td>
+<td>–.</td>
+<td style="text-align:center">s</td>
+<td>…</td>
+<td style="text-align:center">4</td>
+<td>…-</td>
+</tr>
+<tr>
+<td style="text-align:center">h</td>
+<td>…</td>
+<td style="text-align:center">t</td>
+<td>-</td>
+<td style="text-align:center">5</td>
+<td>…</td>
+</tr>
+<tr>
+<td style="text-align:center">i</td>
+<td>…</td>
+<td style="text-align:center">u</td>
+<td>…-</td>
+<td style="text-align:center">6</td>
+<td>-…</td>
+</tr>
+<tr>
+<td style="text-align:center">j</td>
+<td>.—</td>
+<td style="text-align:center">v</td>
+<td>…-</td>
+<td style="text-align:center">7</td>
+<td>–…</td>
+</tr>
+<tr>
+<td style="text-align:center">k</td>
+<td>-.-</td>
+<td style="text-align:center">w</td>
+<td>.–</td>
+<td style="text-align:center">8</td>
+<td>—…</td>
+</tr>
+<tr>
+<td style="text-align:center">l</td>
+<td>.-…</td>
+<td style="text-align:center">x</td>
+<td>-…-</td>
+<td style="text-align:center">9</td>
+<td>----.</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注：不区分大小写</p>
+</blockquote>
+<h3 id="esp8266-输出摩斯密码信号"><a class="markdownIt-Anchor" href="#esp8266-输出摩斯密码信号"></a> esp8266 输出摩斯密码信号</h3>
+<p>在明白了摩斯密码的含义后，我们可以修改一下点灯程序代码，以灯光持续时间表示摩斯密码信号，输出国际通用的求救信号 <code>SOS</code> ，将其装换成摩斯密码信号为 <code>...</code> 、<code>---</code>、<code>...</code> ，通过程序控制 LED 灯亮和灭的时间间隔，输出信号。代码如下：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义单位时间 200ms</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> t 200</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">pinMode</span>(LED_BUILTIN, OUTPUT);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// the loop function runs over and over again forever</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// S ...，每个 . 持续时间为 1t</span></span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(t); <span class="comment">// 两个 . 之间 1t</span></span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(t*<span class="number">3</span>); <span class="comment">// 字母之间间隔 3t</span></span><br><span class="line">  </span><br><span class="line">  <span class="comment">// O ---，每个 - 持续 3t</span></span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t*<span class="number">3</span>);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(t); <span class="comment">// 每个 - 之间 1t</span></span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t*<span class="number">3</span>);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t*<span class="number">3</span>);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(t*<span class="number">3</span>);</span><br><span class="line">    </span><br><span class="line">  <span class="comment">// S ...</span></span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, LOW);</span><br><span class="line">  <span class="built_in">delay</span>(t);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN, HIGH);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 一轮完成，间隔 1s 分隔</span></span><br><span class="line">  <span class="built_in">delay</span>(<span class="number">1000</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>我们看了上面的代码之后，发现其中有太多重复代码了，我们可以利用函数将重复的功能封装起来，让我们的代码更加简洁。</p>
+<h4 id="优化后的代码"><a class="markdownIt-Anchor" href="#优化后的代码"></a> 优化后的代码</h4>
+<p>我们将灯闪烁的代码封装成一个函数，参数指定闪烁时间长度；将每个字符的摩斯代码对应的闪烁时间存入一个数组，使用 for 循环遍历输出。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使用板载的 led 模拟发出 摩斯电码的 SOS 信号</span></span><br><span class="line"><span class="comment">// SOS, 原文 Save Our Souls，拯救我们的灵魂，是国际通用的求救信号</span></span><br><span class="line"><span class="comment">// 在莫斯电码中，S 为 ... ,O 为 ---</span></span><br><span class="line"><span class="comment">// ESP8266 中板载LED，低电平点亮，高电平熄灭</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 我们把每个字母信号的闪烁时间提取出来，存入数组，用循环方式输出</span></span><br><span class="line"><span class="type">int</span> durations[] = &#123;<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">500</span>,<span class="number">500</span>,<span class="number">500</span>,<span class="number">200</span>,<span class="number">200</span>,<span class="number">200</span>&#125;;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">pinMode</span>(LED_BUILTIN, OUTPUT);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">showSOS</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 用循环的方式输出信号</span></span><br><span class="line"><span class="comment"> * 将每个信号闪烁时间写到数组里，for循环逐个输出</span></span><br><span class="line"><span class="comment"> * 这种方式字母之间间隔没控制好，用 showSOS 方法效果比较好</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">showSOSByLoop</span><span class="params">()</span></span>&#123;</span><br><span class="line">  <span class="keyword">for</span>(<span class="type">int</span> i = <span class="number">0</span>; i &lt; <span class="number">9</span>; i++)&#123;</span><br><span class="line">    <span class="built_in">flash</span>(durations[i]);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">delay</span>(<span class="number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 按字母一个一个的输出</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">showSOS</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="comment">// S</span></span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">200</span>);</span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">200</span>);</span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 字母之间增加延迟，否则前 4 个信号感觉是连起来的</span></span><br><span class="line">  <span class="built_in">delay</span>(<span class="number">300</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// O</span></span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">500</span>);</span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">500</span>);</span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">500</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="comment">// S</span></span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">200</span>);</span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">200</span>);</span><br><span class="line">  <span class="built_in">flash</span>(<span class="number">200</span>);</span><br><span class="line">  </span><br><span class="line">  <span class="built_in">delay</span>(<span class="number">1000</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * LED闪烁</span></span><br><span class="line"><span class="comment"> * 参数：</span></span><br><span class="line"><span class="comment"> * duration 闪烁间隔</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">flash</span><span class="params">(<span class="type">int</span> duration)</span></span>&#123;</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN,LOW);</span><br><span class="line">  <span class="built_in">delay</span>(duration);</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN,HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(duration);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="手机电报机"><a class="markdownIt-Anchor" href="#手机电报机"></a> 手机电报机</h3>
+<h4 id="串口发送原文"><a class="markdownIt-Anchor" href="#串口发送原文"></a> 串口发送原文</h4>
+<p>上面的程序可以输出预先定义好的字符的摩斯密码信号，我们可以使用串口通信功能，通过串口将原文发送给 esp8266 ，由 esp8266 将其转换成莫斯密码信号，然后通过 LED 闪烁形式发出。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 莫斯电码翻译机</span></span><br><span class="line"><span class="comment">// 可以通过串口（115200）向 ESP8266 发信息（英文字母、数字、空格），ESP8266 将输出对应的莫斯电码信号</span></span><br><span class="line"><span class="comment">// 莫斯电码部分规则：一个线是点的 3 倍长度，每个线或者点之间的时间等于一个点的持续时间，两个字母之间的间隔时间与一个线的长度相同，两个单词之间的间隔等于7个点的持续时间</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 字母数组</span></span><br><span class="line"><span class="type">char</span>* letters[] = &#123;</span><br><span class="line">  <span class="string">&quot;.-&quot;</span>,<span class="string">&quot;-...&quot;</span>,<span class="string">&quot;-.-.&quot;</span>,<span class="string">&quot;-..&quot;</span>,   <span class="comment">// a,b,c,d</span></span><br><span class="line">  <span class="string">&quot;.&quot;</span>,<span class="string">&quot;..-.&quot;</span>,<span class="string">&quot;--.&quot;</span>,<span class="string">&quot;....&quot;</span>,    <span class="comment">// e,f,g,h</span></span><br><span class="line">  <span class="string">&quot;..&quot;</span>,<span class="string">&quot;.---&quot;</span>,<span class="string">&quot;-.-&quot;</span>,<span class="string">&quot;.-..&quot;</span>,   <span class="comment">// i,j,k,l</span></span><br><span class="line">  <span class="string">&quot;--&quot;</span>,<span class="string">&quot;-.&quot;</span>,<span class="string">&quot;---&quot;</span>,<span class="string">&quot;.--.&quot;</span>,     <span class="comment">// m,n,o,p</span></span><br><span class="line">  <span class="string">&quot;--.-&quot;</span>,<span class="string">&quot;.-.&quot;</span>,<span class="string">&quot;...&quot;</span>,<span class="string">&quot;-&quot;</span>,     <span class="comment">// q,r,s,t</span></span><br><span class="line">  <span class="string">&quot;..-&quot;</span>,<span class="string">&quot;...-&quot;</span>,<span class="string">&quot;.--&quot;</span>,<span class="string">&quot;-..-&quot;</span>,  <span class="comment">// u,v,w,x</span></span><br><span class="line">  <span class="string">&quot;-.--&quot;</span>,<span class="string">&quot;--..&quot;</span>               <span class="comment">// y,z</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 数字数组</span></span><br><span class="line"><span class="type">char</span>* numbers[] = &#123;</span><br><span class="line">  <span class="string">&quot;-----&quot;</span>,<span class="string">&quot;.----&quot;</span>,<span class="string">&quot;..---&quot;</span>,<span class="string">&quot;...--&quot;</span>,<span class="string">&quot;....-&quot;</span>,  <span class="comment">// 0,1,2,3,4</span></span><br><span class="line">  <span class="string">&quot;.....&quot;</span>,<span class="string">&quot;-....&quot;</span>,<span class="string">&quot;--...&quot;</span>,<span class="string">&quot;---..&quot;</span>,<span class="string">&quot;----.&quot;</span>   <span class="comment">// 5,6,7,8,9</span></span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 点的闪烁时间，用于调节速度</span></span><br><span class="line"><span class="type">int</span> dotDelay = <span class="number">200</span>;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="built_in">pinMode</span>(LED_BUILTIN,OUTPUT);</span><br><span class="line">  Serial.<span class="built_in">begin</span>(<span class="number">115200</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 初始时让灯不亮</span></span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN,HIGH);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="type">char</span> ch;</span><br><span class="line">  <span class="keyword">if</span>(Serial.<span class="built_in">available</span>())&#123;</span><br><span class="line">    ch = Serial.<span class="built_in">read</span>();</span><br><span class="line">    Serial.<span class="built_in">print</span>(ch);</span><br><span class="line">    <span class="keyword">if</span>(ch != <span class="string">&#x27;\n&#x27;</span>)&#123;</span><br><span class="line">      Serial.<span class="built_in">print</span>(<span class="string">&quot;: &quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">if</span>(ch &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;z&#x27;</span>)&#123;</span><br><span class="line">      <span class="built_in">flashSequence</span>(letters[ch - <span class="string">&#x27;a&#x27;</span>]);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>)&#123;</span><br><span class="line">      <span class="built_in">flashSequence</span>(letters[ch - <span class="string">&#x27;A&#x27;</span>]);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(ch &gt;= <span class="string">&#x27;0&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;9&#x27;</span>)&#123;</span><br><span class="line">      <span class="built_in">flashSequence</span>(numbers[ch - <span class="string">&#x27;0&#x27;</span>]);</span><br><span class="line">    &#125;<span class="keyword">else</span> <span class="keyword">if</span>(ch == <span class="string">&#x27; &#x27;</span>)&#123;</span><br><span class="line">      <span class="built_in">delay</span>(dotDelay * <span class="number">4</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    Serial.<span class="built_in">println</span>();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过LED输出语句信号</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">flashSequence</span><span class="params">(<span class="type">char</span>* sequence)</span></span>&#123;</span><br><span class="line">  <span class="type">int</span> i = <span class="number">0</span>;</span><br><span class="line">  <span class="keyword">while</span>(sequence[i] != <span class="literal">NULL</span>)&#123;</span><br><span class="line">    Serial.<span class="built_in">print</span>(sequence[i]);</span><br><span class="line">    <span class="built_in">flashDotOrDash</span>(sequence[i]);</span><br><span class="line">    i++;  </span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">delay</span>(dotDelay);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 通过LED输出 . 或 - 的信号</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">flashDotOrDash</span><span class="params">(<span class="type">char</span> dotOrDash)</span></span>&#123;</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN,LOW);</span><br><span class="line">  <span class="keyword">if</span>(dotOrDash == <span class="string">&#x27;.&#x27;</span>)&#123;</span><br><span class="line">    <span class="comment">// 如果是 . 延迟一倍的 dotDelay 时长</span></span><br><span class="line">    <span class="built_in">delay</span>(dotDelay);</span><br><span class="line">  &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="comment">// 如果是 - 延迟三倍的 dotDelay 时长</span></span><br><span class="line">    <span class="built_in">delay</span>(dotDelay * <span class="number">3</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  <span class="built_in">digitalWrite</span>(LED_BUILTIN,HIGH);</span><br><span class="line">  <span class="built_in">delay</span>(dotDelay);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>烧录上面程序后，可以打开 Arduino IDE 的串口监视器，设置波特率为 115200，通过串口给 esp8266 发送字符串，然后可以看到 esp8266 开发板上 LED 输出了对应摩斯密码信号。</p>
+<h4 id="手机发送原文"><a class="markdownIt-Anchor" href="#手机发送原文"></a> 手机发送原文</h4>
+<p>上面是使用 Arduino IDE 的串口监视器给 ESP8266 发送数据，这样就离不开电脑，使用场景收到了限制。我们可以在手机上下载一个串口调试工具，然后通过 OTG 功能线将 esp8266 连接到手机上，这样就可以用手机的串口调试工具给 esp8266 发送数据，随时都可以发出想要的摩斯密码信号了。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/serial_tool_spu.png" alt="" /></p>
+<blockquote>
+<p>串口调试工具可以在手机的应用中心搜索下载，我用的是华为的手机， Android 系统，测试没问题。其它手机和苹果系统没有测试，应该也没啥问题吧。</p>
+</blockquote>
+<p>将 esp8266 连接上手机后，通过串口发出 <code>SOS</code> 数据，esp8266 板载 LED 正确输出了摩斯密码信号。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/serial_tool_spu_test.png" alt="" /></p>
+<blockquote>
+<p>在串口调试工具的 <code>设置</code> 菜单中，可以修改通信波特率等参数。</p>
+</blockquote>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>余静; DFRobot. Arduino入门基础教程. 人民邮电出版社</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>通过官方提供的一个 blink 示例程序，加上之前学过的串口通信知识，我们就可以扩展做出串口电报机，可以通过手机连接 esp8266 向外界发出摩斯电。这里只是通过 esp8266 的板载 LED 输出，我们还可以把它改成其他引脚，外接大功率的 LED 灯珠输出，或者直接以电平信号输出，这样就完成了一个非常实用的串口电报机。所以，不要小看这些最基本的功能和示例代码，学会了它们，再加上我们的一点点思考，就做很酷的应用。此外，我们在学习的时候，一定要多思考，发散思维，发掘一个简单程序的深层应用价值。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/arduino/" rel="tag"># arduino</a>
+              <a href="/tags/IoT/" rel="tag"># IoT</a>
+              <a href="/tags/esp8266/" rel="tag"># esp8266</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91%E6%9D%BF/" rel="tag"># 开发板</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag"># 硬件</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/07/%E4%BD%BF%E7%94%A8-TravisCI-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2-hexo-%E5%8D%9A%E5%AE%A2/" rel="prev" title="使用 TravisCI 自动部署 hexo 博客">
+                  <i class="fa fa-chevron-left"></i> 使用 TravisCI 自动部署 hexo 博客
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/12/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/" rel="next" title="Java 基本数据类型及包装类">
+                  Java 基本数据类型及包装类 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

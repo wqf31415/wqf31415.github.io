@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了 https 的用途、原理以及在实际项目中的部署使用。   什么是 HTTPS 超文本传输安全协议（HyperText Transfer Protocol Secure ，缩写：HTTPS）是一种通过计算机网络进行安全通信的传输协议，HTTPS 使用 HTTP 进行通信，但增加了 SSL&#x2F;TLS 来加密数据包。HTTPS 开发的目的是提供网站服务器的身份认证，保护交换资料的隐">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 https">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/09/18/%E4%BD%BF%E7%94%A8-https/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了 https 的用途、原理以及在实际项目中的部署使用。   什么是 HTTPS 超文本传输安全协议（HyperText Transfer Protocol Secure ，缩写：HTTPS）是一种通过计算机网络进行安全通信的传输协议，HTTPS 使用 HTTP 进行通信，但增加了 SSL&#x2F;TLS 来加密数据包。HTTPS 开发的目的是提供网站服务器的身份认证，保护交换资料的隐">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/https.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/https_work_flow.jpg">
+<meta property="article:published_time" content="2020-09-18T06:04:38.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.274Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="开发">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/https.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/09/18/%E4%BD%BF%E7%94%A8-https/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/09/18/%E4%BD%BF%E7%94%A8-https/","path":"2020/09/18/使用-https/","title":"使用 https"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 https | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-https"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E8%A6%81%E7%94%A8-https"><span class="nav-number">3.</span> <span class="nav-text"> 为什么要用 HTTPS</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E-http-%E5%AF%B9%E6%AF%94"><span class="nav-number">4.</span> <span class="nav-text"> 与 HTTP 对比</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https-%E5%8E%9F%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text"> HTTPS 原理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">5.1.</span> <span class="nav-text"> 工作流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%81%E4%B9%A6%E9%AA%8C%E8%AF%81"><span class="nav-number">5.2.</span> <span class="nav-text"> 证书验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8A%A0%E5%AF%86%E4%BC%A0%E8%BE%93"><span class="nav-number">5.3.</span> <span class="nav-text"> 数据加密传输</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ssl-%E8%AF%81%E4%B9%A6%E4%BE%9B%E5%BA%94%E5%95%86"><span class="nav-number">6.</span> <span class="nav-text"> SSL 证书供应商</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-certbot-%E8%8E%B7%E5%8F%96%E5%85%8D%E8%B4%B9%E8%AF%81%E4%B9%A6"><span class="nav-number">7.</span> <span class="nav-text"> 使用 Certbot 获取免费证书</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-https"><span class="nav-number">8.</span> <span class="nav-text"> 使用 HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E5%BC%80%E5%8F%91"><span class="nav-number">8.1.</span> <span class="nav-text"> 本地开发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E9%99%85%E9%A1%B9%E7%9B%AE"><span class="nav-number">8.2.</span> <span class="nav-text"> 实际项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%A8%E7%BD%B2-https"><span class="nav-number">8.3.</span> <span class="nav-text"> 部署 HTTPS</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#tomcat"><span class="nav-number">8.3.1.</span> <span class="nav-text"> Tomcat</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#nginx"><span class="nav-number">8.3.2.</span> <span class="nav-text"> Nginx</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">9.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">10.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/09/18/%E4%BD%BF%E7%94%A8-https/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 https | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 https<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E4%BD%BF%E7%94%A8-https.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-18 14:04:38" itemprop="dateCreated datePublished" datetime="2020-09-18T14:04:38+08:00">2020-09-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了 https 的用途、原理以及在实际项目中的部署使用。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/https.jpg" alt="" /></p>
+<h3 id="什么是-https"><a class="markdownIt-Anchor" href="#什么是-https"></a> 什么是 HTTPS</h3>
+<p>超文本传输安全协议（<strong>H</strong>yper<strong>T</strong>ext <strong>T</strong>ransfer <strong>P</strong>rotocol <strong>S</strong>ecure ，缩写：HTTPS）是一种通过计算机网络进行安全通信的传输协议，HTTPS 使用 HTTP 进行通信，但增加了 SSL/TLS 来加密数据包。HTTPS 开发的目的是提供网站服务器的身份认证，保护交换资料的隐私与完整性。</p>
+<p>简单来说 HTTPS 是一种网络传输协议，HTTPS = HTTP + SSL/TLS 。</p>
+<span id="more"></span>
+<h3 id="为什么要用-https"><a class="markdownIt-Anchor" href="#为什么要用-https"></a> 为什么要用 HTTPS</h3>
+<p>HTTPS 的主要作用是在不安全的网络上传建一个安全信道，在使用适当的加密包和服务器证书可被验证且可被信任，对窃听和中间人攻击提供合理的防护。</p>
+<p>使用 HTTPS 的好处包括：</p>
+<ul>
+<li>保证数据传输安全，通过传输加密和身份认证防止流量劫持，保证数据完整</li>
+<li>增加用户信任度，在浏览器中访问 https 的网站会提示网站安全</li>
+<li>提升网站排名，相对于 HTTP 网站，使用 HTTPS 加密的网站在搜索引擎结果排名会更高</li>
+</ul>
+<h3 id="与-http-对比"><a class="markdownIt-Anchor" href="#与-http-对比"></a> 与 HTTP 对比</h3>
+<p>HTTPS 与 HTTP 的主要不同点：</p>
+<table>
+<thead>
+<tr>
+<th>不同项</th>
+<th>HTTP</th>
+<th>HTTPS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>安全性</td>
+<td>明文传输，安全性低</td>
+<td>加密传输，数据安全</td>
+</tr>
+<tr>
+<td>复杂性</td>
+<td>低</td>
+<td>需要使用 SSL 证书，部署相对复杂</td>
+</tr>
+<tr>
+<td>标准端口</td>
+<td>80</td>
+<td>443</td>
+</tr>
+<tr>
+<td>协议层</td>
+<td>基于应用层</td>
+<td>基于传输层</td>
+</tr>
+<tr>
+<td>浏览器</td>
+<td>提示不安全</td>
+<td>有绿色的安全锁，提示安全</td>
+</tr>
+</tbody>
+</table>
+<h3 id="https-原理"><a class="markdownIt-Anchor" href="#https-原理"></a> HTTPS 原理</h3>
+<h4 id="工作流程"><a class="markdownIt-Anchor" href="#工作流程"></a> 工作流程</h4>
+<p>HTTPS 工作流程如下图所示：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/https_work_flow.jpg" alt="" /></p>
+<h4 id="证书验证"><a class="markdownIt-Anchor" href="#证书验证"></a> 证书验证</h4>
+<p>使用 HTTPS 需要到第三方证书颁发机构（Certificate Authority）申请证书，证书颁发机构通过验证相关信息，如公钥、组织信息、域名等信息，通过验证后才会签发认证文件——证书。</p>
+<p>证书中包含的信息有：</p>
+<ul>
+<li>证书颁发机构CA</li>
+<li>证书的有效期</li>
+<li>公钥</li>
+<li>证书所有者</li>
+<li>签名</li>
+<li>…</li>
+</ul>
+<p>客户端发送请求给服务端获取到证书后，会对证书信息进行校验，判断证书是否来源于内置的受信任的证书颁发机构，如果找不到将会提示证书不被信任。</p>
+<p>如果来自于受信任机构，浏览器从操作系统中取出颁发证书机构的公钥，对证书里的签名进行解密，浏览器使用相同的 hash 算法计算出服务器发来的证书的hash值，将这个计算的hash值与证书中签名做对比，如果一致说明服务器发来的证书合法，未被冒充。</p>
+<p>通过验证后，浏览器从证书中取出公钥，用于后续的加密。</p>
+<h4 id="数据加密传输"><a class="markdownIt-Anchor" href="#数据加密传输"></a> 数据加密传输</h4>
+<p>通过证书验证后，浏览器从证书中取得服务器公钥；</p>
+<p>浏览器使用公钥加密随机密码，并将加密后的随机密码传输到服务器；</p>
+<p>服务器使用私钥解密获得随机密码；</p>
+<p>双方把这个随机密码作为对称加密的密钥，对后续的数据进行加密传输。</p>
+<h3 id="ssl-证书供应商"><a class="markdownIt-Anchor" href="#ssl-证书供应商"></a> SSL 证书供应商</h3>
+<p>国内 SSL 供应商：</p>
+<ul>
+<li>腾讯云：<a target="_blank" rel="noopener" href="https://cloud.tencent.com/product/ssl">https://cloud.tencent.com/product/ssl</a></li>
+<li>阿里云：<a target="_blank" rel="noopener" href="https://www.aliyun.com/product/security/markets/aliyun/product/cas">https://www.aliyun.com/product/security/markets/aliyun/product/cas</a></li>
+<li>七牛云：<a target="_blank" rel="noopener" href="https://portal.qiniu.com/certificate/ssl">https://portal.qiniu.com/certificate/ssl</a></li>
+<li>新浪云：<a target="_blank" rel="noopener" href="https://ssl.sinacloud.com/">https://ssl.sinacloud.com/</a></li>
+</ul>
+<p>免费 SSL 供应商：</p>
+<ul>
+<li>
+<p>Let’s Encrypt：<a target="_blank" rel="noopener" href="https://letsencrypt.org/zh-cn/">https://letsencrypt.org/zh-cn/</a></p>
+</li>
+<li>
+<p>数安时代: <a target="_blank" rel="noopener" href="https://certmall.trustauth.cn/Free">https://certmall.trustauth.cn/Free</a></p>
+<blockquote>
+<p>这个实际也是使用 Let’s Encrypt 提供的免费证书，不过他们提供了可视化页面和操作指导，使用起来非常方便。</p>
+</blockquote>
+</li>
+</ul>
+<h3 id="使用-certbot-获取免费证书"><a class="markdownIt-Anchor" href="#使用-certbot-获取免费证书"></a> 使用 Certbot 获取免费证书</h3>
+<blockquote>
+<p>在 Let’s Encrypt 官方文档中，推荐<strong>拥有命令行访问权限</strong>的用户使用 Certbot ACME 客户端，它可以在不下线你的服务器的前提下自动执行证书颁发和安装。对于不需要自动配置的用户，Certbot 还提供专家模式，它易于使用，适用于许多操作系统，并有出色的文档。</p>
+<p>Certbot: <a target="_blank" rel="noopener" href="https://certbot.eff.org/">https://certbot.eff.org/</a></p>
+</blockquote>
+<p>示例：为我的域名 <code>www.wqf31415.xyz</code> 申请证书。</p>
+<p>首先域名解析到了我的服务器，能够通过浏览器访问到。</p>
+<p>然后下载并安装 Certbot，我的服务器是 Windows 系统，所以我下载的是 <code>certbot-beta-installer-win32.exe</code> ，双击安装后即可使用。</p>
+<p>以<strong>管理员身份</strong>打开命令行，或切换到管理员模式，然后执行命令:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">certbot.exe certonly</span><br></pre></td></tr></table></figure>
+<p>然后根据提示输入需要的信息：</p>
+<p>首先是选择权限验证方式，输入 1 或 2 进行选择。我选择的是第二种，放置验证文件到web服务的根目录。</p>
+<p>然后输入要注册证书的域名，在输入web 服务根目录的路径，等待程序执行。</p>
+<p>执行完成后，将会输出证书文件快捷访问文件的存放位置。我生成的文件放在了 <code>C:\Certbot\live\www.wqf31415.xyz\</code> 目录下。</p>
+<p>生成的文件包括 4 个 .pem 结尾的快捷方式文件(可以右键 <code>打开文件位置</code> 查找的原始文件)，和一个 README 说明文件：</p>
+<ul>
+<li><code>cert.pem</code></li>
+<li><code>chain.pem</code></li>
+<li><code>fullchain.pem</code></li>
+<li><code>privkey.pem</code></li>
+<li><code>README</code></li>
+</ul>
+<p>执行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator\Desktop&gt; certbot.exe certonly</span><br><span class="line">Saving debug log to C:\Certbot\log\letsencrypt.log</span><br><span class="line"></span><br><span class="line">How would you like to authenticate with the ACME CA?</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">1: Spin up a temporary webserver (standalone)</span><br><span class="line">2: Place files in webroot directory (webroot)</span><br><span class="line">- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -</span><br><span class="line">Select the appropriate number [1-2] then [enter] (press &#x27;c&#x27; to cancel): 2</span><br><span class="line">Plugins selected: Authenticator webroot, Installer None</span><br><span class="line">Please enter in your domain name(s) (comma and/or space separated)  (Enter &#x27;c&#x27;</span><br><span class="line">to cancel): www.wqf31415.xyz</span><br><span class="line">Obtaining a new certificate</span><br><span class="line">Performing the following challenges:</span><br><span class="line">http-01 challenge for www.wqf31415.xyz</span><br><span class="line">Input the webroot for www.wqf31415.xyz: (Enter &#x27;c&#x27; to cancel): D:\xxx\tomcat\webapps\xxx</span><br><span class="line">Waiting for verification...</span><br><span class="line">Cleaning up challenges</span><br><span class="line">Subscribe to the EFF mailing list (email: wqf31415@hotmail.com).</span><br><span class="line">[1m</span><br><span class="line">IMPORTANT NOTES:</span><br><span class="line">[0m - Congratulations! Your certificate and chain have been saved at:</span><br><span class="line">   C:\Certbot\live\www.wqf31415.xyz\fullchain.pem</span><br><span class="line">   Your key file has been saved at:</span><br><span class="line">   C:\Certbot\live\www.wqf31415.xyz\privkey.pem</span><br><span class="line">   Your cert will expire on 2022-06-27. To obtain a new or tweaked</span><br><span class="line">   version of this certificate in the future, simply run certbot</span><br><span class="line">   again. To non-interactively renew *all* of your certificates, run</span><br><span class="line">   &quot;certbot renew&quot;</span><br><span class="line"> - If you like Certbot, please consider supporting our work by:</span><br><span class="line"></span><br><span class="line">   Donating to ISRG / Let&#x27;s Encrypt:   https://letsencrypt.org/donate</span><br><span class="line">   Donating to EFF:                    https://eff.org/donate-le</span><br></pre></td></tr></table></figure>
+<h3 id="使用-https"><a class="markdownIt-Anchor" href="#使用-https"></a> 使用 HTTPS</h3>
+<h4 id="本地开发"><a class="markdownIt-Anchor" href="#本地开发"></a> 本地开发</h4>
+<p>本地开发调试中需要使用 HTTPS 时，建议使用 openssl 自己颁发证书，然后将其添加到浏览器的受信任证书列表中。</p>
+<blockquote>
+<p>OpenSSL: <a target="_blank" rel="noopener" href="https://www.openssl.org">https://www.openssl.org</a></p>
+<p>OpenSSL 是一个开源的软件库包，其中包含了密码算法、常用密钥、证书封装管理功能及实现 ssl 协议，主要有三个主要功能部分：SSL 协议库 libssl、应用程序命令工具以及密码算法库 libcrypto。</p>
+</blockquote>
+<h4 id="实际项目"><a class="markdownIt-Anchor" href="#实际项目"></a> 实际项目</h4>
+<p>在实际项目中，我们需要到证书颁发机构申请证书，需要付费，有些平台首年可以免费使用，如阿里云的 <code>DigiCert</code> 品牌的 <code>单域名型</code> 证书，腾讯云、七牛云、新浪云的 <code>TrustAsia</code> 品牌的 <code>单域名型</code> 证书。</p>
+<p>下面介绍使用 Let’s Encrypt 生成证书的方法。</p>
+<ul>
+<li>下载并安装 certbot：<a target="_blank" rel="noopener" href="https://certbot.eff.org/">https://certbot.eff.org/</a> ，Let’s Encrypt 使用 certbot 客户端来获取、安装和更新证书，所以首先需要根据使用的服务器操作系统下载安装 certbot 客户端，如我的 Windows 服务器需要下载安装包进行安装，安装完成后可以运行 <code>certbot --help</code> 命令查看帮助信息。</li>
+<li>执行生成证书的命令：如果能够关闭网站服务，可以先关闭网站服务(因为需要使用 80 端口)，执行命令 <code>certbot certonly --standalone</code> ；如果需要保持网站服务在 80 端口上运行，执行命令 <code>certbot certonly --webroot</code> 。</li>
+</ul>
+<h4 id="部署-https"><a class="markdownIt-Anchor" href="#部署-https"></a> 部署 HTTPS</h4>
+<h5 id="tomcat"><a class="markdownIt-Anchor" href="#tomcat"></a> Tomcat</h5>
+<p>以下示例配置本地 Tomcat 使用 https：</p>
+<ul>
+<li>
+<p>使用 jdk 中自带的 keytool 工具生成 <code>tomcat.keystore</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">keytool -genkey -<span class="built_in">alias</span> tomcat -keyalg RSA -keystore tomcat.keystore</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>修改 Tomcat 配置中的 <code>server.xml</code></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">Connector</span> <span class="attr">port</span>=<span class="string">&quot;8443&quot;</span> <span class="attr">protocol</span>=<span class="string">&quot;HTTP/1.1&quot;</span> <span class="attr">SSLEnabled</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">maxThreads</span>=<span class="string">&quot;150&quot;</span> <span class="attr">scheme</span>=<span class="string">&quot;https&quot;</span> <span class="attr">secure</span>=<span class="string">&quot;true&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">clientAuth</span>=<span class="string">&quot;false&quot;</span> <span class="attr">keystoreFile</span>=<span class="string">&quot;conf/ssl/tomcat.keystore&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">keystorePass</span>=<span class="string">&#x27;wqf123456&#x27;</span> <span class="attr">sslProtocol</span>=<span class="string">&quot;TLS&quot;</span> /&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>访问：<a target="_blank" rel="noopener" href="https://localhost:8443">https://localhost:8443</a></p>
+</li>
+</ul>
+<h5 id="nginx"><a class="markdownIt-Anchor" href="#nginx"></a> Nginx</h5>
+<p>获得证书后，修改 nginx 配置，配置内容如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 为了节约篇幅省略了其他不相关配置</span><br><span class="line">http&#123;</span><br><span class="line">    server &#123;</span><br><span class="line">        listen       443 ssl;</span><br><span class="line">        server_name  www.wqf31415.xyz; # 网站域名</span><br><span class="line"></span><br><span class="line">        ssl_certificate      C:\\server\\nginx-1.13.12\\ssl\\certificate.crt; # 证书配置</span><br><span class="line">        ssl_certificate_key  C:\\server\\nginx-1.13.12\\ssl\\www.wqf31415.xyz.key; # 私钥</span><br><span class="line"></span><br><span class="line">        ssl_session_cache    shared:SSL:1m;</span><br><span class="line">        ssl_session_timeout  5m;</span><br><span class="line"></span><br><span class="line">        ssl_ciphers  HIGH:!aNULL:!MD5;</span><br><span class="line">        ssl_prefer_server_ciphers  on;</span><br><span class="line"></span><br><span class="line">        location / &#123;</span><br><span class="line">                     proxy_pass http://127.0.0.1:8080/blog/;</span><br><span class="line">              &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>nginx 配置 http 自动跳转 https：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">http&#123;</span><br><span class="line">	server &#123;</span><br><span class="line">       listen       80;</span><br><span class="line">       server_name  www.wqf31415.xyz;</span><br><span class="line">	   return 301 https://$host$request_uri;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>HTTPS原理看了很多，这个是最清晰的：<a target="_blank" rel="noopener" href="http://www.easemob.com/news/3706">http://www.easemob.com/news/3706</a></li>
+<li>深入理解HTTPS工作原理：<a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000018992153">https://segmentfault.com/a/1190000018992153</a></li>
+<li>使用 Let’s Encrypt（Certbot） 配置 HTTPS：<a target="_blank" rel="noopener" href="https://www.cnblogs.com/ly-radiata/articles/6119374.html">https://www.cnblogs.com/ly-radiata/articles/6119374.html</a></li>
+<li>OpenSSL简介: <a target="_blank" rel="noopener" href="https://blog.csdn.net/naioonai/article/details/80984032">https://blog.csdn.net/naioonai/article/details/80984032</a></li>
+<li>两步配置Tomcat+Openssl的https单向认证: <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/dd3f02e784e1">https://www.jianshu.com/p/dd3f02e784e1</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>虽然项目使用 https 部署会有点麻烦，购买商业证书还需要考虑费用支出，但使用了 https 能够让网站信息传输更加安全，让用户使用的更加放心，所以建议有能力的网站考虑使用 https。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag"># 网络</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"># 服务器</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/09/12/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E5%8F%91%E7%8E%B0/" rel="prev" title="微服务之服务发现">
+                  <i class="fa fa-chevron-left"></i> 微服务之服务发现
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/11/22/%E5%BE%AE%E6%9C%8D%E5%8A%A1%E4%B9%8B%E6%9C%8D%E5%8A%A1%E8%B0%83%E7%94%A8%E4%B8%8E%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/" rel="next" title="微服务之服务调用与负载均衡">
+                  微服务之服务调用与负载均衡 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

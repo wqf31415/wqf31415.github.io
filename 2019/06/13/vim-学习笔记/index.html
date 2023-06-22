@@ -1,0 +1,1303 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了文本编辑器 vim 的用法, 以及一些实用插件。  vim 是个啥?  Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创建、修改多种类型文本。在多数 UNIX 系统和 Apple OS X 中集成了 vi。vi 是 vim 的子集, vim 具有 vi 的所有功能, 且拥有更多的实用特性。  官网: https:&#x2F;&#x2F;www.vim.org&#x2F; Github: htt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="vim 学习笔记">
+<meta property="og:url" content="https://www.wqf31415.xyz/2019/06/13/vim-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了文本编辑器 vim 的用法, 以及一些实用插件。  vim 是个啥?  Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创建、修改多种类型文本。在多数 UNIX 系统和 Apple OS X 中集成了 vi。vi 是 vim 的子集, vim 具有 vi 的所有功能, 且拥有更多的实用特性。  官网: https:&#x2F;&#x2F;www.vim.org&#x2F; Github: htt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_logo.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_install_on_win.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_on_win.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_start.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_insert_mode.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_plug_startify.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_plug_airline.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_plug_nerdtree.png">
+<meta property="article:published_time" content="2019-06-13T07:35:22.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.270Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="vim">
+<meta property="article:tag" content="编辑器">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_logo.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2019/06/13/vim-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/06/13/vim-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/","path":"2019/06/13/vim-学习笔记/","title":"vim 学习笔记"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>vim 学习笔记 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vim-%E6%98%AF%E4%B8%AA%E5%95%A5"><span class="nav-number">2.</span> <span class="nav-text"> vim 是个啥?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%BA%E5%95%A5%E8%A6%81%E7%94%A8-vim"><span class="nav-number">3.</span> <span class="nav-text"> 为啥要用 vim ?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-vim-%E5%88%86%E5%87%A0%E6%AD%A5"><span class="nav-number">4.</span> <span class="nav-text"> 安装  vim 分几步？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#windows"><span class="nav-number">4.1.</span> <span class="nav-text"> Windows</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#linux"><span class="nav-number">4.2.</span> <span class="nav-text"> Linux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#apple-os-x"><span class="nav-number">4.3.</span> <span class="nav-text"> Apple OS X</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%B7%B1%E7%BC%96%E8%AF%91"><span class="nav-number">4.4.</span> <span class="nav-text"> 自己编译</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#vim-%E4%BA%94%E5%A4%A7%E6%A8%A1%E5%BC%8F"><span class="nav-number">5.</span> <span class="nav-text"> vim 五大模式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text"> 基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5%E4%B8%8E%E9%80%80%E5%87%BA"><span class="nav-number">6.1.</span> <span class="nav-text"> 进入与退出</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%BE%91%E4%B8%8E%E4%BF%9D%E5%AD%98"><span class="nav-number">6.2.</span> <span class="nav-text"> 编辑与保存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BF%AB%E6%8D%B7%E4%BF%AE%E6%94%B9"><span class="nav-number">6.3.</span> <span class="nav-text"> 快捷修改</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%89%E6%A0%87%E7%A7%BB%E5%8A%A8%E9%87%8D%E7%82%B9"><span class="nav-number">6.4.</span> <span class="nav-text"> 光标移动（重点）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%8D%E5%88%B6%E4%B8%8E%E7%B2%98%E8%B4%B4"><span class="nav-number">6.5.</span> <span class="nav-text"> 复制与粘贴</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E7%B4%A2%E4%B8%8E%E6%9B%BF%E6%8D%A2"><span class="nav-number">6.6.</span> <span class="nav-text"> 检索与替换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E5%AF%B9%E8%B1%A1%E6%93%8D%E4%BD%9C"><span class="nav-number">6.7.</span> <span class="nav-text"> 文本对象操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">7.</span> <span class="nav-text"> 进阶操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">7.1.</span> <span class="nav-text"> 缓冲区</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AA%97%E5%8F%A3"><span class="nav-number">7.2.</span> <span class="nav-text"> 窗口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E7%AD%BE%E9%A1%B5"><span class="nav-number">7.3.</span> <span class="nav-text"> 标签页</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-vim-%E4%B8%BB%E9%A2%98%E9%85%8D%E8%89%B2"><span class="nav-number">7.4.</span> <span class="nav-text"> 修改 vim 主题配色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vim-%E9%85%8D%E7%BD%AE"><span class="nav-number">7.5.</span> <span class="nav-text"> vim 配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E6%93%8D%E4%BD%9C"><span class="nav-number">8.</span> <span class="nav-text"> 高级操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">8.1.</span> <span class="nav-text"> 寄存器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%8F"><span class="nav-number">8.2.</span> <span class="nav-text"> 宏</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E8%A1%A5%E5%85%A8"><span class="nav-number">8.3.</span> <span class="nav-text"> 自动补全</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6"><span class="nav-number">8.4.</span> <span class="nav-text"> 插件</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%96%B9%E5%BC%8F"><span class="nav-number">8.4.1.</span> <span class="nav-text"> 安装方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#vim-plug"><span class="nav-number">8.4.2.</span> <span class="nav-text"> vim-plug</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E6%89%BE-vim-%E6%8F%92%E4%BB%B6"><span class="nav-number">8.4.3.</span> <span class="nav-text"> 查找 vim 插件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8F%92%E4%BB%B6%E6%8E%A8%E8%8D%90"><span class="nav-number">8.4.4.</span> <span class="nav-text"> 插件推荐</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%88%90%E7%A5%9E"><span class="nav-number">9.</span> <span class="nav-text"> 成神</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#vimscript"><span class="nav-number">9.1.</span> <span class="nav-text"> vimscript</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96"><span class="nav-number">10.</span> <span class="nav-text"> 其他</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tmux"><span class="nav-number">10.1.</span> <span class="nav-text"> Tmux</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#neovim"><span class="nav-number">10.2.</span> <span class="nav-text"> Neovim</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">11.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">12.</span> <span class="nav-text"> 小结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2019/06/13/vim-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="vim 学习笔记 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          vim 学习笔记<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/vim-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-13 15:35:22" itemprop="dateCreated datePublished" datetime="2019-06-13T15:35:22+08:00">2019-06-13</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了文本编辑器 vim 的用法, 以及一些实用插件。</p>
+<h3 id="vim-是个啥"><a class="markdownIt-Anchor" href="#vim-是个啥"></a> vim 是个啥?</h3>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/vim_logo.png" alt="" title="vim" /></p>
+<p>Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创建、修改多种类型文本。在多数 UNIX 系统和 Apple OS X 中集成了 vi。vi 是 vim 的子集, vim 具有 vi 的所有功能, 且拥有更多的实用特性。</p>
+<blockquote>
+<p>官网: <a target="_blank" rel="noopener" href="https://www.vim.org/">https://www.vim.org/</a><br />
+Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">https://github.com/vim/vim</a></p>
+</blockquote>
+<span id="more"></span>
+<h3 id="为啥要用-vim"><a class="markdownIt-Anchor" href="#为啥要用-vim"></a> 为啥要用 vim ?</h3>
+<ul>
+<li>vim 是一个强大而高效的文本编辑工具, 具有很多实用特性, 如: 能够多级撤销, 具有语法高亮, 记录命令历史, 能够检查拼写, 文件名补全, 文章块操作。</li>
+<li>vim 是 linux 系统中常用的文本编辑器, 在运维 linux 服务器时经常使用, 比如用来修改配置文件。</li>
+<li>vim 是一款开源软件, 可高度自定义, 可以自己开发功能。而且有很多好用的开源插件, 功能丰富。</li>
+<li><del> 看起来很高深，可以用来装逼。</del></li>
+</ul>
+<h3 id="安装-vim-分几步"><a class="markdownIt-Anchor" href="#安装-vim-分几步"></a> 安装  vim 分几步？</h3>
+<h4 id="windows"><a class="markdownIt-Anchor" href="#windows"></a> Windows</h4>
+<p>在 Windows 系统中安装 vim 非常简单, 只有三步: 下载、安装、使用。</p>
+<ul>
+<li>
+<p>下载安装程序, 地址： <a target="_blank" rel="noopener" href="https://www.vim.org/download.php">https://www.vim.org/download.php</a></p>
+</li>
+<li>
+<p>执行安装程序<br />
+安装时建议勾选 <code>Create .bat files for command line use</code> , 这样安装完成后可以在 Windows 命令行中直接使用 vim<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/vim_install_on_win.png" alt="" /></p>
+</li>
+<li>
+<p>打开 vim<br />
+安装完成后, 可以在命令行中使用, 也可以使用 GUI 版, 使用 <code>gvim</code> 即可打开, 如下图:<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/vim_on_win.png" alt="" /></p>
+</li>
+</ul>
+<blockquote>
+<p>此外, 在 Windows 中安装 git 后, 在 gitbash 中也可以使用 vim 。</p>
+</blockquote>
+<h4 id="linux"><a class="markdownIt-Anchor" href="#linux"></a> Linux</h4>
+<p>Linux 系统下安装 vim 只需要 1 步，使用 linux 的安装包管理工具安装, 如 Ubuntu 中:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install vim</span><br></pre></td></tr></table></figure>
+<h4 id="apple-os-x"><a class="markdownIt-Anchor" href="#apple-os-x"></a> Apple OS X</h4>
+<p>在 mac 下安装 vim 也只需要 1 步：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install vim</span><br></pre></td></tr></table></figure>
+<h4 id="自己编译"><a class="markdownIt-Anchor" href="#自己编译"></a> 自己编译</h4>
+<p>vim 的源码在 github 上, 可以自行克隆源码进行编译, 这样可以使用到最新开发的版本。大致的流程如下:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/vim/vim.git</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> vim</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> src</span><br><span class="line"></span><br><span class="line">make distclean  <span class="comment"># if you build Vim before</span></span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<h3 id="vim-五大模式"><a class="markdownIt-Anchor" href="#vim-五大模式"></a> vim 五大模式</h3>
+<p>划重点：在 vim 中存在 5 种编辑模式，分别是：常规模式(normal)、插入模式(insert)、命令模式(command)、可视模式(visual)、替换模式(replace)。</p>
+<p>进入 vim 时处于常规模式，是 vim 核心模式，可以从常规模式切换到其他模式，并通过按 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd> + <kbd>[</kbd> 键从其他模式返回常规模式。<br />
+常规模式下，按 <kbd>a</kbd>、<kbd>A</kbd>、<kbd>i</kbd>、<kbd>I</kbd>、<kbd>o</kbd>、<kbd>O</kbd> 进入插入模式，可编辑文档内容；<br />
+常规模式下，输入 <code>:</code> 进入命令模式，在 <code>:</code> 后加上命令即可执行命令，如 <code>:wq</code> 保存修改并退出 vim， <code>:set nu</code> 设置 vim 显示行号；<br />
+常规模式下，按 <kbd>v</kbd>、<kbd>V</kbd>、<kbd>Ctrl</kbd> + <kbd>v</kbd> 可进入可视模式，用于文档内容选择；<br />
+常规模式下，按 <kbd>r</kbd> 或 <kbd>R</kbd> 键进入替换模式，输入内容将会替换光标所在位置的字符。</p>
+<h3 id="基础操作"><a class="markdownIt-Anchor" href="#基础操作"></a> 基础操作</h3>
+<p>以下操作内容全是在命令行中进行，在 windows 的 vim GUI 中，图形界面提供了一些便捷的操作按钮，也可以使用按键指令完成操作。</p>
+<h4 id="进入与退出"><a class="markdownIt-Anchor" href="#进入与退出"></a> 进入与退出</h4>
+<p>进入终端(或命令行)，执行命令 <code>vim</code> 即可进入 vim , 如下图所示，左边是 Windows powershell ，右边是 gitbash 进入 vim 的初始界面。<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/vim_start.png" alt="" /></p>
+<p>正如初始界面中提示的，我们可以输入命令查看帮助、保存或退出，输入命令后按 <kbd>回车</kbd> 执行：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">指令</th>
+<th style="text-align:left">作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>:help iccf</code></td>
+<td style="text-align:left">查看说明</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:q</code></td>
+<td style="text-align:left"><strong>退出(Quit)</strong></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:q!</code></td>
+<td style="text-align:left">强制退出，不保存修改内容</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:qa</code></td>
+<td style="text-align:left">退出所有窗口</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:qa!</code></td>
+<td style="text-align:left">强制退出所有窗口</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:help</code></td>
+<td style="text-align:left">查看在线帮助</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>:help version8</code></td>
+<td style="text-align:left">查看版本信息</td>
+</tr>
+</tbody>
+</table>
+<h4 id="编辑与保存"><a class="markdownIt-Anchor" href="#编辑与保存"></a> 编辑与保存</h4>
+<p>在进入 vim 后，我们首先进入的是 <span style="background:red;color:white"> normal 模式 </span> ，需要按小写字母 <kbd>a</kbd> 、 <kbd>i</kbd> 、<kbd>o</kbd> 或大写字母 <kbd>A</kbd> 、 <kbd>I</kbd> 、<kbd>O</kbd> 键进入 <span style="background:red;color:white"> insert 模式 </span> ，这样就可以正常编辑文本，修改与输入内容了，与常规文本编辑器相同，可以用键盘上的上下左右键移动光标。按 <kbd>Esc</kbd> 键回到 normal 模式。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/vim_insert_mode.png" alt="" /></p>
+<p>在插入模式中可以使用键盘上下左右键移动光标，编辑内容，使用退格键或 Delete 键删除内容。编辑完成后，按 <kbd>Esc</kbd> 键回到 normal 模式，输入 <code>:w</code> 然后按 <kbd>回车</kbd> 保存文件，也可以输入 <code>:wq</code> 然后按 <kbd>回车</kbd> 保存并退出。</p>
+<table>
+<thead>
+<tr>
+<th>指令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>a</code></td>
+<td><strong>追加(Append)</strong> , 在当前光标后面添加内容</td>
+</tr>
+<tr>
+<td><code>A</code></td>
+<td>在行尾追加内容，光标自动跳到行尾</td>
+</tr>
+<tr>
+<td><code>i</code></td>
+<td><strong>插入(Insert)</strong> , 在当前光标前添加内容</td>
+</tr>
+<tr>
+<td><code>I</code></td>
+<td>在行首添加内容</td>
+</tr>
+<tr>
+<td><code>o</code></td>
+<td>在当前行下发添加空行(open a line below)</td>
+</tr>
+<tr>
+<td><code>O</code></td>
+<td>在当前行上方添加空行</td>
+</tr>
+<tr>
+<td><code>u</code></td>
+<td><strong>撤销修改(Undo)</strong></td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + r</td>
+<td>恢复撤销(Redo)</td>
+</tr>
+<tr>
+<td><code>:w</code></td>
+<td>写入文件(Written) ，即保存，如果是编辑一个新文件，可以在后面指定文件名，如 <code>:w test.txt</code></td>
+</tr>
+<tr>
+<td><code>:wq</code>  或 <code>:x</code> 或 <code>ZZ</code></td>
+<td>保存并退出</td>
+</tr>
+<tr>
+<td><code>:wqa</code></td>
+<td>保存并退出所有窗口</td>
+</tr>
+</tbody>
+</table>
+<h4 id="快捷修改"><a class="markdownIt-Anchor" href="#快捷修改"></a> 快捷修改</h4>
+<p>在 normal 模式下可以快速修改内容</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>s</code></td>
+<td>替换(Substitute)，删除当前字符并进入插入模式</td>
+</tr>
+<tr>
+<td><code>c</code></td>
+<td>修改(Change)，配合文本对象进行快速修改并进入插入模式，如 ciw 删除光标处的单词并进入插入模式</td>
+</tr>
+<tr>
+<td><code>r</code></td>
+<td>替换(Respace)，输入新字符替换当前字符</td>
+</tr>
+<tr>
+<td><code>R</code></td>
+<td>连续替换，输入新字符替换光标所在字符，替换后光标自动后移，可持续替换光标位置字符</td>
+</tr>
+<tr>
+<td><code>x</code></td>
+<td>删除光标所在位置字符</td>
+</tr>
+<tr>
+<td><code>X</code></td>
+<td>删除光标位置前一个字符</td>
+</tr>
+</tbody>
+</table>
+<h4 id="光标移动重点"><a class="markdownIt-Anchor" href="#光标移动重点"></a> 光标移动（重点）</h4>
+<p>vim 在 normal 模式下，提供了很多的命令来移动光标，用来快速定位。可以使用键盘上下左右键移动光标，也可以使用 <kbd>h</kbd> 、 <kbd>j</kbd> 、 <kbd>k</kbd> 、 <kbd>l</kbd> 来移动光标，在 insert 模式下使用 上下左右 键移动光标。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>h</code></td>
+<td>左移一个字符</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;h</code></td>
+<td>左移 n 个字符</td>
+</tr>
+<tr>
+<td><code>j</code></td>
+<td>下移一行</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;j</code></td>
+<td>下移 n 行</td>
+</tr>
+<tr>
+<td><code>k</code></td>
+<td>上移一行</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;k</code></td>
+<td>上移 n 行</td>
+</tr>
+<tr>
+<td><code>l</code></td>
+<td>右移一个字符</td>
+</tr>
+<tr>
+<td><code>&#123;n&#125;l</code></td>
+<td>右移 n 个字符</td>
+</tr>
+<tr>
+<td><code>^</code> 或 <code>0</code> 或<code>g0</code></td>
+<td>移动到行首</td>
+</tr>
+<tr>
+<td><code>$</code></td>
+<td>移动到行尾</td>
+</tr>
+<tr>
+<td><code>gg</code></td>
+<td>移到文档头</td>
+</tr>
+<tr>
+<td><code>G</code></td>
+<td>移动到文档尾</td>
+</tr>
+<tr>
+<td><code>:&#123;n&#125;</code> 或 <code>&#123;n&#125;G</code></td>
+<td>跳转到第 n 行</td>
+</tr>
+<tr>
+<td><code>ge</code></td>
+<td>跳转到上一个单词开头</td>
+</tr>
+<tr>
+<td><code>gi</code></td>
+<td>快速跳转到上次编辑的地方</td>
+</tr>
+<tr>
+<td><code>w</code> 或 <code>W</code></td>
+<td>移动到下个单词开头，<code>w</code> 是以非空白符分割的单词，<code>W</code> 是以空白符分割的单词</td>
+</tr>
+<tr>
+<td><code>e</code> 或 <code>E</code></td>
+<td>移动到下个单词结尾</td>
+</tr>
+<tr>
+<td><code>b</code> 或 <code>B</code></td>
+<td>移动到上一个单词开头</td>
+</tr>
+<tr>
+<td><code>f&#123;char&#125;</code></td>
+<td>移动到当前行下一个 char 字符处</td>
+</tr>
+<tr>
+<td><code>F&#123;char&#125;</code></td>
+<td>移动到当前行上一个 char 字符处</td>
+</tr>
+<tr>
+<td><code>t&#123;char&#125;</code></td>
+<td>移动到当前行下一个 char 字符前</td>
+</tr>
+<tr>
+<td><code>T&#123;char&#125;</code></td>
+<td>移动到当前行上一个 char 字符前</td>
+</tr>
+<tr>
+<td><code>&#123;</code></td>
+<td>移动到上一段</td>
+</tr>
+<tr>
+<td><code>&#125;</code></td>
+<td>移动到下一段</td>
+</tr>
+<tr>
+<td><code>(</code></td>
+<td>移动到上一个句子</td>
+</tr>
+<tr>
+<td><code>)</code></td>
+<td>移动到下一个句子</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>f</kbd></td>
+<td>向下翻页(Forward)</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>b</kbd></td>
+<td>向上翻页(Backward)</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>d</kbd></td>
+<td>向下翻半页(Down)</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>u</kbd></td>
+<td>向上翻半页(Up)</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>o</kbd></td>
+<td>快速返回</td>
+</tr>
+<tr>
+<td><code>H</code> 、 <code>M</code> 、 <code>L</code></td>
+<td>跳转到屏幕开头(Head)、中间(Middle)和结尾(Lower)</td>
+</tr>
+<tr>
+<td><code>zz</code></td>
+<td>把屏幕置为中间</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意: 在当前行使用 f、F、t、T 查找字符时，可以使用 <kbd>;</kbd> 跳转到下一个匹配处，使用 <kbd>,</kbd> 跳转到上一个匹配处。</p>
+</blockquote>
+<p>Insert 模式下的快捷键：</p>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>h</kbd></td>
+<td>删除上一个字符</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd></td>
+<td>删除上一个单词</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>u</kbd></td>
+<td>删除整行</td>
+</tr>
+</tbody>
+</table>
+<h4 id="复制与粘贴"><a class="markdownIt-Anchor" href="#复制与粘贴"></a> 复制与粘贴</h4>
+<p>在 vim 的 normal 中的复制与粘贴不是我们熟悉 Ctrl + C 与 Ctrl + V ，而是 <kbd>y</kbd> 和 <kbd>p</kbd> ，而且无法使用鼠标来选择，需要先在 normal 模式中按 <kbd>v</kbd> 键进入 visual 模式，通过按键移动光标来选择需要复制的内容。在 insert 模式中可以使用 <kbd>Ctrl</kbd> + <kbd>C</kbd> 和 <kbd>Ctrl</kbd> + <kbd>V</kbd> 来复制与粘贴。</p>
+<blockquote>
+<p>在 vim 中粘贴代码时，如果设置了自动缩进 (autoindent)，粘贴内容的缩进会出错，需要在粘贴前执行 <code>:set paste</code> 命令 ，完成粘贴后使用 <code>:set nopaste</code> 命令设置回来。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>y</code></td>
+<td>复制(yank)，The text is pulled (yanked) into the clipboard for later use</td>
+</tr>
+<tr>
+<td><code>yy</code> 或 <code>Y</code></td>
+<td>复制整行</td>
+</tr>
+<tr>
+<td><code>p</code></td>
+<td>粘贴(paste)，粘贴到光标位置后</td>
+</tr>
+<tr>
+<td><code>P</code></td>
+<td>粘贴到光标位置前</td>
+</tr>
+<tr>
+<td><code>d</code></td>
+<td>剪切(delete)</td>
+</tr>
+<tr>
+<td><code>dd</code></td>
+<td>剪切整行</td>
+</tr>
+<tr>
+<td><code>daw</code></td>
+<td>删除光标处的单词</td>
+</tr>
+<tr>
+<td><code>dt&#123;char&#125;</code></td>
+<td>从当前位置删除到指定 char 处</td>
+</tr>
+<tr>
+<td><code>D</code></td>
+<td>剪切光标位置到行尾的内容</td>
+</tr>
+<tr>
+<td><code>v</code></td>
+<td>进入可视(visual)模式</td>
+</tr>
+<tr>
+<td><code>V</code></td>
+<td>进入行级可视模式，可以按行进行选择</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>v</kbd></td>
+<td>进入块级可视模式，可以纵向的按块选择</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>在使用 <code>y</code> 或 <code>d</code> 来复制或剪切内容时，可以在后面加上光标移动命令，如 <code>y10k</code> 向上复制 10 行，<code>d2j</code> 向下删除 2 行。</p>
+</blockquote>
+<h4 id="检索与替换"><a class="markdownIt-Anchor" href="#检索与替换"></a> 检索与替换</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>/text</code> <kbd>回车</kbd></td>
+<td>查找下一个 text</td>
+</tr>
+<tr>
+<td><code>?text</code> <kbd>回车</kbd></td>
+<td>查找上一个 text</td>
+</tr>
+<tr>
+<td><code>*</code></td>
+<td>向下查找光标所在处的单词</td>
+</tr>
+<tr>
+<td><code>#</code></td>
+<td>向上查找光标所在处的单词</td>
+</tr>
+<tr>
+<td><code>:substitute/abc/def</code> 或 <code>:s/abc/def</code></td>
+<td>将下一个 abc 替换成 def</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>成功查找到目标内容后，按 <kbd>n</kbd> 跳转到下一个匹配处，按 <kbd>N</kbd> 跳转到上一个匹配处。</p>
+<p>检索前可以执行设置命令 <code>:set hls</code> ，开启高亮显示检索结果。</p>
+<p>检索完成后，可以执行 <code>:noh</code> 或 <code>:nohls</code>，清除高亮显示。</p>
+</blockquote>
+<p>vim 替换命令的格式：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:[range]s/[pattern]/[string]/[option][count]</span><br></pre></td></tr></table></figure>
+<ul>
+<li><strong>range</strong>  作用范围，可以用数字表示行，如 <code>:2s/abc/def</code> 表示作用于第二行，<code>:2,4s/abc/def</code> 表示作用于第二到四行；可以用 <code>$</code> 表示最后一行，用 <code>%</code> 或 <code>1,</code> 表示所有行，使用 <code>.,</code> 表示从当前行到行尾。</li>
+<li><strong>pattern</strong>  内容检索模式，特殊字符用 <code>\</code> 转义，可以使用正则表达式。</li>
+<li><strong>string</strong>  替换成的内容，特殊字符用 <code>\</code> 转义。</li>
+<li><strong>option</strong>  替换时的选项，<code>c</code> 表示替换时需要确认，<code>g</code> 表示替换行中所有命中内容，<code>i</code> 表示忽略大小写，<code>n</code> 表示只统计匹配次数而不进行替换，可以用来查询匹配次数。不添加 option 项时，只会对每行第一个匹配进行替换。</li>
+<li><strong>count</strong>  替换行数，从 range 中指定的最后一条开始计算，如果没有指定 range 则从当前行开始计算，如 <code>:2,4s/abc/def/g2</code> 将从第四行开始计算的两行(即第 4，5 行)中的 abc 替换成 def。</li>
+</ul>
+<p>vim 替换命令示例：</p>
+<p><code>:%s/^/  /</code>  在所有行前增加两个空格</p>
+<h4 id="文本对象操作"><a class="markdownIt-Anchor" href="#文本对象操作"></a> 文本对象操作</h4>
+<p>在 Vim 中可以把单词 、句子 、段落当作一个文本对象来操作，如 <code>diw</code> 可以删除光标处的一个单词。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[number]&lt;command&gt;[text object]</span><br></pre></td></tr></table></figure>
+<ul>
+<li>number 表示操作次数</li>
+<li>command 是操作命令，如 块选 v、删除 d、修改 c、复制 y</li>
+<li>text object 是要操作的文本对象，如单词 w、句子 s、段落 p</li>
+</ul>
+<p><code>iw</code> 表示 inner word，将选中光标处的单词，如 <code>viw</code> 将选中光标处的单词，<code>diw</code> 将删除光标处的单词，<code>yiw</code> 将复制光标处的单词</p>
+<p><code>aw</code> 表示 a word，将选中光标处的单词和单词后的空格，如 <code>vaw</code> 将选中光标处的单词和单词后的空格，<code>daw</code> 将删除光标处的单词和单词后的空格，<code>yaw</code> 将复制光标处的单词和单词后的空格</p>
+<p><code>is</code> 、<code>as</code> 、<code>ip</code> 、<code>ap</code> 功能同上。</p>
+<h3 id="进阶操作"><a class="markdownIt-Anchor" href="#进阶操作"></a> 进阶操作</h3>
+<h4 id="缓冲区"><a class="markdownIt-Anchor" href="#缓冲区"></a> 缓冲区</h4>
+<p>Vim 打开一个文件后会加载文件内容到缓冲区，之后修改的内容都是针对内存中的缓冲区，并不会直接保存到文件，直到我们执行 <code>:w</code> 的时候才会把修改内容写入到文件里。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:e newfile.txt</code></td>
+<td>编辑新文件，会新增一个缓冲区</td>
+</tr>
+<tr>
+<td><code>:ls</code></td>
+<td>列举当前缓冲区</td>
+</tr>
+<tr>
+<td><code>:b n</code></td>
+<td>跳转到第 n 个缓冲区</td>
+</tr>
+<tr>
+<td><code>:bpre</code></td>
+<td>跳转到上一个缓冲区</td>
+</tr>
+<tr>
+<td><code>:bnext</code></td>
+<td>跳转到下一个缓冲区</td>
+</tr>
+<tr>
+<td><code>:bfirst</code></td>
+<td>跳转到第一个缓冲区</td>
+</tr>
+<tr>
+<td><code>:blast</code></td>
+<td>跳转到最后一个缓冲区</td>
+</tr>
+<tr>
+<td><code>:b buffer_name</code></td>
+<td>跳转到指定名字的缓冲区，缓冲区名可以使用 <kbd>Tab</kbd> 键补全</td>
+</tr>
+</tbody>
+</table>
+<h4 id="窗口"><a class="markdownIt-Anchor" href="#窗口"></a> 窗口</h4>
+<p>Vim 一个缓冲区可以分割成多个窗口，每个窗口可以打开不同的缓冲区。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:sp</code> 或 <code>:split</code></td>
+<td>水平分屏(split)</td>
+</tr>
+<tr>
+<td><code>:vs</code> 或 <code>:vsplit</code></td>
+<td>垂直分屏(vertical split)</td>
+</tr>
+<tr>
+<td><code>:5sp</code></td>
+<td>划分一个 5 行的水平窗口</td>
+</tr>
+<tr>
+<td><code>:5vs</code></td>
+<td>划分一个 5 列的垂直窗口</td>
+</tr>
+<tr>
+<td><code>:sp test.txt</code></td>
+<td>水平分屏并编辑 test.txt 文件</td>
+</tr>
+<tr>
+<td><code>:vs test.txt</code></td>
+<td>垂直分屏并编辑 test.txt 文件</td>
+</tr>
+</tbody>
+</table>
+<p>在多个窗口中移动时，可以在常规模式下先按 <kbd>Ctrl</kbd> + <kbd>w</kbd> 键，然后按 <kbd>k</kbd>、<kbd>j</kbd>、<kbd>h</kbd>、<kbd>l</kbd> 键或 <kbd>↑</kbd>、<kbd>↓</kbd>、<kbd>←</kbd>、<kbd>→</kbd> 左右键，在上下左右窗口间切换。</p>
+<p>窗口操作快捷键：</p>
+<blockquote>
+<p>以下快捷键需要先按下 <kbd>Ctrl</kbd> + <kbd>w</kbd> ，松开后，再次按下 <code>;</code> 后指定的按键。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>快捷键</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>n</kbd></td>
+<td>新建空窗口</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>s</kbd></td>
+<td>水平切分窗口</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>v</kbd></td>
+<td>垂直切分窗口</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>w</kbd></td>
+<td>在多个窗口中切换</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>=</kbd></td>
+<td>等分各窗口大小</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>+</kbd></td>
+<td>加大当前窗口</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>-</kbd></td>
+<td>缩小当前窗口</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>_</kbd></td>
+<td>最大化活动窗口的高度</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>|</kbd></td>
+<td>最大化活动窗口宽度</td>
+</tr>
+<tr>
+<td>[N]<kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>_</kbd></td>
+<td>把活动窗口的高度设为[N]行</td>
+</tr>
+<tr>
+<td>[N]<kbd>Ctrl</kbd> + <kbd>w</kbd> ；<kbd>|</kbd></td>
+<td>把活动窗口的宽度设为[N]行</td>
+</tr>
+</tbody>
+</table>
+<h4 id="标签页"><a class="markdownIt-Anchor" href="#标签页"></a> 标签页</h4>
+<p>标签(Tab)是可以容纳一系列窗口的容器，可以一个 Tab 全用来编辑 html 文件，另一个 Tab 用来编辑 txt 文件。</p>
+<blockquote>
+<p>在 normal 模式下可以使用 <code>:h tabpage</code> 查看标签页帮助信息。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:tabn</code></td>
+<td>创建一个新的标签页</td>
+</tr>
+<tr>
+<td><code>:tabe[dit] &#123;filename&#125;</code></td>
+<td>在新标签页中打开 {filename}</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>w</kbd> ； <kbd>T</kbd></td>
+<td>把当前窗口移到一个新的标签页</td>
+</tr>
+<tr>
+<td><code>:tabs</code></td>
+<td>列出所有标签页</td>
+</tr>
+<tr>
+<td><code>:tabc[lose]</code></td>
+<td>关闭当前标签页及其中的所有窗口</td>
+</tr>
+<tr>
+<td><code>:tabo[nly]</code></td>
+<td>只保留活动标签页，关闭所有其他标签页</td>
+</tr>
+<tr>
+<td><code>:tabn[ext]</code></td>
+<td>切换到下一个标签页</td>
+</tr>
+<tr>
+<td><code>:tabn[ext] &#123;N&#125;</code></td>
+<td>切换到编号为 {N} 的标签页</td>
+</tr>
+<tr>
+<td><code>:tabp[revious]</code></td>
+<td>切换到上一个标签页</td>
+</tr>
+</tbody>
+</table>
+<h4 id="修改-vim-主题配色"><a class="markdownIt-Anchor" href="#修改-vim-主题配色"></a> 修改 vim 主题配色</h4>
+<p>vim 提供了多种内置主题配色方案，网络中也有很多优秀的第三方配色主题可选。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>:colorscheme</code></td>
+<td>显示当前主题颜色，默认为 default</td>
+</tr>
+<tr>
+<td><code>:colorscheme</code> <kbd>Ctrl</kbd> + <kbd>d</kbd></td>
+<td>显示所有可选配色</td>
+</tr>
+<tr>
+<td><code>:colorscheme &#123;name&#125;</code></td>
+<td>使用指定名称为 {name} 的配色主题</td>
+</tr>
+</tbody>
+</table>
+<p>其他主题</p>
+<blockquote>
+<p>vim-hybird: <a target="_blank" rel="noopener" href="https://github.com/flazz/vim-colorschemes">https://github.com/flazz/vim-colorschemes</a></p>
+<p>solarized: <a target="_blank" rel="noopener" href="https://github.com/altercation/solarized">https://github.com/altercation/solarized</a></p>
+<p>gruvbox: <a target="_blank" rel="noopener" href="https://github.com/morhetz/gruvbox">https://github.com/morhetz/gruvbox</a></p>
+</blockquote>
+<p>安装方法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> ~/.vim</span><br><span class="line">git <span class="built_in">clone</span> https://github.com/flazz/vim-colorschemes.git ~/.vim</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，以上的安装方法将下载很多配色主题，如果只需要部分，可以只将需要的 <code>.vim</code> 文件拷贝到 <code>~/.vim/colors</code> 目录下。如果使用了 vim 插件管理器，也可以直接使用插件管理器安装，如后面提到的 vim-plug 。</p>
+</blockquote>
+<h4 id="vim-配置"><a class="markdownIt-Anchor" href="#vim-配置"></a> vim 配置</h4>
+<p>在 vim 的 normal 模式下，我们可以执行命令来临时设置 vim，如 <code>:set nu</code> 设置显示行号，<code>:syntax on</code> 开启代码高亮，<code>:colorscheme default</code> 使用默认主题配色等等。这种配置方式在关闭 vim 后就失效了，我们可以将配置项写到 <code>~/.vimrc</code> 文件中，实现持久化配置。</p>
+<blockquote>
+<p>windows 系统 (Win 10) 使用 windows shell ，<code>cd ~</code> 进入根目录，如管理员的根目录在 <code>C:\Users\Administrator</code> ，创建 <code>.vimrc</code> 或 <code>_vimrc</code> 文件。</p>
+<p>在任意操作系统中查找 vimrc 文件的位置，只需要打开 vim 执行命令 <code>:echo $MYVIMRC</code> ，即可打印出当前操作系统 vimrc 文件的位置。</p>
+</blockquote>
+<p>我们可以将 vim 配置命令写到 <code>.vimrc</code> 文件中，实现持久化配置，需要注意的是，配置命令写到配置文件时，不需要再加 <code>:</code> 了，vim 会将所有配置解析为命令。如 设置显示行号 <code>set nu</code> 。配置文件中每一行为一个配置命令，使用 <code>&quot;</code> 添加注释。</p>
+<p>在 <code>.vimrc</code> 文件中除了可以添加常用配置项外，还可以添加快捷键映射，以及自定义的 vimscript 函数和插件配置。</p>
+<p>下面是一份示例配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&quot; 常用配置</span><br><span class="line">&quot; 设置行号</span><br><span class="line">set nu</span><br><span class="line"></span><br><span class="line">&quot; 主题配色(需要下载安装 vim-hybird 主题)</span><br><span class="line">colorscheme hybrid</span><br><span class="line"></span><br><span class="line"> &quot; 按 F2 进入粘贴模式</span><br><span class="line">set pastetoggle=&lt;F2&gt;</span><br><span class="line"></span><br><span class="line">&quot; 高亮搜索</span><br><span class="line">set hlsearch</span><br><span class="line"></span><br><span class="line">&quot; 设置折叠方式</span><br><span class="line">set foldmethod=indent</span><br><span class="line"></span><br><span class="line">&quot; vim 映射</span><br><span class="line">&quot; 设置 leader</span><br><span class="line">let mapleader=&#x27;,&#x27;</span><br><span class="line">let g:mapleader=&#x27;,&#x27;</span><br><span class="line"></span><br><span class="line">&quot; 使用 jj 进入normal 模式，`^ 用于退出插入模式时保持光标位置，可以在 vim 中使用 :help `^ 查看帮助信息</span><br><span class="line">inoremap jj &lt;Esc&gt;`^</span><br><span class="line"></span><br><span class="line">&quot; 使用 leader+w 直接保存(插入模式)</span><br><span class="line">inoremap &lt;leader&gt;w &lt;Esc&gt;:w&lt;cr&gt;</span><br><span class="line"></span><br><span class="line">&quot; 使用 leader+w 直接保存(常规模式)</span><br><span class="line">noremap &lt;leader&gt;w :w&lt;cr&gt;</span><br><span class="line"> </span><br><span class="line">&quot; 切换 buffer</span><br><span class="line">nnoremap &lt;silent&gt; [b :bprevious&lt;cr&gt;</span><br><span class="line">nnoremap &lt;silent&gt; [n :bnext&lt;cr&gt;</span><br><span class="line"></span><br><span class="line">&quot; 使用 Ctrl+h/j/k/l 切换窗口</span><br><span class="line">noremap &lt;C-h&gt; &lt;C-w&gt;h</span><br><span class="line">noremap &lt;C-j&gt; &lt;C-w&gt;j</span><br><span class="line">noremap &lt;C-k&gt; &lt;C-w&gt;k</span><br><span class="line">noremap &lt;C-l&gt; &lt;C-w&gt;l</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在 vim 中修改完 vimrc 文件后，可以执行 <code>:source ~/.vimrc</code> 命令使其立即生效。</p>
+</blockquote>
+<p><strong>vim 的映射</strong></p>
+<p>vim 中的映射有点复杂，源于 vim 有多种模式，每种模式都可以设置不同的映射规则。</p>
+<p><strong>设置 leader 键</strong> <code>let mapleader=','</code> ，常用的 leader 键是空格或逗号，使用 <code>inoremap &lt;leader&gt;w &lt;Esc&gt;:w&lt;cr&gt;</code> 在插入模式下，输入 <code>,w</code> 即可直接保存修改内容。</p>
+<p><strong>基本映射</strong> ，指在 normal 模式下的映射，使用 <code>map</code> 就可以实现映射。如 <code>:map - x</code> 即可将 <code>-</code> 映射为 <code>x</code> ，按 <code>-</code> 完成删除字符的功能。如 <code>:map &lt;space&gt; viw</code> 可以按空格键选择光标处的单词。如 <code>:map &lt;c-d&gt; dd</code> 就可以使用 <kbd>Ctrl</kbd> + <kbd>d</kbd> 执行 dd 命令删除一行。</p>
+<blockquote>
+<p>使用 <code>:unmap</code> 来取消映射，如可以使用 <code>:unmap -</code> 取消 <code>-</code> 的映射规则。</p>
+</blockquote>
+<p><strong>不同模式下的映射</strong> ，分别使用 nmap/vmap/imap 定义只在 normal/visual/insert 模式下的映射，如 <code>:vmap \ U</code> 把在 visual 模式下选择的文本转为大写(U/u 转换大小写)。</p>
+<p><strong>递归映射与非递归映射</strong>，递归映射会将映射层层解析，直到解析到最终的命令，这种映射方式可能会导致映射与插件中的映射冲突，使得冲突的映射有一个失效，所以一般 <strong>建议任何时候都应该使用非递归映射</strong> 。</p>
+<p>使用 nnoremap/vnoremap/inoremap 来定义在 normal/visual/insert 模式下的非递归映射。<code>nore</code> 意为 `not recursive，非递归的。</p>
+<h3 id="高级操作"><a class="markdownIt-Anchor" href="#高级操作"></a> 高级操作</h3>
+<h4 id="寄存器"><a class="markdownIt-Anchor" href="#寄存器"></a> 寄存器</h4>
+<p>在 vim 中删除、复制的内容都会被存入寄存器，可以使用 <code>p</code> 将寄存器中的内容粘贴到文档中。默认将内容存入了无名寄存器中，可以使用引号指定使用的寄存器，如复制时 <code>&quot;ayiw</code> 及可以将光标处的单词复制到寄存器 a 中，同样的在粘贴时使用 <code>&quot;ap</code> 即可将 a 寄存器中的内容粘贴到文档中。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>&quot;&#123;register&#125;</code></td>
+<td>使用指定的寄存器 {register}</td>
+</tr>
+<tr>
+<td><code>:reg[isters]</code></td>
+<td>查看所有寄存器</td>
+</tr>
+<tr>
+<td><code>:reg &#123;a&#125;</code></td>
+<td>查看 {a} 寄存器</td>
+</tr>
+</tbody>
+</table>
+<p>可以使用 a-z 对寄存器命名，这些被称为有名寄存器。vim 中还有一些常见的寄存器：</p>
+<ul>
+<li><code>&quot;&quot;</code> 无名寄存器</li>
+<li><code>&quot;0</code> 复制专用寄存器，使用 <code>y</code> 命令复制文本时，同时会拷贝一份到复制寄存器 0</li>
+<li><code>&quot;+</code> 系统剪贴板，可以将 vim 中内容拷贝到系统剪贴板，或是粘贴系统剪贴板中的内容</li>
+<li><code>&quot;%</code> 为当前文件名的寄存器</li>
+<li><code>&quot;.</code> 上次插入的文本</li>
+<li><code>&quot;#</code> 轮换文件名</li>
+<li><code>&quot;_</code> 黑洞寄存器，放进去的东西不会恢复</li>
+<li><code>&quot;=</code> 表达式寄存器，用于计算</li>
+<li><code>&quot;:</code> 上次执行的命令</li>
+<li><code>&quot;/</code> 上次查找的模式</li>
+</ul>
+<h4 id="宏"><a class="markdownIt-Anchor" href="#宏"></a> 宏</h4>
+<p>宏(macro) 可以看作是一系列命令的集合，可以使用宏录制一系列操作，然后用于回放，宏可以非常方便的把一系列命令用在多行文本上。</p>
+<p>在常规模式下，按一下 <kbd>q</kbd> ，然后再按一个字母作为宏名，然后就可以开始录制宏(如 <code>qa</code> 录制宏并保存到寄存器 a)，录制完成后回到常规模式，按 <kbd>q</kbd> 结束录制。录制完成后即可使用 <code>@&#123;register&#125;</code> ，来执行宏，如 <code>@a</code> 执行宏 a。 按 <code>@@</code> 执行上一个宏。</p>
+<blockquote>
+<p>例如我们想给文档中每一行开头和结尾都添加一个引号 <code>&quot;</code> ，可以如下操作：</p>
+<ol>
+<li>打开文档: <code>vim test.txt</code></li>
+<li>将光标移动到开头: <code>gg</code></li>
+<li>开始录制宏: <code>qa</code></li>
+<li>将光标移动到行首: <code>^</code></li>
+<li>插入引号后回到 normal 模式: <code>i&quot;</code> <kbd>Esc</kbd></li>
+<li>将光标移动到行尾: <code>$</code></li>
+<li>添加引号后回到 normal 模式: <code>a&quot;</code> <kbd>Esc</kbd></li>
+<li>将光标移动到下一行: <code>j</code></li>
+<li>结束宏录制: <code>q</code></li>
+<li>回放宏: <code>@a</code> ，或执行 100 次: <code>100@a</code></li>
+</ol>
+</blockquote>
+<h4 id="自动补全"><a class="markdownIt-Anchor" href="#自动补全"></a> 自动补全</h4>
+<blockquote>
+<p>以下命令，有些需要按两次快捷键，先按一次 <kbd>Ctrl</kbd> + <kbd>x</kbd> ，然后再按后面的快捷键。自动补全需要开启文件类型检查，安装插件。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>作用</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>n</kbd></td>
+<td>普通关键字</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>n</kbd></td>
+<td>当前缓冲区关键字</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>i</kbd></td>
+<td>包含文件关键字</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>]</kbd></td>
+<td>标签文件关键字</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>k</kbd></td>
+<td>字典查找</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>l</kbd></td>
+<td>整行补全</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>f</kbd></td>
+<td>文件名补全</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>x</kbd> ； <kbd>Ctrl</kbd> + <kbd>o</kbd></td>
+<td>全能(Omni) 补全</td>
+</tr>
+<tr>
+<td><kbd>Ctrl</kbd> + <kbd>p</kbd></td>
+<td>补全单词</td>
+</tr>
+</tbody>
+</table>
+<h4 id="插件"><a class="markdownIt-Anchor" href="#插件"></a> 插件</h4>
+<p>vim 插件是使用 vimscript 或其他语言编写的 vim 功能扩展，github 中由很多开源的 vim 插件，这些插件大大扩充了 vim 的功能。</p>
+<h5 id="安装方式"><a class="markdownIt-Anchor" href="#安装方式"></a> 安装方式</h5>
+<ul>
+<li>原始方式：拷贝插件代码到 vim 路径下</li>
+<li>使用插件管理工具：如 vim-plug，Vundle，Pathogen，Dein.Vim，volt 等。综合性能、易用性、文档等方便，推荐使用 <strong>vim-plug</strong>  。</li>
+</ul>
+<h5 id="vim-plug"><a class="markdownIt-Anchor" href="#vim-plug"></a> vim-plug</h5>
+<blockquote>
+<p>github: <a target="_blank" rel="noopener" href="https://github.com/junegunn/vim-plug">https://github.com/junegunn/vim-plug</a></p>
+</blockquote>
+<p>安装方式参考 vim-plug 的 github 仓库说明。如 unix 中使用的 vim，执行命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -fLo ~/.vim/autoload/plug.vim --create-dirs \</span><br><span class="line">    https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim</span><br></pre></td></tr></table></figure>
+<p>配置 vimrc ，编辑 vimrc 文件，添加如下配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&quot; 指定插件安装的路径</span><br><span class="line">&quot; 要注意避免使用 vim 标准路径名，如 &#x27;plugin&#x27;</span><br><span class="line">call plug#begin(&#x27;~/.vim/plugged&#x27;)</span><br><span class="line"></span><br><span class="line">&quot; 插件列表，将要安装的插件添加到这里</span><br><span class="line">&quot; 可以使用插件的简单引用, 如 https://github.com/mhinz/vim-startify</span><br><span class="line">Plug &#x27;mhinz/vim-startify&#x27;</span><br><span class="line"></span><br><span class="line">&quot; 也可以使用完整的 git 地址，如</span><br><span class="line">&quot; Plug &#x27;https://github.com/mhinz/vim-startify.git&#x27;</span><br><span class="line"></span><br><span class="line">&quot; 多个插件可以写到一行，使用 | 分隔</span><br><span class="line">&quot; Plug &#x27;xxx/xxx&#x27; | Plug &#x27;yyy/yyy&#x27;</span><br><span class="line"></span><br><span class="line">&quot; 还可以指定使用的 git 分支、tag 版本等信息，具体参考官方文档</span><br><span class="line"></span><br><span class="line">&quot; 初始化插件系统</span><br><span class="line">call plug#end()</span><br></pre></td></tr></table></figure>
+<p>使用 vim-plug 安装插件：</p>
+<ol>
+<li>在配置文件中添加了需要的插件，在 <code>call plug#begin('~/.vim/plugged')</code> 和 <code>call plug#end()</code>  之间增加插件的名称，如安装 vim-startify 插件，添加 <code>Plug 'mhinz/vim-startify'</code></li>
+<li>重启 vim ，或者使用 source 重新加载一下 vimrc 文件 <code>:source ~/.vimrc</code></li>
+<li>在 vim 中执行命令 <code>:PlugInstall</code> ，之后 vim-plug 就会自动下载插件并安装好。</li>
+</ol>
+<p>重新打开 vim 发现安装的 vim-startify 插件已经生效：<img src="http://blog-images.qiniu.wqf31415.xyz/vim_plug_startify.png" alt="" title="vim-startify" /></p>
+<h5 id="查找-vim-插件"><a class="markdownIt-Anchor" href="#查找-vim-插件"></a> 查找 vim 插件</h5>
+<ul>
+<li>直接到 GitHub 上找，很多插件都托管在 GitHub 上了。</li>
+<li>Vim Awesome 上汇总了各种类型的vim插件： <a target="_blank" rel="noopener" href="https://vimawesome.com/">https://vimawesome.com/</a></li>
+</ul>
+<h5 id="插件推荐"><a class="markdownIt-Anchor" href="#插件推荐"></a> 插件推荐</h5>
+<ul>
+<li>
+<p>修改启动界面: <a target="_blank" rel="noopener" href="https://github.com/mhinz/vim-startify">https://github.com/mhinz/vim-startify</a></p>
+</li>
+<li>
+<p>状态栏美化: <a target="_blank" rel="noopener" href="https://github.com/vim-airline/vim-airline">https://github.com/vim-airline/vim-airline</a></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/vim_plug_airline.png" alt="" title="vim-airline" /></p>
+</li>
+<li>
+<p>增加代码缩进线条: <a target="_blank" rel="noopener" href="https://github.com/Yggdroot/indentLine">https://github.com/Yggdroot/indentLine</a></p>
+</li>
+<li>
+<p>文件目录树: <a target="_blank" rel="noopener" href="https://github.com/scrooloose/nerdtree">https://github.com/scrooloose/nerdtree</a></p>
+<p>使用 <code>:NERDTreeToggle</code> 命令打开文件树，可以添加映射到配置项： <code>map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;</code> 使用快捷键 <kbd>ctrl</kbd> + <kbd>n</kbd> 快速打开/关闭文件目录树。</p>
+<p>启动 vim 时打开文件树: <code>autocmd vimenter * NERDTree</code></p>
+<p>查找当前文件位置: <code>nnoremap &lt;leader&gt;v :NERDTreeFind&lt;cr&gt;</code></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/vim_plug_nerdtree.png" alt="" title="nerdtree" /></p>
+</li>
+<li>
+<p>模糊搜索: ctrlp.vim，<a target="_blank" rel="noopener" href="https://github.com/ctrlpvim/ctrlp.vim">https://github.com/ctrlpvim/ctrlp.vim</a></p>
+</li>
+<li>
+<p>移动到任意位置: vim-easymotion， 大大增强了 vim 本就强大的移动功能，<a target="_blank" rel="noopener" href="https://github.com/easymotion/vim-easymotion">https://github.com/easymotion/vim-easymotion</a></p>
+</li>
+<li>
+<p>包裹操作: vim-surround，对于成对操作的内容很有帮助，如编辑 html 文档， <a target="_blank" rel="noopener" href="https://github.com/tpope/vim-surround">https://github.com/tpope/vim-surround</a></p>
+</li>
+<li>
+<p>在项目文件中模糊搜索: fzf.vim， <a target="_blank" rel="noopener" href="https://github.com/junegunn/fzf.vim">https://github.com/junegunn/fzf.vim</a></p>
+</li>
+<li>
+<p>批量搜索替换: far.vim，<a target="_blank" rel="noopener" href="https://github.com/brooth/far.vim">https://github.com/brooth/far.vim</a></p>
+</li>
+<li>
+<p>golang 插件，vim-go，代码补全、重构、自动格式化、自动导入等: <a target="_blank" rel="noopener" href="https://github.com/fatih/vim-go">https://github.com/fatih/vim-go</a></p>
+</li>
+<li>
+<p>python 插件: python-mode， 使用 vim 开发 python， <a target="_blank" rel="noopener" href="https://github.com/python-mode/python-mode">https://github.com/python-mode/python-mode</a></p>
+</li>
+<li>
+<p>代码大纲: tagbar，方便快捷浏览代码，快速跳转， <a target="_blank" rel="noopener" href="https://github.com/majutsushi/tagbar">https://github.com/majutsushi/tagbar</a></p>
+</li>
+<li>
+<p>高亮你感兴趣的词: vim-interestingwords， <a target="_blank" rel="noopener" href="https://github.com/lfv89/vim-interestingwords">https://github.com/lfv89/vim-interestingwords</a></p>
+</li>
+<li>
+<p>异步补全插件: deoplete.nvim，支持异步补全，防止插件运行时导致 vim 操作卡顿， <a target="_blank" rel="noopener" href="https://github.com/Shougo/deoplete.nvim">https://github.com/Shougo/deoplete.nvim</a></p>
+</li>
+<li>
+<p>格式化插件: vim-autoformat 和 Neoformat，需要安装对应语言的格式化库，如 python 格式化的 autopep8，js 的 prettier 等</p>
+</li>
+<li>
+<p>静态检查: neomake 和 ale 是两种常用的静态检查插件，需要安装对应语言的静态检查库，如 eslint、pylint、golint 等</p>
+</li>
+<li>
+<p>注释插件: vim-commentary ，可以根据文件类型不同使用不同的注释风格，使用命令 gc 注释和取消注释</p>
+</li>
+<li>
+<p>vim 中使用 git : Fugitive，直接在 vim 中执行命令调用 git，如 Gedit、Gdiff、Gblame、Gcommit 等</p>
+</li>
+<li>
+<p>在 vim 中显示文件变动: vim-gitgutter ，修改文件后可以显示当前文件的变动</p>
+</li>
+</ul>
+<h3 id="成神"><a class="markdownIt-Anchor" href="#成神"></a> 成神</h3>
+<h4 id="vimscript"><a class="markdownIt-Anchor" href="#vimscript"></a> vimscript</h4>
+<p>vim 脚本可以实现功能强大的 vim 插件，vimscript 是一种简单的脚本语言，可以实现更多 vim 的控制，开发自己的插件。</p>
+<blockquote>
+<p>推荐学习资料: 《笨方法学 Vimscript》</p>
+<p>GitHub: <a target="_blank" rel="noopener" href="https://github.com/sjl/learnvimscriptthehardway">https://github.com/sjl/learnvimscriptthehardway</a></p>
+<p>中文: <a target="_blank" rel="noopener" href="http://learnvimscriptthehardway.onefloweroneworld.com/">http://learnvimscriptthehardway.onefloweroneworld.com/</a></p>
+</blockquote>
+<h3 id="其他"><a class="markdownIt-Anchor" href="#其他"></a> 其他</h3>
+<h4 id="tmux"><a class="markdownIt-Anchor" href="#tmux"></a> Tmux</h4>
+<p>Tmux <a target="_blank" rel="noopener" href="https://github.com/tmux/tmux">https://github.com/tmux/tmux</a> 是一个强大的终端复用工具，通过 brew (mac) 或 apt-get (ubantu) 命令安装，可以复用终端、分屏、托管进程等。</p>
+<h4 id="neovim"><a class="markdownIt-Anchor" href="#neovim"></a> Neovim</h4>
+<p>Neovim <a target="_blank" rel="noopener" href="https://neovim.io">https://neovim.io</a> 是一个新的 vim 版本，支持异步特性，具有更加丰富的特性和扩展，开发更活跃，而且可以嵌入到很多 GUI 中，界面更加美观。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.vim.org/git.php">Vim from GitHub : vim online</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.thewindowsclub.com/install-vim-text-editor-on-windows">How to install Vim Text Editor on Windows 10/8/7</a></li>
+<li><a target="_blank" rel="noopener" href="https://guide.freecodecamp.org/vim/modes/">Modes in Vim | freeCodeCamp Guide</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/u013043762/article/details/80461666">vim全局替换命令 - lixixi - CSDN博客</a></li>
+<li><a target="_blank" rel="noopener" href="https://blog.csdn.net/lanchunhui/article/details/51588586">强悍的 vim —— g s 替换区别 - Zhang’s Wikipedia - CSDN博客</a></li>
+</ul>
+<h3 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h3>
+<p>这篇文章总体上介绍了 vim 编辑器的用法，包含的面比较广，但并不是很深入，属于走马观花式的概览，目的是希望能够对 vim 有个概念，知道它能做什么，有什么用法，激发对 vim 的兴趣就最好了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/vim/" rel="tag"># vim</a>
+              <a href="/tags/%E7%BC%96%E8%BE%91%E5%99%A8/" rel="tag"># 编辑器</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/05/13/Spring-Boot-%E4%BD%BF%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-Thymeleaf/" rel="prev" title="Spring Boot 使用模板引擎 Thymeleaf">
+                  <i class="fa fa-chevron-left"></i> Spring Boot 使用模板引擎 Thymeleaf
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/06/14/Postman-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3-API/" rel="next" title="Postman 测试接口 API">
+                  Postman 测试接口 API <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

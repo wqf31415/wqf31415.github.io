@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 在工作中，有时会遇到保密要求较高的项目，开发时不能连接互联网，会产生很多问题，带来许多不便。这篇文章总结了在没有外网的环境下开发 java 项目的一些经验，介绍了一些常见问题的解决方案，主要是离线环境下的 maven 环境、springboot 环境搭建。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java内网开发攻略">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/10/31/Java%E5%86%85%E7%BD%91%E5%BC%80%E5%8F%91%E6%94%BB%E7%95%A5/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 在工作中，有时会遇到保密要求较高的项目，开发时不能连接互联网，会产生很多问题，带来许多不便。这篇文章总结了在没有外网的环境下开发 java 项目的一些经验，介绍了一些常见问题的解决方案，主要是离线环境下的 maven 环境、springboot 环境搭建。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/coffee-beans.jpg">
+<meta property="article:published_time" content="2021-10-31T12:37:13.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.241Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="maven">
+<meta property="article:tag" content="开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/coffee-beans.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/10/31/Java%E5%86%85%E7%BD%91%E5%BC%80%E5%8F%91%E6%94%BB%E7%95%A5/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/10/31/Java%E5%86%85%E7%BD%91%E5%BC%80%E5%8F%91%E6%94%BB%E7%95%A5/","path":"2021/10/31/Java内网开发攻略/","title":"Java内网开发攻略"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java内网开发攻略 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A6%BB%E7%BA%BF%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text"> 离线环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#java"><span class="nav-number">2.1.</span> <span class="nav-text"> java</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#maven"><span class="nav-number">2.2.</span> <span class="nav-text"> maven</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E4%B8%8B%E8%BD%BDmaven%E4%BE%9D%E8%B5%96%E5%8C%85"><span class="nav-number">2.2.1.</span> <span class="nav-text"> 快速下载maven依赖包</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#springboot"><span class="nav-number">2.3.</span> <span class="nav-text"> springboot</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">3.</span> <span class="nav-text"> 遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%93%E5%8C%85%E6%97%B6-maven-%E6%80%BB%E6%98%AF%E4%BB%8E%E8%BF%9C%E7%AB%AF%E4%BB%93%E5%BA%93%E4%B8%8B%E8%BD%BD%E4%BE%9D%E8%B5%96"><span class="nav-number">3.1.</span> <span class="nav-text"> 打包时 maven 总是从远端仓库下载依赖</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">4.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/10/31/Java%E5%86%85%E7%BD%91%E5%BC%80%E5%8F%91%E6%94%BB%E7%95%A5/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java内网开发攻略 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java内网开发攻略<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Java%E5%86%85%E7%BD%91%E5%BC%80%E5%8F%91%E6%94%BB%E7%95%A5.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-10-31 20:37:13" itemprop="dateCreated datePublished" datetime="2021-10-31T20:37:13+08:00">2021-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%BC%80%E5%8F%91/" itemprop="url" rel="index"><span itemprop="name">开发</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>在工作中，有时会遇到保密要求较高的项目，开发时不能连接互联网，会产生很多问题，带来许多不便。这篇文章总结了在没有外网的环境下开发 java 项目的一些经验，介绍了一些常见问题的解决方案，主要是离线环境下的 maven 环境、springboot 环境搭建。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/coffee-beans.jpg" alt="" /></p>
+<span id="more"></span>
+<h3 id="离线环境"><a class="markdownIt-Anchor" href="#离线环境"></a> 离线环境</h3>
+<p>其实，在内网中开发最重要的问题就是环境问题，从环境安装到依赖的类库下载，都会有点不方便。</p>
+<h4 id="java"><a class="markdownIt-Anchor" href="#java"></a> java</h4>
+<p>需要从公网下载好需要的 jdk 包，拷贝到内网进行安装，此外建议下载相同版本的 jre，方便项目部署时使用。</p>
+<h4 id="maven"><a class="markdownIt-Anchor" href="#maven"></a> maven</h4>
+<p>Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管理复杂的项目依赖，但在没有公网的环境中，无法直接下载 maven 依赖包，需要手动维护。</p>
+<p>这时我们需要一台能上网的电脑，在电脑上搭建 maven，然后创建一个maven 项目，引入项目需要的maven依赖，使用maven下载好所有依赖，然后把 maven 的本地仓库打包，拷贝到内网中。最后修改内网 maven 的本地仓库配置，指向拷贝进来的仓库路径，这样就可以愉快的开发了。</p>
+<h5 id="快速下载maven依赖包"><a class="markdownIt-Anchor" href="#快速下载maven依赖包"></a> 快速下载maven依赖包</h5>
+<p>在断网开发场景中，下载公网资源往往只能到指定的开放电脑上进行，但这台电脑不一定有我们需要的 java 和 maven 环境，这时可以用下述方法快速搭建环境下载需要的依赖库。</p>
+<ul>
+<li>
+<p>下载 jre 压缩包：从Oracle官网下载 java 8 的 jre 压缩包，解压后新建系统环境变量 JAVA_HOME，指向jre根目录，不用安装。</p>
+</li>
+<li>
+<p>下载 maven 压缩包：从 Apache maven 官网下载 maven 压缩包，解压，添加 bin 路径到系统环境变量 path 中，然后修改配置文件，添加阿里镜像源，提升下载速度。</p>
+</li>
+<li>
+<p>创建 pom.xml：创建最简单的 maven 项目依赖文件，添加自己需要的依赖，依赖的信息可以从 maven 在线仓库 &lt;<a target="_blank" rel="noopener" href="https://mvn">https://mvn</a> <a target="_blank" rel="noopener" href="http://repository.com">repository.com</a>&gt; 中搜索得到。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">groupId</span>&gt;</span>xx<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>xx<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">version</span>&gt;</span>x<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- 把要下载的依赖定义粘贴到这里 --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>执行命令下载依赖：在pom.xml 目录中打开命令行执行命令: <code>mvn -f pom.xml dependency:copy-dependencies</code> ，等待依赖下载完成。</p>
+</li>
+<li>
+<p>拷贝依赖包：将下载到本地的依赖文件打包，默认本地依赖保存路径是 <code>~/.m2</code> ，将其压缩打包后，传输到内网，使用时直接将其中内容解压，与内网原有依赖放在一起即可使用。</p>
+</li>
+<li>
+<p>更新idea本地仓库索引：进入 idea，点击菜单栏 File ，点 <code>Settings...</code> 进入设计界面，进入 <code>Build, Execution, Deployment</code> - <code>Build Tools</code> - <code>Maven</code> - <code>Repositories</code>，在右侧选择本地仓库（Type为Local），点击 <code>Update</code>。</p>
+</li>
+</ul>
+<h4 id="springboot"><a class="markdownIt-Anchor" href="#springboot"></a> springboot</h4>
+<p>当我们使用 idea 创建 SpringBoot 项目时，idea 会访问 spring 官方提供的项目初始化网站 <a target="_blank" rel="noopener" href="https://start.spring.io/">https://start.spring.io/</a> 生成初始化的项目文件。在内网环境中，无法访问该网站，导致无法创建项目。</p>
+<p>其实这个网站的是开源的，github 地址是：<a target="_blank" rel="noopener" href="https://github.com/spring-io/start.spring.io.git">https://github.com/spring-io/start.spring.io.git</a></p>
+<p>我们可以把这个项目的源码拉下来，到内网中运行起来，然后修改 idea 创建 SpringBoot 项目的 Server URL，改成我们运行的地址。</p>
+<p>但是有一个问题，当我们请求自己搭建的 start 服务创建项目时，start 服务会访问 spring 官网获取 SpringBoot 项目版本信息，地址是：<a target="_blank" rel="noopener" href="https://spring.io/project_metadata/spring-boot">https://spring.io/project_metadata/spring-boot</a> ，内容类似下面的<small>(这个项目元信息会随着 SpringBoot 的版本更新而更新)</small>：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;id&quot;</span><span class="punctuation">:</span><span class="string">&quot;spring-boot&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="string">&quot;Spring Boot&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;projectReleases&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.6.0-SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;versionDisplayName&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.6.0-SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;current&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;releaseStatus&quot;</span><span class="punctuation">:</span><span class="string">&quot;SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;snapshot&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.6.0-RC1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;versionDisplayName&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.6.0-RC1&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;current&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;releaseStatus&quot;</span><span class="punctuation">:</span><span class="string">&quot;PRERELEASE&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;snapshot&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.5.7-SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;versionDisplayName&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.5.7-SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;current&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;releaseStatus&quot;</span><span class="punctuation">:</span><span class="string">&quot;SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;snapshot&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.5.6&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;versionDisplayName&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.5.6&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;current&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;releaseStatus&quot;</span><span class="punctuation">:</span><span class="string">&quot;GENERAL_AVAILABILITY&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;snapshot&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.4.13-SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;versionDisplayName&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.4.13-SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;current&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;releaseStatus&quot;</span><span class="punctuation">:</span><span class="string">&quot;SNAPSHOT&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;snapshot&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.4.12&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;versionDisplayName&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.4.12&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;current&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;releaseStatus&quot;</span><span class="punctuation">:</span><span class="string">&quot;GENERAL_AVAILABILITY&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;snapshot&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;version&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.3.12.RELEASE&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;versionDisplayName&quot;</span><span class="punctuation">:</span><span class="string">&quot;2.3.12.RELEASE&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;current&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;releaseStatus&quot;</span><span class="punctuation">:</span><span class="string">&quot;GENERAL_AVAILABILITY&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;snapshot&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>为了能够创建项目，我们需要让内网的 start 服务能够获取到这个元信息。首先访问项目元信息的地址，获取信息数据。</p>
+<p>然后可以修改电脑 hosts 文件，让 <code>spring.io</code> 域名指向本地，然后在本地使用 nginx 让请求 <code>/project_metadata/spring-boot</code> 返回之前获取的元信息数据。这样就可以方便的创建项目了。</p>
+<p>或者修改 <code>start.spring.io</code> 项目的配置，修改 <code>initializr.env.spring-boot-metadata-url</code> 配置，指向本地能够返回项目元信息的请求地址即可。</p>
+<blockquote>
+<p>介绍一种让 nginx 返回 json 数据的配置，可以用来返回 springboot 项目版本信息：</p>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">server &#123;</span><br><span class="line">listen    80;</span><br><span class="line">server_name    localhost;</span><br><span class="line"></span><br><span class="line">location /project_metadata/spring-boot &#123;</span><br><span class="line">default_type    application/json;</span><br><span class="line">return 200 &#x27;&#123;&quot;id&quot;:&quot;spring-boot&quot;,&quot;name&quot;:&quot;spring boot&quot;&#125;&#x27;;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="遇到的问题"><a class="markdownIt-Anchor" href="#遇到的问题"></a> 遇到的问题</h3>
+<h4 id="打包时-maven-总是从远端仓库下载依赖"><a class="markdownIt-Anchor" href="#打包时-maven-总是从远端仓库下载依赖"></a> 打包时 maven 总是从远端仓库下载依赖</h4>
+<p>离线环境中，maven 依赖需要在公网环境下载好，再拷贝到开发机，有时会出现明明本地仓库有依赖包，在idea开发中运行也正常，但一到打包时，maven就从远端下载依赖，导致打包失败。</p>
+<p>导致这种现象的原因是maven将依赖包的远端仓库源信息记录在依赖目录下的 <code>_remote.repositories</code> 文件中，如果源头不存在或不存在依赖的jar包，maven 在 resolve 时就会失败，导致项目构建失败。删除这个文件后，maven将不再从远程仓库执行这个操作，问题得以解决。</p>
+<p>解决办法：删除依赖目录下的 <code>_remote.repositories</code> 文件</p>
+<blockquote>
+<p>Tips: 可以写个简单的程序遍历仓库路径下所有文件，将  <code>_remote.repositories</code> 文件删除。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">App</span> &#123;</span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">String</span> <span class="variable">TARGET_FILE_NAME</span> <span class="operator">=</span> <span class="string">&quot;_remote.repositories&quot;</span>;</span><br><span class="line">  <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span>&#123;</span><br><span class="line">    <span class="comment">// 待处理的仓库目录</span></span><br><span class="line">    <span class="type">String</span> <span class="variable">basePath</span> <span class="operator">=</span> <span class="string">&quot;D:/develop/.m2/repo&quot;</span>;</span><br><span class="line">    <span class="type">File</span> <span class="variable">pth</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">File</span>(basePath);</span><br><span class="line">    <span class="keyword">if</span> (path.exists())&#123;</span><br><span class="line">      handleFile(path, <span class="string">&quot;|&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      System.out.println(<span class="string">&quot;path [&quot;</span>+basePath+<span class="string">&quot;] not exist&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">handleFile</span><span class="params">(File file, String s)</span>&#123;</span><br><span class="line">    System.out.println(s+file.getName());</span><br><span class="line">    <span class="keyword">if</span> (file.isDirectory())&#123;</span><br><span class="line">      <span class="type">File</span> <span class="variable">fs</span> <span class="operator">=</span> file.listFiles();</span><br><span class="line">      <span class="keyword">for</span>(File f: fs)&#123;</span><br><span class="line">        handleFile(f, s+<span class="string">&quot;  &quot;</span>);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="keyword">if</span>(TARGET_FILE_NAME.equals(file.getName()))&#123;</span><br><span class="line">        file.delete();</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>断网开发在一些银行项目、国家项目或科技项目中比较常见，其实也不用太担心，只要解决了开发环境问题就可以了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/springboot/" rel="tag"># springboot</a>
+              <a href="/tags/maven/" rel="tag"># maven</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/09/23/%E5%88%9D%E8%AF%86JavaFX/" rel="prev" title="初识JavaFX">
+                  <i class="fa fa-chevron-left"></i> 初识JavaFX
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/04/05/%E4%BB%A5%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95%E5%AD%A6%E4%B9%A0%E3%80%8A%E8%B4%B9%E6%9B%BC%E5%AD%A6%E4%B9%A0%E6%B3%95%E3%80%8B/" rel="next" title="以费曼学习法学习《费曼学习法》">
+                  以费曼学习法学习《费曼学习法》 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

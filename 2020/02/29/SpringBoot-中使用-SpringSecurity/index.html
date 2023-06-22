@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 在网络应用中，身份认证和授权操作是最基本的安全保证，在 Spring 全家桶中就提供了一个专门用于权限控制的框架——Security，这个框架在 Spring 应用中使用起来非常方便，支持多种认证和授权方式，还能够起到预防网络攻击的作用。  概念  是什么 Spring Security 是一个强大的高度定制化的身份认证和访问权限控制框架，是基于 Spring 项目的标准权限框架。Spri">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot 中使用 SpringSecurity">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/02/29/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 在网络应用中，身份认证和授权操作是最基本的安全保证，在 Spring 全家桶中就提供了一个专门用于权限控制的框架——Security，这个框架在 Spring 应用中使用起来非常方便，支持多种认证和授权方式，还能够起到预防网络攻击的作用。  概念  是什么 Spring Security 是一个强大的高度定制化的身份认证和访问权限控制框架，是基于 Spring 项目的标准权限框架。Spri">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/apache-shiro-logo.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/spring_security_basal_login_page.png">
+<meta property="article:published_time" content="2020-02-29T04:13:12.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.256Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="springsecurity">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/apache-shiro-logo.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/02/29/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/02/29/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity/","path":"2020/02/29/SpringBoot-中使用-SpringSecurity/","title":"SpringBoot 中使用 SpringSecurity"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SpringBoot 中使用 SpringSecurity | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E5%BF%B5"><span class="nav-number">2.</span> <span class="nav-text"> 概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.1.</span> <span class="nav-text"> 是什么</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-number">2.2.</span> <span class="nav-text"> 能做什么</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%8C%E7%B1%BB%E4%BA%A7%E5%93%81"><span class="nav-number">3.</span> <span class="nav-text"> 同类产品</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E5%BC%80%E5%A7%8B"><span class="nav-number">4.</span> <span class="nav-text"> 快速开始</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#demo-%E9%A1%B9%E7%9B%AE%E6%BA%90%E7%A0%81"><span class="nav-number">4.1.</span> <span class="nav-text"> demo 项目源码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-spring-boot-%E9%A1%B9%E7%9B%AE"><span class="nav-number">4.2.</span> <span class="nav-text"> 创建 Spring Boot 项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%B1%BB"><span class="nav-number">4.3.</span> <span class="nav-text"> 配置类</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E4%B8%80%E4%B8%AA%E6%B5%8B%E8%AF%95%E7%9A%84%E8%AF%B7%E6%B1%82"><span class="nav-number">4.4.</span> <span class="nav-text"> 添加一个测试的请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E4%B8%8E%E6%B5%8B%E8%AF%95"><span class="nav-number">4.5.</span> <span class="nav-text"> 运行与测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%B1%BB%E8%AF%B4%E6%98%8E"><span class="nav-number">5.</span> <span class="nav-text"> 配置类说明</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-authenticationmanager"><span class="nav-number">5.1.</span> <span class="nav-text"> 配置 AuthenticationManager</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%8E%A5%E5%8F%A3%E8%AE%BF%E9%97%AE%E6%9D%83%E9%99%90"><span class="nav-number">5.2.</span> <span class="nav-text"> 配置接口访问权限</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/02/29/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SpringBoot 中使用 SpringSecurity | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringBoot 中使用 SpringSecurity<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-29 12:13:12" itemprop="dateCreated datePublished" datetime="2020-02-29T12:13:12+08:00">2020-02-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>在网络应用中，身份认证和授权操作是最基本的安全保证，在 Spring 全家桶中就提供了一个专门用于权限控制的框架——Security，这个框架在 Spring 应用中使用起来非常方便，支持多种认证和授权方式，还能够起到预防网络攻击的作用。</p>
+<h3 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h3>
+<h4 id="是什么"><a class="markdownIt-Anchor" href="#是什么"></a> 是什么</h4>
+<p>Spring Security 是一个强大的高度定制化的身份认证和访问权限控制框架，是基于 Spring 项目的标准权限框架。Spring Security 着重 java 应用的身份认证和授权管理，在 Spring 项目中使用起来非常方便。</p>
+<span id="more"></span>
+<h4 id="能做什么"><a class="markdownIt-Anchor" href="#能做什么"></a> 能做什么</h4>
+<ul>
+<li>
+<p>完善且可扩展的鉴权与授权支持</p>
+</li>
+<li>
+<p>网络工具防护，防御 session 固定、点击劫持、跨站请求伪造攻击（<abbr title="cross site request forgery">CSRF</abbr>）等</p>
+</li>
+<li>
+<p>集成 Servlet API</p>
+</li>
+<li>
+<p>可与 Spring Web MVC 集成</p>
+</li>
+</ul>
+<h3 id="同类产品"><a class="markdownIt-Anchor" href="#同类产品"></a> 同类产品</h3>
+<ul>
+<li>
+<p>Apache Shiro</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/apache-shiro-logo.png" alt="" /></p>
+<blockquote>
+<p>官网：<a target="_blank" rel="noopener" href="http://shiro.apache.org">http://shiro.apache.org</a></p>
+</blockquote>
+<p>Shiro 是 Apache 软性基金会下的开源项目，是一个强大的，简单易用的 java 权限管理框架，提供了身份认证、授权、加密和 session 管理功能。Shiro 的 API 很容易理解，而且比较轻量，既可以用于小型移动端项目，也可以用于 web 项目或大型企业项目。</p>
+</li>
+</ul>
+<h3 id="快速开始"><a class="markdownIt-Anchor" href="#快速开始"></a> 快速开始</h3>
+<h4 id="demo-项目源码"><a class="markdownIt-Anchor" href="#demo-项目源码"></a> demo 项目源码</h4>
+<blockquote>
+<p><a target="_blank" rel="noopener" href="https://e.coding.net/wqf31415/spring-security-demo.git">https://e.coding.net/wqf31415/spring-security-demo.git</a></p>
+<p>basal 分支</p>
+</blockquote>
+<h4 id="创建-spring-boot-项目"><a class="markdownIt-Anchor" href="#创建-spring-boot-项目"></a> 创建 Spring Boot 项目</h4>
+<p>使用 IDE 或 <a target="_blank" rel="noopener" href="https://start.spring.io">https://start.spring.io</a> 创建一个项目，依赖选择 <code>Spring Web</code> 、<code>Spring Security</code> 。项目 pom.xml 如下所示：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>xyz.wqf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>securitydemo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>securitydemo<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Bootsecurity<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>1.5.10.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.reporting.outputEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-security<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.security<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-security-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置类"><a class="markdownIt-Anchor" href="#配置类"></a> 配置类</h4>
+<p>创建一个类，用来配置 Spring Security ，这个类需要继承 <code>WebSecurityConfigurerAdapter</code> ，然后覆写其中两个方法，一个是 <code>protected void configure(HttpSecurity http) throws Exception</code> ，用来配置访问权限，另一个是 <code>protected void configure(AuthenticationManagerBuilder auth) throws Exception</code> ，用来添加自己定义的用户信息（用户名、密码、角色）。</p>
+<blockquote>
+<p>注意在这个配置类上，需要加 <strong>@EnableWebSecurity</strong> 和 <strong>@Configuration</strong> 两个注解。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> xyz.wqf.config;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.springframework.context.annotation.Configuration;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.config.annotation.web.builders.HttpSecurity;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;</span><br><span class="line"><span class="keyword">import</span> org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;</span><br><span class="line"></span><br><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebSecurityConfig</span> <span class="keyword">extends</span> <span class="title class_">WebSecurityConfigurerAdapter</span> &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(HttpSecurity http)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        http</span><br><span class="line">                .authorizeRequests()</span><br><span class="line">                .anyRequest()</span><br><span class="line">                .authenticated()</span><br><span class="line">            .and()</span><br><span class="line">                .formLogin()</span><br><span class="line">                .permitAll()</span><br><span class="line">            .and()</span><br><span class="line">                .logout()</span><br><span class="line">                .permitAll();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> <span class="keyword">throws</span> Exception &#123;</span><br><span class="line">        auth.inMemoryAuthentication()</span><br><span class="line">                .withUser(<span class="string">&quot;user&quot;</span>)</span><br><span class="line">                    .password(<span class="string">&quot;user&quot;</span>)</span><br><span class="line">                    .roles(<span class="string">&quot;USER&quot;</span>)</span><br><span class="line">                .and()</span><br><span class="line">                .withUser(<span class="string">&quot;admin&quot;</span>)</span><br><span class="line">                    .password(<span class="string">&quot;admin&quot;</span>)</span><br><span class="line"><span class="comment">//                    .authorities(&quot;write&quot;,&quot;read&quot;)</span></span><br><span class="line">                    .roles(<span class="string">&quot;ADMIN&quot;</span>,<span class="string">&quot;USER&quot;</span>)</span><br><span class="line">        ;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意上面代码中注释掉了一行，<code>.roles()</code> 和 <code>.authorities()</code> 方法用于设置角色、权限，但不能同时使用，同时使用时哪个放在后面哪个生效。</p>
+<p>两者不同的是 role 添加进去的时候，spring security 默认帮你加个前缀 ROLE_ ，authority 不加前缀</p>
+</blockquote>
+<h4 id="添加一个测试的请求"><a class="markdownIt-Anchor" href="#添加一个测试的请求"></a> 添加一个测试的请求</h4>
+<p>为了简单，我们直接在项目启动类中添加测试的请求方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> xyz.wqf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.core.env.Environment;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.UnknownHostException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecuritydemoApplication</span> &#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(SecuritydemoApplication.class);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> UnknownHostException &#123;</span><br><span class="line">		<span class="type">SpringApplication</span> <span class="variable">app</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpringApplication</span>(SecuritydemoApplication.class);</span><br><span class="line">		<span class="type">Environment</span> <span class="variable">env</span> <span class="operator">=</span> app.run(args).getEnvironment();</span><br><span class="line">		logger.info(<span class="string">&quot;\n--------------------------------------------\n&quot;</span> +</span><br><span class="line">				<span class="string">&quot;\tApplication &#123;&#125; is running! Access URLs:\n&quot;</span> +</span><br><span class="line">				<span class="string">&quot;\tLocal\thttp://localhost:&#123;&#125;\n&quot;</span> +</span><br><span class="line">				<span class="string">&quot;\tExternal\thttp://&#123;&#125;:&#123;&#125;&quot;</span>,</span><br><span class="line">				env.getProperty(<span class="string">&quot;spring.application.name&quot;</span>),</span><br><span class="line">				env.getProperty(<span class="string">&quot;server.port&quot;</span>),</span><br><span class="line">				InetAddress.getLocalHost().getHostAddress(),</span><br><span class="line">				env.getProperty(<span class="string">&quot;server.port&quot;</span>));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@RequestMapping(&quot;/hello&quot;)</span></span><br><span class="line">	<span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">(HttpServletRequest request)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;hello, &quot;</span>+ request.getRemoteUser();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="运行与测试"><a class="markdownIt-Anchor" href="#运行与测试"></a> 运行与测试</h4>
+<p>运行项目，在浏览器访问项目，发现页面自动跳转到了一个登陆页面，可以输入我们配置好的用户名、密码进行登陆。如我们使用 admin 用户登陆，密码也是 admin。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/spring_security_basal_login_page.png" alt="" /></p>
+<p>登陆成功之后还是 404 的错误提示页，是因为我们还没给项目添加首页页面。我们访问定义的测试接口 <code>/hello</code> ，即访问地址 <a target="_blank" rel="noopener" href="http://localhost:8080/hello">http://localhost:8080/hello</a> ，页面显示 <code>hello, admin</code> ，测试完成。</p>
+<h3 id="配置类说明"><a class="markdownIt-Anchor" href="#配置类说明"></a> 配置类说明</h3>
+<p>配置类中重写了 configure(AuthenticationManagerBuilder auth) 和 configure(HttpSecurity http) 方法。</p>
+<h4 id="配置-authenticationmanager"><a class="markdownIt-Anchor" href="#配置-authenticationmanager"></a> 配置 AuthenticationManager</h4>
+<p>复写 configure(AuthenticationManagerBuilder auth) 后，应该使用 AuthenticationManagerBuilder 来指定 AuthenticationManager。</p>
+<p>例如, 可以使用以下配置在内存中进行注册公开内存的身份验证 UserDetailsService:</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Configuration</span></span><br><span class="line"><span class="meta">@EnableWebSecurity</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">WebSecurityConfig</span> <span class="keyword">extends</span> <span class="title class_">WebSecurityConfigurerAdapter</span> &#123;</span><br><span class="line">    <span class="comment">// 在内存中添加 user 和 admin 用户</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">configure</span><span class="params">(AuthenticationManagerBuilder auth)</span> &#123;</span><br><span class="line">        auth</span><br><span class="line">            .inMemoryAuthentication().withUser(<span class="string">&quot;user&quot;</span>).password(<span class="string">&quot;password&quot;</span>).roles(<span class="string">&quot;USER&quot;</span>).and()</span><br><span class="line">            .withUser(<span class="string">&quot;admin&quot;</span>).password(<span class="string">&quot;password&quot;</span>).roles(<span class="string">&quot;USER&quot;</span>, <span class="string">&quot;ADMIN&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="配置接口访问权限"><a class="markdownIt-Anchor" href="#配置接口访问权限"></a> 配置接口访问权限</h4>
+<p>复写 configure(HttpSecurity http) 这个方法来配置 HttpSecurity，通常，子类不能通过调用 super 来调用此方法，因为它可能会覆盖其配置。 默认配置为：<br />
+http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().httpBasic();</p>
+<p>HttpSecurity 常用方法及说明</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">方法</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">openidLogin()</td>
+<td style="text-align:center">用于基于 OpenId 的验证</td>
+</tr>
+<tr>
+<td style="text-align:center">headers()</td>
+<td style="text-align:center">将安全标头添加到响应</td>
+</tr>
+<tr>
+<td style="text-align:center">cors()</td>
+<td style="text-align:center">配置跨域资源共享（ CORS ）</td>
+</tr>
+<tr>
+<td style="text-align:center">sessionManagement()</td>
+<td style="text-align:center">允许配置会话管理</td>
+</tr>
+<tr>
+<td style="text-align:center">portMapper()</td>
+<td style="text-align:center">允许配置一个PortMapper(HttpSecurity#(getSharedObject(class)))，其他提供SecurityConfigurer的对象使用 PortMapper 从 HTTP 重定向到 HTTPS 或者从 HTTPS 重定向到 HTTP。默认情况下，Spring Security使用一个PortMapperImpl映射 HTTP 端口8080到 HTTPS 端口8443，HTTP 端口80到 HTTPS 端口443</td>
+</tr>
+<tr>
+<td style="text-align:center">jee()</td>
+<td style="text-align:center">配置基于容器的预认证。 在这种情况下，认证由Servlet容器管理</td>
+</tr>
+<tr>
+<td style="text-align:center">x509()</td>
+<td style="text-align:center">配置基于x509的认证</td>
+</tr>
+<tr>
+<td style="text-align:center">rememberMe</td>
+<td style="text-align:center">允许配置“记住我”的验证</td>
+</tr>
+<tr>
+<td style="text-align:center">authorizeRequests()</td>
+<td style="text-align:center">允许基于使用HttpServletRequest限制访问</td>
+</tr>
+<tr>
+<td style="text-align:center">requestCache()</td>
+<td style="text-align:center">允许配置请求缓存</td>
+</tr>
+<tr>
+<td style="text-align:center">exceptionHandling()</td>
+<td style="text-align:center">允许配置错误处理</td>
+</tr>
+<tr>
+<td style="text-align:center">securityContext()</td>
+<td style="text-align:center">在HttpServletRequests之间的SecurityContextHolder上设置SecurityContext的管理。 当使用WebSecurityConfigurerAdapter时，这将自动应用</td>
+</tr>
+<tr>
+<td style="text-align:center">servletApi()</td>
+<td style="text-align:center">将HttpServletRequest方法与在其上找到的值集成到SecurityContext中。 当使用WebSecurityConfigurerAdapter时，这将自动应用</td>
+</tr>
+<tr>
+<td style="text-align:center">csrf()</td>
+<td style="text-align:center">添加 CSRF 支持，使用WebSecurityConfigurerAdapter时，默认启用</td>
+</tr>
+<tr>
+<td style="text-align:center">logout()</td>
+<td style="text-align:center">添加退出登录支持。当使用WebSecurityConfigurerAdapter时，这将自动应用。默认情况是，访问URL”/ logout”，使HTTP Session无效来清除用户，清除已配置的任何#rememberMe()身份验证，清除SecurityContextHolder，然后重定向到”/login?success”</td>
+</tr>
+<tr>
+<td style="text-align:center">anonymous()</td>
+<td style="text-align:center">允许配置匿名用户的表示方法。 当与WebSecurityConfigurerAdapter结合使用时，这将自动应用。 默认情况下，匿名用户将使用org.springframework.security.authentication.AnonymousAuthenticationToken表示，并包含角色 “ROLE_ANONYMOUS”</td>
+</tr>
+<tr>
+<td style="text-align:center">formLogin()</td>
+<td style="text-align:center">指定支持基于表单的身份验证。如果未指定FormLoginConfigurer#loginPage(String)，则将生成默认登录页面</td>
+</tr>
+<tr>
+<td style="text-align:center">oauth2Login()</td>
+<td style="text-align:center">根据外部OAuth 2.0或OpenID Connect 1.0提供程序配置身份验证</td>
+</tr>
+<tr>
+<td style="text-align:center">requiresChannel()</td>
+<td style="text-align:center">配置通道安全。为了使该配置有用，必须提供至少一个到所需信道的映射</td>
+</tr>
+<tr>
+<td style="text-align:center">httpBasic()</td>
+<td style="text-align:center">配置 Http Basic 验证</td>
+</tr>
+<tr>
+<td style="text-align:center">addFilterAt()</td>
+<td style="text-align:center">在指定的Filter类的位置添加过滤器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>当没有自定义登陆页面时，Spring Security 提供了一个默认的登陆页面，访问需要权限的接口或页面时，需要完成登陆，然后才能正常访问。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/springboot/" rel="tag"># springboot</a>
+              <a href="/tags/spring/" rel="tag"># spring</a>
+              <a href="/tags/springsecurity/" rel="tag"># springsecurity</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/19/MyCat-%E5%88%9D%E8%AF%86/" rel="prev" title="MyCat 初识">
+                  <i class="fa fa-chevron-left"></i> MyCat 初识
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/01/GitHub-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji-%E8%A1%A8%E6%83%85/" rel="next" title="GitHub 提交记录中使用 emoji 表情">
+                  GitHub 提交记录中使用 emoji 表情 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

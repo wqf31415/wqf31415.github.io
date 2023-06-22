@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 本文介绍了 json schema 的概念和用法。  什么是 json schema  JSON Schema 是一种用来定义 json 数据结构的文件，JSON Schema 自身也是以 json 文档形式存在。JSON Schema 被设计用于对 json 文件进行校验、注释、链接导航、交互控制。官方提出了一种用于描述 JSON Schema 的新媒体类型（Media Type）：ap">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识 json-schema">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/04/02/%E8%AE%A4%E8%AF%86-json-schema/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 本文介绍了 json schema 的概念和用法。  什么是 json schema  JSON Schema 是一种用来定义 json 数据结构的文件，JSON Schema 自身也是以 json 文档形式存在。JSON Schema 被设计用于对 json 文件进行校验、注释、链接导航、交互控制。官方提出了一种用于描述 JSON Schema 的新媒体类型（Media Type）：ap">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/json.png">
+<meta property="article:published_time" content="2020-04-02T02:33:29.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.300Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="json">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/json.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/04/02/%E8%AE%A4%E8%AF%86-json-schema/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/04/02/%E8%AE%A4%E8%AF%86-json-schema/","path":"2020/04/02/认识-json-schema/","title":"认识 json-schema"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>认识 json-schema | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-json-schema"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 json schema</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text"> 相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-json"><span class="nav-number">3.1.</span> <span class="nav-text"> 什么是 json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-schema"><span class="nav-number">3.2.</span> <span class="nav-text"> 什么是 schema</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#json-schema"><span class="nav-number">4.</span> <span class="nav-text"> Json Schema</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E4%B8%80%E4%B8%AA-json-schema"><span class="nav-number">4.1.</span> <span class="nav-text"> 定义一个 json schema</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%E4%B8%80%E4%B8%AA-json-schema"><span class="nav-number">4.2.</span> <span class="nav-text"> 标识一个 json schema</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#json-schema-%E5%94%AF%E4%B8%80%E6%A0%87%E8%AF%86"><span class="nav-number">4.3.</span> <span class="nav-text"> json schema 唯一标识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#type-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">4.4.</span> <span class="nav-text"> type 关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#json-schema-%E4%B8%AD%E7%9A%84%E7%B1%BB%E5%9E%8B"><span class="nav-number">4.5.</span> <span class="nav-text"> json schema 中的类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2-string"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 字符串 string</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E9%95%BF%E5%BA%A6length"><span class="nav-number">4.5.1.1.</span> <span class="nav-text"> 字符串长度（length）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F%E9%99%90%E5%AE%9Apattern"><span class="nav-number">4.5.1.2.</span> <span class="nav-text"> 正则表达式限定（pattern）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E6%A0%BC%E5%BC%8Fformat"><span class="nav-number">4.5.1.3.</span> <span class="nav-text"> 数据格式（format）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E5%80%BC-number"><span class="nav-number">4.5.2.</span> <span class="nav-text"> 数值 number</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B4%E6%95%B0integer"><span class="nav-number">4.5.2.1.</span> <span class="nav-text"> 整数（integer）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B0%E5%80%BCnumber"><span class="nav-number">4.5.2.2.</span> <span class="nav-text"> 数值（number）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%80%8D%E4%B9%98%E6%95%B0multipleof"><span class="nav-number">4.5.2.3.</span> <span class="nav-text"> 倍乘数（multipleOf）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%8C%83%E5%9B%B4range"><span class="nav-number">4.5.2.4.</span> <span class="nav-text"> 范围（range）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AF%B9%E8%B1%A1-object"><span class="nav-number">4.5.3.</span> <span class="nav-text"> 对象 object</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7properties"><span class="nav-number">4.5.3.1.</span> <span class="nav-text"> 属性（properties）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%98%AF%E5%90%A6%E5%8F%AF%E9%99%84%E5%8A%A0%E5%B1%9E%E6%80%A7additionalproperties"><span class="nav-number">4.5.3.2.</span> <span class="nav-text"> 是否可附加属性（additionalProperties）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BF%85%E9%9C%80%E5%B1%9E%E6%80%A7required"><span class="nav-number">4.5.3.3.</span> <span class="nav-text"> 必需属性（required）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E5%90%8Dpropertynames"><span class="nav-number">4.5.3.4.</span> <span class="nav-text"> 属性名（propertyNames）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E6%95%B0%E9%87%8Fsize"><span class="nav-number">4.5.3.5.</span> <span class="nav-text"> 属性数量（size）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7%E4%BE%9D%E8%B5%96property-dependencies"><span class="nav-number">4.5.3.6.</span> <span class="nav-text"> 属性依赖（property dependencies）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#json-schema-%E4%BE%9D%E8%B5%96schema-dependencies"><span class="nav-number">4.5.3.7.</span> <span class="nav-text"> json schema 依赖（schema dependencies）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A8%A1%E5%BC%8F%E5%B1%9E%E6%80%A7pattern-properties"><span class="nav-number">4.5.3.8.</span> <span class="nav-text"> 模式属性（pattern properties）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E7%BB%84-array"><span class="nav-number">4.5.4.</span> <span class="nav-text"> 数组 array</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E5%80%BCitems"><span class="nav-number">4.5.4.1.</span> <span class="nav-text"> 数组值（items）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%83%E7%BB%84%E6%A0%A1%E9%AA%8Ctuple-validation"><span class="nav-number">4.5.4.2.</span> <span class="nav-text"> 元组校验（tuple validation）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B0%E7%BB%84%E9%95%BF%E5%BA%A6length"><span class="nav-number">4.5.4.3.</span> <span class="nav-text"> 数组长度（length）</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%83%E7%B4%A0%E5%94%AF%E4%B8%80%E9%99%90%E5%AE%9Auniqueness"><span class="nav-number">4.5.4.4.</span> <span class="nav-text"> 元素唯一限定（uniqueness）</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E5%9E%8B-boolean"><span class="nav-number">4.5.5.</span> <span class="nav-text"> 布尔型 boolean</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A9%BA%E5%80%BC-null"><span class="nav-number">4.5.6.</span> <span class="nav-text"> 空值 null</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E8%A7%A3"><span class="nav-number">4.6.</span> <span class="nav-text"> 注解</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BEenum"><span class="nav-number">4.7.</span> <span class="nav-text"> 枚举（enum）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E9%87%8Fconst"><span class="nav-number">4.8.</span> <span class="nav-text"> 常量（const）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%BC%96%E7%A0%81%E7%9A%84%E9%9D%9E-json-%E6%95%B0%E6%8D%AE"><span class="nav-number">4.9.</span> <span class="nav-text"> 字符串编码的非 json 数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%84%E5%90%88%E6%A8%A1%E5%BC%8F"><span class="nav-number">4.10.</span> <span class="nav-text"> 组合模式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6"><span class="nav-number">4.11.</span> <span class="nav-text"> 条件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#schema-%E5%85%B3%E9%94%AE%E5%AD%97"><span class="nav-number">4.12.</span> <span class="nav-text"> $schema 关键字</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%8D%E7%94%A8"><span class="nav-number">4.13.</span> <span class="nav-text"> 重用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E5%AE%9A%E4%B9%89definitions"><span class="nav-number">4.13.1.</span> <span class="nav-text"> 结构定义（definitions）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%92%E5%BD%92"><span class="nav-number">4.13.2.</span> <span class="nav-text"> 递归</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#id-%E5%B1%9E%E6%80%A7"><span class="nav-number">4.13.3.</span> <span class="nav-text"> $id 属性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">5.</span> <span class="nav-text"> 使用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#maven"><span class="nav-number">5.1.</span> <span class="nav-text"> maven</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/04/02/%E8%AE%A4%E8%AF%86-json-schema/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="认识 json-schema | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          认识 json-schema<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E8%AE%A4%E8%AF%86-json-schema.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-02 10:33:29" itemprop="dateCreated datePublished" datetime="2020-04-02T10:33:29+08:00">2020-04-02</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>本文介绍了 json schema 的概念和用法。</p>
+<h3 id="什么是-json-schema"><a class="markdownIt-Anchor" href="#什么是-json-schema"></a> 什么是 json schema</h3>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/json.png" alt="" /></p>
+<p>JSON Schema 是一种用来定义 json 数据结构的文件，JSON Schema 自身也是以 json 文档形式存在。JSON Schema 被设计用于对 json 文件进行校验、注释、链接导航、交互控制。官方提出了一种用于描述 JSON Schema 的新媒体类型（Media Type）：<code>application/schema+json</code> 。</p>
+<blockquote>
+<p>官网: <a target="_blank" rel="noopener" href="http://json-schema.org">http://json-schema.org</a></p>
+<p>GitHub: <a target="_blank" rel="noopener" href="https://github.com/json-schema-org/json-schema-spec">https://github.com/json-schema-org/json-schema-spec</a></p>
+<p>JSON Schema Tool: <a target="_blank" rel="noopener" href="https://jsonschema.net/home">https://jsonschema.net/home</a></p>
+</blockquote>
+<span id="more"></span>
+<h3 id="相关概念"><a class="markdownIt-Anchor" href="#相关概念"></a> 相关概念</h3>
+<h4 id="什么是-json"><a class="markdownIt-Anchor" href="#什么是-json"></a> 什么是 json</h4>
+<blockquote>
+<p>官网：<a target="_blank" rel="noopener" href="https://www.json.org/json-zh.html">https://www.json.org/json-zh.html</a></p>
+<p>JSON 在线工具: <a target="_blank" rel="noopener" href="https://json.cn/">https://json.cn/</a></p>
+</blockquote>
+<blockquote>
+<p>JSON（JavaScript Object Notation），是一种轻量级的数据交换格式，具有易阅读编写，也易于机器解析和生成。json 采用完全独立于语言的文本格式，但也使用了类似于 C 语言家族的习惯（包括C, C++, C#, Java, JavaScript, Perl, Python等）。这些特性使JSON成为理想的数据交换语言。</p>
+</blockquote>
+<p>json 对象包含在 <code>&#123;&#125;</code> 中，内容是一个无序的<strong>键(key)/值(value)对</strong>集合，键都是字符串</p>
+<p>json 中的数据值类型包括：</p>
+<ul>
+<li>字符串：用双引号 <code>&quot;&quot;</code> 包括，如 <code>&quot;name&quot;</code> 、 “ZhangSan”</li>
+<li>数值：可以是整形数字或浮点型数字，如 <code>12</code>、<code>-21</code>、<code>3.14</code>、<code>1.23E4</code></li>
+<li>空：<code>null</code></li>
+<li>布尔型：包括 <code>false</code> 和 <code>true</code></li>
+<li>json 对象：json对象以 <code>&#123;&#125;</code> 包含，内容可以是 0 到多个键值对，如 <code>&#123;&quot;name&quot;:&quot;ZhangSan&quot;,&quot;age&quot;:18&#125;</code></li>
+<li>数组：以 <code>[]</code> 包含，数组值可以是字符串、数值、空、布尔型、json对象、数组，可以是其中一类，也可以是它们的组合，每个值用英文逗号 <code>,</code> 分隔 ，如 <code>[&quot;string&quot;,123,null,false,&#123;&quot;a&quot;:&quot;b&quot;&#125;]</code></li>
+</ul>
+<h4 id="什么是-schema"><a class="markdownIt-Anchor" href="#什么是-schema"></a> 什么是 schema</h4>
+<p>schema 意为纲要、模式，是对事物结构性特征的描述。</p>
+<p>json schema 就是用于描述 json 对象结构的工具，可以限定 json 的组成结构、键值类型、可选值等，在生成 json 文档时可以作为指导，也可以用 json schema 来验证 json 结构是否正确。</p>
+<p>类似的技术还有 xml 的 DTD（文档类型定义），其作用是定义合法的 xml 文档构建模块，可以用来验证 xml 文档的结构合法性。</p>
+<h3 id="json-schema"><a class="markdownIt-Anchor" href="#json-schema"></a> Json Schema</h3>
+<h4 id="定义一个-json-schema"><a class="markdownIt-Anchor" href="#定义一个-json-schema"></a> 定义一个 json schema</h4>
+<p>在 json schema 中， <code>type</code> 关键字用于限定值的类型，如下限定类型为字符串：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="标识一个-json-schema"><a class="markdownIt-Anchor" href="#标识一个-json-schema"></a> 标识一个 json schema</h4>
+<p>由于 json schema 本身也是一个 json，所以很难与常规的 json 数据区分，所以推荐在 json schema 中增加一个属性 <code>$schema</code> ，用来标识这个 json 是个 json schema，如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;$schema&quot;</span><span class="punctuation">:</span><span class="string">&quot;http://json-schema.org/schema#&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="json-schema-唯一标识"><a class="markdownIt-Anchor" href="#json-schema-唯一标识"></a> json schema 唯一标识</h4>
+<p>在构建复杂的模式时，多个 json schema 之间往往难以区别，所以建议在每个 json schema 中添加一个 <code>$id</code> 属性，一般是公司域名的 url，如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;$id&quot;</span><span class="punctuation">:</span><span class="string">&quot;http://yourdomain.com/schemas/myschema.json&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="type-关键字"><a class="markdownIt-Anchor" href="#type-关键字"></a> type 关键字</h4>
+<p>在 json schema 中， <code>type</code> 关键字用于限定值的类型，可选值包括组成 json 的基本类型：</p>
+<p>string、number、object、array、boolean、null</p>
+<p>在使用 type 关键字时，可以限定单一数据类型，也可以是多个可选类型，多个可选类型时使用数组包含所有可选类型，如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="string">&quot;string&quot;</span><span class="punctuation">,</span><span class="string">&quot;number&quot;</span><span class="punctuation">]</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="json-schema-中的类型"><a class="markdownIt-Anchor" href="#json-schema-中的类型"></a> json schema 中的类型</h4>
+<h5 id="字符串-string"><a class="markdownIt-Anchor" href="#字符串-string"></a> 字符串 string</h5>
+<p>在 json schema 中，type 属性设置为 <code>&quot;string&quot;</code> ，即可限定值为字符串。</p>
+<h6 id="字符串长度length"><a class="markdownIt-Anchor" href="#字符串长度length"></a> 字符串长度（length）</h6>
+<p>json schema 可以限定字符串的长度，使用 <code>minLength</code> 属性设定字符串最小长度，使用 <code>maxLength</code> 属性设定字符串最大长度。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;minLength&quot;</span><span class="punctuation">:</span><span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;maxLength&quot;</span><span class="punctuation">:</span><span class="number">5</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="正则表达式限定pattern"><a class="markdownIt-Anchor" href="#正则表达式限定pattern"></a> 正则表达式限定（pattern）</h6>
+<p>字符串类型可以添加 <code>pattern</code> 属性，使用正则表达式来限定字符串格式，如用来限定字符串为电话号码或 email 地址。</p>
+<p>如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span><span class="string">&quot;^(\\([0-9]&#123;3&#125;\\))?[0-9]&#123;3&#125;-[0-9]&#123;4&#125;$&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="数据格式format"><a class="markdownIt-Anchor" href="#数据格式format"></a> 数据格式（format）</h6>
+<p><code>format</code> 用于指定字符串的格式化方式，如日期时间的字符串格式化方式 <code>date-time</code> 格式化结果为 <code>2029-04-19T17:01:39+08:00</code> 。</p>
+<p>可选项示例：</p>
+<ul>
+<li>
+<p>时期和时间格式化：<code>date-time</code>、<code>time</code> 、<code>date</code></p>
+</li>
+<li>
+<p>邮箱地址：<code>email</code> 、<code>idn-email</code></p>
+</li>
+<li>
+<p>主机名：<code>hostname</code> 、<code>idn-hostname</code></p>
+</li>
+<li>
+<p>IP 地址：<code>ipv4</code> 、<code>ipv6</code></p>
+</li>
+<li>
+<p>URI：<code>uri</code> 、<code>uri-reference</code> 、<code>iri</code> 、<code>iri-reference</code></p>
+</li>
+<li>
+<p>URL 模板：<code>url-template</code></p>
+</li>
+<li>
+<p>json 指针：<code>json-pointer</code> 、<code>relative-json-pointer</code></p>
+</li>
+<li>
+<p>Regular 表达式：<code>regex</code></p>
+</li>
+</ul>
+<blockquote>
+<p>更多选项请参考：<a target="_blank" rel="noopener" href="http://json-schema.org/understanding-json-schema/reference/string.html#format">http://json-schema.org/understanding-json-schema/reference/string.html#format</a></p>
+</blockquote>
+<h5 id="数值-number"><a class="markdownIt-Anchor" href="#数值-number"></a> 数值 number</h5>
+<h6 id="整数integer"><a class="markdownIt-Anchor" href="#整数integer"></a> 整数（integer）</h6>
+<p>类型值 <code>integer</code> 用于指定整数，如 <code>12</code>，<code>-32</code>，带小数的数值和字符串形式的整数都不能通过校验 ，如 <code>1.23</code>，<code>&quot;123&quot;</code></p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;integer&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="数值number"><a class="markdownIt-Anchor" href="#数值number"></a> 数值（number）</h6>
+<p>类型值 <code>number</code> 用来指定数值类型限定，整数、浮点数和科学计数法表示的数都能通过校验，如 <code>12</code> ，<code>-32</code> ，<code>3.14</code> ，<code>1.42E3</code> 。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;number&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="倍乘数multipleof"><a class="markdownIt-Anchor" href="#倍乘数multipleof"></a> 倍乘数（multipleOf）</h6>
+<p>属性 <code>multipleOf</code> 属性用来限定数值是指定数的倍乘数，如属性值设定为 <code>10</code>，则 <code>0</code>，<code>20</code>， <code>120</code> 可以通过校验，<code>24</code> 不能通过校验，因为不是 10 的倍数。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;number&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;multipleOf&quot;</span><span class="punctuation">:</span><span class="number">10</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="范围range"><a class="markdownIt-Anchor" href="#范围range"></a> 范围（range）</h6>
+<p>限定数值范围的属性有四种：</p>
+<ul>
+<li><code>minimum</code>  最小值（包含该值）</li>
+<li><code>exclusiveMinimum</code> 最小值（不包含该值）</li>
+<li><code>maximum</code>  最大值（包含该值）</li>
+<li><code>exclusiveMaximum</code>  最大值（不包含该值）</li>
+</ul>
+<p>上限和下限的属性可以同时使用，如限定 <code>0 ≤ X &lt; 60</code> ：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;number&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;minimum&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;exclusiveMaximum&quot;</span><span class="punctuation">:</span><span class="number">60</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h5 id="对象-object"><a class="markdownIt-Anchor" href="#对象-object"></a> 对象 object</h5>
+<p>类型值 <code>object</code> 用来限定值为 json 对象，任何非法的 json 对象或 json 数组都不能通过校验。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;object&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="属性properties"><a class="markdownIt-Anchor" href="#属性properties"></a> 属性（properties）</h6>
+<p>当类型指定为 <code>object</code> 时，可以使用 <code>properties</code> 属性来限定 json 对象中的属性，如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;age&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;integer&quot;</span><span class="punctuation">,</span><span class="attr">&quot;minimum&quot;</span><span class="punctuation">:</span><span class="number">0</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;sex&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;enum&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="string">&quot;man&quot;</span><span class="punctuation">,</span><span class="string">&quot;woman&quot;</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="是否可附加属性additionalproperties"><a class="markdownIt-Anchor" href="#是否可附加属性additionalproperties"></a> 是否可附加属性（additionalProperties）</h6>
+<p>当类型指定为 <code>object</code> 时，可以添加 <code>additionalProperties</code> 属性来限定是否可以添加限定之外的附件属性。当这个值为 <code>false</code> 时，json 对象的属性只能是 <code>properties</code> 中指定的，不能有其它的属性。</p>
+<h6 id="必需属性required"><a class="markdownIt-Anchor" href="#必需属性required"></a> 必需属性（required）</h6>
+<p>属性 <code>required</code> 可以限定 json 对象必需包含指定的属性。如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;telephone&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="string">&quot;name&quot;</span><span class="punctuation">,</span><span class="string">&quot;email&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>如上 json schema 限定值为 json 对象，且必需包含 <code>name</code> 和 <code>email</code> 属性。</p>
+<h6 id="属性名propertynames"><a class="markdownIt-Anchor" href="#属性名propertynames"></a> 属性名（propertyNames）</h6>
+<p>属性 <code>propertyNames</code> 用于限定 json 对象的属性名。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;propertyNames&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^[A-Za-z_][A-Za-z0-9_]*$&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="属性数量size"><a class="markdownIt-Anchor" href="#属性数量size"></a> 属性数量（size）</h6>
+<p><code>minProperties</code> 属性用于限定 json 对象中最少属性数量，属性数大于等于设定值的 json 对象可通过校验。</p>
+<p><code>maxProperties</code> 属性用于限定 json 对象中最大属性数量，属性数量小于等于这个值的 json 对象可以通过限定。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;minProperties&quot;</span><span class="punctuation">:</span><span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;maxProperties&quot;</span><span class="punctuation">:</span><span class="number">3</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="属性依赖property-dependencies"><a class="markdownIt-Anchor" href="#属性依赖property-dependencies"></a> 属性依赖（property dependencies）</h6>
+<p>属性依赖是指一个属性出现的时候，另一个依赖也必须出现，如有信用卡信息就必须有账单地址信息：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;credit_card&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;number&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;billing_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;name&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;credit_card&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;billing_address&quot;</span><span class="punctuation">]</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>如上 json schema 所示，当 json 对象中有 <code>credit_card</code> 属性时，<code>billing_address</code> 也必须存在，否则无法通过校验；当 <code>credit_card</code> 和 <code>billing_address</code> 属性都不存在时也可以通过校验。</p>
+<h6 id="json-schema-依赖schema-dependencies"><a class="markdownIt-Anchor" href="#json-schema-依赖schema-dependencies"></a> json schema 依赖（schema dependencies）</h6>
+<p>类似于对象属性依赖，json schema 依赖可以引用。用法：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;credit_card&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;number&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;name&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;dependencies&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;credit_card&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;billing_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;billing_address&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>效果与上一个示例一致，写法不同。</p>
+<h6 id="模式属性pattern-properties"><a class="markdownIt-Anchor" href="#模式属性pattern-properties"></a> 模式属性（pattern properties）</h6>
+<p><code>patternProperties</code> 用于限定对象中的属性名称模式，如限定所有属性名以 <code>s_</code> 开头的属性都是字符串类型，所有以 <code>i_</code> 开头的属性的值都是整形：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;patternProperties&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;^s_&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;^i_&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;integer&quot;</span><span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;additionalProperties&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">false</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>限定方式与正则表达式相同，如果要限制属性名后缀，可以使用 <code>xxx$</code> 来限定。这个例子中的 <code>additionalProperties</code> 作用是排除不满足匹配格式的属性，是必须的。</p>
+</blockquote>
+<h5 id="数组-array"><a class="markdownIt-Anchor" href="#数组-array"></a> 数组 array</h5>
+<p>类型值设置为 <code>array</code> 可以限定值是一个 json 数组。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;array&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="数组值items"><a class="markdownIt-Anchor" href="#数组值items"></a> 数组值（items）</h6>
+<p>用于限定数组中元素的类型，可以限定数组中的元素只能是一种类型，如一个数值类型的数组：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;array&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;items&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;number&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>版本 6 中的写法：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;array&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;contains&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;number&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="元组校验tuple-validation"><a class="markdownIt-Anchor" href="#元组校验tuple-validation"></a> 元组校验（tuple validation）</h6>
+<p>元组校验可以对数组中每一个元素进行校验。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;array&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;items&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;number&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;enum&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;Street&quot;</span><span class="punctuation">,</span> <span class="string">&quot;Avenue&quot;</span><span class="punctuation">,</span> <span class="string">&quot;Boulevard&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;enum&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;NW&quot;</span><span class="punctuation">,</span> <span class="string">&quot;NE&quot;</span><span class="punctuation">,</span> <span class="string">&quot;SW&quot;</span><span class="punctuation">,</span> <span class="string">&quot;SE&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这个示例中，对数组前四个元素做了限定，如果数组元素数量不足 4 个，但满足前几个的约束条件，也可以通过校验；如果数组元素个数超过 4，只需要前 4 个元素满足约束条件，也是能够通过校验的。</p>
+</blockquote>
+<h6 id="数组长度length"><a class="markdownIt-Anchor" href="#数组长度length"></a> 数组长度（length）</h6>
+<p>使用 <code>minItems</code> 限制最低长度，使用 <code>maxItems</code> 属性限定数组最大长度，如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;array&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;minItems&quot;</span><span class="punctuation">:</span><span class="number">2</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;maxItems&quot;</span><span class="punctuation">:</span><span class="number">4</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="元素唯一限定uniqueness"><a class="markdownIt-Anchor" href="#元素唯一限定uniqueness"></a> 元素唯一限定（uniqueness）</h6>
+<p><code>uniqueItems</code> 属性用于限定数组元素是否唯一，数组元素唯一即是指数组是一个集合（set）。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;array&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;unqueItems&quot;</span><span class="punctuation">:</span><span class="literal"><span class="keyword">true</span></span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h5 id="布尔型-boolean"><a class="markdownIt-Anchor" href="#布尔型-boolean"></a> 布尔型 boolean</h5>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;boolean&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>类型值 <code>boolean</code> 用来限定值为布尔型，只有 <code>true</code> 和 <code>false</code> 可以通过校验。</p>
+<h5 id="空值-null"><a class="markdownIt-Anchor" href="#空值-null"></a> 空值 null</h5>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;null&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>类型值 <code>null</code> 用来限定值为空，即 <code>null</code> 。</p>
+<h4 id="注解"><a class="markdownIt-Anchor" href="#注解"></a> 注解</h4>
+<p>在 json schema 中使用注解属性增加了附加信息，增强了可读性。注解包括：</p>
+<ul>
+<li><code>title</code> 标题</li>
+<li><code>description</code> 描述</li>
+<li><code>default</code> 默认值</li>
+<li><code>examples</code> 示例</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;title&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;Match anything&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;description&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;This is a schema that matches anything.&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;default&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;Default value&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;examples&quot;</span> <span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="string">&quot;Anything&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="number">4035</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="枚举enum"><a class="markdownIt-Anchor" href="#枚举enum"></a> 枚举（enum）</h4>
+<p>枚举可以用来限定值的可选范围。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span><span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;enum&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="string">&quot;red&quot;</span><span class="punctuation">,</span><span class="string">&quot;amber&quot;</span><span class="punctuation">,</span><span class="string">&quot;green&quot;</span><span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="常量const"><a class="markdownIt-Anchor" href="#常量const"></a> 常量（const）</h4>
+<p><code>const</code> 属性用于限定值只能是指定的值。如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;country&quot;</span><span class="punctuation">:</span><span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;const&quot;</span><span class="punctuation">:</span><span class="string">&quot;China&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="字符串编码的非-json-数据"><a class="markdownIt-Anchor" href="#字符串编码的非-json-数据"></a> 字符串编码的非 json 数据</h4>
+<p>使用 <code>contentMediaType</code> 属性指定内容的 MediaType，使用 <code>contentEncoding</code> 属性指定内容的编码方式。如</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;contentEncoding&quot;</span><span class="punctuation">:</span> <span class="string">&quot;base64&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;contentMediaType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;image/png&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="组合模式"><a class="markdownIt-Anchor" href="#组合模式"></a> 组合模式</h4>
+<ul>
+<li>
+<p><code>allOf</code> 需要满足所有限定条件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;allOf&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;maxLength&quot;</span><span class="punctuation">:</span> <span class="number">5</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>anyOf</code> 需要满足一个或多个条件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;anyOf&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;maxLength&quot;</span><span class="punctuation">:</span> <span class="number">5</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;number&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;minimum&quot;</span><span class="punctuation">:</span> <span class="number">0</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>oneOf</code> 满足其中一个条件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;oneOf&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;number&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;multipleOf&quot;</span><span class="punctuation">:</span> <span class="number">5</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;number&quot;</span><span class="punctuation">,</span> <span class="attr">&quot;multipleOf&quot;</span><span class="punctuation">:</span> <span class="number">3</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>not</code> 不满足限定条件</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span> <span class="attr">&quot;not&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="条件"><a class="markdownIt-Anchor" href="#条件"></a> 条件</h4>
+<p>在 draft 7 版本中，可使用 <code>if</code> 、<code>then</code> 和 <code>else</code> 关键字来组合限定条件。如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;street_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;country&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;enum&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;United States of America&quot;</span><span class="punctuation">,</span> <span class="string">&quot;Canada&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;if&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;country&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;const&quot;</span><span class="punctuation">:</span> <span class="string">&quot;United States of America&quot;</span> <span class="punctuation">&#125;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;then&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;postal_code&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="string">&quot;[0-9]&#123;5&#125;(-[0-9]&#123;4&#125;)?&quot;</span> <span class="punctuation">&#125;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;else&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;postal_code&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="string">&quot;[A-Z][0-9][A-Z] [0-9][A-Z][0-9]&quot;</span> <span class="punctuation">&#125;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="schema-关键字"><a class="markdownIt-Anchor" href="#schema-关键字"></a> <code>$schema</code> 关键字</h4>
+<p><code>$schema</code> 关键字用于声明一个 json 是一个 json schema，同时还声明了 json schema 的版本，建议每一个 json schema 中都添加一个 <code>$schema</code> 属性，且放到根目录中。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;$schema&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://json-schema.org/draft/2019-09/schema#&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p><code>$schema</code> 的值应该是针对特定版本的 json schema 标准编写的，并在路径中包括使用的版本，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">http://json-schema.org/draft/2019-09/schema#</span><br><span class="line">http://json-schema.org/draft-07/schema#</span><br><span class="line">http://json-schema.org/draft-06/schema#</span><br><span class="line">http://json-schema.org/draft-04/schema#</span><br></pre></td></tr></table></figure>
+<h4 id="重用"><a class="markdownIt-Anchor" href="#重用"></a> 重用</h4>
+<h5 id="结构定义definitions"><a class="markdownIt-Anchor" href="#结构定义definitions"></a> 结构定义（definitions）</h5>
+<p>在 json schema 中定义结构的意义在于重用已有定义，让结构更加简洁，建议将结构定义放在父架构中，然后使用 <code>$ref</code> 关键字在其他地方引用此模式片段，在逻辑上用它所指向的东西替换它。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;$schema&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://json-schema.org/draft-07/schema#&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;definitions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;street_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span>           <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;state&quot;</span><span class="punctuation">:</span>          <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;street_address&quot;</span><span class="punctuation">,</span> <span class="string">&quot;city&quot;</span><span class="punctuation">,</span> <span class="string">&quot;state&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;billing_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#/definitions/address&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;shipping_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#/definitions/address&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h5 id="递归"><a class="markdownIt-Anchor" href="#递归"></a> 递归</h5>
+<p>使用 <code>$ref</code> 创建引用自身即可达到递归的效果，如一个 <code>person</code> 架构，其中包含一个数组 <code>children</code> ，每个数组也是一个 <code>person</code> 实例。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;$schema&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://json-schema.org/draft-07/schema#&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;definitions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;person&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;children&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;array&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;items&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#/definitions/person&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;default&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;person&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#/definitions/person&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h5 id="id-属性"><a class="markdownIt-Anchor" href="#id-属性"></a> <code>$id</code> 属性</h5>
+<p><code>$id</code> 属性时一个 URI 引用，它可以为模式声明唯一的标识符，还可以声明一个基本 URI，可以针对该基本 URI <code>$ref</code> 引用进行解析。建议在每个顶级 schema 的 <code>$id</code> 应使用绝对 URI，而不是相对引用。如引用 <code>foo.bar</code> 中的 <code>address</code> 架构：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span> <span class="attr">&quot;$id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://foo.bar/schemas/address.json&quot;</span> <span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>最佳使用模式是将 <code>$id</code> 与 <code>$ref</code> 一起使用，如：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;$schema&quot;</span><span class="punctuation">:</span> <span class="string">&quot;http://json-schema.org/draft-07/schema#&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;definitions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;$id&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#address&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;street_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;city&quot;</span><span class="punctuation">:</span>           <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;state&quot;</span><span class="punctuation">:</span>          <span class="punctuation">&#123;</span> <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;string&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;street_address&quot;</span><span class="punctuation">,</span> <span class="string">&quot;city&quot;</span><span class="punctuation">,</span> <span class="string">&quot;state&quot;</span><span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;object&quot;</span><span class="punctuation">,</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">&quot;properties&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;billing_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#address&quot;</span> <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;shipping_address&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span> <span class="attr">&quot;$ref&quot;</span><span class="punctuation">:</span> <span class="string">&quot;#address&quot;</span> <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">&#125;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h3 id="使用"><a class="markdownIt-Anchor" href="#使用"></a> 使用</h3>
+<p>json schema 是一个概念，有很多第三方提供的实现，包括各种编程语言的，如 C、C++、Java、JavaScript 等，可以用来校验 json，或生成 json。</p>
+<blockquote>
+<p>官方推荐的实现：<a target="_blank" rel="noopener" href="http://json-schema.org/implementations.html">http://json-schema.org/implementations.html</a></p>
+</blockquote>
+<h4 id="maven"><a class="markdownIt-Anchor" href="#maven"></a> maven</h4>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.github.fge<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>json-schema-validator<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>2.2.6<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>
+<p>使用JSON Schema校验JSON数据是否合规: <a target="_blank" rel="noopener" href="https://blog.csdn.net/zjg379569986/article/details/84634803">https://blog.csdn.net/zjg379569986/article/details/84634803</a></p>
+</li>
+<li>
+<p>JSON Schema 详解: <a target="_blank" rel="noopener" href="https://blog.csdn.net/swinfans/article/details/89231247">https://blog.csdn.net/swinfans/article/details/89231247</a></p>
+</li>
+<li>
+<p>JSON简介 - 简书: <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/1970a209672f">https://www.jianshu.com/p/1970a209672f</a></p>
+</li>
+<li>
+<p>JSON: <a target="_blank" rel="noopener" href="https://www.json.org/json-zh.html">https://www.json.org/json-zh.html</a></p>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/json/" rel="tag"># json</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/29/%E8%AE%A4%E8%AF%86%E5%9F%BA%E9%87%91/" rel="prev" title="认识基金">
+                  <i class="fa fa-chevron-left"></i> 认识基金
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/05/02/%E8%AF%BB%E3%80%8A%E5%9F%BA%E9%87%91%E6%8A%95%E8%B5%84%E7%9A%84%E9%80%89%E8%B4%AD%E4%B8%8E%E7%BB%84%E5%90%88%E6%8A%80%E5%B7%A7%E3%80%8B%E4%B8%8A/" rel="next" title="读《基金投资的选购与组合技巧》上">
+                  读《基金投资的选购与组合技巧》上 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

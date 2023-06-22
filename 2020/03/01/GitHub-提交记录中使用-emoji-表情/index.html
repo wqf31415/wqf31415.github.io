@@ -1,0 +1,2028 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 在网络中大家都使用文字聊天，但时间久了就显得有点单调，使用一些表情图片有时会让聊天的氛围更加轻松，而且一些表情比文字更能表达情感。日本发明的表情符号 emoji 被大家广泛用于日常聊天中，全球约 90% 在线用户频繁的使用 emoji。在全球开源项目托管平台 github 中，现在也支持 emoji 了，可以在说明文件和提交记录说明中直接使用 emoji，让提交记录看起来更加优雅。  认识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub 提交记录中使用 emoji 表情">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/03/01/GitHub-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji-%E8%A1%A8%E6%83%85/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 在网络中大家都使用文字聊天，但时间久了就显得有点单调，使用一些表情图片有时会让聊天的氛围更加轻松，而且一些表情比文字更能表达情感。日本发明的表情符号 emoji 被大家广泛用于日常聊天中，全球约 90% 在线用户频繁的使用 emoji。在全球开源项目托管平台 github 中，现在也支持 emoji 了，可以在说明文件和提交记录说明中直接使用 emoji，让提交记录看起来更加优雅。  认识">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/emoji_plate.jpeg">
+<meta property="article:published_time" content="2020-02-29T16:11:32.000Z">
+<meta property="article:modified_time" content="2023-05-23T03:13:07.872Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="markdown">
+<meta property="article:tag" content="github">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/emoji_plate.jpeg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/03/01/GitHub-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji-%E8%A1%A8%E6%83%85/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/03/01/GitHub-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji-%E8%A1%A8%E6%83%85/","path":"2020/03/01/GitHub-提交记录中使用-emoji-表情/","title":"GitHub 提交记录中使用 emoji 表情"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>GitHub 提交记录中使用 emoji 表情 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-emoji"><span class="nav-number">2.</span> <span class="nav-text"> 认识 emoji</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#emoji-%E8%A1%A8%E6%83%85%E5%88%97%E8%A1%A8"><span class="nav-number">3.</span> <span class="nav-text"> emoji 表情列表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%BA%E7%89%A9"><span class="nav-number">3.1.</span> <span class="nav-text"> 人物</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E7%84%B6"><span class="nav-number">3.2.</span> <span class="nav-text"> 自然</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E7%89%A9"><span class="nav-number">3.3.</span> <span class="nav-text"> 事物</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%B0%E7%82%B9"><span class="nav-number">3.4.</span> <span class="nav-text"> 地点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.5.</span> <span class="nav-text"> 符号</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-github-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji"><span class="nav-number">4.</span> <span class="nav-text"> 在 github 提交记录中使用 emoji</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-markdown-%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji"><span class="nav-number">5.</span> <span class="nav-text"> 在 markdown 中使用 emoji</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-hexo-%E5%8D%9A%E5%AE%A2%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji"><span class="nav-number">6.</span> <span class="nav-text"> 在 Hexo 博客中使用 emoji</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8%E8%BD%A6%E7%89%8C%E5%8F%B7%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji"><span class="nav-number">7.</span> <span class="nav-text"> 在车牌号中使用 emoji</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">8.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">9.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/03/01/GitHub-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji-%E8%A1%A8%E6%83%85/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="GitHub 提交记录中使用 emoji 表情 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GitHub 提交记录中使用 emoji 表情<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/GitHub-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji-%E8%A1%A8%E6%83%85.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-01 00:11:32" itemprop="dateCreated datePublished" datetime="2020-03-01T00:11:32+08:00">2020-03-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 11:13:07" itemprop="dateModified" datetime="2023-05-23T11:13:07+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>在网络中大家都使用文字聊天，但时间久了就显得有点单调，使用一些表情图片有时会让聊天的氛围更加轻松，而且一些表情比文字更能表达情感。日本发明的表情符号 emoji 被大家广泛用于日常聊天中，全球约 90% 在线用户频繁的使用 emoji。在全球开源项目托管平台 github 中，现在也支持 emoji 了，可以在说明文件和提交记录说明中直接使用 emoji，让提交记录看起来更加优雅。</p>
+<h3 id="认识-emoji"><a class="markdownIt-Anchor" href="#认识-emoji"></a> 认识 emoji</h3>
+<p>😄 😡 😂 😎 😭 😘</p>
+<p>emoji 中文译为绘文字，日语为えもじ  ，读音为 <em>emoji</em> ，是日本在无线通信中使用的视觉情感符号，可用来代表多种表情。</p>
+<span id="more"></span>
+<p>emoji 最早由日本人栗田穰崇(Shigetaka Kurita)创造，最开始用于日本手机厂商，后来在 IOS 5 中也支持了 emoji，自此开始发扬光大，现在各大平台都开始支持 emoji 了。</p>
+<h3 id="emoji-表情列表"><a class="markdownIt-Anchor" href="#emoji-表情列表"></a> emoji 表情列表</h3>
+<h4 id="人物"><a class="markdownIt-Anchor" href="#人物"></a> 人物</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>😄 <code>:smile:</code></td>
+<td>😆 <code>:laughing:</code></td>
+<td>😊 <code>:blush:</code></td>
+</tr>
+<tr>
+<td>😃 <code>:smiley:</code></td>
+<td>☺️ <code>:relaxed:</code></td>
+<td>😏 <code>:smirk:</code></td>
+</tr>
+<tr>
+<td>😍 <code>:heart_eyes:</code></td>
+<td>😘 <code>:kissing_heart:</code></td>
+<td>😚 <code>:kissing_closed_eyes:</code></td>
+</tr>
+<tr>
+<td>😳 <code>:flushed:</code></td>
+<td>😌 <code>:relieved:</code></td>
+<td>😆 <code>:satisfied:</code></td>
+</tr>
+<tr>
+<td>😁 <code>:grin:</code></td>
+<td>😉 <code>:wink:</code></td>
+<td>😜 <code>:stuck_out_tongue_winking_eye:</code></td>
+</tr>
+<tr>
+<td>😝 <code>:stuck_out_tongue_closed_eyes:</code></td>
+<td>😀 <code>:grinning:</code></td>
+<td>😗 <code>:kissing:</code></td>
+</tr>
+<tr>
+<td>😙 <code>:kissing_smiling_eyes:</code></td>
+<td>😛 <code>:stuck_out_tongue:</code></td>
+<td>😴 <code>:sleeping:</code></td>
+</tr>
+<tr>
+<td>😟 <code>:worried:</code></td>
+<td>😦 <code>:frowning:</code></td>
+<td>😧 <code>:anguished:</code></td>
+</tr>
+<tr>
+<td>😮 <code>:open_mouth:</code></td>
+<td>😬 <code>:grimacing:</code></td>
+<td>😕 <code>:confused:</code></td>
+</tr>
+<tr>
+<td>😯 <code>:hushed:</code></td>
+<td>😑 <code>:expressionless:</code></td>
+<td>😒 <code>:unamused:</code></td>
+</tr>
+<tr>
+<td>😅 <code>:sweat_smile:</code></td>
+<td>😓 <code>:sweat:</code></td>
+<td>😥 <code>:disappointed_relieved:</code></td>
+</tr>
+<tr>
+<td>😩 <code>:weary:</code></td>
+<td>😔 <code>:pensive:</code></td>
+<td>😞 <code>:disappointed:</code></td>
+</tr>
+<tr>
+<td>😖 <code>:confounded:</code></td>
+<td>😨 <code>:fearful:</code></td>
+<td>😰 <code>:cold_sweat:</code></td>
+</tr>
+<tr>
+<td>😣 <code>:persevere:</code></td>
+<td>😢 <code>:cry:</code></td>
+<td>😭 <code>:sob:</code></td>
+</tr>
+<tr>
+<td>😂 <code>:joy:</code></td>
+<td>😲 <code>:astonished:</code></td>
+<td>😱 <code>:scream:</code></td>
+</tr>
+<tr>
+<td>😫 <code>:tired_face:</code></td>
+<td>😠 <code>:angry:</code></td>
+<td>😡 <code>:rage:</code></td>
+</tr>
+<tr>
+<td>😤 <code>:triumph:</code></td>
+<td>😪 <code>:sleepy:</code></td>
+<td>😋 <code>:yum:</code></td>
+</tr>
+<tr>
+<td>😷 <code>:mask:</code></td>
+<td>😎 <code>:sunglasses:</code></td>
+<td>😵 <code>:dizzy_face:</code></td>
+</tr>
+<tr>
+<td>👿 <code>:imp:</code></td>
+<td>😈 <code>:smiling_imp:</code></td>
+<td>😐 <code>:neutral_face:</code></td>
+</tr>
+<tr>
+<td>😶 <code>:no_mouth:</code></td>
+<td>😇 <code>:innocent:</code></td>
+<td>👽 <code>:alien:</code></td>
+</tr>
+<tr>
+<td>💛 <code>:yellow_heart:</code></td>
+<td>💙 <code>:blue_heart:</code></td>
+<td>💜 <code>:purple_heart:</code></td>
+</tr>
+<tr>
+<td>❤️ <code>:heart:</code></td>
+<td>💚 <code>:green_heart:</code></td>
+<td>💔 <code>:broken_heart:</code></td>
+</tr>
+<tr>
+<td>💓 <code>:heartbeat:</code></td>
+<td>💗 <code>:heartpulse:</code></td>
+<td>💕 <code>:two_hearts:</code></td>
+</tr>
+<tr>
+<td>💞 <code>:revolving_hearts:</code></td>
+<td>💘 <code>:cupid:</code></td>
+<td>💖 <code>:sparkling_heart:</code></td>
+</tr>
+<tr>
+<td>✨ <code>:sparkles:</code></td>
+<td>⭐ <code>:star:</code></td>
+<td>🌟 <code>:star2:</code></td>
+</tr>
+<tr>
+<td>💫 <code>:dizzy:</code></td>
+<td>💥 <code>:boom:</code></td>
+<td>💥 <code>:collision:</code></td>
+</tr>
+<tr>
+<td>💢 <code>:anger:</code></td>
+<td>❗ <code>:exclamation:</code></td>
+<td>❓ <code>:question:</code></td>
+</tr>
+<tr>
+<td>❕ <code>:grey_exclamation:</code></td>
+<td>❔ <code>:grey_question:</code></td>
+<td>💤 <code>:zzz:</code></td>
+</tr>
+<tr>
+<td>💨 <code>:dash:</code></td>
+<td>💦 <code>:sweat_drops:</code></td>
+<td>🎶 <code>:notes:</code></td>
+</tr>
+<tr>
+<td>🎵 <code>:musical_note:</code></td>
+<td>🔥 <code>:fire:</code></td>
+<td>💩 <code>:hankey:</code></td>
+</tr>
+<tr>
+<td>💩 <code>:poop:</code></td>
+<td>💩 <code>:shit:</code></td>
+<td>👍 <code>:+1:</code></td>
+</tr>
+<tr>
+<td>👍 <code>:thumbsup:</code></td>
+<td>👎 <code>:-1:</code></td>
+<td>👎 <code>:thumbsdown:</code></td>
+</tr>
+<tr>
+<td>👌 <code>:ok_hand:</code></td>
+<td>👊 <code>:punch:</code></td>
+<td>👊 <code>:facepunch:</code></td>
+</tr>
+<tr>
+<td>✊ <code>:fist:</code></td>
+<td>✌️ <code>:v:</code></td>
+<td>👋 <code>:wave:</code></td>
+</tr>
+<tr>
+<td>✋ <code>:hand:</code></td>
+<td>✋ <code>:raised_hand:</code></td>
+<td>👐 <code>:open_hands:</code></td>
+</tr>
+<tr>
+<td>☝️ <code>:point_up:</code></td>
+<td>👇 <code>:point_down:</code></td>
+<td>👈 <code>:point_left:</code></td>
+</tr>
+<tr>
+<td>👉 <code>:point_right:</code></td>
+<td>🙌 <code>:raised_hands:</code></td>
+<td>🙏 <code>:pray:</code></td>
+</tr>
+<tr>
+<td>👆 <code>:point_up_2:</code></td>
+<td>👏 <code>:clap:</code></td>
+<td>💪 <code>:muscle:</code></td>
+</tr>
+<tr>
+<td>🚶 <code>:walking:</code></td>
+<td>🏃 <code>:runner:</code></td>
+<td>🏃 <code>:running:</code></td>
+</tr>
+<tr>
+<td>👫 <code>:couple:</code></td>
+<td>👪 <code>:family:</code></td>
+<td>👬 <code>:two_men_holding_hands:</code></td>
+</tr>
+<tr>
+<td>👭 <code>:two_women_holding_hands:</code></td>
+<td>💃 <code>:dancer:</code></td>
+<td>👯 <code>:dancers:</code></td>
+</tr>
+<tr>
+<td>🙆‍♀️ <code>:ok_woman:</code></td>
+<td>🙅 <code>:no_good:</code></td>
+<td>💁 <code>:information_desk_person:</code></td>
+</tr>
+<tr>
+<td>🙋 <code>:raising_hand:</code></td>
+<td>👰‍♀️ <code>:bride_with_veil:</code></td>
+<td>:person_with_pouting_face: <code>:person_with_pouting_face:</code></td>
+</tr>
+<tr>
+<td>:person_frowning: <code>:person_frowning:</code></td>
+<td>🙇 <code>:bow:</code></td>
+<td>💏 <code>:couplekiss:</code></td>
+</tr>
+<tr>
+<td>💑 <code>:couple_with_heart:</code></td>
+<td>💆 <code>:massage:</code></td>
+<td>💇 <code>:haircut:</code></td>
+</tr>
+<tr>
+<td>💅 <code>:nail_care:</code></td>
+<td>👦 <code>:boy:</code></td>
+<td>👧 <code>:girl:</code></td>
+</tr>
+<tr>
+<td>👩 <code>:woman:</code></td>
+<td>👨 <code>:man:</code></td>
+<td>👶 <code>:baby:</code></td>
+</tr>
+<tr>
+<td>👵 <code>:older_woman:</code></td>
+<td>👴 <code>:older_man:</code></td>
+<td>:person_with_blond_hair: <code>:person_with_blond_hair:</code></td>
+</tr>
+<tr>
+<td>👲 <code>:man_with_gua_pi_mao:</code></td>
+<td>👳‍♂️ <code>:man_with_turban:</code></td>
+<td>👷 <code>:construction_worker:</code></td>
+</tr>
+<tr>
+<td>👮 <code>:cop:</code></td>
+<td>👼 <code>:angel:</code></td>
+<td>👸 <code>:princess:</code></td>
+</tr>
+<tr>
+<td>😺 <code>:smiley_cat:</code></td>
+<td>😸 <code>:smile_cat:</code></td>
+<td>😻 <code>:heart_eyes_cat:</code></td>
+</tr>
+<tr>
+<td>😽 <code>:kissing_cat:</code></td>
+<td>😼 <code>:smirk_cat:</code></td>
+<td>🙀 <code>:scream_cat:</code></td>
+</tr>
+<tr>
+<td>😿 <code>:crying_cat_face:</code></td>
+<td>😹 <code>:joy_cat:</code></td>
+<td>😾 <code>:pouting_cat:</code></td>
+</tr>
+<tr>
+<td>👹 <code>:japanese_ogre:</code></td>
+<td>👺 <code>:japanese_goblin:</code></td>
+<td>🙈 <code>:see_no_evil:</code></td>
+</tr>
+<tr>
+<td>🙉 <code>:hear_no_evil:</code></td>
+<td>🙊 <code>:speak_no_evil:</code></td>
+<td>💂‍♂️ <code>:guardsman:</code></td>
+</tr>
+<tr>
+<td>💀 <code>:skull:</code></td>
+<td>🐾 <code>:feet:</code></td>
+<td>👄 <code>:lips:</code></td>
+</tr>
+<tr>
+<td>💋 <code>:kiss:</code></td>
+<td>💧 <code>:droplet:</code></td>
+<td>👂 <code>:ear:</code></td>
+</tr>
+<tr>
+<td>👀 <code>:eyes:</code></td>
+<td>👃 <code>:nose:</code></td>
+<td>👅 <code>:tongue:</code></td>
+</tr>
+<tr>
+<td>💌 <code>:love_letter:</code></td>
+<td>👤 <code>:bust_in_silhouette:</code></td>
+<td>👥 <code>:busts_in_silhouette:</code></td>
+</tr>
+<tr>
+<td>💬 <code>:speech_balloon:</code></td>
+<td>💭 <code>:thought_balloon:</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="自然"><a class="markdownIt-Anchor" href="#自然"></a> 自然</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>☀️ <code>:sunny:</code></td>
+<td>☔ <code>:umbrella:</code></td>
+<td>☁️ <code>:cloud:</code></td>
+</tr>
+<tr>
+<td>❄️ <code>:snowflake:</code></td>
+<td>⛄ <code>:snowman:</code></td>
+<td>⚡ <code>:zap:</code></td>
+</tr>
+<tr>
+<td>🌀 <code>:cyclone:</code></td>
+<td>🌁 <code>:foggy:</code></td>
+<td>🌊 <code>:ocean:</code></td>
+</tr>
+<tr>
+<td>🐱 <code>:cat:</code></td>
+<td>🐶 <code>:dog:</code></td>
+<td>🐭 <code>:mouse:</code></td>
+</tr>
+<tr>
+<td>🐹 <code>:hamster:</code></td>
+<td>🐰 <code>:rabbit:</code></td>
+<td>🐺 <code>:wolf:</code></td>
+</tr>
+<tr>
+<td>🐸 <code>:frog:</code></td>
+<td>🐯 <code>:tiger:</code></td>
+<td>🐨 <code>:koala:</code></td>
+</tr>
+<tr>
+<td>🐻 <code>:bear:</code></td>
+<td>🐷 <code>:pig:</code></td>
+<td>🐽 <code>:pig_nose:</code></td>
+</tr>
+<tr>
+<td>🐮 <code>:cow:</code></td>
+<td>🐗 <code>:boar:</code></td>
+<td>🐵 <code>:monkey_face:</code></td>
+</tr>
+<tr>
+<td>🐒 <code>:monkey:</code></td>
+<td>🐴 <code>:horse:</code></td>
+<td>🐎 <code>:racehorse:</code></td>
+</tr>
+<tr>
+<td>🐫 <code>:camel:</code></td>
+<td>🐑 <code>:sheep:</code></td>
+<td>🐘 <code>:elephant:</code></td>
+</tr>
+<tr>
+<td>🐼 <code>:panda_face:</code></td>
+<td>🐍 <code>:snake:</code></td>
+<td>🐦 <code>:bird:</code></td>
+</tr>
+<tr>
+<td>🐤 <code>:baby_chick:</code></td>
+<td>🐥 <code>:hatched_chick:</code></td>
+<td>🐣 <code>:hatching_chick:</code></td>
+</tr>
+<tr>
+<td>🐔 <code>:chicken:</code></td>
+<td>🐧 <code>:penguin:</code></td>
+<td>🐢 <code>:turtle:</code></td>
+</tr>
+<tr>
+<td>🐛 <code>:bug:</code></td>
+<td>🐝 <code>:honeybee:</code></td>
+<td>🐜 <code>:ant:</code></td>
+</tr>
+<tr>
+<td>🪲 <code>:beetle:</code></td>
+<td>🐌 <code>:snail:</code></td>
+<td>🐙 <code>:octopus:</code></td>
+</tr>
+<tr>
+<td>🐠 <code>:tropical_fish:</code></td>
+<td>🐟 <code>:fish:</code></td>
+<td>🐳 <code>:whale:</code></td>
+</tr>
+<tr>
+<td>🐋 <code>:whale2:</code></td>
+<td>🐬 <code>:dolphin:</code></td>
+<td>🐄 <code>:cow2:</code></td>
+</tr>
+<tr>
+<td>🐏 <code>:ram:</code></td>
+<td>🐀 <code>:rat:</code></td>
+<td>🐃 <code>:water_buffalo:</code></td>
+</tr>
+<tr>
+<td>🐅 <code>:tiger2:</code></td>
+<td>🐇 <code>:rabbit2:</code></td>
+<td>🐉 <code>:dragon:</code></td>
+</tr>
+<tr>
+<td>🐐 <code>:goat:</code></td>
+<td>🐓 <code>:rooster:</code></td>
+<td>🐕 <code>:dog2:</code></td>
+</tr>
+<tr>
+<td>🐖 <code>:pig2:</code></td>
+<td>🐁 <code>:mouse2:</code></td>
+<td>🐂 <code>:ox:</code></td>
+</tr>
+<tr>
+<td>🐲 <code>:dragon_face:</code></td>
+<td>🐡 <code>:blowfish:</code></td>
+<td>🐊 <code>:crocodile:</code></td>
+</tr>
+<tr>
+<td>🐪 <code>:dromedary_camel:</code></td>
+<td>🐆 <code>:leopard:</code></td>
+<td>🐈 <code>:cat2:</code></td>
+</tr>
+<tr>
+<td>🐩 <code>:poodle:</code></td>
+<td>🐾 <code>:paw_prints:</code></td>
+<td>💐 <code>:bouquet:</code></td>
+</tr>
+<tr>
+<td>🌸 <code>:cherry_blossom:</code></td>
+<td>🌷 <code>:tulip:</code></td>
+<td>🍀 <code>:four_leaf_clover:</code></td>
+</tr>
+<tr>
+<td>🌹 <code>:rose:</code></td>
+<td>🌻 <code>:sunflower:</code></td>
+<td>🌺 <code>:hibiscus:</code></td>
+</tr>
+<tr>
+<td>🍁 <code>:maple_leaf:</code></td>
+<td>🍃 <code>:leaves:</code></td>
+<td>🍂 <code>:fallen_leaf:</code></td>
+</tr>
+<tr>
+<td>🌿 <code>:herb:</code></td>
+<td>🍄 <code>:mushroom:</code></td>
+<td>🌵 <code>:cactus:</code></td>
+</tr>
+<tr>
+<td>🌴 <code>:palm_tree:</code></td>
+<td>🌲 <code>:evergreen_tree:</code></td>
+<td>🌳 <code>:deciduous_tree:</code></td>
+</tr>
+<tr>
+<td>🌰 <code>:chestnut:</code></td>
+<td>🌱 <code>:seedling:</code></td>
+<td>🌼 <code>:blossom:</code></td>
+</tr>
+<tr>
+<td>🌾 <code>:ear_of_rice:</code></td>
+<td>🐚 <code>:shell:</code></td>
+<td>🌐 <code>:globe_with_meridians:</code></td>
+</tr>
+<tr>
+<td>🌞 <code>:sun_with_face:</code></td>
+<td>🌝 <code>:full_moon_with_face:</code></td>
+<td>🌚 <code>:new_moon_with_face:</code></td>
+</tr>
+<tr>
+<td>🌑 <code>:new_moon:</code></td>
+<td>🌒 <code>:waxing_crescent_moon:</code></td>
+<td>🌓 <code>:first_quarter_moon:</code></td>
+</tr>
+<tr>
+<td>🌔 <code>:waxing_gibbous_moon:</code></td>
+<td>🌕 <code>:full_moon:</code></td>
+<td>🌖 <code>:waning_gibbous_moon:</code></td>
+</tr>
+<tr>
+<td>🌗 <code>:last_quarter_moon:</code></td>
+<td>🌘 <code>:waning_crescent_moon:</code></td>
+<td>🌜 <code>:last_quarter_moon_with_face:</code></td>
+</tr>
+<tr>
+<td>🌛 <code>:first_quarter_moon_with_face:</code></td>
+<td>🌔 <code>:moon:</code></td>
+<td>🌍 <code>:earth_africa:</code></td>
+</tr>
+<tr>
+<td>🌎 <code>:earth_americas:</code></td>
+<td>🌏 <code>:earth_asia:</code></td>
+<td>🌋 <code>:volcano:</code></td>
+</tr>
+<tr>
+<td>🌌 <code>:milky_way:</code></td>
+<td>⛅ <code>:partly_sunny:</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="事物"><a class="markdownIt-Anchor" href="#事物"></a> 事物</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎍 <code>:bamboo:</code></td>
+<td>💝 <code>:gift_heart:</code></td>
+<td>🎎 <code>:dolls:</code></td>
+</tr>
+<tr>
+<td>🎒 <code>:school_satchel:</code></td>
+<td>🎓 <code>:mortar_board:</code></td>
+<td>🎏 <code>:flags:</code></td>
+</tr>
+<tr>
+<td>🎆 <code>:fireworks:</code></td>
+<td>🎇 <code>:sparkler:</code></td>
+<td>🎐 <code>:wind_chime:</code></td>
+</tr>
+<tr>
+<td>🎑 <code>:rice_scene:</code></td>
+<td>🎃 <code>:jack_o_lantern:</code></td>
+<td>👻 <code>:ghost:</code></td>
+</tr>
+<tr>
+<td>🎅 <code>:santa:</code></td>
+<td>🎄 <code>:christmas_tree:</code></td>
+<td>🎁 <code>:gift:</code></td>
+</tr>
+<tr>
+<td>🔔 <code>:bell:</code></td>
+<td>🔕 <code>:no_bell:</code></td>
+<td>🎋 <code>:tanabata_tree:</code></td>
+</tr>
+<tr>
+<td>🎉 <code>:tada:</code></td>
+<td>🎊 <code>:confetti_ball:</code></td>
+<td>🎈 <code>:balloon:</code></td>
+</tr>
+<tr>
+<td>🔮 <code>:crystal_ball:</code></td>
+<td>💿 <code>:cd:</code></td>
+<td>📀 <code>:dvd:</code></td>
+</tr>
+<tr>
+<td>💾 <code>:floppy_disk:</code></td>
+<td>📷 <code>:camera:</code></td>
+<td>📹 <code>:video_camera:</code></td>
+</tr>
+<tr>
+<td>🎥 <code>:movie_camera:</code></td>
+<td>💻 <code>:computer:</code></td>
+<td>📺 <code>:tv:</code></td>
+</tr>
+<tr>
+<td>📱 <code>:iphone:</code></td>
+<td>☎️ <code>:phone:</code></td>
+<td>☎️ <code>:telephone:</code></td>
+</tr>
+<tr>
+<td>📞 <code>:telephone_receiver:</code></td>
+<td>📟 <code>:pager:</code></td>
+<td>📠 <code>:fax:</code></td>
+</tr>
+<tr>
+<td>💽 <code>:minidisc:</code></td>
+<td>📼 <code>:vhs:</code></td>
+<td>🔉 <code>:sound:</code></td>
+</tr>
+<tr>
+<td>🔈 <code>:speaker:</code></td>
+<td>🔇 <code>:mute:</code></td>
+<td>📢 <code>:loudspeaker:</code></td>
+</tr>
+<tr>
+<td>📣 <code>:mega:</code></td>
+<td>⌛ <code>:hourglass:</code></td>
+<td>⏳ <code>:hourglass_flowing_sand:</code></td>
+</tr>
+<tr>
+<td>⏰ <code>:alarm_clock:</code></td>
+<td>⌚ <code>:watch:</code></td>
+<td>📻 <code>:radio:</code></td>
+</tr>
+<tr>
+<td>📡 <code>:satellite:</code></td>
+<td>➿ <code>:loop:</code></td>
+<td>🔍 <code>:mag:</code></td>
+</tr>
+<tr>
+<td>🔎 <code>:mag_right:</code></td>
+<td>🔓 <code>:unlock:</code></td>
+<td>🔒 <code>:lock:</code></td>
+</tr>
+<tr>
+<td>🔏 <code>:lock_with_ink_pen:</code></td>
+<td>🔐 <code>:closed_lock_with_key:</code></td>
+<td>🔑 <code>:key:</code></td>
+</tr>
+<tr>
+<td>💡 <code>:bulb:</code></td>
+<td>🔦 <code>:flashlight:</code></td>
+<td>🔆 <code>:high_brightness:</code></td>
+</tr>
+<tr>
+<td>🔅 <code>:low_brightness:</code></td>
+<td>🔌 <code>:electric_plug:</code></td>
+<td>🔋 <code>:battery:</code></td>
+</tr>
+<tr>
+<td>📲 <code>:calling:</code></td>
+<td>📧 <code>:email:</code></td>
+<td>📫 <code>:mailbox:</code></td>
+</tr>
+<tr>
+<td>📮 <code>:postbox:</code></td>
+<td>🛀 <code>:bath:</code></td>
+<td>🛁 <code>:bathtub:</code></td>
+</tr>
+<tr>
+<td>🚿 <code>:shower:</code></td>
+<td>🚽 <code>:toilet:</code></td>
+<td>🔧 <code>:wrench:</code></td>
+</tr>
+<tr>
+<td>🔩 <code>:nut_and_bolt:</code></td>
+<td>🔨 <code>:hammer:</code></td>
+<td>💺 <code>:seat:</code></td>
+</tr>
+<tr>
+<td>💰 <code>:moneybag:</code></td>
+<td>💴 <code>:yen:</code></td>
+<td>💵 <code>:dollar:</code></td>
+</tr>
+<tr>
+<td>💷 <code>:pound:</code></td>
+<td>💶 <code>:euro:</code></td>
+<td>💳 <code>:credit_card:</code></td>
+</tr>
+<tr>
+<td>💸 <code>:money_with_wings:</code></td>
+<td>📧 <code>:e-mail:</code></td>
+<td>📥 <code>:inbox_tray:</code></td>
+</tr>
+<tr>
+<td>📤 <code>:outbox_tray:</code></td>
+<td>✉️ <code>:envelope:</code></td>
+<td>📨 <code>:incoming_envelope:</code></td>
+</tr>
+<tr>
+<td>📯 <code>:postal_horn:</code></td>
+<td>📪 <code>:mailbox_closed:</code></td>
+<td>📬 <code>:mailbox_with_mail:</code></td>
+</tr>
+<tr>
+<td>📭 <code>:mailbox_with_no_mail:</code></td>
+<td>🚪 <code>:door:</code></td>
+<td>🚬 <code>:smoking:</code></td>
+</tr>
+<tr>
+<td>💣 <code>:bomb:</code></td>
+<td>🔫 <code>:gun:</code></td>
+<td>🔪 <code>:hocho:</code></td>
+</tr>
+<tr>
+<td>💊 <code>:pill:</code></td>
+<td>💉 <code>:syringe:</code></td>
+<td>📄 <code>:page_facing_up:</code></td>
+</tr>
+<tr>
+<td>📃 <code>:page_with_curl:</code></td>
+<td>📑 <code>:bookmark_tabs:</code></td>
+<td>📊 <code>:bar_chart:</code></td>
+</tr>
+<tr>
+<td>📈 <code>:chart_with_upwards_trend:</code></td>
+<td>📉 <code>:chart_with_downwards_trend:</code></td>
+<td>📜 <code>:scroll:</code></td>
+</tr>
+<tr>
+<td>📋 <code>:clipboard:</code></td>
+<td>📆 <code>:calendar:</code></td>
+<td>📅 <code>:date:</code></td>
+</tr>
+<tr>
+<td>📇 <code>:card_index:</code></td>
+<td>📁 <code>:file_folder:</code></td>
+<td>📂 <code>:open_file_folder:</code></td>
+</tr>
+<tr>
+<td>✂️ <code>:scissors:</code></td>
+<td>📌 <code>:pushpin:</code></td>
+<td>📎 <code>:paperclip:</code></td>
+</tr>
+<tr>
+<td>✒️ <code>:black_nib:</code></td>
+<td>✏️ <code>:pencil2:</code></td>
+<td>📏 <code>:straight_ruler:</code></td>
+</tr>
+<tr>
+<td>📐 <code>:triangular_ruler:</code></td>
+<td>📕 <code>:closed_book:</code></td>
+<td>📗 <code>:green_book:</code></td>
+</tr>
+<tr>
+<td>📘 <code>:blue_book:</code></td>
+<td>📙 <code>:orange_book:</code></td>
+<td>📓 <code>:notebook:</code></td>
+</tr>
+<tr>
+<td>📔 <code>:notebook_with_decorative_cover:</code></td>
+<td>📒 <code>:ledger:</code></td>
+<td>📚 <code>:books:</code></td>
+</tr>
+<tr>
+<td>🔖 <code>:bookmark:</code></td>
+<td>📛 <code>:name_badge:</code></td>
+<td>🔬 <code>:microscope:</code></td>
+</tr>
+<tr>
+<td>🔭 <code>:telescope:</code></td>
+<td>📰 <code>:newspaper:</code></td>
+<td>🏈 <code>:football:</code></td>
+</tr>
+<tr>
+<td>🏀 <code>:basketball:</code></td>
+<td>⚽ <code>:soccer:</code></td>
+<td>⚾ <code>:baseball:</code></td>
+</tr>
+<tr>
+<td>🎾 <code>:tennis:</code></td>
+<td>🎱 <code>:8ball:</code></td>
+<td>🏉 <code>:rugby_football:</code></td>
+</tr>
+<tr>
+<td>🎳 <code>:bowling:</code></td>
+<td>⛳ <code>:golf:</code></td>
+<td>🚵 <code>:mountain_bicyclist:</code></td>
+</tr>
+<tr>
+<td>🚴 <code>:bicyclist:</code></td>
+<td>🏇 <code>:horse_racing:</code></td>
+<td>🏂 <code>:snowboarder:</code></td>
+</tr>
+<tr>
+<td>🏊 <code>:swimmer:</code></td>
+<td>🏄 <code>:surfer:</code></td>
+<td>🎿 <code>:ski:</code></td>
+</tr>
+<tr>
+<td>♠️ <code>:spades:</code></td>
+<td>♥️ <code>:hearts:</code></td>
+<td>♣️ <code>:clubs:</code></td>
+</tr>
+<tr>
+<td>♦️ <code>:diamonds:</code></td>
+<td>💎 <code>:gem:</code></td>
+<td>💍 <code>:ring:</code></td>
+</tr>
+<tr>
+<td>🏆 <code>:trophy:</code></td>
+<td>🎼 <code>:musical_score:</code></td>
+<td>🎹 <code>:musical_keyboard:</code></td>
+</tr>
+<tr>
+<td>🎻 <code>:violin:</code></td>
+<td>👾 <code>:space_invader:</code></td>
+<td>🎮 <code>:video_game:</code></td>
+</tr>
+<tr>
+<td>🃏 <code>:black_joker:</code></td>
+<td>🎴 <code>:flower_playing_cards:</code></td>
+<td>🎲 <code>:game_die:</code></td>
+</tr>
+<tr>
+<td>🎯 <code>:dart:</code></td>
+<td>🀄 <code>:mahjong:</code></td>
+<td>🎬 <code>:clapper:</code></td>
+</tr>
+<tr>
+<td>📝 <code>:memo:</code></td>
+<td>📝 <code>:pencil:</code></td>
+<td>📖 <code>:book:</code></td>
+</tr>
+<tr>
+<td>🎨 <code>:art:</code></td>
+<td>🎤 <code>:microphone:</code></td>
+<td>🎧 <code>:headphones:</code></td>
+</tr>
+<tr>
+<td>🎺 <code>:trumpet:</code></td>
+<td>🎷 <code>:saxophone:</code></td>
+<td>🎸 <code>:guitar:</code></td>
+</tr>
+<tr>
+<td>👞 <code>:shoe:</code></td>
+<td>👡 <code>:sandal:</code></td>
+<td>👠 <code>:high_heel:</code></td>
+</tr>
+<tr>
+<td>💄 <code>:lipstick:</code></td>
+<td>👢 <code>:boot:</code></td>
+<td>👕 <code>:shirt:</code></td>
+</tr>
+<tr>
+<td>👕 <code>:tshirt:</code></td>
+<td>👔 <code>:necktie:</code></td>
+<td>👚 <code>:womans_clothes:</code></td>
+</tr>
+<tr>
+<td>👗 <code>:dress:</code></td>
+<td>🎽 <code>:running_shirt_with_sash:</code></td>
+<td>👖 <code>:jeans:</code></td>
+</tr>
+<tr>
+<td>👘 <code>:kimono:</code></td>
+<td>👙 <code>:bikini:</code></td>
+<td>🎀 <code>:ribbon:</code></td>
+</tr>
+<tr>
+<td>🎩 <code>:tophat:</code></td>
+<td>👑 <code>:crown:</code></td>
+<td>👒 <code>:womans_hat:</code></td>
+</tr>
+<tr>
+<td>👞 <code>:mans_shoe:</code></td>
+<td>🌂 <code>:closed_umbrella:</code></td>
+<td>💼 <code>:briefcase:</code></td>
+</tr>
+<tr>
+<td>👜 <code>:handbag:</code></td>
+<td>👝 <code>:pouch:</code></td>
+<td>👛 <code>:purse:</code></td>
+</tr>
+<tr>
+<td>👓 <code>:eyeglasses:</code></td>
+<td>🎣 <code>:fishing_pole_and_fish:</code></td>
+<td>☕ <code>:coffee:</code></td>
+</tr>
+<tr>
+<td>🍵 <code>:tea:</code></td>
+<td>🍶 <code>:sake:</code></td>
+<td>🍼 <code>:baby_bottle:</code></td>
+</tr>
+<tr>
+<td>🍺 <code>:beer:</code></td>
+<td>🍻 <code>:beers:</code></td>
+<td>🍸 <code>:cocktail:</code></td>
+</tr>
+<tr>
+<td>🍹 <code>:tropical_drink:</code></td>
+<td>🍷 <code>:wine_glass:</code></td>
+<td>🍴 <code>:fork_and_knife:</code></td>
+</tr>
+<tr>
+<td>🍕 <code>:pizza:</code></td>
+<td>🍔 <code>:hamburger:</code></td>
+<td>🍟 <code>:fries:</code></td>
+</tr>
+<tr>
+<td>🍗 <code>:poultry_leg:</code></td>
+<td>🍖 <code>:meat_on_bone:</code></td>
+<td>🍝 <code>:spaghetti:</code></td>
+</tr>
+<tr>
+<td>🍛 <code>:curry:</code></td>
+<td>🍤 <code>:fried_shrimp:</code></td>
+<td>🍱 <code>:bento:</code></td>
+</tr>
+<tr>
+<td>🍣 <code>:sushi:</code></td>
+<td>🍥 <code>:fish_cake:</code></td>
+<td>🍙 <code>:rice_ball:</code></td>
+</tr>
+<tr>
+<td>🍘 <code>:rice_cracker:</code></td>
+<td>🍚 <code>:rice:</code></td>
+<td>🍜 <code>:ramen:</code></td>
+</tr>
+<tr>
+<td>🍲 <code>:stew:</code></td>
+<td>🍢 <code>:oden:</code></td>
+<td>🍡 <code>:dango:</code></td>
+</tr>
+<tr>
+<td>🥚 <code>:egg:</code></td>
+<td>🍞 <code>:bread:</code></td>
+<td>🍩 <code>:doughnut:</code></td>
+</tr>
+<tr>
+<td>🍮 <code>:custard:</code></td>
+<td>🍦 <code>:icecream:</code></td>
+<td>🍨 <code>:ice_cream:</code></td>
+</tr>
+<tr>
+<td>🍧 <code>:shaved_ice:</code></td>
+<td>🎂 <code>:birthday:</code></td>
+<td>🍰 <code>:cake:</code></td>
+</tr>
+<tr>
+<td>🍪 <code>:cookie:</code></td>
+<td>🍫 <code>:chocolate_bar:</code></td>
+<td>🍬 <code>:candy:</code></td>
+</tr>
+<tr>
+<td>🍭 <code>:lollipop:</code></td>
+<td>🍯 <code>:honey_pot:</code></td>
+<td>🍎 <code>:apple:</code></td>
+</tr>
+<tr>
+<td>🍏 <code>:green_apple:</code></td>
+<td>🍊 <code>:tangerine:</code></td>
+<td>🍋 <code>:lemon:</code></td>
+</tr>
+<tr>
+<td>🍒 <code>:cherries:</code></td>
+<td>🍇 <code>:grapes:</code></td>
+<td>🍉 <code>:watermelon:</code></td>
+</tr>
+<tr>
+<td>🍓 <code>:strawberry:</code></td>
+<td>🍑 <code>:peach:</code></td>
+<td>🍈 <code>:melon:</code></td>
+</tr>
+<tr>
+<td>🍌 <code>:banana:</code></td>
+<td>🍐 <code>:pear:</code></td>
+<td>🍍 <code>:pineapple:</code></td>
+</tr>
+<tr>
+<td>🍠 <code>:sweet_potato:</code></td>
+<td>🍆 <code>:eggplant:</code></td>
+<td>🍅 <code>:tomato:</code></td>
+</tr>
+<tr>
+<td>🌽 <code>:corn:</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="地点"><a class="markdownIt-Anchor" href="#地点"></a> 地点</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🏠 <code>:house:</code></td>
+<td>🏡 <code>:house_with_garden:</code></td>
+<td>🏫 <code>:school:</code></td>
+</tr>
+<tr>
+<td>🏢 <code>:office:</code></td>
+<td>🏣 <code>:post_office:</code></td>
+<td>🏥 <code>:hospital:</code></td>
+</tr>
+<tr>
+<td>🏦 <code>:bank:</code></td>
+<td>🏪 <code>:convenience_store:</code></td>
+<td>🏩 <code>:love_hotel:</code></td>
+</tr>
+<tr>
+<td>🏨 <code>:hotel:</code></td>
+<td>💒 <code>:wedding:</code></td>
+<td>⛪ <code>:church:</code></td>
+</tr>
+<tr>
+<td>🏬 <code>:department_store:</code></td>
+<td>🏤 <code>:european_post_office:</code></td>
+<td>🌇 <code>:city_sunrise:</code></td>
+</tr>
+<tr>
+<td>🌆 <code>:city_sunset:</code></td>
+<td>🏯 <code>:japanese_castle:</code></td>
+<td>🏰 <code>:european_castle:</code></td>
+</tr>
+<tr>
+<td>⛺ <code>:tent:</code></td>
+<td>🏭 <code>:factory:</code></td>
+<td>🗼 <code>:tokyo_tower:</code></td>
+</tr>
+<tr>
+<td>🗾 <code>:japan:</code></td>
+<td>🗻 <code>:mount_fuji:</code></td>
+<td>🌄 <code>:sunrise_over_mountains:</code></td>
+</tr>
+<tr>
+<td>🌅 <code>:sunrise:</code></td>
+<td>🌠 <code>:stars:</code></td>
+<td>🗽 <code>:statue_of_liberty:</code></td>
+</tr>
+<tr>
+<td>🌉 <code>:bridge_at_night:</code></td>
+<td>🎠 <code>:carousel_horse:</code></td>
+<td>🌈 <code>:rainbow:</code></td>
+</tr>
+<tr>
+<td>🎡 <code>:ferris_wheel:</code></td>
+<td>⛲ <code>:fountain:</code></td>
+<td>🎢 <code>:roller_coaster:</code></td>
+</tr>
+<tr>
+<td>🚢 <code>:ship:</code></td>
+<td>🚤 <code>:speedboat:</code></td>
+<td>⛵ <code>:boat:</code></td>
+</tr>
+<tr>
+<td>⛵ <code>:sailboat:</code></td>
+<td>🚣 <code>:rowboat:</code></td>
+<td>⚓ <code>:anchor:</code></td>
+</tr>
+<tr>
+<td>🚀 <code>:rocket:</code></td>
+<td>✈️ <code>:airplane:</code></td>
+<td>🚁 <code>:helicopter:</code></td>
+</tr>
+<tr>
+<td>🚂 <code>:steam_locomotive:</code></td>
+<td>🚊 <code>:tram:</code></td>
+<td>🚞 <code>:mountain_railway:</code></td>
+</tr>
+<tr>
+<td>🚲 <code>:bike:</code></td>
+<td>🚡 <code>:aerial_tramway:</code></td>
+<td>🚟 <code>:suspension_railway:</code></td>
+</tr>
+<tr>
+<td>🚠 <code>:mountain_cableway:</code></td>
+<td>🚜 <code>:tractor:</code></td>
+<td>🚙 <code>:blue_car:</code></td>
+</tr>
+<tr>
+<td>🚘 <code>:oncoming_automobile:</code></td>
+<td>🚗 <code>:car:</code></td>
+<td>🚗 <code>:red_car:</code></td>
+</tr>
+<tr>
+<td>🚕 <code>:taxi:</code></td>
+<td>🚖 <code>:oncoming_taxi:</code></td>
+<td>🚛 <code>:articulated_lorry:</code></td>
+</tr>
+<tr>
+<td>🚌 <code>:bus:</code></td>
+<td>🚍 <code>:oncoming_bus:</code></td>
+<td>🚨 <code>:rotating_light:</code></td>
+</tr>
+<tr>
+<td>🚓 <code>:police_car:</code></td>
+<td>🚔 <code>:oncoming_police_car:</code></td>
+<td>🚒 <code>:fire_engine:</code></td>
+</tr>
+<tr>
+<td>🚑 <code>:ambulance:</code></td>
+<td>🚐 <code>:minibus:</code></td>
+<td>🚚 <code>:truck:</code></td>
+</tr>
+<tr>
+<td>🚋 <code>:train:</code></td>
+<td>🚉 <code>:station:</code></td>
+<td>🚆 <code>:train2:</code></td>
+</tr>
+<tr>
+<td>🚅 <code>:bullettrain_front:</code></td>
+<td>🚄 <code>:bullettrain_side:</code></td>
+<td>🚈 <code>:light_rail:</code></td>
+</tr>
+<tr>
+<td>🚝 <code>:monorail:</code></td>
+<td>🚃 <code>:railway_car:</code></td>
+<td>🚎 <code>:trolleybus:</code></td>
+</tr>
+<tr>
+<td>🎫 <code>:ticket:</code></td>
+<td>⛽ <code>:fuelpump:</code></td>
+<td>🚦 <code>:vertical_traffic_light:</code></td>
+</tr>
+<tr>
+<td>🚥 <code>:traffic_light:</code></td>
+<td>⚠️ <code>:warning:</code></td>
+<td>🚧 <code>:construction:</code></td>
+</tr>
+<tr>
+<td>🔰 <code>:beginner:</code></td>
+<td>🏧 <code>:atm:</code></td>
+<td>🎰 <code>:slot_machine:</code></td>
+</tr>
+<tr>
+<td>🚏 <code>:busstop:</code></td>
+<td>💈 <code>:barber:</code></td>
+<td>♨️ <code>:hotsprings:</code></td>
+</tr>
+<tr>
+<td>🏁 <code>:checkered_flag:</code></td>
+<td>🎌 <code>:crossed_flags:</code></td>
+<td>🏮 <code>:izakaya_lantern:</code></td>
+</tr>
+<tr>
+<td>🗿 <code>:moyai:</code></td>
+<td>🎪 <code>:circus_tent:</code></td>
+<td>🎭 <code>:performing_arts:</code></td>
+</tr>
+<tr>
+<td>📍 <code>:round_pushpin:</code></td>
+<td>🚩 <code>:triangular_flag_on_post:</code></td>
+<td>🇯🇵 <code>:jp:</code></td>
+</tr>
+<tr>
+<td>🇰🇷 <code>:kr:</code></td>
+<td>🇨🇳 <code>:cn:</code></td>
+<td>🇺🇸 <code>:us:</code></td>
+</tr>
+<tr>
+<td>🇫🇷 <code>:fr:</code></td>
+<td>🇪🇸 <code>:es:</code></td>
+<td>🇮🇹 <code>:it:</code></td>
+</tr>
+<tr>
+<td>🇷🇺 <code>:ru:</code></td>
+<td>🇬🇧 <code>:gb:</code></td>
+<td>🇬🇧 <code>:uk:</code></td>
+</tr>
+<tr>
+<td>🇩🇪 <code>:de:</code></td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="符号"><a class="markdownIt-Anchor" href="#符号"></a> 符号</h4>
+<table>
+<thead>
+<tr>
+<th></th>
+<th></th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1️⃣ <code>:one:</code></td>
+<td>2️⃣ <code>:two:</code></td>
+<td>3️⃣ <code>:three:</code></td>
+</tr>
+<tr>
+<td>4️⃣ <code>:four:</code></td>
+<td>5️⃣ <code>:five:</code></td>
+<td>6️⃣ <code>:six:</code></td>
+</tr>
+<tr>
+<td>7️⃣ <code>:seven:</code></td>
+<td>8️⃣ <code>:eight:</code></td>
+<td>9️⃣ <code>:nine:</code></td>
+</tr>
+<tr>
+<td>🔟 <code>:keycap_ten:</code></td>
+<td>🔢 <code>:1234:</code></td>
+<td>0️⃣ <code>:zero:</code></td>
+</tr>
+<tr>
+<td>#️⃣ <code>:hash:</code></td>
+<td>🔣 <code>:symbols:</code></td>
+<td>◀️ <code>:arrow_backward:</code></td>
+</tr>
+<tr>
+<td>⬇️ <code>:arrow_down:</code></td>
+<td>▶️ <code>:arrow_forward:</code></td>
+<td>⬅️ <code>:arrow_left:</code></td>
+</tr>
+<tr>
+<td>🔠 <code>:capital_abcd:</code></td>
+<td>🔡 <code>:abcd:</code></td>
+<td>🔤 <code>:abc:</code></td>
+</tr>
+<tr>
+<td>↙️ <code>:arrow_lower_left:</code></td>
+<td>↘️ <code>:arrow_lower_right:</code></td>
+<td>➡️ <code>:arrow_right:</code></td>
+</tr>
+<tr>
+<td>⬆️ <code>:arrow_up:</code></td>
+<td>↖️ <code>:arrow_upper_left:</code></td>
+<td>↗️ <code>:arrow_upper_right:</code></td>
+</tr>
+<tr>
+<td>⏬ <code>:arrow_double_down:</code></td>
+<td>⏫ <code>:arrow_double_up:</code></td>
+<td>🔽 <code>:arrow_down_small:</code></td>
+</tr>
+<tr>
+<td>⤵️ <code>:arrow_heading_down:</code></td>
+<td>⤴️ <code>:arrow_heading_up:</code></td>
+<td>↩️ <code>:leftwards_arrow_with_hook:</code></td>
+</tr>
+<tr>
+<td>↪️ <code>:arrow_right_hook:</code></td>
+<td>↔️ <code>:left_right_arrow:</code></td>
+<td>↕️ <code>:arrow_up_down:</code></td>
+</tr>
+<tr>
+<td>🔼 <code>:arrow_up_small:</code></td>
+<td>🔃 <code>:arrows_clockwise:</code></td>
+<td>🔄 <code>:arrows_counterclockwise:</code></td>
+</tr>
+<tr>
+<td>⏪ <code>:rewind:</code></td>
+<td>⏩ <code>:fast_forward:</code></td>
+<td>ℹ️ <code>:information_source:</code></td>
+</tr>
+<tr>
+<td>🆗 <code>:ok:</code></td>
+<td>🔀 <code>:twisted_rightwards_arrows:</code></td>
+<td>🔁 <code>:repeat:</code></td>
+</tr>
+<tr>
+<td>🔂 <code>:repeat_one:</code></td>
+<td>🆕 <code>:new:</code></td>
+<td>🔝 <code>:top:</code></td>
+</tr>
+<tr>
+<td>🆙 <code>:up:</code></td>
+<td>🆒 <code>:cool:</code></td>
+<td>🆓 <code>:free:</code></td>
+</tr>
+<tr>
+<td>🆖 <code>:ng:</code></td>
+<td>🎦 <code>:cinema:</code></td>
+<td>🈁 <code>:koko:</code></td>
+</tr>
+<tr>
+<td>📶 <code>:signal_strength:</code></td>
+<td>:u5272: <code>:u5272:</code></td>
+<td>:u5408: <code>:u5408:</code></td>
+</tr>
+<tr>
+<td>:u55b6: <code>:u55b6:</code></td>
+<td>:u6307: <code>:u6307:</code></td>
+<td>:u6708: <code>:u6708:</code></td>
+</tr>
+<tr>
+<td>:u6709: <code>:u6709:</code></td>
+<td>🈵 <code>:u6e80:</code></td>
+<td>:u7121: <code>:u7121:</code></td>
+</tr>
+<tr>
+<td>:u7533: <code>:u7533:</code></td>
+<td>:u7a7a: <code>:u7a7a:</code></td>
+<td>:u7981: <code>:u7981:</code></td>
+</tr>
+<tr>
+<td>🈂️ <code>:sa:</code></td>
+<td>🚻 <code>:restroom:</code></td>
+<td>🚹 <code>:mens:</code></td>
+</tr>
+<tr>
+<td>🚺 <code>:womens:</code></td>
+<td>🚼 <code>:baby_symbol:</code></td>
+<td>🚭 <code>:no_smoking:</code></td>
+</tr>
+<tr>
+<td>🅿️ <code>:parking:</code></td>
+<td>♿ <code>:wheelchair:</code></td>
+<td>🚇 <code>:metro:</code></td>
+</tr>
+<tr>
+<td>🛄 <code>:baggage_claim:</code></td>
+<td>🉑 <code>:accept:</code></td>
+<td>🚾 <code>:wc:</code></td>
+</tr>
+<tr>
+<td>🚰 <code>:potable_water:</code></td>
+<td>🚮 <code>:put_litter_in_its_place:</code></td>
+<td>㊙️ <code>:secret:</code></td>
+</tr>
+<tr>
+<td>㊗️ <code>:congratulations:</code></td>
+<td>Ⓜ️ <code>:m:</code></td>
+<td>🛂 <code>:passport_control:</code></td>
+</tr>
+<tr>
+<td>🛅 <code>:left_luggage:</code></td>
+<td>🛃 <code>:customs:</code></td>
+<td>🉐 <code>:ideograph_advantage:</code></td>
+</tr>
+<tr>
+<td>🆑 <code>:cl:</code></td>
+<td>🆘 <code>:sos:</code></td>
+<td>🆔 <code>:id:</code></td>
+</tr>
+<tr>
+<td>🚫 <code>:no_entry_sign:</code></td>
+<td>🔞 <code>:underage:</code></td>
+<td>📵 <code>:no_mobile_phones:</code></td>
+</tr>
+<tr>
+<td>🚯 <code>:do_not_litter:</code></td>
+<td>🚱 <code>:non-potable_water:</code></td>
+<td>🚳 <code>:no_bicycles:</code></td>
+</tr>
+<tr>
+<td>🚷 <code>:no_pedestrians:</code></td>
+<td>🚸 <code>:children_crossing:</code></td>
+<td>⛔ <code>:no_entry:</code></td>
+</tr>
+<tr>
+<td>✳️ <code>:eight_spoked_asterisk:</code></td>
+<td>✴️ <code>:eight_pointed_black_star:</code></td>
+<td>💟 <code>:heart_decoration:</code></td>
+</tr>
+<tr>
+<td>🆚 <code>:vs:</code></td>
+<td>📳 <code>:vibration_mode:</code></td>
+<td>📴 <code>:mobile_phone_off:</code></td>
+</tr>
+<tr>
+<td>💹 <code>:chart:</code></td>
+<td>💱 <code>:currency_exchange:</code></td>
+<td>♈ <code>:aries:</code></td>
+</tr>
+<tr>
+<td>♉ <code>:taurus:</code></td>
+<td>♊ <code>:gemini:</code></td>
+<td>♋ <code>:cancer:</code></td>
+</tr>
+<tr>
+<td>♌ <code>:leo:</code></td>
+<td>♍ <code>:virgo:</code></td>
+<td>♎ <code>:libra:</code></td>
+</tr>
+<tr>
+<td>♏ <code>:scorpius:</code></td>
+<td>♐ <code>:sagittarius:</code></td>
+<td>♑ <code>:capricorn:</code></td>
+</tr>
+<tr>
+<td>♒ <code>:aquarius:</code></td>
+<td>♓ <code>:pisces:</code></td>
+<td>⛎ <code>:ophiuchus:</code></td>
+</tr>
+<tr>
+<td>🔯 <code>:six_pointed_star:</code></td>
+<td>❎ <code>:negative_squared_cross_mark:</code></td>
+<td>🅰️ <code>:a:</code></td>
+</tr>
+<tr>
+<td>🅱️ <code>:b:</code></td>
+<td>🆎 <code>:ab:</code></td>
+<td>🅾️ <code>:o2:</code></td>
+</tr>
+<tr>
+<td>💠 <code>:diamond_shape_with_a_dot_inside:</code></td>
+<td>♻️ <code>:recycle:</code></td>
+<td>🔚 <code>:end:</code></td>
+</tr>
+<tr>
+<td>🔛 <code>:on:</code></td>
+<td>🔜 <code>:soon:</code></td>
+<td>🕐 <code>:clock1:</code></td>
+</tr>
+<tr>
+<td>🕜 <code>:clock130:</code></td>
+<td>🕙 <code>:clock10:</code></td>
+<td>🕥 <code>:clock1030:</code></td>
+</tr>
+<tr>
+<td>🕚 <code>:clock11:</code></td>
+<td>🕦 <code>:clock1130:</code></td>
+<td>🕛 <code>:clock12:</code></td>
+</tr>
+<tr>
+<td>🕧 <code>:clock1230:</code></td>
+<td>🕑 <code>:clock2:</code></td>
+<td>🕝 <code>:clock230:</code></td>
+</tr>
+<tr>
+<td>🕒 <code>:clock3:</code></td>
+<td>🕞 <code>:clock330:</code></td>
+<td>🕓 <code>:clock4:</code></td>
+</tr>
+<tr>
+<td>🕟 <code>:clock430:</code></td>
+<td>🕔 <code>:clock5:</code></td>
+<td>🕠 <code>:clock530:</code></td>
+</tr>
+<tr>
+<td>🕕 <code>:clock6:</code></td>
+<td>🕡 <code>:clock630:</code></td>
+<td>🕖 <code>:clock7:</code></td>
+</tr>
+<tr>
+<td>🕢 <code>:clock730:</code></td>
+<td>🕗 <code>:clock8:</code></td>
+<td>🕣 <code>:clock830:</code></td>
+</tr>
+<tr>
+<td>🕘 <code>:clock9:</code></td>
+<td>🕤 <code>:clock930:</code></td>
+<td>💲 <code>:heavy_dollar_sign:</code></td>
+</tr>
+<tr>
+<td>©️ <code>:copyright:</code></td>
+<td>®️ <code>:registered:</code></td>
+<td>™️ <code>:tm:</code></td>
+</tr>
+<tr>
+<td>❌ <code>:x:</code></td>
+<td>❗ <code>:heavy_exclamation_mark:</code></td>
+<td>‼️ <code>:bangbang:</code></td>
+</tr>
+<tr>
+<td>⁉️ <code>:interrobang:</code></td>
+<td>⭕ <code>:o:</code></td>
+<td>✖️ <code>:heavy_multiplication_x:</code></td>
+</tr>
+<tr>
+<td>➕ <code>:heavy_plus_sign:</code></td>
+<td>➖ <code>:heavy_minus_sign:</code></td>
+<td>➗ <code>:heavy_division_sign:</code></td>
+</tr>
+<tr>
+<td>💮 <code>:white_flower:</code></td>
+<td>💯 <code>:100:</code></td>
+<td>✔️ <code>:heavy_check_mark:</code></td>
+</tr>
+<tr>
+<td>☑️ <code>:ballot_box_with_check:</code></td>
+<td>🔘 <code>:radio_button:</code></td>
+<td>🔗 <code>:link:</code></td>
+</tr>
+<tr>
+<td>➰ <code>:curly_loop:</code></td>
+<td>〰️ <code>:wavy_dash:</code></td>
+<td>〽️ <code>:part_alternation_mark:</code></td>
+</tr>
+<tr>
+<td>🔱 <code>:trident:</code></td>
+<td>✅ <code>:white_check_mark:</code></td>
+<td>🔲 <code>:black_square_button:</code></td>
+</tr>
+<tr>
+<td>🔳 <code>:white_square_button:</code></td>
+<td>⚫ <code>:black_circle:</code></td>
+<td>⚪ <code>:white_circle:</code></td>
+</tr>
+<tr>
+<td>🔴 <code>:red_circle:</code></td>
+<td>🔵 <code>:large_blue_circle:</code></td>
+<td>🔷 <code>:large_blue_diamond:</code></td>
+</tr>
+<tr>
+<td>🔶 <code>:large_orange_diamond:</code></td>
+<td>🔹 <code>:small_blue_diamond:</code></td>
+<td>🔸 <code>:small_orange_diamond:</code></td>
+</tr>
+<tr>
+<td>🔺 <code>:small_red_triangle:</code></td>
+<td>🔻 <code>:small_red_triangle_down:</code></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="在-github-提交记录中使用-emoji"><a class="markdownIt-Anchor" href="#在-github-提交记录中使用-emoji"></a> 在 github 提交记录中使用 emoji</h3>
+<p>如果想在提交日志中展示 emoji，只需要在提交代码时，在日志信息中引用 emoji 代码即可，如 <code>:bug: 修复 bug</code> 。</p>
+<blockquote>
+<p>提交代码后，将修改内容推送到 github 上，就可以在 github 网站上看到提交记录中的 emoji 表情。在命令行中查看提交日志时，默认是看不到 emoji 表情，只是看到其代码，可以安装一个 shell 脚本 emojify ，安装之后就可以在命令行中看到表情，但是这货只支持 macOS 和 linux。</p>
+<p>emojify： <a target="_blank" rel="noopener" href="https://github.com/mrowa44/emojify">https://github.com/mrowa44/emojify</a></p>
+</blockquote>
+<p>在 github 的日志中使用 emoji，建议使用一些具有一定含义的 emoji，如：</p>
+<table>
+<thead>
+<tr>
+<th>emoji</th>
+<th>代码</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>🎨</td>
+<td><code>:art:</code></td>
+<td>改进代码结构/代码格式</td>
+</tr>
+<tr>
+<td>⚡</td>
+<td><code>:zap:</code></td>
+<td>提升性能</td>
+</tr>
+<tr>
+<td>🐎</td>
+<td><code>:racehorse:</code></td>
+<td>提升性能</td>
+</tr>
+<tr>
+<td>🔥</td>
+<td><code>:fire:</code></td>
+<td>移除代码或文件</td>
+</tr>
+<tr>
+<td>🐛</td>
+<td><code>:bug:</code></td>
+<td>修复bug</td>
+</tr>
+<tr>
+<td>🚑</td>
+<td><code>:ambulance:</code></td>
+<td>重要补丁</td>
+</tr>
+<tr>
+<td>✨</td>
+<td><code>:sparkles:</code>​</td>
+<td>引入新功能</td>
+</tr>
+<tr>
+<td>📝</td>
+<td><code>:pencil:</code>​</td>
+<td>撰写文档</td>
+</tr>
+<tr>
+<td>🚀</td>
+<td><code>:rocket:</code></td>
+<td>部署功能</td>
+</tr>
+<tr>
+<td>💄</td>
+<td><code>:lipstick:</code></td>
+<td>更新 UI 和样式文件</td>
+</tr>
+<tr>
+<td>🎉</td>
+<td><code>:tada:</code>​</td>
+<td>初次提交</td>
+</tr>
+<tr>
+<td>✅</td>
+<td><code>:white_check_mark:</code></td>
+<td>增加测试</td>
+</tr>
+<tr>
+<td>🔒</td>
+<td><code>:lock:</code></td>
+<td>修复安全问题</td>
+</tr>
+<tr>
+<td>🍎</td>
+<td><code>:apple:</code></td>
+<td>修复 macOS 下的问题</td>
+</tr>
+<tr>
+<td>🐧</td>
+<td><code>:penguin:</code></td>
+<td>修复 linux 下的问题</td>
+</tr>
+<tr>
+<td>🏁</td>
+<td><code>:checkered_flag:</code></td>
+<td>修复 Windows 下的问题</td>
+</tr>
+<tr>
+<td>🔖</td>
+<td><code>:bookmark:</code></td>
+<td>发行/版本标签</td>
+</tr>
+<tr>
+<td>🚨</td>
+<td><code>:rotating_light:</code></td>
+<td>移除警告</td>
+</tr>
+<tr>
+<td>🚧</td>
+<td><code>:construction:</code></td>
+<td>工作进行中</td>
+</tr>
+<tr>
+<td>💚</td>
+<td><code>:green_heart:</code></td>
+<td>修复 CI 构建系统</td>
+</tr>
+<tr>
+<td>⬇️</td>
+<td><code>:arrow_down:</code></td>
+<td>降级依赖</td>
+</tr>
+<tr>
+<td>⬆️</td>
+<td><code>:arrow_up:</code></td>
+<td>升级依赖</td>
+</tr>
+<tr>
+<td>👷</td>
+<td><code>:construction_worker:</code></td>
+<td>添加 CI 构建系统</td>
+</tr>
+<tr>
+<td>📈</td>
+<td><code>:chart_with_upwards_trend:</code></td>
+<td>添加分析或跟踪代码</td>
+</tr>
+<tr>
+<td>🔨</td>
+<td><code>:hammer:</code></td>
+<td>重大重构</td>
+</tr>
+<tr>
+<td>➖</td>
+<td><code>:heavy_minus_sign:</code></td>
+<td>减少一个依赖</td>
+</tr>
+<tr>
+<td>🐳</td>
+<td><code>:whale:</code></td>
+<td>docker 相关工作</td>
+</tr>
+<tr>
+<td>➕</td>
+<td><code>:heavy_plus_sign:</code></td>
+<td>增加一个依赖</td>
+</tr>
+<tr>
+<td>🔧</td>
+<td><code>:wrench:</code></td>
+<td>修改配置文件</td>
+</tr>
+<tr>
+<td>🌐</td>
+<td><code>:globe_with_meridians:</code></td>
+<td>国际化与本地化</td>
+</tr>
+<tr>
+<td>✏️</td>
+<td><code>:pencil2:</code></td>
+<td>修复typo</td>
+</tr>
+</tbody>
+</table>
+<h3 id="在-markdown-中使用-emoji"><a class="markdownIt-Anchor" href="#在-markdown-中使用-emoji"></a> 在 markdown 中使用 emoji</h3>
+<p>在 markdown 文档中可以输入 emoji 的代码，这样在支持 emoji 的编辑器中就可以看到对应的表情符号了，目前测试 Typora 编辑器中支持 emoji 表情。</p>
+<h3 id="在-hexo-博客中使用-emoji"><a class="markdownIt-Anchor" href="#在-hexo-博客中使用-emoji"></a> 在 Hexo 博客中使用 emoji</h3>
+<p>使用 Hexo 官方的 markdown 渲染模块，是不支持 emoji 的，可以使用第三方提供的渲染器 <code>hexo-renderer-markdown-it-plus</code> 。</p>
+<blockquote>
+<p>hexo-renderer-markdown-it-plus：<a target="_blank" rel="noopener" href="https://github.com/CHENXCHEN/hexo-renderer-markdown-it-plus">https://github.com/CHENXCHEN/hexo-renderer-markdown-it-plus</a></p>
+</blockquote>
+<p>使用这个渲染器比默认的渲染器速度更快，还支持 emoji 表情，支持上标、下标，支持公式等 markdown 语法。</p>
+<p>按照插件作者提供的使用说明，先移除原有的渲染器，然后安装这个渲染器。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm un hexo-renderer-marked --save</span><br><span class="line">npm i hexo-renderer-markdown-it-plus --save</span><br></pre></td></tr></table></figure>
+<p>使用这个渲染器就可以正确渲染文章中的 emoji 表情。</p>
+<h3 id="在车牌号中使用-emoji"><a class="markdownIt-Anchor" href="#在车牌号中使用-emoji"></a> 在车牌号中使用 emoji</h3>
+<p>2019年12月，澳大利亚昆士兰州车辆管理新规允许车主在车牌中增加一个 emoji 表情，可选的 emoji 包括：😎 😍 😉 😄 😂 。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/emoji_plate.jpeg" alt="" /></p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://emojipedia.org/">Emojipedia-home of Emoji Meanings </a></li>
+<li><a target="_blank" rel="noopener" href="https://www.sohu.com/a/296192337_413981">澳大利亚将推出 Emoji 车牌，市民表示：_emoji</a></li>
+<li><a target="_blank" rel="noopener" href="https://www.cnblogs.com/takeurhand/p/6940135.html">github emoji 表情列表 - CaiYongji - 博客园</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>虽然在 git 提交日志中增加 emoji 表情，并不会对项目有什么实质影响，但用来记录自己开发时心情还是挺有意思的。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/markdown/" rel="tag"># markdown</a>
+              <a href="/tags/github/" rel="tag"># github</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/29/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity/" rel="prev" title="SpringBoot 中使用 SpringSecurity">
+                  <i class="fa fa-chevron-left"></i> SpringBoot 中使用 SpringSecurity
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/08/%E5%9F%BA%E9%87%91%E4%B8%83%E6%AD%A5%E5%AE%9A%E6%8A%95%E6%B3%95/" rel="next" title="基金七步定投法">
+                  基金七步定投法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

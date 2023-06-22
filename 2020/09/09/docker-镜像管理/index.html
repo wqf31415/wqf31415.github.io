@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 镜像是 docker 的精髓，只有了解 docker 镜像，才能真正理解 docker 的内涵。这篇文章介绍了镜像相关的操作和对镜像的操作。   什么是镜像 镜像是一个应用程序的依赖包以及其运行环境的完整拷贝，用于为创建容器提供模板。 每个 docker 镜像都有一个唯一的标识 ImageID，与容器 ID 类似，默认为 128 位，可以使用前 16 位的缩略形式，也可以使用镜像的名字(N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker 镜像管理">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/09/09/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 镜像是 docker 的精髓，只有了解 docker 镜像，才能真正理解 docker 的内涵。这篇文章介绍了镜像相关的操作和对镜像的操作。   什么是镜像 镜像是一个应用程序的依赖包以及其运行环境的完整拷贝，用于为创建容器提供模板。 每个 docker 镜像都有一个唯一的标识 ImageID，与容器 ID 类似，默认为 128 位，可以使用前 16 位的缩略形式，也可以使用镜像的名字(N">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_whale_2.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_image_container_layer.png">
+<meta property="article:published_time" content="2020-09-09T11:35:40.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.235Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_whale_2.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/09/09/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/09/09/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86/","path":"2020/09/09/docker-镜像管理/","title":"docker 镜像管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>docker 镜像管理 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E9%95%9C%E5%83%8F"><span class="nav-number">2.</span> <span class="nav-text"> 什么是镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%95%9C%E5%83%8F%E7%9A%84%E5%88%86%E5%B1%82%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text"> 镜像的分层概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E9%AA%8C"><span class="nav-number">4.</span> <span class="nav-text"> 体验</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E9%95%9C%E5%83%8F"><span class="nav-number">5.</span> <span class="nav-text"> 查看镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-number">6.</span> <span class="nav-text"> 获取镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A3%80%E7%B4%A2%E9%95%9C%E5%83%8F"><span class="nav-number">6.1.</span> <span class="nav-text"> 检索镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8B%89%E5%8F%96%E9%95%9C%E5%83%8F"><span class="nav-number">6.2.</span> <span class="nav-text"> 拉取镜像</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">7.</span> <span class="nav-text"> 创建镜像</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87%E6%8F%90%E4%BA%A4%E5%AE%B9%E5%99%A8%E5%88%9B%E5%BB%BA%E9%95%9C%E5%83%8F"><span class="nav-number">7.1.</span> <span class="nav-text"> 通过提交容器创建镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E8%BF%87-dockerfile-%E5%88%9B%E5%BB%BA"><span class="nav-number">7.2.</span> <span class="nav-text"> 通过 Dockerfile 创建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">7.2.1.</span> <span class="nav-text"> 示例：</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dockerfile-%E8%AF%AD%E6%B3%95"><span class="nav-number">7.2.2.</span> <span class="nav-text"> Dockerfile 语法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dockerfile-%E5%86%85%E7%BD%AE%E5%91%BD%E4%BB%A4"><span class="nav-number">7.2.3.</span> <span class="nav-text"> Dockerfile 内置命令</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#from"><span class="nav-number">7.2.3.1.</span> <span class="nav-text"> FROM</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#run"><span class="nav-number">7.2.3.2.</span> <span class="nav-text"> RUN</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#cmd"><span class="nav-number">7.2.3.3.</span> <span class="nav-text"> CMD</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#label"><span class="nav-number">7.2.3.4.</span> <span class="nav-text"> LABEL</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#expose"><span class="nav-number">7.2.3.5.</span> <span class="nav-text"> EXPOSE</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#env"><span class="nav-number">7.2.3.6.</span> <span class="nav-text"> ENV</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#add"><span class="nav-number">7.2.3.7.</span> <span class="nav-text"> ADD</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#copy"><span class="nav-number">7.2.3.8.</span> <span class="nav-text"> COPY</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#entrypoint"><span class="nav-number">7.2.3.9.</span> <span class="nav-text"> ENTRYPOINT</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#volume"><span class="nav-number">7.2.3.10.</span> <span class="nav-text"> VOLUME</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#user"><span class="nav-number">7.2.3.11.</span> <span class="nav-text"> USER</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#workdir"><span class="nav-number">7.2.3.12.</span> <span class="nav-text"> WORKDIR</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#onbuild"><span class="nav-number">7.2.3.13.</span> <span class="nav-text"> ONBUILD</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E9%95%9C%E5%83%8F"><span class="nav-number">7.2.4.</span> <span class="nav-text"> 编译镜像</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">7.2.5.</span> <span class="nav-text"> 注意事项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E9%95%9C%E5%83%8F"><span class="nav-number">8.</span> <span class="nav-text"> 提交镜像</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">9.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">10.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/09/09/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="docker 镜像管理 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          docker 镜像管理<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-09-09 19:35:40" itemprop="dateCreated datePublished" datetime="2020-09-09T19:35:40+08:00">2020-09-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>镜像是 docker 的精髓，只有了解 docker 镜像，才能真正理解 docker 的内涵。这篇文章介绍了镜像相关的操作和对镜像的操作。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/docker_whale_2.jpg" alt="" /></p>
+<h3 id="什么是镜像"><a class="markdownIt-Anchor" href="#什么是镜像"></a> 什么是镜像</h3>
+<p>镜像是一个应用程序的依赖包以及其运行环境的完整拷贝，用于为创建容器提供模板。</p>
+<p>每个 docker 镜像都有一个唯一的标识 ImageID，与容器 ID 类似，默认为 128 位，可以使用前 16 位的缩略形式，也可以<strong>使用镜像的名字(NAME)和版本号(TAG)组合成唯一标识</strong>，如果省略版本号则使用最新版本（latest）。如：<code>redis:latest</code> 、<code>redis:6.0.7</code></p>
+<span id="more"></span>
+<h3 id="镜像的分层概念"><a class="markdownIt-Anchor" href="#镜像的分层概念"></a> 镜像的分层概念</h3>
+<p>docker 镜像采用分层机制，相同部分独立成层，只需要存储一份就可以了，多个镜像可以使用相同的底层镜像，大大节省了镜像空间。</p>
+<p>对于分层的 docker 镜像有两个特性：</p>
+<ul>
+<li><strong>已有的分层只能读不能修改</strong>，如果要修改已有层上的文件，只能将文件拷贝到新层上，然后修改新层中的文件。</li>
+<li><strong>上层镜像的优先级高于底层镜像</strong>，如果不同层有相同的文件，则上层的文件将覆盖下层的文件，以上层文件为准。</li>
+</ul>
+<p>容器是在镜像的基础上创建的，从文件系统的角度看，它是在镜像的基础上增加一个新的空白层，这个新分层是可读写的。容器的所有写操作都会存储在最上面的可读写层。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/docker_image_container_layer.png" alt="" /></p>
+<p>使用 <code>docker commit</code> 命令提交对镜像的修改，会将修改的层叠加到已有镜像层之上，形成新的镜像，最终用户看到的是所有层叠加的结果，所看到的文件也是所有层文件的集合。如：</p>
+<p>第一层文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">a.txt</span><br><span class="line">b.txt</span><br><span class="line">c.txt</span><br></pre></td></tr></table></figure>
+<p>第二层文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">d.txt</span><br><span class="line">e.txt</span><br></pre></td></tr></table></figure>
+<p>第三层文件：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">f.txt</span><br></pre></td></tr></table></figure>
+<p>最终：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">a.txt</span><br><span class="line">b.txt</span><br><span class="line">c.txt</span><br><span class="line">d.txt</span><br><span class="line">e.txt</span><br><span class="line">f.txt</span><br></pre></td></tr></table></figure>
+<h3 id="体验"><a class="markdownIt-Anchor" href="#体验"></a> 体验</h3>
+<p>在 docker 客户端启动一个容器时，docker 会自动获取镜像。首先会在本地镜像中查找所需镜像，如果有则直接启动；如果本地没有该镜像，docker 客户端会从远程仓库中查找，找到后会下载到本地并启动，如果都没有找到则会报错。所以我们只需要运行容器就可以自动获取镜像，如运行 redis 容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run hello-world</span><br></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Unable to find image &#x27;hello-world:latest&#x27; locally</span><br><span class="line">latest: Pulling from library/hello-world</span><br><span class="line">1b930d010525: Pull complete</span><br><span class="line">Digest: sha256:f9dfddf63636d84ef479d645ab5885156ae030f611a56f3a7ac7f2fdd86d7e4e</span><br><span class="line">Status: Downloaded newer image for hello-world:latest</span><br><span class="line"></span><br><span class="line">Hello from Docker!</span><br><span class="line">This message shows that your installation appears to be working correctly.</span><br></pre></td></tr></table></figure>
+<p>从上述运行结果可以看出，由于本地没有 <code>hello-world:latest</code> 镜像，所以从远端仓库下载了该镜像。</p>
+<h3 id="查看镜像"><a class="markdownIt-Anchor" href="#查看镜像"></a> 查看镜像</h3>
+<p>使用 <code>docker images -a</code> 或 <code>docker image ls</code> 命令查看本地所有镜像。</p>
+<p>使用 <code>docker inspect</code> 命令查看镜像详情。</p>
+<p>使用 <code>docker history</code> 查看镜像提交历史。</p>
+<h3 id="获取镜像"><a class="markdownIt-Anchor" href="#获取镜像"></a> 获取镜像</h3>
+<p>我们可以从 docker 仓库中查找并下载镜像。</p>
+<blockquote>
+<p>Docker 官方的镜像仓库地址：<a target="_blank" rel="noopener" href="https://hub.docker.com/">https://hub.docker.com/</a></p>
+</blockquote>
+<h4 id="检索镜像"><a class="markdownIt-Anchor" href="#检索镜像"></a> 检索镜像</h4>
+<ul>
+<li>
+<p>登录 docker 镜像仓库的 web 页面，可以搜索自己想要的镜像，并可以查看镜像相关信息，如版本特性、使用说明等。</p>
+</li>
+<li>
+<p>在客户端使用 <code>docker search</code> 命令搜索镜像，用法如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker search [OPTIONS] TERM</span><br></pre></td></tr></table></figure>
+<p>参数：</p>
+<ul>
+<li><code>-f</code> ，<code>--filter</code> 按指定条件过滤输出结果</li>
+<li><code>--format</code> 使用 Go 模板格式化输出结果</li>
+<li><code>--limit</code> 限制最大搜索结果数量，默认 25</li>
+<li><code>--no-trunc</code> 不删减输出</li>
+</ul>
+<p>例如：检索 redis 镜像，执行命令 <code>docker search redis</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">NAME                             DESCRIPTION                                     STARS               OFFICIAL            AUTOMATED</span><br><span class="line">redis                            Redis is an open <span class="built_in">source</span> key-value store that…   8542                [OK]</span><br><span class="line">bitnami/redis                    Bitnami Redis Docker Image                      160                                     [OK]</span><br><span class="line">sameersbn/redis                                                                  80                                      [OK]</span><br><span class="line">grokzen/redis-cluster            Redis cluster 3.0, 3.2, 4.0, 5.0, 6.0           70</span><br><span class="line">rediscommander/redis-commander   Alpine image <span class="keyword">for</span> redis-commander - Redis man…   46                                      [OK]</span><br><span class="line">kubeguide/redis-master           redis-master with <span class="string">&quot;Hello World!&quot;</span>                32</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>结果中有五个数据项：</p>
+<ul>
+<li><code>NAME</code> 镜像名</li>
+<li><code>DESCRIPTION</code> 镜像描述，只显示一部分，如果需要看完整描述，可以加上参数 <code>--no-trunc</code></li>
+<li><code>STARS</code> 获得的 star 数</li>
+<li><code>OFFICIAL</code> 是否官方版本</li>
+<li><code>AUTOMATED</code> 是否自动构建</li>
+</ul>
+</blockquote>
+</li>
+</ul>
+<h4 id="拉取镜像"><a class="markdownIt-Anchor" href="#拉取镜像"></a> 拉取镜像</h4>
+<p>在客户端可以使用 <code>docker pull</code> 或 <code>docker image pull</code> 从仓库中拉取镜像，使用方法说明：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull [OPTIONS] NAME[:TAG|@DIGEST]</span><br><span class="line">docker image pull [OPTIONS] NAME[:TAG|@DIGEST]</span><br></pre></td></tr></table></figure>
+<p>拉取镜像时需要指定镜像名，如拉取 redis 镜像： <code>docker pull redis</code>。可以指定版本，如果不指定版本，默认使用最新版本(latest)，如拉取 6.0.7 版本的 redis：<code>docker pull redis:6.0.7</code> 。</p>
+<p>参数：</p>
+<ul>
+<li><code>-a</code> , <code>--all-tags</code> 下载所有版本的镜像</li>
+<li><code>--disable-content-trust</code> 跳过镜像校验，默认为 true</li>
+<li><code>--platform</code> 指定平台</li>
+<li><code>-q</code> , <code>--quiet</code> 禁止冗余输出</li>
+</ul>
+<h3 id="创建镜像"><a class="markdownIt-Anchor" href="#创建镜像"></a> 创建镜像</h3>
+<h4 id="通过提交容器创建镜像"><a class="markdownIt-Anchor" href="#通过提交容器创建镜像"></a> 通过提交容器创建镜像</h4>
+<p>使用 <code>docker commit</code> 命令可以将 docker 容器提交成为镜像。</p>
+<p>使用 <code>docker image history</code> 命令查看镜像的提交历史。</p>
+<h4 id="通过-dockerfile-创建"><a class="markdownIt-Anchor" href="#通过-dockerfile-创建"></a> 通过 Dockerfile 创建</h4>
+<p>Dockerfile 是一个描述了 docker 镜像编译顺序、编译规则的脚本文件，是一个文本文件，跟 Makefile 的概念类似。</p>
+<h5 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例：</h5>
+<p>这是一个最简单的 Dockerfile 示例，用来将一个打包好的 springboot 项目 jar 包构建成一个 docker 镜像。</p>
+<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 使用 openjdk8 镜像，添加 java 环境</span></span><br><span class="line">FROM openjdk:<span class="number">8</span>-jre-alpine</span><br><span class="line"><span class="comment"># 将打包后的项目文件添加到镜像中，并改名为 app.jar</span></span><br><span class="line">ADD docker-demo-<span class="number">0.0</span>.<span class="number">1</span>-SNAPSHOT.jar app.jar</span><br><span class="line"><span class="comment"># 对外暴露的端口</span></span><br><span class="line">EXPOSE <span class="number">8080</span></span><br><span class="line"><span class="comment"># 启动时运行的命令</span></span><br><span class="line">ENTRYPOINT [<span class="string">&quot;java&quot;</span>,<span class="string">&quot;-jar&quot;</span>,<span class="string">&quot;/app.jar&quot;</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="dockerfile-语法"><a class="markdownIt-Anchor" href="#dockerfile-语法"></a> Dockerfile 语法</h5>
+<p>每一行都以一个关键字为行首，如果一行内容过长，它使用 <code>\</code> 把多行连接到一起。以 <code>#</code> 开头表示单行注释。</p>
+<p>dockerfile 语法是 <code>command argument argument ...</code> ，就是 <code>命令 参数 参数 ...</code> ，如要输出一句 <code>hello world</code> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RUN <span class="built_in">echo</span> <span class="string">&quot;hello world&quot;</span></span><br></pre></td></tr></table></figure>
+<h5 id="dockerfile-内置命令"><a class="markdownIt-Anchor" href="#dockerfile-内置命令"></a> Dockerfile 内置命令</h5>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>功能</th>
+<th>是否必须</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>FROM</td>
+<td>指定基础镜像名称</td>
+<td>是</td>
+</tr>
+<tr>
+<td>MAINTAINER</td>
+<td>指定镜像创建者，也可同时填写版本及其他备注信息</td>
+<td>否</td>
+</tr>
+<tr>
+<td>RUN</td>
+<td>执行指定 shell 命令（多条命令使用 ``），执行完成后将产生一个新文件层</td>
+<td>否</td>
+</tr>
+<tr>
+<td>CMD</td>
+<td>指定此镜像启动时默认执行命令</td>
+<td>否</td>
+</tr>
+<tr>
+<td>LABEL</td>
+<td>为镜像添加元数据，如版本号、构建日期</td>
+<td>否</td>
+</tr>
+<tr>
+<td>EXPOSE</td>
+<td>指定镜像需要暴露的网络端口号</td>
+<td>否</td>
+</tr>
+<tr>
+<td>ENV</td>
+<td>添加环境变量</td>
+<td>否</td>
+</tr>
+<tr>
+<td>ADD</td>
+<td>向镜像中添加新文件或新目录</td>
+<td>否</td>
+</tr>
+<tr>
+<td>COPY</td>
+<td>从编译主机向镜像复制文件</td>
+<td>否</td>
+</tr>
+<tr>
+<td>ENTRYPOINT</td>
+<td>在镜像中设定默认执行的二进制程序</td>
+<td>否</td>
+</tr>
+<tr>
+<td>VOLUME</td>
+<td>向镜像中挂载一个卷组</td>
+<td>否</td>
+</tr>
+<tr>
+<td>USER</td>
+<td>在镜像构建过程中切换到另一个用户</td>
+<td>否</td>
+</tr>
+<tr>
+<td>WORKDIR</td>
+<td>设置此镜像后续操作的默认工作目录</td>
+<td>否</td>
+</tr>
+<tr>
+<td>ONBUILD</td>
+<td>配置构建触发指令集</td>
+<td>否</td>
+</tr>
+</tbody>
+</table>
+<h6 id="from"><a class="markdownIt-Anchor" href="#from"></a> FROM</h6>
+<p>命令是 Dockerfile 命令中唯一一个必填命令，在有效的 Dockerfile 中，FROM 永远是第一个出现的命令。当在一个 Dockerfile 中构建多个镜像时，FROM 可以出现多次。</p>
+<h6 id="run"><a class="markdownIt-Anchor" href="#run"></a> RUN</h6>
+<p>命令后面的命令都是由 <code>/bin/sh -C</code> 负责执行的，当镜像中没有 /bin/sh 时，需要使用 <code>RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]</code> 方式来执行镜像中的二进制程序。如使用 bash 来执行程序：<code>RUN [&quot;/bin/bash&quot;, &quot;-c&quot;, &quot;hello&quot;]</code> ，这里的参数会按照 JSON 字符串格式解析，因此只能使用双引号，不能使用单引号和其他符号。</p>
+<h6 id="cmd"><a class="markdownIt-Anchor" href="#cmd"></a> CMD</h6>
+<p>设定的命令将作为容器启动时的默认执行命令，用法有三种：</p>
+<ul>
+<li>
+<p><code>CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code> 推荐用法</p>
+</li>
+<li>
+<p><code>CMD [&quot;param2&quot;,&quot;param2&quot;]</code> 其中的参数将作为 ENTERPOINT 的默认参数使用`</p>
+</li>
+<li>
+<p><code>CMD command param1 param2</code> 将后面的命令作为 shell 命令执行，依靠 <code>/bin/sh -C</code> 执行</p>
+</li>
+</ul>
+<blockquote>
+<p><span style="background:#ffc">CMD 和 RUN 都是用于执行命令，但 RUN 是在镜像构建过程中执行的命令，CMD 只是设定好需要执行的命令，等到容器启动时才会真正执行。</span></p>
+</blockquote>
+<h6 id="label"><a class="markdownIt-Anchor" href="#label"></a> LABEL</h6>
+<p>使用键值对方式给镜像添加元数据信息，用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">LABEL &lt;key&gt;=&lt;value&gt; &lt;key2&gt;=&lt;vlaue2&gt; ...</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果 value 中有空格，需要使用双引号包括。</p>
+</blockquote>
+<p>可以一次性设置多个信息，也可以拆分成多个命令，但考虑到镜像文件层数限制，不建议这么做。</p>
+<h6 id="expose"><a class="markdownIt-Anchor" href="#expose"></a> EXPOSE</h6>
+<p>设定镜像需要暴露的网络端口，在启动容器时需要使用 <code>-p</code> 或 <code>-P</code> 来使外部能够访问。用法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">EXPOSE &lt;port&gt; &lt;port&gt; ...</span><br></pre></td></tr></table></figure>
+<h6 id="env"><a class="markdownIt-Anchor" href="#env"></a> ENV</h6>
+<p>设置环境变量，用法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ENV key value</span><br><span class="line">ENV &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>第一种用法时，第一个字符串作为 key，后面的所有字符串作为 value。</p>
+<p>第二种用法时，如果value中有空格，需要使用双引号包括，或添加 <code>\</code> 进行转义，如 <code>ENV myName=&quot;Zhang San&quot; myFriend=Li\ Si</code></p>
+</blockquote>
+<h6 id="add"><a class="markdownIt-Anchor" href="#add"></a> ADD</h6>
+<p>将 src 标记的文件添加到镜像添加容器中 dest 标记的路径中取，src 标记的文件可以是本地文件、目录或远程 URL 链接。用法：</p>
+<ul>
+<li><code>ADD &lt;src&gt;... &lt;dest&gt;</code></li>
+<li><code>ADD [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code> 这种方式添加的内容用双引号包括，所以可以用来处理有空格的文件路径。</li>
+</ul>
+<blockquote>
+<p>src 标记的是本地文件或目录，其相对路径是相对与 Dockerfile 所在目录的路径，可以使用通配符。添加文件时需要确认文件存在于 Dockerfile 目录。</p>
+<p>dest 是容器中的目录，如果这个目录不存在，当 ADD 命令执行时，将会在容器中自动创建此目录。dest 必须使用绝对路径，或相对与 WORKDIR 的相对路径。</p>
+</blockquote>
+<h6 id="copy"><a class="markdownIt-Anchor" href="#copy"></a> COPY</h6>
+<p>用于向容器中指定路径下添加文件，在添加文件时也需要确认文件存在于 Dockerfile 目录中。用法：</p>
+<ul>
+<li><code>COPY &lt;src&gt; ... &lt;dest&gt;</code></li>
+<li><code>COPY [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;]</code> 可处理路径带空格的文件路径。</li>
+</ul>
+<blockquote>
+<p>src 、dest 的用法与 ADD命令 的相同。</p>
+</blockquote>
+<h6 id="entrypoint"><a class="markdownIt-Anchor" href="#entrypoint"></a> ENTRYPOINT</h6>
+<p>用来设定容器运行时默认执行程序的命令。用法：</p>
+<ul>
+<li><code>ENTRYPOINT [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;]</code> 官方推荐用法，可以指定执行的二进制程序和参数。</li>
+<li><code>ENTRYPOINT command param1 param2</code> 命令将使用 <code>/bin/sh -C</code> 执行。</li>
+</ul>
+<blockquote>
+<p>CMD 指令和 ENTRYPOINT 指令都是为镜像指定容器启动后的命令，都可以指定 shell 或 exec 函数调用的方式执行命令，当存在多个 CMD 指令或 ENTRYPOINT 指令时，只有最后一个生效。</p>
+<p>他们的差异是：</p>
+<ul>
+<li>CMD 指令指定的容器启动时命令可被 docker run 指定的命令覆盖，而 ENTRYPOINT 指令指定的命令不能被覆盖，而是将 docker run 指定的参数当作 ENTRYPOINT 指定命令的参数。</li>
+<li>CMD 指令可以为 ENTRYPOINT 指令设置默认参数，而且可以被 docker run 指定的参数覆盖。</li>
+</ul>
+</blockquote>
+<h6 id="volume"><a class="markdownIt-Anchor" href="#volume"></a> VOLUME</h6>
+<p>在容器内部创建指定名称的挂载点。用法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">VOLUME [<span class="string">&quot;/data&quot;</span>]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果在 Dockerfile 中已经声明了某个挂载点，那么以后对此挂载点中文件的操作将不会生效，因此，一般只会在 Dockerfile 的结尾处声明挂载点。</p>
+</blockquote>
+<h6 id="user"><a class="markdownIt-Anchor" href="#user"></a> USER</h6>
+<p>切换用户身份，执行完成后，之后的所有命令将会使用新用户身份来执行。用法：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">USER daemon</span><br></pre></td></tr></table></figure>
+<h6 id="workdir"><a class="markdownIt-Anchor" href="#workdir"></a> WORKDIR</h6>
+<p>切换当前工作目录，切换工作目录将会影响后续的 RUN、CMD、ENTRYPOINT、COPY 和 ADD 指令中使用的路径。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">WORKDIR /path/to/workdir</span><br></pre></td></tr></table></figure>
+<h6 id="onbuild"><a class="markdownIt-Anchor" href="#onbuild"></a> ONBUILD</h6>
+<p>创建触发命令基，由 ONBUILD 创建的命令集在当前 Dockerfile 执行过程中不会触发，当此镜像被其他镜像当作基础镜像使用时，将会触发执行。</p>
+<h5 id="编译镜像"><a class="markdownIt-Anchor" href="#编译镜像"></a> 编译镜像</h5>
+<p>进入 Dockerfile 文件目录，使用 <code>docker build</code> 命令编译 Dockerfile ，通过 <code>-t</code> 选项给镜像指定名字（带版本号）。如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker build -t image_redis:v1.0 .</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意这个命令要指定编译的路径，最后面的 <code>.</code> 表示当前路径，不能忽略。</p>
+</blockquote>
+<p>编译过程有九步，每一步对应 Dockerfile 的一个关键字，每执行完一步，都会生成一个临时文件层，当所有命令都执行成功后，docker 会记录执行过程中用到的所有文件层，并用一个名字来标记这一组文件层。这一组文件层就是镜像。</p>
+<h5 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h5>
+<ul>
+<li>
+<p>制作自己的应用镜像时，应尽量考虑使用相同的底层镜像，这样可以极大地降低后续维护的成本。</p>
+</li>
+<li>
+<p>在选择基础镜像时，尽可能选择适合自己的基础镜像，也可以在已有的基础镜像上进行改造，提交新镜像作为自己项目的基础镜像。</p>
+</li>
+<li>
+<p>基础镜像可以从 docker-hub 上寻找，如果没有合适的，就需要自己构建基础镜像。</p>
+<blockquote>
+<p>自定义基础镜像时，可以使用 <strong>debootstrap</strong> 工具来定制最小化的 Linux 基础镜像。</p>
+</blockquote>
+</li>
+<li>
+<p>docker 镜像的文件层数是有上限的，如果超过上限将会导致构建失败，因此应该尽量将多个命令放到一起执行，减少文件层数。</p>
+</li>
+</ul>
+<h3 id="提交镜像"><a class="markdownIt-Anchor" href="#提交镜像"></a> 提交镜像</h3>
+<p>当镜像更新后，可以使用 <code>docker commit</code> 命令将修改内容提交，提交时更新镜像版本。这样就获得了新版本的镜像。</p>
+<p>本地镜像提交后，可以使用 <code>docker push</code> 命令将镜像推送到远端仓库，供其他人拉取使用。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>李金榜. 循序渐进学Docker</li>
+<li>张涛. Docker全攻略</li>
+<li>Docker学习之Dockerfile:CMD与ENTRYPOINT： <a target="_blank" rel="noopener" href="https://blog.csdn.net/wuce_bai/article/details/88997725">https://blog.csdn.net/wuce_bai/article/details/88997725</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>镜像是 docker 的基础，所有容器都是基于镜像创建的。虽然官方仓库中有各种第三方的开源镜像供我们使用，可以满足基本的需求，但如果要深入使用 docker 来辅助开发、测试与实施，就需要了解镜像的概念与特性，学习维护镜像。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/" rel="prev" title="使用 GitHub Action 自动部署项目">
+                  <i class="fa fa-chevron-left"></i> 使用 GitHub Action 自动部署项目
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/12/docker-%E4%BB%93%E5%BA%93%E7%AE%A1%E7%90%86/" rel="next" title="docker 仓库管理">
+                  docker 仓库管理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

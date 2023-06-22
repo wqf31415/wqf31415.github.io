@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 有时收到一些会议邀请邮件时会收到一个以 .ics 为后缀的附件，这个文件执行后能够在本地的日历中添加一个事件提醒。这篇文章介绍了 ics 文件的概念，介绍了 ics 文件内容以及编写 ics 文件。  什么是 ics 文件 ics (Internet Calendaring and Scheduling) 文件是以 iCalendar 标准编写的文本文件，可用于共享日历事件信息(标题、摘要">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识与应用ics">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/01/09/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%BA%94%E7%94%A8ics/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 有时收到一些会议邀请邮件时会收到一个以 .ics 为后缀的附件，这个文件执行后能够在本地的日历中添加一个事件提醒。这篇文章介绍了 ics 文件的概念，介绍了 ics 文件内容以及编写 ics 文件。  什么是 ics 文件 ics (Internet Calendaring and Scheduling) 文件是以 iCalendar 标准编写的文本文件，可用于共享日历事件信息(标题、摘要">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-01-09T14:01:32.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.300Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="工具">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/01/09/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%BA%94%E7%94%A8ics/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/01/09/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%BA%94%E7%94%A8ics/","path":"2021/01/09/认识与应用ics/","title":"认识与应用ics"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>认识与应用ics | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-ics-%E6%96%87%E4%BB%B6"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 ics 文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ics-%E6%96%87%E4%BB%B6%E5%86%85%E5%AE%B9"><span class="nav-number">3.</span> <span class="nav-text"> ics 文件内容</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E4%B8%8E%E8%AF%AD%E6%B3%95"><span class="nav-number">3.1.</span> <span class="nav-text"> 格式与语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%86%85%E5%AE%B9%E7%BB%84%E6%88%90"><span class="nav-number">3.2.</span> <span class="nav-text"> 内容组成</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%A5%E5%8E%86%E5%B1%9E%E6%80%A7"><span class="nav-number">3.2.1.</span> <span class="nav-text"> 日历属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BA%8B%E4%BB%B6-vevent"><span class="nav-number">3.2.2.</span> <span class="nav-text"> 事件 VEVENT</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BE%85%E5%8A%9E%E4%BA%8B%E9%A1%B9-vtodo"><span class="nav-number">3.2.3.</span> <span class="nav-text"> 待办事项 VTODO</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%97%85%E8%A1%8C%E4%BA%8B%E9%A1%B9-vjournal"><span class="nav-number">3.2.4.</span> <span class="nav-text"> 旅行事项 VJOURNAL</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A9%E5%B1%95%E5%B1%9E%E6%80%A7"><span class="nav-number">3.3.</span> <span class="nav-text"> 扩展属性</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%94%AF%E6%8C%81%E7%9A%84%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text"> 支持的软件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-java-%E8%A7%A3%E6%9E%90%E5%92%8C%E7%94%9F%E6%88%90-ics"><span class="nav-number">5.</span> <span class="nav-text"> 使用 java 解析和生成 ics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/01/09/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%BA%94%E7%94%A8ics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="认识与应用ics | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          认识与应用ics<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E8%AE%A4%E8%AF%86%E4%B8%8E%E5%BA%94%E7%94%A8ics.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-01-09 22:01:32" itemprop="dateCreated datePublished" datetime="2021-01-09T22:01:32+08:00">2021-01-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>有时收到一些会议邀请邮件时会收到一个以 <code>.ics</code> 为后缀的附件，这个文件执行后能够在本地的日历中添加一个事件提醒。这篇文章介绍了 ics 文件的概念，介绍了 ics 文件内容以及编写 ics 文件。</p>
+<h3 id="什么是-ics-文件"><a class="markdownIt-Anchor" href="#什么是-ics-文件"></a> 什么是 ics 文件</h3>
+<p>ics (<code>Internet Calendaring and Scheduling</code>) 文件是以 iCalendar 标准编写的文本文件，可用于共享日历事件信息(标题、摘要、开始时间、结束时间等)，一般通过电子邮件给他人以共享会议请求或待办事项，收件人可以直接导入到自己的日历软件。iCalendar 是<strong>日历数据交换</strong>标准，通常以<code>.ics</code> 或 <code>.ifb</code> 为后缀的文本文件保存。</p>
+<blockquote>
+<p>iCalendar 标准：<a target="_blank" rel="noopener" href="https://tools.ietf.org/html/rfc5545">RFC5545</a></p>
+</blockquote>
+<span id="more"></span>
+<h3 id="ics-文件内容"><a class="markdownIt-Anchor" href="#ics-文件内容"></a> ics 文件内容</h3>
+<h4 id="格式与语法"><a class="markdownIt-Anchor" href="#格式与语法"></a> 格式与语法</h4>
+<p>通常 iCalendar 使用 UTF-8 字符编码，所以可以使用中文。也可以在MIME中的charset参数来指定其他字符编码。iCalendar 的 MIME 类型是 text/calendar 。</p>
+<p>每一行必须以换行（CR+LF） 结尾，每一行不得超过 75 字节，如果超过限制，必须换行，后面一行使用空格符或制表符作开始，标识本行是上一行内容的继续，内容数据中的换行符可以反斜杠符 <code>\</code> 后跟数字（UTF-8中为 <code>5C6E</code> 或 <code>5C4E</code>）来表示。</p>
+<p>所有属性名、属性参数、枚举的属性值和属性参数值不区分大小写，其他属性值区分大小写（除非单独约定）。属性名和属性值以 <code>:</code> 分隔，中间无空格，如 <code>DTSTAMP:20210108T220000Z</code> 。</p>
+<p>所有时间类属性的格式都遵循 ISO 8601 标准。时间格式为：<code>yyyyMMdd'T'HHmmssZ</code> ，如 <code>20210108T220000Z</code> ，日期和时间之间使用 <code>T</code> 分隔，最后的 <code>Z</code> 表示使用 UTC 时间。</p>
+<p>持续时间值以 <code>P</code> 开头，每个持续时间段由一个整数表示，后面跟一个周期标识符，如果包含时间元素，需要使用 <code>T</code> 分隔，如 <code>P1D</code> 、<code>P2W</code> 、<code>P1Y2D</code> 、<code>P1DT12H</code> 、<code>PT3600S</code> 。</p>
+<table>
+<thead>
+<tr>
+<th>周期标识符</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Y</td>
+<td>年</td>
+</tr>
+<tr>
+<td>M</td>
+<td>月</td>
+</tr>
+<tr>
+<td>D</td>
+<td>日</td>
+</tr>
+<tr>
+<td>W</td>
+<td>周(将被转成D，因此不能与D同时使用)</td>
+</tr>
+<tr>
+<td>H</td>
+<td>时</td>
+</tr>
+<tr>
+<td>M</td>
+<td>分</td>
+</tr>
+<tr>
+<td>S</td>
+<td>秒</td>
+</tr>
+</tbody>
+</table>
+<p>可以使用 <code>#</code> 或 <code>//</code> 添加注释，注意不能在其他元素行尾使用，只能注释整行。</p>
+<h4 id="内容组成"><a class="markdownIt-Anchor" href="#内容组成"></a> 内容组成</h4>
+<p>iCalendar 中顶级元素是日历和计划核心对象，一组日历和计划信息。通常指包含单一的 iCalendar 对象，但可以在一个组中声明多个 iCalendar 对象。</p>
+<p><strong>第一行必须是 <code>BEGIN:VCALENDER</code> ，最后一行必须是 <code>END:VCALENDER</code> ，这两行之间的数据称为 icalbody。</strong></p>
+<p>icalbody 由一系列日历属性和一个或以上数量的日历组件组成。日历属性作用于整个日历，日历组件则是若干日历属性构成。日历组件可以指定一个事件（VEVENT）、一个待办事项列表（VTODO）、一个旅行事项（VJOURNAL）、时区信息（VZONE）、繁忙/空闲时间信息（VFREEBUSY），或者一个警报（VALARM）。其中警报可以包含于其他组件中。</p>
+<h5 id="日历属性"><a class="markdownIt-Anchor" href="#日历属性"></a> 日历属性</h5>
+<p>日历属性中必须包含 <code>PRODID</code> 和 <code>VERSION</code> 两个属性。</p>
+<ul>
+<li>VERSION 遵循的 iCalendar 版本号，目前是 <code>2.0</code> ，老版本的值为 <code>1.0</code></li>
+<li>PRODID 创建该 iCalendar 的软件的标识信息，如 <code>-//Google Inc//Google Calendar 70.9054//EN</code></li>
+<li>CALSCALE 历法，<code>GREGORIAN</code> - 公历</li>
+<li>METHOD 方法，<code>PUBLISH</code> - 公开，<code>REQUEST</code> - 请求</li>
+</ul>
+<h5 id="事件-vevent"><a class="markdownIt-Anchor" href="#事件-vevent"></a> 事件 VEVENT</h5>
+<p>事件（VEVENT）是日历上一系列计划好的时间点。如果用户接受一个日历事件，则认为用户在该时间段是忙碌的。也可以应用在没有具体时间的日历事件上，如周年纪念、每日提醒。</p>
+<p>VEVENT 的属性：</p>
+<ul>
+<li>DTSTART 开始时间，如果是循环事件，则为第一个事件的开始时间</li>
+<li>DTEND 结束时间</li>
+<li>SUMMARY 概要，标题</li>
+<li>DESCRIPTION 详情描述，可用 html 语法</li>
+<li>DTSTAMP 时间戳，表示事件的创建时间或更新时间</li>
+<li>UID 唯一标识，取消与更新事件时用来找到唯一的日历事件</li>
+<li>METHOD 操作，如果要取消事件，该值为 <code>CANCEL</code></li>
+<li>STATUS 事件状态，<code>TENTATIVE</code> - 试探、<code>CONFIRMED</code> - 确认、<code>CANCELLED</code> 取消</li>
+<li>SEQUENCE 序列号，更新事件时需要指定新的序列号，如第一次更新指定 <code>SEQUENCE:1</code></li>
+<li>CLASS 保密类型，<code>PRIVATE</code> - 私有</li>
+<li>CREATED 创建时间</li>
+<li>LAST-MODIFIED 最后修改时间</li>
+<li>LOCATION 地址</li>
+<li>TRANSP 对于忙闲状态查询是否透明，<code>OPAQUE</code> - 不透明、<code>TRANSPARENT</code> - 透明</li>
+<li>VALARM 警报对象</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">BEGIN:VCALENDAR</span><br><span class="line">PRODID:-//Microsoft Corporation//Outlook 12.0 MIMEDIR//EN</span><br><span class="line">VERSION:2.0</span><br><span class="line">METHOD:PUBLISH</span><br><span class="line">X-MS-OLK-FORCEINSPECTOROPEN:TRUE</span><br><span class="line">BEGIN:VEVENT</span><br><span class="line">CLASS:PUBLIC</span><br><span class="line">DESCRIPTION:CEO Nat Friedman and special guests discuss the future of software.</span><br><span class="line">DTEND:20200506T163000Z</span><br><span class="line">DTSTART:20200506T160000Z</span><br><span class="line">LOCATION:https://githubsatellite.com/</span><br><span class="line">PRIORITY:5</span><br><span class="line">SEQUENCE:0</span><br><span class="line">SUMMARY;LANGUAGE=en-us:GitHub Satellite Keynote</span><br><span class="line">TRANSP:OPAQUE</span><br><span class="line">UID:040000008200E00074C5B7101A82E008000000008062306C6261CA01000000000000000</span><br><span class="line">X-MICROSOFT-CDO-BUSYSTATUS:BUSY</span><br><span class="line">X-MICROSOFT-CDO-IMPORTANCE:1</span><br><span class="line">X-MICROSOFT-DISALLOW-COUNTER:FALSE</span><br><span class="line">X-MS-OLK-ALLOWEXTERNCHECK:TRUE</span><br><span class="line">X-MS-OLK-AUTOFILLLOCATION:FALSE</span><br><span class="line">X-MS-OLK-CONFTYPE:0</span><br><span class="line">BEGIN:VALARM</span><br><span class="line">TRIGGER:-PT1440M</span><br><span class="line">ACTION:DISPLAY</span><br><span class="line">DESCRIPTION:Reminder</span><br><span class="line">END:VALARM</span><br><span class="line">END:VEVENT</span><br><span class="line">END:VCALENDAR</span><br></pre></td></tr></table></figure>
+<h5 id="待办事项-vtodo"><a class="markdownIt-Anchor" href="#待办事项-vtodo"></a> 待办事项 VTODO</h5>
+<blockquote>
+<p>不是所有软件都支持待办事项的，如 Outlook 就不能导出 VTODO 记录，导入时 VTODO 也会忽略。</p>
+</blockquote>
+<p>待办事项中的属性：</p>
+<ul>
+<li>
+<p>ACTION 动作，要执行的动作</p>
+</li>
+<li>
+<p>TRIGGER 触发时间，数据格式与 DURATION 一致，如果是提前触发，需要在值前加负号 <code>-</code> ，如提前一天触发 <code>-PT1440M</code></p>
+</li>
+<li>
+<p>REPEAT 重复次数</p>
+</li>
+<li>
+<p>DURATION 持续时间</p>
+</li>
+</ul>
+<h5 id="旅行事项-vjournal"><a class="markdownIt-Anchor" href="#旅行事项-vjournal"></a> 旅行事项 VJOURNAL</h5>
+<p>旅行事项（VJOURNAL）将一段描述文字关联到一个详细的日历日期上，可用于记录活动或成长日志，或描述待办事项的进展。旅行事项不会影响日历上的时间状态，不影响空闲和繁忙状态。实际上只有少量程序支持 VJOURNAL 。</p>
+<h4 id="扩展属性"><a class="markdownIt-Anchor" href="#扩展属性"></a> 扩展属性</h4>
+<p>iCalendar 支持软件私有的扩展属性，这些属性只在特定软件中生效，在属性名前加 <code>X-</code> 前缀表示扩展属性。如：</p>
+<ul>
+<li>X-MICROSOFT-CDO-BUSYSTATUS 忙碌状态</li>
+<li>X-MICROSOFT-CDO-IMPORTANCE 重要程度</li>
+<li>X-WR-CALNAM 通用扩展属性，表示本日历名称</li>
+<li>X-WR-TIMEZONE 通用扩展属性，表示时区，值如：<code>Asia/Shanghai</code></li>
+</ul>
+<h3 id="支持的软件"><a class="markdownIt-Anchor" href="#支持的软件"></a> 支持的软件</h3>
+<p>支持 ics 的软件有：</p>
+<ul>
+<li>Microsoft Outlook</li>
+<li>Mozilla Sunbird</li>
+<li>Microsoft Works</li>
+<li>谷歌日历</li>
+<li>苹果 iCal 日历</li>
+</ul>
+<h3 id="使用-java-解析和生成-ics"><a class="markdownIt-Anchor" href="#使用-java-解析和生成-ics"></a> 使用 java 解析和生成 ics</h3>
+<p>在 java 程序中，可以使用 iCal4j 包来解析和生成 ics 文件。</p>
+<blockquote>
+<p>相关资源</p>
+<p>iCal4j Github: <a target="_blank" rel="noopener" href="http://ical4j.github.io/">http://ical4j.github.io/</a></p>
+<p>jar 包下载：<a target="_blank" rel="noopener" href="https://repo1.maven.org/maven2/org/mnode/ical4j/ical4j/3.0.21/ical4j-3.0.21.jar">https://repo1.maven.org/maven2/org/mnode/ical4j/ical4j/3.0.21/ical4j-3.0.21.jar</a></p>
+<p>Maven 依赖：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">&lt;!-- https://mvnrepository.com/artifact/org.mnode.ical4j/ical4j --&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.mnode.ical4j<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>ical4j<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">version</span>&gt;</span>3.0.21<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</blockquote>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>维基百科: <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/ICalendar">https://zh.wikipedia.org/wiki/ICalendar</a></li>
+<li>iCalendar 编程基础：了解和使用 iCal4j: <a target="_blank" rel="noopener" href="https://developer.ibm.com/zh/articles/j-lo-ical4j/">https://developer.ibm.com/zh/articles/j-lo-ical4j/</a></li>
+<li>日历标准格式研究: <a target="_blank" rel="noopener" href="https://gist.github.com/yulanggong/be953ffee1d42df53a1a">https://gist.github.com/yulanggong/be953ffee1d42df53a1a</a></li>
+<li>又到了每年此刻，教你把课程表导入日历: <a target="_blank" rel="noopener" href="https://sspai.com/post/39645">https://sspai.com/post/39645</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>使用 iCalendar 能够方便的分享日程安排，能够将工作安排、课程表、训练计划等直接导入到日历软件中。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/06/markdown-%E4%B8%AD%E6%8F%92%E5%85%A5%E6%95%B0%E5%AD%A6%E5%85%AC%E5%BC%8F/" rel="prev" title="markdown 中插入数学公式">
+                  <i class="fa fa-chevron-left"></i> markdown 中插入数学公式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/01/10/esp8266-%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF/" rel="next" title="esp8266 远程点灯">
+                  esp8266 远程点灯 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

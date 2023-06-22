@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了在 CentOS 7 中搭建 hexo 博客的方法，内容包括在 linux 系统中安装与配置 nodejs，安装与启动 hexo 博客服务，开启防火墙的端口访问。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CentOS中搭建hexo博客">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/06/28/CentOS%E4%B8%AD%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了在 CentOS 7 中搭建 hexo 博客的方法，内容包括在 linux 系统中安装与配置 nodejs，安装与启动 hexo 博客服务，开启防火墙的端口访问。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-28T02:19:28.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.232Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="blog">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="CentOS">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/06/28/CentOS%E4%B8%AD%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/06/28/CentOS%E4%B8%AD%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2/","path":"2021/06/28/CentOS中搭建hexo博客/","title":"CentOS中搭建hexo博客"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>CentOS中搭建hexo博客 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E6%AD%A5%E9%AA%A4"><span class="nav-number">2.</span> <span class="nav-text"> 安装步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%99%BB%E9%99%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">2.1.</span> <span class="nav-text"> 登陆系统</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-nodejs"><span class="nav-number">2.2.</span> <span class="nav-text"> 安装 nodejs</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD"><span class="nav-number">2.2.1.</span> <span class="nav-text"> 下载</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B"><span class="nav-number">2.2.2.</span> <span class="nav-text"> 解压</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E8%BD%AF%E9%93%BE%E6%8E%A5"><span class="nav-number">2.2.3.</span> <span class="nav-text"> 创建软链接</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">2.2.4.</span> <span class="nav-text"> 测试</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-cnpm"><span class="nav-number">2.3.</span> <span class="nav-text"> 安装 cnpm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-hexo"><span class="nav-number">2.4.</span> <span class="nav-text"> 安装 hexo</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E6%B5%8B%E8%AF%95"><span class="nav-number">2.5.</span> <span class="nav-text"> 创建博客测试</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95"><span class="nav-number">2.5.1.</span> <span class="nav-text"> 创建目录</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">2.5.2.</span> <span class="nav-text"> 初始化</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="nav-number">2.5.3.</span> <span class="nav-text"> 安装依赖</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">2.5.4.</span> <span class="nav-text"> 编译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1"><span class="nav-number">2.5.5.</span> <span class="nav-text"> 启动服务</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E7%AB%AF%E5%8F%A3%E8%AE%BF%E9%97%AE"><span class="nav-number">2.6.</span> <span class="nav-text"> 开启端口访问</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/06/28/CentOS%E4%B8%AD%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="CentOS中搭建hexo博客 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          CentOS中搭建hexo博客<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/CentOS%E4%B8%AD%E6%90%AD%E5%BB%BAhexo%E5%8D%9A%E5%AE%A2.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-28 10:19:28" itemprop="dateCreated datePublished" datetime="2021-06-28T10:19:28+08:00">2021-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了在 CentOS 7 中搭建 hexo 博客的方法，内容包括在 linux 系统中安装与配置 nodejs，安装与启动 hexo 博客服务，开启防火墙的端口访问。</p>
+<span id="more"></span> 
+<h3 id="安装步骤"><a class="markdownIt-Anchor" href="#安装步骤"></a> 安装步骤</h3>
+<h4 id="登陆系统"><a class="markdownIt-Anchor" href="#登陆系统"></a> 登陆系统</h4>
+<p>使用 ssh 远程连接 CentOS 主机，然后查看系统信息，确认开发环境。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@192.168.191.6</span><br></pre></td></tr></table></figure>
+<p>如果远程主机未安装 ssh ，可执行下述命令安装 <code>openssh-server</code> ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum install -y openssh-server</span><br></pre></td></tr></table></figure>
+<p>远程连接上后，查看系统信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /etc/redhat-release</span><br></pre></td></tr></table></figure>
+<p>结果显示：<code>CentOS Linux release 7.6.1810 (Core)</code></p>
+<h4 id="安装-nodejs"><a class="markdownIt-Anchor" href="#安装-nodejs"></a> 安装 nodejs</h4>
+<blockquote>
+<p>有多种方式安装 nodejs ，如源码安装、<code>yum</code> 安装、<code>nvm</code> 安装、自行编译安装，这里的示例使用源码安装。</p>
+</blockquote>
+<p>在 Linux 系统中使用 <code>wget</code> 工具下载 nodejs 的包，解压出来，创建软链接。</p>
+<h5 id="下载"><a class="markdownIt-Anchor" href="#下载"></a> 下载</h5>
+<p>登陆 nodejs 官网 <a target="_blank" rel="noopener" href="https://nodejs.org/en/download/">https://nodejs.org/en/download/</a>，复制下载链接后，使用 <code>wget</code> 下载：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://nodejs.org/dist/v14.17.1/node-v14.17.1-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>nodejs 版本不同，下载地址也不同，这里以 node v14.17.1 为例。</p>
+</blockquote>
+<h5 id="解压"><a class="markdownIt-Anchor" href="#解压"></a> 解压</h5>
+<p>要执行两个命令。</p>
+<p>解压 xz 包，解压后得到文件 <code>node-v14.17.1-linux-x64.tar</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xz -d node-v14.17.1-linux-x64.tar.xz</span><br></pre></td></tr></table></figure>
+<p>解压 tar 包，解压后得到一个目录 <code>node-v14.17.1-linux-x64</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf node-v14.17.1-linux-x64.tar</span><br></pre></td></tr></table></figure>
+<p>将目录移动到 <code>/usr/local/src/</code> 目录下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mv</span> node-v14.17.1-linux-x64 /usr/local/src/</span><br></pre></td></tr></table></figure>
+<h5 id="创建软链接"><a class="markdownIt-Anchor" href="#创建软链接"></a> 创建软链接</h5>
+<p>分别为 node 中的 <code>node</code> 、<code>npm</code> 、<code>npx</code> 创建软连接，方便在任何目录中使用。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s /usr/local/src/node-v14.17.1-linux-x64/bin/node /usr/bin/node</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/src/node-v14.17.1-linux-x64/bin/npm /usr/bin/npm</span><br><span class="line"><span class="built_in">ln</span> -s /usr/local/src/node-v14.17.1-linux-x64/bin/npx /usr/bin/npx</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>修改环境变量</strong></p>
+<p>创建软链接的目的是方便全局使用，也可以将 nodejs 的 bin 目录加入到环境变量中，达到相同效果，这种方式比创建软链接更方便，配置到环境变量后，以后使用 <code>npm</code> 全局安装的工具都可以直接使用了，不需要再配置或创建软链接。</p>
+<p>操作方法：</p>
+<p>编辑 <code>/etc/profile</code> 将 nodejs 的 bin 目录加入到配置中。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/profile</span><br></pre></td></tr></table></figure>
+<p>在文件最后面添加：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">PATH=$PATH:/usr/local/src/node-v14.17.1-linux-x64/bin </span><br><span class="line">export PATH</span><br></pre></td></tr></table></figure>
+<p>立即生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> /etc/profile</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h5>
+<p>使用命令查看 <code>node</code> 和 <code>npm</code> 版本，以此确定是否安装成功，打印出版本信息说明安装成功。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">node -v</span><br><span class="line">npm -v</span><br></pre></td></tr></table></figure>
+<h4 id="安装-cnpm"><a class="markdownIt-Anchor" href="#安装-cnpm"></a> 安装 cnpm</h4>
+<p>安装 <code>cnpm</code> 使用国内镜像，提升包下载速度：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install cnpm -g --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure>
+<p>执行完成后，在 <code>/usr/local/src/node-v14.17.1-linux-x64/bin/</code> 目录下会增加一个文件 <code>cnpm</code> ，为这个文件添加软链接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s /usr/local/src/node-v14.17.1-linux-x64/bin/cnpm /usr/bin/cnpm</span><br></pre></td></tr></table></figure>
+<h4 id="安装-hexo"><a class="markdownIt-Anchor" href="#安装-hexo"></a> 安装 hexo</h4>
+<p>使用 <code>cnpm</code> 或 <code>npm</code> 全局安装 <code>hexo</code> ，创建软链接。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install -g hexo</span><br></pre></td></tr></table></figure>
+<p>安装完成后，在 nodejs 的 bin 目录中，即 <code>/usr/local/src/node-v14.17.1-linux-x64/bin/</code> ，有安装的 <code>hexo</code> ，为其创建软链接：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ln</span> -s /usr/local/src/node-v14.17.1-linux-x64/bin/hexo /usr/bin/hexo</span><br></pre></td></tr></table></figure>
+<h4 id="创建博客测试"><a class="markdownIt-Anchor" href="#创建博客测试"></a> 创建博客测试</h4>
+<p>创建一个新的目录，在其中初始化 <code>hexo</code> 博客，使用 <code>cnpm</code> 安装依赖，启动起来访问一下。</p>
+<h5 id="创建目录"><a class="markdownIt-Anchor" href="#创建目录"></a> 创建目录</h5>
+<p>必须在空目录中初始化 <code>hexo</code> 博客，否则会报错，所以创建了一个新目录 <code>myblog</code> 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> myblog</span><br></pre></td></tr></table></figure>
+<h5 id="初始化"><a class="markdownIt-Anchor" href="#初始化"></a> 初始化</h5>
+<p>进入创建的空目录，初始化 <code>hexo</code> 项目。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> myblog</span><br><span class="line">hexo init</span><br></pre></td></tr></table></figure>
+<h5 id="安装依赖"><a class="markdownIt-Anchor" href="#安装依赖"></a> 安装依赖</h5>
+<p>使用 <code>cnpm</code> 或 <code>npm</code> 安装博客所需依赖。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cnpm install</span><br></pre></td></tr></table></figure>
+<h5 id="编译"><a class="markdownIt-Anchor" href="#编译"></a> 编译</h5>
+<p>编译博客项目，也可以使用简化命令 <code>hexo g</code> 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate</span><br></pre></td></tr></table></figure>
+<h5 id="启动服务"><a class="markdownIt-Anchor" href="#启动服务"></a> 启动服务</h5>
+<p>开启 <code>hexo</code> 服务，可以使用简化命令 <code>hexo s</code> 。服务默认在 <code>4000</code> 端口启动服务，启动后提示访问 <a target="_blank" rel="noopener" href="http://localhost:4000">http://localhost:4000</a> 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo server</span><br></pre></td></tr></table></figure>
+<h4 id="开启端口访问"><a class="markdownIt-Anchor" href="#开启端口访问"></a> 开启端口访问</h4>
+<p>由于 CentOS 没有 UI 界面，不能在本地访问，需要访问 <code>http://&#123;ip&#125;:4000</code> ，如我的 CentOS 主机 ip 为 <code>192.168.193.6</code> ，所以可以访问 <a target="_blank" rel="noopener" href="http://192.168.193.6:4000">http://192.168.193.6:4000</a> 。</p>
+<p>如果访问不了，可能是防火墙限制了访问，需要开启端口访问策略：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --zone=public --add-port=4000/tcp --permanent</span><br></pre></td></tr></table></figure>
+<p>开启防火墙访问策略后，需要重新加载一次，再次访问，即可正确展示页面。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">firewall-cmd --reload</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>CentOS 防火墙相关命令：</p>
+<ul>
+<li>关闭4000端口：<code>firewall-cmd --zone=public --remove-port=4000/tcp --permanent</code></li>
+<li>查看防火墙状态：<code>firewall-cmd --state</code></li>
+<li>查看开启的端口：<code>firewall-cmd --zone=public --list-ports</code></li>
+<li>关闭防火墙：<code>systemctl stop firewalld.service</code></li>
+<li>开启防火墙：<code>systemctl start firewalld.service</code></li>
+</ul>
+</blockquote>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>CentOS7安装最新版NodeJS: <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d4a78b27fe83">https://www.jianshu.com/p/d4a78b27fe83</a></li>
+<li>Centos7开放及查看端口: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/heqiuyong/p/10460150.html">https://www.cnblogs.com/heqiuyong/p/10460150.html</a></li>
+<li>centos下安装nodejs的三种种方式: <a target="_blank" rel="noopener" href="https://blog.csdn.net/bbwangj/article/details/82253785">https://blog.csdn.net/bbwangj/article/details/82253785</a></li>
+<li>CentOS 添加环境变量的三种方法: <a target="_blank" rel="noopener" href="https://blog.csdn.net/f110300641/article/details/82663132">https://blog.csdn.net/f110300641/article/details/82663132</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/blog/" rel="tag"># blog</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/CentOS/" rel="tag"># CentOS</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/05/28/Java%E4%B8%B2%E5%8F%A3%E6%93%8D%E4%BD%9C/" rel="prev" title="Java串口操作">
+                  <i class="fa fa-chevron-left"></i> Java串口操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/06/30/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B9%8BTrie%E6%A0%91/" rel="next" title="数据结构之Trie树">
+                  数据结构之Trie树 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

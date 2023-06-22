@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了 linux 系统中常见的文件压缩类型，以及压缩工具的使用。  关于文件压缩 文件压缩就是通过某种编码方式将数据信息中的重复度、冗余度降低，达到数据压缩的目的。通过压缩文件可以缩小数据文件的大小，另外通过数据压缩还能将零散的文件整合到一起，便于网络传输。 网络中常见的文件压缩格式有：  .zip (Zipped 压缩档) .rar (WinRAR 压缩存档) .tar (un">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux文件压缩与解压">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/08/05/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了 linux 系统中常见的文件压缩类型，以及压缩工具的使用。  关于文件压缩 文件压缩就是通过某种编码方式将数据信息中的重复度、冗余度降低，达到数据压缩的目的。通过压缩文件可以缩小数据文件的大小，另外通过数据压缩还能将零散的文件整合到一起，便于网络传输。 网络中常见的文件压缩格式有：  .zip (Zipped 压缩档) .rar (WinRAR 压缩存档) .tar (un">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-08-05T11:54:56.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.244Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/08/05/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/08/05/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/","path":"2021/08/05/Linux文件压缩与解压/","title":"Linux文件压缩与解压"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux文件压缩与解压 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.</span> <span class="nav-text"> 关于文件压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9"><span class="nav-number">3.</span> <span class="nav-text"> linux 中常用的文件压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tar"><span class="nav-number">3.1.</span> <span class="nav-text"> .tar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#targz"><span class="nav-number">3.2.</span> <span class="nav-text"> .tar.gz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tarxz"><span class="nav-number">3.3.</span> <span class="nav-text"> .tar.xz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zip"><span class="nav-number">3.4.</span> <span class="nav-text"> .zip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bz2"><span class="nav-number">3.5.</span> <span class="nav-text"> .bz2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/08/05/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux文件压缩与解压 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux文件压缩与解压<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-05 19:54:56" itemprop="dateCreated datePublished" datetime="2021-08-05T19:54:56+08:00">2021-08-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了 linux 系统中常见的文件压缩类型，以及压缩工具的使用。</p>
+<h3 id="关于文件压缩"><a class="markdownIt-Anchor" href="#关于文件压缩"></a> 关于文件压缩</h3>
+<p>文件压缩就是通过某种编码方式将数据信息中的重复度、冗余度降低，达到数据压缩的目的。通过压缩文件可以缩小数据文件的大小，另外通过数据压缩还能将零散的文件整合到一起，便于网络传输。</p>
+<p>网络中常见的文件压缩格式有：</p>
+<ul>
+<li><code>.zip</code> (Zipped 压缩档)</li>
+<li><code>.rar</code> (WinRAR 压缩存档)</li>
+<li><code>.tar</code> (unix 统一压缩档)</li>
+<li><code>.gz</code> (GNU Zipped 压缩档)</li>
+<li><code>.bz</code> (Bzipped 压缩档)</li>
+<li><code>.jar</code> (Java Archive)</li>
+<li><code>.exe</code> (自解压文件)</li>
+</ul>
+<span id="more"></span>
+<h3 id="linux-中常用的文件压缩"><a class="markdownIt-Anchor" href="#linux-中常用的文件压缩"></a> linux 中常用的文件压缩</h3>
+<h4 id="tar"><a class="markdownIt-Anchor" href="#tar"></a> .tar</h4>
+<p>linux 系统中最常见的归档方式，可以把一大堆文件打成一个包，用于备份文件。</p>
+<blockquote>
+<p>tar 包只是将文件打包在一起形成一个包，而不进行压缩，如果需要压缩需要使用其他命令进行压缩。</p>
+</blockquote>
+<p>使用 <code>tar</code> 命令进行打包、解析。</p>
+<p>创建 <code>.tar</code> 包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -cf mytar.tar a.txt b.md</span><br></pre></td></tr></table></figure>
+<p>查看 <code>.tar</code> 包中的文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -tvf mytar</span><br></pre></td></tr></table></figure>
+<p>解析 <code>.tar</code> 包文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xf mytar</span><br></pre></td></tr></table></figure>
+<h4 id="targz"><a class="markdownIt-Anchor" href="#targz"></a> .tar.gz</h4>
+<p>使用 <code>tar</code> 打包后，再使用 <code>gzip</code> 压缩后的压缩包。使用 <code>tar</code> 工具打包和解压，也可以 <code>tar</code> 和 <code>gzip</code> 一起使用来操作。</p>
+<p>打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcf mytar.tar.gz a.txt b.md</span><br></pre></td></tr></table></figure>
+<p>或者，先打包成 <code>tar</code> 包，再用 <code>gzip</code> 压缩：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cf mytar.tar a.txt b.md</span><br><span class="line">gzip -r mytar.tar</span><br></pre></td></tr></table></figure>
+<p>查看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -ztvf mytar.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf mytar.tar.gz</span><br></pre></td></tr></table></figure>
+<p>或可先用 <code>gzip</code> 解压，再用 <code>tar</code> 提取文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip -d mytar.tar.gz</span><br><span class="line">tar -xf mytar.tar</span><br></pre></td></tr></table></figure>
+<h4 id="tarxz"><a class="markdownIt-Anchor" href="#tarxz"></a> .tar.xz</h4>
+<p>先使用 tar 打包，然后使用 xz 压缩的包。可使用 <code>tar</code> 工具打包或解压，可以同时使用 <code>tar</code> 和 <code>xz</code> 来操作。</p>
+<p>打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -Jcf mytar.tar.xz a.txt b.md </span><br></pre></td></tr></table></figure>
+<p>或先打包成 <code>tar</code> 包，再使用 <code>xz</code> 压缩：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cf mytar.tar a.txt b.md</span><br><span class="line">xz mytar.tar</span><br></pre></td></tr></table></figure>
+<p>查看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -Jtvf mytar.tar.xz</span><br></pre></td></tr></table></figure>
+<p>解压：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -Jxf mytar.tar.xz</span><br></pre></td></tr></table></figure>
+<p>或者先用 <code>xz</code> 解压，再用 <code>tar</code> 提取文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xz -d mytar.tar.xz</span><br><span class="line">tar -xf mytar.tar</span><br></pre></td></tr></table></figure>
+<h4 id="zip"><a class="markdownIt-Anchor" href="#zip"></a> .zip</h4>
+<p>网络中最常见的压缩包格式。linux 中使用 <code>zip</code> 工具打包，使用 <code>unzip</code> 工具查看和解压。</p>
+<blockquote>
+<p><code>zip</code> 和 <code>unzip</code> 工具如果没有，可以使用系统包管理器安装。如(CentOS)：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y zip</span><br><span class="line">yum install -y unzip</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zip -r myZip.zip a.txt b.md</span><br><span class="line">zip -r myDir.zip myDir/</span><br></pre></td></tr></table></figure>
+<p>查看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -l myZip.zip</span><br></pre></td></tr></table></figure>
+<p>解压：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip myZip.zip</span><br></pre></td></tr></table></figure>
+<h4 id="bz2"><a class="markdownIt-Anchor" href="#bz2"></a> .bz2</h4>
+<p>打包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jcf myBzip.bz2 a.txt b.md</span><br></pre></td></tr></table></figure>
+<p>或使用 <code>tar</code> 打包，再用 <code>bzip2</code> 压缩：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cf mytar.tar</span><br><span class="line">bzip2 mytar.tar</span><br></pre></td></tr></table></figure>
+<p>查看：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jtvf myBzip.bz2</span><br></pre></td></tr></table></figure>
+<p>解压：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jxf myBzip.bz2</span><br></pre></td></tr></table></figure>
+<p>对于 <code>.tar.bz2</code> 的，也可以先用 <code>bzip2</code> 解压，再用 <code>tar</code> 提取文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bzip2 -d mytar.tar.bz2</span><br><span class="line">tar -xf mytar.tar</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>文件压缩与解压_Linux命令大全: <a target="_blank" rel="noopener" href="https://man.linuxde.net/sub/%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B">https://man.linuxde.net/sub/文件压缩与解压</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>从本文的示例中可以看出，在 linux 系统中 <code>tar</code> 命令能够配合其他压缩工具很好的完成文件的打包、压缩、解压，使用不同类型的压缩工具时，只需要指定相应的参数即可，非常方便。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/31/SpringBoot%E4%BD%BF%E7%94%A8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" rel="prev" title="SpringBoot使用单元测试">
+                  <i class="fa fa-chevron-left"></i> SpringBoot使用单元测试
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/11/%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E6%B3%A8%E5%86%8CWindows%E6%9C%8D%E5%8A%A1/" rel="next" title="两种方式注册Windows服务">
+                  两种方式注册Windows服务 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

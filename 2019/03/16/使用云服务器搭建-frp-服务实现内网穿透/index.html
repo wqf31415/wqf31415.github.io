@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 本文介绍了在云服务器(Windows Server 2012)上搭建 frp 服务，以及域名 DNS 解析配置，实现内网穿透功能，使用自定义域名访问部署于内网的 web 服务。  背景 开发过微信公众号程序的同学都知道，微信公众号的服务器配置中，需要指定服务器地址，微信平台会往这个地址推送消息。这个地址必须是公网能够访问的，我们在本地开发测试时，就需要一个地址，能够在公网中访问本地运行的程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用云服务器搭建 frp 服务实现内网穿透">
+<meta property="og:url" content="https://www.wqf31415.xyz/2019/03/16/%E4%BD%BF%E7%94%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-frp-%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 本文介绍了在云服务器(Windows Server 2012)上搭建 frp 服务，以及域名 DNS 解析配置，实现内网穿透功能，使用自定义域名访问部署于内网的 web 服务。  背景 开发过微信公众号程序的同学都知道，微信公众号的服务器配置中，需要指定服务器地址，微信平台会往这个地址推送消息。这个地址必须是公网能够访问的，我们在本地开发测试时，就需要一个地址，能够在公网中访问本地运行的程">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/network_server.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/frp_zip_files.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/frp_domain_dns.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/frp_client_run.png">
+<meta property="article:published_time" content="2019-03-16T03:18:02.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.278Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="内网穿透">
+<meta property="article:tag" content="frp">
+<meta property="article:tag" content="域名">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/network_server.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2019/03/16/%E4%BD%BF%E7%94%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-frp-%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/03/16/%E4%BD%BF%E7%94%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-frp-%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/","path":"2019/03/16/使用云服务器搭建-frp-服务实现内网穿透/","title":"使用云服务器搭建 frp 服务实现内网穿透"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用云服务器搭建 frp 服务实现内网穿透 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%83%8C%E6%99%AF"><span class="nav-number">2.</span> <span class="nav-text"> 背景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E4%B8%8E%E5%8E%9F%E6%9D%90%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text"> 环境与原材料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text"> 云服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%9F%E5%90%8D"><span class="nav-number">3.2.</span> <span class="nav-text"> 域名</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#frp"><span class="nav-number">3.3.</span> <span class="nav-text"> frp</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA-frp-%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.</span> <span class="nav-text"> 搭建 frp 服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E5%B9%B6%E8%A7%A3%E5%8E%8B"><span class="nav-number">4.1.</span> <span class="nav-text"> 下载并解压</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#frp-%E6%9C%8D%E5%8A%A1%E7%AB%AF"><span class="nav-number">4.2.</span> <span class="nav-text"> frp 服务端</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nginx-%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.</span> <span class="nav-text"> nginx 配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">4.4.</span> <span class="nav-text"> 客户端</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%9F%E5%90%8D%E8%AE%BE%E7%BD%AE"><span class="nav-number">5.</span> <span class="nav-text"> 域名设置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E4%BD%BF%E7%94%A8"><span class="nav-number">6.</span> <span class="nav-text"> 测试使用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2019/03/16/%E4%BD%BF%E7%94%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-frp-%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用云服务器搭建 frp 服务实现内网穿透 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用云服务器搭建 frp 服务实现内网穿透<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E4%BD%BF%E7%94%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-frp-%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-03-16 11:18:02" itemprop="dateCreated datePublished" datetime="2019-03-16T11:18:02+08:00">2019-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>本文介绍了在云服务器(Windows Server 2012)上搭建 frp 服务，以及域名 DNS 解析配置，实现内网穿透功能，使用自定义域名访问部署于内网的 web 服务。</p>
+<h3 id="背景"><a class="markdownIt-Anchor" href="#背景"></a> 背景</h3>
+<p>开发过微信公众号程序的同学都知道，微信公众号的服务器配置中，需要指定服务器地址，微信平台会往这个地址推送消息。这个地址必须是公网能够访问的，我们在本地开发测试时，就需要一个地址，能够在公网中访问本地运行的程序，内网穿透就是干这个的。以前我使用的是别人的 ngrok ，但有一些问题，比如不能指定 url 前缀，使用自定义的需要交费，再比如别人服务器关了，我就要满世界去找其它的工具了。<br />
+frp 是一款开源的用于内网穿透的反向代理工具，支持 tcp、udp 协议，为 http、https 协议提供了额外的能力。<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/network_server.jpg" alt="" /></p>
+<span id="more"></span>
+<p>在买了云服务器后，我自己搭建了一个内网穿透服务，不再在网上找免费的了。</p>
+<h3 id="环境与原材料"><a class="markdownIt-Anchor" href="#环境与原材料"></a> 环境与原材料</h3>
+<h4 id="云服务器"><a class="markdownIt-Anchor" href="#云服务器"></a> 云服务器</h4>
+<p>不限于云服务器，只要是能使用的服务器都可以。我使用的是腾讯云的服务器 <code>windows server 2012</code> <code>1核</code> <code>2G内存</code> <code>50G硬盘</code> <code>1M带宽</code> ，最适合尝鲜的配置。</p>
+<h4 id="域名"><a class="markdownIt-Anchor" href="#域名"></a> 域名</h4>
+<p>域名申请于阿里云，因为当时打折，域名一年才 1 块钱。</p>
+<h4 id="frp"><a class="markdownIt-Anchor" href="#frp"></a> frp</h4>
+<p>frp 是一个开源项目，可以从其 github 上获取最新发布版本，下载地址：<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases" title="frp release">https://github.com/fatedier/frp/releases</a> 。</p>
+<h3 id="搭建-frp-服务"><a class="markdownIt-Anchor" href="#搭建-frp-服务"></a> 搭建 frp 服务</h3>
+<blockquote>
+<p>frp 官方中文文档: <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/blob/master/README_zh.md" title="frp 官方中文文档">https://github.com/fatedier/frp/blob/master/README_zh.md</a></p>
+</blockquote>
+<h4 id="下载并解压"><a class="markdownIt-Anchor" href="#下载并解压"></a> 下载并解压</h4>
+<blockquote>
+<p>官网最新版本下载地址：<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/releases" title="frp release">https://github.com/fatedier/frp/releases</a></p>
+</blockquote>
+<p>因为我的服务器和客户端都是 windows 系统，所以下载的是 frp_0.21.0_windows_amd64.zip ，解压出来之后有下面这些文件：<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/frp_zip_files.png" alt="" title="frp 压缩包中文件" /></p>
+<p>从文件名可以知道这些文件的功能：</p>
+<ul>
+<li>frpc.exe 客户端程序</li>
+<li>frpc.ini 客户端配置文件</li>
+<li>frpc_full.ini 客户端完全配置示例</li>
+<li>frps.exe 服务端程序</li>
+<li>frps.ini 服务端配置文件</li>
+<li>frps_full.ini 服务端完全配置示例</li>
+<li>LICENSE 协议说明</li>
+</ul>
+<h4 id="frp-服务端"><a class="markdownIt-Anchor" href="#frp-服务端"></a> frp 服务端</h4>
+<p>将解压出来文件中的 frps 相关的所有文件拷贝到服务器上，修改 frps.ini 配置后，使用命令 <code>frps.exe -c frps.ini</code> 即可启动 frp 服务。<br />
+我的 frps.ini 配置如下：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="comment"># 绑定端口</span></span><br><span class="line"><span class="attr">bind_port</span> = <span class="number">7000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># http 访问端口，默认值为 80</span></span><br><span class="line"><span class="attr">vhost_http_port</span> = <span class="number">8084</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># https 端口</span></span><br><span class="line"><span class="attr">vhost_https_port</span> = <span class="number">443</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 子域名</span></span><br><span class="line"><span class="attr">subdomain_host</span> = frp.wqf31415.xyz</span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证令牌</span></span><br><span class="line"><span class="attr">token</span> = <span class="number">123456</span></span><br></pre></td></tr></table></figure>
+<p>更多配置可以参考 frps_full.ini 文件。</p>
+<h4 id="nginx-配置"><a class="markdownIt-Anchor" href="#nginx-配置"></a> nginx 配置</h4>
+<p>由于我服务器上还有其它 web 服务，不希望 80 端口被占用，所以我在上面将 http 访问端口 <code>vhost_http_port</code> 配置成了 8084 ，现在就需要使用 nginx 将来自域名 <code>frp.wqf31415.xyz</code> 的所有 80 端口的请求映射到 frp 的 8084 端口，修改 nginx 配置如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#user  nobody;</span><br><span class="line">worker_processes  1;</span><br><span class="line"></span><br><span class="line">#error_log  logs/error.log;</span><br><span class="line">#error_log  logs/error.log  notice;</span><br><span class="line">#error_log  logs/error.log  info;</span><br><span class="line"></span><br><span class="line">#pid        logs/nginx.pid;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">events &#123;</span><br><span class="line">    worker_connections  1024;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">http &#123;</span><br><span class="line">    include       mime.types;</span><br><span class="line">    default_type  application/octet-stream;</span><br><span class="line"></span><br><span class="line">    #log_format  main  &#x27;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#x27;</span><br><span class="line">    #                  &#x27;$status $body_bytes_sent &quot;$http_referer&quot; &#x27;</span><br><span class="line">    #                  &#x27;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#x27;;</span><br><span class="line"></span><br><span class="line">    #access_log  logs/access.log  main;</span><br><span class="line"></span><br><span class="line">    sendfile        on;</span><br><span class="line">    #tcp_nopush     on;</span><br><span class="line"></span><br><span class="line">    #keepalive_timeout  0;</span><br><span class="line">    keepalive_timeout  65;</span><br><span class="line"></span><br><span class="line">    #gzip  on;</span><br><span class="line"></span><br><span class="line">	# frp config	</span><br><span class="line">	server &#123;</span><br><span class="line">       listen       80;</span><br><span class="line">       server_name  frp.wqf31415.xyz;</span><br><span class="line">       location / &#123;</span><br><span class="line">                     proxy_pass http://frp.wqf31415.xyz:8084/;</span><br><span class="line">              &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>其中只需要关注 http 配置项中 frp config 的 server 配置。</p>
+</blockquote>
+<h4 id="客户端"><a class="markdownIt-Anchor" href="#客户端"></a> 客户端</h4>
+<p>从解压的文件中取出 frpc 相关的文件，修改 frpc.ini 配置，使用命令 <code>frpc.exe -c frpc.ini</code> 即可运行客户端。<br />
+我的 frpc.ini 配置：</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="section">[common]</span></span><br><span class="line"><span class="comment"># 服务器配置，与服务器中 frps.ini 中的内容保持一致</span></span><br><span class="line"><span class="comment"># 服务器地址</span></span><br><span class="line"><span class="attr">server_addr</span> = <span class="number">118.24</span>.<span class="number">50.165</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 服务器端口</span></span><br><span class="line"><span class="attr">server_port</span> = <span class="number">7000</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 验证令牌</span></span><br><span class="line"><span class="attr">token</span> = <span class="number">123456</span></span><br><span class="line"></span><br><span class="line"><span class="section">[web]</span></span><br><span class="line"><span class="comment"># 协议类型</span></span><br><span class="line"><span class="attr">type</span> = http</span><br><span class="line"></span><br><span class="line"><span class="comment"># 本地端口，我本地开发微信服务器时使用的端口是 8181</span></span><br><span class="line"><span class="attr">local_port</span> = <span class="number">8181</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 子域名</span></span><br><span class="line"><span class="attr">subdomain</span> = wx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 域名</span></span><br><span class="line"><span class="attr">custom_domains</span> = frp.wqf31415.xyz</span><br></pre></td></tr></table></figure>
+<p>完成以上配置并成功启动 frp 服务后，访问 <a target="_blank" rel="noopener" href="http://wx.frp.wqf31415.xyz">http://wx.frp.wqf31415.xyz</a>  -&gt;  <a target="_blank" rel="noopener" href="http://localhost:8181">http://localhost:8181</a><br />
+更多的配置信息可以参考 frpc_full.ini 文件，或官方文档。</p>
+<h3 id="域名设置"><a class="markdownIt-Anchor" href="#域名设置"></a> 域名设置</h3>
+<blockquote>
+<p>域名可能需要备案，可以到域名申请商或服务器供应商处进行域名本案。</p>
+</blockquote>
+<p>添加两条域名解析，一条 A 类型，主机记录 <code>frp</code> ，记录值为服务器 ip 地址；第二条 CNAME 类型，主机记录为 <code>*.frp</code> ，记录值为 <code>frp.wqf31415.xyz</code> 。配置结果如下图所示，其中 wqf31415.xyz 是我的域名：<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/frp_domain_dns.png" alt="" title="域名解析配置" /></p>
+<blockquote>
+<p>添加 <code>*.frp</code> 的解析规则是为了实现自定义域名前缀，添加这条解析规则后，可以将 <code>xxx.frp.wqf31415.xyz</code> 的请求解析到云服务器上来。</p>
+</blockquote>
+<h3 id="测试使用"><a class="markdownIt-Anchor" href="#测试使用"></a> 测试使用</h3>
+<p>完成域名配置后，到服务器启动 frp 服务，可以将启动命令写入一个 bat 文件，使用 nssm 或 WinSW 工具将其设置成服务，开机自动启动，方便使用。<br />
+启动本地 web 服务，启动本地 frp 客户端，在公网访问配置的域名 wx.frp.wqf31415.xyz 即可访问本地 web 服务。<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/frp_client_run.png" alt="" title="启动 frp 客户端" /></p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>frp github：<a target="_blank" rel="noopener" href="https://github.com/fatedier/frp" title="frp github 仓库">https://github.com/fatedier/frp</a></li>
+<li>frp 官方中文文档: <a target="_blank" rel="noopener" href="https://github.com/fatedier/frp/blob/master/README_zh.md" title="frp 官方中文文档">https://github.com/fatedier/frp/blob/master/README_zh.md</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"># 服务器</a>
+              <a href="/tags/%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="tag"># 内网穿透</a>
+              <a href="/tags/frp/" rel="tag"># frp</a>
+              <a href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag"># 域名</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/03/12/SpringBoot-%E4%BD%BF%E7%94%A8-Liquibase/" rel="prev" title="SpringBoot 使用 Liquibase">
+                  <i class="fa fa-chevron-left"></i> SpringBoot 使用 Liquibase
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/18/markdown-%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/" rel="next" title="markdown 语法学习">
+                  markdown 语法学习 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

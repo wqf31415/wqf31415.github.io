@@ -1,0 +1,1417 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了 redis 支持的数据类型，以及对这些数据类型的操作与使用场景。  认识 Redis Redis ，全称 Remote Dictionary Server（远程字典服务），是一个使用 C 开发的开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。 Redis 存储时的键一般用字符">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Redis 数据结构与应用">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/04/09/Redis-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%BA%94%E7%94%A8/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了 redis 支持的数据类型，以及对这些数据类型的操作与使用场景。  认识 Redis Redis ，全称 Remote Dictionary Server（远程字典服务），是一个使用 C 开发的开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。 Redis 存储时的键一般用字符">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-04-09T10:40:08.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.253Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="redis">
+<meta property="article:tag" content="nosql">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/04/09/Redis-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%BA%94%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/04/09/Redis-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%BA%94%E7%94%A8/","path":"2021/04/09/Redis-数据结构与应用/","title":"Redis 数据结构与应用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Redis 数据结构与应用 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-redis"><span class="nav-number">2.</span> <span class="nav-text"> 认识 Redis</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96-key-value-%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.</span> <span class="nav-text"> 其他 Key-Value 型数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-%E4%B8%AD%E4%B8%8E%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E6%97%A0%E5%85%B3%E7%9A%84%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text"> Redis 中与数据类型无关的命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#keys"><span class="nav-number">4.1.</span> <span class="nav-text"> Keys</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pubsub"><span class="nav-number">4.2.</span> <span class="nav-text"> Pub&#x2F;Sub</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#redis-%E6%94%AF%E6%8C%81%E7%9A%84%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84"><span class="nav-number">5.</span> <span class="nav-text"> Redis 支持的数据结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#string"><span class="nav-number">5.1.</span> <span class="nav-text"> String</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#list"><span class="nav-number">5.2.</span> <span class="nav-text"> List</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#set"><span class="nav-number">5.3.</span> <span class="nav-text"> Set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sorted-set"><span class="nav-number">5.4.</span> <span class="nav-text"> Sorted Set</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hash"><span class="nav-number">5.5.</span> <span class="nav-text"> Hash</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bitmap"><span class="nav-number">5.6.</span> <span class="nav-text"> Bitmap</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#hyperloglog"><span class="nav-number">5.7.</span> <span class="nav-text"> Hyperloglog</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#geospatial"><span class="nav-number">5.8.</span> <span class="nav-text"> Geospatial</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#stream"><span class="nav-number">5.9.</span> <span class="nav-text"> Stream</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">6.</span> <span class="nav-text"> 使用场景</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%93%E5%AD%98"><span class="nav-number">6.1.</span> <span class="nav-text"> 缓存</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B6%88%E6%81%AF%E9%98%9F%E5%88%97"><span class="nav-number">6.2.</span> <span class="nav-text"> 消息队列</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E6%97%B6%E6%B6%88%E6%81%AF%E5%B9%BF%E6%92%AD"><span class="nav-number">6.3.</span> <span class="nav-text"> 实时消息广播</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%80%E6%96%B0%E6%95%B0%E6%8D%AE"><span class="nav-number">6.4.</span> <span class="nav-text"> 最新数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E8%A1%8C%E6%A6%9C"><span class="nav-number">6.5.</span> <span class="nav-text"> 排行榜</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%A1%E6%95%B0%E5%99%A8"><span class="nav-number">6.6.</span> <span class="nav-text"> 计数器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%86%E5%B8%83%E5%BC%8F%E9%94%81"><span class="nav-number">6.7.</span> <span class="nav-text"> 分布式锁</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AD%BE%E5%88%B0"><span class="nav-number">6.8.</span> <span class="nav-text"> 签到</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">6.9.</span> <span class="nav-text"> 定时操作</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%BB%E9%87%8D"><span class="nav-number">6.10.</span> <span class="nav-text"> 去重</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/04/09/Redis-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%BA%94%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Redis 数据结构与应用 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Redis 数据结构与应用<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Redis-%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E4%B8%8E%E5%BA%94%E7%94%A8.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-04-09 18:40:08" itemprop="dateCreated datePublished" datetime="2021-04-09T18:40:08+08:00">2021-04-09</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了 redis 支持的数据类型，以及对这些数据类型的操作与使用场景。</p>
+<h3 id="认识-redis"><a class="markdownIt-Anchor" href="#认识-redis"></a> 认识 Redis</h3>
+<p>Redis ，全称 <strong>Remote Dictionary Server</strong>（远程字典服务），是一个使用 C 开发的开源的 Key-Value 型的内存中的数据结构存储系统，可作为数据库、缓存和消息中间件，Redis 的数据都在内存中处理，因此具有极高的读写速度。</p>
+<p>Redis 存储时的键一般用字符串，但不限于字符串，也可以是任何二进制序列，比如一个 jpeg 文件的内容，但建议不要太长，会消耗内存，而且计算成本很高。存储的值支持多种类型的数据结构，包括：string（字符串）、list（链表）、set（集合）、sorted set（有序集合）、hash（字典）、bitmap（位操作）、hyperloglog（基数统计）、geospatial（地理信息）。</p>
+<blockquote>
+<p>Redis 官网：</p>
+<p>中文官网：<a target="_blank" rel="noopener" href="http://www.redis.cn/">http://www.redis.cn/</a></p>
+<p>英文官网：<a target="_blank" rel="noopener" href="https://redis.io/">https://redis.io/</a></p>
+</blockquote>
+<span id="more"></span>
+<h3 id="其他-key-value-型数据库"><a class="markdownIt-Anchor" href="#其他-key-value-型数据库"></a> 其他 Key-Value 型数据库</h3>
+<ul>
+<li><strong>MemcacheDB</strong>：开源的分布式缓存服务器，用 C++ 开发的，新浪网的开发人员开放的项目。MemcacheDB 使用的协议与 memcache 一致，所以很多memcached 客户端都可以跟它连接。官网: <a target="_blank" rel="noopener" href="https://www.oschina.net/p/memcachedb">https://www.oschina.net/p/memcachedb</a></li>
+<li><strong>CouchDB</strong>：开源的面向文档的分布式数据管理系统，CouchDB 适合存储文档，适合 CMS、电话本、地址等。CouchDB 支持使用 REST API ，让用户可以使用 JavaScript 操作 CouchDB。官网：<a target="_blank" rel="noopener" href="https://couchdb.apache.org/">https://couchdb.apache.org/</a></li>
+<li><strong>HBase</strong>：分布式的、面向列的开源数据库。官网：<a target="_blank" rel="noopener" href="http://hbase.apache.org/">http://hbase.apache.org/</a></li>
+</ul>
+<h3 id="redis-中与数据类型无关的命令"><a class="markdownIt-Anchor" href="#redis-中与数据类型无关的命令"></a> Redis 中与数据类型无关的命令</h3>
+<h4 id="keys"><a class="markdownIt-Anchor" href="#keys"></a> Keys</h4>
+<p>以下是与 Redis 中键相关的操作命令，能够查询键是否存在，查看键的过期时间或设置过期时间，查看键中存储数据的类型。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>ping</td>
+<td>测试连接是否可用</td>
+<td>成功时返回 <code>PONG</code></td>
+<td></td>
+</tr>
+<tr>
+<td>exists</td>
+<td>判断键是否存在(可判断多个键)</td>
+<td>返回存在的键的数量</td>
+<td><code>exists key1</code> ，<code>exists key1 key2</code></td>
+</tr>
+<tr>
+<td>del</td>
+<td>删除指定键（可删除多个键）</td>
+<td>返回删除的键的数量</td>
+<td><code>del key1</code> 、<code>del key1 key2</code></td>
+</tr>
+<tr>
+<td>randomkey</td>
+<td>随机获取一个键</td>
+<td>从键空间中随机取一个键</td>
+<td><code>randomkey</code></td>
+</tr>
+<tr>
+<td>keys</td>
+<td>查找符合格式的键</td>
+<td>返回所有符合匹配格式的键</td>
+<td><code>keys key1</code> 、<code>keys ke*</code> ，<code>keys key?</code></td>
+</tr>
+<tr>
+<td>expire</td>
+<td>设置键过期时间(单位：s)</td>
+<td>成功的数量</td>
+<td><code>expire key1 30</code></td>
+</tr>
+<tr>
+<td>pexpire</td>
+<td>设置键过期时间（单位：ms）</td>
+<td>成功的数量</td>
+<td><code>pexpire key1 30000</code></td>
+</tr>
+<tr>
+<td>pexpireat</td>
+<td>设置键过期时间点(UNIX时间戳)</td>
+<td>成功的数量</td>
+<td><code>pexpireat key1 1612520066261</code></td>
+</tr>
+<tr>
+<td>persist</td>
+<td>移除键过期时间</td>
+<td>成功的数量</td>
+<td><code>persist key1</code></td>
+</tr>
+<tr>
+<td>ttl</td>
+<td>查看键过期时间（秒）</td>
+<td>键不存在返 -2；键持久化返 -1；正常返回过期时间</td>
+<td><code>ttl key1</code></td>
+</tr>
+<tr>
+<td>pttl</td>
+<td>查看键过期时间（毫秒）</td>
+<td>同上</td>
+<td><code>pttl key1</code></td>
+</tr>
+<tr>
+<td>rename</td>
+<td>重命名键（将覆盖新键）</td>
+<td>成功返回 OK</td>
+<td><code>rename key1 key2</code></td>
+</tr>
+<tr>
+<td>renamenx</td>
+<td>重命名键，新键存在时将不会执行</td>
+<td>成功返回 1，失败返回 0</td>
+<td><code>renamenx key1 key2</code></td>
+</tr>
+<tr>
+<td>type</td>
+<td>查看指定键存放的数据类型</td>
+<td>键不存在时返回 none，存在时返回数据类型</td>
+<td><code>type key1</code></td>
+</tr>
+<tr>
+<td>sort</td>
+<td>对列表、集合、有序集合中的元素进行排序</td>
+<td>排序后的元素</td>
+<td><code>sort mylist</code> 、<code>sort mylist desc</code> 、对字符串元素排序 <code>sort mylist alpha</code> 、<code>sort mylist limit 0 10</code> 、<code>sort mylist limit 0 5 alpha desc</code> 、<code>sort mylist by weight_*</code></td>
+</tr>
+<tr>
+<td>scan</td>
+<td>按游标对包含键进行遍历</td>
+<td>遍历到的键</td>
+<td><code>scan 0</code> 、<code>scan 0 match key* count 10</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="pubsub"><a class="markdownIt-Anchor" href="#pubsub"></a> Pub/Sub</h4>
+<p>发布订阅，让 Redis 成为一个消息中间件。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>subscribe</td>
+<td>订阅通道</td>
+<td></td>
+<td><code>subscribe channel1 channel2</code></td>
+</tr>
+<tr>
+<td>psubscribe</td>
+<td>订阅指定模式的通道</td>
+<td></td>
+<td><code>psubscribe channel?</code></td>
+</tr>
+<tr>
+<td>unsubscribe</td>
+<td>取消订阅</td>
+<td></td>
+<td><code>unsunscribe channel1 channel2</code></td>
+</tr>
+<tr>
+<td>punsunscribe</td>
+<td>取消订阅指定模式的通道</td>
+<td></td>
+<td><code>punscribe channel?</code></td>
+</tr>
+<tr>
+<td>publish</td>
+<td>发布消息</td>
+<td>收到消息的客户端数量</td>
+<td><code>publish channel hello</code></td>
+</tr>
+<tr>
+<td>pubsub</td>
+<td>检测PUB/SUB子系统的状态</td>
+<td></td>
+<td><code>PUBSUB CHANNELS channel?</code> 、<code>PUBSUB NUMPAT</code></td>
+</tr>
+</tbody>
+</table>
+<h3 id="redis-支持的数据结构"><a class="markdownIt-Anchor" href="#redis-支持的数据结构"></a> Redis 支持的数据结构</h3>
+<h4 id="string"><a class="markdownIt-Anchor" href="#string"></a> String</h4>
+<p>字符串类型，可以存储字符串或数字，当内容为数字时可以对其做加减运算处理。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>set</td>
+<td>设置一个键的值</td>
+<td>ok</td>
+<td><code>set a 123</code></td>
+</tr>
+<tr>
+<td>setnx</td>
+<td>当键不存在时设置键的值</td>
+<td><code>1</code> 成功，<code>0</code> 失败</td>
+<td><code>setnx a 123</code></td>
+</tr>
+<tr>
+<td>setex</td>
+<td>设置键的值并指定过期时间（秒）</td>
+<td><code>OK</code></td>
+<td><code>setex key 30 value</code></td>
+</tr>
+<tr>
+<td>psetex</td>
+<td>设置键的值并指定过期时间（毫秒）</td>
+<td><code>OK</code></td>
+<td><code>psetex key 30000 value</code></td>
+</tr>
+<tr>
+<td>mset</td>
+<td>设置多个键值</td>
+<td><code>OK</code></td>
+<td><code>mset key1 value1 key2 value2</code></td>
+</tr>
+<tr>
+<td>msetnx</td>
+<td>设置多个键值，当键不存在时设置成功</td>
+<td><code>1</code> 成功，<code>0</code> 失败</td>
+<td><code>msetnx key1 value1 key2 value2</code></td>
+</tr>
+<tr>
+<td>setrange</td>
+<td>覆盖key对应的string的一部分</td>
+<td>修改完成后的字符串长度</td>
+<td><code>setrange key 2 00000000</code></td>
+</tr>
+<tr>
+<td>get</td>
+<td>获取键的值</td>
+<td>值或(nil)</td>
+<td><code>get key</code></td>
+</tr>
+<tr>
+<td>mget</td>
+<td>获取多个键的值</td>
+<td>值或(nil)</td>
+<td><code>mget key1 key2</code></td>
+</tr>
+<tr>
+<td>getrange</td>
+<td>获取字符串指定范围内容</td>
+<td>字符串或<code>&quot;&quot;</code></td>
+<td><code>getrange key 0 2</code></td>
+</tr>
+<tr>
+<td>getset</td>
+<td>获取键的值并设置为新的值</td>
+<td>键原来的值或(nil)</td>
+<td><code>getset key 123</code></td>
+</tr>
+<tr>
+<td>append</td>
+<td>将值追加到原来值的后面</td>
+<td>追加后的字符串长度</td>
+<td><code>append key abc</code></td>
+</tr>
+<tr>
+<td>decr</td>
+<td>将键中的数字减一</td>
+<td>操作后的值</td>
+<td><code>decr key</code></td>
+</tr>
+<tr>
+<td>decrby</td>
+<td>将键中的值减去指定值</td>
+<td>操作后的值</td>
+<td><code>decrby key 100</code></td>
+</tr>
+<tr>
+<td>incr</td>
+<td>将键中值加一</td>
+<td>操作后的值</td>
+<td><code>incr key</code></td>
+</tr>
+<tr>
+<td>incrby</td>
+<td>将键中值加上指定值</td>
+<td>操作后的值</td>
+<td><code>incrby key 10</code></td>
+</tr>
+<tr>
+<td>incrbyfloat</td>
+<td>加上指定浮点值</td>
+<td>操作后的值</td>
+<td><code>incrbyfloat key 1.1</code></td>
+</tr>
+<tr>
+<td>strlen</td>
+<td>查看值的长度</td>
+<td>值得长度</td>
+<td><code>strlen key</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="list"><a class="markdownIt-Anchor" href="#list"></a> List</h4>
+<p>队列，可以作为队列或栈使用。队列操作时的左（l）是队列头，右（r）是队列尾。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>lpush</td>
+<td>从队列左边加入元素</td>
+<td>操作完成后list的长度</td>
+<td><code>lpush list abc</code></td>
+</tr>
+<tr>
+<td>lpushx</td>
+<td>当队列存在时从左边加入元素</td>
+<td>操作完成后list的长度或0</td>
+<td><code>lpushx list 123</code></td>
+</tr>
+<tr>
+<td>rpush</td>
+<td>从队列右边加入元素</td>
+<td>操作完成后list的长度</td>
+<td><code>rpush list abc</code></td>
+</tr>
+<tr>
+<td>rpushx</td>
+<td>当队列存在时从右边加入元素</td>
+<td>操作完成后list的长度或0</td>
+<td><code>rpushx list1 abc</code></td>
+</tr>
+<tr>
+<td>rpoplpush</td>
+<td>把源队列最后一个元素移到目标队列的头部并返回该元素</td>
+<td>元素或(nil)</td>
+<td><code>rpoplpush list list2</code></td>
+</tr>
+<tr>
+<td>brpoplpush</td>
+<td><code>rpoplpush</code> 的阻塞版本，当源队列中没有元素时会阻塞，直到超时或获取到元素</td>
+<td>读到的元素，或超时(nil)</td>
+<td><code>brpoplpush list2 list 5</code></td>
+</tr>
+<tr>
+<td>lpop</td>
+<td>弹出队列左侧第一个元素</td>
+<td>元素或(nil)</td>
+<td><code>lpop list</code></td>
+</tr>
+<tr>
+<td>blpop</td>
+<td>阻塞的弹出队列左侧元素，如果没有元素将会阻塞住直到超时或获取到元素</td>
+<td>读到的元素，或超时(nil)</td>
+<td><code>blpop list 5</code></td>
+</tr>
+<tr>
+<td>rpop</td>
+<td>弹出队列右侧第一个元素</td>
+<td>元素或(nil)</td>
+<td><code>rpop list</code></td>
+</tr>
+<tr>
+<td>brpop</td>
+<td>阻塞的弹出队列右侧元素</td>
+<td>读到的元素，或超时(nil)</td>
+<td><code>brpop list 5</code></td>
+</tr>
+<tr>
+<td>lindex</td>
+<td>返回队列中指定索引位置的元素（索引从0开始）</td>
+<td>元素或(nil)</td>
+<td><code>lindex list 2</code></td>
+</tr>
+<tr>
+<td>linsert</td>
+<td>在指定元素前/后插入元素</td>
+<td>插入后的list长度，或<code>-1</code></td>
+<td><code>linsert list before world hello</code></td>
+</tr>
+<tr>
+<td>llen</td>
+<td>查看队列元素个数</td>
+<td>元素个数</td>
+<td><code>llen list</code></td>
+</tr>
+<tr>
+<td>lrange</td>
+<td>查询指定索引范围内的元素（索引从0开始，倒数时从-1开始）</td>
+<td>元素列表或空列表提示</td>
+<td><code>lrange list 0 -1</code></td>
+</tr>
+<tr>
+<td>lrem</td>
+<td>删除队列中的元素</td>
+<td>删除的元素量</td>
+<td><code>lrem list 1 abc</code></td>
+</tr>
+<tr>
+<td>lset</td>
+<td>设置指定索引位置的元素值</td>
+<td><code>OK</code> 或索引超出范围提示</td>
+<td><code>lset list 1 hello</code></td>
+</tr>
+<tr>
+<td>ltrim</td>
+<td>修剪队列，只保留指定范围内的元素</td>
+<td><code>OK</code></td>
+<td><code>ltrim list 1 3</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="set"><a class="markdownIt-Anchor" href="#set"></a> Set</h4>
+<p>集合，能够排除重复值，多个集合可以进行并、交处理。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>sadd</td>
+<td>给集合添加元素</td>
+<td><code>1</code> 成功，<code>0</code> 失败</td>
+<td><code>sadd setName a</code></td>
+</tr>
+<tr>
+<td>spop</td>
+<td>删除并获取一个元素</td>
+<td>元素或(nil)</td>
+<td><code>spop setName</code></td>
+</tr>
+<tr>
+<td>smembers</td>
+<td>获取集合中所有元素</td>
+<td>元素列表或空列表提示</td>
+<td><code>smembers setName</code></td>
+</tr>
+<tr>
+<td>srandmember</td>
+<td>从集合中随机获取元素</td>
+<td>元素或(nil)</td>
+<td><code>srandmember setName</code></td>
+</tr>
+<tr>
+<td>sismember</td>
+<td>判断值是否是指定集合中的元素</td>
+<td><code>1</code> 是，<code>0</code> 否</td>
+<td><code>sismember setName a</code></td>
+</tr>
+<tr>
+<td>srem</td>
+<td>从集合中删除一个或多个元素</td>
+<td>删除的元素数量</td>
+<td><code>srem setName a b c</code></td>
+</tr>
+<tr>
+<td>scard</td>
+<td>获取集合中元素个数</td>
+<td>元素数量</td>
+<td><code>scard setName</code></td>
+</tr>
+<tr>
+<td>smove</td>
+<td>在集合间移动元素</td>
+<td><code>1</code> 成功，<code>0</code> 失败</td>
+<td><code>smove set1 set2 2</code></td>
+</tr>
+<tr>
+<td>sscan</td>
+<td>迭代集合中的元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sdiff</td>
+<td>查询一个集合和另一个集合的差集</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sdiffstore</td>
+<td>获取集合的差集并将结果存到目标集合中</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sinter</td>
+<td>查询集合的交集</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sinterstore</td>
+<td>获取集合的交集并存到目标集合</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>sunion</td>
+<td>获取多个集合的并集</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>suinonstore</td>
+<td>获取多个集合的并集并存到目标集合</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="sorted-set"><a class="markdownIt-Anchor" href="#sorted-set"></a> Sorted Set</h4>
+<p>有序集合，在集合的基础上，给每个值增加了一个分数（score），按分数进行排序。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zadd</td>
+<td>添加元素或更新元素的分值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zcard</td>
+<td>获取集合元素数量</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zcount</td>
+<td>获取分值范围内的元素数量</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zincrby</td>
+<td>元素分值增加指定值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zinterstore</td>
+<td>获取集合的交集并存到指定集合</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zlexcount</td>
+<td>计算指定元素间的元素数量</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zpopmax</td>
+<td>弹出分数最高的元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zpopmin</td>
+<td>弹出分数最低的元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrange</td>
+<td>获取指定索引范围内的元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrangebylex</td>
+<td>返回指定成员区间内的成员，按成员字典正序排序, 分数必须相同</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrevrangebylex</td>
+<td>返回指定成员区间内的成员，按成员字典倒序排序, 分数必须相同。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrangebyscore</td>
+<td>查询分值范围内的元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrank</td>
+<td>查询元素的排名</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrem</td>
+<td>删除元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zremrangebylex</td>
+<td>删除名称按字典由低到高排序成员之间所有成员</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zremrangebyrank</td>
+<td>删除排名区间内的元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zremrangebyscore</td>
+<td>删除得分范围内的元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrevrange</td>
+<td>获取得分倒序排时指定索引范围内元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrevrangebyscore</td>
+<td>获取得分倒序排列时指定得分范围内元素</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zrevrank</td>
+<td>获取元素排名（按得分倒序排）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zscore</td>
+<td>获取元素得分</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zunionstore</td>
+<td>获取并集并存储到目标集合</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>zscan</td>
+<td>遍历集合元素</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="hash"><a class="markdownIt-Anchor" href="#hash"></a> Hash</h4>
+<p>字典，按键值进行存储，相当于 java 中的 Map。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>hset</td>
+<td>设置hash字段值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hsetnx</td>
+<td>当指定hash中不存在字段时才设置</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hmset</td>
+<td>设置指定hash中字段的值（多个）</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hget</td>
+<td>获取指定hash中指定字段的值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hmget</td>
+<td>获取hash中多个字段的值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hgetall</td>
+<td>获取hash中所有的字段和值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hexists</td>
+<td>判断hash中指定字段是否存在</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hdel</td>
+<td>删除hash中指定字段</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hincrby</td>
+<td>给hash中指定字段值增加值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hincrbyfloat</td>
+<td>给hash中指定字段值增加小数值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hkeys</td>
+<td>获取hash中所有的字段名</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hlen</td>
+<td>获取hash中的字段数量</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hstrlen</td>
+<td>获取hash中指定字段中值的长度</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hvals</td>
+<td>获取hash中所有字段的值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>hscan</td>
+<td>遍历hash中的字段</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="bitmap"><a class="markdownIt-Anchor" href="#bitmap"></a> Bitmap</h4>
+<p>位图，实际内容存储为 String，但可以按位来取值和运算。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>setbit</td>
+<td>设置或清除指定位数上的值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>getbit</td>
+<td>获取指定位数上的值</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bitcount</td>
+<td>统计指定范围内值为1的位数</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bitfield</td>
+<td>对变长位宽和任意未字节对齐的指定整型位域进行寻址。</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bitop</td>
+<td>对多个二进制位字符串进行位操作，将结果存到目标键上</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>bitpos</td>
+<td>返回字符串里面第一个被设置为1或者0的bit位</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="hyperloglog"><a class="markdownIt-Anchor" href="#hyperloglog"></a> Hyperloglog</h4>
+<p>Hyperloglog 用来做基数统计，用来估算大数据集中不重复的元素数量。其优势在于输入元素的数量或体积非常大时，计算基数所需的空间总是固定的，而且很小，因为 Hyperloglog 只会根据输入元素来计算基数，而不会存储输入的元素本身。每个 Hyperloglog 键只需要花费 12KB 内存就可以计算接近 2<sup>64</sup> 个不同元素的基数。</p>
+<blockquote>
+<p>基数：集合中包含的元素的“个数”，如数据集 {1, 2, 3, 2, 1} ，其基数集是 {1, 2, 3}，基数(不重复元素)是 3。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>pfadd</td>
+<td>添加元素</td>
+<td></td>
+<td><code>pfadd hll 1 2 3 2 1</code></td>
+</tr>
+<tr>
+<td>pfcount</td>
+<td>返回基数估算值</td>
+<td>基数估算值</td>
+<td><code>pfcount hll</code></td>
+</tr>
+<tr>
+<td>pfmerge</td>
+<td>合并多个Hyperloglog</td>
+<td></td>
+<td><code>pfmerge hll hll2</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="geospatial"><a class="markdownIt-Anchor" href="#geospatial"></a> Geospatial</h4>
+<p>地理空间位置，包括经度、纬度、名称。地理位置信息将会存储到 sorted set 中，录入的经纬度将通过 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Geohash">Geohash</a> 技术进行填充，转化成一个独特的 52 位整数。</p>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>geoadd</td>
+<td>添加指定的空间位置</td>
+<td>添加的数量</td>
+<td><code>geoadd sichuan 103.963905 30.735666 chengdu</code> 、<code>geoadd sichuan 104.391022 31.166052 deyang</code></td>
+</tr>
+<tr>
+<td>geohash</td>
+<td>一个或多个位置元素的 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Geohash">Geohash</a> 表示</td>
+<td></td>
+<td><code>geohash sichuan chengdu</code></td>
+</tr>
+<tr>
+<td>geopos</td>
+<td>查询指定元素的位置</td>
+<td></td>
+<td><code>geopos sichuan chengdu</code></td>
+</tr>
+<tr>
+<td>geodist</td>
+<td>计算两个位置间的距离</td>
+<td>距离值</td>
+<td><code>geodist sichuan chengdu deyang km</code></td>
+</tr>
+<tr>
+<td>georadius</td>
+<td>查询指定范围内的元素</td>
+<td></td>
+<td><code>georadius sichuan 103.963905 30.735666 70 km</code></td>
+</tr>
+<tr>
+<td>georadiusbymember</td>
+<td>以指定元素为中心查找半径内的元素</td>
+<td></td>
+<td><code>georadiusbymember sichuan chengdu 70 km</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="stream"><a class="markdownIt-Anchor" href="#stream"></a> Stream</h4>
+<table>
+<thead>
+<tr>
+<th>命令</th>
+<th>说明</th>
+<th>返回值</th>
+<th>示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>xadd</td>
+<td>将指定的流条目追加到指定key的流中</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xinfo</td>
+<td>检索关于流和关联的消费者组的不同的信息</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xread</td>
+<td>从一个或者多个流中读取数据</td>
+<td>返回ID大于调用者报告的最后接收ID的条目</td>
+<td></td>
+</tr>
+<tr>
+<td>xdel</td>
+<td>从指定流中移除指定的条目</td>
+<td>成功删除的条目的数量</td>
+<td></td>
+</tr>
+<tr>
+<td>xlen</td>
+<td>返回流中的条目数</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xack</td>
+<td>从流的消费者组的待处理条目列表中删除一条或多条消息</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xclaim</td>
+<td>改变待处理消息的所有权</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xgroup</td>
+<td>管理流数据结构关联的消费者组</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xpending</td>
+<td>过消费者组从流中获取数据</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xreadgroup</td>
+<td><code>XREAD</code>命令的特殊版本，支持消费者组</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xrange</td>
+<td>返回流中满足给定ID范围的条目</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>xrevrange</td>
+<td>与<code>xrange</code>相同，但顺序相反</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>rtrim</td>
+<td>将流裁剪为指定数量的项目</td>
+<td></td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h3 id="使用场景"><a class="markdownIt-Anchor" href="#使用场景"></a> 使用场景</h3>
+<h4 id="缓存"><a class="markdownIt-Anchor" href="#缓存"></a> 缓存</h4>
+<p>Redis 读取速度快，还提供多种数据类型能够满足各种缓存场景。</p>
+<p>一般有两种方式：</p>
+<ul>
+<li>读取前，先去读 Redis，如果没有数据，读取数据库，将数据存入Redis。</li>
+<li>插入数据时，同时写入 Redis。</li>
+</ul>
+<h4 id="消息队列"><a class="markdownIt-Anchor" href="#消息队列"></a> 消息队列</h4>
+<p>使用 Redis 中 List 的丰富操作方式，能够轻松构建消息队列或栈，达到异步处理的效果，还能让程序解耦合。</p>
+<h4 id="实时消息广播"><a class="markdownIt-Anchor" href="#实时消息广播"></a> 实时消息广播</h4>
+<p>使用 Pub/Sub 能够实现实时的消息广播，能够构建实时聊天系统。</p>
+<h4 id="最新数据"><a class="markdownIt-Anchor" href="#最新数据"></a> 最新数据</h4>
+<p>比如新闻网站查找最新的新闻，可以将最新的 5000 条的 id 放到 redis 的 list 中，超出的部分再从数据库中获取。</p>
+<h4 id="排行榜"><a class="markdownIt-Anchor" href="#排行榜"></a> 排行榜</h4>
+<p>使用 Sorted Set 能够轻松完成排行榜。比如玩家的分数排行榜：</p>
+<ul>
+<li>添加分数记录：<code>zadd 排行榜名 分数 玩家标识</code></li>
+<li>查询玩家分数：<code>zscore 排行榜名 玩家标识</code></li>
+<li>按名次查看排行榜：<code>zrevrange 排行榜名 起始位置 结束位置</code></li>
+<li>查看玩家排名：<code>zrevrank 排行榜名 玩家标识</code></li>
+<li>增减玩家分数：<code>zincrby 排行榜名 分数增量 玩家标识</code></li>
+<li>移除玩家记录：<code>zrem 排行榜名 玩家标识</code></li>
+<li>删除排行榜：<code>del 排行榜名</code></li>
+</ul>
+<blockquote>
+<p>相同分数问题：</p>
+<p>当两个玩家分数相同时，redis 排名是按字典排序，而一般应按达到这个分数的时间先后排序，即先达到这个分数的玩家排在前面。</p>
+<p>为了解决这个问题可以使用带时间戳的分数：</p>
+<p><code>带时间戳的分数 = 实际分数*10000000000 + (9999999999 – timestamp) </code></p>
+<p>时间戳占10位，需要取分数时去掉后10位即可。</p>
+<p>这样会带来一个问题，Redis 的 score 最大能表示的整数范围是 -2<sup>53</sup> 至 2<sup>53</sup> ，最大能表示的整数为：9007199254740992，去除后10位后，玩家分数最高只能表示到 900719，可能不够用。此时可以采取缩小时间戳的长度来扩大分数表示范围。</p>
+</blockquote>
+<h4 id="计数器"><a class="markdownIt-Anchor" href="#计数器"></a> 计数器</h4>
+<p>Redis 的命令都是原子性的，可以轻松利用 incr 、decr 命令构建计数器。</p>
+<p>使用场景如：</p>
+<ul>
+<li>高并发的秒杀活动</li>
+<li>分布式序列号的生成</li>
+<li>限制一个手机号发多少条短信</li>
+<li>一个接口一分钟限制多少请求</li>
+<li>一个接口限制调用多少次</li>
+</ul>
+<h4 id="分布式锁"><a class="markdownIt-Anchor" href="#分布式锁"></a> 分布式锁</h4>
+<p>在分布式系统中锁能够保证共享资源的同步，使用 redis 命令原子性的特点能够实现分布式锁。</p>
+<p>锁要满足的条件：</p>
+<ul>
+<li>互斥性：任何时刻只能有一个客户端持有锁。</li>
+<li>不会发生死锁，即使持有锁的客户端崩溃未能主动解锁，也能保证后续其他客户端能够获取到锁。</li>
+<li>容错性，只要大部分 redis 节点正常运行，客户端就能正确加锁、解锁。</li>
+<li>解铃还须系铃人，加锁和解锁必须是同一个客户端，客户端不能解其他客户端加的锁。</li>
+</ul>
+<p>实现方式：</p>
+<ul>
+<li>加锁：给加锁的键设置一个值，并给定过期时间，命令：<code>set lock_key random_value NX PX 5000</code> ，<code>NX</code> 表示只有不存在时才能设置（当键存在时说明其他客户端获取了锁），<code>PX 5000</code> 是设置键过期时间 5000 毫秒，键自动过期可防止死锁。</li>
+<li>解锁：判断锁的键中存的值是否等于当前客户端的，相等则删除键，即完成解锁。由于解锁时有两个步骤（判断值、删除键），为了保证操作原子性，需要使用 lua 脚本来执行两个操作：<code>if redis.call('get', KEYS[1]) == ARGV[1] then return redis.call('del', KEYS[1]) else return 0 end</code></li>
+</ul>
+<blockquote>
+<p>注意事项：<strong>加锁和解锁必须保证过程的原子性</strong>，加锁时可以通过一条命令完成，不能先使用 <code>setnx</code> 设置键，然后再用 <code>expire</code> 设置过期时间；解锁时需要借助 lua 脚本一次执行，不能先 <code>get</code> 值，然后 <code>del</code> 删除值。</p>
+</blockquote>
+<h4 id="签到"><a class="markdownIt-Anchor" href="#签到"></a> 签到</h4>
+<p>利用 Redis 的位操作能够实现大量用户的签到记录。比如使用用户的id（整形）作为要记录的位置，用户签到后，将这一位置的值置为 1，这样就能方便的记录大量用户的签到记录。</p>
+<h4 id="定时操作"><a class="markdownIt-Anchor" href="#定时操作"></a> 定时操作</h4>
+<p>使用 Sorted Set，设置 score 为定时操作的时间戳，这样就能通过时间排序，查出需要定时处理的内容，如定时清理过期数据。</p>
+<p>另外，还可以利用 Redis 的键过期功能，创建监听器监听 key 失效事件，在 key 过期时，完成定时处理的逻辑。</p>
+<h4 id="去重"><a class="markdownIt-Anchor" href="#去重"></a> 去重</h4>
+<p>利用 Redis 的 Set 能够自动排除重复元素，只需要将元素往 set 中添加即可，还能够方便的对多个集合取交集、并集。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>Redis 的 8 大应用场景: <a target="_blank" rel="noopener" href="https://segmentfault.com/a/1190000016188385">https://segmentfault.com/a/1190000016188385</a></li>
+<li>Redis的7个应用场景: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/NiceCui/p/7794659.html">https://www.cnblogs.com/NiceCui/p/7794659.html</a></li>
+<li>使用Redis实现实时排行榜: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhaoyan001/p/10782260.html">https://www.cnblogs.com/zhaoyan001/p/10782260.html</a></li>
+<li>Redis分布式锁的正确实现方式: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/moxiaotao/p/10829799.html">https://www.cnblogs.com/moxiaotao/p/10829799.html</a></li>
+<li>分布式锁之Redis实现: <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/47fd7f86c848">https://www.jianshu.com/p/47fd7f86c848</a></li>
+<li>Redis 入门：Redis 概念和基础: <a target="_blank" rel="noopener" href="https://toutiao.io/posts/47fg3nq">https://toutiao.io/posts/47fg3nq</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>Redis 是一个很好有的中间件，可用来做消息队列，可以用来做数据缓存，还可以用来做分布式锁，学好基本数据结构的存取，才能更好的用在实际项目中。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/redis/" rel="tag"># redis</a>
+              <a href="/tags/nosql/" rel="tag"># nosql</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/04/09/%E4%BD%BF%E7%94%A8jvisualvm%E7%9B%91%E6%8E%A7java%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E6%83%85%E5%86%B5/" rel="prev" title="使用jvisualvm监控java程序运行情况">
+                  <i class="fa fa-chevron-left"></i> 使用jvisualvm监控java程序运行情况
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/04/10/%E4%BA%BA%E7%94%9F%E6%8B%AF%E6%95%91%E8%AE%A1%E5%88%92/" rel="next" title="人生拯救计划">
+                  人生拯救计划 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

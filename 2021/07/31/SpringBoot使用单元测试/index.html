@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了单元测试的概念，以及在 springboot 项目中如何使用单元测试来检查代码是否正确。  关于单元测试  单元测试（Unit Testing）又称模块测试，是针对程序模块（软件设计的最小单位）来进行正确性检验的测试工作。程序单元是应用程序的最小可测试部件，在过程化编程中，一个单元就是单个程序、函数、过程；对于面向对象编程，最小单元就是方法，包括基类（超类）、抽象类、或者派生">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot使用单元测试">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/07/31/SpringBoot%E4%BD%BF%E7%94%A8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了单元测试的概念，以及在 springboot 项目中如何使用单元测试来检查代码是否正确。  关于单元测试  单元测试（Unit Testing）又称模块测试，是针对程序模块（软件设计的最小单位）来进行正确性检验的测试工作。程序单元是应用程序的最小可测试部件，在过程化编程中，一个单元就是单个程序、函数、过程；对于面向对象编程，最小单元就是方法，包括基类（超类）、抽象类、或者派生">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/idea_create_test.png">
+<meta property="article:published_time" content="2021-07-31T11:10:07.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.268Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="spring">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/idea_create_test.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/07/31/SpringBoot%E4%BD%BF%E7%94%A8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/07/31/SpringBoot%E4%BD%BF%E7%94%A8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/","path":"2021/07/31/SpringBoot使用单元测试/","title":"SpringBoot使用单元测试"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SpringBoot使用单元测试 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">2.</span> <span class="nav-text"> 关于单元测试</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%9A%84%E7%9B%AE%E7%9A%84"><span class="nav-number">3.</span> <span class="nav-text"> 测试的目的</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E7%9A%84%E5%8E%9F%E5%88%99"><span class="nav-number">4.</span> <span class="nav-text"> 测试的原则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#air-%E5%8E%9F%E5%88%99"><span class="nav-number">4.1.</span> <span class="nav-text"> AIR 原则</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B2%92%E5%BA%A6%E4%B8%8E%E8%8C%83%E5%9B%B4"><span class="nav-number">4.2.</span> <span class="nav-text"> 粒度与范围</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E4%BB%A3%E7%A0%81%E7%9B%AE%E5%BD%95"><span class="nav-number">4.3.</span> <span class="nav-text"> 单元测试代码目录</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E6%B5%8B%E8%AF%95"><span class="nav-number">4.4.</span> <span class="nav-text"> 数据库相关测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95%E7%94%A8%E4%BE%8B"><span class="nav-number">5.</span> <span class="nav-text"> 单元测试用例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#spring-boot-%E4%B8%AD%E7%9A%84%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">6.</span> <span class="nav-text"> Spring Boot 中的单元测试</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%B5%8B%E8%AF%95%E4%BE%9D%E8%B5%96"><span class="nav-number">6.1.</span> <span class="nav-text"> 添加测试依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%99%AE%E9%80%9A%E7%B1%BB%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="nav-number">6.2.</span> <span class="nav-text"> 普通类单元测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#service-%E7%B1%BB%E6%B5%8B%E8%AF%95"><span class="nav-number">6.3.</span> <span class="nav-text"> Service 类测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#controller-%E7%B1%BB%E6%B5%8B%E8%AF%95"><span class="nav-number">6.4.</span> <span class="nav-text"> Controller 类测试</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E7%9B%B8%E5%85%B3%E7%B1%BB%E6%B5%8B%E8%AF%95"><span class="nav-number">6.5.</span> <span class="nav-text"> 数据库相关类测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/07/31/SpringBoot%E4%BD%BF%E7%94%A8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SpringBoot使用单元测试 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringBoot使用单元测试<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/SpringBoot%E4%BD%BF%E7%94%A8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-07-31 19:10:07" itemprop="dateCreated datePublished" datetime="2021-07-31T19:10:07+08:00">2021-07-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了单元测试的概念，以及在 springboot 项目中如何使用单元测试来检查代码是否正确。</p>
+<h3 id="关于单元测试"><a class="markdownIt-Anchor" href="#关于单元测试"></a> 关于单元测试</h3>
+<blockquote>
+<p>单元测试（Unit Testing）又称模块测试，是针对程序模块（软件设计的最小单位）来进行正确性检验的测试工作。程序单元是应用程序的最小可测试部件，在过程化编程中，一个单元就是单个程序、函数、过程；对于面向对象编程，最小单元就是方法，包括基类（超类）、抽象类、或者派生类（子类）中的方法。</p>
+<p>——维基百科</p>
+</blockquote>
+<span id="more"></span>
+<h3 id="测试的目的"><a class="markdownIt-Anchor" href="#测试的目的"></a> 测试的目的</h3>
+<p>测试不仅是为了验证代码的正确性，还要确认它符合预期。测试也是一道保障，确认程序在改进的同时不会破坏已有的东西。</p>
+<p>另外，为了让代码方便测试，会迫使你以一种合理的、可理解的和可维护的方式来构造代码，这将减少组件的耦合度并增强其聚合度，让代码质量更高。</p>
+<h3 id="测试的原则"><a class="markdownIt-Anchor" href="#测试的原则"></a> 测试的原则</h3>
+<h4 id="air-原则"><a class="markdownIt-Anchor" href="#air-原则"></a> AIR 原则</h4>
+<p>好的单元测试必需遵循 AIR 原则，单元测试在线上运行时像空气一样感觉并不存在，但对于测试质量的保障却是非常关键：</p>
+<ul>
+<li>A：Automatic（自动化），通常测试需要经常执行，执行过程必需完全自动化才有意义。测试过程不需要交互和人工校验，应使用 assert 校验，而不是使用 System.out 输出来校验。</li>
+<li>I：Independent（独立性），为了保证单元测试稳定可靠且便于维护，单元测试用例之间绝不可相互调用，也不能依赖执行的先后顺序。</li>
+<li>R：Repeatable（可重复），单元测试是可以重复执行的，不能受到外界环境影响。</li>
+</ul>
+<h4 id="粒度与范围"><a class="markdownIt-Anchor" href="#粒度与范围"></a> 粒度与范围</h4>
+<p>要保证单元测试的粒度足够小，有助于精确定位问题，单侧粒度至多是类级别，一般是方法级别。单侧不负责检查跨类或者跨系统的交互逻辑，那是集成测试的领域。</p>
+<p>系统核心业务、核心应用、核心模块的增量代码确保单元测试通过。新增代码要及时补充单元测试，如果新增代码影响了原有单元测试，要及时修正。</p>
+<h4 id="单元测试代码目录"><a class="markdownIt-Anchor" href="#单元测试代码目录"></a> 单元测试代码目录</h4>
+<p>单元测试代码必需写在如下工程目录（Java工程）：<code>src/test/java</code> 不允许写在业务代码目录下。因为源码构建时会忽略此目录，而单元测试框架默认扫描此目录。</p>
+<h4 id="数据库相关测试"><a class="markdownIt-Anchor" href="#数据库相关测试"></a> 数据库相关测试</h4>
+<p>对于数据库相关的查询、更新、删除等操作，不能假设数据库的数据是存在的，或者手动操作数据库插入数据，应使用程序插入或到输入数据的方式来准备数据。</p>
+<p>可设定自动回滚机制，不给数据库造成脏数据，或者对单元测试产生的数据有明确的前后缀标识。</p>
+<h3 id="单元测试用例"><a class="markdownIt-Anchor" href="#单元测试用例"></a> 单元测试用例</h3>
+<p>测试要验证以下两点:</p>
+<ul>
+<li>对于所有有效的输入，都会生成正确的输出。</li>
+<li>对于所有无效的输入，都会生成适当的故障行为。</li>
+</ul>
+<p>因此，在编写测试和用例时，要考虑到有效输入集合和无效输入集合，通常来说有效输入集合都非常打，无效输入集合更大，所以必需要挑选出一小部分具有代表性的值，可以使用 BDE 原则。</p>
+<blockquote>
+<p>BCDE 原则：</p>
+<ul>
+<li>B：Border，边界值测试，包括循环边界、特殊取值（如 0）、特殊时间点、数据顺序等。</li>
+<li>C：Corrent，正确的输入，挑选一些处于中间位置和边界附近的输入值，得到预期的结果。</li>
+<li>D：Design，与设计文档相结合，让程序流程中所有条件判断的分支都能被覆盖到。</li>
+<li>E：Error，强制错误信息输入，如非法数据、异常流程、非业务允许输入等。</li>
+</ul>
+</blockquote>
+<p>此外，使用随机数据也是一种极为有效的测试策略，可能会发现一些你意想不到的细微错误。</p>
+<h3 id="spring-boot-中的单元测试"><a class="markdownIt-Anchor" href="#spring-boot-中的单元测试"></a> Spring Boot 中的单元测试</h3>
+<p>在单元测试中通常不需要 Spring 介入， Spring 鼓励松耦合、接口驱动的设计，这些让你很轻松的编写单元测试，但在单元测试时并不需要用到 Spring。但在集成测试时需要使用 Spring，因为集成测试时需要使用 Spring 来配置并组装组件。</p>
+<h4 id="添加测试依赖"><a class="markdownIt-Anchor" href="#添加测试依赖"></a> 添加测试依赖</h4>
+<blockquote>
+<p>注意：本文中示例代码基于 spring boot 2.5.3 版本。</p>
+</blockquote>
+<p>SpringBoot 官方提供了用于测试的 starter，其中引入了项目测试的工具类库，maven 依赖配置如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如果是使用 spring boot 官方的 Initializr 创建的项目，默认引入了该依赖。</p>
+<h4 id="普通类单元测试"><a class="markdownIt-Anchor" href="#普通类单元测试"></a> 普通类单元测试</h4>
+<p>这里的普通类是指不需要使用 Spring 注入依赖的类，这些类在进行单元测试时，可直接对其中方法创建测试代码。</p>
+<p>普通类示例：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> xyz.wqf.sbtestdemo.biz;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Greeting</span> &#123;</span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">sayHi</span><span class="params">(<span class="type">int</span> gender)</span> &#123;</span><br><span class="line">        String msg;</span><br><span class="line">        <span class="keyword">if</span> (gender == <span class="number">1</span>) &#123;</span><br><span class="line">            msg = <span class="string">&quot;hi, man!&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> (gender == <span class="number">0</span>)&#123;</span><br><span class="line">            msg = <span class="string">&quot;hi, woman!&quot;</span>;</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            msg = <span class="string">&quot;hi!&quot;</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> msg;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>创建测试类：使用 IntelliJ IDEA 编辑器开发时，可使用编辑器创建测试类。使用方法是打开要测试的类，点击菜单栏中 <code>Navigate</code> 中的 <code>Test</code> ，Windows 系统中默认快捷键是 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd> ，在弹出的选项中点击 <code>Create New Test...</code> ，随后在弹出框中勾选要测试的方法，点击确定，编辑器就帮我们生成了测试类，生成的测试类在 <code>src/test/java</code> 目录下的相同包中。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/idea_create_test.png" alt="" /></p>
+<p>测试类：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> xyz.wqf.sbtestdemo.biz;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.jupiter.api.Assertions.*;</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GreetingTest</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">sayHi</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">Greeting</span> <span class="variable">greeting</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">Greeting</span>();</span><br><span class="line">        assertEquals(<span class="string">&quot;hi!&quot;</span>, greeting.sayHi(-<span class="number">1</span>));</span><br><span class="line">        assertEquals(<span class="string">&quot;hi, woman!&quot;</span>, greeting.sayHi(<span class="number">0</span>));</span><br><span class="line">        assertEquals(<span class="string">&quot;hi, man!&quot;</span>, greeting.sayHi(<span class="number">1</span>));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在生成的测试类中，加入了对 junit 的断言（Assertions）类的依赖，用于判断测试结果是否符合预期。</p>
+<p>测试类中生成的测试方法都加了 <code>@Test</code> 注解，表示这是一个测试方法，在方法名一栏的左边会有一个可运行的标识，点击可运行这个方法。在运行整个测试类的时候，这些标有 <code>@Test</code> 注解的方法都会被执行。</p>
+<blockquote>
+<p>注意事项：</p>
+<ul>
+<li>测试方法不能用 <code>private</code> 修饰，同时建议不用 <code>public</code> 和 <code>protected</code> 修饰，一般不加访问权限修饰符。</li>
+<li>测试方法不能有参数，返回值为 <code>void</code> 。</li>
+<li>测试类名建议为原类名加 <code>Test</code> ，测试方法名建议为原方法名。</li>
+</ul>
+</blockquote>
+<p>JUnit 中还提供了丰富的注解来实现复杂的测试过程，如：</p>
+<table>
+<thead>
+<tr>
+<th>注解</th>
+<th>功能</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@BeforeAll</code></td>
+<td>在所有测试开启前执行，用于初始化资源</td>
+<td>该方法必需用 <code>satic</code> 修饰</td>
+</tr>
+<tr>
+<td><code>@BeforeEach</code></td>
+<td>在每个测试之前执行</td>
+<td>该方法禁止用 <code>static</code> 修饰</td>
+</tr>
+<tr>
+<td><code>@AfterAll</code></td>
+<td>所有测试完成后执行，用于释放资源</td>
+<td>该方法必需用 <code>static</code> 修饰</td>
+</tr>
+<tr>
+<td><code>@AfterEach</code></td>
+<td>每个测试完成后执行</td>
+<td>该方法禁止用 <code>static</code> 修饰</td>
+</tr>
+<tr>
+<td><code>@Timeout</code></td>
+<td>指定测试超时时间，执行超时则不通过</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<h4 id="service-类测试"><a class="markdownIt-Anchor" href="#service-类测试"></a> Service 类测试</h4>
+<p>在 Service 类中，通常需要使用 Spring 注入一些依赖，以完成测试。</p>
+<p>对于需要用到 Spring 环境的测试类，可以在类上添加 <code>@SpringBootTest</code> 注解，然后使用 <code>@Autowired</code> 注解将需要的 Bean 注入进来，在运行测试方法时会启动 Spring。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> xyz.wqf.sbtestdemo.service;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.junit.jupiter.api.Test;</span><br><span class="line"><span class="keyword">import</span> org.springframework.beans.factory.annotation.Autowired;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.test.context.SpringBootTest;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> <span class="keyword">static</span> org.junit.jupiter.api.Assertions.*;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootTest</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">GreetingServiceTest</span> &#123;</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> GreetingService greetingService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Test</span></span><br><span class="line">    <span class="keyword">void</span> <span class="title function_">sayHi</span><span class="params">()</span> &#123;</span><br><span class="line">        assertEquals(<span class="string">&quot;hi, jack&quot;</span>, greetingService.sayHi());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="controller-类测试"><a class="markdownIt-Anchor" href="#controller-类测试"></a> Controller 类测试</h4>
+<p>对于控制器类，往往需要发起网络请求来测试，我们可以使用 <code>@WebMvcTest</code> 注解，它提供了自配置的 MockMvc ，可以不需要完整启动 HTTP 服务器就可以快速测试 MVC 控制器。</p>
+<h4 id="数据库相关类测试"><a class="markdownIt-Anchor" href="#数据库相关类测试"></a> 数据库相关类测试</h4>
+<p>在测试数据库相关的类时，可以在测试类上加 <code>@Transactional</code> 注解，这样在测试完成后会自动回滚，防止在数据库中留下测试数据。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>单元测试 - 维基百科: <a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95">https://zh.wikipedia.org/wiki/单元测试</a></li>
+<li>阿里巴巴Java开发手册</li>
+<li>丁雪丰·Spring Boot实战</li>
+<li>编程匠艺：编写卓越的代码（第二版）</li>
+<li>Spring Boot使用单元测试: <a target="_blank" rel="noopener" href="https://blog.csdn.net/sz85850597/article/details/80427408">https://blog.csdn.net/sz85850597/article/details/80427408</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/springboot/" rel="tag"># springboot</a>
+              <a href="/tags/test/" rel="tag"># test</a>
+              <a href="/tags/spring/" rel="tag"># spring</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/07/07/%E5%AE%89%E8%A3%85Linux%E7%B3%BB%E7%BB%9F/" rel="prev" title="安装Linux系统">
+                  <i class="fa fa-chevron-left"></i> 安装Linux系统
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/08/05/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/" rel="next" title="Linux文件压缩与解压">
+                  Linux文件压缩与解压 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

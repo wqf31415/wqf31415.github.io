@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="关于本系列文章 我从2016年8月开始在培训班系统学习 Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候要依靠搜索引擎，恍然发现，过去的学习是为了能尽快会用，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，还是古人说得好，“九层之台，起于垒土”，若想在 Java 这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基">
+<meta property="og:type" content="article">
+<meta property="og:title" content="重走Java长征路-Java是什么">
+<meta property="og:url" content="https://www.wqf31415.xyz/2018/04/07/%E9%87%8D%E8%B5%B0Java%E9%95%BF%E5%BE%81%E8%B7%AF-Java%E6%98%AF%E4%BB%80%E4%B9%88/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="关于本系列文章 我从2016年8月开始在培训班系统学习 Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候要依靠搜索引擎，恍然发现，过去的学习是为了能尽快会用，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，还是古人说得好，“九层之台，起于垒土”，若想在 Java 这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/java_coffee.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/download_jdk_4_windows.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jdk8_exe.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/run_java_cmd.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/modify_sys_path.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/modify_sys_path_2.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/modify_sys_path_3.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/modify_sys_path_4.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/check_java_version.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/download_jdk_4_ubantu.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jdk8_tar_gz.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/unpack_jdk_in_ubantu.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/midify_java_path_in_ubantu.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/run_java_cmd_in_ubantu.png">
+<meta property="article:published_time" content="2018-04-07T05:31:44.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.320Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/java_coffee.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2018/04/07/%E9%87%8D%E8%B5%B0Java%E9%95%BF%E5%BE%81%E8%B7%AF-Java%E6%98%AF%E4%BB%80%E4%B9%88/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2018/04/07/%E9%87%8D%E8%B5%B0Java%E9%95%BF%E5%BE%81%E8%B7%AF-Java%E6%98%AF%E4%BB%80%E4%B9%88/","path":"2018/04/07/重走Java长征路-Java是什么/","title":"重走Java长征路-Java是什么"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>重走Java长征路-Java是什么 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E7%B3%BB%E5%88%97%E6%96%87%E7%AB%A0"><span class="nav-number">1.</span> <span class="nav-text"> 关于本系列文章</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text"> Java是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#java%E7%AE%80%E4%BB%8B"><span class="nav-number">2.1.</span> <span class="nav-text"> Java简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java%E5%8E%86%E5%8F%B2"><span class="nav-number">2.2.</span> <span class="nav-text"> Java历史</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#java%E7%89%88%E6%9C%AC"><span class="nav-number">2.3.</span> <span class="nav-text"> Java版本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E8%83%BD%E5%81%9A%E4%BB%80%E4%B9%88"><span class="nav-number">3.</span> <span class="nav-text"> Java能做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">4.</span> <span class="nav-text"> Java的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jdk-%E4%B8%8E-jre"><span class="nav-number">5.</span> <span class="nav-text"> JDK 与 JRE</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AEjava%E7%8E%AF%E5%A2%83"><span class="nav-number">6.</span> <span class="nav-text"> 配置Java环境</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">6.1.</span> <span class="nav-text">在Windows系统电脑上安装jdk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">6.2.</span> <span class="nav-text">在Linux系统上安装jdk</span></a></li><li class="nav-item nav-level-4"><a class="nav-link"><span class="nav-number">6.3.</span> <span class="nav-text">在苹果电脑上安装jdk</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java-%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-number">7.</span> <span class="nav-text"> Java 开发工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#intellij-idea"><span class="nav-number">7.1.</span> <span class="nav-text"> IntelliJ IDEA</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#eclipse"><span class="nav-number">7.2.</span> <span class="nav-text"> Eclipse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#myeclipse"><span class="nav-number">7.3.</span> <span class="nav-text"> MyEclipse</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#netbeans"><span class="nav-number">7.4.</span> <span class="nav-text"> NetBeans</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jbuilder"><span class="nav-number">7.5.</span> <span class="nav-text"> JBuilder</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jcreator"><span class="nav-number">7.6.</span> <span class="nav-text"> JCreator</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E6%9C%AC%E7%BC%96%E8%BE%91%E5%99%A8"><span class="nav-number">7.7.</span> <span class="nav-text"> 文本编辑器</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2018/04/07/%E9%87%8D%E8%B5%B0Java%E9%95%BF%E5%BE%81%E8%B7%AF-Java%E6%98%AF%E4%BB%80%E4%B9%88/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="重走Java长征路-Java是什么 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          重走Java长征路-Java是什么<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E9%87%8D%E8%B5%B0Java%E9%95%BF%E5%BE%81%E8%B7%AF-Java%E6%98%AF%E4%BB%80%E4%B9%88.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-04-07 13:31:44" itemprop="dateCreated datePublished" datetime="2018-04-07T13:31:44+08:00">2018-04-07</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="关于本系列文章"><a class="markdownIt-Anchor" href="#关于本系列文章"></a> 关于本系列文章</h3>
+<p>我从2016年8月开始在培训班系统学习 Java，至今已经有近2年时间了，但在使用Java编程过程中发现还有很多基础的东西不明白，很多时候要依靠搜索引擎，恍然发现，过去的学习是为了能尽快会用，能够开展工作，因此很多时候只要求能够使用，而没有去思考内在的思想。思来想去，还是古人说得好，“九层之台，起于垒土”，若想在 Java 这条路上走得远、走得稳，还是要花时间来把基础夯实，不让基础不实影响将来的学习发展。因此，我决定重走Java长征路，重头开始，再来学习一次java，从认识 java 开始，一直学到现在用到的技术框架。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/java_coffee.jpg" alt="" /></p>
+<h3 id="java是什么"><a class="markdownIt-Anchor" href="#java是什么"></a> Java是什么？</h3>
+<h4 id="java简介"><a class="markdownIt-Anchor" href="#java简介"></a> Java简介</h4>
+<p>Java 是一种 <strong>高级</strong> 的 <strong>面向对象</strong> 的程序设计语言。高级是相对于 机器语言、汇编语言来说的，编程过程接近自然语言，通过编译后生成机器能够识别的语言，从而能够在计算机上运行。面向对象(Object Oriented, OO) 是一种编程设计方式，核心是万事万物皆对象，主要特征有封装、继承、多态、抽象、集合等。<br />
+Java 语法规则与 C++ 类似，但比 C<ins>简洁，而且去除了其中的指针和多重继承概念。<br />
+Java 编写的程序既是编译型的，又是解释型的，程序代码经过编译后转换成可被 Java 虚拟机识别的字节码，Java 虚拟机(JVM)将字节码解释成机器码，最后在计算机上运行。编译只需执行一次，但在 java 虚拟机中运行时，要对每条字节码进行解释执行，因此在执行效率来看是不及 C</ins> 的。</p>
+<span id="more"></span>
+<h4 id="java历史"><a class="markdownIt-Anchor" href="#java历史"></a> Java历史</h4>
+<ul>
+<li>
+<p><strong>1991年</strong> Java 前身 Oak，James Gosling博士领导的绿色计划（Green Project）开始启动，此计划的目的是开发一种能够在各种消费性电子产品（如机顶盒、冰箱、收音机等）上运行的程序架构。这个计划的产品就是Java语言的前身：Oak（橡树）。</p>
+</li>
+<li>
+<p><strong>1995年</strong> Java 1.0 ，由Java之父詹姆斯·戈士林博士设计，由Sun公司推出，完成了Java的原始编译器和虚拟机，OAK 重命名为 Java，第一次提出 “一次编译，到处运行” 的概念。</p>
+</li>
+<li>
+<p><strong>1996年</strong> JDK 1.0 ，java 第一个正式版本的运行环境，代表技术包括：Java虚拟机、Applet、AWT等。</p>
+</li>
+<li>
+<p><strong>1997年</strong> JDK 1.1，技术代表有：JAR文件格式、JDBC、JavaBeans、RMI。Java语法也有了一定的发展，如内部类（Inner Class）和反射（Reflection）。</p>
+</li>
+<li>
+<p><strong>1998</strong> JDK 1.2，Java技术体系拆分为3个方向，分别是面向桌面应用开发的J2SE（Java 2 Platform， Standard Edition）、面向企业级开发的J2EE（Java 2 Platform， Enterprise Edition）和面向手机等移动终端开发的J2ME（Java 2 Platform， Micro Edition），代表性技术非常多，如EJB、Java Plug-in、Java IDL、Swing等，并且这个版本中Java虚拟机第一次内置了JIT（Just In Time）编译器。</p>
+</li>
+<li>
+<p><strong>1999年</strong> HotSpot虚拟机发布，它成为了JDK 1.3及之后所有版本的Sun JDK的默认虚拟机。</p>
+</li>
+<li>
+<p><strong>2000年</strong> JDK 1.3，修改了一些类库 api，如数学运算和新的Timer API等。</p>
+</li>
+<li>
+<p><strong>2002年</strong> JDK 1.4，Java真正走向成熟的一个版本，技术特性：正则表达式、异常链、NIO、日志类、XML解析器和XSLT转换器等。</p>
+</li>
+<li>
+<p><strong>2004年</strong> JDK 1.5，语法易用性上做出了非常大的改进，例如，自动装箱、泛型、动态注解、枚举、可变长参数、遍历循环（foreach循环）等，改进了Java的内存模型（Java Memory Model，JMM）、提供了java.util.concurrent并发包等。</p>
+</li>
+<li>
+<p><strong>2016年</strong> JDK 1.6，提供动态语言支持（通过内置Mozilla Java Rhino引擎实现）、提供编译API和微型HTTP服务器API等。同时，这个版本对Java虚拟机内部做了大量改进，包括锁与同步、垃圾收集、类加载等方面的算法都有相当多的改动。</p>
+</li>
+<li>
+<p><strong>2009</strong> JDK 1.7，提供新的G1收集器（G1在发布时依然处于Experimental状态，直至2012年4月的Update 4中才正式“转正”）、加强对非Java语言的调用支持（JSR-292，这项特性到目前为止依然没有完全实现定型）、升级类加载架构等。Sun 公司被 Oracle 公司收购，此后由 Oracle 公司维护。</p>
+</li>
+<li>
+<p><strong>2014年</strong> JDK 8，新特性包括：lambda 表达式、函数式编程、接口可以添加默认实现方法和静态方法、方法引用、引入Optional 避免空指针，引入 Stream api、引入新的日期时间api、JVM使用MetaSpace代替了永久代（PermGen Space）等。</p>
+</li>
+<li>
+<p><strong>2017年</strong> JDK 9，新特性：接口方法可以使用private来修饰、设置G1 为 JVM 默认垃圾收集器、支持http2.0的API等。</p>
+</li>
+<li>
+<p><strong>2018年3月</strong> JDK 10，局部变量类型推断，类似JS可以通过var来修饰局部变量，编译之后会推断出值的真实类型，并行Full GC，来优化G1的延迟，允许在不执行全局VM安全点的情况下执行线程回调，可以停止单个线程，而不需要停止所有线程或不停止线程。</p>
+</li>
+<li>
+<p><strong>2018年9月</strong> JDK 11，ZGC，ZGC可以看做是G1之上更细粒度的内存管理策略。由于内存的不断分配回收会产生大量的内存碎片空间，因此需要整理策略防止内存空间碎片化，在整理期间需要将对于内存引用的线程逻辑暂停，这个过程被称为&quot;Stop the world&quot;。只有当整理完成后，线程逻辑才可以继续运行。（并行回收）。Flight Recorder（飞行记录器），基于OS、JVM和JDK的事件产生的数据收集框架。</p>
+</li>
+<li>
+<p><strong>2019年3月</strong> JDK 12，Shenandoah GC，Switch 表达式表达式，G1收集器的优化。</p>
+</li>
+<li>
+<p><strong>2019年9月</strong> JDK 13，扩展应用程序类-数据共享、增强ZGC以将未使用的堆内存返回给操作系统、使用易于维护和调试的更简单、更现代的实现替换java.net.Socket和java.net.ServerSocket API使用的底层实现、可在生产环境中使用的 switch表达式，将文本块添加到Java语言。</p>
+</li>
+</ul>
+<h4 id="java版本"><a class="markdownIt-Anchor" href="#java版本"></a> Java版本</h4>
+<p>按Java的应用范围可以分为3个版本：</p>
+<ul>
+<li><strong>Java SE</strong>：标准版，主要用于桌面应用程序开发，也是Java的基础，包含了Java语言基础、JDBC(Java数据库链接)操作、I/O(输入输出)、网络通信、多线程等技术。</li>
+<li><strong>Java EE</strong>：企业版，用于开发企业级分布式网络程序，如电子商务和企业资源规划系统，核心是EJB(企业Java组件模型)。</li>
+<li><strong>Java ME</strong>：移动版，主要应用于嵌入式开发，如掌上电脑、手机等移动通信设备，现在大多数手机都支持Java技术。</li>
+</ul>
+<h3 id="java能做什么"><a class="markdownIt-Anchor" href="#java能做什么"></a> Java能做什么？</h3>
+<p>Java是独立于平台的，所以它不仅能用于计算机领域，还能用于便携式计算机、电视、电话、手机和其他电子设备。当今java主要用于以下几个方面：</p>
+<ul>
+<li>web应用系统开发</li>
+<li>分布式系统开发</li>
+<li>多媒体系统开发</li>
+<li>交互式系统开发</li>
+<li>企业级应用开发</li>
+<li>电子商务系统</li>
+<li>嵌入式系统开发</li>
+<li>桌面应用系统开发</li>
+</ul>
+<h3 id="java的特点"><a class="markdownIt-Anchor" href="#java的特点"></a> Java的特点</h3>
+<ul>
+<li><strong>跨平台</strong>: Java是一种与平台无关的编程语言，因为java程序可以用过java虚拟机将代码解释为机器码，直接在机器上运行。通过不同系统上的Java虚拟机，Java程序可以在Windows系统电脑、mac 苹果计算机、各种未处理器硬件平台、Unix等系统平台上运行，因此Java程序具有良好的可移植性，一次编写，到处运行。</li>
+<li><strong>面向对象</strong>: 面向对象是Java语言的基础，在Java的世界里“万事万物皆对象”。</li>
+<li><strong>安全可靠</strong>: Java删除了类似C语言中的指针和内存释放等语法，有效避免了非法操作内存。运行Java程序需要解释器，解释器会对Java字节码进行检查校验。Java有异常处理机制，将检查并消除编译和运行时的错误。</li>
+<li><strong>多线程</strong>: 多线程机制能够使Java程序同时并行执行多项任务，提供了相应的同步机制来保证不同线程能够正确共享数据。</li>
+</ul>
+<h3 id="jdk-与-jre"><a class="markdownIt-Anchor" href="#jdk-与-jre"></a> JDK 与 JRE</h3>
+<ul>
+<li>
+<p><strong>JDK</strong> 全称 Java Development Kit，即 Java 开发工具包，其中包含了 Java 运行环境 (JRE) 以及一些开发使用的编译、调试等工具，如 javac 用于编译 java 源文件，jps 用于查看当前正在运行的 java 程序等，适用于开发者。</p>
+</li>
+<li>
+<p><strong>JRE</strong> 全称 Java Runtime Environment，即 Java 运行时环境，提供了 Java 运行时所必须的环境，包括 JVM 虚拟机以及 Java 核心类库，安装后就可以运行 Java 程序了，适用于普通用户。</p>
+</li>
+</ul>
+<h3 id="配置java环境"><a class="markdownIt-Anchor" href="#配置java环境"></a> 配置Java环境</h3>
+<div style="text-align: left;"><div style="border: 1px #ccc solid;display: inline-table;width: 30%; height: 40px;text-align: center;line-height: 40px;cursor:pointer;" class="tab" onmouseover="tabHover(this);" onmouseout="tabHoverOut(this)" onclick="clickTabel(0);">windows 系统</div><div style="border: 1px #ccc solid;display: inline-table;width: 30%; height: 40px;text-align: center;line-height: 40px;cursor:pointer;" class="tab" onmouseover="tabHover(this);" onmouseout="tabHoverOut(this)" onclick="clickTabel(1);">Linux 系统</div><div style="border: 1px #ccc solid;display: inline-table;width: 30%; height: 40px;text-align: center;line-height: 40px;cursor:pointer;" class="tab" onmouseover="tabHover(this);" onmouseout="tabHoverOut(this)"  onclick="clickTabel(2);"> mac 系统</div></div><div><div style="width: 100%;border: 1px #ccc solid;text-decoration: none;list-style: none;display: none;" class = "content-label"><h4 style="text-align: center;">在Windows系统电脑上安装jdk</h4><hr/><p style="padding: 0px 5px">1. <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">下载jdk8 安装包</a><br/><img width="100%" src="http://blog-images.qiniu.wqf31415.xyz/download_jdk_4_windows.png"></p><hr><p style="padding: 0px 5px">2. 双击下载好的 <b>.exe</b> 文件，开始安装，在安装过程中会提示选择jdk安装路径，可以选择默认的，也可以自己制定，注意安装路径中不要有中文，这个安装路径需要记住，等会配置环境变量时要使用<br/><img style="margin: 0 auto;max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/jdk8_exe.png"></p><hr><p style="padding: 0px 5px">3. 安装完成后，按 <b>Windows 键 + R</b> 运行 “cmd”，打开命令行工具，在命令行中运行 <b>java</b> 命令，如果出现类型下面的提示信息，说明 jdk 安装成功<br><img src="http://blog-images.qiniu.wqf31415.xyz/run_java_cmd.png"></p><hr><p style="padding: 0px 5px">4. 配置环境变量，首先我们找到刚才安装jdk的目录，我是使用的默认安装目录： <b>C:\Program Files\Java\jdk1.8.0_181</b> <br>打开系统控制面板，搜索 “编辑系统环境变量”，点击搜索到的按钮，在弹出的“系统属性”面板中点击“环境变量”；(<span style="font-size: smaller;color: gray">ps: 也可以直接点Windows 开始按钮，在下方搜索框中搜索“编辑系统环境变量”</span>)<br><img width="100%" src="http://blog-images.qiniu.wqf31415.xyz/modify_sys_path.png"></p><hr><p style="padding: 0px 5px">5. 点击“系统变量”下方的 <b>新建</b> 按钮，在弹出的对话框中填入变量名： <b>JAVA_HOME</b> ，变量值：<b>C:\Program Files\Java\jdk1.8.0_181</b> ，即本地jdk的安装路径，这样我们就新建了一个系统环境变量<br><img style="max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/modify_sys_path_2.png"><br><img style="max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/modify_sys_path_3.png"><br><br>使用相同的方法，我们新建一个名为 <b>classpath</b> ，值为 <b>%JAVA_HOME%\lib\dt.jar;%JAVA_HOME%\lib\tools.jar</b> 的环境变量<br><br>修改Path，在“系统变量”中找到 <b>Path</b> 项，点击“编辑”，在最后面添加 <b>;%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin;</b> ，注意前后的分号，所有符号都是英文半角状态的<br><img style="max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/modify_sys_path_4.png"></p><hr><p style="padding: 0px 5px">6. 验证配置是否正确，运行 “java -version” 命令查询jdk版本号，运行 “javac -version” 查看java编译器版本，运行 “jps” 查询当前运行的java程序<br><img style="max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/check_java_version.png"><br>如果提示 “不是内部或外部命令，也不是可运行的程序或批处理文件。” 说明安装或环境变量配置有误<br><span style="font-size: smaller;color: gray">注意：修改完环境变量之后要重新打开命令行，否则可能会导致运行指令失败</span></p><hr></div><div style="width: 100%;border: 1px #ccc solid;text-decoration: none;list-style: none;display: none;" class = "content-label"><h4 style="text-align: center;">在Linux系统上安装jdk</h4><hr><p style="padding: 0px 5px">1. <a href="http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank">下载jdk8 安装包</a>，我使用的是 ubantu 16.4 LTS ，下载jdk时选择的是64位的 .tar.gz 压缩包版本<br><img style="max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/download_jdk_4_ubantu.png"><br><img style="max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/jdk8_tar_gz.png"></p><hr><p style="padding: 0px 5px">2. 解压文件。在/usr目录下新建一个名叫 “java-8” 的目录，当然这个目录名称可以随意，将下载好的jdk压缩包移动到这个目录下，并解压出来<br>在ubantu中可以直接右键点击jdk压缩包，选择提取到当前文件夹，也可以通过在命令行执行命令解压 <b>tar -zxvf tar -zxvf jdk-8u161-linux-x64.tar.gz</b> ，解压完成后，在当前目录下就多了一个 “jdk1.8.0_161” 目录，这里面放的就是jdk的文件了<br><img style="max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/unpack_jdk_in_ubantu.png"></p><hr><p style="padding: 0px 5px">3. 配置环境变量。编辑 /etc/profile 文件，在最后面添加如下内容：<br>export JAVA_HOME=/usr/java-8/jdk1.8.0_161<br>export JRE_HOME=$JAVA_HOME/jre<br>export CLASSPATH=.:$CLASSPATH:$JAVA_HOME/lib:$JRE_HOME/lib<br>export PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin<br>注意要将 JAVA_HOME 的值配置为刚才解压的jdk的路径(<span style="font-size: smaller;color: gray">可以在命令行执行 pwd 命令查看路径</span>)，修改完成后执行 <b>source /etc/profile</b> 命令使修改的配置生效<br><img src="http://blog-images.qiniu.wqf31415.xyz/midify_java_path_in_ubantu.png"><hr><p style="padding: 0px 5px">4. 验证。打开命令行，运行 “java -version” 命令查询jdk版本号，运行 “javac -version” 查看java编译器版本，运行 “jps” 查询当前运行的java程序<br><img style="max-width: 100%" src="http://blog-images.qiniu.wqf31415.xyz/run_java_cmd_in_ubantu.png"><br>如果打出类似上面的信息，说明安装配置正确。</p><hr><p>ps: 也可以通过 apt 工具安装openjdk，打开命令行执行命令：sudo apt install openjdk-8-jdk<hr>关于openjdk与官网jdk的区别这里就不展开了。</p></div><div style="width: 100%;border: 1px #ccc solid;text-decoration: none;list-style: none;display: none;" class = "content-label"><h4 style="text-align: center;">在苹果电脑上安装jdk</h4><hr><p style="padding: 0px 5px">没有用过苹果电脑，所以没有截图，安装过程也比较简单，直接下载 供 MAC OS 使用的 .dmg 文件，下载完成后直接点击,按提示安装即可。安装完成后也需要配置环境变量，可以参考： <a target="_blank" rel="noopener" href="https://blog.csdn.net/vvv_110/article/details/72897142">MAC安装JDK及环境变量配置</a></p><hr><br></div></div>
+<script>clickTabel(0);function clickTabel(num){var cls = document.getElementsByClassName("content-label");var tabs = document.getElementsByClassName("tab");for(var i=0;i<cls.length;i++){if(i == num){cls[i].style.display='block';}else{cls[i].style.display = 'none';}}; for(var i = 0;i<tabs.length;i++){if(i == num){tabs[i].style.borderColor='#4b4';tabs[i].style.backgroundColor='#5c5';}else{tabs[i].style.borderColor='#ccc';	tabs[i].style.backgroundColor='white';}}}function tabHover(dd){	dd.style.fontWeight='bold';}function tabHoverOut(dd){dd.style.fontWeight='normal';}</script>
+<h3 id="java-开发工具"><a class="markdownIt-Anchor" href="#java-开发工具"></a> Java 开发工具</h3>
+<h4 id="intellij-idea"><a class="markdownIt-Anchor" href="#intellij-idea"></a> IntelliJ IDEA</h4>
+<blockquote>
+<p>官网地址：<a target="_blank" rel="noopener" href="http://www.jetbrains.com/idea/">http://www.jetbrains.com/idea/</a></p>
+</blockquote>
+<p>推荐指数：5星</p>
+<p>由 JetBrains 公司提供的，非常好用的开发工具，功能完善，插件众多，界面美观，受众多java开发人员喜爱，被称为业内最好用的java集成开发工具。其中 Ultimate 版需要注册，适合web和企业开发者，Community 版是开源的，免费使用的，适合jvm 和 Android 开发者。</p>
+<h4 id="eclipse"><a class="markdownIt-Anchor" href="#eclipse"></a> Eclipse</h4>
+<blockquote>
+<p>官网地址：<a target="_blank" rel="noopener" href="http://www.eclipse.org/">http://www.eclipse.org/</a></p>
+</blockquote>
+<p>推荐指数：4星半</p>
+<p>老牌IDE，开源，插件多，功能齐全，java开发工具第二大阵营。</p>
+<h4 id="myeclipse"><a class="markdownIt-Anchor" href="#myeclipse"></a> MyEclipse</h4>
+<p>收费</p>
+<blockquote>
+<p>官网地址：<a target="_blank" rel="noopener" href="https://www.genuitec.com/products/myeclipse/">https://www.genuitec.com/products/myeclipse/</a></p>
+<p>中文官网：<a target="_blank" rel="noopener" href="http://www.myeclipsecn.com/">http://www.myeclipsecn.com/</a></p>
+</blockquote>
+<p>推荐指数：4星</p>
+<p>对Eclipse进行优化，增加了很多实用的功能，使用方便，但是需要购买。</p>
+<h4 id="netbeans"><a class="markdownIt-Anchor" href="#netbeans"></a> NetBeans</h4>
+<blockquote>
+<p>官网地址：<a target="_blank" rel="noopener" href="https://netbeans.org/">https://netbeans.org/</a></p>
+</blockquote>
+<p>推荐指数：3星</p>
+<h4 id="jbuilder"><a class="markdownIt-Anchor" href="#jbuilder"></a> JBuilder</h4>
+<blockquote>
+<p>官网地址: <a target="_blank" rel="noopener" href="http://edn.embarcadero.com/jbuilder">http://edn.embarcadero.com/jbuilder</a></p>
+</blockquote>
+<p>推荐指数：2星</p>
+<h4 id="jcreator"><a class="markdownIt-Anchor" href="#jcreator"></a> JCreator</h4>
+<blockquote>
+<p>官网地址：<a target="_blank" rel="noopener" href="http://www.jcreator.com/">http://www.jcreator.com/</a></p>
+</blockquote>
+<p>推荐指数：2星</p>
+<h4 id="文本编辑器"><a class="markdownIt-Anchor" href="#文本编辑器"></a> 文本编辑器</h4>
+<p>理论上来说，只要是能编辑文本的工具都可以写java代码，像Windows中的文本编辑器、notepad++、sublime等等，但这种只适合在学习时写一些小的代码片段，不适合开发项目。（大神请忽略，大神基本上也不会看到这里的，哈哈）</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/02/28/%E4%BD%BF%E7%94%A8POI%E5%A4%84%E7%90%86office%E6%96%87%E4%BB%B6/" rel="prev" title="使用POI处理office文件">
+                  <i class="fa fa-chevron-left"></i> 使用POI处理office文件
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/04/20/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/" rel="next" title="SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法">
+                  SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

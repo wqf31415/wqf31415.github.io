@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章简单的介绍了使用 GitHub 的 Action 工具自动部署项目。  什么是 GitHub Action Action 是 GitHub 提供了的持续集成工具，可以自动对 GitHub 仓库上构建、测试、封装、发行或部署项目。提供了自定义自动化软件设计开发工作流的功能，还可以发现、创建和共享操作，并可以将操作合并到完全自定义的工作流程中。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 GitHub Action 自动部署项目">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章简单的介绍了使用 GitHub 的 Action 工具自动部署项目。  什么是 GitHub Action Action 是 GitHub 提供了的持续集成工具，可以自动对 GitHub 仓库上构建、测试、封装、发行或部署项目。提供了自定义自动化软件设计开发工作流的功能，还可以发现、创建和共享操作，并可以将操作合并到完全自定义的工作流程中。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_2.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_3.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_repo_add_secret.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/github_edit_action_conf_marketplace.png">
+<meta property="article:published_time" content="2020-08-27T00:56:53.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.273Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="github">
+<meta property="article:tag" content="ci">
+<meta property="article:tag" content="持续集成">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/github_action_1.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/","path":"2020/08/27/使用-GitHub-Action-自动部署项目/","title":"使用 GitHub Action 自动部署项目"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>使用 GitHub Action 自动部署项目 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-github-action"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 GitHub Action</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%93%E9%AA%8C"><span class="nav-number">3.</span> <span class="nav-text"> 体验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="nav-number">3.1.</span> <span class="nav-text"> 配置工作流程</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8F%90%E4%BA%A4%E4%BB%A3%E7%A0%81%E6%9F%A5%E7%9C%8B%E6%95%88%E6%9E%9C"><span class="nav-number">3.2.</span> <span class="nav-text"> 提交代码查看效果</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B%E9%85%8D%E7%BD%AE"><span class="nav-number">4.</span> <span class="nav-text"> 工作流程配置</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BB%BB%E5%8A%A1%E5%90%8D%E7%A7%B0-name"><span class="nav-number">4.1.</span> <span class="nav-text"> 任务名称 name</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%A7%A6%E5%8F%91%E6%9D%A1%E4%BB%B6-on"><span class="nav-number">4.2.</span> <span class="nav-text"> 触发条件 on</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BB%BB%E6%84%8F%E6%8E%A8%E9%80%81%E4%BB%A3%E7%A0%81%E5%88%B0%E4%BB%BB%E6%84%8F%E5%88%86%E6%94%AF%E6%97%B6%E8%A7%A6%E5%8F%91"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 任意推送代码到任意分支时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9C%A8-push-%E6%88%96-pull-%E6%97%B6%E8%A7%A6%E5%8F%91"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 在 push 或 pull 时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8E%A8%E9%80%81%E5%88%B0%E6%8C%87%E5%AE%9A%E5%88%86%E6%94%AF%E6%97%B6%E8%A7%A6%E5%8F%91"><span class="nav-number">4.2.3.</span> <span class="nav-text"> 推送到指定分支时触发</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9A%E6%97%B6%E8%A7%A6%E5%8F%91"><span class="nav-number">4.2.4.</span> <span class="nav-text"> 定时触发</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F-env"><span class="nav-number">4.3.</span> <span class="nav-text"> 环境变量 env</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%BB%98%E8%AE%A4%E8%AE%BE%E7%BD%AE-defaults"><span class="nav-number">4.4.</span> <span class="nav-text"> 默认设置 defaults</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E4%BB%BB%E5%8A%A1-jobs"><span class="nav-number">4.5.</span> <span class="nav-text"> 工作任务 jobs</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B7%A5%E4%BD%9C%E4%BB%BB%E5%8A%A1%E4%B8%AD%E7%9A%84%E9%85%8D%E7%BD%AE%E9%A1%B9"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 工作任务中的配置项</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#runs-on"><span class="nav-number">4.5.1.1.</span> <span class="nav-text"> runs-on</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#name"><span class="nav-number">4.5.1.2.</span> <span class="nav-text"> name</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#need"><span class="nav-number">4.5.1.3.</span> <span class="nav-text"> need</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#outputs"><span class="nav-number">4.5.1.4.</span> <span class="nav-text"> outputs</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#if"><span class="nav-number">4.5.1.5.</span> <span class="nav-text"> if</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#steps"><span class="nav-number">4.5.1.6.</span> <span class="nav-text"> steps</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#timeout-minutes"><span class="nav-number">4.5.1.7.</span> <span class="nav-text"> timeout-minutes</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%AF%86%E7%A0%81"><span class="nav-number">4.6.</span> <span class="nav-text"> 使用密码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E9%A2%84%E7%BD%AE%E7%9A%84%E6%93%8D%E4%BD%9C"><span class="nav-number">4.7.</span> <span class="nav-text"> 使用预置的操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E6%88%98"><span class="nav-number">5.</span> <span class="nav-text"> 实战</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">6.</span> <span class="nav-text"> 工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="使用 GitHub Action 自动部署项目 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          使用 GitHub Action 自动部署项目<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-08-27 08:56:53" itemprop="dateCreated datePublished" datetime="2020-08-27T08:56:53+08:00">2020-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章简单的介绍了使用 GitHub 的 Action 工具自动部署项目。</p>
+<h3 id="什么是-github-action"><a class="markdownIt-Anchor" href="#什么是-github-action"></a> 什么是 GitHub Action</h3>
+<p>Action 是 GitHub 提供了的持续集成工具，可以自动对 GitHub 仓库上构建、测试、封装、发行或部署项目。提供了自定义自动化软件设计开发工作流的功能，还可以发现、创建和共享操作，并可以将操作合并到完全自定义的工作流程中。</p>
+<span id="more"></span>
+<h3 id="体验"><a class="markdownIt-Anchor" href="#体验"></a> 体验</h3>
+<h4 id="配置工作流程"><a class="markdownIt-Anchor" href="#配置工作流程"></a> 配置工作流程</h4>
+<p>创建仓库 <code>test</code> ，在 <code>.github/workflows</code> 目录下创建工作流配置文件，使用 <code>.yml</code> 或 <code>.yaml</code> 文件编辑工作流配置。如 <code>myAction.yml</code> ：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">name:</span> <span class="string">my-action</span> <span class="comment"># 名称</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branches:</span> [ <span class="string">master</span> ] <span class="comment"># 当推送代码到 master 时触发任务</span></span><br><span class="line"></span><br><span class="line"><span class="attr">jobs:</span> <span class="comment"># 任务</span></span><br><span class="line">  <span class="attr">build:</span> <span class="comment"># 定义一个 id 为 build 的任务项</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span> <span class="comment"># 运行平台</span></span><br><span class="line">    <span class="attr">steps:</span> <span class="comment"># 任务步骤</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span> <span class="comment"># 使用官方提供的操作</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">one-line</span> <span class="string">script</span> <span class="comment"># 自定义任务名</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">Hello,</span> <span class="string">world!</span> <span class="comment"># 自定义任务命令，打印 Hello, world!</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">multi-line</span> <span class="string">script</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          echo Add other action to build,</span></span><br><span class="line"><span class="string">          echo test, and deploy your project.</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上述配置了名为 <code>my-action</code> 的Action，将在推送代码到 <code>master</code> 分支时触发工作任务，任务执行平台为最新的 Ubuntu 平台</p>
+</blockquote>
+<h4 id="提交代码查看效果"><a class="markdownIt-Anchor" href="#提交代码查看效果"></a> 提交代码查看效果</h4>
+<p>提交代码到 <code>test</code> 仓库的 <code>master</code> 分支，点击 <code>Actions</code> 标签，将展示工作执行结果：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/github_action_1.png" alt="" /></p>
+<p>点击下方的记录，查看详情：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/github_action_2.png" alt="" /></p>
+<p>点击 <code>build</code> 查看构建的日志详情：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/github_action_3.png" alt="" /></p>
+<p>查看输出的日志，可以看到我们在配置文件中定义的任务都被正确执行了。</p>
+<h3 id="工作流程配置"><a class="markdownIt-Anchor" href="#工作流程配置"></a> 工作流程配置</h3>
+<p>GitHub Action 的工作流配置都是以 yaml 文件配置，都需要放到项目仓库下的 <code>.github/workflows</code> 目录下。</p>
+<h4 id="任务名称-name"><a class="markdownIt-Anchor" href="#任务名称-name"></a> 任务名称 name</h4>
+<p>配置文件中以 <code>name</code> 项配置工作流程的名称，将在仓库操作页面展示该名称。如果省略 <code>name</code> 将设置为相对于仓库根目录的工作流程文件路径。</p>
+<h4 id="触发条件-on"><a class="markdownIt-Anchor" href="#触发条件-on"></a> 触发条件 on</h4>
+<p><code>on</code> 项配置工作流触发事件，值可以是单一事件、事件数组、事件类型数组或事件配置 map。</p>
+<h5 id="任意推送代码到任意分支时触发"><a class="markdownIt-Anchor" href="#任意推送代码到任意分支时触发"></a> 任意推送代码到任意分支时触发</h5>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span> <span class="string">push</span></span><br></pre></td></tr></table></figure>
+<h5 id="在-push-或-pull-时触发"><a class="markdownIt-Anchor" href="#在-push-或-pull-时触发"></a> 在 push 或 pull 时触发</h5>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span> [<span class="string">push</span>, <span class="string">pull_request</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="推送到指定分支时触发"><a class="markdownIt-Anchor" href="#推送到指定分支时触发"></a> 推送到指定分支时触发</h5>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span> </span><br><span class="line">  <span class="attr">push:</span> </span><br><span class="line">    <span class="attr">branches:</span> [<span class="string">master</span>]</span><br></pre></td></tr></table></figure>
+<h5 id="定时触发"><a class="markdownIt-Anchor" href="#定时触发"></a> 定时触发</h5>
+<p>定时触发的最小间隔是 5 分钟。如下为每 30 分钟触发一次：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">schedule:</span></span><br><span class="line">    <span class="bullet">-</span> <span class="attr">cron:</span> <span class="string">&#x27;*/30 * * * *&#x27;</span></span><br></pre></td></tr></table></figure>
+<h4 id="环境变量-env"><a class="markdownIt-Anchor" href="#环境变量-env"></a> 环境变量 env</h4>
+<p><code>env</code> 项目用于配置环境变量，可用于工作流中所有作业和步骤，还可以设置为仅适用于作业或步骤的环境变量。如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">env:</span></span><br><span class="line">  <span class="attr">SERVER:</span> <span class="string">production</span></span><br></pre></td></tr></table></figure>
+<h4 id="默认设置-defaults"><a class="markdownIt-Anchor" href="#默认设置-defaults"></a> 默认设置 defaults</h4>
+<p>将应用到工作流程中所有作业的默认设置，如果有多个默认设置时，以最近的为准。</p>
+<h4 id="工作任务-jobs"><a class="markdownIt-Anchor" href="#工作任务-jobs"></a> 工作任务 jobs</h4>
+<p><code>jobs</code> 用于定义一项或多项作业，作业默认是并行运行，可以在作业配置中 <code>need</code> 项中指定依赖的作业项。</p>
+<p>每项作业有必须关联一个唯一的 ID，ID 为字符串，必须以字母或下划线开头，只能包含字母、数字、下划线 <code>_</code> 或横杠 <code>-</code> ，如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">my_job_1:</span> <span class="comment"># 作业ID</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">my</span> <span class="string">first</span> <span class="string">job</span></span><br><span class="line">  <span class="attr">_other-job:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">other</span> <span class="string">job</span></span><br></pre></td></tr></table></figure>
+<h5 id="工作任务中的配置项"><a class="markdownIt-Anchor" href="#工作任务中的配置项"></a> 工作任务中的配置项</h5>
+<p>工作任务中的配置项是定义在 <code>jobs.&lt;job_id&gt;</code> 下的配置项。</p>
+<h6 id="runs-on"><a class="markdownIt-Anchor" href="#runs-on"></a> <code>runs-on</code></h6>
+<p>指定运行的环境，取值：</p>
+<table>
+<thead>
+<tr>
+<th>值</th>
+<th>虚拟环境</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>windows-latest</code> 或 <code>windows-2019</code></td>
+<td>Windows Server 2019</td>
+</tr>
+<tr>
+<td><code>ubuntu-20.04</code></td>
+<td>Ubuntu 20.04</td>
+</tr>
+<tr>
+<td><code>ubuntu-latest</code> 或 <code>ubuntu-18.04</code></td>
+<td>Ubuntu 18.04</td>
+</tr>
+<tr>
+<td><code>ubuntu-16.04</code></td>
+<td>Ubuntu 16.04</td>
+</tr>
+<tr>
+<td><code>macos-latest</code> 或 <code>macos-10.15</code></td>
+<td>macOS Catalina 10.15</td>
+</tr>
+</tbody>
+</table>
+<h6 id="name"><a class="markdownIt-Anchor" href="#name"></a> <code>name</code></h6>
+<p>指定任务名称，在查看执行日志时显示</p>
+<h6 id="need"><a class="markdownIt-Anchor" href="#need"></a> <code>need</code></h6>
+<p>指定当前任务之前必须完成的作业，可以是一个任务ID或任务ID数组，如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">job1:</span></span><br><span class="line">  <span class="attr">job2:</span></span><br><span class="line">    <span class="attr">need:</span> <span class="string">job1</span></span><br><span class="line">  <span class="attr">job3:</span></span><br><span class="line">    <span class="attr">need:</span> [<span class="string">job1</span>,<span class="string">job2</span>]</span><br></pre></td></tr></table></figure>
+<h6 id="outputs"><a class="markdownIt-Anchor" href="#outputs"></a> <code>outputs</code></h6>
+<p>定义此作业的输出内容，供下游作业使用。如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">job1:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">outputs:</span></span><br><span class="line">      <span class="attr">output1:</span> <span class="string">$&#123;&#123;steps.step1.test&#125;&#125;</span></span><br><span class="line">      <span class="attr">output2:</span> <span class="string">$&#123;&#123;steps.step2.test&#125;&#125;</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">step1</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">&quot;::set-output name=test::hello&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">id:</span> <span class="string">step2</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">echo</span> <span class="string">&quot;::set-output name=test::world&quot;</span></span><br><span class="line">  <span class="attr">job2:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">needs:</span> <span class="string">job1</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">run:</span> <span class="string">echo</span> <span class="string">$&#123;&#123;needs.job1.outputs.output1&#125;&#125;</span> <span class="string">$&#123;&#123;needs.job1.outputs.output2&#125;&#125;</span></span><br></pre></td></tr></table></figure>
+<h6 id="if"><a class="markdownIt-Anchor" href="#if"></a> <code>if</code></h6>
+<p>指定作业运行的条件，只有满足条件才会执行。如：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">job1:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">if:</span> <span class="string">$&#123;&#123;github.event_name</span> <span class="string">==</span> <span class="string">&#x27;pull_request&#x27;</span> <span class="string">&amp;&amp;</span> <span class="string">github.event.action</span> <span class="string">==</span> <span class="string">&#x27;unassigned&#x27;</span> <span class="string">&#125;&#125;</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="attr">run:</span> <span class="string">echo</span> <span class="string">xxxxx</span></span><br><span class="line">    </span><br></pre></td></tr></table></figure>
+<h6 id="steps"><a class="markdownIt-Anchor" href="#steps"></a> <code>steps</code></h6>
+<p>定义一系列任务步骤，步骤将顺序执行，如果一个失败随后的任务将不执行。在步骤中可以运行命令、运行设置任务，或者运行个人仓库、公共仓库中的操作或 Docker 注册中发布的操作。</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">my-job:</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">my</span> <span class="string">job</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span> <span class="comment"># 使用官方提供的检出仓库操作</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Print</span> <span class="string">hello</span></span><br><span class="line">        <span class="attr">env:</span> </span><br><span class="line">          <span class="attr">MY_NAME:</span> <span class="string">Jack</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">          <span class="string">echo</span> <span class="string">hello</span> <span class="string">$MY_NAME</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>steps 中一些常用配置项：</p>
+<ul>
+<li>
+<p><code>uses</code> ：使用自定义或 github 社区提供的操作</p>
+</li>
+<li>
+<p><code>uses.with</code> ：为使用的操作添加附加条件</p>
+</li>
+<li>
+<p><code>id</code> ：步骤的 ID ，方便引用</p>
+</li>
+<li>
+<p><code>name</code> ：为步骤命名</p>
+</li>
+<li>
+<p><code>run</code> ：运行命令，如果是多条命令使用 <code>|</code> 符号标识，如：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">one-line</span> <span class="string">script</span> <span class="comment"># 自定义任务名</span></span><br><span class="line">  <span class="attr">run:</span> <span class="string">echo</span> <span class="string">Hello,</span> <span class="string">world!</span> <span class="comment"># 自定义任务命令，打印 Hello, world!</span></span><br><span class="line"><span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Run</span> <span class="string">a</span> <span class="string">multi-line</span> <span class="string">script</span></span><br><span class="line">  <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">    echo Add other action to build,</span></span><br><span class="line"><span class="string">    echo test, and deploy your project.</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+</blockquote>
+<h6 id="timeout-minutes"><a class="markdownIt-Anchor" href="#timeout-minutes"></a> <code>timeout-minutes</code></h6>
+<p>指定超时时间，默认值为 360 分钟。</p>
+<h4 id="使用密码"><a class="markdownIt-Anchor" href="#使用密码"></a> 使用密码</h4>
+<p>在构建与部署过程中，我们可能需要用的一些加密信息，这时我们需要在仓库设置中添加加密信息，需要输入名称和值。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/github_repo_add_secret.png" alt="" /></p>
+<p>在使用密码时，可以作为输入参数或者环境变量，如使用名为 <code>MY_PWD</code> 的加密信息：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">steps:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="string">name</span> <span class="string">use</span> <span class="string">secrets</span></span><br><span class="line">    <span class="attr">with:</span></span><br><span class="line">      <span class="attr">my_pwd:</span> <span class="string">$&#123;&#123;secrets.MY_PWD&#125;&#125;</span></span><br><span class="line">    <span class="attr">env:</span></span><br><span class="line">      <span class="attr">my_pwd:</span> <span class="string">$&#123;&#123;secrets.MY_PWD&#125;&#125;</span></span><br><span class="line">    <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line">      <span class="string">example-command</span> <span class="string">&quot;$my_pwd&quot;</span></span><br></pre></td></tr></table></figure>
+<h4 id="使用预置的操作"><a class="markdownIt-Anchor" href="#使用预置的操作"></a> 使用预置的操作</h4>
+<p>操作是一系列特定作业步骤的组合，可以完成特定的任务，可以创建自己的操作，也可以使用 github 社区分享的操作。比如使用官方的检出仓库的操作：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="bullet">-</span> <span class="attr">uses:</span> <span class="string">action/checkout@2</span> <span class="comment"># action 为作者，这里是github官方，checkout 是操作名，@2 是指定操作版本为 2</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="https://github.com/marketplace/actions/checkout">https://github.com/marketplace/actions/checkout</a></p>
+</blockquote>
+<p>当在线编辑 action 工作流配置文件时，在编辑页面右侧的 Marketplace 选项卡中可以检索社区分享的操作，点击后可查看操作的介绍。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/github_edit_action_conf_marketplace.png" alt="" /></p>
+<p>更多的操作可以到 github marketplace 中的 action 类别中查找：<a target="_blank" rel="noopener" href="https://github.com/marketplace?type=actions">https://github.com/marketplace?type=actions</a></p>
+<h3 id="实战"><a class="markdownIt-Anchor" href="#实战"></a> 实战</h3>
+<blockquote>
+<p>背景：项目是一个 hexo 博客，在 github 仓库中 <code>source</code> 分支存储模块资源与配置信息。现在需要每次提交代码到 source 分支时触发工作流，完成博客自动编译，编译前需要下载博客主题并替换配置文件，编译完成后将项目打包，通过 sftp 上传到服务器。</p>
+</blockquote>
+<p>配置详情：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 名称</span></span><br><span class="line"><span class="attr">name:</span> <span class="string">Deploy</span> <span class="string">to</span> <span class="string">my</span> <span class="string">server</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 当提交代码到 source 分支时触发工作流</span></span><br><span class="line"><span class="attr">on:</span></span><br><span class="line">  <span class="attr">push:</span></span><br><span class="line">    <span class="attr">branch:</span> [<span class="string">source</span>]</span><br><span class="line">    </span><br><span class="line"><span class="attr">jobs:</span></span><br><span class="line">  <span class="attr">build:</span></span><br><span class="line">    <span class="attr">runs-on:</span> <span class="string">ubuntu-latest</span> <span class="comment"># 使用Ubuntu 18.04 运行</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">Job</span> <span class="string">to</span> <span class="string">deploy</span> <span class="string">blog</span></span><br><span class="line">    <span class="attr">steps:</span></span><br><span class="line">      <span class="comment"># 检出项目source分支代码</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Checkout</span></span><br><span class="line">        <span class="attr">id:</span> <span class="string">checkout</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/checkout@v2</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">ref:</span> <span class="string">source</span></span><br><span class="line">      <span class="comment"># 设置使用 node 12</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">use</span> <span class="string">node</span></span><br><span class="line">        <span class="attr">uses:</span> <span class="string">actions/setup-node@v1</span></span><br><span class="line">        <span class="attr">with:</span></span><br><span class="line">          <span class="attr">node-version:</span> <span class="string">&#x27;12&#x27;</span></span><br><span class="line">      <span class="comment"># 安装 hexo-cli 工具，用于编译项目</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">install</span> <span class="string">hexo-cli</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span> <span class="string">hexo-cli</span> <span class="string">-g</span></span><br><span class="line">      <span class="comment"># 安装项目依赖</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Install</span> <span class="string">dependencies</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">npm</span> <span class="string">install</span></span><br><span class="line">      <span class="comment"># 下载 next 主题</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">download</span> <span class="string">theme</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">git</span> <span class="string">clone</span> <span class="string">https://github.com/theme-next/hexo-theme-next</span> <span class="string">themes/next</span></span><br><span class="line">      <span class="comment"># 复制我的主题配置文件到 next 主题中进行替换</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">cp</span> <span class="string">config</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">|</span></span><br><span class="line"><span class="string">          cp themes_config/next/_config.yml themes/next/</span></span><br><span class="line"><span class="string">          cp themes_config/next/languages/zh-CN.yml themes/next/languages/</span></span><br><span class="line"><span class="string"></span>      <span class="comment"># 编译生成项目文件</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Hexo</span> <span class="string">generate</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">hexo</span> <span class="string">generate</span></span><br><span class="line">      <span class="comment"># 使用 jar 工具打包项目编译获得的文件</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Pack</span> <span class="string">with</span> <span class="string">jar</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">jar</span> <span class="string">-cvfM</span> <span class="string">blog.war</span> <span class="string">-C</span> <span class="string">./public/</span> <span class="string">.</span></span><br><span class="line">      <span class="comment"># 使用 sftp 工具上传项目打包文件到我的服务器</span></span><br><span class="line">      <span class="bullet">-</span> <span class="attr">name:</span> <span class="string">Upload</span> <span class="string">file</span></span><br><span class="line">        <span class="attr">run:</span> <span class="string">curl</span> <span class="string">--ftp-create-dirs</span> <span class="string">--retry</span> <span class="number">5</span> <span class="string">--retry-delay</span> <span class="number">3</span> <span class="string">-u</span> <span class="string">hexo:$&#123;&#123;secrets.FTP_PASS&#125;&#125;</span> <span class="string">-T</span> <span class="string">./blog.war</span> <span class="string">ftp://118.24.50.165/blog.war</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上配置完全复制了手动打包部署的全过程，其中有些可以进行优化，比如对 npm 组件加上缓存提升打包速度；在 <code>.gitmodules</code> 中配置 next 主题项目为子模块，以便在检出项目代码的同时也拉取 next 主题的代码。</p>
+</blockquote>
+<h3 id="工具"><a class="markdownIt-Anchor" href="#工具"></a> 工具</h3>
+<p><strong>act</strong>，github 中的一个开源项目，可以在本地运行 Github Action，在调试的时候非常方便。</p>
+<p>项目地址：<a target="_blank" rel="noopener" href="https://github.com/nektos/act">https://github.com/nektos/act</a></p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>GitHub 操作文档: <a target="_blank" rel="noopener" href="https://docs.github.com/cn/actions">https://docs.github.com/cn/actions</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>GitHub 提供的 action 可以免费使用，而且配置简单，还能使用别人分享的配置，可以替换 Travis CI 完成项目的自动构建与部署。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/github/" rel="tag"># github</a>
+              <a href="/tags/ci/" rel="tag"># ci</a>
+              <a href="/tags/%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90/" rel="tag"># 持续集成</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/24/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/" rel="prev" title="docker 容器管理">
+                  <i class="fa fa-chevron-left"></i> docker 容器管理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/09/09/docker-%E9%95%9C%E5%83%8F%E7%AE%A1%E7%90%86/" rel="next" title="docker 镜像管理">
+                  docker 镜像管理 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

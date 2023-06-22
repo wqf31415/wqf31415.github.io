@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="问题描述 最近在用 springboot 做 web 项目，其中一个实体中使用了 java8 中的 ZonedDateTime 来记录时间，但是前端页面在使用 POST 或 PUT 提交请求，出错了，错误主要提示信息如下： 12org.springframework.validation.BindException: Failed to convert property value of typ">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法">
+<meta property="og:url" content="https://www.wqf31415.xyz/2018/04/20/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="问题描述 最近在用 springboot 做 web 项目，其中一个实体中使用了 java8 中的 ZonedDateTime 来记录时间，但是前端页面在使用 POST 或 PUT 提交请求，出错了，错误主要提示信息如下： 12org.springframework.validation.BindException: Failed to convert property value of typ">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2018-04-20T03:14:47.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.255Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="java8">
+<meta property="article:tag" content="ZonedDateTime">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2018/04/20/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2018/04/20/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/","path":"2018/04/20/SpringBoot-web-项目前端传值时-String-转-ZonedDateTime-报错的解决方法/","title":"SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text"> 解决方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%8C%E6%95%B4%E4%BB%A3%E7%A0%81%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.</span> <span class="nav-text"> 完整代码示例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%A5%E4%B8%8A"><span class="nav-number">4.</span> <span class="nav-text"> 以上</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2018/04/20/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringBoot web 项目前端传值时 String 转 ZonedDateTime 报错的解决方法<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/SpringBoot-web-%E9%A1%B9%E7%9B%AE%E5%89%8D%E7%AB%AF%E4%BC%A0%E5%80%BC%E6%97%B6-String-%E8%BD%AC-ZonedDateTime-%E6%8A%A5%E9%94%99%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2018-04-20 11:14:47" itemprop="dateCreated datePublished" datetime="2018-04-20T11:14:47+08:00">2018-04-20</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+<p>最近在用 springboot 做 web 项目，其中一个实体中使用了 java8 中的 ZonedDateTime 来记录时间，但是前端页面在使用 POST 或 PUT 提交请求，出错了，错误主要提示信息如下：</p>
+<figure class="highlight console"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.validation.BindException: </span><br><span class="line">Failed to convert property value of type &#x27;java.lang.String&#x27; to required type &#x27;java.time.ZonedDateTime&#x27;</span><br></pre></td></tr></table></figure>
+<p>读过错误提示后知道是在数据验证绑定时，字段的类型转换错误，前端传的是一个字符串格式的时间，格式为：yyyy-MM-dd HH:mm:ss ，后端方法接收的参数是一个对象，交由spring 自动绑定，绑定时发现参数值不是一个 ZonedDateTime 对象，所以报了类型转换错误。因此，解决思路是写一个方法来完成这个字符串格式时间 和 ZonedDateTime 对象的转换。</p>
+<span id="more"></span>
+<h3 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法</h3>
+<ul>
+<li>编写自定义的绑定编辑器</li>
+</ul>
+<p>需要继承 java.beans.PropertyEditorSupport 类，并复写其中 setAsText 和 getAsText 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> java.beans.PropertyEditorSupport;</span><br><span class="line"><span class="keyword">import</span> java.time.LocalDateTime;</span><br><span class="line"><span class="keyword">import</span> java.time.ZoneId;</span><br><span class="line"><span class="keyword">import</span> java.time.ZonedDateTime;</span><br><span class="line"><span class="keyword">import</span> java.time.format.DateTimeFormatter;</span><br><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">MyCustomDateEditor</span> <span class="keyword">extends</span> <span class="title class_">PropertyEditorSupport</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> DateTimeFormatter dateTimeFormat;</span><br><span class="line">    <span class="keyword">private</span> <span class="type">boolean</span> allowEmpty;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="title function_">MyCustomDateEditor</span><span class="params">(DateTimeFormatter dateTimeFormat, <span class="type">boolean</span> allowEmpty)</span> &#123;</span><br><span class="line">        <span class="built_in">this</span>.allowEmpty = allowEmpty;</span><br><span class="line">        <span class="built_in">this</span>.dateTimeFormat = dateTimeFormat;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Parse the Date from the given text, using the specified DateTimeFormatter.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">setAsText</span><span class="params">(String text)</span> <span class="keyword">throws</span> IllegalArgumentException &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">this</span>.allowEmpty &amp;&amp; !org.springframework.util.StringUtils.hasText(text)) &#123;</span><br><span class="line">            <span class="comment">// Treat empty String as null value.</span></span><br><span class="line">            setValue(<span class="literal">null</span>);</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">try</span> &#123;</span><br><span class="line">                setValue(ZonedDateTime.of(LocalDateTime.parse(text, <span class="built_in">this</span>.dateTimeFormat), ZoneId.of(<span class="string">&quot;Asia/Shanghai&quot;</span>)));</span><br><span class="line">            &#125; <span class="keyword">catch</span> (Exception ex) &#123;</span><br><span class="line">                <span class="keyword">throw</span> <span class="keyword">new</span> <span class="title class_">IllegalArgumentException</span>(<span class="string">&quot;Could not parse date: &quot;</span> + ex.getMessage(), ex);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * Format the Date as String, using the specified DateTimeFormatter.</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="keyword">public</span> String <span class="title function_">getAsText</span><span class="params">()</span> &#123;</span><br><span class="line">        <span class="type">ZonedDateTime</span> <span class="variable">zonedDateTime</span> <span class="operator">=</span> (ZonedDateTime) getValue();</span><br><span class="line">        <span class="keyword">return</span> zonedDateTime.format(dateTimeFormat);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>在 controller 中使用自定义的绑定编辑器</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@InitBinder</span></span><br><span class="line"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">initBinder</span><span class="params">(WebDataBinder binder)</span> &#123;</span><br><span class="line">    <span class="type">DateTimeFormatter</span> <span class="variable">dateFormat</span> <span class="operator">=</span> DateTimeFormatter.ofPattern(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line">    binder.registerCustomEditor(ZonedDateTime.class, <span class="keyword">new</span> <span class="title class_">MyCustomDateEditor</span>(dateFormat, <span class="literal">true</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="完整代码示例"><a class="markdownIt-Anchor" href="#完整代码示例"></a> 完整代码示例</h3>
+<ul>
+<li>实体类</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Entity</span></span><br><span class="line"><span class="meta">@Table(name = &quot;company&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">Company</span> <span class="keyword">implements</span> <span class="title class_">Serializable</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">long</span> <span class="variable">serialVersionUID</span> <span class="operator">=</span> <span class="number">1L</span>;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="meta">@GeneratedValue(strategy = GenerationType.AUTO)</span></span><br><span class="line">    <span class="keyword">private</span> Long id;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 公司名称</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@NotNull</span></span><br><span class="line">    <span class="meta">@Size(min = 4,max = 20)</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;name&quot;,nullable = false,length = 20)</span></span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 公司地址</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Size(min = 2,max = 25)</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;address&quot;,length = 25)</span></span><br><span class="line">    <span class="keyword">private</span> String address;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 信息是否隐藏</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;hidden&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> Boolean hidden;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 备注</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;remark&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> String remark;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建人</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Size(max = 50)</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;created_by&quot;,length = 50)</span></span><br><span class="line">    <span class="keyword">private</span> String createdBy;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建时间</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@JsonFormat(pattern = &quot;yyyy-MM-dd HH:mm:ss&quot;)</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;created_date&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> ZonedDateTime createdDate;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 最后修改人</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@Size(max = 50)</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;last_modified_by&quot;,length = 50)</span></span><br><span class="line">    <span class="keyword">private</span> String lastModifiedBy;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 最后修改日期</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@JsonFormat(pattern = &quot;yyyy-MM-dd HH:mm:ss&quot;)</span></span><br><span class="line">    <span class="meta">@Column(name = &quot;last_modified_date&quot;)</span></span><br><span class="line">    <span class="keyword">private</span> ZonedDateTime lastModifiedDate;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 节省篇幅，省略了 setter 和 getter</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Repository</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">CompanyRepository</span> <span class="keyword">extends</span> <span class="title class_">JpaRepository</span>&lt;Company,Long&gt; &#123;</span><br><span class="line">	<span class="comment">// 使用SpringBoot JPA</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>Controller</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/api&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">CompanyResource</span> &#123;</span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(CompanyResource.class);</span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> CompanyRepository companyRepository;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 使用自定义的绑定器</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@InitBinder</span></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">void</span> <span class="title function_">initBinder</span><span class="params">(WebDataBinder binder)</span> &#123;</span><br><span class="line">        <span class="type">DateTimeFormatter</span> <span class="variable">dateFormat</span> <span class="operator">=</span> DateTimeFormatter.ofPattern(<span class="string">&quot;yyyy-MM-dd HH:mm:ss&quot;</span>);</span><br><span class="line">        binder.registerCustomEditor(ZonedDateTime.class, <span class="keyword">new</span> <span class="title class_">MyCustomDateEditor</span>(dateFormat, <span class="literal">true</span>));</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 创建公司</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping(method = RequestMethod.POST,value = &quot;/companies&quot;,produces = MediaType.APPLICATION_JSON_VALUE)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;Company&gt; <span class="title function_">createCompany</span><span class="params">(Company company)</span> <span class="keyword">throws</span> URISyntaxException &#123;</span><br><span class="line">        <span class="keyword">if</span> (company.getId() != <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> ResponseEntity.badRequest()</span><br><span class="line">                    .body(<span class="literal">null</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        company.setCreatedDate(ZonedDateTime.now());</span><br><span class="line">        <span class="type">Company</span> <span class="variable">result</span> <span class="operator">=</span> companyRepository.save(company);</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.created(<span class="keyword">new</span> <span class="title class_">URI</span>(<span class="string">&quot;/api/companies/&quot;</span> + result.getId()))</span><br><span class="line">                .body(result);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">/**</span></span><br><span class="line"><span class="comment">     * 修改公司信息</span></span><br><span class="line"><span class="comment">     */</span></span><br><span class="line">    <span class="meta">@RequestMapping(method = RequestMethod.PUT,value = &quot;/companies&quot;,produces = MediaType.APPLICATION_JSON_VALUE)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;Company&gt; <span class="title function_">updateCompany</span><span class="params">( Company company)</span> <span class="keyword">throws</span> URISyntaxException &#123;</span><br><span class="line">        <span class="keyword">if</span> (company.getId() == <span class="literal">null</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> createCompany(company);</span><br><span class="line">        &#125;</span><br><span class="line">        company.setLastModifiedDate(ZonedDateTime.now());</span><br><span class="line">        <span class="type">Company</span> <span class="variable">result</span> <span class="operator">=</span> companyRepository.save(company);</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok()</span><br><span class="line">                .body(result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="以上"><a class="markdownIt-Anchor" href="#以上"></a> 以上</h3>
+<p>上述的方式可以将前端页面传输过来的字符串格式时间，转换成 ZonedDateTime 对象幅值给绑定对象。以相同的方法，也可以处理其他类型的数据转换，如将前端传的时间戳转换成 ZonedDateTime 等等。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/springboot/" rel="tag"># springboot</a>
+              <a href="/tags/java8/" rel="tag"># java8</a>
+              <a href="/tags/ZonedDateTime/" rel="tag"># ZonedDateTime</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/04/07/%E9%87%8D%E8%B5%B0Java%E9%95%BF%E5%BE%81%E8%B7%AF-Java%E6%98%AF%E4%BB%80%E4%B9%88/" rel="prev" title="重走Java长征路-Java是什么">
+                  <i class="fa fa-chevron-left"></i> 重走Java长征路-Java是什么
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2018/05/14/SpringBoot-%E8%8A%B1%E5%BC%8F-banner/" rel="next" title="SpringBoot 花式 banner">
+                  SpringBoot 花式 banner <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

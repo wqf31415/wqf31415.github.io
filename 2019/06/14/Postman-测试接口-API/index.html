@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章主要在讲述使用 Postman 工具测试 api 接口的操作，从最基础的发送一个 get 请求到自动接口测试，还包含一些 postman 的使用技巧。  Postman 是什么？ Postman 是一个强大且好用的接口测试工具。早期是 Chrome 浏览器的一个插件，后续插件版不再维护，开发成了一个桌面测试工具。 现在， Postman 被设计成 API 开发工具，不仅包含了接口测">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Postman 测试接口 API">
+<meta property="og:url" content="https://www.wqf31415.xyz/2019/06/14/Postman-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3-API/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章主要在讲述使用 Postman 工具测试 api 接口的操作，从最基础的发送一个 get 请求到自动接口测试，还包含一些 postman 的使用技巧。  Postman 是什么？ Postman 是一个强大且好用的接口测试工具。早期是 Chrome 浏览器的一个插件，后续插件版不再维护，开发成了一个桌面测试工具。 现在， Postman 被设计成 API 开发工具，不仅包含了接口测">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_get_request.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_save_request.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_console.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_env_add.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_use_environment.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_code_btm.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_collection.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_api_doc.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_publish_collection.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_script_execOrder.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_add_pre_request_script.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_test_script.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_add_monitor.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_monitor_result.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_0.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_2.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_3.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_4.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_example_by_request.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_example.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_API.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/postman_create_API_2.png">
+<meta property="article:published_time" content="2019-06-14T03:02:25.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.252Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="api">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="postman">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/postman.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2019/06/14/Postman-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3-API/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/06/14/Postman-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3-API/","path":"2019/06/14/Postman-测试接口-API/","title":"Postman 测试接口 API"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Postman 测试接口 API | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#postman-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text"> Postman 是什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E6%B5%8B%E8%AF%95%E5%B7%A5%E5%85%B7"><span class="nav-number">3.</span> <span class="nav-text"> 其他测试工具</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%93%8D%E4%BD%9C"><span class="nav-number">4.</span> <span class="nav-text"> 基础操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#api-%E8%AF%B7%E6%B1%82"><span class="nav-number">4.1.</span> <span class="nav-text"> API 请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text"> 设置请求方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E8%AF%B7%E6%B1%82%E5%8F%82%E6%95%B0"><span class="nav-number">4.3.</span> <span class="nav-text"> 设置请求参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E8%AF%B7%E6%B1%82"><span class="nav-number">4.4.</span> <span class="nav-text"> 保存请求</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82%E9%94%99%E8%AF%AF%E6%8E%92%E6%9F%A5"><span class="nav-number">4.5.</span> <span class="nav-text"> 请求错误排查</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9B%E9%98%B6%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text"> 进阶操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E4%B8%8E%E5%8F%98%E9%87%8F"><span class="nav-number">5.1.</span> <span class="nav-text"> 环境与变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E8%AF%B7%E6%B1%82%E4%BB%A3%E7%A0%81"><span class="nav-number">5.2.</span> <span class="nav-text"> 生成请求代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E9%9B%86"><span class="nav-number">5.3.</span> <span class="nav-text"> 接口集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%A5%E5%8F%A3%E6%96%87%E6%A1%A3"><span class="nav-number">5.4.</span> <span class="nav-text"> 接口文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%91%E5%B8%83"><span class="nav-number">5.5.</span> <span class="nav-text"> 发布</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%AB%98%E7%BA%A7%E6%93%8D%E4%BD%9C"><span class="nav-number">6.</span> <span class="nav-text"> 高级操作</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%84%9A%E6%9C%AC"><span class="nav-number">6.1.</span> <span class="nav-text"> 脚本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%9B%91%E6%8E%A7%E5%9C%A8%E7%BA%BF%E8%87%AA%E5%8A%A8%E5%8C%96%E6%B5%8B%E8%AF%95"><span class="nav-number">6.2.</span> <span class="nav-text"> 监控(在线自动化测试)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">6.3.</span> <span class="nav-text"> 模拟服务器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#api-%E8%AE%BE%E8%AE%A1%E4%B8%8E%E5%BC%80%E5%8F%91"><span class="nav-number">6.4.</span> <span class="nav-text"> API 设计与开发</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text"> 小结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2019/06/14/Postman-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3-API/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Postman 测试接口 API | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Postman 测试接口 API<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Postman-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3-API.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-06-14 11:02:25" itemprop="dateCreated datePublished" datetime="2019-06-14T11:02:25+08:00">2019-06-14</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章主要在讲述使用 Postman 工具测试 api 接口的操作，从最基础的发送一个 get 请求到自动接口测试，还包含一些 postman 的使用技巧。</p>
+<h3 id="postman-是什么"><a class="markdownIt-Anchor" href="#postman-是什么"></a> Postman 是什么？</h3>
+<p><a target="_blank" rel="noopener" href="https://www.getpostman.com/">Postman</a> 是一个强大且好用的接口测试工具。早期是 Chrome 浏览器的一个插件，后续插件版不再维护，开发成了一个桌面测试工具。<br />
+现在， Postman 被设计成 API 开发工具，不仅包含了接口测试功能，还添加了一些接口设计、自动化测试、模拟接口服务、监控、文档生成以及接口发布功能，最新版本的 Postman 还支持团队协作开发使用。<br />
+Postman 提供企业版，提供了更加强大的测试功能。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman.png" alt="" title="postman" /></p>
+<span id="more"></span>
+<h3 id="其他测试工具"><a class="markdownIt-Anchor" href="#其他测试工具"></a> 其他测试工具</h3>
+<ul>
+<li>
+<p>SoapUI<br />
+<a target="_blank" rel="noopener" href="https://www.soapui.org">SoapUI</a> 号称世界上最高级的 REST 和 SOAP 接口自动化测试工具。用于接口功能测试、性能测试、权限测试、API Mock 测试、数据驱动测试与生成测试报表。</p>
+</li>
+<li>
+<p>Katalon Studio<br />
+<a target="_blank" rel="noopener" href="https://www.katalon.com/">Katalon Studio</a> 是一个免费、健壮、跨平台的测试工具，高度可定制的自动化测试，用于 Web 和移动 app 测试。</p>
+</li>
+<li>
+<p>Jmeter<br />
+<a target="_blank" rel="noopener" href="http://jmeter.apache.org">Jmeter</a> 是 Apache 软件基金会下的一款开源软件测试工具，使用 java 语言开发，用来测试软件应用的功能和性能，可以用来做压力测试。最初用于测试 Web 软件，后来扩展到其他测试领域。</p>
+</li>
+</ul>
+<h3 id="基础操作"><a class="markdownIt-Anchor" href="#基础操作"></a> 基础操作</h3>
+<h4 id="api-请求"><a class="markdownIt-Anchor" href="#api-请求"></a> API 请求</h4>
+<p>打开 Postman ，进入软件界面后，按 <kbd>Ctrl</kbd> + <kbd>T</kbd> 新建一个请求 Tab，选择 GET 方法，在地址栏中填入要请求的 api 地址，如：<code>postman-echo.com/get</code> ，点击 Send 按钮即可发送请求，请求成功后在下面的 Response 区域将显示请求结果，请求结果可以格式化显示。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_get_request.png" alt="" title="postman request" /></p>
+<h4 id="设置请求方法"><a class="markdownIt-Anchor" href="#设置请求方法"></a> 设置请求方法</h4>
+<p>在请求地址栏左边可以设置请求方法，默认可选的请求方法有：</p>
+<p>GET、POST、PUT、PATCH、DELETE、COPY、HEAD、OPTIONS、LINK、UNLINK、PURGE、LOCK、UNLOCK、PROPFIND、VIEW。</p>
+<p>也可以自定义请求方法，只需要在方法框中输入方法名，按回车确认。</p>
+<h4 id="设置请求参数"><a class="markdownIt-Anchor" href="#设置请求参数"></a> 设置请求参数</h4>
+<p>在接口请求界面中，在地址栏下发的选项卡中可以给请求设置参数。</p>
+<ul>
+<li>
+<p><strong>参数(Params)</strong></p>
+<p>添加请求参数，分别在 <strong>KEY</strong> 、 <strong>VALUE</strong> 、 <strong>DESCRIPTION</strong> 中填入所需参数的名称、值和描述信息，描述信息可以不写。可以勾选需要使用的参数。</p>
+</li>
+<li>
+<p><strong>权限(Authorization)</strong></p>
+<p>设置接口请求所需的权限信息，支持多种权限类型。</p>
+</li>
+<li>
+<p><strong>请求头(Headers)</strong></p>
+<p>设置 http 请求头，有时一些权限验证信息需要放到请求头中。</p>
+</li>
+<li>
+<p><strong>请求体(Body)</strong></p>
+<p>很多时候我们将请求中的数据放到请求体中。请求体有多种类型可供选择，如 from-data、x-www-urlencoded、raw、binary、GraphQL。</p>
+<p>当选择 raw 类型时，还可以指定请求体数据类型，包括 Text、Text(text/plain)、Json(application/json)、javascript(application/javascript)、XML(application/xml)、XML(xml)、HTML(text/html)。</p>
+<p>选择 binary 可以上传文件。</p>
+</li>
+<li>
+<p><strong>预请求脚本(Pre-request Script)</strong></p>
+<p>请求发起前执行的脚本。</p>
+</li>
+<li>
+<p><strong>测试(Tests)</strong></p>
+<p>请求完成后运行的测试脚本。</p>
+</li>
+<li>
+<p><strong>Cookies</strong></p>
+<p>管理请求中的 cookles 。</p>
+</li>
+</ul>
+<h4 id="保存请求"><a class="markdownIt-Anchor" href="#保存请求"></a> 保存请求</h4>
+<p>我们可以把接口测试请求保存下来，下次继续使用，只需点击 <strong>Save</strong> 按钮(快捷键 <kbd>Ctrl</kbd> + <kbd>S</kbd>) 即会弹出保存窗口，填入请求名称、描述，并选择或创建接口集后即可保存请求。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_save_request.png" alt="" title="save request" /></p>
+<h4 id="请求错误排查"><a class="markdownIt-Anchor" href="#请求错误排查"></a> 请求错误排查</h4>
+<p>Postman 控制台中会输出请求的详细信息，帮助用户排除请求的错误信息，点击 Postman 界面下发的 <strong>Postman Console</strong> 按钮(快捷键 <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd>) 即可打开控制台界面。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_console.png" alt="" title="Postman Console" /></p>
+<h3 id="进阶操作"><a class="markdownIt-Anchor" href="#进阶操作"></a> 进阶操作</h3>
+<h4 id="环境与变量"><a class="markdownIt-Anchor" href="#环境与变量"></a> 环境与变量</h4>
+<p>在测试接口过程中，在开发环境和生产环境中的请求地址、端口等参数可能有差异，Postman 中可以为每个测试环境创建一个环境变量集合，方便在不同环境下进行测试。</p>
+<ul>
+<li>
+<p><strong>添加环境</strong></p>
+<blockquote>
+<p>环境管理快捷键：<kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>E</kbd></p>
+</blockquote>
+<p>在 Postm 界面中点击 <strong>New</strong> 按钮，点击 <strong>Environment</strong> 选项即可进入添加环境的界面，填入环境名称以及变量信息后，点击 <strong>Add</strong> 按钮添加环境。如下图添加了名为 <code>local_test</code> 的环境，同理还可以添加 <code>prod_test</code> 的环境。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_env_add.png" alt="" title="add environment" /></p>
+</li>
+<li>
+<p><strong>使用环境</strong></p>
+<p>添加环境后，在请求中就可以使用环境中添加的变量，在测试时根据需要随时切换环境。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_use_environment.png" alt="" title="use environment" /></p>
+</li>
+</ul>
+<h4 id="生成请求代码"><a class="markdownIt-Anchor" href="#生成请求代码"></a> 生成请求代码</h4>
+<p>Postman 中可以一键将请求导出成请求代码，点击界面中的 <strong>Code</strong> 按钮，选择代码类型，即可生成相应的请求代码，点击 <strong>Copy to Clipboard</strong> 按钮将代码复制到剪贴板。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_code_btm.png" alt="" title="postman code button" /></p>
+<h4 id="接口集"><a class="markdownIt-Anchor" href="#接口集"></a> 接口集</h4>
+<p>在 Postman 中可以创建接口集，统一管理一类接口请求，在接口集中还可以创建文件夹来分类保存接口。此外，在 Postman 中，接口集能以 json 文件形式导出、导入，分享或与团队成员协同编辑，对接口集中的请求进行评论，还可以打分支、分支合并等</p>
+<p>点击 <code>File</code> 菜单中的 <code>New...</code> 选项(快捷键 <kbd>Ctrl</kbd> + <kbd>N</kbd>)，或点击界面左上角的 <code>New</code> 按钮，然后点击选择 <code>Collection</code> ，在新建接口集的窗口中，可以设置接口集名称、描述(支持 markdown 语法)，还可以添加统一的权限，设置请求前执行的脚本和请求后的测试，添加变量。</p>
+<p>此外，在保存请求的时候将会提示选择或创建接口集。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_collection.png" alt="" /></p>
+<p>创建了接口集后，即可将请求保存的接口集中，在接口集中将会保存接口完整的请求信息，包括 url、参数、脚本等。</p>
+<ul>
+<li>
+<p><strong>描述(Description)</strong></p>
+<p>建议在接口集描述框中清晰的说明该集合中接口的使用说明、注意事项等，方便生成接口描述文档。</p>
+</li>
+<li>
+<p><strong>权限(Authorization)</strong></p>
+<p>Postman 提供多种权限验证机制，如 API Key、OAuth 1.0、OAuth 2.0 等。设置后，集合中每个请求都会使用这个权限验证方式，可以在请求中单独设置来覆盖默认权限。</p>
+</li>
+<li>
+<p><strong>预请求脚本(Pre-request Scripts)</strong></p>
+<p>在集合中每个请求发起前都会执行的脚本。</p>
+</li>
+<li>
+<p><strong>测试(Tests)</strong></p>
+<p>集合中每个请求完成后都会执行的脚本。</p>
+</li>
+<li>
+<p><strong>变量(Variables)</strong></p>
+<p>添加在集合中可用的变量，比如设置所有接口使用的基本请求地址，如设置 baseUrl 为 <code>http://127.0.0.1:8080</code> ，在当前集合中的请求中就可以使用 <code>&#123;&#123;baseUrl&#125;&#125;</code> 来代替了，如需修改请求地址就直接修改集合变量中的值，不用修改每个请求了。</p>
+</li>
+</ul>
+<h4 id="接口文档"><a class="markdownIt-Anchor" href="#接口文档"></a> 接口文档</h4>
+<p>使用 Postman 可以方便的将接口集、请求描述生成接口文档。点击接口集旁边的按钮即可显示接口集中的描述信息，点击 <strong>View in web</strong> 还可以生成网页版，<strong>在网页版中不仅包含了基本描述信息，还可以生成请求示例代码</strong>，如生成请求对应的 cURL 请求命令，生成 jQuery 请求代码，生成 Ruby、Python Requests、Node、PHP、Go 请求代码。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_api_doc.png" alt="" /></p>
+<h4 id="发布"><a class="markdownIt-Anchor" href="#发布"></a> 发布</h4>
+<p>Postman 允许用户将自己的接口集发布到官方的 <a target="_blank" rel="noopener" href="https://www.getpostman.com/api-network/">API Network</a> ，分享给全世界。</p>
+<p>注册 Postman 账号并登陆后，点击接口集管理功能里的 <strong>Publish Docs</strong> 按钮，在跳转的发布页面中，根据需要添加相应的配置，即可完成发布。</p>
+<p>可以给发布的接口集添加自定义的 Logo，如果是专业版或企业版用户还可以自定义访问域名。</p>
+<blockquote>
+<p>注意：发布的接口文档访问次数是有限制的，普通用户每月提供 1000 次访问量，<a target="_blank" rel="noopener" href="https://go.pstmn.io/postman-account-limits">查看用户当前已使用的访问量</a> 。</p>
+</blockquote>
+<p>例如: <a target="_blank" rel="noopener" href="https://documenter.getpostman.com/view/7042523/S1a1aosZ">https://documenter.getpostman.com/view/7042523/S1a1aosZ</a></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_publish_collection.png" alt="" title="publish" /></p>
+<h3 id="高级操作"><a class="markdownIt-Anchor" href="#高级操作"></a> 高级操作</h3>
+<h4 id="脚本"><a class="markdownIt-Anchor" href="#脚本"></a> 脚本</h4>
+<p>Postman 中包含了一个强有力的 Node 运行时环境，可以给请求或接口集添加动态行为。使用 JavaScript 语言编写脚本，postman 提供了一些内置对象。这样就可以编写测试套件、设置动态参数等等。在请求发起前(Pre-request script)和收到返回结果后(test script)，都可以添加执行脚本，完成功能测试，执行顺序是： <code>Pre-request</code> -&gt; <code>request</code> -&gt;  <code>response</code> -&gt; <code>test</code>。</p>
+<p>可以在请求(request)、文件夹(folder)、接口集(collection) 中添加脚本，请求前脚本执行顺序是：</p>
+<p>collection 中的 -&gt; folder 中的 -&gt; request 中的</p>
+<p>测试脚本执行顺序与预请求脚本执行顺序相同，如下图所示:</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_script_execOrder.png" alt="" title="script exec order" /></p>
+<ul>
+<li>
+<p><strong>请求前脚本</strong></p>
+<p>可以在请求前脚本中动态生成数据，当作请求的数据使用，如生成时间戳并设置为环境变量 <code>my_time</code> ，在请求中使用 <code>&#123;&#123;my_time&#125;&#125;</code> 引用：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pm.<span class="property">environment</span>.<span class="title function_">set</span>(<span class="string">&quot;my_time&quot;</span>, <span class="keyword">new</span> <span class="title class_">Date</span>());</span><br></pre></td></tr></table></figure>
+<p>在 Postman 界面上有一些快捷按钮帮助生成代码片段：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_add_pre_request_script.png" alt="" /></p>
+<p>也可以在利用脚本在每个请求头中添加数据，如在请求头中添加 <code>Cookie</code> 和 <code>X-CSRF-TOKEN</code> 数据以通过权限验证，具体的 <code>Cookie</code> 和 <code>X-CSRF-TOKEN</code> 值可以在变量中设定，如 <code>myCookie</code> 和 <code>myX-CSRF-TOKEN</code> ，这样每次测试时，只需要修改变量中的值即可完成集合中每个请求的权限验证。脚本如下：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">pm.<span class="property">request</span>.<span class="property">headers</span>.<span class="title function_">add</span>(&#123;<span class="attr">key</span>: <span class="string">&#x27;Cookie&#x27;</span>, <span class="attr">value</span>: pm.<span class="property">variables</span>.<span class="title function_">get</span>(<span class="string">&quot;myCookie&quot;</span>)&#125;);</span><br><span class="line">pm.<span class="property">request</span>.<span class="property">headers</span>.<span class="title function_">add</span>(&#123;<span class="attr">key</span>: <span class="string">&#x27;X-CSRF-TOKEN&#x27;</span>, <span class="attr">value</span>: pm.<span class="property">variables</span>.<span class="title function_">get</span>(<span class="string">&quot;myX-CSRF-TOKEN&quot;</span>)&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><strong>测试脚本</strong></p>
+<p>在结果执行完成后，添加脚本类检验请求结果是否正确。如判断请求状态码是否是 <code>200</code> ：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">pm.test(&quot;Status code is 200&quot;, function () &#123;</span><br><span class="line">    pm.response.to.have.status(200);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_test_script.png" alt="" /></p>
+<p>还可以验证返回结果中的内容是否正确，如判断返回结果的 json 中的 <code>found</code> 值是否为 <code>true</code> ：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pm.<span class="title function_">test</span>(<span class="string">&quot;Found is true&quot;</span>, <span class="keyword">function</span> (<span class="params"></span>) &#123;</span><br><span class="line">    <span class="keyword">var</span> jsonData = pm.<span class="property">response</span>.<span class="title function_">json</span>();</span><br><span class="line">    pm.<span class="title function_">expect</span>(jsonData.<span class="property">found</span>).<span class="property">to</span>.<span class="title function_">eql</span>(<span class="literal">true</span>);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="监控在线自动化测试"><a class="markdownIt-Anchor" href="#监控在线自动化测试"></a> 监控(在线自动化测试)</h4>
+<p>Postman 中可以设置监控器来定时执行 API 请求，用来测试接口性能和验证结果。比如设置每 5 分钟发起一次请求来测试接口是否正常启用。如果你给请求定义了测试脚本，那么监控定时指定请求时也会执行脚本来验证请求结果是否正确，如果请求发生错误将会通知用户。</p>
+<p>每个 Postman 普通用户每个月有 1000 条免费监控调用次数，Pro 团队用户 10000次/月，企业用户 100 000 次/月，更多信息参考 <a target="_blank" rel="noopener" href="https://learning.getpostman.com/docs/postman/monitors/pricing_monitors/">官方网站</a> 。</p>
+<ul>
+<li>
+<p><strong>创建监控器</strong></p>
+<p>通过 Postman 侧边栏、New 按钮、启动页面、网页版添加监控器，如：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_add_monitor.png" alt="" title="add monitor" /></p>
+</li>
+<li>
+<p><strong>设置监控器参数</strong></p>
+<p>Postman 监控器中可设置的参数有：</p>
+<ul>
+<li><strong>监控器名称</strong> 便于区分不同的监控器。</li>
+<li><strong>版本标签</strong> 选择测试使用的接口集版本。如果接口集没有关联到 API，就只能选择当前版本(CURRENT)。</li>
+<li><strong>环境</strong> 选择测试使用的环境变量集合。</li>
+<li><strong>运行频率</strong> 监控执行的频率，按运行频率由高到低，可以选择周定时器、小时定时器、分钟定时器。</li>
+<li><strong>地区</strong> 设置监控器执行请求计划的时区。</li>
+</ul>
+</li>
+<li>
+<p><strong>运行监控器</strong></p>
+<p>设置好监控器参数后，点击 <strong>Create</strong> 按钮完成监控器创建，登陆到 Postman 网页控制台，在控制台中找到对应的接口集与监控器，点击运行。这样我们的定时测试监控器就可以在 Postman 云上开始工作了，定时执行请求。</p>
+</li>
+<li>
+<p><strong>查看监控器运行结果</strong></p>
+<p>登陆 Postman 网页控制台，找到接口集并进入监控器页面，即可看到添加的监控器，点击监控器名称进入结果展示页面。如：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_monitor_result.png" alt="" title="monitor result" /></p>
+</li>
+</ul>
+<h4 id="模拟服务器"><a class="markdownIt-Anchor" href="#模拟服务器"></a> 模拟服务器</h4>
+<p>在接口服务器未开发完成时，我们可以通过 Postman 创建 mock 服务器进行接口测试。</p>
+<ul>
+<li>
+<p><strong>创建 mock 服务器</strong></p>
+<ul>
+<li>
+<p>在 Postman 中可以使用 <strong>New</strong> 按钮、开始页面、Postman app、Postman API 创建模拟服务器。在这里我们通过点击 <strong>New</strong> 按钮，然后点击 <strong>Mock Server</strong> 选项来创建。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_0.png" alt="" title="create mock server" /></p>
+</li>
+<li>
+<p>创建 mock 服务器时可以选择已有的接口集，也可以自己填入新的接口，我们在这里添加了一个 <code>/hello</code> 的接口，返回结果是一个 json ，点击 <strong>Next</strong> 进入配置页面。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server.png" alt="" title="create mock server" /></p>
+</li>
+<li>
+<p>在配置页面填入服务器名称，选择运行环境，根据需要选择是否将服务器设置为私有，设置好后点击 <strong>Create</strong> 完成 mock 服务器的创建。</p>
+<blockquote>
+<p>注意：如果创建 Mock 服务器时选择了环境，创建成功后，选择的环境被删除时，该 Mock 服务器也将失效。</p>
+</blockquote>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_2.png" alt="" title="create mock server" /></p>
+</li>
+<li>
+<p>创建完成后，将自动添加一个接口集和一个环境，名称都是 mock 服务器的名称，这里是 <code>HelloMoceServer</code>。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_3.png" alt="" title="create mock server" /></p>
+</li>
+<li>
+<p>测试，进入接口集 <code>HelloMoceServer</code> ，选择刚才添加的 <code>/hello</code> 接口请求，设定环境为 <code>HelloMoceServer</code> ，发送请求，返回结果为我们设定的返回值。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_4.png" alt="" title="test mock server" /></p>
+</li>
+</ul>
+</li>
+<li>
+<p>根据接口集中的请求样例(example)创建 Mock 服务器</p>
+<p>在创建 Mock 服务器时，可以直接选择接口集，按接口集创建。选择这种方式时需要提前给 mock 的请求添加样例，有两种添加 example 的方式：</p>
+<ul>
+<li>
+<p>将实际请求结果保存为 example</p>
+<p>当接口服务器已经可以使用的，可以先发送请求，收到返回结果后，点击返回结果区域中的 <strong>Save</strong> 按钮，即可跳转到保存为 example 的界面，根据需要修改名称等信息，保存即可。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_example_by_request.png" alt="" /></p>
+</li>
+<li>
+<p>给请求添加虚拟的 example</p>
+<p>当服务器后台还未开发完成时，可以添加一些模拟的请求与结果样例，完成模拟测试。点击请求区域右上方的 <strong>Examples</strong> 按钮，将跳转的添加界面，填入名称、请求方法、请求参数、返回结果码、返回结果内容后，保存。可以给一个接口添加多个不同请求方法、不同参数、不同返回结果的请求样例，增加测试的多样性。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_example.png" alt="" /></p>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="api-设计与开发"><a class="markdownIt-Anchor" href="#api-设计与开发"></a> API 设计与开发</h4>
+<p>Postman 新特性允许用户直接通过 Postman 设计 API，增加了 API 栏和 API 元素，与接口集、监控器等一样可以使用 Postman 中的版本控制，可以设置版本标签，也可以快捷的分享给团队成员。</p>
+<p>点击 Postman 界面上侧边栏选项卡中的 <strong>APIs</strong> ，然后点击 <strong>+ New API</strong> 按钮，填入 API 名称即可创建。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_API.png" alt="" /></p>
+<p>创建 API 后，需要添加定义，点击 API 显示区域中的 <strong>Add Schema</strong> 下拉选框，选择 <strong>Create new</strong> ，当然如果你有写好的定义文件，也可以从文件导入。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/postman_create_API_2.png" alt="" /></p>
+<p>接下来，选择接口框架类型，可选项有：OpenAPI 3.0 ，OpenAPI 2.0 ，OpenAPI 1.0 ，RAML 0.8 ，GraphQL。然后将接口定义写好，点击 <strong>Save</strong> 保存。</p>
+<p>随后，可以开发一个 API，对 API 进行测试，给 API 添加监控器自动运行测试，分析 API。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://learning.getpostman.com/docs/postman/launching_postman/installation_and_updates/">Postman Docs</a></li>
+</ul>
+<h3 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h3>
+<p>这篇文章介绍了 Postman 的用法，包括基本的接口测试与云自动测试等功能，也涉及到了 Postman 的一些新特性介绍，但并没有十分深入每个特性，只是走马观花的通篇浏览。写这篇文章的主要目的是为了了解 Postman 这个工具的功能和使用场景，知道它能做什么，以便在以后做测试的时候多一个选择。</p>
+<p>文章最后时间：2019-06-22 。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/api/" rel="tag"># api</a>
+              <a href="/tags/test/" rel="tag"># test</a>
+              <a href="/tags/postman/" rel="tag"># postman</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/06/13/vim-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/" rel="prev" title="vim 学习笔记">
+                  <i class="fa fa-chevron-left"></i> vim 学习笔记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/09/15/ESP8266%E5%88%9D%E4%BD%93%E9%AA%8C-hello-world/" rel="next" title="ESP8266初体验 hello world">
+                  ESP8266初体验 hello world <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

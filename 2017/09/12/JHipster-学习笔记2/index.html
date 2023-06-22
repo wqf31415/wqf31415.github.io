@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="写在前面的话：这篇文章中使用的 jhipster 版本是 3.12.2 ，还是使用 yo 来构建的，在最新版本中已经不需要使用 yo 了，创建实体的过程也有一些差异。   JHipster 核心 —— 创建实体（Create Entity） 当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：  一张数据库表； 一个 Liquibase 修改集； 一个 J">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JHipster 学习笔记2">
+<meta property="og:url" content="https://www.wqf31415.xyz/2017/09/12/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="写在前面的话：这篇文章中使用的 jhipster 版本是 3.12.2 ，还是使用 yo 来构建的，在最新版本中已经不需要使用 yo 了，创建实体的过程也有一些差异。   JHipster 核心 —— 创建实体（Create Entity） 当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：  一张数据库表； 一个 Liquibase 修改集； 一个 J">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-09-12T08:12:52.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.243Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="JHipster">
+<meta property="article:tag" content="web">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2017/09/12/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2017/09/12/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/","path":"2017/09/12/JHipster-学习笔记2/","title":"JHipster 学习笔记2"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JHipster 学习笔记2 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#jhipster-%E6%A0%B8%E5%BF%83-%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93create-entity"><span class="nav-number">1.</span> <span class="nav-text"> JHipster 核心 —— 创建实体（Create Entity）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BE%9D%E8%B5%96%E7%89%88%E6%9C%AC"><span class="nav-number">1.1.</span> <span class="nav-text"> 依赖版本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%A0%87%E5%87%86%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%8E%A5%E5%8F%A3%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93"><span class="nav-number">1.2.</span> <span class="nav-text"> 用标准命令行接口创建实体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%89%A7%E8%A1%8C%E6%8C%87%E4%BB%A4"><span class="nav-number">1.2.1.</span> <span class="nav-text"> 执行指令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%9E%E7%AD%94%E9%97%AE%E9%A2%98"><span class="nav-number">1.2.2.</span> <span class="nav-text"> 回答问题</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%86%B2%E7%AA%81"><span class="nav-number">1.2.3.</span> <span class="nav-text"> 处理冲突</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%B9%E9%87%8F%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93"><span class="nav-number">1.3.</span> <span class="nav-text"> 批量创建实体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-jdl-%E6%89%B9%E9%87%8F%E7%94%9F%E6%88%90%E5%AE%9E%E4%BD%93"><span class="nav-number">1.3.1.</span> <span class="nav-text"> 使用 JDL 批量生成实体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jdl%E8%AF%AD%E6%B3%95"><span class="nav-number">1.3.2.</span> <span class="nav-text"> JDL语法：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-uml-%E6%89%B9%E9%87%8F%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93"><span class="nav-number">1.3.3.</span> <span class="nav-text"> 使用 UML 批量创建实体</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%AE%9E%E4%BD%93"><span class="nav-number">2.</span> <span class="nav-text"> 修改实体</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.</span> <span class="nav-text"> 注意事项：</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#jhipster%E7%89%88%E6%9C%AC%E4%B8%8D%E5%90%8C%E4%BD%BF%E7%94%A8%E7%9A%84%E7%94%9F%E6%88%90%E5%91%BD%E4%BB%A4%E5%8F%AF%E8%83%BD%E4%B8%8D%E5%90%8C"><span class="nav-number">3.1.</span> <span class="nav-text"> JHipster版本不同，使用的生成命令可能不同</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2017/09/12/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JHipster 学习笔记2 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JHipster 学习笔记2<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-09-12 16:12:52" itemprop="dateCreated datePublished" datetime="2017-09-12T16:12:52+08:00">2017-09-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><blockquote>
+<p>写在前面的话：这篇文章中使用的 jhipster 版本是 3.12.2 ，还是使用 yo 来构建的，在最新版本中已经不需要使用 yo 了，创建实体的过程也有一些差异。</p>
+</blockquote>
+<h2 id="jhipster-核心-创建实体create-entity"><a class="markdownIt-Anchor" href="#jhipster-核心-创建实体create-entity"></a> JHipster 核心 —— 创建实体（Create Entity）</h2>
+<p>当你创建好一个项目后，你下一步要做的可能就是添加实体了，对于每个实体，你都需要下面这些内容：</p>
+<ul>
+<li>一张数据库表；</li>
+<li>一个 Liquibase 修改集；</li>
+<li>一个 JPA 实体；</li>
+<li>一个 Spring Data JPA 仓库对象；</li>
+<li>一个 spring MVC 的控制器，实现了基础的增、查、删、改方法；</li>
+<li>一个 Angular 路由、组件和server；</li>
+<li>一个 html 展示页面；</li>
+<li>集成测试来验证所有东西是否正确运行；</li>
+<li>性能测试来验证所有东西是否允许流畅；</li>
+</ul>
+<p>如果你有多个实体，那实体之间可能还有相互关联，因此，还需要：</p>
+<ul>
+<li>数据库外键关联；</li>
+<li>特殊的 JS 和 html 代码来管理这些关联关系</li>
+</ul>
+<p>然而以上内容，只需要我们执行一个指令回答几个问题就可以搞定了，JHipster 一下帮我们写了几百行代码，怎么样，想不想学学这种操作？</p>
+<span id="more"></span>
+<h3 id="依赖版本"><a class="markdownIt-Anchor" href="#依赖版本"></a> 依赖版本</h3>
+<ul>
+<li>java：1.8</li>
+<li>JHipster : 3.12.2</li>
+<li>gulp：3.9.1</li>
+</ul>
+<h3 id="用标准命令行接口创建实体"><a class="markdownIt-Anchor" href="#用标准命令行接口创建实体"></a> 用标准命令行接口创建实体</h3>
+<p>以上内容只需要执行一条指令，然后回答几个问题即可完成：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yo jhipster:entity [options] &lt;name&gt;</span><br></pre></td></tr></table></figure>
+<p><strong>请注意，这里使用的 JHipster 生成器版本为 3.12.2，更新的版本命令可能不同</strong></p>
+<p>需要帮助可以执行 <code>yo jhipster:entity --help</code> 指令，然后我们会看到指令的说明。<br />
+这种方式适合实体数量少的情况，或者在开发过程中途添加实体。</p>
+<p>name 为实体名，options 为可选项：</p>
+<table>
+<thead>
+<tr>
+<th>option</th>
+<th>功能</th>
+<th>默认值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>–help 或 -h</td>
+<td>打印出指令的选项和用法</td>
+<td>false</td>
+</tr>
+<tr>
+<td>–skip-cache</td>
+<td>不缓存选项的回答内容</td>
+<td>false</td>
+</tr>
+<tr>
+<td>–skip-install</td>
+<td>不自动安装依赖</td>
+<td>false</td>
+</tr>
+<tr>
+<td>–regenerate</td>
+<td>重新生成实体但不出现提示选项</td>
+<td>false</td>
+</tr>
+<tr>
+<td>–table-name</td>
+<td>自定义数据库表名</td>
+<td>false</td>
+</tr>
+<tr>
+<td>–fluent-methods</td>
+<td>在实体中生成流利的方法，允许链式对象构造</td>
+<td>true</td>
+</tr>
+<tr>
+<td>–angular-suffix</td>
+<td>自定义Angular 前缀</td>
+<td>false</td>
+</tr>
+<tr>
+<td>–skip-server</td>
+<td>不生成服务器端代码</td>
+<td>false</td>
+</tr>
+<tr>
+<td>–skip-client</td>
+<td>不生成客户端代码</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p><strong>【例】</strong> 要创建一个 Book 实体，我们可以在项目根目录下打开命令行，输入指令：</p>
+<h4 id="执行指令"><a class="markdownIt-Anchor" href="#执行指令"></a> 执行指令</h4>
+<p>注意：实体名要用 <strong>大驼峰</strong> 命名方式，如AaaBbbCcc，在数据库中创建的表名为：aaa_bbb_ccc</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yo jhipster:entity Book</span><br></pre></td></tr></table></figure>
+<h4 id="回答问题"><a class="markdownIt-Anchor" href="#回答问题"></a> 回答问题</h4>
+<p>然后根据提示，添加实体需要的属性和关联关系：</p>
+<p>Do you want to add a field to your entity? (Y/n)	– 是否要为实体添加字段？输入 <strong>y</strong> 回车，或直接回车</p>
+<p>What field name of your field?		– 字段名是什么？输入 author 回车，字段命名采用小驼峰命名方式</p>
+<p>What is the type of your field? (Use arrow keys)		– 字段的类型，用上下键选择，回车确定，类型如下：</p>
+<ul>
+<li>
+<p>String		– 字符串</p>
+</li>
+<li>
+<p>Integer-- 整形</p>
+</li>
+<li>
+<p>Long-- 长整形</p>
+</li>
+<li>
+<p>Float-- 浮点型</p>
+</li>
+<li>
+<p>Double-- 双精度型</p>
+</li>
+<li>
+<p>BigDecimal-- 大位数</p>
+</li>
+<li>
+<p>LocalDate-- 本地日期</p>
+</li>
+<li>
+<p>ZonedDateTime-- 时区化的时间</p>
+</li>
+<li>
+<p>Boolean-- 布尔型</p>
+</li>
+<li>
+<p>Enumeration (Java enum type)-- 枚举</p>
+</li>
+<li>
+<p>[BETA] Blob-- 二进制大对象</p>
+</li>
+</ul>
+<p>注意：在给实体添加字段时不用添加主键id，系统会自动添加id字段作为主键</p>
+<p>Do you want to add validation rules to your field? (y/N)-- 是否为字段添加验证规则，默认不添加，输入 <strong>y</strong> 回车添加验证</p>
+<p>Which validation rules do you want to add? (Press &lt;apace&gt; to select, &lt;a&gt; to toggle all, &lt;i&gt; to inverse selection)-- 如果选择添加验证且字段类型为 String 时将会出现这个问题，用上下键选择，空格键确定选择，可选择多个</p>
+<ul>
+<li>
+<p>( ) Required</p>
+</li>
+<li>
+<p>( ) Minimum length</p>
+</li>
+<li>
+<p>( ) Maximum length</p>
+</li>
+<li>
+<p>( ) Regular expression pattern</p>
+<p>What is the minimum length of your field? (0)-- 为字段添加最小长度限定，默认为 0</p>
+<p>What is the maximum length of your field? (20)-- 字段最大长度限定，默认为 20</p>
+<p>What is the regular expression pattern you want to apply on your field? (<sup class="footnote-ref"><a href="#fn1" id="fnref1">[1]</a></sup>*$)-- 用正则表达式限定字段内容</p>
+<p>Do you want to add a relationship to another entity? (Y/n)-- 当字段添加完成后，会提示是否添加关系，默认添加</p>
+<p>What is the name of the other entity?-- 输入要关联的实体名，如为书籍添加作者，输入 Author 回车确定</p>
+<p>What is the name of the relationship? (auther)-- 关系名称，默认值为关联的实体名，可以直接回车确定</p>
+<p>What is the type of the relationship? (Use arrow keys)-- 选择关联类型</p>
+</li>
+<li>
+<p>one-to-many</p>
+</li>
+<li>
+<p>many-to-one</p>
+</li>
+<li>
+<p>many-to-many</p>
+</li>
+<li>
+<p>one-to-one</p>
+<p>What the name of this relationship in the other entity? (book)	– 关系在其他实体中的名称</p>
+<p>Do you want to use a Data Transfer Object (DTO)? (Use arrow keys)	– 是否使用 DTO</p>
+</li>
+<li>
+<p>No, use the entity directly?</p>
+</li>
+<li>
+<p>[BETA] Yes, generate a DTO with MapStruct</p>
+<p>Do you want to use separate service class for your business logic? (Use arrow keys)	– 是否为实体逻辑添加分离的 server 类，选择第二项生成单独的 service 类</p>
+</li>
+<li>
+<p>No, the REST controller should use the repository directly</p>
+</li>
+<li>
+<p>Yes, generate a separate service class</p>
+</li>
+<li>
+<p>Yes, generate a separate service interface and implementation</p>
+<p>Do you want pagination on your entity? (Use arrow keys)-- 是否添加分页，选择第二项，生成简单的分页页面</p>
+</li>
+<li>
+<p>No</p>
+</li>
+<li>
+<p>Yes, with a simple pager</p>
+</li>
+<li>
+<p>Yes, with pagination links</p>
+</li>
+<li>
+<p>Yes, with infinite scroll</p>
+</li>
+</ul>
+<h4 id="处理冲突"><a class="markdownIt-Anchor" href="#处理冲突"></a> 处理冲突</h4>
+<p>在回答完上述问题后，将开始在项目中创建实体，过程中会生成一些文件，有些文件已经存在，就会产生冲突，这时会提示我们是否选择覆盖原文件，根据需要输入 y 覆盖，n 不覆盖，a 覆盖全部冲突文件。</p>
+<p>处理完所有冲突后，创建实体完成，将自动执行 <code>gulp inject</code> 指令将生成的js文件注入到 index.html 中，至此，创建一个 Author 实体完成。</p>
+<h3 id="批量创建实体"><a class="markdownIt-Anchor" href="#批量创建实体"></a> 批量创建实体</h3>
+<h4 id="使用-jdl-批量生成实体"><a class="markdownIt-Anchor" href="#使用-jdl-批量生成实体"></a> 使用 JDL 批量生成实体</h4>
+<p>在刚开始搭建项目时，要创建实体数量很多，建议使用 JDL 将所有实体信息都写在一起，便于核对及修改，创建实体时可以一键创建多个实体，提高效率。</p>
+<blockquote>
+<p>最好先看下官网提供的 jdl 说明：<a target="_blank" rel="noopener" href="http://www.jhipster.tech/jdl/">http://www.jhipster.tech/jdl/</a></p>
+</blockquote>
+<p>推荐使用 JHipster 官方的 JDL Studio 在线工具：<a target="_blank" rel="noopener" href="http://www.jhipster.tech/jdl-studio/">http://www.jhipster.tech/jdl-studio/</a> ，进入页面可以看到官网提供的 jdl demo，页面左侧是编辑区域，右侧是 uml 图形展示，可以仿照这个demo 快速创建自己的 JDL 文件，编辑完成后点击右上角的下载图标即可把 jdl 文件保存到本地，文件格式为 <strong>.jh</strong>。</p>
+<p>在体验阶段，我们直接下载官网提供的 jdl 文件到本地，默认文件名 <strong>jhipster-jdl.jh</strong> ，将这个文件放到项目根目录，在根目录打开命令行工具，执行指令：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yo jhipster:import-jdl jhipster-jdl.jh</span><br></pre></td></tr></table></figure>
+<p>然后就等待程序执行，创建实体就行了，偶尔会有冲突，让你选择是否覆盖原有的文件，根据需要选择输入y 覆盖，n 不覆盖。</p>
+<p>在实体创建完成后，会自动执行 <code>gulp inject</code> 将产生的静态资源(javascript文件)注入到 index.html 中。</p>
+<p>完成后就可以启动项目，查看结果了。</p>
+<h4 id="jdl语法"><a class="markdownIt-Anchor" href="#jdl语法"></a> JDL语法：</h4>
+<blockquote>
+<p>官方在线 JDL 工具: <a target="_blank" rel="noopener" href="https://start.jhipster.tech/jdl-studio/">https://start.jhipster.tech/jdl-studio/</a><br />
+3.12.2 JDL 文档: <a target="_blank" rel="noopener" href="https://www.jhipster.tech/documentation-archive/v3.12.2/jdl/">https://www.jhipster.tech/documentation-archive/v3.12.2/jdl/</a></p>
+</blockquote>
+<ul>
+<li>添加实体</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">entity \&lt;实体名\&gt; &#123;</span><br><span class="line">	参数名 类型 限制条件,</span><br><span class="line">	参数名 类型 限制条件,</span><br><span class="line">	......</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>注意：<br />
+​	- 实体名用大驼峰方式命名，参数名用小驼峰命名，不能出现“-”，“-”等符号；<br />
+​	- 用 jdl 时也不用添加 id 字段，系统将自动添加一个 ID 字段作为主键；<br />
+​	- 字段类型有：String，Integer，Long，BigDecimal，Float，Double，Enum，Boolean，LocalDate，ZonedDateTime，Blob，AnyBlob，ImageBlob，Textblob，Instant<br />
+​	- 限制条件有：required（必须，不能为空），对于字符串类型独有 minlength（最小长度），maxlength（最大长度），pattern（正则表达式限制），对于数值类型独有 min（最小值），max（最大值），对于Blob类型独有 minbytes（最小字节），maxbytes（最大字节）；</p>
+<p>-添加枚举</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">// 语法格式，枚举值必须大写</span><br><span class="line">enum 枚举名 &#123;</span><br><span class="line">枚举值,枚举值</span><br><span class="line">&#125;</span><br><span class="line">// 例如</span><br><span class="line">enum Language &#123;</span><br><span class="line">    FRENCH, ENGLISH, SPANISH</span><br><span class="line">  &#125;</span><br><span class="line">// 使用枚举</span><br><span class="line">entity Book &#123;</span><br><span class="line">    title String required,</span><br><span class="line">    description String,</span><br><span class="line">    language Language</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>添加关系：<br />
+关系类型：OneToMany 、 ManyToOne 、 OneToOne 、 ManyToMany</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 语法</span><br><span class="line">relationship &lt;type&gt; &#123;</span><br><span class="line">&lt;from entity&gt;[&#123;&lt;relationship name&gt;&#125;]</span><br><span class="line">to</span><br><span class="line">&lt;to entity&gt;[&#123;&lt;relationship name&gt;&#125;]</span><br><span class="line">&#125;</span><br><span class="line">// 例如，一本书有一个作者，一个作者有多本书</span><br><span class="line">relationship OneToMany &#123;</span><br><span class="line">  Author&#123;book&#125; to Book&#123;writer(name)&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<ul>
+<li>分页<br />
+添加分页查询功能，分页方式有： pager 、 pagination 、 infinite-scroll</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">paginate A with pagination</span><br><span class="line">paginate B,C with pager</span><br><span class="line">paginate D with infinite-scroll</span><br><span class="line">// 全部分页</span><br><span class="line">paginate * with pagination</span><br><span class="line">// 排除部分实体分页</span><br><span class="line">paginate all with pagination except A,B,C,D</span><br></pre></td></tr></table></figure>
+<ul>
+<li>给实体创建 Service<br />
+可选方式：serviceClass 、 serviceImpl</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">service * with serviceClass</span><br><span class="line">// 或</span><br><span class="line">service ALL with serviceImpl</span><br></pre></td></tr></table></figure>
+<ul>
+<li>使用 DTO</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dto * with mapstruct</span><br></pre></td></tr></table></figure>
+<ul>
+<li>其它选项
+<ul>
+<li>skipClient 不生成前端代码</li>
+<li>skipServer 不生成后端代码</li>
+<li>angularSuffix 给 Angular 路由名称添加前缀</li>
+<li>specify 指定其他微服务中的实体名</li>
+<li>search  指定其他微服务中的搜索项</li>
+</ul>
+</li>
+</ul>
+<p>JDL 示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* 林业局</span><br><span class="line">*/</span><br><span class="line">entity Bureau&#123;</span><br><span class="line">    /**林业局名*/</span><br><span class="line">    name String required maxlength(60)</span><br><span class="line">    /**编码*/</span><br><span class="line">    code String maxlength(20),</span><br><span class="line">    /**地址*/</span><br><span class="line">    address String maxlength(255),</span><br><span class="line">    /**级别*/</span><br><span class="line">    level String maxlength(20),</span><br><span class="line">    /**备注*/</span><br><span class="line">    remark String maxlength(250),</span><br><span class="line">	createBy String maxlength(20),</span><br><span class="line">	createDate ZonedDateTime,</span><br><span class="line">	lastModifiedBy String maxlength(20),</span><br><span class="line">	lastModifiedDate ZonedDateTime,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/**林场*/</span><br><span class="line">entity Station&#123;</span><br><span class="line">    /**林场名*/</span><br><span class="line">    name String required maxlength(60),</span><br><span class="line">    /**林场编号*/</span><br><span class="line">    code String maxlength(20),</span><br><span class="line">    /**地址*/</span><br><span class="line">    address String maxlength(255),</span><br><span class="line">    /**级别*/</span><br><span class="line">    level String maxlength(20),</span><br><span class="line">    /**备注*/</span><br><span class="line">    remark String,</span><br><span class="line">	createBy String maxlength(20),</span><br><span class="line">	createDate ZonedDateTime,</span><br><span class="line">	lastModifiedBy String maxlength(20),</span><br><span class="line">	lastModifiedDate ZonedDateTime,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">relationship ManyToOne&#123;</span><br><span class="line">	Station&#123;bureau&#125;  to Bureau</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">relationship ManyToOne&#123;</span><br><span class="line">	PreventionTeam&#123;parentUnit&#125;  to Station</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">paginate * with pagination</span><br><span class="line"></span><br><span class="line">service * with serviceClass</span><br></pre></td></tr></table></figure>
+<h4 id="使用-uml-批量创建实体"><a class="markdownIt-Anchor" href="#使用-uml-批量创建实体"></a> 使用 UML 批量创建实体</h4>
+<p>这个我也没用过，先挖个坑，后面再填！</p>
+<h2 id="修改实体"><a class="markdownIt-Anchor" href="#修改实体"></a> 修改实体</h2>
+<h2 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项：</h2>
+<h3 id="jhipster版本不同使用的生成命令可能不同"><a class="markdownIt-Anchor" href="#jhipster版本不同使用的生成命令可能不同"></a> JHipster版本不同，使用的生成命令可能不同</h3>
+<p>在现在(20190304)使用的 JHipster 5.8.2 中，生成单个实体的命令为：<code>jhipster entity &lt;entityName&gt; --[options]</code>，使用 JDL 批量生成实体的命令变成了：<code>jhipster import-jdl your-jdl-file.jh</code>。</p>
+<hr class="footnotes-sep" />
+<section class="footnotes">
+<ol class="footnotes-list">
+<li id="fn1" class="footnote-item"><p>a-zA-Z0-9 <a href="#fnref1" class="footnote-backref">↩︎</a></p>
+</li>
+</ol>
+</section>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/JHipster/" rel="tag"># JHipster</a>
+              <a href="/tags/web/" rel="tag"># web</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/08/15/%E4%BD%BF%E7%94%A8ngrok%E6%8A%8A%E6%9C%AC%E5%9C%B0web%E6%9C%8D%E5%8A%A1%E6%98%A0%E5%B0%84%E5%88%B0%E4%BA%92%E8%81%94%E7%BD%91/" rel="prev" title="使用ngrok把本地web服务映射到互联网">
+                  <i class="fa fa-chevron-left"></i> 使用ngrok把本地web服务映射到互联网
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/11/27/%E5%88%9B%E5%BB%BASpringBoot%E9%A1%B9%E7%9B%AE/" rel="next" title="创建SpringBoot项目">
+                  创建SpringBoot项目 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

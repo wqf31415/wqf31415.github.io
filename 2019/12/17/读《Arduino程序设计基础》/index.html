@@ -1,0 +1,1854 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章主要记录了读陈吕洲著的《Arduino程序设计基础》之后，记录的笔记，包含使用arduino开发硬件的一些基础知识点。   关于本书  书 《Arduino程序设计基础（第二版）》，涵盖了 Arduino 基础知识和高级应用，中间穿插简单的项目，同时列举了常用的 API 参考。本书主要针对本科生及研究生阶段的 Arduino 教学实验进行编写，也适用于相关开发人员及入门者学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="读《Arduino程序设计基础》">
+<meta property="og:url" content="https://www.wqf31415.xyz/2019/12/17/%E8%AF%BB%E3%80%8AArduino%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E3%80%8B/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章主要记录了读陈吕洲著的《Arduino程序设计基础》之后，记录的笔记，包含使用arduino开发硬件的一些基础知识点。   关于本书  书 《Arduino程序设计基础（第二版）》，涵盖了 Arduino 基础知识和高级应用，中间穿插简单的项目，同时列举了常用的 API 参考。本书主要针对本科生及研究生阶段的 Arduino 教学实验进行编写，也适用于相关开发人员及入门者学习。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_book.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_circuit_diagram_switch_led.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_analog_pin.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_pwm_pin.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_serial_data_frame.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_uno_icsp_pin.jpg">
+<meta property="article:published_time" content="2019-12-17T14:39:46.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.312Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="笔记">
+<meta property="article:tag" content="arduino">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_book.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2019/12/17/%E8%AF%BB%E3%80%8AArduino%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E3%80%8B/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/12/17/%E8%AF%BB%E3%80%8AArduino%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E3%80%8B/","path":"2019/12/17/读《Arduino程序设计基础》/","title":"读《Arduino程序设计基础》"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>读《Arduino程序设计基础》 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%9C%AC%E4%B9%A6"><span class="nav-number">2.</span> <span class="nav-text"> 关于本书</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B9%A6"><span class="nav-number">2.1.</span> <span class="nav-text"> 书</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%9C%E8%80%85"><span class="nav-number">2.2.</span> <span class="nav-text"> 作者</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AC%94%E8%AE%B0"><span class="nav-number">3.</span> <span class="nav-text"> 笔记</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%AF%87"><span class="nav-number">3.1.</span> <span class="nav-text"> 基础篇</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#arduino-%E8%AF%AD%E8%A8%80"><span class="nav-number">3.1.1.</span> <span class="nav-text"> Arduino 语言</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#arduino-%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84"><span class="nav-number">3.1.2.</span> <span class="nav-text"> Arduino 程序结构</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#cc-%E8%AF%AD%E8%A8%80%E5%9F%BA%E7%A1%80"><span class="nav-number">3.1.3.</span> <span class="nav-text"> C&#x2F;C++ 语言基础</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.1.3.1.</span> <span class="nav-text"> 数据类型</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BF%90%E7%AE%97%E7%AC%A6"><span class="nav-number">3.1.3.2.</span> <span class="nav-text"> 运算符</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">3.1.3.3.</span> <span class="nav-text"> 表达式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B0%E7%BB%84"><span class="nav-number">3.1.3.4.</span> <span class="nav-text"> 数组</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">3.1.3.5.</span> <span class="nav-text"> 字符串</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">3.1.3.6.</span> <span class="nav-text"> 注释</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#io-%E5%8F%A3%E7%9A%84%E7%AE%80%E5%8D%95%E5%BA%94%E7%94%A8"><span class="nav-number">3.1.4.</span> <span class="nav-text"> I&#x2F;O 口的简单应用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B0%E5%AD%97-io-%E5%8F%A3%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.1.4.1.</span> <span class="nav-text"> 数字 I&#x2F;O 口的使用</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A8%A1%E6%8B%9F-io-%E5%8F%A3%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="nav-number">3.1.4.2.</span> <span class="nav-text"> 模拟 I&#x2F;O 口的使用</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3"><span class="nav-number">3.1.4.3.</span> <span class="nav-text"> 串口</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%97%B6%E9%97%B4%E6%8E%A7%E5%88%B6%E5%87%BD%E6%95%B0"><span class="nav-number">3.1.4.4.</span> <span class="nav-text"> 时间控制函数</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#io-%E5%8F%A3%E9%AB%98%E7%BA%A7%E5%BA%94%E7%94%A8"><span class="nav-number">3.2.</span> <span class="nav-text"> I&#x2F;O 口高级应用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E5%A3%B0%E5%87%BD%E6%95%B0"><span class="nav-number">3.2.1.</span> <span class="nav-text"> 调声函数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tone"><span class="nav-number">3.2.1.1.</span> <span class="nav-text"> tone()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#notone"><span class="nav-number">3.2.1.2.</span> <span class="nav-text"> noTone()</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%97%A0%E6%BA%90%E8%9C%82%E9%B8%A3%E5%99%A8"><span class="nav-number">3.2.1.3.</span> <span class="nav-text"> 无源蜂鸣器</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%84%89%E5%86%B2%E5%AE%BD%E5%BA%A6%E6%B5%8B%E9%87%8F%E5%87%BD%E6%95%B0"><span class="nav-number">3.2.2.</span> <span class="nav-text"> 脉冲宽度测量函数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#pulsein"><span class="nav-number">3.2.2.1.</span> <span class="nav-text"> pulseIn()</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B6%85%E5%A3%B0%E6%B3%A2%E6%B5%8B%E8%B7%9D"><span class="nav-number">3.2.3.</span> <span class="nav-text"> 超声波测距</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#sr04-%E8%B6%85%E5%A3%B0%E6%B3%A2%E4%BC%A0%E6%84%9F%E5%99%A8"><span class="nav-number">3.2.3.1.</span> <span class="nav-text"> SR04 超声波传感器</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE-adc-%E5%8F%82%E8%80%83%E7%94%B5%E5%8E%8B"><span class="nav-number">3.2.4.</span> <span class="nav-text"> 设置 ADC 参考电压</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%A4%96%E9%83%A8%E4%B8%AD%E6%96%AD"><span class="nav-number">3.2.5.</span> <span class="nav-text"> 外部中断</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E5%BC%95%E8%84%9A%E4%B8%8E%E4%B8%AD%E6%96%AD%E7%BC%96%E5%8F%B7"><span class="nav-number">3.2.5.1.</span> <span class="nav-text"> 中断引脚与中断编号</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E6%A8%A1%E5%BC%8F"><span class="nav-number">3.2.5.2.</span> <span class="nav-text"> 中断模式</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%AD%E6%96%AD%E5%87%BD%E6%95%B0"><span class="nav-number">3.2.5.3.</span> <span class="nav-text"> 中断函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E4%B8%AD%E6%96%AD%E5%BC%95%E8%84%9A"><span class="nav-number">3.2.5.4.</span> <span class="nav-text"> 配置中断引脚</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E4%B8%AD%E6%96%AD%E5%8A%9F%E8%83%BD"><span class="nav-number">3.2.5.5.</span> <span class="nav-text"> 关闭中断功能</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E5%92%8C%E7%BC%96%E5%86%99%E7%B1%BB%E5%BA%93"><span class="nav-number">3.3.</span> <span class="nav-text"> 使用和编写类库</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-arduino-%E7%B1%BB%E5%BA%93"><span class="nav-number">3.3.1.</span> <span class="nav-text"> 使用 Arduino 类库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E5%86%99-arduino-%E7%B1%BB%E5%BA%93"><span class="nav-number">3.3.2.</span> <span class="nav-text"> 编写 Arduino 类库</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E5%A4%B4%E6%96%87%E4%BB%B6%E6%8E%A5%E5%8F%A3"><span class="nav-number">3.3.3.</span> <span class="nav-text"> 编写头文件（接口）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A2%84%E5%A4%84%E7%90%86%E5%91%BD%E4%BB%A4"><span class="nav-number">3.3.3.1.</span> <span class="nav-text"> 预处理命令</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%8F%E5%AE%9A%E4%B9%89"><span class="nav-number">3.3.3.2.</span> <span class="nav-text"> 宏定义</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB"><span class="nav-number">3.3.3.3.</span> <span class="nav-text"> 文件包含</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9D%A1%E4%BB%B6%E7%BC%96%E8%AF%91"><span class="nav-number">3.3.3.4.</span> <span class="nav-text"> 条件编译</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%89%88%E6%9C%AC%E5%85%BC%E5%AE%B9"><span class="nav-number">3.3.3.5.</span> <span class="nav-text"> 版本兼容</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E5%86%99-cpp-%E6%96%87%E4%BB%B6%E5%AE%9E%E7%8E%B0%E7%B1%BB"><span class="nav-number">3.3.4.</span> <span class="nav-text"> 编写 .cpp 文件（实现类）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%AD%97%E9%AB%98%E4%BA%AE%E6%98%BE%E7%A4%BA"><span class="nav-number">3.3.5.</span> <span class="nav-text"> 关键字高亮显示</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B%E7%A8%8B%E5%BA%8F"><span class="nav-number">3.3.6.</span> <span class="nav-text"> 示例程序</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E4%BF%A1%E7%AF%87"><span class="nav-number">3.4.</span> <span class="nav-text"> 通信篇</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1"><span class="nav-number">3.4.1.</span> <span class="nav-text"> 串口通信</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3%E5%B7%A5%E4%BD%9C%E5%8E%9F%E7%90%86"><span class="nav-number">3.4.1.1.</span> <span class="nav-text"> 串口工作原理</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#hardwareserial-%E7%B1%BB%E5%BA%93%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">3.4.1.2.</span> <span class="nav-text"> HardwareSerial 类库成员函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3%E8%AF%BB%E5%8F%96%E5%AD%97%E7%AC%A6%E4%B8%B2"><span class="nav-number">3.4.1.3.</span> <span class="nav-text"> 串口读取字符串</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3%E4%BA%8B%E4%BB%B6"><span class="nav-number">3.4.1.4.</span> <span class="nav-text"> 串口事件</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E4%B8%B2%E5%8F%A3%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="nav-number">3.4.1.5.</span> <span class="nav-text"> 串口缓冲区</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%A8%A1%E6%8B%9F%E4%B8%B2%E5%8F%A3"><span class="nav-number">3.4.1.6.</span> <span class="nav-text"> 软件模拟串口</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#softwareserial-%E7%B1%BB%E5%BA%93%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">3.4.1.7.</span> <span class="nav-text"> SoftwareSerial 类库成员函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%BB%BA%E7%AB%8B%E8%BD%AF%E4%B8%B2%E5%8F%A3%E9%80%9A%E4%BF%A1"><span class="nav-number">3.4.1.8.</span> <span class="nav-text"> 建立软串口通信</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%90%8C%E6%97%B6%E4%BD%BF%E7%94%A8%E5%A4%9A%E4%B8%AA%E8%BD%AF%E4%B8%B2%E5%8F%A3"><span class="nav-number">3.4.1.9.</span> <span class="nav-text"> 同时使用多个软串口</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#iic-%E6%80%BB%E7%BA%BF"><span class="nav-number">3.4.2.</span> <span class="nav-text"> IIC 总线</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#iic-%E4%B8%BB-%E4%BB%8E%E6%9C%BA%E4%B8%8E%E5%BC%95%E8%84%9A"><span class="nav-number">3.4.2.1.</span> <span class="nav-text"> IIC 主、从机与引脚</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#wire-%E7%B1%BB%E5%BA%93%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">3.4.2.2.</span> <span class="nav-text"> Wire 类库成员函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#iic-%E8%BF%9E%E6%8E%A5%E6%96%B9%E6%B3%95"><span class="nav-number">3.4.2.3.</span> <span class="nav-text"> IIC 连接方法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#spi-%E6%80%BB%E7%BA%BF"><span class="nav-number">3.4.3.</span> <span class="nav-text"> SPI 总线</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#spi-%E5%BC%95%E8%84%9A"><span class="nav-number">3.4.3.1.</span> <span class="nav-text"> SPI 引脚</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#spi-%E7%B1%BB%E5%BA%93%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">3.4.3.2.</span> <span class="nav-text"> SPI 类库成员函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%8F%91%E9%80%81%E4%B8%8E%E6%8E%A5%E6%94%B6"><span class="nav-number">3.4.3.3.</span> <span class="nav-text"> 数据发送与接收</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E6%A8%A1%E6%8B%9F-spi-%E9%80%9A%E4%BF%A1"><span class="nav-number">3.4.3.4.</span> <span class="nav-text"> 软件模拟 SPI 通信</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%A9%E5%B1%95-io-%E5%8F%A3"><span class="nav-number">3.4.4.</span> <span class="nav-text"> 扩展 I&#x2F;O 口</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E7%AF%87"><span class="nav-number">3.5.</span> <span class="nav-text"> 存储篇</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#eeprom-%E6%96%AD%E7%94%B5%E4%B9%9F%E8%83%BD%E4%BF%9D%E5%AD%98%E6%95%B0%E6%8D%AE"><span class="nav-number">3.5.1.</span> <span class="nav-text"> EEPROM ——断电也能保存数据</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#eeprom-%E7%B1%BB%E5%BA%93%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">3.5.1.1.</span> <span class="nav-text"> EEPROM 类库成员函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#eeprom-%E5%86%99%E5%85%A5%E6%93%8D%E4%BD%9C"><span class="nav-number">3.5.1.2.</span> <span class="nav-text"> EEPROM 写入操作</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#eeprom-%E8%AF%BB%E5%8F%96%E6%93%8D%E4%BD%9C"><span class="nav-number">3.5.1.3.</span> <span class="nav-text"> EEPROM 读取操作</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#eeprom-%E6%B8%85%E9%99%A4"><span class="nav-number">3.5.1.4.</span> <span class="nav-text"> EEPROM 清除</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AD%98%E5%82%A8%E5%90%84%E7%B1%BB%E5%9E%8B%E6%95%B0%E6%8D%AE%E5%88%B0-eeprom"><span class="nav-number">3.5.1.5.</span> <span class="nav-text"> 存储各类型数据到 EEPROM</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#sd-%E4%BF%9D%E5%AD%98%E5%A4%A7%E9%87%8F%E6%95%B0%E6%8D%AE"><span class="nav-number">3.5.2.</span> <span class="nav-text"> SD ——保存大量数据</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#sd-%E5%8D%A1%E7%B1%BB%E5%BA%93%E6%88%90%E5%91%98%E5%87%BD%E6%95%B0"><span class="nav-number">3.5.2.1.</span> <span class="nav-text"> SD 卡类库成员函数</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#sd-%E5%8D%A1%E8%AF%BB%E5%86%99%E6%A8%A1%E5%9D%97%E5%BC%95%E8%84%9A"><span class="nav-number">3.5.2.2.</span> <span class="nav-text"> SD 卡读写模块引脚</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#sd-%E5%8D%A1%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.5.2.3.</span> <span class="nav-text"> SD 卡创建文件示例</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#dht11-%E6%B8%A9%E6%B9%BF%E5%BA%A6%E6%A3%80%E6%B5%8B%E6%A8%A1%E5%9D%97"><span class="nav-number">3.5.3.</span> <span class="nav-text"> DHT11 温湿度检测模块</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%97%A0%E7%BA%BF%E9%80%9A%E4%BF%A1%E7%AF%87"><span class="nav-number">3.6.</span> <span class="nav-text"> 无线通信篇</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BA%A2%E5%A4%96%E9%81%A5%E6%8E%A7"><span class="nav-number">3.6.1.</span> <span class="nav-text"> 红外遥控</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#lcd%E6%98%BE%E7%A4%BA%E7%AF%87"><span class="nav-number">3.7.</span> <span class="nav-text"> LCD显示篇</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1602lcd"><span class="nav-number">3.7.1.</span> <span class="nav-text"> 1602LCD</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9B%BE%E5%BD%A2%E6%98%BE%E7%A4%BA%E5%99%A8"><span class="nav-number">3.7.2.</span> <span class="nav-text"> 图形显示器</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#12864-lcd"><span class="nav-number">3.7.2.1.</span> <span class="nav-text"> 12864 LCD</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#12864-oled"><span class="nav-number">3.7.2.2.</span> <span class="nav-text"> 12864 OLED</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#usb-%E7%B1%BB%E5%BA%93%E4%BD%BF%E7%94%A8"><span class="nav-number">3.8.</span> <span class="nav-text"> USB 类库使用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ethernet-%E7%B1%BB%E5%BA%93%E4%BD%BF%E7%94%A8"><span class="nav-number">3.9.</span> <span class="nav-text"> Ethernet 类库使用</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%94%AF%E6%8C%81-ethernet-%E7%9A%84%E7%A1%AC%E4%BB%B6"><span class="nav-number">3.9.1.</span> <span class="nav-text"> 支持 Ethernet 的硬件</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#ethernet-%E6%89%A9%E5%B1%95%E6%9D%BF"><span class="nav-number">3.9.1.1.</span> <span class="nav-text"> Ethernet 扩展板</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#arduino-ethernet"><span class="nav-number">3.9.1.2.</span> <span class="nav-text"> Arduino Ethernet</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#zduino-ethernet"><span class="nav-number">3.9.1.3.</span> <span class="nav-text"> Zduino Ethernet</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#w5100"><span class="nav-number">3.9.1.4.</span> <span class="nav-text"> W5100</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#ethernet-%E7%B1%BB%E5%BA%93"><span class="nav-number">3.9.2.</span> <span class="nav-text"> Ethernet 类库</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%BB%E5%90%8E%E6%84%9F"><span class="nav-number">4.</span> <span class="nav-text"> 读后感</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2019/12/17/%E8%AF%BB%E3%80%8AArduino%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E3%80%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="读《Arduino程序设计基础》 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          读《Arduino程序设计基础》<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E8%AF%BB%E3%80%8AArduino%E7%A8%8B%E5%BA%8F%E8%AE%BE%E8%AE%A1%E5%9F%BA%E7%A1%80%E3%80%8B.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-12-17 22:39:46" itemprop="dateCreated datePublished" datetime="2019-12-17T22:39:46+08:00">2019-12-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E8%AF%BB%E4%B9%A6/" itemprop="url" rel="index"><span itemprop="name">读书</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"  rel="stylesheet"/>
+<h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章主要记录了读陈吕洲著的《Arduino程序设计基础》之后，记录的笔记，包含使用arduino开发硬件的一些基础知识点。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_book.jpg" alt="" /></p>
+<h3 id="关于本书"><a class="markdownIt-Anchor" href="#关于本书"></a> 关于本书</h3>
+<h4 id="书"><a class="markdownIt-Anchor" href="#书"></a> 书</h4>
+<p>《Arduino程序设计基础（第二版）》，涵盖了 Arduino 基础知识和高级应用，中间穿插简单的项目，同时列举了常用的 API 参考。本书主要针对本科生及研究生阶段的 Arduino 教学实验进行编写，也适用于相关开发人员及入门者学习。</p>
+<h4 id="作者"><a class="markdownIt-Anchor" href="#作者"></a> 作者</h4>
+<p>陈吕洲：Arduino 中文社区创始人，曾今的机器人竞赛选手。现从事3D打印机设计与开发，业余从事开源硬件开发与推广。</p>
+<span id="more"></span>
+<h3 id="笔记"><a class="markdownIt-Anchor" href="#笔记"></a> 笔记</h3>
+<h4 id="基础篇"><a class="markdownIt-Anchor" href="#基础篇"></a> 基础篇</h4>
+<h5 id="arduino-语言"><a class="markdownIt-Anchor" href="#arduino-语言"></a> Arduino 语言</h5>
+<p>通常所说的 Arduino 语言是指 Arduino 核心库文件提供的各种程序接口 (API) 的集合。这些API 是对更底层单片机支持库进行二次封装形成的，为我们屏蔽了底层复杂的实现机制，使得更多的人能够掌握，同时也让程序更容易阅读，也提升了开发效率。在 Arduino 中的核心库采用 C/C++ 混合编写，我们写Arduino 程序时也使用 C/C++ 完成。</p>
+<h5 id="arduino-程序结构"><a class="markdownIt-Anchor" href="#arduino-程序结构"></a> Arduino 程序结构</h5>
+<p>在 Arduino 程序中由两个基本函数构成，setup() 函数只会在程序运行之初运行一次，一般用于初始化设置，如配置 I/O 口状态和初始化串口等操作；loop() 函数在 setup() 函数执行完成后开始执行，随后重复运行。</p>
+<h5 id="cc-语言基础"><a class="markdownIt-Anchor" href="#cc-语言基础"></a> C/C++ 语言基础</h5>
+<h6 id="数据类型"><a class="markdownIt-Anchor" href="#数据类型"></a> 数据类型</h6>
+<ul>
+<li>
+<p>常量与变量</p>
+<ul>
+<li>
+<p><strong>常量</strong> 在程序运行过程中，值不能改变的量称为常量，常量可以是字符，也可以是数字，常量通常使用 <code>#define 常量名 常量值</code> ，常量名一般习惯用大写字母表示。</p>
+</li>
+<li>
+<p><strong>变量</strong> 在程序运行过程中可变的值称为变量。定义方法是 <code>类型 变量名</code> ，可以在定义变量时为其赋值，也可以再定义之后赋值，例如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>和</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> i;</span><br><span class="line">i = <span class="number">1</span>;</span><br></pre></td></tr></table></figure>
+<p>是等价的。</p>
+</li>
+</ul>
+</li>
+<li>
+<p>数据类型</p>
+<ul>
+<li>
+<p><strong>整形</strong> 整数类型。</p>
+</li>
+<li>
+<p><strong>浮点型</strong> 即为平时说的实数，小数。在 arduino 中有 float 和 double 两种浮点类型，但在使用 AVR 作为控制核心的 Arduino （UNO、MEGA等）上，两者精度是一样的，都占 4 字节（32位）存储空间。在 Arduino Due 中，double 类型占 8 字节（64位）存储空间。</p>
+<blockquote>
+<p>浮点型数据计算较慢且有一定误差，因此，通常将浮点型转换成整形来处理，如9.8cm，通常会转换成 98mm来计算。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>字符型</strong> 即 char 类型，占 1 字节存储空间，主要用于存储字符变量。在存储字符时需要用单引号引用，如 <code>char col = 'C'</code> 。</p>
+<blockquote>
+<p>字符都是以数字形式存储在 char 类型变量中的，数字与字符的对应关系可以参照 ASCII 码表。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>布尔型</strong> 即 boolean 类型，占 1 个字节存储空间，值只有两个：false（假）和 true（真）。</p>
+</li>
+</ul>
+</li>
+</ul>
+<h6 id="运算符"><a class="markdownIt-Anchor" href="#运算符"></a> 运算符</h6>
+<ul>
+<li>
+<p>算术运算符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">=</td>
+<td style="text-align:center">赋值</td>
+</tr>
+<tr>
+<td style="text-align:center">+</td>
+<td style="text-align:center">加</td>
+</tr>
+<tr>
+<td style="text-align:center">-</td>
+<td style="text-align:center">减</td>
+</tr>
+<tr>
+<td style="text-align:center">*</td>
+<td style="text-align:center">乘</td>
+</tr>
+<tr>
+<td style="text-align:center">/</td>
+<td style="text-align:center">除</td>
+</tr>
+<tr>
+<td style="text-align:center">%</td>
+<td style="text-align:center">取模</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>比较运算符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">==</td>
+<td style="text-align:center">等于</td>
+</tr>
+<tr>
+<td style="text-align:center">!=</td>
+<td style="text-align:center">不等于</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;</td>
+<td style="text-align:center">小于</td>
+</tr>
+<tr>
+<td style="text-align:center">&gt;</td>
+<td style="text-align:center">大于</td>
+</tr>
+<tr>
+<td style="text-align:center">&lt;=</td>
+<td style="text-align:center">小于等于</td>
+</tr>
+<tr>
+<td style="text-align:center">&gt;=</td>
+<td style="text-align:center">大于等于</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>逻辑运算符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">&amp;&amp;</td>
+<td style="text-align:center">逻辑与</td>
+</tr>
+<tr>
+<td style="text-align:center">||</td>
+<td style="text-align:center">逻辑或</td>
+</tr>
+<tr>
+<td style="text-align:center">!</td>
+<td style="text-align:center">逻辑非</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>复合运算符</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">运算符</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">++</td>
+<td style="text-align:center">自加</td>
+</tr>
+<tr>
+<td style="text-align:center">–</td>
+<td style="text-align:center">自减</td>
+</tr>
+<tr>
+<td style="text-align:center">+=</td>
+<td style="text-align:center">复合加</td>
+</tr>
+<tr>
+<td style="text-align:center">-=</td>
+<td style="text-align:center">复合减</td>
+</tr>
+</tbody>
+</table>
+</li>
+</ul>
+<h6 id="表达式"><a class="markdownIt-Anchor" href="#表达式"></a> 表达式</h6>
+<p>用运算符将运算对象连接起来的式子称为表达式，如  <code>1 + 2</code> 、 <code>a - b</code> 、 <code>5 &gt; 3</code> 等。</p>
+<h6 id="数组"><a class="markdownIt-Anchor" href="#数组"></a> 数组</h6>
+<p>数组是一组相同类型的数据构成的集合。定义方式为 <code>数据类型 数组名称[元素个数];</code> ，如定义一个有 5 个元素的整形数组：<code>int a[5];</code></p>
+<p>访问数组中的元素时可以使用 <code>数组名称[下标]</code> ，需要注意的是数组下标是从 0 开始的，因此访问数组中的第一个元素时，下标是 0 。如将数组第一个元素赋值为 1 的代码：<code>a[0] = 1;</code></p>
+<p>可以使用下标给数组元素进行赋值，也可以在定义数组时进行赋值，如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> a[<span class="number">5</span>] = &#123;<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>&#125;;</span><br></pre></td></tr></table></figure>
+<h6 id="字符串"><a class="markdownIt-Anchor" href="#字符串"></a> 字符串</h6>
+<p>字符串的定义有两种方式，一种是字符数组，另一种是使用 String 来定义。</p>
+<p>以字符数组方式定义的语句为 <code>char 字符串名称[字符个数];</code> ，用法与数组的用法一致，有多少个字符就用多少字节的存储空间。</p>
+<p>大多数情况下使用 String 类型来定义字符串，该类型提供了一些操作字符串的成员函数，是的字符串使用起来更加灵活。定义语句为：<code>String 字符串名称;</code> ，可以在定义时进行赋值，也可以在定义后进行赋值。如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">String str = <span class="string">&quot;abc&quot;</span>;</span><br><span class="line">String str2;</span><br><span class="line">str2 = <span class="string">&quot;abc&quot;</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>相较于数组形式的定义方法，使用 String 类型定义字符串会占用更多的存储空间，毕竟 String 定义的是一个对象。</p>
+</blockquote>
+<h6 id="注释"><a class="markdownIt-Anchor" href="#注释"></a> 注释</h6>
+<p><code>/</code> 和 <code>/</code> 之间的内容以及 <code>//</code> 之后的内容都是程序注释，不会被编译到程序中，因此不影响程序运行。</p>
+<h5 id="io-口的简单应用"><a class="markdownIt-Anchor" href="#io-口的简单应用"></a> I/O 口的简单应用</h5>
+<h6 id="数字-io-口的使用"><a class="markdownIt-Anchor" href="#数字-io-口的使用"></a> 数字 I/O 口的使用</h6>
+<p><strong>数字信号</strong> 是以 0 和 1 表示的不连续信号，也就是二进制形式的信号。在 Arduino 中数字信号以高低电平来表示，高电平为数字 1 ，低电平为数字 0 。</p>
+<blockquote>
+<p>Arduino 上每个带有数字编号的引脚都是数字引脚，包括写有 <code>A</code> 编号的模拟输入引脚。用这些引脚可以完成输入/输出数字信号的功能。</p>
+</blockquote>
+<p><strong>引脚模式</strong> 使用数字引脚时，需要先设置引脚的模式，使用 <strong>pinMode</strong> 函数设置指定引脚的工作模式：<code>pinMode(pin,mode);</code> 参数 <em>pin</em> 为引脚编号，参数 <em>mode</em> 为引脚工作模式，有如下 3 种工作模式：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模式名称</th>
+<th style="text-align:center">值</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">INPUT</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">输入模式</td>
+</tr>
+<tr>
+<td style="text-align:center">OUTPUT</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">输出模式</td>
+</tr>
+<tr>
+<td style="text-align:center">INPUT_PULLUP</td>
+<td style="text-align:center">2</td>
+<td style="text-align:center">输入上拉模式</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>可以用模式的值，代替模式名称，如 <code>pinMode(1, OUTPUT);</code> 和 <code>pinMode(1, 1);</code> 是等价的。</p>
+</blockquote>
+<p><strong>引脚状态输出</strong> 当设置引脚为输出模式（<code>OUTPUT</code>）后，可以使用 **digitalWrite **函数使该引脚输出高电平或低电平：<code>digitalWrite(pin, value);</code> ，参数 <em>pin</em> 为引脚编号，<em>value</em> 为要指定的输出电平，使用 <code>HIGH</code> 指定输出高电平，使用 <code>LOW</code> 指定输出低电平。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">状态</th>
+<th style="text-align:center">值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">HIGH</td>
+<td style="text-align:center">1</td>
+</tr>
+<tr>
+<td style="text-align:center">LOW</td>
+<td style="text-align:center">0</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Arduino 中输出的低电平为 0V，高电平为工作电压，如 Arduino UNO 的工作电压为 5V，所以其高电平输出为 5V。</p>
+</blockquote>
+<p><strong>引脚状态读取</strong> 当设置引脚为输入模式（<code>INPUT</code>）后，可以使用 <strong>digitalRead</strong> 函数读取引脚输入信号：<code>digitalRead(pin);</code> ，参数 <em>pin</em> 为要读取状态的引脚编号。</p>
+<blockquote>
+<p>当 Arduino 以 5V 供电时，会将范围为 <code>-0.5~1.5V</code> 的输入电压作为低电平识别，将范围在 <code>3~5.5V</code> 的输入电压作为高电平识别。所以即使电压不太准确，Arduino 也可以正确识别，但需要注意太高的电压可能会损坏 Arduino。</p>
+</blockquote>
+<p><strong>LED引脚</strong> 大多数 Arduino 控制板上，13 号引脚都连接了一个标有 <code>L</code> 的 LED 灯，在没有外部的 LED 灯时，可以使用内嵌（<code>LED_BUILTIN</code>）的 LED 做实验。</p>
+<p><strong>Arduino 按键控制 LED</strong> 当未按下按键时，2 号引脚检测到的输入电压为低电平，当按下按键时，会导通 2 号引脚与 VCC ，此时检测到的输入电压为高电平，程序以此来判断按键是否被按下，从而控制 LED 是否点亮。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_circuit_diagram_switch_led.jpg" alt="&quot;Arduino按键控制LED电路图&quot;" title="Arduino按键控制LED电路图" /></p>
+<p><strong>限流电阻</strong> 一般的 LED 最大能承受的电流为 25mA，直接接入 5V 的 Arduino 电路中容易烧坏，因此需要在 LED 一端串联一个电阻 R2（220Ω），这样做可以减小流过 LED 的电流，防止 LED 损坏，这个电阻称为限流电阻。</p>
+<p><strong>下拉电阻</strong> 在 Arduino 控制器的 2 号引脚到 GND 之前，连接了一个阻值很大（10kΩ）的电阻 R1。如果没有该电阻，当未按下按键时，2 号引脚一直处于悬空状态，此时使用 <code>digitalRead()</code> 函数读取引脚状态会得到一个不稳定的值（可能是高，也可能是低），添加这个电阻到 GND 就是为了稳定引脚的电平，当该引脚悬空时，就会识别成低电平。这种将某节点通过电阻接地的做法叫做下拉，这个电阻称为下拉电阻。</p>
+<p><strong>上拉电阻</strong> 同下拉电阻一样，上拉电阻也可以稳定 I/O 口的电平，不同的是上拉电阻连接到 VCC 上，并将引脚稳定在高电位，这种电阻称为上拉电阻。在 Arduino 中可以使用内部上拉电阻 <code>pinMode(pin, INPUT_PULLUP);</code> ，以此替代外部的上拉电阻。</p>
+<blockquote>
+<p>稳定悬空引脚电平所用的电阻应该尽量选择阻值较大的，一般使用 10kΩ 的电阻。</p>
+</blockquote>
+<h6 id="模拟-io-口的使用"><a class="markdownIt-Anchor" href="#模拟-io-口的使用"></a> 模拟 I/O 口的使用</h6>
+<p><strong>模拟信号</strong> 生活中接触到的大多数信号都是模拟信号，如声音和温度的变化等。模拟信号是用连续变化的物理量来表示信息的，信号随时间做连续变化。在 arduino 中常用 0~5V 电压来表示模拟信号。</p>
+<p><strong>模拟输入引脚</strong> 在 Arduino 控制器上，编号前带有 <code>A</code> 的引脚是模拟输入引脚，可以读取这些引脚上输入的模拟值，即读取引脚上输入的电压大小。模拟输入引脚是带有 ADC（Analog-to-Digital Converter 模/数转换器）功能的引脚，可以将外部输入的模拟信号转换成芯片运行时可以识别得数字信号，从而实现读入模拟值的功能。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_analog_pin.jpg" alt="" /></p>
+<blockquote>
+<p>使用 AVR 芯片作为主控器的 Arduino 模拟输入功能有 10 位精度，即可将 0~5V 的电压转换成 1~1023 的整数形式表示。</p>
+</blockquote>
+<p><strong>读取模拟输入信号</strong> 使用 <strong>analogRead()</strong> 函数读取模拟输入信号：<code>analogRead(pin);</code> ，参数 <em>pin</em> 是要读取模拟值的引脚，被指定的引脚必须是模拟输入引脚，如：<code>analogRead(A0);</code> 为读取 A0 引脚上的模拟值。</p>
+<p><strong>输出模拟信号</strong> 使用 <strong>analogWrite()</strong> 函数实现模拟输出功能，但该函数并不是输出真正意义上的模拟值，二是以一种特殊的方式来达到输出模拟值的效果，这种方式叫做 <abbr title="脉冲宽度调制(Pulse Width Modulation)">PWM</abbr> 。</p>
+<blockquote>
+<p>当使用 <strong>analogWrite()</strong> 函数时，指定引脚会通过高低电平不断转换来输出一个周期固定（约 490Hz）的方波，通过改变高低电平在每个周期中所占比例（占空比），而得到近似输出不同电压的效果。需要注意，这里只是得到近似模拟值输出的效果，如果要输出真正的模拟值，还需要加上外围滤波电路。</p>
+</blockquote>
+<p>analogWrite 函数的用法是：<code>analogWrite(pin, value);</code> ，其中参数 <em>pin</em> 是要输出 PWM 波的引脚，<em>value</em> 是 PWM 的脉冲宽度，范围是 0~255。</p>
+<p><strong>PWM引脚</strong> 大多数 Arduino 控制器的 PWM 引脚都会用 <code>~</code> 标识，不同型号的 Arduino 对应不同位置和不同数量的 PWM 引脚。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_pwm_pin.jpg" alt="" /></p>
+<h6 id="串口"><a class="markdownIt-Anchor" href="#串口"></a> 串口</h6>
+<p>在 Arduino 控制器上，串口都是位于 0（RX）和 1（TX）的两个引脚，Arduino 的 USB 口通过一个转换芯片（通常是 ATmega16u2）与这两个串口引脚连接。该转换芯片会通过 USB 接口在计算机上虚拟出一个用于与 Arduino 通信的串口。</p>
+<p><strong>初始化串口</strong> 要使串口与计算机通信，需要先使用 <code>Serial.begin(speed)</code> 函数初始化 Arduino 的串口通信功能，其中参数 <em>speed</em> 为串口通信波特率，是设定串口通信速率的参数。串口通信双方必须使用同样的波特率才能进行正常通信。</p>
+<p><strong>波特率</strong> 是一个衡量通信速度的参数，表示每秒传送的 bit 的个数。例如 9600 波特率表示每秒发送 9600 bit 的数据。Arduino 常用以下波特率：300、600、1200、2400、4800、9600、14400、19200、28800、38400、57600、115200。</p>
+<p><strong>串口输出</strong> 初始化串口通信后，可以使用 <code>Serial.print(val)</code> 和 <code>Serial.println(val)</code> 函数向计算机发送信息，其中参数 <em>val</em> 是要输出的数据，各种类型数据均可，第二个函数输出完指定数据后，会再输出一组回车换行符。</p>
+<p><strong>串口输入</strong> 初始化串口通信后，可以使用 <code>Serial.read()</code> 函数读取串口数据。调用该语句，每次都会返回 1 字节的数据，返回值就是当前串口读到的数据。当串口缓冲区没有数据时，<code>Serial.read()</code> 函数会返回 int 型值 <code>-1</code> ，对应的 char 型数据是乱码。</p>
+<blockquote>
+<p>在使用串口时，Arduino 会在 SRAM 中开辟一段大小为 64B 的空间，串口接收到的数据都会被暂存在该空间中，被称为缓冲区。当调用 <code>Serial.read()</code> 函数时，Arduino 就会从缓冲区中取出 1B 的数据。</p>
+</blockquote>
+<p>通常在使用串口读取数据时，需要搭配使用 <code>Serial.available()</code> 函数，返回值是当前缓冲区中接收到的数据字节数。可以搭配 <em>if</em> 或者 <em>while</em> 语句来使用，先检测缓冲区中是否有可读数据，如果有数据再读取，如果没有数据则跳过或等待。如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span>(Serial.<span class="built_in">available</span>() &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    <span class="comment">// 如果缓冲区有数据...</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">// 或者</span></span><br><span class="line"><span class="keyword">while</span>(Serial.<span class="built_in">available</span>() &gt; <span class="number">0</span>)&#123;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在进行串口通信时，Arduino 控制器上标有 RX 和 TX 的 2 个 LED 灯会闪烁提示。当接收数据时，RX 灯会点亮；当发送数据时，TX 灯会点亮。</p>
+</blockquote>
+<h6 id="时间控制函数"><a class="markdownIt-Anchor" href="#时间控制函数"></a> 时间控制函数</h6>
+<p><strong>运行时间函数</strong> 使用 <code>millis()</code> 或 <code>micros()</code> 能够获取 Arduino 从通电（或复位）到现在的时间。<code>millis()</code> 函数返回值是 unsigned long 类型，单位是毫秒，大概 50 天会溢出一次。<code>micros()</code> 函数返回值为 unsigned long 类型，单位是微秒，大概 70 分钟会溢出一次。</p>
+<p><strong>时间精度</strong> 在使用 16MHz 晶振的 Arduino 上，精度为 4 微秒；在使用 8MHz 晶振的 Arduino 上，精度为 8 微秒。</p>
+<p><strong>延时函数</strong> 使用 <code>delay()</code> 或 <code>delayMicroseconds()</code> 函数可以暂停程序，并可通过参数来设定延时时间。<code>delay(time)</code> 函数是毫秒级延迟，参数 <em>time</em> 类型是 unsigned long。<code>delayMicroseconds(time)</code> 函数是微秒级延迟，参数类型是 unsigned int。</p>
+<h4 id="io-口高级应用"><a class="markdownIt-Anchor" href="#io-口高级应用"></a> I/O 口高级应用</h4>
+<h5 id="调声函数"><a class="markdownIt-Anchor" href="#调声函数"></a> 调声函数</h5>
+<p>调声函数 <code>tone()</code> 主要用于 Arduino 连接蜂鸣器或扬声器发声的场合，其实质是输出一个评率可调的方波，以此驱动蜂鸣器或扬声器震动发声。</p>
+<h6 id="tone"><a class="markdownIt-Anchor" href="#tone"></a> tone()</h6>
+<blockquote>
+<p>能够让指定引脚产生一个占空比为 50% 的指定频率的方波。</p>
+</blockquote>
+<p>语法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">tone</span>(pin, frequency);</span><br><span class="line"><span class="built_in">tone</span>(pin, frequency, duration);</span><br></pre></td></tr></table></figure>
+<p>参数：</p>
+<ul>
+<li><em>pin</em> 需要输出方波的引脚</li>
+<li><em>frequency</em> 输出的频率，为 unsigned int 类型</li>
+<li><em>duration</em> 频率持续时间，单位为毫秒。如果没有这个参数，Arduino 将持续发出设定的音调，直到改变了发声频率或使用 <code>noTone()</code> 函数停止发声</li>
+</ul>
+<p>返回值：无</p>
+<blockquote>
+<p><code>tone()</code> 和 <code>analogWrite()</code> 函数都可以输出方波，不同的是：<code>tone()</code> 函数输出的方波占空比固定（50%），所调节的是方波的频率；而 <code>analogWrite()</code> 函数输出的频率固定（约为 490Hz），所调节的是方波的占空比。</p>
+<p><strong>使用 <code>tone()</code> 函数会干扰 3 号和 11 号引脚的 PWM 输出功能（Arduino MEGA 控制器除外），并且同一时间的 <code>tone()</code> 函数仅能作用于一个引脚，如果有多个引脚需要使用 <code>tone()</code> ，则必须先使用 <code>noTone()</code> 函数停止之前已经使用了 <code>tone()</code> 函数的引脚，再使用 <code>tone()</code> 函数开启下一个指定引脚的方波输出。</strong></p>
+</blockquote>
+<h6 id="notone"><a class="markdownIt-Anchor" href="#notone"></a> noTone()</h6>
+<blockquote>
+<p>停止指定引脚上的方波输出。</p>
+</blockquote>
+<p>语法：<code>noTone(pin)</code></p>
+<p>参数：<em>pin</em> 需要停止方波输出的引脚</p>
+<p>返回值：无</p>
+<h6 id="无源蜂鸣器"><a class="markdownIt-Anchor" href="#无源蜂鸣器"></a> 无源蜂鸣器</h6>
+<p>无源蜂鸣器需要外部震荡源，即一定频率的方波，不同频率的方波输入，会产生不同的音调。</p>
+<h5 id="脉冲宽度测量函数"><a class="markdownIt-Anchor" href="#脉冲宽度测量函数"></a> 脉冲宽度测量函数</h5>
+<h6 id="pulsein"><a class="markdownIt-Anchor" href="#pulsein"></a> pulseIn()</h6>
+<blockquote>
+<p>检测指定引脚上的脉冲信号宽度。</p>
+<p>当要检测高电平脉冲时，<code>pulseIn()</code> 函数会等待指定引脚输入的电平变高，在变高后开始计时，直到输入电平变低时，计时停止。</p>
+<p><code>pulseIn()</code> 函数会返回此脉冲信号的持续时间，即该脉冲的宽度。</p>
+<p><code>pulseIn()</code> 函数还可以设定超时时间，如果超过指定时间仍未检测到脉冲，则会退出 <code>pulseIn()</code> 函数并返回 0。如果没有设置超时时间，默认超时时间为 1 秒。</p>
+</blockquote>
+<p>语法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">pulseIn</span>(pin, value);</span><br><span class="line"><span class="built_in">pulseIn</span>(pin, value, timeout);</span><br></pre></td></tr></table></figure>
+<p>参数：</p>
+<ul>
+<li><em>pin</em> 需要读取脉冲的引脚</li>
+<li><em>value</em> 需要读取的脉冲类型，为 <code>HIGH</code> 或 <code>LOW</code></li>
+<li><em>timeout</em> 超时时间，单位为微秒，数据类型为 unsigned long</li>
+</ul>
+<p>返回值：脉冲宽度，单位为微秒，数据类型 unsigned long。如果测量超时返回 0。</p>
+<h5 id="超声波测距"><a class="markdownIt-Anchor" href="#超声波测距"></a> 超声波测距</h5>
+<blockquote>
+<p>超声波是频率超过 20000Hz 的声波，它指向性强，能量消耗缓慢，在介质中传播距离较远，因而经常用于测量距离。</p>
+</blockquote>
+<p>时间差测距法原理：超声波发射器向某一方向发射超声波，在发射时开始计时；超声波在空气中传播，途中碰到障碍物则立即返回，超声波接收器收到反射波则立即停止计时。声波在空气中的传播速度为 340m/s ，根据计时器记录的时间 t，即可计算出发射点与障碍物之间的距离 s，即 <code>s= 340 * t / 2</code> 。</p>
+<h6 id="sr04-超声波传感器"><a class="markdownIt-Anchor" href="#sr04-超声波传感器"></a> SR04 超声波传感器</h6>
+<p>SR04 超声波模块有 4 个引脚：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">引脚名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Vcc</td>
+<td style="text-align:center">电源 5V</td>
+</tr>
+<tr>
+<td style="text-align:center">Trig</td>
+<td style="text-align:center">触发引脚</td>
+</tr>
+<tr>
+<td style="text-align:center">Echo</td>
+<td style="text-align:center">回馈引脚</td>
+</tr>
+<tr>
+<td style="text-align:center">Gnd</td>
+<td style="text-align:center">地</td>
+</tr>
+</tbody>
+</table>
+<p>使用说明：</p>
+<ul>
+<li>使用 Arduino 的数字引脚给 SR04 模块的 Trig 引脚至少 10μs 的高电平信号，触发 SR04 模块的测距功能。</li>
+<li>触发测距功能后，模块会自动发送 8 个 40kHz 的超声波脉冲，并自动检测是否有信号返回，这一步由模块内部自动完成。</li>
+<li>如有信号返回，则 Echo 引脚会输出高电平，高电平持续时间就是超声波从发射到返回的时间。此时可以用 <code>pulseIn()</code> 函数获取测距的结果，并计算出与被测物体的实际距离。</li>
+</ul>
+<h5 id="设置-adc-参考电压"><a class="markdownIt-Anchor" href="#设置-adc-参考电压"></a> 设置 ADC 参考电压</h5>
+<p>使用 <code>analogRead()</code> 函数读取模拟输入口的电压时，函数返回值的计算方式为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>a</mi><mi>n</mi><mi>a</mi><mi>l</mi><mi>o</mi><mi>g</mi><mi>R</mi><mi>e</mi><mi>a</mi><mi>d</mi><mo stretchy="false">(</mo><mi>p</mi><mi>i</mi><mi>n</mi><mo stretchy="false">)</mo><mi>y</mi><mo>=</mo><mfrac><msub><mi>V</mi><mn>1</mn></msub><msub><mi>V</mi><mn>0</mn></msub></mfrac><mo>×</mo><mn>1023</mn></mrow><annotation encoding="application/x-tex">analogRead(pin)y = \frac{V_1}{V_0}\times1023
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">n</span><span class="mord mathnormal">a</span><span class="mord mathnormal" style="margin-right:0.01968em;">l</span><span class="mord mathnormal">o</span><span class="mord mathnormal" style="margin-right:0.03588em;">g</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mord mathnormal">e</span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mopen">(</span><span class="mord mathnormal">p</span><span class="mord mathnormal">i</span><span class="mord mathnormal">n</span><span class="mclose">)</span><span class="mord mathnormal" style="margin-right:0.03588em;">y</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.19633em;vertical-align:-0.8360000000000001em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.36033em;"><span style="top:-2.3139999999999996em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.22222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">0</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.22222em;">V</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.30110799999999993em;"><span style="top:-2.5500000000000003em;margin-left:-0.22222em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">1</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.8360000000000001em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">×</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">0</span><span class="mord">2</span><span class="mord">3</span></span></span></span></span></p>
+<ul>
+<li>y 为函数返回值</li>
+<li>V<sub>1</sub> 为检测电压</li>
+<li>V<sub>0</sub> 为参考电压</li>
+</ul>
+<p>当用户没有设置参考电压时，Arduino 会默认使用工作电压为参考电压。大多数 Arduino 控制器工作电压为 5V，所以默认参考电压也是 5V。</p>
+<p>当要测量的电压较小时或对测量精度要求较高时，可以通过降低参考电压来使测量结果更精准。Arduino 提供了内部参考电压，但内部参考电压并不准确，如果使用的话反而会使精度降低。在实际应用中，一般通过输入高精度的外部参考电压来提高检测精度。</p>
+<p>在 Arduino 控制器上有一个 AREF 引脚，可以从该引脚给 Arduino 输入外部参考电压，同时需要使用 <code>analogReference()</code> 函数来设置 Arduino 使用外部参考电压。</p>
+<p>语法：<code>annalogReference(type)</code></p>
+<p>参数：<em>type</em> 为参考电压类型，可选值如下：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选项</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">DEFAULT</td>
+<td style="text-align:center">默认当前 Arduino 工作电压为参考电压</td>
+</tr>
+<tr>
+<td style="text-align:center">INTERNAL</td>
+<td style="text-align:center">使用内部参考电压(当使用 UNO 时为 1.1V，当使用 Atmega8 时为 2.56V)，该设置并不适用于 Arduino MEGA</td>
+</tr>
+<tr>
+<td style="text-align:center">INTERNAL1V1</td>
+<td style="text-align:center">使用内部 1.1V参考电压</td>
+</tr>
+<tr>
+<td style="text-align:center">INTERNAL2V56</td>
+<td style="text-align:center">使用内部 2.56V 参考电压</td>
+</tr>
+<tr>
+<td style="text-align:center">EXTERNAL</td>
+<td style="text-align:center">使用从 AREF 引脚输入的外部参考电压</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>外部输入电压必须大于 0，且小于当前工作电压，否则可能会损坏 Arduino 控制器。</p>
+</blockquote>
+<h5 id="外部中断"><a class="markdownIt-Anchor" href="#外部中断"></a> 外部中断</h5>
+<p>程序运行过程中时常需要监控一些事件的发生，如对某一传感器的检测结果做出反应。使用轮询的方式进行检测时效率较低，等待时间较长，而使用中断方式进行检测则可以达到实时检测的效果。</p>
+<p>中断程序可以看做是一段独立于主程序之外的程序，当中断被触发时，控制器会暂停当前正在运行的主程序，而跳转去运行中断程序；当中断程序运行完后，会再回到之前主程序暂停的位置，继续运行主程序。如此便可收到实时响应处理事件的效果。</p>
+<p>外部中断是由外部设备发起请求的中断，要使用外部中断，就需要了解中断引脚的位置，根据外部设备选择中断模式，以及编写一个中断被触发后需要执行的中断函数。</p>
+<h6 id="中断引脚与中断编号"><a class="markdownIt-Anchor" href="#中断引脚与中断编号"></a> 中断引脚与中断编号</h6>
+<p>不同型号的 Arduino 控制器上，中断引脚的位置也不相同，只有中断信号发生在带有外部中断功能的引脚上，Arduino 才能捕获到该中断信号并作出响应。</p>
+<table>
+<thead>
+<tr>
+<th>型号</th>
+<th>int0</th>
+<th>int1</th>
+<th>int2</th>
+<th>int3</th>
+<th>int4</th>
+<th>int5</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>UNO</td>
+<td>2</td>
+<td>3</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+<td>-</td>
+</tr>
+<tr>
+<td>MEGA</td>
+<td>2</td>
+<td>3</td>
+<td>21</td>
+<td>20</td>
+<td>19</td>
+<td>18</td>
+</tr>
+<tr>
+<td>Leonardo</td>
+<td>3</td>
+<td>2</td>
+<td>0</td>
+<td>1</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>表中的 int0 、int1 等都为外部中断的编号。</p>
+<p>Arduino Due 所有引脚都可以使用外部中断，其中断编号就是引脚编号。</p>
+</blockquote>
+<h6 id="中断模式"><a class="markdownIt-Anchor" href="#中断模式"></a> 中断模式</h6>
+<p>为了设置中断模式，还需要了解设备触发外部中断的输入信号类型。中断模式也就是中断触发的方式。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">模式名称</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">LOW</td>
+<td style="text-align:center">低电平触发</td>
+</tr>
+<tr>
+<td style="text-align:center">CHANGE</td>
+<td style="text-align:center">电平变化触发，即高电平变低电平、低电平变高电平</td>
+</tr>
+<tr>
+<td style="text-align:center">RISING</td>
+<td style="text-align:center">上升沿触发，即低电平变高电平</td>
+</tr>
+<tr>
+<td style="text-align:center">FALLING</td>
+<td style="text-align:center">下降沿触发，即高电平变低电平</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>在 Arduino Due 中，还可以使用高电平（<code>HIGH</code>）来触发中断。</p>
+</blockquote>
+<h6 id="中断函数"><a class="markdownIt-Anchor" href="#中断函数"></a> 中断函数</h6>
+<p>除了设置中断模式，还需要编写一个响应中断的处理程序——中断函数，当中断被触发后，可以让 Arduino 运行该中断函数。中断函数就是当中断触发后要去执行的函数，该函数不能带有任何参数，且返回类型为空。如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">Hello</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h6 id="配置中断引脚"><a class="markdownIt-Anchor" href="#配置中断引脚"></a> 配置中断引脚</h6>
+<p>需要在 <code>setup()</code> 中使用 <code>attachInterrupt()</code> 函数对中断引脚进行初始化配置，以开启 Arduino 的外部中断功能。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">attachInterrupt</span>(interrupt, function, mode);</span><br></pre></td></tr></table></figure>
+<p>参数：</p>
+<ul>
+<li><em>interrupt</em> 中断编号，注意这里的中断编号不是引脚编号</li>
+<li><em>function</em> 中断函数名，当中断发生后会运行此函数名称所代表的中断函数</li>
+<li><em>mode</em> 中断模式</li>
+</ul>
+<p>例如：<code>attachInterrupt(0, Hello, FALLING);</code></p>
+<h6 id="关闭中断功能"><a class="markdownIt-Anchor" href="#关闭中断功能"></a> 关闭中断功能</h6>
+<p><code>detachInterrupt(interrupt)</code></p>
+<blockquote>
+<p>禁用外部中断</p>
+</blockquote>
+<p>参数：<em>interrupt</em> 要禁用的中断编号</p>
+<h4 id="使用和编写类库"><a class="markdownIt-Anchor" href="#使用和编写类库"></a> 使用和编写类库</h4>
+<h5 id="使用-arduino-类库"><a class="markdownIt-Anchor" href="#使用-arduino-类库"></a> 使用 Arduino 类库</h5>
+<p>要想提高代码编写效率及程序可读性，可以使用他人编写好的类库。可以在网上下载类库文件，将其解压后放到 Arduino IDE 所在文件夹中的 libraries 文件夹内，就可以在编写程序时调用它们。</p>
+<blockquote>
+<p>比较好的类库中还附带了示例代码，可以直接在 Arduino IDE 的 “文件” → “示例” 菜单中找到示例代码。</p>
+</blockquote>
+<p>使用他人编写的类库时，首先需要声明包含的类库，然后调用类库中的函数。如 :</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 声明程序会使用 SR04 类库</span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SR04.h&quot;</span></span></span><br><span class="line"><span class="comment">// 调用 SR04 构造函数创建一个 SR04 类型的对象，赋值给 sr04 变量</span></span><br><span class="line">SR04 sr04 = <span class="built_in">SR04</span>(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">// 调用对象的成员函数</span></span><br><span class="line"><span class="type">float</span> distance = sr04.<span class="built_in">Get</span>();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>Arduino 还有很多第三方的类库可以使用，在 <a target="_blank" rel="noopener" href="http://Github.com">Github.com</a>、<a target="_blank" rel="noopener" href="http://Arduino.cc">Arduino.cc</a> 等开源社区可以找到更多的类库。</p>
+</blockquote>
+<h5 id="编写-arduino-类库"><a class="markdownIt-Anchor" href="#编写-arduino-类库"></a> 编写 Arduino 类库</h5>
+<p>以下以 SR04 为例，编写一个 SR04 类库，首先创建一个文件夹，为 <code>SR04</code> 。</p>
+<h5 id="编写头文件接口"><a class="markdownIt-Anchor" href="#编写头文件接口"></a> 编写头文件（接口）</h5>
+<p>首先需要建立一个名叫 <code>SR04.h</code> 的头文件，在 <code>SR04.h</code> 文件中需要声明一个 <code>SR04</code> 超声波类。</p>
+<p>类的声明：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 防止重复包含文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> SR04_H</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SR04_H</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 使编译器自动判断正在使用的 IDE 版本，从而调用正确的头文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(ARDUINO) &amp;&amp; ARDUINO &gt;= 100</span></span><br><span class="line">    <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Arduino.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">	<span class="meta">#<span class="keyword">include</span> <span class="string">&quot;WProgram.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 类定义</span></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">SR04</span>&#123;</span><br><span class="line">    <span class="comment">// 公共</span></span><br><span class="line">    <span class="comment">// 需要外部访问的函数与变量放到public中定义</span></span><br><span class="line">    <span class="keyword">public</span>:</span><br><span class="line">        <span class="built_in">SR04</span>(<span class="type">int</span> TrigPin, <span class="type">int</span> EchoPin); <span class="comment">// 构造函数，需要与类同名且不能有返回类型，一般放到 public 中，用于初始化对象</span></span><br><span class="line">        <span class="function"><span class="type">float</span> <span class="title">Get</span><span class="params">()</span></span>; <span class="comment">// 用于处理超声波传感器返回的信息</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 私有</span></span><br><span class="line">    <span class="comment">// 一些程序运行过程中使用到的函数或变量，用户在使用时并不会接触它们，因此可以放到 private 中定义</span></span><br><span class="line">    <span class="keyword">private</span>:</span><br><span class="line">        <span class="type">int</span> Trig_pin; <span class="comment">// 触发引脚</span></span><br><span class="line">        <span class="type">int</span> Echo_pin; <span class="comment">// 回馈引脚</span></span><br><span class="line">        <span class="type">float</span> distance; <span class="comment">// 距离</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>通常一个类包含两个部分，public 中声明的函数和变量可以被外部程序访问，private 中声明的函数和变量只能在这个类的内部访问。</p>
+<h6 id="预处理命令"><a class="markdownIt-Anchor" href="#预处理命令"></a> 预处理命令</h6>
+<p>以 <code>#</code> 开头的语句称为预处理命令，包含文件使用的 <code>#include</code> 及在常量定义时使用的 <code>#define</code> 均为预处理命令。</p>
+<p>预处理命令并不是 C/C++ 语言的组成部分，编译器不会直接对齐进行编译，而是在编译之前，系统会预先处理这些命令。</p>
+<h6 id="宏定义"><a class="markdownIt-Anchor" href="#宏定义"></a> 宏定义</h6>
+<p>宏定义是使用一个特定的标识符来代表一个字符串，在实际编译前，系统会将代码中所有的宏定义进行字符串替换，在对替换后的代码进行编译。</p>
+<p>宏定义的一般形式为：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> 标识符字符串</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在Arduino 中，经常使用到的 <code>HIGH</code>、<code>LOW</code>、<code>INPUT</code>、<code>OUTPUT</code> 等参数以及圆周率 <code>PI</code> 等常量都是通过宏的方式定义的。</p>
+</blockquote>
+<h6 id="文件包含"><a class="markdownIt-Anchor" href="#文件包含"></a> 文件包含</h6>
+<p>若程序中使用 <code>#include</code> 语句包含一个文件，如 <code>#include &quot;EEPROM.h&quot;</code> ，那么在预处理时系统会将该语句替换成 EEPROM.h 文件中的实际内容，然后在对替换后的代码进行编译。</p>
+<p>文件包含命令的一般形式为： <code>#include &lt;文件名&gt;</code> 或 <code>#include &quot;文件名&quot;</code></p>
+<blockquote>
+<p>两种形式实际效果是一样的，只是使用 <code>&lt;文件名&gt;</code> 形式时，系统会优先在 Arduino 库文件中寻找目标文件，若没找到，再到当前 Arduino 项目的项目文件夹中查找；而使用 <code>&quot;文件名&quot;</code> 的形式时，系统会优先在 Arduino 项目文件夹中查找目标文件，若没有找到，再查找 Arduino 库文件。</p>
+</blockquote>
+<h6 id="条件编译"><a class="markdownIt-Anchor" href="#条件编译"></a> 条件编译</h6>
+<p>为了防止重复的包含某文件，避免程序出错，可以使用条件编译命令，判断文件是否在程序其它位置被 <code>#define</code> 定义过，没被定义过则定义该标识符。如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> 标识符</span></span><br><span class="line">  程序段</span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<h6 id="版本兼容"><a class="markdownIt-Anchor" href="#版本兼容"></a> 版本兼容</h6>
+<p>为了增加类型在不同版本 Arduino IDE 中的兼容性，可以使用添加编译预处理命令。如</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">if</span> 表达式</span></span><br><span class="line">  程序段<span class="number">1</span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">  程序段<span class="number">2</span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在 Arduino IDE 1.0 之前的版本中， Arduino 核心库文件使用的主要函数声明的头文件为 <code>WProgram.h</code> ，而在 Arduino IDE 1.0 之后的版本中，核心库文件使用的主要函数声明头文件为 <code>Arduino.h</code> 。<code>ARDUINO</code> 为系统变量，其中保存了该 IDE 的版本号。</p>
+</blockquote>
+<h5 id="编写-cpp-文件实现类"><a class="markdownIt-Anchor" href="#编写-cpp-文件实现类"></a> 编写 .cpp 文件（实现类）</h5>
+<p>建立一个 <code>SR04.cpp</code> 文件，在这个文件中需要写出头文件中声明的成员函数的具体代码。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 使编译器自动判断正在使用的 IDE 版本，从而调用正确的头文件</span></span><br><span class="line"><span class="meta">#<span class="keyword">if</span> defined(ARDUINO) &amp;&amp; ARDUINO &gt;= 100</span></span><br><span class="line">    <span class="meta">#<span class="keyword">include</span> <span class="string">&quot;Arduino.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">else</span></span></span><br><span class="line">	<span class="meta">#<span class="keyword">include</span> <span class="string">&quot;WProgram.h&quot;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;SR04.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">SR04::<span class="built_in">SR04</span>(<span class="type">int</span> TP, <span class="type">int</span> EP)&#123;</span><br><span class="line">    <span class="built_in">pinMode</span>(TP, OUTPUT);</span><br><span class="line">    <span class="built_in">pinMode</span>(EP, INPUT);</span><br><span class="line">    Trig_pin=TP;</span><br><span class="line">    Echo_pin=EP;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">float</span> <span class="title">SR04::Get</span><span class="params">()</span></span>&#123;</span><br><span class="line">    <span class="built_in">digitalWrite</span>(Trig_pin, LOW);</span><br><span class="line">    <span class="built_in">delayMicroseconds</span>(<span class="number">2</span>);</span><br><span class="line">    <span class="built_in">digitalWrite</span>(Trig_pin, HIGH);</span><br><span class="line">    <span class="built_in">delayMicroseconds</span>(<span class="number">10</span>);</span><br><span class="line">    <span class="built_in">digitalWrite</span>(Trig_pin, LOW);</span><br><span class="line">    <span class="type">float</span> distance = <span class="built_in">pulseIn</span>(Echo_pin, HIGH)/<span class="number">58.00</span>;</span><br><span class="line">    <span class="keyword">return</span> distance;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>.cpp</code> 文件中也必须包含需要用到的头文件。</p>
+</blockquote>
+<p>在编写 <code>SR04</code> 类库时，在 <code>SR04.h</code> 文件中声明 SR04 类及其成员函数，在 <code>SR04.cpp</code> 文件中定义其成员函数的实现方法。当在类声明以外定义成员函数时，需要使用域操作符 <code>::</code> 来说明该函数作用于 SR04 类。</p>
+<h5 id="关键字高亮显示"><a class="markdownIt-Anchor" href="#关键字高亮显示"></a> 关键字高亮显示</h5>
+<p>为了让 Arduino IDE 识别并能够高亮显示关键字，需要建立一个 <code>keywork.txt</code> 文件，并写入如下代码：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">SR04	KEYWORD1</span><br><span class="line">Get	KEYWORD2</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意：<code>SR04</code> 和 <code>KEYWORD1</code> 及 <code>Get</code> 和 <code>KEYWORD2</code> 之间的空格应该用键盘上的 <kbd>Tab</kbd> 键输入。</p>
+<p>在 Arduino IDE 的关键字高亮中，会将 <code>KEYWORD1</code> 识别为 数据类型高亮方式，将 <code>KEYWORD2</code> 识别为函数高亮方式。</p>
+</blockquote>
+<h5 id="示例程序"><a class="markdownIt-Anchor" href="#示例程序"></a> 示例程序</h5>
+<p>为了方便其他人学习和使用你编写的类库，还可以在 <code>SR04</code> 文件夹中新建一个 <code>examples</code> 文件夹，并放入你提供的示例程序。</p>
+<h4 id="通信篇"><a class="markdownIt-Anchor" href="#通信篇"></a> 通信篇</h4>
+<p>Arduino 与外部设备的通信都是串行通信，因为 并行通信占用的 I/O 口较多，而 Arduino 的 I/O 口资源较少，所以更常用的是串行通信方式。Arduino 硬件集成了串口、IIC、SPI 三种常见的通信方式。</p>
+<h5 id="串口通信"><a class="markdownIt-Anchor" href="#串口通信"></a> 串口通信</h5>
+<p>串口，也称 <abbr title="Universal Asynchronous Receiver Transmitter，通用异步(串行)收/发器">UART</abbr> 接口，通过将 Arduino 上的 USB 接口与计算机连接实现串口通信，还可以使用串口引脚连接其他的串口设备进行通信。<strong>需要注意，通常一个串口只能连接一个设备进行通信。</strong></p>
+<p>在进行串口通信时，两个串口设备间需要发送端（TX）与接收端（RX）交叉相连，并共用电源地（GND）。</p>
+<h6 id="串口工作原理"><a class="markdownIt-Anchor" href="#串口工作原理"></a> 串口工作原理</h6>
+<p>Arduino 与其他期间通信过程中，数据传输实际上都是以数字信号（即高低电平变化）的形式进行的，串口通信也是如此。当使用 <code>Serial.print()</code> 函数输出数据时，Arduino 发送端会输出一连串的数字信号，称为数据帧。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_serial_data_frame.jpg" alt="&quot;Serial.print(A)&quot;" title="Serial.print('A')" /></p>
+<ul>
+<li><strong>起始位</strong> 起始位总为低电平，是一组数据帧开始传输的信号。</li>
+<li><strong>数据位</strong> 是一个数据包，其中承载了实际发送的数据段。当 Arduino 通过串口发送一个数据包时，实际数据可能不是 8 位的，比如 标准的 ASCII 码是 0~127 （7位），而扩展的 ASCII 码是 0~255（8位）。如果数据使用简单文本（标准 ASCII），那么每个数据包将使用 7 位数据。Arduino 默认使用 8 位数据位，即每次可以传输 1B 数据。</li>
+<li><strong>校验位</strong> 是串口通信中一种简单的验错方式。可以设置为偶校验或奇校验。没有校验位也可以，Arduino 默认无校验位。</li>
+<li><strong>停止位</strong> 每段数据帧的最后都有停止位，表示该段数据帧传输结束。停止位总为高电平，可以设置停止位为 1 位或 2 位。Arduino 默认是 1 位停止位。</li>
+</ul>
+<blockquote>
+<p>当串口通信速率较高或外部干扰较大时，可能会出现数据丢失的情况。为了保证数据传输的稳定性，最简单的方式就是降低通信波特率或增加停止位和校验位。在 Arduino 中，可以通过 <code>Serial.begin(speed, config)</code> 语句配置串口通信的数据位、停止位、校验位参数。</p>
+</blockquote>
+<h6 id="hardwareserial-类库成员函数"><a class="markdownIt-Anchor" href="#hardwareserial-类库成员函数"></a> HardwareSerial 类库成员函数</h6>
+<p>HardwareSerial 类库位于 Arduino 核心库中，默认包含了该类，因此不用 <code>include</code> 进行调用。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+<th>语法</th>
+<th>参数</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>availab()</code></td>
+<td>获取串口缓冲区中的字节数。最大为 64</td>
+<td><code>Serial.abailable()</code></td>
+<td>无</td>
+<td>可读取的字节数</td>
+</tr>
+<tr>
+<td><code>begin()</code></td>
+<td>初始化串口。可配置串口的各项参数</td>
+<td><code>Serial.begin(speed)</code> , <code>Serial.begin(speed, config)</code></td>
+<td><em>speed</em> 波特率，<em>config</em> 数据位、校验位、停止位配置</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>end()</code></td>
+<td>结束串口通信</td>
+<td><code>Serial.end()</code></td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>find()</code></td>
+<td>从串口缓冲区读取数据，直到读到指定的字符串</td>
+<td><code>Serial.find(target)</code></td>
+<td><em>target</em> 要搜索的字符串或字符</td>
+<td>boolean型，true 表示找到，false 表示未找到</td>
+</tr>
+<tr>
+<td><code>findUntil()</code></td>
+<td>从串口缓冲区读取数据，直到读到指定的字符串或指定的停止符</td>
+<td><code>Serial.findUntil(target,terminal)</code></td>
+<td><em>target</em> 要搜索的字符串或字符，<em>terminal</em> 停止符</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>flush()</code></td>
+<td>等待正在发送的数据发送完成。<abbr title="在 1.0 版本之前的 Arduino 中，该函数用于清空接收缓冲区">注意</abbr></td>
+<td><code>Serial.flush()</code></td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>parseFloat()</code></td>
+<td>从串口缓冲区返回第一个有效的 float 型数据</td>
+<td><code>Serial.parseFloat()</code></td>
+<td>无</td>
+<td>float 型数据</td>
+</tr>
+<tr>
+<td><code>parseInt()</code></td>
+<td>从串口流中查找第一个有效的整形数据</td>
+<td><code>Serial.parseInt()</code></td>
+<td>无</td>
+<td>int 型数据</td>
+</tr>
+<tr>
+<td><code>peek</code></td>
+<td>返回 1 字节的数据，但不会从缓冲区删除该数据</td>
+<td><code>Serial.peek()</code></td>
+<td>无</td>
+<td>缓冲区中第 1 字节的数据；如果没有可读数据则返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>print()</code></td>
+<td>将数据输出到串口。</td>
+<td><code>Serial.print(val)</code> , <code>Serial.print(val,format)</code></td>
+<td><em>val</em> 要输出的数据，<em>format</em> 分两种情况，①输出进制形式：<code>BIN</code> (二进制)、<code>DEC</code> (十进制)、<code>OCT</code> (八进制)、<code>HEX</code> (十六进制)；②指定输出的 float 型数据的小数位数(默认输出 2 位)</td>
+<td>输出的字节数</td>
+</tr>
+<tr>
+<td><code>println()</code></td>
+<td>将数据输出到串口，并回车换行</td>
+<td><code>Serial.println(val)</code> , <code>Serial.println(val,format)</code></td>
+<td>同上 ↑</td>
+<td>输出的字节数</td>
+</tr>
+<tr>
+<td><code>read()</code></td>
+<td>从串口读取 1 字节数据，并删除该数据</td>
+<td><code>Serial.read()</code></td>
+<td>无</td>
+<td>串口缓冲区第 1 个字节；如果没有可读数据则返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>readBytes()</code></td>
+<td>从缓冲区读取指定长度的数据并将其存入一个数组中。超时会自动退出该函数</td>
+<td><code>Serial.readBytes(buffer,length)</code></td>
+<td><em>buffer</em> 用于存储数据的数组(<code>char[]</code> 或 <code>byte[]</code>)，<em>length</em> 需要读取的字符长度</td>
+<td>读到的字节数；没有有效数据则返回 <code>0</code></td>
+</tr>
+<tr>
+<td><code>readBytesUntil()</code></td>
+<td>从缓冲区读取指定长度数据并存入数组。如果遇到停止符或超时则退出该函数</td>
+<td><code>Serial.readBytesUntil(character,buffer,length)</code></td>
+<td><em>character</em> 停止符，<em>buffer</em> 存数据的数组(<code>char[]</code> 或 <code>byte[]</code>)，<em>length</em> 要读取的字符长度</td>
+<td>同上 ↑</td>
+</tr>
+<tr>
+<td><code>setTimeout()</code></td>
+<td>设置超时时间，用于设置 <code>readBytesUntil()</code> 和 <code>readBytes()</code> 函数的超时时间</td>
+<td><code>Serial.setTimeout(time)</code></td>
+<td><em>time</em> 超时时间，单位：毫秒</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>write()</code></td>
+<td>输出数据到串口，以字节形式输出</td>
+<td><code>Serial.write(val)</code> , <code>Serial.write(str)</code> , <code>Serial.write(buf,len)</code></td>
+<td><em>val</em> 发送的数据，<em>str</em> String类型数据，<em>buf</em> 数组类型数据，<em>len</em> 缓冲区长度</td>
+<td>输出的字节数</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p><strong><code>print()</code> 和 <code>write()</code> 的区别</strong></p>
+<p>当使用 <code>Serial.print()</code> 发送一个数据时，Arduino 发送的并不是数据本身，而是将数据转换成字符，再将字符对应的 ASCII 码发送出去，串口监视器收到 ASCII 码，则会显示对应的字符。因此使用 <code>print()</code> 函数是以 ASCII 码形式输出数据到串口。</p>
+<p>使用 <code>write()</code> 函数时，Arduino 发送的数值本身，但串口监视器收到数据后，会将数组当做 ASCII 码而显示其对应的字符。因此使用 <code>Serial.write(123)</code> 时，显示的 ASCII 码中 123 对应的字符为 <code>&#123;</code> 。</p>
+</blockquote>
+<blockquote>
+<p><strong><code>read()</code> 和 <code>peek()</code> 输入方式的差异</strong></p>
+<p>串口接收到数据都会放到缓冲区，使用 <code>read()</code> 和 <code>peek()</code> 函数都是从缓冲区中读取数据。不同的是，当使用 <code>read()</code> 函数读取数据后，会将该数据从缓冲区移除；使用 <code>peek()</code> 读取数据时，不会移除缓冲区中的数据。</p>
+</blockquote>
+<p>######串口通信可用的 config 配置</p>
+<table>
+<thead>
+<tr>
+<th>可用配置</th>
+<th>数据位</th>
+<th>校验位</th>
+<th>停止位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SERIAL_5N1</code></td>
+<td>5</td>
+<td>无</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_6N1</code></td>
+<td>6</td>
+<td>无</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_7N1</code></td>
+<td>7</td>
+<td>无</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_8N1</code></td>
+<td>8</td>
+<td>无</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_5N2</code></td>
+<td>5</td>
+<td>无</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_6N2</code></td>
+<td>6</td>
+<td>无</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_7N2</code></td>
+<td>7</td>
+<td>无</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_8N2</code></td>
+<td>8</td>
+<td>无</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_5E1</code></td>
+<td>5</td>
+<td>偶</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_6E1</code></td>
+<td>6</td>
+<td>偶</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_7E1</code></td>
+<td>7</td>
+<td>偶</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_8E1</code></td>
+<td>8</td>
+<td>偶</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_5E2</code></td>
+<td>5</td>
+<td>偶</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_6E2</code></td>
+<td>6</td>
+<td>偶</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_7E2</code></td>
+<td>7</td>
+<td>偶</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_8E2</code></td>
+<td>8</td>
+<td>偶</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_5O1</code></td>
+<td>5</td>
+<td>奇</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_6O1</code></td>
+<td>6</td>
+<td>奇</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_7O1</code></td>
+<td>7</td>
+<td>奇</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_8O1</code></td>
+<td>8</td>
+<td>奇</td>
+<td>1</td>
+</tr>
+<tr>
+<td><code>SERIAL_5O2</code></td>
+<td>5</td>
+<td>奇</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_6O2</code></td>
+<td>6</td>
+<td>奇</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_7O2</code></td>
+<td>7</td>
+<td>奇</td>
+<td>2</td>
+</tr>
+<tr>
+<td><code>SERIAL_8O2</code></td>
+<td>8</td>
+<td>奇</td>
+<td>2</td>
+</tr>
+</tbody>
+</table>
+<h6 id="串口读取字符串"><a class="markdownIt-Anchor" href="#串口读取字符串"></a> 串口读取字符串</h6>
+<p>当使用 <code>read()</code> 函数时，没吃只能读取一个字节数据，如果要读取一个字符串，可以使用 <code>+=</code> 运算将字符依次添加到字符串中。如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span></span>&#123;</span><br><span class="line">    Serial.<span class="built_in">begin</span>(<span class="number">9600</span>);</span><br><span class="line">&#125; </span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span></span>&#123;</span><br><span class="line">    String inString = <span class="string">&quot;&quot;</span>;</span><br><span class="line">    <span class="keyword">while</span>(Serial.<span class="built_in">available</span>()&gt;<span class="number">0</span>)&#123;</span><br><span class="line">        <span class="type">char</span> inChar = Serial.<span class="built_in">read</span>();</span><br><span class="line">        inString += (<span class="type">char</span>) inChar;</span><br><span class="line">        <span class="built_in">delay</span>(<span class="number">10</span>); <span class="comment">// 这个延迟至关重要</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span>(inString != <span class="string">&quot;&quot;</span>)&#123;</span><br><span class="line">        Serial.<span class="built_in">print</span>(<span class="string">&quot;Input String: &quot;</span>);</span><br><span class="line">        Serial.<span class="built_in">println</span>(inString);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在上述程序中有一个延时语句 <code>delay(10);</code> 至关重要，删除之后受到的字符串会被拆成单个字符输出。原因是 Arduino 程序运行速度很快，当 Arduino 读完第一个字符，进入下一次循环时，输入的数据还没有完全传进 Arduino 串口缓冲区，串口还未受到下一个字符，此时 <code>Serial.available()</code> 返回值是 0 ，而 Arduino 将在下一次 <code>loop()</code> 循环中才检查到下一个字符。</p>
+</blockquote>
+<h6 id="串口事件"><a class="markdownIt-Anchor" href="#串口事件"></a> 串口事件</h6>
+<p>在 Arduino 1.0 版本中新增了 <code>serialEvent()</code> 事件，是从 Processing 串口通信库中提取的函数。在 Arduino 中，<code>serialEvent()</code> 并非真正意义上的事件，无法做到实时响应。</p>
+<p><code>serialEvent()</code> 事件的功能是：当串口接收缓冲区中有数据时，会触发该事件。用法是定义一个 <code>void serialEvent()&#123;&#125;</code> 函数，定义之后就启用了该事件。当串口缓冲区中存在数据时，该函数就会运行。</p>
+<blockquote>
+<p>需要注意，这里的 <code>serialEvent()</code> 事件并不能立即做出响应，而仅仅是一个伪事件，<strong>其实是在两次 <code>loop()</code> 循环之间检测串口缓冲区中是否有数据</strong>，如果有数据则调用 <code>serialEvent()</code> 函数。</p>
+</blockquote>
+<h6 id="串口缓冲区"><a class="markdownIt-Anchor" href="#串口缓冲区"></a> 串口缓冲区</h6>
+<p>Arduino 串口缓冲区容量默认为 64 字节，当数据超过 64 字节后，Arduino 会将最早存入缓冲区的数据丢弃。</p>
+<p>通过宏定义的方式可以增大串口读写缓冲区的空间，Arduino 核心库中串口发送缓冲区宏定义名为 <code>SERIAL_TX_BUFFER_SIZE</code> ，串口接收缓冲区宏名为 <code>SERIAL_RX_BUFFER_SIZE</code> 。通过如下方式可以设定串口发送/接收缓冲区各为 128 字节:</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">define</span> SERIAL_TX_BUFFER_SIZE 128</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> SERIAL_RX_BUFFER_SIZE 128</span></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span></span>&#123;&#125;</span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>缓冲区实际上是在 Arduino 的 RAM 上开辟临时存储空间。因此在设定缓冲区时，大小不能超过 Arduino 本身 RAM 的大小。而且在 RAM 中还要存储其它数据，因此也不能将所有 RAM 空间都分配给串口缓冲区，应根据项目需要酌情修改。</p>
+</blockquote>
+<h6 id="软件模拟串口"><a class="markdownIt-Anchor" href="#软件模拟串口"></a> 软件模拟串口</h6>
+<p>除了 HardwareSerial 类库外，Arduino 还提供了 SoftwareSerial 类库，可将其它数字引脚通过程序来模拟成串口通信引脚。</p>
+<p>通常将 Arduino 上自带的串口称为硬件串口，使用 SoftwareSerial 类库模拟的串口称为软件模拟串口（简称软串口）。</p>
+<p>软串口是由程序模拟生成的，使用起来不如硬串口稳定，并且和硬串口一样，波特率越高越不稳定。</p>
+<p>软串口通过 AVR 芯片的 PCINT 中断功能来实现，在 Arduino UNO 上，所有引脚都支持 PCINT 中断，因此所有引脚都可以设置为软串口的 RX 接收端。但在其他型号的 Arduino 上，并不是每个引脚都支持中断功能，所以只有特定的引脚可以设置为 RX 端。</p>
+<h6 id="softwareserial-类库成员函数"><a class="markdownIt-Anchor" href="#softwareserial-类库成员函数"></a> SoftwareSerial 类库成员函数</h6>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+<th>语法</th>
+<th>参数</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>SoftwareSerial()</code></td>
+<td>SoftwareSerial 类的构造函数，可以指定软串口的 RX 和 TX 引脚</td>
+<td><code>SoftwareSerial mySerial = SoftwareSerial(rxPin,txPin)</code></td>
+<td><em>rxPin</em> 软串口接收引脚，<em>txPin</em> 发送引脚</td>
+<td>软串口对象</td>
+</tr>
+<tr>
+<td><code>listen()</code></td>
+<td>开启软串口监听状态</td>
+<td><code>mySerial.listen()</code></td>
+<td><em>mySerial</em> 自定义的软串口对象</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>isListening()</code></td>
+<td>检测软串口是否在监听状态</td>
+<td><code>mySerial.isListening()</code></td>
+<td>同上 ↑</td>
+<td>boolean型数据，true 表示正在监听，false 表示未监听</td>
+</tr>
+<tr>
+<td><code>overflow()</code></td>
+<td>检测缓冲区是否已经溢出，软串口缓冲区最多可保存 64B 数据</td>
+<td><code>mySerial.overflow()</code></td>
+<td>同上 ↑</td>
+<td>boolean 型数据，true 表示溢出，false 表示未溢出</td>
+</tr>
+</tbody>
+</table>
+<h6 id="建立软串口通信"><a class="markdownIt-Anchor" href="#建立软串口通信"></a> 建立软串口通信</h6>
+<p>SoftwareSerial 类库是 Arduino IDE 默认提供的一个第三方类库，并未包含在核心库中，因此需要声明包含 <code>SoftwareSerial.h</code> 头文件，然后就可以使用类库中提供的构造函数初始化软串口，创建软串口对象后，就可以调用 <code>listen()</code> 函数开启该软串口的监听功能。如：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 新建名为 mySerial 的软串口，2 号引脚作为 RX 端，3号引脚作为 TX 端</span></span><br><span class="line">SoftwareSerial mySerial = <span class="built_in">SoftwareSerial</span>(<span class="number">2</span>, <span class="number">3</span>);</span><br><span class="line"><span class="comment">// 初始化软串口通信</span></span><br><span class="line">mySerial.<span class="built_in">begin</span>(<span class="number">9600</span>);</span><br><span class="line"><span class="comment">// 开启软串口监听</span></span><br><span class="line">mySerial.<span class="built_in">listen</span>();</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，当使用 0（RX）和 1（TX）串口连接外部串口设备时，这组串口将被所连接的设备占用，从而可能会造成无法下载程序和通信异常的情况。因此，通常在连接外部设备时，尽量避免使用 0（RX）和 1（TX）这组串口。</p>
+</blockquote>
+<h6 id="同时使用多个软串口"><a class="markdownIt-Anchor" href="#同时使用多个软串口"></a> 同时使用多个软串口</h6>
+<p>要连接多个串口设备时，可以建立多个软串口，但限于软串口的实现原理，使得 Arduino 只能监视一个软串口，因此当存在多个软串口时，需要使用 <code>listen()</code> 函数指定要监听的设备。用法：调用串口对象的 <code>listen()</code> 函数，如 <code>portOne.listen()</code> ，需要切换时，调用另一个窗口对象的 <code>listen()</code> 函数，如 <code>protTwo.listen()</code> 。</p>
+<h5 id="iic-总线"><a class="markdownIt-Anchor" href="#iic-总线"></a> IIC 总线</h5>
+<p><abbr title="InterIntegrated Circuit">IIC</abbr> 总线类型是由飞利浦（Philips）半导体公司在 20 世纪 80 年代初设计出来的。使用 IIC 协议可以通过两根双向的总线（数据线 SDA 和时钟线 SCL）使 Arduino 连接最多 128 个从机设备。在实现这种总线连接时，唯一需要的外部器件是每根总线上的上拉电阻。在目前使用的大多数 Arduino 相关 IIC 模块上，通常已经添加了上拉电阻，因此只需要将 IIC 从机设备模块直接连接到 Arduino 的 IIC 接口上即可。</p>
+<p>Arduino 控制器内部集成的这种两线串行接口，通常称为 <abbr title="TwoWire serial Interface">TWI</abbr> 接口，事实上， TWI 和 IIC 总线是一回事。</p>
+<h6 id="iic-主-从机与引脚"><a class="markdownIt-Anchor" href="#iic-主-从机与引脚"></a> IIC 主、从机与引脚</h6>
+<p>与串口的一对一通信方式不同，总线通信通常有主机（Master）、从机（Slave）之分，通信时，主机负责启动和终止数据传送，同时还要输出时钟信号；从机会被主机寻址，而且响应主机的通信请求。</p>
+<p>在 IIC 通信中，通信速率的控制由主机完成，主机会通过 SCL 引脚输出时钟信号供总线上的所有从机使用，不像串口通信中的通信速率由双方事先约定。</p>
+<blockquote>
+<p>IIC 是一种<strong>半双工通信方式</strong>，即总线上的设备通过 SDA 引脚传输通信数据，数据的发送和接收由主机控制，切换进行。</p>
+</blockquote>
+<p>IIC 上的所有通信都是由主机发起的，总线上的设备都应该有各自的地址，主机通过这些地址向总线上的任一设备发起连接，从机响应请求并建立连接后，就可以进行数据传输。</p>
+<h6 id="wire-类库成员函数"><a class="markdownIt-Anchor" href="#wire-类库成员函数"></a> Wire 类库成员函数</h6>
+<p>对于 IIC 总线的使用，Arduino IDE 自带了一个第三方库 Wire。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+<th>语法</th>
+<th>参数</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>begin()</code></td>
+<td>初始化 IIC 连接，并作为主机或者从机加入 IIC 总线</td>
+<td><code>begin()</code> , <code>begin(address)</code></td>
+<td>没有参数时设备将作为主机加入IIC总线，<em>address</em> 可以设置为 0~127 中任意地址</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>requestFrom()</code></td>
+<td>主机向从机发送数据请求信号，从机可以用注册一个 <code>onRequest</code> 注册一个事件响应请求</td>
+<td><code>Wire.requestFrom(address,quantity)</code> , <code>Wire.requestFrom(address,quantity,stop)</code></td>
+<td><em>address</em> 设备地址，<em>quantity</em> 请求的字节数，<em>stop</em> 为 <code>true</code> 时将发送停止信息，释放 IIC 总线，为 <code>false</code> 时将发送重新开始信息，并继续保持 IIC 总线连接</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>beginTransmission()</code></td>
+<td>设定传输数据到指定冲击设备。随后可以使用 <code>write()</code> 函数发送数据，使用 <code>endTransmission()</code> 函数结束传输</td>
+<td><code>beginTransmission(address)</code></td>
+<td><em>address</em> 从机地址(0~127)</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>endTransmission()</code></td>
+<td>结束数据传输</td>
+<td><code>Wire.endTransmission()</code> , <code>Wire.endTransmission(stop)</code></td>
+<td><em>stop</em> 为 <code>true</code> 时将发送停止信息，释放 IIC 总线，为 <code>flase</code> 时将发送重新开始信息，并保持连接</td>
+<td>byte 型值，表示本次传输状态：0（成功）、1（数据过长，超出发送缓冲区）、2（在地址发送时接收到 NACK 信号）、3（在数据发送时收到NACK信号）、4（其它错误）</td>
+</tr>
+<tr>
+<td><code>write()</code></td>
+<td>主机将要发送的数据加入发送队列；从机发送数据至发起请求的主机</td>
+<td><code>Wire.write(value)</code> , <code>Wire.write(string)</code> , <code>Wire.write(data,length)</code></td>
+<td><em>value</em> 以单字节发送，<em>string</em> 以一些列字节发送，<em>data</em> 以字节形式发送数组，<em>length</em> 传输的字节数</td>
+<td>byte 型值，返回输入的字节数</td>
+</tr>
+<tr>
+<td><code>available()</code></td>
+<td>返回接收到的字节数，在主机中一般用于发送数据请求后，在从机中一般用于数据接收事件中</td>
+<td><code>Wire.available()</code></td>
+<td>无</td>
+<td>可读的字节数</td>
+</tr>
+<tr>
+<td><code>read()</code></td>
+<td>读取 1 字节数据</td>
+<td><code>Wire.read()</code></td>
+<td>无</td>
+<td>读到的字节数据</td>
+</tr>
+<tr>
+<td><code>onReceive()</code></td>
+<td>可以在从机端注册一个事件，当从机收到主机发送的数据时即被触发</td>
+<td><code>Wire.onReceive(handler)</code></td>
+<td><em>handler</em> 当从机接收到数据时可被触发的事件。该事件带有一个 int型参数（从主机读到的字节数）且没有返回值</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>onRequest()</code></td>
+<td>注册一个事件，当从机接收到主机数据请求时被触发</td>
+<td><code>Wire.onRequest(handler)</code></td>
+<td><em>handler</em> 可被触发的事件，该事件不带参数和返回值</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<h6 id="iic-连接方法"><a class="markdownIt-Anchor" href="#iic-连接方法"></a> IIC 连接方法</h6>
+<p>多个设备可以将每个设备的 SCL 引脚连接起来，把每个设备的 SDA 引脚连接起来，即可接入 IIC 总线。</p>
+<h5 id="spi-总线"><a class="markdownIt-Anchor" href="#spi-总线"></a> SPI 总线</h5>
+<p><abbr title="Serial Peripheral Interface, 串口外设接口">SPI</abbr> 是一种高速通信接口，通过它可以连接使用具有相同接口的外部设备，如 SD 卡、图形液晶、网络芯片等。</p>
+<p>SPI 也是一种总线通信方式， Arduino 可以通过 SPI 接口连接多个从设备，并通过程序来选择对某一设备的连接使用。</p>
+<h6 id="spi-引脚"><a class="markdownIt-Anchor" href="#spi-引脚"></a> SPI 引脚</h6>
+<table>
+<thead>
+<tr>
+<th>引脚</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MISO（Master In Slave Out）</td>
+<td>主机数据输入，从机数据输出</td>
+</tr>
+<tr>
+<td>MOSI（Master Out Slave In）</td>
+<td>主机数据输出，从机数据输入</td>
+</tr>
+<tr>
+<td>SCK（Serial Clock）</td>
+<td>用于通信同步的时钟信号，该时钟信号由主机产生</td>
+</tr>
+<tr>
+<td>SS（Slave Select）或 CS（Chip Select）</td>
+<td>从机使能信号，由主机控制</td>
+</tr>
+</tbody>
+</table>
+<p>在 SPI 总线中也有主、从机之分，主机负责输出时钟信号及选择通信的从设备。时钟信号会通过主机的 SCK 引脚输出，提供给通信从机使用。而对于通信从机的选择，由主机上的 CS 引脚决定，当 CS 引脚为低电平时，该从机被选中；当 CS 引脚为高电平时，该从机被断开。数据的收发通过 MISO 和 MOSI 进行。</p>
+<blockquote>
+<p>大多数 Arduino 控制器都带有 6 针的 ICSP 引脚，可通过 ICSP 引脚来使用 SPI 总线。</p>
+</blockquote>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_uno_icsp_pin.jpg" alt="" /></p>
+<p>大多数情况下 Arduino 都是作为主机使用，并且 Arduino 的 SPI 类库没有提供 Arduino 作为从机的 API。</p>
+<p>如果一个 SPI 总线上连接了多个 SPI 设备，那么在使用某一从机设备时，需要该从设备的 CS 引脚拉低，以选中该设备；而且需要将其他设备的 CS 引脚拉高，以释放这些暂时未使用的设备。在每次切换连接不同的从设备时，都需要进行这样的操作来选择从设备。</p>
+<blockquote>
+<p>需要注意，虽然 SS 引脚只有在作为从机时才会用到，但即使不使用 SS引脚，也需要将其保持为输出状态，否则会造成 SPI 无法使用的情况。</p>
+</blockquote>
+<h6 id="spi-类库成员函数"><a class="markdownIt-Anchor" href="#spi-类库成员函数"></a> SPI 类库成员函数</h6>
+<blockquote>
+<p>Arduino 的 SPI 类库定义在 <code>SPI.h</code> 头文件中。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+<th>语法</th>
+<th>参数</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>begin()</code></td>
+<td>初始化 SPI 通信。调用该函数后，SCK、MOSI、SS 引脚将被设置为输出模式，且 SCK 和 MOSI 引脚被拉低，SS 引脚被拉高</td>
+<td><code>SPI.begin()</code></td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>end()</code></td>
+<td>关闭 SPI 总线通信</td>
+<td><code>SPI.end()</code></td>
+<td>无</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>setBitOrder()</code></td>
+<td>设置传输顺序</td>
+<td><code>SPI.setBitOrder(divider)</code></td>
+<td><em>order</em> 传输顺序：<code>LSBFIRST</code>（低位在前）、<code>MSBFIRST</code>（高位在前）</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>setClockDivider()</code></td>
+<td>设置通信时钟。时钟信号由主机产生，从机不用配置。主机的 SPI 时钟频率应该在从机允许的处理速度范围内</td>
+<td><code>SPI.setClockDivider(divider)</code></td>
+<td><em>divider</em> SPI 通信的时钟是由系统时钟分频得到的：<code>SPI_CLOCK_DIV2</code>（2分频）、<code>SPI_CLOCK_DIV4（4分频）、</code>SPI_CLOCK_DIV8<code>（8分频）、</code>SPI_CLOCK_DIV16<code>（16分频）、</code>SPI_CLOCK_DIV32<code>（32分频）、</code>SPI_CLOCK_DIV64<code>（64分频）、</code>SPI_CLOCK_DIV128`（128分频）</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>setDataMode()</code></td>
+<td>设置数据模式</td>
+<td><code>SPI.setDataMode(mode)</code></td>
+<td><em>mode</em> 数据模式：<code>SPI_MODE0</code>、<code>SPI_MODE1</code>、<code>SPI_MODE2</code>、<code>SPI_MODE3</code></td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>transfer()</code></td>
+<td>传输 1B 数据，参数为发送的数据，返回值为接收到的数据</td>
+<td><code>SPI.transfor(val)</code></td>
+<td><em>val</em> 要发送的字节数据</td>
+<td>读到的字节数据</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>SPI 是双工通道，因此每发送 1B 的数据，也会接收到 1B 的数据。</p>
+</blockquote>
+<h6 id="数据发送与接收"><a class="markdownIt-Anchor" href="#数据发送与接收"></a> 数据发送与接收</h6>
+<p>SPI 总线是一种同步串行总线，其收/发数据可以同时进行。SPI 类库并没有像其他类库一样提供用于发送、接收操作的 <code>write()</code> 和 <code>read()</code> 函数，而是用 <code>transfer()</code> 函数替代了两者的功能，其参数是发送的数据，返回值是接收到的数据。每发送一次数据，即会接收一次。</p>
+<h6 id="软件模拟-spi-通信"><a class="markdownIt-Anchor" href="#软件模拟-spi-通信"></a> 软件模拟 SPI 通信</h6>
+<p>使用模拟 SPI 通信可以指定 Arduino 上任意引脚为模拟 SPI 引脚，并与其他 SPI 器件连接进行通信。Arduino 提供了两个相关 API 用于实现模拟 SPI 通信功能：</p>
+<ul>
+<li><code>shiftOut(dataPin, clockPin, bitOrder, value)</code> 用于模拟串口输出，无返回值，参数如下：
+<ul>
+<li><em>dataPin</em> 数据输出引脚</li>
+<li><em>clockPin</em> 时钟输出引脚</li>
+<li><em>bitOrder</em> 数据传输顺序</li>
+<li><em>value</em> 传输的数据</li>
+</ul>
+</li>
+<li><code>shiftIn(dataPin, clockPin, bitOrder)</code> 用于模拟 SPI 串行输入，返回值为输入的串行数据，参数如下：
+<ul>
+<li><em>dataPin</em> 数据输出引脚</li>
+<li><em>clockPin</em> 时钟输出引脚</li>
+<li><em>bitOrder</em> 数据传输顺序</li>
+</ul>
+</li>
+</ul>
+<h5 id="扩展-io-口"><a class="markdownIt-Anchor" href="#扩展-io-口"></a> 扩展 I/O 口</h5>
+<p>在使用 Arduino UNO 时，可能会遇到数字引脚不够用的情况，可以使用 74HC595 芯片来实现扩展 数字I/O 的效果。74HC595 只能作为输出端口扩展，如果要扩展输入端口，则可以使用其他的并行输入/串行输入芯片，如 74HC165 等。</p>
+<h4 id="存储篇"><a class="markdownIt-Anchor" href="#存储篇"></a> 存储篇</h4>
+<h5 id="eeprom-断电也能保存数据"><a class="markdownIt-Anchor" href="#eeprom-断电也能保存数据"></a> EEPROM ——断电也能保存数据</h5>
+<p><abbr title="Electrically Erasable Programmable ReadOnly Memory">EEPROM</abbr> 电可擦可编程只读存储器是一种断电后数据不丢失的存储设备，常被用作记录设备的工作数据和保存配置参数。若想断电后 Arduino 仍记住数据，就可以使用 EEPROM 。</p>
+<p>在使用 AVR 芯片的 Arduino 控制器上均带有 EEPROM ，也可以使用外接的 EEPROM 芯片。</p>
+<p>在 Arduino EEPROM 类库中，EEPROM 的地址被设定为从 0 开始，如 Arduino UNO 中的 EEPROM 有 1KB 的存储空间，其对应的地址为 0~1023，每个地址可以存储 1B 数据。当数据大于 1B 时，需要逐字读/写。</p>
+<h6 id="eeprom-类库成员函数"><a class="markdownIt-Anchor" href="#eeprom-类库成员函数"></a> EEPROM 类库成员函数</h6>
+<blockquote>
+<p>Arduino 已经准备好了 EEPROM，只需要先调用 <code>EEPROM.h</code> 就可以使用 <code>write()</code> 和 <code>read()</code> 函数对 EEPROM 进行写/读操作。</p>
+</blockquote>
+<ul>
+<li><code>EEPROM.write(address, value)</code> 对指定地址写入数据，无返回值，参数：
+<ul>
+<li><em>address</em> EEPROM 地址，起始值为 0</li>
+<li><em>value</em> 写入的数据，byte 型</li>
+</ul>
+</li>
+<li><code>EEPROM.read(address)</code> 用于读取指定地址的数据。一次读/写 1B 数据。如果指定地址没有写入过数据，则读出值为 <code>255</code> 。函数返回值为读到的数据，byte 类型，参数 <em>address</em> 是 EEPROM 地址，起始值为 0。</li>
+</ul>
+<h6 id="eeprom-写入操作"><a class="markdownIt-Anchor" href="#eeprom-写入操作"></a> EEPROM 写入操作</h6>
+<p>要向 EEPROM 中写入数据，只需要使用 <code>EEPROM.write(address, value)</code> 语句就可以将数据 <em>value</em> 写入 EEPROM 地址 <em>address</em> 中。</p>
+<p>需要注意，<strong>EEPROM 有 100000 次的擦写寿命，一次 <code>EEPROM.write()</code> 语句会占用 3ms，如果程序不断地擦写 EEPROM，则很快会损坏 EEPROM。所以在 <code>loop()</code> 中使用 <code>EEPROM.write()</code> 时，应使用延时或其他操作，避免频繁擦写 EEPROM。</strong></p>
+<h6 id="eeprom-读取操作"><a class="markdownIt-Anchor" href="#eeprom-读取操作"></a> EEPROM 读取操作</h6>
+<p>从 EEPROM 中读取数据需要使用 <code>EEPROM.read(address)</code> 语句，读取地址为 <em>address</em> 的数据。</p>
+<h6 id="eeprom-清除"><a class="markdownIt-Anchor" href="#eeprom-清除"></a> EEPROM 清除</h6>
+<p>清除 EEPROM 的内容，其实就是把 EEPROM 中每一个字节写入 <code>0</code>，因为只需要执行一次清零，所以在 setup 部分完成。</p>
+<h6 id="存储各类型数据到-eeprom"><a class="markdownIt-Anchor" href="#存储各类型数据到-eeprom"></a> 存储各类型数据到 EEPROM</h6>
+<blockquote>
+<p>在 Arduino 提供的 EEPROM API 中，只能写入字节型数据，如果需要存储其它类型数据，需要先转换成字节，然后逐字写入 EEPROM，这里可以<strong>使用共用体把其它类型数据拆分成字节</strong>。</p>
+<p><strong>几个不同的变量共同占用一段内存的结构，在 C 语言中被称为共用体类型结构，简称共用体。</strong></p>
+</blockquote>
+<p>定义一个名为 <code>data</code> 的共用体结构，共用体中有两种类型不同的成员变量：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">union</span> <span class="title">data</span>&#123;</span></span><br><span class="line">    <span class="type">float</span> a;</span><br><span class="line">    byte b[];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>再声明一个 data 类型的变量 <code>c</code> ：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">data c;</span><br></pre></td></tr></table></figure>
+<p>现在可以通过 <code>c.a</code> 访问该共用体中 float 型成员 <code>a</code>，通过 <code>c.b</code> 访问该共用体中 byte 型数组 <code>b</code> 。<code>c.a</code> 和 <code>c.b</code> 共同占用 4B 的地址。给 <code>c.a</code> 赋值后，通过 <code>c.b</code> 中的几个元素即可实现拆分 float 型数据的目的。</p>
+<h5 id="sd-保存大量数据"><a class="markdownIt-Anchor" href="#sd-保存大量数据"></a> SD ——保存大量数据</h5>
+<p>当需要使用或存储大量数据，可以选择外置的 EEPROM 和 Flash 芯片来扩展存储空间，推荐使用 SD 卡来存储大量的数据。</p>
+<p><abbr title="Secure Digital Memory Card">SD 卡</abbr> 是一种基于半导体快闪记忆器的新一代存储设备，广泛用于便携式设备上，如手机、数码相机、平板电脑等。</p>
+<p>SD 卡可以通过 SPI 总线进行相关操作。使用 SD 卡库可以让 Arduino 读/写 SD 卡中的数据。由于 SD 卡库支持 <code>FAT16</code> 和 <code>FAT32</code> 文件系统的 SD 卡、SDHC 卡和 TF 卡，因此<strong>需要将 SD 卡以 <code>FAT16</code> 或 <code>FAT32</code> 文件系统进行格式化</strong>。</p>
+<h6 id="sd-卡类库成员函数"><a class="markdownIt-Anchor" href="#sd-卡类库成员函数"></a> SD 卡类库成员函数</h6>
+<blockquote>
+<p>Arduino 读/写 SD 卡程序需要包含 SPI 库的头文件 <code>SPI.h</code> 和 SD 卡库的头文件 <code>SD.h</code> 。SD 卡类库中提供了两个类：<code>SDClass</code> 类和 <code>File</code> 类</p>
+</blockquote>
+<p><strong>SDClass</strong> 类提供了访问 SD 卡、操作文件及文件夹的功能。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+<th>语法</th>
+<th>参数</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>begin()</code></td>
+<td>初始化 SD卡库和 SD卡</td>
+<td><code>SD.begin()</code> , <code>SD.begin(cspin)</code></td>
+<td>不带参数时默认将 Arduino 的 SPI 的 SS 引脚连接到 SD 卡的 CS 使能选择端；<em>cspin</em> 指定连接 SD卡CS使能选择端的引脚，<abbr title="仍需要保证 SPI 的 SS 引脚为输出模式，否则SD 卡库将无法运行">注意</abbr></td>
+<td>boolean 型数据，<code>true</code> 初始化成功，<code>false</code> 初始化失败</td>
+</tr>
+<tr>
+<td><code>exists()</code></td>
+<td>检查文件或文件夹是否存在</td>
+<td><code>SD.exists(filename)</code></td>
+<td><em>filename</em> 要检测的文件名。可以包含路径，路径用 <code>/</code> 分隔</td>
+<td>boolean 型数据，<code>true</code> 表示存在，<code>false</code> 表示不存在</td>
+</tr>
+<tr>
+<td><code>open()</code></td>
+<td>打开 SD 卡上的一个文件。<abbr title="如果文件不存在，且以写入方式打开，则 Arduino 会创建一个指定文件名的文件。(所在路径必须事先存在)">注意</abbr></td>
+<td><code>SD.open(filename)</code> , <code>SD.open(filename, mode)</code></td>
+<td><em>filename</em> 要打开的文件名。可以包含路径，路径用 <code>/</code> 分隔。<em>mode</em> 打开文件的方式，默认使用只读方式打开，可选值：<code>FILE_READ</code> （只读方式）、<code>FILE_WRITE</code> （写入方式）</td>
+<td>返回被打开的文件对应的对象；如果不能打开，返回 <code>false</code></td>
+</tr>
+<tr>
+<td><code>remove()</code></td>
+<td>从 SD 卡移除一个文件。<abbr style="color:red;" title="如果文件不存在，函数返回值是不确定的，因此在移除以前最好先用 SD.exists() 函数检查一下">注意</abbr></td>
+<td><code>SD.remove(filename)</code></td>
+<td><em>filename</em> 要移除的文件名，可以包含路径，路径用 <code>/</code> 分隔</td>
+<td>boolean 型数据，<code>true</code> 表示移除成功，<code>false</code> 表示移除失败</td>
+</tr>
+<tr>
+<td><code>mkdir()</code></td>
+<td>创建文件夹</td>
+<td><code>SD.mkdir(filename)</code></td>
+<td><em>filename</em> 要创建的文件夹名，可以包含路径，路径用 <code>/</code> 分隔</td>
+<td>boolean 型数据，<code>true</code> 表示创建成功，<code>false</code> 表示创建失败</td>
+</tr>
+<tr>
+<td><code>rmdir()</code></td>
+<td>移除文件夹</td>
+<td><code>SD.rmdir(filename)</code></td>
+<td><em>filename</em> 要移除的文件夹名，可以包含路径，路径用 <code>/</code> 分隔</td>
+<td>boolean 型数据，<code>true</code> 表示移除成功，<code>false</code> 表示移除失败</td>
+</tr>
+</tbody>
+</table>
+<p><strong>File</strong> 类提供了读/写文件的功能。</p>
+<table>
+<thead>
+<tr>
+<th>函数</th>
+<th>功能</th>
+<th>语法</th>
+<th>参数</th>
+<th>返回值</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>available()</code></td>
+<td>检查当前文件中可读数据的字节数</td>
+<td><code>file.available()</code></td>
+<td><em>file</em> 一个 File 类型对象</td>
+<td>可读字节数</td>
+</tr>
+<tr>
+<td><code>close()</code></td>
+<td>关闭文件，并确保数据被完全写入 SD 卡中</td>
+<td><code>file.close()</code></td>
+<td>同上</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>flush()</code></td>
+<td>确保数据已经写入 SD 卡，当文件关闭时会自动运行这个函数</td>
+<td><code>file.flush()</code></td>
+<td>同上</td>
+<td>无</td>
+</tr>
+<tr>
+<td><code>peek()</code></td>
+<td>读取当前所在字节，但不移动到下一个字节</td>
+<td><code>file.peek()</code></td>
+<td>同上</td>
+<td>下一字节或字符。如果没有可读数据返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>position()</code></td>
+<td>获取当前在文件中的<abbr title="即下一个被读/写的字节的位置">位置</abbr></td>
+<td><code>file.position()</code></td>
+<td>同上</td>
+<td>在当前文件中的位置</td>
+</tr>
+<tr>
+<td><code>print()</code></td>
+<td>输出数据到文件，要写入的文件应该被打开，且等待写入</td>
+<td><code>file.print(data)</code> , <code>file.print(data, BASE)</code></td>
+<td><em>file</em> 一个 File 类型对象，<em>data</em> 要写入的数据(可以是 char、byte、int、long 或 String 类型)，<em>BASE</em> 数据输出形式：<code>BIN</code>（二进制）、<code>OCT</code>（八进制）、<code>DEC</code>（十进制）、<code>HEX</code>（十六进制）</td>
+<td>发送的字节数</td>
+</tr>
+<tr>
+<td><code>println()</code></td>
+<td>输出数据到文件，并回车换行</td>
+<td><code>file.println(data)</code> , <code>file.println(data, BASE)</code></td>
+<td>同上</td>
+<td>同上</td>
+</tr>
+<tr>
+<td><code>seek()</code></td>
+<td>跳转到指定位置，该位置必须在 0 到 该文件大小之间</td>
+<td><code>file.seek(pos)</code></td>
+<td><em>file</em> 一个 File 类型对象，<em>pos</em> 需要查找的位置</td>
+<td>boolean 型数据，<code>true</code> 表示跳转成功，<code>false</code> 表示跳转失败</td>
+</tr>
+<tr>
+<td><code>size()</code></td>
+<td>获取文件的大小</td>
+<td><code>file.size()</code></td>
+<td><em>file</em> 一个 File 类型对象</td>
+<td>文件大小(以字节为单位)</td>
+</tr>
+<tr>
+<td><code>read()</code></td>
+<td>读取 1B 数据</td>
+<td><code>file.read()</code></td>
+<td>同上</td>
+<td>下一个字节或字符，如果没有可读数据则返回 <code>-1</code></td>
+</tr>
+<tr>
+<td><code>write()</code></td>
+<td>写入数据到文件</td>
+<td><code>file.write(data)</code> , <code>file.write(buf, len)</code></td>
+<td><em>file</em> 一个 File 类型对象，<em>data</em> 要写入的数据（类型可以是 byte、char、字符串），<em>buf</em> 一个字符数组或字节数据，<em>len</em> 要写入的数据长度</td>
+<td>发送的字节数</td>
+</tr>
+<tr>
+<td><code>isDirectory()</code></td>
+<td>判断当前文件对象是否为目录</td>
+<td><code>file.isDirectory()</code></td>
+<td><em>file</em> 一个 File 类型对象</td>
+<td>boolean 型数据，<code>true</code> 表示是目录，<code>false</code> 表示不是目录</td>
+</tr>
+<tr>
+<td><code>openNextFile()</code></td>
+<td>打开下一个文件</td>
+<td><code>file.openNextFile()</code></td>
+<td>同上</td>
+<td>下一个文件对应的对象</td>
+</tr>
+<tr>
+<td><code>rewindDirectory()</code></td>
+<td>回到当前目录中的第一个文件</td>
+<td><code>file.rewindDirectory()</code></td>
+<td>同上</td>
+<td>无</td>
+</tr>
+</tbody>
+</table>
+<h6 id="sd-卡读写模块引脚"><a class="markdownIt-Anchor" href="#sd-卡读写模块引脚"></a> SD 卡读写模块引脚</h6>
+<p>常见的 SD 卡读写模块引脚：</p>
+<table>
+<thead>
+<tr>
+<th>Micro SD 卡模块</th>
+<th>说明</th>
+<th>连接 Arduino 引脚</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CD</code></td>
+<td>插入检测，无卡时输出高电平，有卡时输出低电平</td>
+<td>可不使用</td>
+</tr>
+<tr>
+<td><code>CS</code></td>
+<td>SD 卡片选择。低电平使能</td>
+<td>示例连接中接 4 号引脚，可根据实际情况修改</td>
+</tr>
+<tr>
+<td><code>MOSI</code></td>
+<td>数据输入口</td>
+<td><code>MOSI</code>，UNO 的 11 号引脚</td>
+</tr>
+<tr>
+<td><code>MISO</code></td>
+<td>数据输出口</td>
+<td><code>MISO</code>，UNO 的 12 号引脚</td>
+</tr>
+<tr>
+<td><code>SCK</code></td>
+<td>SPI 时钟</td>
+<td><code>SCK</code>，UNO 的 13 号引脚</td>
+</tr>
+<tr>
+<td><code>VCC</code></td>
+<td>电压供电正</td>
+<td>3.3~5V</td>
+</tr>
+<tr>
+<td><code>GND</code></td>
+<td>电源供电地</td>
+<td><code>GND</code></td>
+</tr>
+</tbody>
+</table>
+<h6 id="sd-卡创建文件示例"><a class="markdownIt-Anchor" href="#sd-卡创建文件示例"></a> SD 卡创建文件示例</h6>
+<p>在 2 号引脚上连接一个开关，用于控制程序开始。</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;SPI.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;SD.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">File myFile;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">setup</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// 在 2 号引脚上连接一个按键，用于控制程序开始</span></span><br><span class="line">  <span class="built_in">pinMode</span>(<span class="number">2</span>, INPUT_PULLUP);</span><br><span class="line">  <span class="keyword">while</span>(<span class="built_in">digitalRead</span>(<span class="number">2</span>))&#123;&#125;</span><br><span class="line">    </span><br><span class="line">  <span class="comment">// 开启串口通信</span></span><br><span class="line">  Serial.<span class="built_in">begin</span>(<span class="number">9600</span>);</span><br><span class="line">  <span class="keyword">while</span> (!Serial) &#123;</span><br><span class="line">    ; <span class="comment">// wait for serial port to connect. Needed for native USB port only</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  Serial.<span class="built_in">print</span>(<span class="string">&quot;Initializing SD card...&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="comment">// Arduino 的 SS 引脚（UNO 的 10 号引脚，MEGA 的 53号引脚）必须保持输出模式，否则 SD 卡库无法工作</span></span><br><span class="line">  <span class="built_in">pinMode</span>(<span class="number">10</span>, OUTPUT);</span><br><span class="line">  <span class="keyword">if</span> (!SD.<span class="built_in">begin</span>(<span class="number">4</span>)) &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;initialization failed!&quot;</span>);</span><br><span class="line">    <span class="keyword">while</span> (<span class="number">1</span>);</span><br><span class="line">  &#125;</span><br><span class="line">  Serial.<span class="built_in">println</span>(<span class="string">&quot;initialization done.&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (SD.<span class="built_in">exists</span>(<span class="string">&quot;example.txt&quot;</span>)) &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;example.txt exists.&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;example.txt doesn&#x27;t exist.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 打开一个文件，并立即关闭</span></span><br><span class="line">  Serial.<span class="built_in">println</span>(<span class="string">&quot;Creating example.txt...&quot;</span>);</span><br><span class="line">  myFile = SD.<span class="built_in">open</span>(<span class="string">&quot;example.txt&quot;</span>, FILE_WRITE);</span><br><span class="line">  myFile.<span class="built_in">close</span>();</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 检查文件是否存在</span></span><br><span class="line">  <span class="keyword">if</span> (SD.<span class="built_in">exists</span>(<span class="string">&quot;example.txt&quot;</span>)) &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;example.txt exists.&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;example.txt doesn&#x27;t exist.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="comment">// 删除文件</span></span><br><span class="line">  Serial.<span class="built_in">println</span>(<span class="string">&quot;Removing example.txt...&quot;</span>);</span><br><span class="line">  SD.<span class="built_in">remove</span>(<span class="string">&quot;example.txt&quot;</span>);</span><br><span class="line"></span><br><span class="line">  <span class="keyword">if</span> (SD.<span class="built_in">exists</span>(<span class="string">&quot;example.txt&quot;</span>)) &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;example.txt exists.&quot;</span>);</span><br><span class="line">  &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    Serial.<span class="built_in">println</span>(<span class="string">&quot;example.txt doesn&#x27;t exist.&quot;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="type">void</span> <span class="title">loop</span><span class="params">()</span> </span>&#123;</span><br><span class="line">  <span class="comment">// nothing happens after setup finishes.</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="dht11-温湿度检测模块"><a class="markdownIt-Anchor" href="#dht11-温湿度检测模块"></a> DHT11 温湿度检测模块</h5>
+<p>DHT11 温湿度传感器是一款含有已校准数字信号输出的温湿度复合传感器，可以用来测环境温度和相对湿度。</p>
+<blockquote>
+<p>DHT11 相对湿度的检测精度为 1%Rh，温度检测精度为 1℃，两次读取传感器数据的时间间隔应大于 1s。</p>
+</blockquote>
+<p>可以从 Arduino 的库管理器中下载 <code>DHT11</code> 类库，其中只有一个成员函数 <code>read()</code> ，可以读取 DHT11 传感器的数据，并将温湿度数值分别存入 <code>temperature</code> 和 <code>humidity</code> 两个成员变量中。用法：</p>
+<figure class="highlight c++"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Dht11.<span class="built_in">read</span>(pin); <span class="comment">// Dht11 是一个 dht11 类型的对象；pin 是连接 DHT11 传感器的引脚号</span></span><br></pre></td></tr></table></figure>
+<p>函数返回值为 int 类型，<code>0</code> 对应宏 <code>DHTLIB_OK</code> ，表示接收到数据且校验正确；<code>-1</code> 对应宏 <code>DHTLIB_ERROR_CHECKSUM</code> ，表示接收到数据但校验错误；<code>2</code> 对应宏 <code>DHTLIB_ERROR_TIMEOUT</code> ，表示通信超时。</p>
+<h4 id="无线通信篇"><a class="markdownIt-Anchor" href="#无线通信篇"></a> 无线通信篇</h4>
+<p>Arduino 可用的无线通信方式众多，如 ZigBee、WiFi、蓝牙等。比较常见的是使用串口透传模块，这类模块在设置好以后连接到 Arduino 串口，即可采用串口通信方式进行通信，该过程相当于将串口的有线通信改成了无线通信方式，而程序不需要修改。</p>
+<p>另一种常见方式是使用 SPI 接口的无线模块，这类模块通常都有配套的驱动库，如 Arduino WiFi 扩展板。这种方式驱动无线模块传输速率更快，可以完成更多高级操作。</p>
+<h5 id="红外遥控"><a class="markdownIt-Anchor" href="#红外遥控"></a> 红外遥控</h5>
+<p>红外通信是一种利用红外光编码进行数据传输的无线通信方式，是目前使用最广泛的一种通信和遥控手段。</p>
+<p>生活中大多数红外通信都使用 38 kHz 的频率进行通信，这是使用的一体化接收头和遥控器也使用 38kHz 的频率收/发信号。</p>
+<p>要想使用红外遥控功能，还需要使用一个第三方的红外遥控库：IRremote 库，可以从网上下载。这个类库中的 <code>IRrecv</code> 类可用于接收红外信号并对其解码，<code>IRsend</code> 类用于对红外信号编码并发送。</p>
+<p><strong>红外接收</strong> 要使用红外遥控器控制 Arduino ，需要先了解遥控器各按键对应的编码，不同遥控器、按键、协议都对应着不同的编码，可以使用 <code>IRremote</code> 的示例程序来获取遥控器发送的信号编码。</p>
+<p><strong>红外发射</strong> 使用 Arduino 发送红外信号，需要将红外发射管与 Arduino 连接，连接方式与普通 LED 类似，需要串联一个限流电阻。<strong>IRremote 库只能使用 3 号引脚作为红外信号输出引脚</strong>。</p>
+<h4 id="lcd显示篇"><a class="markdownIt-Anchor" href="#lcd显示篇"></a> LCD显示篇</h4>
+<h5 id="1602lcd"><a class="markdownIt-Anchor" href="#1602lcd"></a> 1602LCD</h5>
+<p>1602 液晶显示器（1602 Liquid Crystal Display） 是一种常见的字符型液晶显示器，因其能够显示 <code>16*2</code> 和字符而得名。</p>
+<p>通常使用的 1602 LCD 中集成了字库芯片，通过 <code>LiquidCrystal</code> 类库提供的 API 可以方便的使用 1602 LCD 显示英文字母和一些符号。</p>
+<h5 id="图形显示器"><a class="markdownIt-Anchor" href="#图形显示器"></a> 图形显示器</h5>
+<p>Arduino 支持众多的显示器，如果字符型液晶显示器不满足需求，可以使用图片液晶显示器。</p>
+<p>使用 <code>u8glib</code> 是目前 Arduino 平台上最好的图形显示库，可支持多种图片显示器。<code>u8glib</code> 库可以在显示器上绘制文字，可以设置字体、显示位置，还可以绘制图形，如矩形、圆形、圆弧、直线、点，可以绘制位图。绘制位图图片需要将图片转换成 Arduino 可以识别得代码保存。可以使用字模提取软件完成取模。</p>
+<h6 id="12864-lcd"><a class="markdownIt-Anchor" href="#12864-lcd"></a> 12864 LCD</h6>
+<p>12864 LCD 是最常见的图形液晶显示器，因其分辨率为 128*64 像素而得名，使用 12864 LCD 可以显示图形、汉字，甚至更高级的动画。</p>
+<h6 id="12864-oled"><a class="markdownIt-Anchor" href="#12864-oled"></a> 12864 OLED</h6>
+<p>小巧的液晶显示模块，使用的通信接口为 IIC，使用的控制芯片为 SSD1306。</p>
+<h4 id="usb-类库使用"><a class="markdownIt-Anchor" href="#usb-类库使用"></a> USB 类库使用</h4>
+<p>在一些新推出的 Arduino 控制器上均带有 USB 通信功能，Arduino 提供了 USB 类库，可以将控制器模拟成 USB 鼠标或键盘设备。</p>
+<p>Arduino USB 类库是带有 USB 功能的 Arduino 控制器特有的库，仅支持 Arduino 的 Leonardo、Micro 和 Due 型号。</p>
+<p>USB 类库是 Arduino 的核心类库，因此不需要重新声明包含该库。该库提供了 <code>Mouse</code> 和 <code>Keyboard</code> 两个类，用于模拟鼠标和键盘。</p>
+<h4 id="ethernet-类库使用"><a class="markdownIt-Anchor" href="#ethernet-类库使用"></a> Ethernet 类库使用</h4>
+<p>Arduino 不仅可以和各种硬件通信，还可以接入互联网，进行网络通信。Arduino IDE 自带了 <code>Ethernet</code> 类库，可以轻松将 Arduino 接入互联网，完成各种网络项目。</p>
+<h5 id="支持-ethernet-的硬件"><a class="markdownIt-Anchor" href="#支持-ethernet-的硬件"></a> 支持 Ethernet 的硬件</h5>
+<h6 id="ethernet-扩展板"><a class="markdownIt-Anchor" href="#ethernet-扩展板"></a> Ethernet 扩展板</h6>
+<p>Ethernet 扩展板是集成 WIZnetW5100 网络芯片的扩展板，连接到 Arduino 后使 Arduino 具有 网络功能，同时还集成了 SD 卡槽，以配合 SD 卡库读/写 SD 卡。</p>
+<h6 id="arduino-ethernet"><a class="markdownIt-Anchor" href="#arduino-ethernet"></a> Arduino Ethernet</h6>
+<p>Arduino Ethernet 是集成了 Ethernet 功能的 Arduino 控制器，使用单个控制器即可连接到网络上，同时集成了 SD 卡槽，并且可以通过外接 POE 模块来扩展 POE 的供电功能。但该控制器没有下载功能，每次下载时需要连接 USB 转串口模块来下载程序。</p>
+<h6 id="zduino-ethernet"><a class="markdownIt-Anchor" href="#zduino-ethernet"></a> Zduino Ethernet</h6>
+<p>OpenJumper 推出的高度集成的 Arduino Ethernet 兼容控制器，集成了 USB 下载、POE 供电、SD 卡槽等功能，并且完全兼容 Arduino UNO 的引脚位置。使用它可以快速将控制器接入网络，从而搭建自己的网络应用。</p>
+<h6 id="w5100"><a class="markdownIt-Anchor" href="#w5100"></a> W5100</h6>
+<p>W5100 是 WIZnet 公司推出的一款多功能单片网络接口芯片，内部集成有 10/100 以太网控制器，主要用于高集成、高稳定、高性能和低成本的嵌入式系统。</p>
+<h5 id="ethernet-类库"><a class="markdownIt-Anchor" href="#ethernet-类库"></a> Ethernet 类库</h5>
+<p>在使用网络功能时需要包含 <code>Ethernet.h</code> 头文件，由于 Arduino 通过 SPI 总线连接 W5100 实现网络功能，所以需要包含 <code>SPI.h</code> 头文件。<code>Ethernet</code> 类库中定义了多个类，需要配合使用才能完成网络通信。</p>
+<h3 id="读后感"><a class="markdownIt-Anchor" href="#读后感"></a> 读后感</h3>
+<p>这本书非常适合初学者，涉及的内容很全面，而且讲解由浅入深很容易理解。看了这本书后，不仅学到了 arduino 的开发，还学到了一些硬件的原理。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%AC%94%E8%AE%B0/" rel="tag"># 笔记</a>
+              <a href="/tags/arduino/" rel="tag"># arduino</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/12/07/%E8%AF%BB%E3%80%8A%E6%91%84%E5%BD%B1%E7%AC%94%E8%AE%B0%E3%80%8B/" rel="prev" title="读《摄影笔记》">
+                  <i class="fa fa-chevron-left"></i> 读《摄影笔记》
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/12/24/Java-%E5%85%B3%E9%94%AE%E5%AD%97/" rel="next" title="Java 关键字">
+                  Java 关键字 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="本文概述 本文简单介绍了 Elasticsearch 是什么，在 windows 环境下的安装 Elasticsearch，在 SpringBoot 项目中使用 Elasticsearch 对数据进行增删改查操作。   什么是 Elasticsearch？  Elasticsearch(简称 ES) 是一个开源的、高扩展性的分布式全文搜索和分析引擎，能够迅速、近乎实时的对大量数据进行存储、分析、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="SpringBoot 使用 Elasticsearch">
+<meta property="og:url" content="https://www.wqf31415.xyz/2019/03/05/SpringBoot-%E4%BD%BF%E7%94%A8-Elasticsearch/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="本文概述 本文简单介绍了 Elasticsearch 是什么，在 windows 环境下的安装 Elasticsearch，在 SpringBoot 项目中使用 Elasticsearch 对数据进行增删改查操作。   什么是 Elasticsearch？  Elasticsearch(简称 ES) 是一个开源的、高扩展性的分布式全文搜索和分析引擎，能够迅速、近乎实时的对大量数据进行存储、分析、">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/search.jpg">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/elasticsearch_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/elasticsearch_2.png">
+<meta property="article:published_time" content="2019-03-05T02:18:05.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.256Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="nosql">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="elasticsearch">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/search.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2019/03/05/SpringBoot-%E4%BD%BF%E7%94%A8-Elasticsearch/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/03/05/SpringBoot-%E4%BD%BF%E7%94%A8-Elasticsearch/","path":"2019/03/05/SpringBoot-使用-Elasticsearch/","title":"SpringBoot 使用 Elasticsearch"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>SpringBoot 使用 Elasticsearch | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%9C%AC%E6%96%87%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 本文概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-elasticsearch"><span class="nav-number">2.</span> <span class="nav-text"> 什么是 Elasticsearch？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#elasticsearch-%E7%9A%84%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.</span> <span class="nav-text"> Elasticsearch 的应用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#elasticsearch-%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5"><span class="nav-number">4.</span> <span class="nav-text"> Elasticsearch 基本概念</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-windows-%E7%8E%AF%E5%A2%83%E4%B8%8B%E5%AE%89%E8%A3%85-elasticsearch"><span class="nav-number">5.</span> <span class="nav-text"> 在 windows 环境下安装 Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83%E4%B8%8E%E7%89%88%E6%9C%AC"><span class="nav-number">5.1.</span> <span class="nav-text"> 环境与版本</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E4%B8%8E%E5%AE%89%E8%A3%85"><span class="nav-number">5.2.</span> <span class="nav-text"> 下载与安装</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9C%A8-springboot-%E4%B8%AD%E4%BD%BF%E7%94%A8-elasticsearch"><span class="nav-number">6.</span> <span class="nav-text"> 在 SpringBoot 中使用 Elasticsearch</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-springboot-%E9%A1%B9%E7%9B%AE"><span class="nav-number">6.1.</span> <span class="nav-text"> 创建 SpringBoot 项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E9%85%8D%E7%BD%AE"><span class="nav-number">6.2.</span> <span class="nav-text"> 添加配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%9E%E4%BD%93"><span class="nav-number">6.3.</span> <span class="nav-text"> 创建实体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-repository"><span class="nav-number">6.4.</span> <span class="nav-text"> 创建 Repository</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-service"><span class="nav-number">6.5.</span> <span class="nav-text"> 创建 Service</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA-controller"><span class="nav-number">6.6.</span> <span class="nav-text"> 创建 Controller</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3"><span class="nav-number">6.7.</span> <span class="nav-text"> 测试接口</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">7.</span> <span class="nav-text"> 注意事项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#es-%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%89%88%E6%9C%AC%E4%B8%8E%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%89%88%E6%9C%AC%E8%A6%81%E4%BF%9D%E6%8C%81%E4%B8%80%E8%87%B4"><span class="nav-number">7.1.</span> <span class="nav-text"> ES 客户端版本与服务器版本要保持一致</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#windows-%E4%B8%AD%E4%BD%BF%E7%94%A8-elasticsearch-6x-%E6%97%B6%E6%8A%A5%E9%94%99"><span class="nav-number">7.2.</span> <span class="nav-text"> Windows 中使用 Elasticsearch 6.x 时，报错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#windows-%E4%B8%AD%E8%BF%90%E8%A1%8C-elasticsearch-6x-%E6%97%B6%E6%8A%A5%E9%94%99"><span class="nav-number">7.3.</span> <span class="nav-text"> Windows 中运行 Elasticsearch 6.x 时，报错</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-elasticsearch-%E5%B1%80%E5%9F%9F%E7%BD%91%E8%AE%BF%E9%97%AE"><span class="nav-number">7.4.</span> <span class="nav-text"> 配置 Elasticsearch 局域网访问</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-es-72-%E9%9B%86%E7%BE%A4%E6%97%B6%E5%87%BA%E9%94%99"><span class="nav-number">7.5.</span> <span class="nav-text"> 启动 ES 7.2 集群时出错</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">8.</span> <span class="nav-text"> 参考资料：</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2019/03/05/SpringBoot-%E4%BD%BF%E7%94%A8-Elasticsearch/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="SpringBoot 使用 Elasticsearch | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          SpringBoot 使用 Elasticsearch<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/SpringBoot-%E4%BD%BF%E7%94%A8-Elasticsearch.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-03-05 10:18:05" itemprop="dateCreated datePublished" datetime="2019-03-05T10:18:05+08:00">2019-03-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="本文概述"><a class="markdownIt-Anchor" href="#本文概述"></a> 本文概述</h3>
+<p>本文简单介绍了 Elasticsearch 是什么，在 windows 环境下的安装 Elasticsearch，在 SpringBoot 项目中使用 Elasticsearch 对数据进行增删改查操作。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/search.jpg" alt="" /></p>
+<h3 id="什么是-elasticsearch"><a class="markdownIt-Anchor" href="#什么是-elasticsearch"></a> 什么是 Elasticsearch？</h3>
+<blockquote>
+<p>Elasticsearch(简称 ES) 是一个开源的、高扩展性的分布式全文搜索和分析引擎，能够迅速、近乎实时的对大量数据进行存储、分析、检索，可以满足应用复杂的搜索特性和需求。<br />
+官网：<a target="_blank" rel="noopener" href="https://www.elastic.co/products/elasticsearch">https://www.elastic.co/products/elasticsearch</a></p>
+</blockquote>
+<p>Elasticsearch 的核心是 Lucene ，使用 Java 进行封装，隐藏了 Lucene 的复杂性，提供 Java API 和 RESTful API，方便使用。</p>
+<span id="more"></span>
+<h3 id="elasticsearch-的应用场景"><a class="markdownIt-Anchor" href="#elasticsearch-的应用场景"></a> Elasticsearch 的应用场景</h3>
+<ul>
+<li>作为应用的全文搜索引擎，使用关键字在数量巨大的文档中定位；</li>
+<li>作为 NoSql 存储数据，需要注意的是 ES 不支持事务；</li>
+</ul>
+<h3 id="elasticsearch-基本概念"><a class="markdownIt-Anchor" href="#elasticsearch-基本概念"></a> Elasticsearch 基本概念</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">名称</th>
+<th style="text-align:center">含义</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Cluster</td>
+<td style="text-align:center">集群</td>
+<td style="text-align:center">ES可以单独作为一个搜索引擎使用，也可以部署在多台机器上，相互合作处理 PB 级数据，这些相关合作的机器称为集群。</td>
+</tr>
+<tr>
+<td style="text-align:center">Node</td>
+<td style="text-align:center">节点</td>
+<td style="text-align:center">在集群中的一台机器称为一个节点，集群中的所有节点使用同一个名称，参与数据存储与集群索引和检索。</td>
+</tr>
+<tr>
+<td style="text-align:center">Shard</td>
+<td style="text-align:center">分片</td>
+<td style="text-align:center">当数据量大时，为了响应迅速，ES 将数据分片放到不同服务器上，查询时 ES 再将不同分片上的数据组合起来。</td>
+</tr>
+<tr>
+<td style="text-align:center">Replia</td>
+<td style="text-align:center">副本</td>
+<td style="text-align:center">副本是分片的精确复制，当主分片丢失时，ES 将副本提升为新的主分片。</td>
+</tr>
+<tr>
+<td style="text-align:center">Index</td>
+<td style="text-align:center">索引</td>
+<td style="text-align:center">类似关系型数据库中的“数据库”，有一个定义多种类型的映射。索引是逻辑名称空间，映射到一个或多个主分片，并且可以有零个或多个副本分片。</td>
+</tr>
+<tr>
+<td style="text-align:center">Type</td>
+<td style="text-align:center">类型</td>
+<td style="text-align:center">类型是索引的逻辑类别/分区，类似于关系型数据库中的“Table”。**注意: <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/6.5/removal-of-types.html">官方表示，在 5.x 版本 ES 中可以创建多个 type，在 6.x 与 7.x 版本的 ES 中，一个 index 下将不能创建多个 type ，在8.x 版本中将会完全移除 type 概念。</a> **</td>
+</tr>
+<tr>
+<td style="text-align:center">Document</td>
+<td style="text-align:center">文档</td>
+<td style="text-align:center">一条记录，类似关系型数据库中的“Row”。</td>
+</tr>
+<tr>
+<td style="text-align:center">Field</td>
+<td style="text-align:center">字段</td>
+<td style="text-align:center">记录中的字段，类似关系型数据库中的“Column”。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="在-windows-环境下安装-elasticsearch"><a class="markdownIt-Anchor" href="#在-windows-环境下安装-elasticsearch"></a> 在 windows 环境下安装 Elasticsearch</h3>
+<h4 id="环境与版本"><a class="markdownIt-Anchor" href="#环境与版本"></a> 环境与版本</h4>
+<ul>
+<li>JDK：1.8（最低 1.7）</li>
+<li>Elasticsearch：5.5.3</li>
+</ul>
+<h4 id="下载与安装"><a class="markdownIt-Anchor" href="#下载与安装"></a> 下载与安装</h4>
+<ul>
+<li>
+<p>安装 JAVA 环境并配置环境变量，比较简单，这里不做说明了。</p>
+</li>
+<li>
+<p>下载 ES 5.5.3，下载地址：<a target="_blank" rel="noopener" href="https://www.elastic.co/downloads/past-releases/elasticsearch-5-5-3">https://www.elastic.co/downloads/past-releases/elasticsearch-5-5-3</a>，我这里下载的是 ZIP 压缩包，解压即用。</p>
+<blockquote>
+<p>下载最新版本：<a target="_blank" rel="noopener" href="https://www.elastic.co/downloads/elasticsearch">https://www.elastic.co/downloads/elasticsearch</a><br />
+下载其他历史版本：<a target="_blank" rel="noopener" href="https://www.elastic.co/downloads/past-releases">https://www.elastic.co/downloads/past-releases</a></p>
+</blockquote>
+</li>
+<li>
+<p>解压文件，进入 bin 目录下，运行 <code>elasticsearch.bat</code> 即可运行 Elasticsearch。运行结果如下：<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/elasticsearch_1.png" alt="" /></p>
+</li>
+<li>
+<p>如果无法运行，窗口一闪而逝，在命令行中运行 <code>elasticsearch.bat</code>，这样可以看到错误信息，如果提示以下信息</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Error occurred during initialization of VM</span><br><span class="line">Could not reserve enough space for 2097152KB object heap</span><br></pre></td></tr></table></figure>
+<p>说明 ES 运行时的 jvm 参数配置的内存太大了，这个版本中默认配置为 2G，我们可以修改 config 目录下的 <code>jvm.options</code> 文件，将其中的 <code>-Xms2g</code> 与 <code>-Xmx2g</code> 改小，比如分别改成  <code>-Xms512m</code> 与 <code>-Xmx512m</code> 。</p>
+</li>
+<li>
+<p>验证是否启动成功，打开浏览器，访问 <a target="_blank" rel="noopener" href="http://127.0.0.1:9200/">http://127.0.0.1:9200/</a> ，如果输出以下信息，说明启动成功。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;YYrPVm5&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cluster_name&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;elasticsearch&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;cluster_uuid&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;x3JuucJuRhuSh4oY9ybVug&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;version&quot;</span> <span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;number&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;5.5.3&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_hash&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;9305a5e&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_date&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;2017-09-07T15:56:59.599Z&quot;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;build_snapshot&quot;</span> <span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;lucene_version&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;6.6.0&quot;</span></span><br><span class="line">  <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;tagline&quot;</span> <span class="punctuation">:</span> <span class="string">&quot;You Know, for Search&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="在-springboot-中使用-elasticsearch"><a class="markdownIt-Anchor" href="#在-springboot-中使用-elasticsearch"></a> 在 SpringBoot 中使用 Elasticsearch</h3>
+<h4 id="创建-springboot-项目"><a class="markdownIt-Anchor" href="#创建-springboot-项目"></a> 创建 SpringBoot 项目</h4>
+<p>创建一个 SpringBoot 项目，SpringBoot 的版本使用 <code>2.0.4.RELEASE</code>，并添加依赖 <code>spring-boot-starter-web</code> 和 <code>spring-boot-starter-data-elasticsearch</code> 。项目 pom.xml 如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.0.4.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>xyz.wqf<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>esdemo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>esdemo<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Elasticsearch Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-elasticsearch<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		</span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line"></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="添加配置"><a class="markdownIt-Anchor" href="#添加配置"></a> 添加配置</h4>
+<p>修改 SpringBoot 配置文件，将 <code>application.properties</code> 改为 <code>application.yml</code> (个人习惯使用 yml，使用 properties 配置也可以)，并添加如下配置：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span></span><br><span class="line">  <span class="attr">data:</span></span><br><span class="line">    <span class="attr">elasticsearch:</span></span><br><span class="line">      <span class="attr">cluster-name:</span> <span class="string">elasticsearch</span> <span class="comment"># Elasticsearch 集群名，需要与 ES 配置文件中指定的名字相同，未配置时默认值为 elasticsearch</span></span><br><span class="line">      <span class="attr">cluster-nodes:</span> <span class="number">127.0</span><span class="number">.0</span><span class="number">.1</span><span class="string">:9300</span> <span class="comment"># Elasticsearch 集群节点</span></span><br></pre></td></tr></table></figure>
+<h4 id="创建实体"><a class="markdownIt-Anchor" href="#创建实体"></a> 创建实体</h4>
+<p>在这个项目中，我们将数据全都存入 Elasticsearch 中，创建一个实体 User，在类上添加 <code>@Document</code> 注解，在主键字段上添加 <code>@Id</code> 注解，在其他字段上可以添加 <code>@Field</code> 注解来指定数据类型或日期格式等，也可以不加，使用默认的：</p>
+<blockquote>
+<p>请注意，我这里的 Id 字段设置成了 String 类型，当存入数据时，ES 会自动生成主键值，如果使用数值类型，将不会自动生成，需要指定主键生成策略。</p>
+</blockquote>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// indexName 为索引名称，必须指定，相当于数据库名；type 为类型，相当于表名；</span></span><br><span class="line"><span class="meta">@Document(indexName = &quot;esdemo&quot;,type = &quot;user&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">User</span> &#123;</span><br><span class="line">    <span class="meta">@Id</span></span><br><span class="line">    <span class="keyword">private</span> String id;</span><br><span class="line">    <span class="keyword">private</span> String name;</span><br><span class="line">    <span class="keyword">private</span> String password;</span><br><span class="line">    <span class="keyword">private</span> Integer age;</span><br><span class="line">    <span class="keyword">private</span> String description;</span><br><span class="line">	<span class="comment">// 为了节约篇幅，省略了 setter、getter、toString 方法</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="创建-repository"><a class="markdownIt-Anchor" href="#创建-repository"></a> 创建 Repository</h4>
+<p>使用过 springboot-data 的都知道数据仓库接口，在这里我们创建一个 UserSearchRepository 接口，继承 <code>ElasticsearchRepository&lt;T, ID&gt;</code> ，接口中需指定两个泛型为 实体类型 与 实体的 Id 字段类型。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 命名成 UserSearchRepository，是为了跟其他存储方式的 Repository 区分</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">interface</span> <span class="title class_">UserSearchRepository</span> <span class="keyword">extends</span> <span class="title class_">ElasticsearchRepository</span>&lt;User, String&gt; &#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>通过继承 ElasticsearchRepository 接口，我们可以直接使用其父类中提供的现用查询方法，如 save、saveAll、findById、findAll等，也可以使用提供的 search 方法对数据进行检索，可以进行分页查询。</p>
+<h4 id="创建-service"><a class="markdownIt-Anchor" href="#创建-service"></a> 创建 Service</h4>
+<p>使用创建的 Repository 对数据进行增删改查。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Service</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserService</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(UserService.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserSearchRepository userSearchRepository;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">save</span><span class="params">(User user)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;save user&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> userSearchRepository.save(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">void</span> <span class="title function_">delete</span><span class="params">(String id)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;delete user&quot;</span>);</span><br><span class="line">        userSearchRepository.deleteById(id);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> User <span class="title function_">findOne</span><span class="params">(String id)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;find user by id: &#123;&#125;&quot;</span>,id);</span><br><span class="line">        <span class="keyword">return</span> userSearchRepository.findById(id).get();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> Page&lt;User&gt; <span class="title function_">findAll</span><span class="params">(Pageable pageable)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;find user page&quot;</span>);</span><br><span class="line">        <span class="keyword">return</span> userSearchRepository.findAll(pageable);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="创建-controller"><a class="markdownIt-Anchor" href="#创建-controller"></a> 创建 Controller</h4>
+<p>创建 RestController，提供接口操作数据。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="meta">@RequestMapping(&quot;/api&quot;)</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">UserResource</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">private</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(UserResource.class);</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Autowired</span></span><br><span class="line">    <span class="keyword">private</span> UserService userService;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PostMapping(value = &quot;/users&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;User&gt; <span class="title function_">save</span><span class="params">(<span class="meta">@RequestBody</span> User user)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;request to save user&quot;</span>);</span><br><span class="line">        user = userService.save(user);</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@PutMapping(&quot;/users&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;User&gt; <span class="title function_">update</span><span class="params">(<span class="meta">@RequestBody</span> User user)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;request to update user&quot;</span>);</span><br><span class="line">        user = userService.save(user);</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@DeleteMapping(&quot;/users/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;Void&gt; <span class="title function_">delete</span><span class="params">(<span class="meta">@PathVariable</span> String id)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;request to delete user by id: &quot;</span>,id);</span><br><span class="line">        userService.delete(id);</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">new</span> <span class="title class_">ResponseEntity</span>&lt;Void&gt;(HttpStatus.OK);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/users/&#123;id&#125;&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;User&gt; <span class="title function_">findOne</span><span class="params">(<span class="meta">@PathVariable</span> String id)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;requrest to find user by id: &#123;&#125;&quot;</span>,id);</span><br><span class="line">        <span class="type">User</span> <span class="variable">user</span> <span class="operator">=</span> userService.findOne(id);</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok(user);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@GetMapping(&quot;/users&quot;)</span></span><br><span class="line">    <span class="keyword">public</span> ResponseEntity&lt;List&lt;User&gt;&gt; <span class="title function_">findAll</span><span class="params">(Pageable pageable)</span>&#123;</span><br><span class="line">        logger.info(<span class="string">&quot;request to find all user&quot;</span>);</span><br><span class="line">        Page&lt;User&gt; page = userService.findAll(pageable);</span><br><span class="line">        <span class="keyword">return</span> ResponseEntity.ok(page.getContent());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="测试接口"><a class="markdownIt-Anchor" href="#测试接口"></a> 测试接口</h4>
+<p>使用 postman 工具对项目提供的 API 接口进行测试。<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/elasticsearch_2.png" alt="" /></p>
+<h3 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h3>
+<h4 id="es-客户端版本与服务器版本要保持一致"><a class="markdownIt-Anchor" href="#es-客户端版本与服务器版本要保持一致"></a> ES 客户端版本与服务器版本要保持一致</h4>
+<p>使用 <code>spring-boot-starter-data-elasticsearch</code> 时，要注意 SpringBoot 的版本中使用的 Elasticsearch client 的版本，在 springboot 2.x中， 2.0.8.RELEASE 以下使用的是 5.x 的 client，相应的 Elasticsearch 也要使用 5.x 的版本，否则项目启动时连接 ES 时会报错。在 SpringBoot 2.10.RELEASE 及以上的版本中，使用的 6.x 的客户端，相应的也需要使用 6.x 的 Elasticsearch。</p>
+<h4 id="windows-中使用-elasticsearch-6x-时报错"><a class="markdownIt-Anchor" href="#windows-中使用-elasticsearch-6x-时报错"></a> Windows 中使用 Elasticsearch 6.x 时，报错</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">此时不应有 \Java\jdk1.8.0_111\bin\java.exe&quot; -cp &quot;!ES_CLASSPATH!&quot; &quot;org.elasticsearch.tools.launchers.</span><br><span class="line">TempDirectory&quot;&quot;`。</span><br></pre></td></tr></table></figure>
+<p>原因是我本地安装的 jdk 路径中有空格，最初安装时使用的是默认路径 <code>C:\Program Files (x86)</code> 下，重装 java 时选择了没有空格的安装路径，问题就解决了。推测安装路径中有中文可能也会导致错误。</p>
+<h4 id="windows-中运行-elasticsearch-6x-时报错"><a class="markdownIt-Anchor" href="#windows-中运行-elasticsearch-6x-时报错"></a> Windows 中运行 Elasticsearch 6.x 时，报错</h4>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[2019-03-15T17:04:46,057][WARN ][o.e.b.ElasticsearchUncaughtExceptionHandler] [D2DxNPS] uncaught exception in thread [main]</span><br><span class="line">org.elasticsearch.bootstrap.StartupException: ElasticsearchException[X-Pack is not supported and Machine Learning is not available for [windows-x86]; you can use the other X-Pack features (unsupported) by setting xpack.ml.enabled: false in elasticsearch.yml]</span><br></pre></td></tr></table></figure>
+<p>错误提示 windows x86 系统不支持 X-Pack ，机器学习不可用，可以通过设置 <code>xpack.ml.enabled</code> 为 <code>false</code> 来解决。按提示中说的，修改配置文件 <code>config/elasticsearch.yml</code> ，添加如下配置项即可解决问题：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">xpack.ml.enabled:</span> <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置-elasticsearch-局域网访问"><a class="markdownIt-Anchor" href="#配置-elasticsearch-局域网访问"></a> 配置 Elasticsearch 局域网访问</h4>
+<p>当需要在局域网中访问本机部署的 Elasticsearch 服务时，需要修改配置文件 <code>config/elasticsearch.yml</code> 。</p>
+<ul>
+<li>
+<p>将配置项 <strong>network.host</strong> 设置为 <code>0.0.0.0</code> ，表示允许任何 ip 访问。</p>
+</li>
+<li>
+<p>同时，**最关键的是要添加一个配置项: transport.host ** ，配置为 <code>localhost</code> 。这一项在原本配置文件中是没有的，如果不配置，将可能无法启动 Elasticsearch 服务，错误提示：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bound or publishing to a non-loopback address, enforcing bootstrap checks</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>添加的完整配置如下：</p>
+<figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">network.host:</span> <span class="number">0.0</span><span class="number">.0</span><span class="number">.0</span></span><br><span class="line"><span class="attr">transport.host:</span> <span class="string">localhost</span> </span><br></pre></td></tr></table></figure>
+<h4 id="启动-es-72-集群时出错"><a class="markdownIt-Anchor" href="#启动-es-72-集群时出错"></a> 启动 ES 7.2 集群时出错</h4>
+<p>我在体验 Elasticsearch 7.2.0 时，先启动了一个 ES 服务，测试连接正常，然后将这个服务的文件目录拷贝了一份修改为节点 2 ，并修改配置文件中的节点名和绑定端口，但启动第二个节点时出错了，错误信息如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[2019-07-01T10:22:06,702][WARN ][o.e.c.c.Coordinator      ] [node-1] failed to validate incoming join request from node [&#123;node-2&#125;&#123;kRooD80QRlyBB5tNY1yDvw&#125;&#123;t0JvlwBZQhmF-Gbpozt2VQ&#125;&#123;localhost&#125;&#123;127.0.0.1:9301&#125;&#123;xpack.installed=true&#125;]</span><br><span class="line">org.elasticsearch.transport.RemoteTransportException: [node-2][127.0.0.1:9301][internal:cluster/coordination/join/validate]</span><br><span class="line">Caused by: org.elasticsearch.cluster.coordination.CoordinationStateRejectedException: join validation on cluster state with a different cluster uuid EzPv1978SbasB-zUOQjS6A than local cluster uuid srzgmzs4QiOTtOleJjed6Q, rejecting</span><br></pre></td></tr></table></figure>
+<p>解决办法：将两个 ES 的 data 目录中的内容清除，重新启动即可。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料：</h3>
+<ul>
+<li>Elasticsearch 官方文档: <a target="_blank" rel="noopener" href="https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html">https://www.elastic.co/guide/en/elasticsearch/reference/current/index.html</a></li>
+<li>Elasticsearch学习，请先看这一篇: <a target="_blank" rel="noopener" href="https://blog.csdn.net/makang110/article/details/80596017#">https://blog.csdn.net/makang110/article/details/80596017#</a></li>
+<li>全文搜索引擎 Elasticsearch 入门教程: <a target="_blank" rel="noopener" href="http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html">http://www.ruanyifeng.com/blog/2017/08/elasticsearch.html</a></li>
+<li>Elasticsearch面试题: <a target="_blank" rel="noopener" href="https://blog.csdn.net/moakun/article/details/82817611">https://blog.csdn.net/moakun/article/details/82817611</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/springboot/" rel="tag"># springboot</a>
+              <a href="/tags/nosql/" rel="tag"># nosql</a>
+              <a href="/tags/spring/" rel="tag"># spring</a>
+              <a href="/tags/elasticsearch/" rel="tag"># elasticsearch</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/02/14/MySql%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4%E5%88%86%E5%8C%BA/" rel="prev" title="MySql数据库表自动创建与删除分区">
+                  <i class="fa fa-chevron-left"></i> MySql数据库表自动创建与删除分区
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/03/12/SpringBoot-%E4%BD%BF%E7%94%A8-Liquibase/" rel="next" title="SpringBoot 使用 Liquibase">
+                  SpringBoot 使用 Liquibase <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

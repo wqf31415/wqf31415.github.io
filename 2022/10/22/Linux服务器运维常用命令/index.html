@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了 linux 服务器维护中常用的一些命令。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux服务器运维常用命令">
+<meta property="og:url" content="https://www.wqf31415.xyz/2022/10/22/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了 linux 服务器维护中常用的一些命令。">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-10-22T02:17:06.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.244Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="服务器">
+<meta property="article:tag" content="linux">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2022/10/22/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2022/10/22/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/","path":"2022/10/22/Linux服务器运维常用命令/","title":"Linux服务器运维常用命令"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Linux服务器运维常用命令 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text"> 基础命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#cd%E5%88%87%E6%8D%A2%E7%9B%AE%E5%BD%95"><span class="nav-number">2.1.</span> <span class="nav-text"> cd(切换目录)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ls%E6%98%BE%E7%A4%BA%E7%9B%AE%E5%BD%95%E4%B8%AD%E7%9A%84%E6%96%87%E4%BB%B6"><span class="nav-number">2.2.</span> <span class="nav-text"> ls(显示目录中的文件)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pwd%E6%98%BE%E7%A4%BA%E5%BD%93%E5%89%8D%E6%89%80%E5%9C%A8%E7%9B%AE%E5%BD%95"><span class="nav-number">2.3.</span> <span class="nav-text"> pwd(显示当前所在目录)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mkdir%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95"><span class="nav-number">2.4.</span> <span class="nav-text"> mkdir(创建目录)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rmdir%E5%88%A0%E9%99%A4%E7%9B%AE%E5%BD%95"><span class="nav-number">2.5.</span> <span class="nav-text"> rmdir(删除目录)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#touch%E5%88%9B%E5%BB%BA%E6%96%87%E4%BB%B6"><span class="nav-number">2.6.</span> <span class="nav-text"> touch(创建文件)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rm%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6"><span class="nav-number">2.7.</span> <span class="nav-text"> rm(删除文件)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#data%E6%9F%A5%E7%9C%8B%E5%92%8C%E4%BF%AE%E6%94%B9%E6%97%A5%E6%9C%9F%E6%97%B6%E9%97%B4"><span class="nav-number">2.8.</span> <span class="nav-text"> data(查看和修改日期时间)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#cal%E6%98%BE%E7%A4%BA%E6%97%A5%E5%8E%86"><span class="nav-number">2.9.</span> <span class="nav-text"> cal(显示日历)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E6%9C%BA%E4%B8%8E%E9%87%8D%E5%90%AF"><span class="nav-number">3.</span> <span class="nav-text"> 关机与重启</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#shutdown%E5%85%B3%E6%9C%BA"><span class="nav-number">3.1.</span> <span class="nav-text"> shutdown(关机)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#reboot%E9%87%8D%E5%90%AF"><span class="nav-number">3.2.</span> <span class="nav-text"> reboot(重启)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#halt%E7%B3%BB%E7%BB%9F%E5%81%9C%E6%AD%A2"><span class="nav-number">3.3.</span> <span class="nav-text"> halt(系统停止)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#poweroff%E5%85%B3%E6%9C%BA"><span class="nav-number">3.4.</span> <span class="nav-text"> poweroff(关机)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#sync%E6%95%B0%E6%8D%AE%E5%90%8C%E6%AD%A5%E5%86%99%E5%85%A5%E7%A3%81%E7%9B%98"><span class="nav-number">3.5.</span> <span class="nav-text"> sync(数据同步写入磁盘)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#systemctl%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="nav-number">3.6.</span> <span class="nav-text"> systemctl(系统管理工具)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%A8%E6%88%B7%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text"> 用户管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#su%E5%88%87%E6%8D%A2%E7%94%A8%E6%88%B7"><span class="nav-number">4.1.</span> <span class="nav-text"> su(切换用户)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#useradd%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7"><span class="nav-number">4.2.</span> <span class="nav-text"> useradd(添加用户)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#passwd%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81"><span class="nav-number">4.3.</span> <span class="nav-text"> passwd(修改密码)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="nav-number">5.</span> <span class="nav-text"> 系统管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lsb_releaseuname%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E4%BF%A1%E6%81%AF"><span class="nav-number">5.1.</span> <span class="nav-text"> lsb_release&#x2F;uname(查看系统信息)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ps%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B"><span class="nav-number">5.2.</span> <span class="nav-text"> ps(查看进程)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#top%E6%9F%A5%E7%9C%8B%E8%BF%9B%E7%A8%8B"><span class="nav-number">5.3.</span> <span class="nav-text"> top(查看进程)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#kill%E7%BB%93%E6%9D%9F%E8%BF%9B%E7%A8%8B"><span class="nav-number">5.4.</span> <span class="nav-text"> kill(结束进程)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#fdisk%E7%A3%81%E7%9B%98%E7%AE%A1%E7%90%86%E5%B7%A5%E5%85%B7"><span class="nav-number">5.5.</span> <span class="nav-text"> fdisk(磁盘管理工具)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#free%E6%9F%A5%E7%9C%8B%E5%86%85%E5%AD%98"><span class="nav-number">5.6.</span> <span class="nav-text"> free(查看内存)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#netstat%E6%9F%A5%E7%9C%8B%E7%BD%91%E7%BB%9C%E7%8A%B6%E6%80%81"><span class="nav-number">5.7.</span> <span class="nav-text"> netstat(查看网络状态)</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B7%A5%E5%85%B7"><span class="nav-number">6.</span> <span class="nav-text"> 工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#od%E6%9F%A5%E7%9C%8B%E4%BA%8C%E8%BF%9B%E5%88%B6%E6%96%87%E4%BB%B6"><span class="nav-number">6.1.</span> <span class="nav-text"> od（查看二进制文件）</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2022/10/22/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Linux服务器运维常用命令 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Linux服务器运维常用命令<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2022-10-22 10:17:06" itemprop="dateCreated datePublished" datetime="2022-10-22T10:17:06+08:00">2022-10-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/linux/" itemprop="url" rel="index"><span itemprop="name">linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了 linux 服务器维护中常用的一些命令。</p>
+<span id="more"></span>
+<h3 id="基础命令"><a class="markdownIt-Anchor" href="#基础命令"></a> 基础命令</h3>
+<h4 id="cd切换目录"><a class="markdownIt-Anchor" href="#cd切换目录"></a> cd(切换目录)</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> 目录</span><br></pre></td></tr></table></figure>
+<p><code>cd</code> ，命令用于切换目录，参数可是相对路径或绝对路径。</p>
+<p>常用示例：</p>
+<ul>
+<li>切换到当前目录下的xxx目录：<code>cd xxx</code> 或 <code>cd ./xxx</code></li>
+<li>切换到home目录：<code>cd ~</code></li>
+<li>切换到上一个目录：<code>cd -</code></li>
+<li>切换到根目录：<code>cd /</code></li>
+<li>切换到上一层目录：<code>cd ..</code> 或 <code>cd ../</code></li>
+</ul>
+<h4 id="ls显示目录中的文件"><a class="markdownIt-Anchor" href="#ls显示目录中的文件"></a> ls(显示目录中的文件)</h4>
+<p><code>ls</code>，“list” 显示目录中的文件。</p>
+<p>常用命令选项：</p>
+<ul>
+<li>
+<p><code>-l</code> 列表方式显示，可以显示文件的操作权限、归属组、归属用户、文件大小、修改时间</p>
+</li>
+<li>
+<p><code>-a</code> 显示所有文件，包括隐藏文件（文件名以 <code>.</code> 开头的隐藏文件），如当前目录 <code>.</code>、上级目录 <code>..</code>、隐藏的 git 目录 <code>.git</code>。</p>
+</li>
+<li>
+<p><code>-h</code> 以方便人类阅读的单位输出文件大小，如使用 <code>ls -lh</code> 查看当前目录文件时，文件大小超过 1K 但未达到 1M 的将以 K 为单位显示，超过 1M 但未达到 1G 的将以 M 为单位显示。</p>
+</li>
+</ul>
+<h4 id="pwd显示当前所在目录"><a class="markdownIt-Anchor" href="#pwd显示当前所在目录"></a> pwd(显示当前所在目录)</h4>
+<p><code>pwd</code> 命令用于显示当前所在目录的绝对路径。</p>
+<h4 id="mkdir创建目录"><a class="markdownIt-Anchor" href="#mkdir创建目录"></a> mkdir(创建目录)</h4>
+<p><code>mkdir</code> 命令用于创建目录，可添加 <code>-p</code> 选项创建多层目录。</p>
+<p>常用示例：</p>
+<ul>
+<li>创建目录 test ：<code>mkdir test</code> ，如果 test 目录已经存在，执行出错</li>
+<li>创建多层目录 abc/def ：<code>mkdir -p abc/def</code> ，如果 abc 目录不存在将创建它并在其中创建 def目录；如果目录存在，并不会执行出错</li>
+</ul>
+<h4 id="rmdir删除目录"><a class="markdownIt-Anchor" href="#rmdir删除目录"></a> rmdir(删除目录)</h4>
+<p><code>rmdir</code> 命令用于删除目录，注意只有目录为空时才能删除，否则将会报错。可以添加 <code>-p</code> 选项删除多层目录。</p>
+<p>常用示例：</p>
+<ul>
+<li>删除目录 test： <code>rmdir test</code></li>
+<li>删除多层目录 abc/def ： <code>rmdir -p abc/def</code> ，相当于执行命令 <code>rmdir abc/def abc</code></li>
+</ul>
+<h4 id="touch创建文件"><a class="markdownIt-Anchor" href="#touch创建文件"></a> touch(创建文件)</h4>
+<p><code>touch</code> 命令可用于创建空文件(当参数指定的文件不存在时)或更新文件的访问时间和更新时间。</p>
+<p>常用示例：</p>
+<ul>
+<li>
+<p>创建文件 abc.txt ：<code>touch abc.txt</code> ，注意：指定命令前 abc.txt 文件不存在</p>
+</li>
+<li>
+<p>更新文件 abc.txt 的访问时间和更新时间：<code>touch abc.txt</code></p>
+</li>
+</ul>
+<h4 id="rm删除文件"><a class="markdownIt-Anchor" href="#rm删除文件"></a> rm(删除文件)</h4>
+<p><code>rm</code> 命令用于删除文件，删除文件时会询问是否确认删除。常用选项 <code>-f</code> 强制删除（不再询问），<code>-r</code> 递归删除（删除目录及目录中的内容）。</p>
+<ul>
+<li>删除文件 test.txt ：<code>rm test.txt</code></li>
+<li>删除目录 test 及其中所有内容：<code>rm -rf test</code></li>
+</ul>
+<h4 id="data查看和修改日期时间"><a class="markdownIt-Anchor" href="#data查看和修改日期时间"></a> data(查看和修改日期时间)</h4>
+<p><code>data</code> 命令用于显示日期时间，可添加参数输出格式化的时间。</p>
+<p>常用示例：</p>
+<ul>
+<li>
+<p>打印当前时间：<code>data</code> ，输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fri Sep 30 21:45:28 CST 2022</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>按格式输出年月日：<code>date  +%Y/%m/%d</code> ，结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2022/09/30</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>按格式输出时间：<code>date +%H:%M</code> ，结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">21:45</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="cal显示日历"><a class="markdownIt-Anchor" href="#cal显示日历"></a> cal(显示日历)</h4>
+<p><code>cal</code> ，日历（calendar）命令用于显示日历，不带参数时显示本月日历，日期当天回反白显示。可指定参数 月 和 年，以显示指定年月的日历。</p>
+<p>常用示例：</p>
+<ul>
+<li>
+<p>显示当月日历：<code>cal</code></p>
+</li>
+<li>
+<p>显示 2022 年 10 月的日历：<code>cal 10 2022</code>，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">    October 2022</span><br><span class="line">Su Mo Tu We Th Fr Sa</span><br><span class="line">                   1</span><br><span class="line"> 2  3  4  5  6  7  8</span><br><span class="line"> 9 10 11 12 13 14 15</span><br><span class="line">16 17 18 19 20 21 22</span><br><span class="line">23 24 25 26 27 28 29</span><br><span class="line">30 31</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="关机与重启"><a class="markdownIt-Anchor" href="#关机与重启"></a> 关机与重启</h3>
+<blockquote>
+<p><code>shutdown</code> 、<code>reboot</code>、<code>halt</code>、<code>poweroff</code>  都需要管理员权限，这几个命令配合命令的选项，均可达到关机、停止系统和重启系统的功能，可以根据个人习惯使用其中一个。不过，语义化的命令更便于记忆。</p>
+<p><code>reboot</code>、<code>halt</code>、<code>poweroff</code> 命令实际上都是调用 <code>systemctl</code> 完成关机相关操作，使用 <code>--help</code> 选项查看帮助信息，发现这三个命令的参数选项都是一样的。</p>
+</blockquote>
+<h4 id="shutdown关机"><a class="markdownIt-Anchor" href="#shutdown关机"></a> shutdown(关机)</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shutdown [-krhc] [时间] [警告信息]</span><br></pre></td></tr></table></figure>
+<p>命令选项:</p>
+<ul>
+<li><code>-k</code> 仅给用户发送警告信息，不真的关机</li>
+<li><code>-r</code> 在将系统服务停止后重启（常用）</li>
+<li><code>-h</code> 在系统服务停止后立即关机（常用）</li>
+<li><code>-c</code> 取消已在进行的 <code>shutdown</code> 命令内容，临时改变主意不想关机时，可以执行命令 <code>shutdown -c</code></li>
+</ul>
+<p>命令参数：</p>
+<ul>
+<li>时间：即执行命令的时间，单位：分钟。如果不指定，默认为 1分钟。</li>
+<li>警告信息：执行 <code>shutdown</code> 命令后，将立即将警告信息发给所有正在使用的用户</li>
+</ul>
+<p>常用示例：</p>
+<ul>
+<li>立即关机：<code>shutdown -h now</code></li>
+<li>指定时间关机, 22时30分时关机：<code>shutdown -h 22:30</code></li>
+<li>十分钟后关机：<code>shutdown -h +10</code></li>
+<li>立即重启：<code>shutdown -r now</code></li>
+<li>30分钟后关机，并发送警告信息给所有在线使用者：<code>shutdown -r +30 'System will reboot after 30 minutes'</code></li>
+<li>仅发送警告信息，吓吓人：<code>shutdown -k now 'This system will shutdown'</code></li>
+</ul>
+<h4 id="reboot重启"><a class="markdownIt-Anchor" href="#reboot重启"></a> reboot(重启)</h4>
+<p>重启系统。</p>
+<p>命令选项：</p>
+<ul>
+<li><code>--halt</code> 停止系统</li>
+<li><code>-p</code> 或 <code>--poweroff</code> 关机</li>
+<li><code>--reboot</code> 重启系统</li>
+<li><code>-f</code> 或 <code>--force</code> 强制执行</li>
+<li><code>-w</code> 或 <code>--wtmp-only</code> 不执行停止、关机、重启命令，仅写入 wtmp 记录</li>
+<li><code>-d</code> 或 <code>--no-wtmp</code> 不写入 wtmp 记录</li>
+<li><code>--no-wall</code> 不发送消息</li>
+</ul>
+<h4 id="halt系统停止"><a class="markdownIt-Anchor" href="#halt系统停止"></a> halt(系统停止)</h4>
+<p><code>halt</code> 命令需要管理员权限才能执行，作用是将数据写入磁盘并停止处理器运行，机器不重新启动。屏幕上可能会保留一些信息。</p>
+<p>命令选项：同上</p>
+<h4 id="poweroff关机"><a class="markdownIt-Anchor" href="#poweroff关机"></a> poweroff(关机)</h4>
+<p>关机。</p>
+<p>命令选项：同上</p>
+<h4 id="sync数据同步写入磁盘"><a class="markdownIt-Anchor" href="#sync数据同步写入磁盘"></a> sync(数据同步写入磁盘)</h4>
+<p><code>sync</code> 命令用于将内存中的数据写入磁盘，防止文件数据异常。在关机或重启前，可以执行这个命令保证内存中的数据写入磁盘。管理员可同步所有数据，非管理员用户仅同步自己的数据。</p>
+<h4 id="systemctl系统管理工具"><a class="markdownIt-Anchor" href="#systemctl系统管理工具"></a> systemctl(系统管理工具)</h4>
+<p><code>systemctl</code> 是一个强大的系统管理工具，与关机相关的命令：</p>
+<ul>
+<li><code>systemctl halt</code> 进入系统停止模式，屏幕上可能会保留一些信息，与电脑的电源管理模式有关</li>
+<li><code>systemctl poweroff</code> 进入系统关机模式，直接关机</li>
+<li><code>systemctl reboot</code> 直接重新启动</li>
+<li><code>systemctl suspend</code> 进入休眠模式</li>
+</ul>
+<h3 id="用户管理"><a class="markdownIt-Anchor" href="#用户管理"></a> 用户管理</h3>
+<h4 id="su切换用户"><a class="markdownIt-Anchor" href="#su切换用户"></a> su(切换用户)</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su [username]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：<code>[]</code> 表示参数可选</p>
+</blockquote>
+<p><code>su</code> 命令用于切换到指定用户，切换后可执行命令 <code>exit</code> 返回原用户。如果不带用户名参数，则切换到 root 用户。常用于普通用户切换到管理员用户执行一些需要管理员权限的命令。</p>
+<h4 id="useradd添加用户"><a class="markdownIt-Anchor" href="#useradd添加用户"></a> useradd(添加用户)</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">useradd 用户名</span><br></pre></td></tr></table></figure>
+<p><code>useradd</code> 命令用于添加一个用户，添加成功后，将在 <code>/home</code> 目录下建立一个用户目录作为该用户的主目录。</p>
+<p>命令可选参数：</p>
+<ul>
+<li><code>-d</code> 指定用户目录</li>
+<li><code>-m</code> 指定权限</li>
+<li><code>-g</code> 指定组号</li>
+</ul>
+<p>添加完用户后，一般需要使用 <code>passwd</code> 命令设定用户的密码，用户密码保存在 <code>/etc/passwd</code> 文件中。</p>
+<h4 id="passwd修改密码"><a class="markdownIt-Anchor" href="#passwd修改密码"></a> passwd(修改密码)</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">passwd [用户名]</span><br></pre></td></tr></table></figure>
+<p>修改指定用户的密码，只有管理员可以带用户名参数；普通用户只能使用不带参数的 <code>passwd</code> 命令来修改自身的密码。</p>
+<h3 id="系统管理"><a class="markdownIt-Anchor" href="#系统管理"></a> 系统管理</h3>
+<h4 id="lsb_releaseuname查看系统信息"><a class="markdownIt-Anchor" href="#lsb_releaseuname查看系统信息"></a> lsb_release/uname(查看系统信息)</h4>
+<p><code>lsb_release</code> 命令用于查看系统发行版信息及 LSB (Linux Standard Base) 信息，适用于所有 linux 版本。<code>uname</code> 命令用于查看系统信息，如查看 linux 内核版本、物理架构等。</p>
+<p>常用示例：</p>
+<ul>
+<li>
+<p>打印系统信息：<code>lsb_release -a</code> ，输出结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">LSB Version:    n/a</span><br><span class="line">Distributor ID: HuaweiCloudEulerOS</span><br><span class="line">Description:    Huawei Cloud EulerOS release 1.0 (x86_64)</span><br><span class="line">Release:        1.0</span><br><span class="line">Codename:       x86_64</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>打印系统信息：<code>uname -a</code> ，输出结果如下</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Linux hecs-165974 4.19.90-vhulk2107.1.0.h699.hcev1.x86_64 <span class="comment">#1 SMP Sat Jul 31 09:58:46 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>打印内核版本：<code>uname -r</code></p>
+</li>
+</ul>
+<h4 id="ps查看进程"><a class="markdownIt-Anchor" href="#ps查看进程"></a> ps(查看进程)</h4>
+<p>常用形式:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ps -aux</span><br><span class="line">ps -ef</span><br></pre></td></tr></table></figure>
+<p><code>ps</code> 命令用于查看当前的系统进程，结果不是动态连续的，如果需要实时监控进程，应使用 <code>top</code> 命令。</p>
+<p>命令的结果：</p>
+<ul>
+<li><code>USER</code> 进程的属主</li>
+<li><code>PID</code> 进程的 ID</li>
+<li><code>PPID</code> 父进程</li>
+<li><code>%CPU</code> 进程占用的CPU百分比</li>
+<li><code>%MEM</code> 占用内存的百分比</li>
+<li><code>NI</code> 进程的 NICE 值，数值大，表示占用 CPU 时间较少</li>
+<li><code>VSZ</code> 进程的虚拟大小</li>
+<li><code>RSS</code> 驻留中页的数量</li>
+<li><code>TTY</code> 终端 ID</li>
+<li><code>WCHAN</code> 正在等待的进程资源</li>
+<li><code>stat</code> 进程状态：R（运行）、S（休眠）、Z（僵尸）、T（停止或被追踪）、X（死掉的进程）、N（优先级较低的进程）、&lt;（优先级高的进程）、W（进入内存交换）、D（非中断休眠（常驻IO））</li>
+<li><code>START</code> 进程启动的时间</li>
+<li><code>COMMAND</code> 命令的名称和参数</li>
+</ul>
+<h4 id="top查看进程"><a class="markdownIt-Anchor" href="#top查看进程"></a> top(查看进程)</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">top</span><br></pre></td></tr></table></figure>
+<p><code>top</code> 命令用于查看系统中占用资源较多的一些进程，默认按 CPU 占用率排序。</p>
+<h4 id="kill结束进程"><a class="markdownIt-Anchor" href="#kill结束进程"></a> kill(结束进程)</h4>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">kill</span> -9 进程ID</span><br></pre></td></tr></table></figure>
+<p><code>kill</code> 命令用于结束指定 PID 的进程，执行命令后将会向指定进程发送 <code>SIGKILL</code> 信号，其中 <code>-9</code> 表示强制终止，可以省略。</p>
+<blockquote>
+<p>注：进程的 PID 号可使用 <code>ps</code> 命令查询获取。</p>
+</blockquote>
+<h4 id="fdisk磁盘管理工具"><a class="markdownIt-Anchor" href="#fdisk磁盘管理工具"></a> fdisk(磁盘管理工具)</h4>
+<p><code>fdisk</code> 是一个磁盘分区管理工具，可用于查看磁盘分区信息和对磁盘分区进行管理，如添加、删除分区。</p>
+<p>用法示例：</p>
+<ul>
+<li>打印磁盘使用情况：<code>fdisk -l</code></li>
+</ul>
+<h4 id="free查看内存"><a class="markdownIt-Anchor" href="#free查看内存"></a> free(查看内存)</h4>
+<p><code>free</code> 命令用于打印系统内存使用情况。</p>
+<p>用法示例：</p>
+<ul>
+<li>
+<p>打印内存使用情况： <code>free -h</code> ，结果如下:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">              total        used        free      shared  buff/cache   available</span><br><span class="line">Mem:          1.4Gi       205Mi       114Mi        83Mi       1.1Gi       1.0Gi</span><br><span class="line">Swap:            0B          0B          0B</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="netstat查看网络状态"><a class="markdownIt-Anchor" href="#netstat查看网络状态"></a> netstat(查看网络状态)</h4>
+<p><code>netstat</code> 命令用于打印网络连接、路由表、网络统计等信息。</p>
+<p>常用选项：</p>
+<ul>
+<li><code>-a</code> 显示所有socket，包括正在监听的</li>
+<li><code>-n</code> 以数字形式显示地址和端口号</li>
+<li><code>-r</code> 显示核心路由表</li>
+<li><code>-f</code> 显示外部地址的完全限定域名（FQDN）</li>
+<li><code>-t</code> 显示当前连接卸载状态</li>
+<li><code>-v</code> 显示正在进行的工作</li>
+<li><code>-p proto</code> 显示proto指定的协议的连接</li>
+<li><code>-b</code> 显示在创建每个连接或侦听端口时涉及的可执行程序</li>
+<li><code>-e</code> 显示以太网统计，此选项可以和 <code>-s</code> 结合使用</li>
+<li><code>-o</code> 显示拥有的与每个连接关联的进程PID</li>
+<li><code>-q</code> 显示所有连接、侦听端口和绑定的非侦听 TCP端口</li>
+<li><code>-s</code> 显示每个协议的统计</li>
+<li><code>-x</code> 显示 NetworkDirect 连接、侦听器和共享端点</li>
+<li><code>-y</code> 显示所有连接的 TCP 连接模板，无法与其他选项联用</li>
+</ul>
+<p>常用示例：</p>
+<ul>
+<li>查看 8080 端口占用情况: <code>netstat -ano | grep 8080</code></li>
+</ul>
+<h3 id="工具"><a class="markdownIt-Anchor" href="#工具"></a> 工具</h3>
+<h4 id="od查看二进制文件"><a class="markdownIt-Anchor" href="#od查看二进制文件"></a> od（查看二进制文件）</h4>
+<p><code>od</code> 命令用于读取文件内容，以八进制方式打印输出，可搭配选项输出为指定格式，如十六进制、ASCII等。</p>
+<p>常用示例：</p>
+<ul>
+<li>
+<p>以ASCII编码方式输出文件 <code>test.txt</code> 的内容： <code>od -c test.txt</code></p>
+</li>
+<li>
+<p>以十六进制方式输出文件 <code>test.txt</code> 的内容：<code>od -x test.txt</code></p>
+</li>
+<li>
+<p>同时以ASCII和十六进制方式输出 <code>test.txt</code> 的内容：<code>od -cx test.txt</code> ，文件内容为 <code>abcde 12345</code> ，输出结果如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">0000000   a   b   c   d   e       1   2   3   4   5  \n</span><br><span class="line">           6261    6463    2065    3231    3433    0a35</span><br><span class="line">0000014</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"># 服务器</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2022/08/27/%E8%AF%BB%E3%80%8A%E5%86%99%E5%AD%97%E5%9F%BA%E6%9C%AC%E5%8A%9F%E3%80%8B/" rel="prev" title="读《写字基本功》">
+                  <i class="fa fa-chevron-left"></i> 读《写字基本功》
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2022/12/05/%E5%8D%8A%E7%A8%8B%E9%A9%AC%E6%8B%89%E6%9D%BE%E7%9A%84%E5%90%AF%E7%A4%BA/" rel="next" title="半程马拉松的启示">
+                  半程马拉松的启示 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

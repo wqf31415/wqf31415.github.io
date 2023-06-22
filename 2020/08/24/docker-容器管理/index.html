@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了 docker 中的容器的概念以及docker 容器的操作和应用。   什么是容器 docker 中的容器（container）是独立运行的一个或一组应用，以及它们的运行环境。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="docker 容器管理">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/08/24/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了 docker 中的容器的概念以及docker 容器的操作和应用。   什么是容器 docker 中的容器（container）是独立运行的一个或一组应用，以及它们的运行环境。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_container.jpg">
+<meta property="article:published_time" content="2020-08-24T01:03:32.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.233Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_container.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/08/24/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/08/24/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/","path":"2020/08/24/docker-容器管理/","title":"docker 容器管理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>docker 容器管理 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%AE%B9%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text"> 什么是容器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86"><span class="nav-number">3.</span> <span class="nav-text"> 容器管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%B9%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text"> 创建容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E7%9A%84%E6%A0%87%E8%AF%86%E7%AC%A6"><span class="nav-number">3.2.</span> <span class="nav-text"> 容器的标识符</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E5%AE%B9%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text"> 查看容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E8%AF%A2%E5%AE%B9%E5%99%A8%E4%BF%A1%E6%81%AF"><span class="nav-number">3.4.</span> <span class="nav-text"> 查询容器信息</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%B9%E5%99%A8%E5%86%85%E9%83%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">3.5.</span> <span class="nav-text"> 容器内部命令</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%92%8C%E5%AE%B9%E5%99%A8%E9%97%B4%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6"><span class="nav-number">3.6.</span> <span class="nav-text"> 在本地和容器间拷贝文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E5%AE%B9%E5%99%A8"><span class="nav-number">3.7.</span> <span class="nav-text"> 关闭容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E5%AE%B9%E5%99%A8"><span class="nav-number">3.8.</span> <span class="nav-text"> 删除容器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A%E6%93%8D%E4%BD%9C"><span class="nav-number">3.9.</span> <span class="nav-text"> 更多操作</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%9A%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text"> 多容器管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-compose"><span class="nav-number">4.1.</span> <span class="nav-text"> Docker Compose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-docker-compose"><span class="nav-number">4.2.</span> <span class="nav-text"> 安装 Docker Compose</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-docker-compose"><span class="nav-number">4.3.</span> <span class="nav-text"> 使用 Docker Compose</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.1.</span> <span class="nav-text"> 编写配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8"><span class="nav-number">4.3.2.</span> <span class="nav-text"> 启动</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E4%B8%8E%E5%81%9C%E6%AD%A2%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.3.3.</span> <span class="nav-text"> 运行与停止服务</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%9C%8D%E5%8A%A1"><span class="nav-number">4.4.</span> <span class="nav-text"> 删除服务</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F"><span class="nav-number">4.5.</span> <span class="nav-text"> 注意</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E5%91%BD%E4%BB%A4"><span class="nav-number">4.6.</span> <span class="nav-text"> 其他命令</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/08/24/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="docker 容器管理 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          docker 容器管理<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-08-24 09:03:32" itemprop="dateCreated datePublished" datetime="2020-08-24T09:03:32+08:00">2020-08-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了 docker 中的容器的概念以及docker 容器的操作和应用。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/docker_container.jpg" alt="" /></p>
+<h3 id="什么是容器"><a class="markdownIt-Anchor" href="#什么是容器"></a> 什么是容器</h3>
+<p>docker 中的容器（container）是独立运行的一个或一组应用，以及它们的运行环境。</p>
+<span id="more"></span> 
+<h3 id="容器管理"><a class="markdownIt-Anchor" href="#容器管理"></a> 容器管理</h3>
+<h4 id="创建容器"><a class="markdownIt-Anchor" href="#创建容器"></a> 创建容器</h4>
+<p>有多种创建 docker 容器的方式，下面列举了一些常见的方式：</p>
+<ul>
+<li>
+<p><code>docker run</code> 命令运行一个服务时会自动创建容器。如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run --name my-nginx -d -p 9080:80 nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>docker create</code> 命令来创建容器，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker create --name my-nginx -p 9080:80 nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>docker container run</code> 效果与 <code>docker run</code> 命令相同，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container run --name my-nginx -d -p 9080:80 nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>docker container create</code> 命令创建容器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker container create --name my-nginx -p 9080:80 nginx</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p><code>docker-compose up</code> 用于从配置文件创建并启动多个容器。</p>
+</li>
+</ul>
+<h4 id="容器的标识符"><a class="markdownIt-Anchor" href="#容器的标识符"></a> 容器的标识符</h4>
+<p>docker 会给每个创建的容器分配唯一的 ID，后续对容器的操作都需要使用这个容器 ID。容器ID 默认为 128 位，大多数情况下，使用前 16 位就能保证在本机中的唯一性，所以我们一般使用简略形式的容器 ID。</p>
+<p>使用 <code>docker ps</code> 查看运行的容器，其结果中将会展示缩略的容器ID，如需查看完整的容器 ID，需要使用命令：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps --no-trunc</span><br></pre></td></tr></table></figure>
+<p>有了容器 ID ，就可以对容器进行操作了，如停止容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop container-id</span><br></pre></td></tr></table></figure>
+<p>启动容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker start container-id</span><br></pre></td></tr></table></figure>
+<p>由于容器 ID 难以记忆，所以建议在创建容器时，使用 <code>--name</code> 为容器取一个别名，使用别名代替容器 ID 来操作容器。注意容器名称不能重复。</p>
+<p>重启容器：</p>
+<p><code>docker restart container-ID</code></p>
+<h4 id="查看容器"><a class="markdownIt-Anchor" href="#查看容器"></a> 查看容器</h4>
+<p>使用 <code>docker ps</code> 可以查看正在运行的容器，如果需要查看所有容器(包括未运行的)，可以增加参数 <code>-a</code> 如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps -a</span><br></pre></td></tr></table></figure>
+<p>此外，还可以使用 <code>docker container ls</code> 查看正在运行的容器，使用 <code>docker container ls -a</code> 查看所有容器。</p>
+<h4 id="查询容器信息"><a class="markdownIt-Anchor" href="#查询容器信息"></a> 查询容器信息</h4>
+<p>使用 <code>docker inspect CONTAINER</code> 命令可以查询容器的所有信息，包括运行情况、存储位置、配置参数、网络配置等。</p>
+<p><code>docker inspect</code> 命令展示的信息很多，如果查询指定信息，可以添加 <code>-f</code> 使用 golang 的模板来提取指定信息。如查询容器的运行状态：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect -f &#123;&#123;.State.Status&#125;&#125; my-redis</span><br></pre></td></tr></table></figure>
+<p>使用 <code>docker logs</code> 命令可以查看容器的日志，如果需要实时打印最新日志，可加上 <code>-f</code> 参数。如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker logs -f my-redis</span><br></pre></td></tr></table></figure>
+<p>使用 <code>docker stats</code> 命令实时查询容器所占用的系统资源，如 CPU 使用率、内存、网络等。</p>
+<h4 id="容器内部命令"><a class="markdownIt-Anchor" href="#容器内部命令"></a> 容器内部命令</h4>
+<p>我们经常需要登录容器内部执行命令，可以使用 <code>docker exec 容器名 容器内执行的命令</code> ，如查看 <code>my-redis</code> 容器中启动了哪些进程：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> my-redis ps aux</span><br></pre></td></tr></table></figure>
+<p>如果需要登录容器执行多条命令，可以加上 <code>-it</code> 参数，这样相当于以 root 身份登入了容器，在使用完后执行 <code>exit</code> 命令退出。</p>
+<p>如使用 <code>my-redis</code> 容器中的 bash ：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it my-redis bash</span><br></pre></td></tr></table></figure>
+<p>如使用 <code>my-redis</code> 容器中的 redis-cli 连接其他 redis 服务(IP为 192.168.0.11)：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it my-redis redis-cli -h 192.168.0.11</span><br></pre></td></tr></table></figure>
+<h4 id="在本地和容器间拷贝文件"><a class="markdownIt-Anchor" href="#在本地和容器间拷贝文件"></a> 在本地和容器间拷贝文件</h4>
+<p>使用 <code>docker cp</code> 命令可以在本地和容器之间拷贝文件，如把本地的 test.txt 文件拷贝到 <code>my-redis</code> 容器中的 <code>/data</code> 目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> ./test.txt my-redis:/data</span><br></pre></td></tr></table></figure>
+<p>或将 <code>my-redis</code> 容器中 <code>/data/dump.rdb</code> 文件拷贝到本地：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">cp</span> my-redis:/data/dump.rdb ./</span><br></pre></td></tr></table></figure>
+<p>把文件拷贝到容器中后，可以使用 <code>docker exec -it my-redis bash</code> 进入容器，查看 <code>/data</code> 下的文件。</p>
+<h4 id="关闭容器"><a class="markdownIt-Anchor" href="#关闭容器"></a> 关闭容器</h4>
+<p>关闭单个容器：<code>docker stop Container-ID</code></p>
+<p>关闭所有运行的容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker stop `docker ps -q`</span><br></pre></td></tr></table></figure>
+<h4 id="删除容器"><a class="markdownIt-Anchor" href="#删除容器"></a> 删除容器</h4>
+<p>使用 <code>docker rm</code> 或 <code>docker container rm</code> 命令删除容器，如需删除正在运行的容器，需要增加 <code>-f</code> 或 <code>--force</code>参数强制删除。如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> my-nginx</span><br></pre></td></tr></table></figure>
+<h4 id="更多操作"><a class="markdownIt-Anchor" href="#更多操作"></a> 更多操作</h4>
+<p>使用 <code>docker container</code> 可以操作容器，如</p>
+<ul>
+<li><code>docker container start</code> 启动容器</li>
+<li><code>docker container stop</code> 关闭正在运行的容器</li>
+<li><code>docker container kill</code> 杀死正在运行的容器</li>
+</ul>
+<p>更多操作可以使用 <code>docker container --help</code> 查看帮助信息。</p>
+<h3 id="多容器管理"><a class="markdownIt-Anchor" href="#多容器管理"></a> 多容器管理</h3>
+<blockquote>
+<p>Docker 倡导 <code>一个容器一个进程</code>，如果一个服务需要多个进程，就需要创建多个容器组成一个系统，相互分工和配合来对外提供完整的服务。</p>
+</blockquote>
+<p>如果两个容器之间需要数据交互，在同一主机中，可以在使用 <code>docker run</code> 命令运行容器时添加 <code>--link</code> 选项来建立容器间的互联。需要注意关联容器的启动顺序，连接的目标容器必须事先创建并启动，在运行的时候被连接的容器需要先启动，而关闭时被关联的容器要后关闭。</p>
+<h4 id="docker-compose"><a class="markdownIt-Anchor" href="#docker-compose"></a> Docker Compose</h4>
+<blockquote>
+<p>GitHub项目地址: <a target="_blank" rel="noopener" href="https://github.com/docker/compose">https://github.com/docker/compose</a></p>
+</blockquote>
+<p>Docker Compose 是官方提供的容器编排工具，用于编排和运行多容器的应用。它使用 yml 定义一组关联的容器，这组容器会根据配置模块中的 <code>--link</code> 等参数，对启动的优先级自动排序，简单执行一条 <code>docker-compose up</code> ，就可以把同一个服务中的多个容器依次创建和启动。</p>
+<h4 id="安装-docker-compose"><a class="markdownIt-Anchor" href="#安装-docker-compose"></a> 安装 Docker Compose</h4>
+<p>Ubuntu 中可以使用 apt 工具安装：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install docker-compose</span><br></pre></td></tr></table></figure>
+<p>或：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo curl -L <span class="string">&quot;https://github.com/docker/compose/releases/download/1.26.2/docker-compose-<span class="subst">$(uname -s)</span>-<span class="subst">$(uname -m)</span>&quot;</span> -o /usr/local/bin/docker-compose</span><br><span class="line">sudo <span class="built_in">chmod</span> +x /usr/local/bin/docker-compose</span><br></pre></td></tr></table></figure>
+<p>安装完成后，使用 <code>docker-compose version</code> 查看版本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose version</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">docker-compose version 1.26.2, build eefe0d31</span><br><span class="line">docker-py version: 4.2.2</span><br><span class="line">CPython version: 3.7.4</span><br><span class="line">OpenSSL version: OpenSSL 1.1.1c  28 May 2019</span><br></pre></td></tr></table></figure>
+<h4 id="使用-docker-compose"><a class="markdownIt-Anchor" href="#使用-docker-compose"></a> 使用 Docker Compose</h4>
+<h5 id="编写配置"><a class="markdownIt-Anchor" href="#编写配置"></a> 编写配置</h5>
+<p>如下为 wordpress 的配置文件，命名为 <code>docker-compose.yml</code> 或 <code>docker-compose.yaml</code> 。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.1&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">wordpress:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">wordpress</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="number">8080</span><span class="string">:80</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">WORDPRESS_DB_HOST:</span> <span class="string">db</span></span><br><span class="line">      <span class="attr">WORDPRESS_DB_USER:</span> <span class="string">exampleuser</span></span><br><span class="line">      <span class="attr">WORDPRESS_DB_PASSWORD:</span> <span class="string">examplepass</span></span><br><span class="line">      <span class="attr">WORDPRESS_DB_NAME:</span> <span class="string">exampledb</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">wordpress:/var/www/html</span></span><br><span class="line"></span><br><span class="line">  <span class="attr">db:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">mysql:5.7</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">always</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="attr">MYSQL_DATABASE:</span> <span class="string">exampledb</span></span><br><span class="line">      <span class="attr">MYSQL_USER:</span> <span class="string">exampleuser</span></span><br><span class="line">      <span class="attr">MYSQL_PASSWORD:</span> <span class="string">examplepass</span></span><br><span class="line">      <span class="attr">MYSQL_RANDOM_ROOT_PASSWORD:</span> <span class="string">&#x27;1&#x27;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">db:/var/lib/mysql</span></span><br><span class="line"></span><br><span class="line"><span class="attr">volumes:</span></span><br><span class="line">  <span class="attr">wordpress:</span></span><br><span class="line">  <span class="attr">db:</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如上配置中</p>
+</blockquote>
+<h5 id="启动"><a class="markdownIt-Anchor" href="#启动"></a> 启动</h5>
+<p>进入存放配置的目录，执行 <code>docker-compose up</code> 即可运行服务，默认使用当前目录下的 <code>docker-compose.yml</code> 配置文件启动，也可以使用 <code>-f</code> 参数指定配置文件。如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -f my-wordpress.yml up</span><br></pre></td></tr></table></figure>
+<p>如果用到的镜像不存在，将会从 docker 仓库中下载需要的镜像，随后将在前台启动容器，可以另外打开一个终端使用 <code>docker ps</code> 查看运行的容器，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CONTAINER ID        IMAGE               COMMAND                  CREATED             STATUS              PORTS                    NAMES</span><br><span class="line">8555cf46e4bd        mysql:5.7           &quot;docker-entrypoint.s…&quot;   2 minutes ago       Up 2 minutes        3306/tcp, 33060/tcp      my-wordpress_db_1</span><br><span class="line">38cf4bfc5d85        wordpress           &quot;docker-entrypoint.s…&quot;   2 minutes ago       Up 2 minutes        0.0.0.0:8080-&gt;80/tcp     my-wordpress_wordpress_1</span><br></pre></td></tr></table></figure>
+<p>访问 <a target="_blank" rel="noopener" href="http://localhost:8080">http://localhost:8080</a> 即可进入 wordpress 界面。</p>
+<h5 id="运行与停止服务"><a class="markdownIt-Anchor" href="#运行与停止服务"></a> 运行与停止服务</h5>
+<p>进入配置文件目录，使用 <code>docker-compose stop</code> 停止正在运行的服务，如果配置文件名不是默认的 <code>docker-compose.yml</code> ，需要使用 <code>-f</code> 参数指定配置文件，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -f my-wordpress.yml stop</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>停止服务后，该服务依赖的所有容器都将会关闭。</p>
+</blockquote>
+<p>在配置文件目录中使用 <code>docker-compose start</code> 启动服务，同样可以使用 <code>-f</code> 参数指定配置文件，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -f my-wordpress.yml start</span><br></pre></td></tr></table></figure>
+<h4 id="删除服务"><a class="markdownIt-Anchor" href="#删除服务"></a> 删除服务</h4>
+<p>使用 <code>docker-compose down</code> 命令停止并删除由 <code>docker-compose up</code> 创建的容器、网络、数据、镜像。可使用 <code>-f</code> 参数指定配置文件，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -f my-wordpress.yml down</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>默认移除的内容包括配置文件中创建的容器、网络，可以增加参数移除镜像和数据卷。</p>
+</blockquote>
+<h4 id="注意"><a class="markdownIt-Anchor" href="#注意"></a> 注意</h4>
+<p>使用 Docker Compose 可以按配置的依赖顺序启动和停止容器，但如果是依赖容器中的某个进程，虽然该容器已经蹄冻，但被依赖的这个进程启动速度很慢，Docker Compose 就无能为力了，需要自行添加一些判断等待和重试的机制。</p>
+<h4 id="其他命令"><a class="markdownIt-Anchor" href="#其他命令"></a> 其他命令</h4>
+<p>Docker Compose 还有很多命令用来操作服务，如：</p>
+<ul>
+<li><code>docker-compose build</code> 构建或重新构建服务</li>
+<li><code>docker-compose restart</code> 重启服务</li>
+<li><code>docker-compose kill</code> 杀死容器</li>
+<li><code>docker-compose pause</code> 暂停服务</li>
+<li><code>docker-compose unpause</code> 恢复暂停的服务</li>
+</ul>
+<p>更多命令可使用 <code>docker-compose --help</code> 查看帮助信息。</p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>容器就是我们使用 docker 运行的程序，对容器的操作是最常用的，对与单个容器的操作可以使用 <code>docker container</code> 的命令，对于多容器服务可以使用 <code>docker-compose</code> 来操作。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/08/18/%E9%97%AD%E5%8C%85%E8%A1%A8%E5%AD%98%E5%82%A8%E6%A0%91%E7%8A%B6%E7%BB%93%E6%9E%84%E6%95%B0%E6%8D%AE/" rel="prev" title="闭包表存储树状结构数据">
+                  <i class="fa fa-chevron-left"></i> 闭包表存储树状结构数据
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/08/27/%E4%BD%BF%E7%94%A8-GitHub-Action-%E8%87%AA%E5%8A%A8%E9%83%A8%E7%BD%B2%E9%A1%B9%E7%9B%AE/" rel="next" title="使用 GitHub Action 自动部署项目">
+                  使用 GitHub Action 自动部署项目 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

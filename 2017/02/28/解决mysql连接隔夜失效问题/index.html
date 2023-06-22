@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="问题描述   系统使用hibernate连接数据库； 启动服务器后，数据库操作正常，但时间超过8小时后，后台访问数据库时总是报错：com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: The last packet successfully received from the server was 46,218,269 millisec">
+<meta property="og:type" content="article">
+<meta property="og:title" content="解决mysql连接隔夜失效问题">
+<meta property="og:url" content="https://www.wqf31415.xyz/2017/02/28/%E8%A7%A3%E5%86%B3mysql%E8%BF%9E%E6%8E%A5%E9%9A%94%E5%A4%9C%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="问题描述   系统使用hibernate连接数据库； 启动服务器后，数据库操作正常，但时间超过8小时后，后台访问数据库时总是报错：com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: The last packet successfully received from the server was 46,218,269 millisec">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2017-02-28T11:39:00.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.298Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="bug">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2017/02/28/%E8%A7%A3%E5%86%B3mysql%E8%BF%9E%E6%8E%A5%E9%9A%94%E5%A4%9C%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2017/02/28/%E8%A7%A3%E5%86%B3mysql%E8%BF%9E%E6%8E%A5%E9%9A%94%E5%A4%9C%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/","path":"2017/02/28/解决mysql连接隔夜失效问题/","title":"解决mysql连接隔夜失效问题"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>解决mysql连接隔夜失效问题 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AE%E9%A2%98%E6%8F%8F%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 问题描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E5%9B%A0"><span class="nav-number">2.</span> <span class="nav-text"> 原因</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text"> 解决办法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#url-%E5%8A%A0%E5%8F%82"><span class="nav-number">3.1.</span> <span class="nav-text"> url 加参</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E7%9A%84%E8%B6%85%E6%97%B6%E6%97%B6%E9%97%B4"><span class="nav-number">3.2.</span> <span class="nav-text"> 修改数据库连接的超时时间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9hibernate%E9%85%8D%E7%BD%AE"><span class="nav-number">3.3.</span> <span class="nav-text"> 修改hibernate配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%87%87%E7%94%A8c3p0%E6%88%96dbcp%E7%AE%A1%E7%90%86%E6%95%B0%E6%8D%AE%E5%BA%93%E8%BF%9E%E6%8E%A5%E6%B1%A0"><span class="nav-number">3.4.</span> <span class="nav-text"> 采用c3p0或dbcp管理数据库连接池</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2017/02/28/%E8%A7%A3%E5%86%B3mysql%E8%BF%9E%E6%8E%A5%E9%9A%94%E5%A4%9C%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="解决mysql连接隔夜失效问题 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          解决mysql连接隔夜失效问题<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E8%A7%A3%E5%86%B3mysql%E8%BF%9E%E6%8E%A5%E9%9A%94%E5%A4%9C%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-02-28 19:39:00" itemprop="dateCreated datePublished" datetime="2017-02-28T19:39:00+08:00">2017-02-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="问题描述"><a class="markdownIt-Anchor" href="#问题描述"></a> 问题描述</h3>
+<blockquote>
+<ol>
+<li>系统使用hibernate连接数据库；</li>
+<li>启动服务器后，数据库操作正常，但时间超过8小时后，后台访问数据库时总是报错：com.mysql.jdbc.exceptions.jdbc4.CommunicationsException: The last packet successfully received<br />
+from the server was 46,218,269 milliseconds ago.  The last packet sent successfully to the<br />
+server was 46,218,270 milliseconds ago. is longer than the server configured value of<br />
+‘wait_timeout’. You should consider either expiring and/or testing connection validity before<br />
+use in your application, increasing the server configured values for client timeouts, or using<br />
+the Connector/J connection property ‘autoReconnect=true’ to avoid this problem.</li>
+</ol>
+</blockquote>
+<hr />
+<h3 id="原因"><a class="markdownIt-Anchor" href="#原因"></a> 原因</h3>
+<ul>
+<li>Mysql服务器默认的“wait_timeout”是8小时，也就是说一个connection空闲超过8个小时，Mysql将自动断开该 connection。而hibernate获取连接的时候认为连接池里的这个连接还是有效的，所以就拿来使用，这时候就报错了。</li>
+</ul>
+<hr />
+<span id="more"></span>
+<h3 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h3>
+<h4 id="url-加参"><a class="markdownIt-Anchor" href="#url-加参"></a> url 加参</h4>
+<ul>
+<li>connection url 加参数：<code>&amp;autoReconnect=true</code></li>
+</ul>
+<h4 id="修改数据库连接的超时时间"><a class="markdownIt-Anchor" href="#修改数据库连接的超时时间"></a> 修改数据库连接的超时时间</h4>
+<p>修改数据库连接的超时时间，这种方式会影响数据库性能，可能会出现大量休眠连接；</p>
+<blockquote>
+<p>参考：<a target="_blank" rel="noopener" href="http://dwz.cn/5dDEiB">http://dwz.cn/5dDEiB</a></p>
+<p>​	   <a target="_blank" rel="noopener" href="http://dwz.cn/5dFhRQ">http://dwz.cn/5dFhRQ</a></p>
+</blockquote>
+<ol>
+<li>进入mysql，查看变量信息：<code>show variables like '%timeout%';</code> 结果如下：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>interactive_timeout</td>
+<td>28800</td>
+<td>默认为8h</td>
+</tr>
+<tr>
+<td>wait_timeout</td>
+<td>28800</td>
+<td>默认为8h</td>
+</tr>
+</tbody>
+</table>
+<ol start="2">
+<li>修改方式</li>
+</ol>
+<ul>
+<li>
+<p>方式一 运行命令：</p>
+<p><code>set interactive_timeout=31536000;</code></p>
+<p><code>set wait_timeout=31536000;</code></p>
+</li>
+<li>
+<p>方式二 打开 **my.ini **文档， 在</p>
+<p># The TCP/IP Port the MySQL Server will listen on<br />
+port=3306下面添加</p>
+<figure class="highlight ini"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># this is myown dinifition for mysql connection timeout</span></span><br><span class="line"><span class="attr">wait_timeout</span>=<span class="number">31536000</span></span><br><span class="line"><span class="attr">interactive_timeout</span>=<span class="number">31536000</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol start="3">
+<li>重启mysql服务</li>
+<li>查看修改后的超时时间：<code>show variables like '%timeout%';</code> 若显示以下结果则表名设置成功：</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>Variable_name</th>
+<th>Value</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>interactive_timeout</td>
+<td>31536000</td>
+<td>设置超时时间为一年</td>
+</tr>
+<tr>
+<td>wait_timeout</td>
+<td>31536000</td>
+<td>设置超时时间为一年</td>
+</tr>
+</tbody>
+</table>
+<h4 id="修改hibernate配置"><a class="markdownIt-Anchor" href="#修改hibernate配置"></a> 修改hibernate配置</h4>
+<blockquote>
+<p>参考：Hibernate连接数据库超时设置autoReconnect=true  <a target="_blank" rel="noopener" href="http://xupo.iteye.com/blog/901327">http://xupo.iteye.com/blog/901327</a></p>
+</blockquote>
+<ul>
+<li>
+<p>用hibernate需添加xml 代码：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;connection.autoReconnect&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;connection.autoReconnectForPools&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;connection.is-connection-validation-required&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>如需要用c3p0连接池：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.c3p0.acquire_increment&quot;</span>&gt;</span>1<span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.c3p0.idle_test_period&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.c3p0.timeout&quot;</span>&gt;</span>0<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;hibernate.c3p0.validate&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="采用c3p0或dbcp管理数据库连接池"><a class="markdownIt-Anchor" href="#采用c3p0或dbcp管理数据库连接池"></a> 采用c3p0或dbcp管理数据库连接池</h4>
+<ul>
+<li>
+<p>在hibernate.cfg.xml中的c3p0链接池的配置中增加下面项：</p>
+<blockquote>
+<p>参考：Hibernate连接数据库超时设置autoReconnect=true  <a target="_blank" rel="noopener" href="http://xupo.iteye.com/blog/901327">http://xupo.iteye.com/blog/901327</a></p>
+</blockquote>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;c3p0.idle_test_period&quot;</span>&gt;</span>120<span class="tag">&lt;/<span class="name">property</span>&gt;</span>  </span><br><span class="line"><span class="comment">&lt;!-- seconds --&gt;</span></span><br><span class="line"><span class="comment">&lt;!-- default: 0 --&gt;</span> </span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>在dbcp中我们要处理好以下几个问题：</p>
+<ul>
+<li>
+<p>对每个连接进行检查</p>
+</li>
+<li>
+<p>对一次操作数据库超过多少时间的连接进行移除</p>
+</li>
+<li>
+<p>每隔多少时间检测一次连接</p>
+</li>
+<li>
+<p>一个连接在连接多少时间后，就必须删除</p>
+<blockquote>
+<p>参考：DBCP连接池防止mysql 8小时超时  <a target="_blank" rel="noopener" href="http://blog.csdn.net/korder/article/details/45671395">http://blog.csdn.net/korder/article/details/45671395</a></p>
+<p>​	    配置_DruidDataSource参考配置  <a target="_blank" rel="noopener" href="http://dwz.cn/5dLSUr">http://dwz.cn/5dLSUr</a></p>
+</blockquote>
+</li>
+</ul>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">bean</span> <span class="attr">id</span>=<span class="string">&quot;dataSource&quot;</span></span></span><br><span class="line"><span class="tag">           <span class="attr">class</span>=<span class="string">&quot;org.apache.commons.dbcp.BasicDataSource&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;driverClassName&quot;</span></span></span><br><span class="line"><span class="tag">               <span class="attr">value</span>=<span class="string">&quot;com.mysql.jdbc.Driver&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;url&quot;</span></span></span><br><span class="line"><span class="tag">               <span class="attr">value</span>=<span class="string">&quot;jdbc:mysql://localhost:3306/mylog&quot;</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;maxWait&quot;</span> <span class="attr">value</span>=<span class="string">&quot;20000&quot;</span>&gt;</span>  <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testOnBorrow&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testOnReturn&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;testWhileIdle&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;validationQuery&quot;</span> <span class="attr">value</span>=<span class="string">&quot;SELECT 1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;timeBetweenEvictionRunsMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;3600000&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;numTestsPerEvictionRun&quot;</span> <span class="attr">value</span>=<span class="string">&quot;50&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;minEvictableIdleTimeMillis&quot;</span> <span class="attr">value</span>=<span class="string">&quot;120000&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;removeAbandoned&quot;</span> <span class="attr">value</span>=<span class="string">&quot;true&quot;</span>/&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;removeAbandonedTimeout&quot;</span> <span class="attr">value</span>=<span class="string">&quot;6000000&quot;</span>/&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;username&quot;</span> <span class="attr">value</span>=<span class="string">&quot;root&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">           <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span> <span class="attr">value</span>=<span class="string">&quot;123456&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">bean</span>&gt;</span></span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+              <a href="/tags/bug/" rel="tag"># bug</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/02/23/%E5%B0%8F%E7%99%BD%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84Git%E6%93%8D%E4%BD%9C/" rel="prev" title="小白都能学会的Git操作">
+                  <i class="fa fa-chevron-left"></i> 小白都能学会的Git操作
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/04/06/%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AETomcat8%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="next" title="在本地安装配置Tomcat8服务器">
+                  在本地安装配置Tomcat8服务器 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

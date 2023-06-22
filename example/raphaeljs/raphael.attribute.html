@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="Raphael 元素属性   代码      12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970let paper &#x3D; Raphael(&#39;view&#39;, 800, 4">
+<meta property="og:type" content="website">
+<meta property="og:title" content="This_Wei">
+<meta property="og:url" content="https://www.wqf31415.xyz/example/raphaeljs/raphael.attribute.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="Raphael 元素属性   代码      12345678910111213141516171819202122232425262728293031323334353637383940414243444546474849505152535455565758596061626364656667686970let paper &#x3D; Raphael(&#39;view&#39;, 800, 4">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2023-05-23T02:54:17.331Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.331Z">
+<meta property="article:author" content="This_Wei">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/example/raphaeljs/raphael.attribute">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":false,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/example/raphaeljs/raphael.attribute.html","path":"example/raphaeljs/raphael.attribute.html","title":""}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title> | This_Wei
+</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#code-id"><span class="nav-number">1.</span> <span class="nav-text">代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#result-id"><span class="nav-number">2.</span> <span class="nav-text">结果</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner page posts-expand">
+
+
+    
+    
+    
+    <div class="post-block" lang="zh-CN"><header class="post-header">
+
+<h1 class="post-title" itemprop="name headline"><a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/example/raphaeljs/raphael.attribute.html" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+</h1>
+
+<div class="post-meta-container">
+  <ul class="breadcrumb">
+            <li><a href="/example/">EXAMPLE</a></li>
+            <li><a href="/example/raphaeljs/">RAPHAELJS</a></li>
+            <li>RAPHAEL.ATTRIBUTE</li>
+  </ul>
+</div>
+
+</header>
+
+      
+      
+      <div class="post-body">
+          <!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <title>Raphael 元素属性</title>
+</head>
+<body>
+<h3 id="code-id">代码</h3>
+<div>
+    <figure class="highlight javascript"><div class="table-container"><table><tbody><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> paper = Raphael(<span class="string">'view'</span>, <span class="number">800</span>, <span class="number">480</span>);</span><br><span class="line">paper.circle(<span class="number">50</span>, <span class="number">50</span>, <span class="number">30</span>);</span><br><span class="line"><span class="comment">// 填充颜色及轮廓</span></span><br><span class="line">paper.circle(<span class="number">150</span>, <span class="number">50</span>, <span class="number">30</span>).attr(<span class="string">'fill'</span>, <span class="string">'red'</span>).attr(<span class="string">'stroke'</span>, <span class="string">'blue'</span>);</span><br><span class="line">paper.circle(<span class="number">250</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="attr">fill</span>: <span class="string">'red'</span>, <span class="attr">stroke</span>: <span class="string">'blue'</span>});</span><br><span class="line">paper.circle(<span class="number">350</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="attr">fill</span>: <span class="string">'red'</span>, <span class="string">'fill-opacity'</span>: <span class="number">0.5</span>, <span class="attr">stroke</span>: <span class="string">'blue'</span>});</span><br><span class="line">paper.circle(<span class="number">450</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="attr">stroke</span>: <span class="string">'blue'</span>, <span class="string">'stroke-width'</span>: <span class="string">'5px'</span>, <span class="string">'stroke-opacity'</span>: <span class="number">0.5</span>});</span><br><span class="line">paper.circle(<span class="number">550</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="attr">r</span>: <span class="number">40</span>});</span><br><span class="line"><span class="comment">// 虚线轮廓</span></span><br><span class="line">paper.circle(<span class="number">650</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'-'</span>});</span><br><span class="line">paper.circle(<span class="number">750</span>, <span class="number">50</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'.'</span>});</span><br><span class="line">paper.circle(<span class="number">50</span>, <span class="number">150</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'-.'</span>});</span><br><span class="line">paper.circle(<span class="number">150</span>, <span class="number">150</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'-..'</span>});</span><br><span class="line">paper.circle(<span class="number">250</span>, <span class="number">150</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'. '</span>});</span><br><span class="line">paper.circle(<span class="number">350</span>, <span class="number">150</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'- '</span>});</span><br><span class="line">paper.circle(<span class="number">450</span>, <span class="number">150</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'--'</span>});</span><br><span class="line">paper.circle(<span class="number">550</span>, <span class="number">150</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'- .'</span>});</span><br><span class="line">paper.circle(<span class="number">650</span>, <span class="number">150</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'--.'</span>});</span><br><span class="line">paper.circle(<span class="number">750</span>, <span class="number">150</span>, <span class="number">30</span>).attr({<span class="string">'stroke-dasharray'</span>: <span class="string">'--..'</span>});</span><br><span class="line"><span class="comment">// 路径箭头</span></span><br><span class="line">paper.path(<span class="string">'M20,220L80,250'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'classic-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M120,220L180,250'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'block-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M220,220L280,250'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'open-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M320,220L380,250'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'oval-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M420,220L480,250'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'diamond-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M520,220L580,250'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'classic-narrow-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M620,220L680,250'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'classic-medium-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M720,220L780,250'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'classic-wide-midium'</span>);</span><br><span class="line">paper.path(<span class="string">'M20,290L80,320'</span>).attr(<span class="string">'arrow-start'</span>,<span class="string">'classic-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M120,290L180,320'</span>).attr(<span class="string">'arrow-start'</span>,<span class="string">'block-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M220,290L280,320'</span>).attr(<span class="string">'arrow-start'</span>,<span class="string">'open-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M320,290L380,320'</span>).attr(<span class="string">'arrow-start'</span>,<span class="string">'oval-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M420,290L480,320'</span>).attr(<span class="string">'arrow-start'</span>,<span class="string">'classic-wide-long'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'classic-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M520,290L580,320'</span>).attr(<span class="string">'arrow-start'</span>,<span class="string">'oval-wide-long'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'classic-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M620,290L680,320'</span>).attr(<span class="string">'arrow-start'</span>,<span class="string">'diamond-wide-long'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'classic-wide-long'</span>);</span><br><span class="line">paper.path(<span class="string">'M720,290L780,320'</span>).attr(<span class="string">'arrow-start'</span>,<span class="string">'oval-wide-midium'</span>).attr(<span class="string">'arrow-end'</span>,<span class="string">'classic-wide-long'</span>);</span><br><span class="line"><span class="comment">// 文本位置、尺寸及粗细</span></span><br><span class="line">paper.rect(<span class="number">20</span>, <span class="number">360</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">50</span>, <span class="number">375</span>, <span class="string">"Text"</span>)</span><br><span class="line">paper.rect(<span class="number">120</span>, <span class="number">360</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">150</span>, <span class="number">375</span>, <span class="string">"Text"</span>).attr(<span class="string">'text-anchor'</span>, <span class="string">'start'</span>);</span><br><span class="line">paper.rect(<span class="number">220</span>, <span class="number">360</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">250</span>, <span class="number">375</span>, <span class="string">"Text"</span>).attr(<span class="string">'text-anchor'</span>, <span class="string">'middle'</span>);</span><br><span class="line">paper.rect(<span class="number">320</span>, <span class="number">360</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">350</span>, <span class="number">375</span>, <span class="string">"Text"</span>).attr(<span class="string">'text-anchor'</span>, <span class="string">'end'</span>);</span><br><span class="line">paper.rect(<span class="number">420</span>, <span class="number">360</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">450</span>, <span class="number">375</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-size'</span>, <span class="string">'18px'</span>);</span><br><span class="line">paper.rect(<span class="number">520</span>, <span class="number">360</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">550</span>, <span class="number">375</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-weight'</span>, <span class="string">'bold'</span>);</span><br><span class="line">paper.rect(<span class="number">620</span>, <span class="number">360</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">650</span>, <span class="number">375</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-weight'</span>, <span class="string">'bolder'</span>);</span><br><span class="line">paper.rect(<span class="number">720</span>, <span class="number">360</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">750</span>, <span class="number">375</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-weight'</span>, <span class="string">'lighter'</span>);</span><br><span class="line"><span class="comment">// 字体、样式及链接</span></span><br><span class="line">paper.rect(<span class="number">20</span>, <span class="number">430</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">50</span>, <span class="number">445</span>, <span class="string">"Text"</span>).attr(<span class="string">'font'</span>,<span class="string">'10px "Bookman Old Style"'</span>)</span><br><span class="line">paper.rect(<span class="number">120</span>, <span class="number">430</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">150</span>, <span class="number">445</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-family'</span>, <span class="string">'Comic Sans MS'</span>);</span><br><span class="line">paper.rect(<span class="number">220</span>, <span class="number">430</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">250</span>, <span class="number">445</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-style'</span>, <span class="string">'normal'</span>);</span><br><span class="line">paper.rect(<span class="number">320</span>, <span class="number">430</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">350</span>, <span class="number">445</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-style'</span>, <span class="string">'italic'</span>);</span><br><span class="line">paper.rect(<span class="number">420</span>, <span class="number">430</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">450</span>, <span class="number">445</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-style'</span>, <span class="string">'oblique'</span>);</span><br><span class="line">paper.rect(<span class="number">520</span>, <span class="number">430</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">550</span>, <span class="number">445</span>, <span class="string">"Text"</span>).attr(<span class="string">'font-style'</span>, <span class="string">'inherit'</span>);</span><br><span class="line">paper.rect(<span class="number">620</span>, <span class="number">430</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">650</span>, <span class="number">445</span>, <span class="string">"Link"</span>).attr(<span class="string">'href'</span>, <span class="string">'index.html'</span>);</span><br><span class="line">paper.rect(<span class="number">720</span>, <span class="number">430</span>, <span class="number">60</span>, <span class="number">30</span>);</span><br><span class="line">paper.text(<span class="number">750</span>, <span class="number">445</span>, <span class="string">"Link"</span>).attr(<span class="string">'href'</span>, <span class="string">'index.html'</span>).attr(<span class="string">'target'</span>,<span class="string">'new'</span>);</span><br></pre></td></tr></tbody></table></div></figure>
+</div>
+<script src="raphael.min.js"></script>
+<h3 id="result-id">结果</h3>
+<div id="view"></div>
+<script>
+    let paper = Raphael('view', 800, 480);
+    paper.circle(50, 50, 30);
+    // 填充颜色及轮廓
+    paper.circle(150, 50, 30).attr('fill', 'red').attr('stroke', 'blue');
+    paper.circle(250, 50, 30).attr({fill: 'red', stroke: 'blue'});
+    paper.circle(350, 50, 30).attr({fill: 'red', 'fill-opacity': 0.5, stroke: 'blue'});
+    paper.circle(450, 50, 30).attr({stroke: 'blue', 'stroke-width': '5px', 'stroke-opacity': 0.5});
+    paper.circle(550, 50, 30).attr({r: 40});
+    // 虚线轮廓
+    paper.circle(650, 50, 30).attr({'stroke-dasharray': '-'});
+    paper.circle(750, 50, 30).attr({'stroke-dasharray': '.'});
+    paper.circle(50, 150, 30).attr({'stroke-dasharray': '-.'});
+    paper.circle(150, 150, 30).attr({'stroke-dasharray': '-..'});
+    paper.circle(250, 150, 30).attr({'stroke-dasharray': '. '});
+    paper.circle(350, 150, 30).attr({'stroke-dasharray': '- '});
+    paper.circle(450, 150, 30).attr({'stroke-dasharray': '--'});
+    paper.circle(550, 150, 30).attr({'stroke-dasharray': '- .'});
+    paper.circle(650, 150, 30).attr({'stroke-dasharray': '--.'});
+    paper.circle(750, 150, 30).attr({'stroke-dasharray': '--..'});
+    // 路径箭头
+    paper.path('M20,220L80,250').attr('arrow-end','classic-wide-long');
+    paper.path('M120,220L180,250').attr('arrow-end','block-wide-long');
+    paper.path('M220,220L280,250').attr('arrow-end','open-wide-long');
+    paper.path('M320,220L380,250').attr('arrow-end','oval-wide-long');
+    paper.path('M420,220L480,250').attr('arrow-end','diamond-wide-long');
+    paper.path('M520,220L580,250').attr('arrow-end','classic-narrow-long');
+    paper.path('M620,220L680,250').attr('arrow-end','classic-medium-long');
+    paper.path('M720,220L780,250').attr('arrow-end','classic-wide-midium');
+    paper.path('M20,290L80,320').attr('arrow-start','classic-wide-long');
+    paper.path('M120,290L180,320').attr('arrow-start','block-wide-long');
+    paper.path('M220,290L280,320').attr('arrow-start','open-wide-long');
+    paper.path('M320,290L380,320').attr('arrow-start','oval-wide-long');
+    paper.path('M420,290L480,320').attr('arrow-start','classic-wide-long').attr('arrow-end','classic-wide-long');
+    paper.path('M520,290L580,320').attr('arrow-start','oval-wide-long').attr('arrow-end','classic-wide-long');
+    paper.path('M620,290L680,320').attr('arrow-start','diamond-wide-long').attr('arrow-end','classic-wide-long');
+    paper.path('M720,290L780,320').attr('arrow-start','oval-wide-midium').attr('arrow-end','classic-wide-long');
+    // 文本位置、尺寸及粗细
+    paper.rect(20, 360, 60, 30);
+    paper.text(50, 375, "Text")
+    paper.rect(120, 360, 60, 30);
+    paper.text(150, 375, "Text").attr('text-anchor', 'start');
+    paper.rect(220, 360, 60, 30);
+    paper.text(250, 375, "Text").attr('text-anchor', 'middle');
+    paper.rect(320, 360, 60, 30);
+    paper.text(350, 375, "Text").attr('text-anchor', 'end');
+    paper.rect(420, 360, 60, 30);
+    paper.text(450, 375, "Text").attr('font-size', '18px');
+    paper.rect(520, 360, 60, 30);
+    paper.text(550, 375, "Text").attr('font-weight', 'bold');
+    paper.rect(620, 360, 60, 30);
+    paper.text(650, 375, "Text").attr('font-weight', 'bolder');
+    paper.rect(720, 360, 60, 30);
+    paper.text(750, 375, "Text").attr('font-weight', 'lighter');
+    // 字体、样式及链接
+    paper.rect(20, 430, 60, 30);
+    paper.text(50, 445, "Text").attr('font','10px "Bookman Old Style"')
+    paper.rect(120, 430, 60, 30);
+    paper.text(150, 445, "Text").attr('font-family', 'Comic Sans MS');
+    paper.rect(220, 430, 60, 30);
+    paper.text(250, 445, "Text").attr('font-style', 'normal');
+    paper.rect(320, 430, 60, 30);
+    paper.text(350, 445, "Text").attr('font-style', 'italic');
+    paper.rect(420, 430, 60, 30);
+    paper.text(450, 445, "Text").attr('font-style', 'oblique');
+    paper.rect(520, 430, 60, 30);
+    paper.text(550, 445, "Text").attr('font-style', 'inherit');
+    paper.rect(620, 430, 60, 30);
+    paper.text(650, 445, "Link").attr('href', 'index.html');
+    paper.rect(720, 430, 60, 30);
+    paper.text(750, 445, "Link").attr('href', 'index.html').attr('target','new');
+</script>
+</body>
+</html>
+
+      </div>
+      
+      
+      
+    </div>
+  <ul class="breadcrumb">
+            <li><a href="/example/">EXAMPLE</a></li>
+            <li><a href="/example/raphaeljs/">RAPHAELJS</a></li>
+            <li>RAPHAEL.ATTRIBUTE</li>
+  </ul>
+
+    
+    
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

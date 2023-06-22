@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章主要介绍了 Redis 集群相关的技术概念，以及搭建 Redis 集群的方法。  关于 Redis 集群 Redis 集群是一种服务端分片技术，在多个 Redis 节点间共享数据。 集群功能在 3.0 版本开始正式提供。 Redis 集群没有使用一致性 Hash，而是采用 slot（槽）的概念，共可分为 16384 个槽，每个节点分配一些槽，新增节点时会将原有节点上的一些槽分给新节">
+<meta property="og:type" content="article">
+<meta property="og:title" content="搭建Redis集群">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/08/27/%E6%90%AD%E5%BB%BARedis%E9%9B%86%E7%BE%A4/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章主要介绍了 Redis 集群相关的技术概念，以及搭建 Redis 集群的方法。  关于 Redis 集群 Redis 集群是一种服务端分片技术，在多个 Redis 节点间共享数据。 集群功能在 3.0 版本开始正式提供。 Redis 集群没有使用一致性 Hash，而是采用 slot（槽）的概念，共可分为 16384 个槽，每个节点分配一些槽，新增节点时会将原有节点上的一些槽分给新节">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/redis_cli_create_cluster.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/redis_cli_test_cluster.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/script_start_cluster.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/script_create_cluster.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/script_stop_cluster.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/docker_create_redis_cluster.png">
+<meta property="article:published_time" content="2021-08-27T06:29:37.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.291Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="redis">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/redis_cli_create_cluster.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/08/27/%E6%90%AD%E5%BB%BARedis%E9%9B%86%E7%BE%A4/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/08/27/%E6%90%AD%E5%BB%BARedis%E9%9B%86%E7%BE%A4/","path":"2021/08/27/搭建Redis集群/","title":"搭建Redis集群"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>搭建Redis集群 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E-redis-%E9%9B%86%E7%BE%A4"><span class="nav-number">2.</span> <span class="nav-text"> 关于 Redis 集群</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text"> 基础概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%93%88%E5%B8%8C%E6%A7%BD"><span class="nav-number">3.1.</span> <span class="nav-text"> 哈希槽</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BB%E4%BB%8E%E5%A4%8D%E5%88%B6"><span class="nav-number">3.2.</span> <span class="nav-text"> 主从复制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%80%E8%87%B4%E6%80%A7%E4%BF%9D%E8%AF%81"><span class="nav-number">3.3.</span> <span class="nav-text"> 一致性保证</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BA-redis-%E9%9B%86%E7%BE%A4"><span class="nav-number">4.</span> <span class="nav-text"> 搭建 Redis 集群</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA"><span class="nav-number">4.1.</span> <span class="nav-text"> 服务器搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91-reids"><span class="nav-number">4.1.1.</span> <span class="nav-text"> 编译 Reids</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">4.1.2.</span> <span class="nav-text"> 创建配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-redis-%E7%A8%8B%E5%BA%8F"><span class="nav-number">4.1.3.</span> <span class="nav-text"> 启动 Redis 程序</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4"><span class="nav-number">4.1.4.</span> <span class="nav-text"> 创建集群</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">4.1.5.</span> <span class="nav-text"> 测试</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#create-cluster-%E8%84%9A%E6%9C%AC%E6%90%AD%E5%BB%BA"><span class="nav-number">4.2.</span> <span class="nav-text"> create-cluster 脚本搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8-redis-%E5%AE%9E%E4%BE%8B"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 启动 Redis 实例</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E9%9B%86%E7%BE%A4-2"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 创建集群</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E9%9B%86%E7%BE%A4"><span class="nav-number">4.2.3.</span> <span class="nav-text"> 关闭集群</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">4.2.4.</span> <span class="nav-text"> 注意事项</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker-%E6%90%AD%E5%BB%BA"><span class="nav-number">4.3.</span> <span class="nav-text"> Docker 搭建</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#docker-%E5%9F%BA%E7%A1%80"><span class="nav-number">4.3.1.</span> <span class="nav-text"> Docker 基础</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E5%86%99%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">4.3.2.</span> <span class="nav-text"> 编写配置文件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E5%AE%B9%E5%99%A8"><span class="nav-number">4.3.3.</span> <span class="nav-text"> 启动容器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E9%9B%86%E7%BE%A4"><span class="nav-number">4.3.4.</span> <span class="nav-text"> 启动集群</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-2"><span class="nav-number">4.3.5.</span> <span class="nav-text"> 测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-2"><span class="nav-number">4.3.6.</span> <span class="nav-text"> 注意事项</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/08/27/%E6%90%AD%E5%BB%BARedis%E9%9B%86%E7%BE%A4/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="搭建Redis集群 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          搭建Redis集群<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E6%90%AD%E5%BB%BARedis%E9%9B%86%E7%BE%A4.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-08-27 14:29:37" itemprop="dateCreated datePublished" datetime="2021-08-27T14:29:37+08:00">2021-08-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章主要介绍了 Redis 集群相关的技术概念，以及搭建 Redis 集群的方法。</p>
+<h3 id="关于-redis-集群"><a class="markdownIt-Anchor" href="#关于-redis-集群"></a> 关于 Redis 集群</h3>
+<p>Redis 集群是一种服务端分片技术，在多个 Redis 节点间共享数据。</p>
+<p>集群功能在 3.0 版本开始正式提供。</p>
+<p>Redis 集群没有使用一致性 Hash，而是采用 slot（槽）的概念，共可分为 16384 个槽，每个节点分配一些槽，新增节点时会将原有节点上的一些槽分给新节点，删除节点时，需要先把槽移到其他节点，才能删除。</p>
+<p>工作时，请求发送到任意节点，接收到请求的节点会将查询节点信息，然后将请求发送到正确的节点上执行。</p>
+<span id="more"></span>
+<h3 id="基础概念"><a class="markdownIt-Anchor" href="#基础概念"></a> 基础概念</h3>
+<h4 id="哈希槽"><a class="markdownIt-Anchor" href="#哈希槽"></a> 哈希槽</h4>
+<p>在 Redis 集群中没有使用一致性 hash，而是引入了哈希槽的概念。</p>
+<p>一个 Redis 集群共有 16384 个哈希槽，每个 key 通过 CRC16 校验后对 16384 取模来决定放置哪个槽，集群中每个节点负责一部分哈希槽。新增节点时将现有节点中部分哈希槽分配到新节点上，删除节点时则需要先将其中的哈希槽移到其他节点上，然后再删除该节点。</p>
+<h4 id="主从复制"><a class="markdownIt-Anchor" href="#主从复制"></a> 主从复制</h4>
+<p>为了保证部分节点失败或大部分节点无法通信时集群仍然可用，集群中使用主从复制模型，每个节点都会有N-1个从节点。</p>
+<p>在集群中其中某个主节点失败了，集群会从其从节点中选举一个作为主节点继续服务，如果某一部分的主节点和从节点全部失效，集群会因为缺少这部分哈希槽而不可用。</p>
+<h4 id="一致性保证"><a class="markdownIt-Anchor" href="#一致性保证"></a> 一致性保证</h4>
+<p>Redis 并不能保证数据的强一致性，意味着实际集群在特定条件下可能会丢失写操作：</p>
+<ul>
+<li>集群使用了异步复制，主节点对命令的复制工作发生在返回命令回复之后，这样做是为了提升命令处理速度。</li>
+<li>集群出现网络分区，一个客户端与至少包括一个主节点在内的少数实例被孤立，集群重新选举了主节点，那么客户端写入孤立主节点的数据将会丢失。</li>
+</ul>
+<h3 id="搭建-redis-集群"><a class="markdownIt-Anchor" href="#搭建-redis-集群"></a> 搭建 Redis 集群</h3>
+<h4 id="服务器搭建"><a class="markdownIt-Anchor" href="#服务器搭建"></a> 服务器搭建</h4>
+<p>Redis 集群运行至少需要 3 个节点，官方建议为最基础的 Redis 集群创建三主三从共 6 个节点。</p>
+<h5 id="编译-reids"><a class="markdownIt-Anchor" href="#编译-reids"></a> 编译 Reids</h5>
+<p>从 <a target="_blank" rel="noopener" href="https://redis.io/download">Redis 官网</a>下载源码包，这里示例下载的版本是 <code>6.2.5</code> ，下载完成后得到压缩文件 <code>redis-6.2.5.tar.gz</code>，将其解压出来：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf redis-6.2.5.tar.gz</span><br></pre></td></tr></table></figure>
+<p>解压后得到目录 <code>redis-6.2.5</code> ，进入该目录，然后进行编译：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> redis-6.2.5</span><br><span class="line">make</span><br></pre></td></tr></table></figure>
+<p>编译完成后，在 <code>src</code> 目录下可以找到我们需要的 <code>redis-server</code> 和 <code>redis-cli</code> 。</p>
+<h5 id="创建配置文件"><a class="markdownIt-Anchor" href="#创建配置文件"></a> 创建配置文件</h5>
+<p>为了测试方便，仅创建最简单的配置文件，配置项如下：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">port <span class="number">7000</span></span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-<span class="built_in">config</span>-file nodes.conf</span><br><span class="line">cluster-node-timeout <span class="number">5000</span></span><br><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>配置说明：</p>
+<p><em>port</em> 服务端口</p>
+<p><em>cluster-enabled</em> 是否允许集群服务</p>
+<p><em>cluster-config-file</em> 集群配置文件，程序启动后将自动创建，默认为 <code>nodes.conf</code></p>
+<p><em>cluster-node-timeout</em> 集群节点超时时间，单位：ms</p>
+<p><em>appendonly</em> 是否仅使用追加模式，开启持久化</p>
+</blockquote>
+<p>为了创建集群需要启动 6 个 Redis 服务，为每个服务创建一个配置文件。先创建 6 个目录，按服务端口命名，分别是 <code>7000</code>、<code>7001</code>、<code>7002</code>、<code>7003</code>、<code>7004</code>、<code>7005</code>：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> 7000 7001 7002 7003 7004 7005</span><br></pre></td></tr></table></figure>
+<p>将配置文件复制一份到每个目录中，配置文件全命名为 <code>redis.conf</code>，并将端口 <code>port</code> 修改成和目录对应的值。</p>
+<h5 id="启动-redis-程序"><a class="markdownIt-Anchor" href="#启动-redis-程序"></a> 启动 Redis 程序</h5>
+<p>将编译出来的 <code>redis-server</code> 文件分别拷贝一份到之前创建的 6 个目录中，分别进入目录中启动 Redis，如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> 7000</span><br><span class="line">./redis-server ./redis.conf</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>这里是在前台启动 Redis，所以需要开启 6 个终端，分别启动一个服务。建议使用 tmux 在同一个终端中开启 6 个会话来启动服务，操作方式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">tmux new -s node1</span><br><span class="line"><span class="built_in">cd</span> 7000</span><br><span class="line">./redis-server ./redis.conf</span><br></pre></td></tr></table></figure>
+<p>运行起来后按 <kbd>Ctrl</kbd> + <kbd>b</kbd> ，然后按 <kbd>d</kbd> ，隐藏会话，然后创建 6 个会话，分别启动一个服务。</p>
+</blockquote>
+<h5 id="创建集群"><a class="markdownIt-Anchor" href="#创建集群"></a> 创建集群</h5>
+<p>使用 <code>redis-cli</code> 工具创建集群：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./redis-cli --cluster create 127.0.0.1:7000 127.0.0.1:7001 127.0.0.1:7002 127.0.0.1:7003 127.0.0.1:7004 127.0.0.1:7005 --cluster-replicas 1</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数说明：</p>
+<p><em>–cluster</em> 使用集群功能</p>
+<p><em>create</em> 集群创建，后面的是各个节点信息，<code>ip:port</code></p>
+<p><em>–cluster-replicas</em> 集群副本，<code>1</code> 表示为每个节点创建一个从节点</p>
+<p>注意：老版本的 Redis 用的是 <code>redis-trib.rb</code> 来创建集群，新版本中创建集群的功能全都集成到了 <code>redis-cli</code> 中。</p>
+</blockquote>
+<p>执行命令后，将会给每个节点编写配置文件，会打印出预设的配置出来，如果觉得没问题，可以输入 <code>yes</code> ，将配置应用到集群中，让各个节点进行通信。执行结果：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/redis_cli_create_cluster.png" alt="" /></p>
+<h5 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h5>
+<p>使用 <code>redis-cli</code> 连接集群进行简单测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -c -p 7000</span><br></pre></td></tr></table></figure>
+<p>连接到端口 <code>7000</code> 的 redis 节点，使用 <code>set</code> 命令设置值，会自动重定向到 <code>7002</code> 的节点，使用 <code>get</code> 也能正确获取到值，说明集群运行正常。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/redis_cli_test_cluster.png" alt="" /></p>
+<h4 id="create-cluster-脚本搭建"><a class="markdownIt-Anchor" href="#create-cluster-脚本搭建"></a> create-cluster 脚本搭建</h4>
+<p>Redis 提供了一个创建集群的脚本（<code>create-cluster</code>），使用这个脚本可以快速启动多个集群模式的 Redis 实例，并快速创建集群。在编译 Redis 源码后，脚本在 <code>utils/create-cluster/</code> 目录下，文件名为 <code>create-cluster</code>。只需执行下述命令，即可快速创建一个 6 节点（3主3从）的 Redis 集群。</p>
+<h5 id="启动-redis-实例"><a class="markdownIt-Anchor" href="#启动-redis-实例"></a> 启动 Redis 实例</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./create-cluster start</span><br></pre></td></tr></table></figure>
+<p>默认将创建端口从 <code>30001</code> 开始的 6 个集群模式的 Redis 实例。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/script_start_cluster.png" alt="" /></p>
+<h5 id="创建集群-2"><a class="markdownIt-Anchor" href="#创建集群-2"></a> 创建集群</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./create-cluster create</span><br></pre></td></tr></table></figure>
+<p>创建集群，会将预设的主从分配方式打印出来，确认没问题输入 <code>yes</code> 。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/script_create_cluster.png" alt="" /></p>
+<h5 id="关闭集群"><a class="markdownIt-Anchor" href="#关闭集群"></a> 关闭集群</h5>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./create-cluster stop</span><br></pre></td></tr></table></figure>
+<p>关闭集群中所有实例。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/script_stop_cluster.png" alt="" /></p>
+<h5 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h5>
+<p>使用 <code>create-cluster</code> 时，可以自行修改脚本，设置要启动的起始端口、实例数、从节点数等。</p>
+<h4 id="docker-搭建"><a class="markdownIt-Anchor" href="#docker-搭建"></a> Docker 搭建</h4>
+<h5 id="docker-基础"><a class="markdownIt-Anchor" href="#docker-基础"></a> Docker 基础</h5>
+<p>Redis 的官方 Docker 仓库地址：<a target="_blank" rel="noopener" href="https://hub.docker.com/_/redis">https://hub.docker.com/_/redis</a></p>
+<p>使用 Docker 运行 Redis 集群时，需要使用外部配置文件启动 Redis 容器，方式如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -v /myredis/conf:/usr/local/etc/redis --name myredis -d redis redis-server /usr/local/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>命令解析：</p>
+<p><code>docker run</code> 是 docker 运行容器的命令</p>
+<p><code>-v /myredis/conf:/usr/local/etc/redis</code> 是指定路径映射，将本机 <code>/myredis/conf</code> 目录映射为容器中的 <code>/usr/local/etc/redis</code></p>
+<p><code>--name myredis</code> 是为运行的容器命名为 <code>myredis</code></p>
+<p><code>-d</code> 是让容器在后台运行</p>
+<p><code>redis</code> 是要运行的镜像，当前没有指定版本，则默认使用最新版，如需指定版本可在后面加冒号和版本号，如 <code>redis:6.2.5-alpine</code></p>
+<p><code>redis-server /usr/local/etc/redis/redis.conf</code> 是容器启动命令，指定容器使用配置文件 <code>/usr/local/etc/redis/redis.conf</code> 启动，由于指定了目录映射，实际使用本地 <code>/myredis/conf/redis.conf</code> 启动</p>
+</blockquote>
+<h5 id="编写配置文件"><a class="markdownIt-Anchor" href="#编写配置文件"></a> 编写配置文件</h5>
+<p>创建6个目录，以运行端口命名，分别是: <code>7000</code>、<code>7001</code>、<code>7002</code>、<code>7003</code>、<code>7004</code>、<code>7005</code> 。在目录中创建一份配置文件，内容如下所示，修改端口配置：</p>
+<figure class="highlight lua"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">port <span class="number">7000</span></span><br><span class="line">cluster-enabled yes</span><br><span class="line">cluster-<span class="built_in">config</span>-file nodes.conf</span><br><span class="line">cluster-node-timeout <span class="number">5000</span></span><br><span class="line">appendonly yes</span><br></pre></td></tr></table></figure>
+<h5 id="启动容器"><a class="markdownIt-Anchor" href="#启动容器"></a> 启动容器</h5>
+<p>使用上一步创建的本地配置文件，运行 redis 容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -v /root/projects/docker-redis-cluster/7000:/usr/local/etc/redis --name redis-node-1 --privileged=<span class="literal">true</span> -d redis redis-server /usr/local/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<p>注意需要将 <code>-v</code> 的参数修改成自己的配置存储路径，并修改容器命名，容器名冲突会无法启动。</p>
+<blockquote>
+<p>如果启动容器失败，可使用命令 <code>docker logs redis-node-1</code> 查看错误日志，如果出现权限错误，如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Fatal error, can&#x27;t open config file &#x27;/usr/local/etc/redis/redis.conf&#x27;: Permission denied</span><br></pre></td></tr></table></figure>
+<p>解决方法：</p>
+<p>方法一 可以给容器增加特权，在启动命令中增加参数 <code>--privileged=true</code> ，完整命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -v /root/projects/docker-redis-cluster/7000:/usr/local/etc/redis --name redis-node-1 --privileged=<span class="literal">true</span> -d redis redis-server /usr/local/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<p>方式二 临时关闭selinux</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">setenforce 0</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="启动集群"><a class="markdownIt-Anchor" href="#启动集群"></a> 启动集群</h5>
+<p>使用 redis-cli 创建并启动集群。</p>
+<p>要启动集群需要先知道各个节点的地址，使用 <code>docker inspect</code> 命令获取容器的地址：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker inspect -f &#123;&#123;.NetworkSettings.Networks.bridge.IPAddress&#125;&#125; redis-node-1</span><br></pre></td></tr></table></figure>
+<p>我这里获取到的节点地址和端口如下：</p>
+<table>
+<thead>
+<tr>
+<th>地址</th>
+<th>端口</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>172.17.0.4</td>
+<td>7000</td>
+</tr>
+<tr>
+<td>172.17.0.5</td>
+<td>7001</td>
+</tr>
+<tr>
+<td>172.17.0.6</td>
+<td>7002</td>
+</tr>
+<tr>
+<td>172.17.0.7</td>
+<td>7003</td>
+</tr>
+<tr>
+<td>172.17.0.8</td>
+<td>7004</td>
+</tr>
+<tr>
+<td>172.17.0.9</td>
+<td>7005</td>
+</tr>
+</tbody>
+</table>
+<p>然后使用 redis-cli 启动集群：</p>
+<p>使用 <code>docker exec</code> 命令打开某一节点的 bash：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">exec</span> -it redis-node-1 bash</span><br></pre></td></tr></table></figure>
+<p>创建并启动集群：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli --cluster create 172.17.0.4:7000 172.17.0.5:7001 172.17.0.6:7002 172.17.0.7:7003 172.17.0.8:7004 172.17.0.9:7005 --cluster-replicas 1</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/docker_create_redis_cluster.png" alt="" /></p>
+<h5 id="测试-2"><a class="markdownIt-Anchor" href="#测试-2"></a> 测试</h5>
+<p>在容器的 bash 中连接集群：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">redis-cli -c -p 7000</span><br></pre></td></tr></table></figure>
+<p>然后使用 set 插入键值对，会看到重定向到不同的节点，说明集群运行正常。</p>
+<h5 id="注意事项-2"><a class="markdownIt-Anchor" href="#注意事项-2"></a> 注意事项</h5>
+<p>上述使用 docker 创建的集群中节点地址是 docker 分配的，如果客户端和集群不在同一个网络中，就无法访问。</p>
+<p>解决办法：</p>
+<p>使用 <code>host</code> 网络模式启动节点容器，让容器和主机共享网络；并且开启端口映射，可以在外部访问。启动容器命令如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -v /root/projects/docker-redis-cluster/7000:/usr/local/etc/redis --name redis-node-1 --p rivileged=<span class="literal">true</span> --net host -p 7000 -d redis redis-server /usr/local/etc/redis/redis.conf</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>与之前的启动命令相比，增加了参数 <code>--net host</code> 用于指定网络模式为 <code>host</code>，增加了参数 <code>-p 7000</code> 用于开放容器端口的访问。</p>
+</blockquote>
+<p>需要注意的是，这种方式启动容器后，容器的地址即为本机地址，创建集群时直接使用本地地址即可，无需使用 <code>docker inspect</code> 命令查看。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>REDIS cluster-tutorial – Redis中文资料站: <a target="_blank" rel="noopener" href="http://www.redis.cn/topics/cluster-tutorial.html">http://www.redis.cn/topics/cluster-tutorial.html</a></li>
+<li>Redis cluster tutorial – Redis: <a target="_blank" rel="noopener" href="https://redis.io/topics/cluster-tutorial">https://redis.io/topics/cluster-tutorial</a></li>
+<li>基于Docker的Redis集群搭建: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/niceyoo/p/13011626.html">https://www.cnblogs.com/niceyoo/p/13011626.html</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/redis/" rel="tag"># redis</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/08/11/%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E6%B3%A8%E5%86%8CWindows%E6%9C%8D%E5%8A%A1/" rel="prev" title="两种方式注册Windows服务">
+                  <i class="fa fa-chevron-left"></i> 两种方式注册Windows服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/09/02/nginx%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" rel="next" title="nginx常用配置">
+                  nginx常用配置 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

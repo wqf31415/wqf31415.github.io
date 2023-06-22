@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章总结了 Java 中的基本数据类型和对应的封装类，以及各种类型数据之间的转换操作。  什么是基础数据类型  在 Java 语言中，提供了 8 种基本数据类型，6 种数字类型(4 种整数类型，2 种浮点型)， 2 种字符型，这些基本数据类型从 Java 发布以来就是 java 语言的一部分。    类型 大小 最小值 最大值 初始值 包装类     byte 8bits -27 27">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Java 基本数据类型及包装类">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/02/12/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章总结了 Java 中的基本数据类型和对应的封装类，以及各种类型数据之间的转换操作。  什么是基础数据类型  在 Java 语言中，提供了 8 种基本数据类型，6 种数字类型(4 种整数类型，2 种浮点型)， 2 种字符型，这些基本数据类型从 Java 发布以来就是 java 语言的一部分。    类型 大小 最小值 最大值 初始值 包装类     byte 8bits -27 27">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/coffee.png">
+<meta property="article:published_time" content="2020-02-12T14:03:21.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.240Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/coffee.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/02/12/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/02/12/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/","path":"2020/02/12/Java-基础数据类型及包装类/","title":"Java 基本数据类型及包装类"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Java 基本数据类型及包装类 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">2.</span> <span class="nav-text"> 什么是基础数据类型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#java-%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">3.</span> <span class="nav-text"> java 基本数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#byte"><span class="nav-number">3.1.</span> <span class="nav-text"> byte</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#short"><span class="nav-number">3.2.</span> <span class="nav-text"> short</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#int"><span class="nav-number">3.3.</span> <span class="nav-text"> int</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#long"><span class="nav-number">3.4.</span> <span class="nav-text"> long</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#float"><span class="nav-number">3.5.</span> <span class="nav-text"> float</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#double"><span class="nav-number">3.6.</span> <span class="nav-text"> double</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#char"><span class="nav-number">3.7.</span> <span class="nav-text"> char</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#boolean"><span class="nav-number">3.8.</span> <span class="nav-text"> boolean</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E5%80%BC%E6%A0%BC%E5%BC%8F"><span class="nav-number">3.9.</span> <span class="nav-text"> 数值格式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%8F%E7%BB%93"><span class="nav-number">3.10.</span> <span class="nav-text"> 小结</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%AF%B9%E5%BA%94%E7%9A%84%E5%8C%85%E8%A3%85%E7%B1%BB"><span class="nav-number">4.</span> <span class="nav-text"> 基本数据类型对应的包装类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%87%AA%E5%8A%A8%E6%8B%86%E5%8C%85"><span class="nav-number">4.1.</span> <span class="nav-text"> 自动拆包</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#equals-%E6%96%B9%E6%B3%95"><span class="nav-number">4.2.</span> <span class="nav-text"> equals() 方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%83%BD%E6%9C%89%E7%9A%84%E5%B1%9E%E6%80%A7%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text"> 都有的属性和方法</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B1%9E%E6%80%A7"><span class="nav-number">4.3.1.</span> <span class="nav-text"> 属性</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#compareto-%E6%96%B9%E6%B3%95"><span class="nav-number">4.3.2.</span> <span class="nav-text"> compareTo() 方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-number">4.3.3.</span> <span class="nav-text"> 与字符串类型的转换</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E8%BD%AC%E6%8D%A2%E6%96%B9%E6%B3%95"><span class="nav-number">4.3.4.</span> <span class="nav-text"> 数据转换方法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B4%E5%BD%A2%E6%95%B0%E6%8D%AE%E7%9A%84%E6%97%A0%E7%AC%A6%E5%8F%B7%E5%80%BC"><span class="nav-number">4.3.5.</span> <span class="nav-text"> 整形数据的无符号值</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#byte-2"><span class="nav-number">4.4.</span> <span class="nav-text"> Byte</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#short-2"><span class="nav-number">4.5.</span> <span class="nav-text"> Short</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#integer"><span class="nav-number">4.6.</span> <span class="nav-text"> Integer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#long-2"><span class="nav-number">4.7.</span> <span class="nav-text"> Long</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#float-2"><span class="nav-number">4.8.</span> <span class="nav-text"> Float</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#double-2"><span class="nav-number">4.9.</span> <span class="nav-text"> Double</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#character"><span class="nav-number">4.10.</span> <span class="nav-text"> Character</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#boolean-2"><span class="nav-number">4.11.</span> <span class="nav-text"> Boolean</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E7%9A%84%E8%BD%AC%E6%8D%A2"><span class="nav-number">5.</span> <span class="nav-text"> 不同数据类型的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/02/12/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Java 基本数据类型及包装类 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Java 基本数据类型及包装类<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-12 22:03:21" itemprop="dateCreated datePublished" datetime="2020-02-12T22:03:21+08:00">2020-02-12</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章总结了 Java 中的基本数据类型和对应的封装类，以及各种类型数据之间的转换操作。</p>
+<h3 id="什么是基础数据类型"><a class="markdownIt-Anchor" href="#什么是基础数据类型"></a> 什么是基础数据类型</h3>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/coffee.png" alt="" /></p>
+<p>在 Java 语言中，提供了 8 种基本数据类型，6 种数字类型(4 种整数类型，2 种浮点型)， 2 种字符型，这些基本数据类型从 Java 发布以来就是 java 语言的一部分。</p>
+<table>
+<thead>
+<tr>
+<th>类型</th>
+<th>大小</th>
+<th>最小值</th>
+<th>最大值</th>
+<th>初始值</th>
+<th>包装类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>byte</td>
+<td>8bits</td>
+<td>-2<sup>7</sup></td>
+<td>2<sup>7</sup>-1</td>
+<td>0</td>
+<td>Byte</td>
+</tr>
+<tr>
+<td>short</td>
+<td>16bits</td>
+<td>-2<sup>15</sup></td>
+<td>2<sup>15</sup>-1</td>
+<td>0</td>
+<td>Short</td>
+</tr>
+<tr>
+<td>int</td>
+<td>32bits</td>
+<td>-2<sup>31</sup></td>
+<td>2<sup>31</sup>-1</td>
+<td>0</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td>long</td>
+<td>64bits</td>
+<td>-2<sup>63</sup></td>
+<td>2<sup>63</sup>-1</td>
+<td>0</td>
+<td>Long</td>
+</tr>
+<tr>
+<td>float</td>
+<td>32bits</td>
+<td>2<sup>-126</sup></td>
+<td>(2-2<sup>-23</sup>)x2<sup>127</sup></td>
+<td>0.0f</td>
+<td>Float</td>
+</tr>
+<tr>
+<td>double</td>
+<td>64bits</td>
+<td>2<sup>-1022</sup></td>
+<td>(2-2<sup>-52</sup>)x2<sup>1023</sup></td>
+<td>0.0d</td>
+<td>Double</td>
+</tr>
+<tr>
+<td>boolean</td>
+<td>–</td>
+<td>–</td>
+<td>–</td>
+<td>false</td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td>char</td>
+<td>16bits</td>
+<td>Unicode 0</td>
+<td>Unicode 2<sup>16</sup>-1</td>
+<td>‘\u0000’ 即 null</td>
+<td>Character</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>Java 中基本类型所占内存空间大小固定，基本数据类型存放在堆栈中，Boolean 类型没有空间大小。</p>
+</blockquote>
+<span id="more"></span>
+<h3 id="java-基本数据类型"><a class="markdownIt-Anchor" href="#java-基本数据类型"></a> java 基本数据类型</h3>
+<h4 id="byte"><a class="markdownIt-Anchor" href="#byte"></a> byte</h4>
+<p>字节，长度 1 字节，存储范围： <code>-128</code> ~ <code>127</code> ，即 -2<sup>7</sup> ~ 2<sup>7</sup>-1。</p>
+<p>在给字节变量赋值时，有两种方式：</p>
+<ul>
+<li>一是可以使用单引号包裹字符形式，使用单引号包裹字符形式时，单引号内只能有一个字符，字符是 ASCII 码中包含的字符，可以是转义字符；</li>
+<li>二是可以使用数字形式，在使用数字形式赋值时，要注意数值不能超出 byte 数据的存储范围，即必须在 -128 ~ 127 之间，如果赋值超过此范围，一般编译器会报错提示定义错误。使用数字时，可以使用各种进制定义，如二进制、八进制、十进制、十六进制。</li>
+</ul>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">byte</span> <span class="variable">b</span> <span class="operator">=</span> <span class="string">&#x27;1&#x27;</span>; <span class="comment">// 字节</span></span><br><span class="line"><span class="type">byte</span> <span class="variable">b2</span> <span class="operator">=</span> <span class="number">1</span>; <span class="comment">// 数字</span></span><br><span class="line"><span class="type">byte</span> <span class="variable">b3</span> <span class="operator">=</span> <span class="string">&#x27;\t&#x27;</span>; <span class="comment">// 转义字符</span></span><br><span class="line"><span class="type">byte</span> <span class="variable">b4</span> <span class="operator">=</span> <span class="number">0x0F</span>; <span class="comment">// 十六进制数</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，以上代码中定义的字节类型变量 b 和 b2 不相等，如果我们使用 <code>System.out.println()</code> 方法将两个变量打印出来，发现 第一个输出 <code>49</code>，第二个输出 <code>1</code> 。</p>
+<p>原因是：</p>
+<p>使用 <code>System.out.println()</code> 方法输出字节类型变量值时，输出的实际是这个值的整数形式。对于字符类型数据来说，输出的就是该字符的 ASCII 值，而在ASCII 码中字符 <code>'1'</code> 的 ASCII 值就是 49。</p>
+</blockquote>
+<h4 id="short"><a class="markdownIt-Anchor" href="#short"></a> short</h4>
+<p>短整型，长度 2 字节，存储范围：<code>-32768</code> ~ <code>32767</code>，即 -2<sup>15</sup> ~ 2<sup>15</sup>-1。</p>
+<p>short 类型变量用于存储小一些的整数。</p>
+<h4 id="int"><a class="markdownIt-Anchor" href="#int"></a> int</h4>
+<p>整形，长度 4 字节，存储范围：<code>-2147483648</code> ~ <code>2147483647</code> ，即 -2<sup>31</sup> ~ 2<sup>31</sup>-1 。</p>
+<p>int 类型大概是 java 中用的最多的类型了吧。</p>
+<h4 id="long"><a class="markdownIt-Anchor" href="#long"></a> long</h4>
+<p>长整型，长度 8 字节，存储范围： -2<sup>63</sup> ~ 2<sup>63</sup>-1。</p>
+<p>长整型用来存储大的整数，但是也是有极限的，如果要存储的数超出了 long 类型的存储范围，需要使用 <code>BigDecimal</code> 类型。</p>
+<p>在定义长整型数据时，为了跟整形区别，可以在数字后面加 <code>l</code> 或 <code>L</code> 后缀，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">long</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">123</span>;</span><br><span class="line"><span class="type">long</span> <span class="variable">l2</span> <span class="operator">=</span> <span class="number">123l</span>;</span><br><span class="line"><span class="type">long</span> <span class="variable">l3</span> <span class="operator">=</span> <span class="number">123L</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>因为小写字母 <code>l</code> 容易跟数字 <code>1</code> 混淆，所以一般使用大写字母 <code>L</code> 作为整形数字的后缀。</p>
+</blockquote>
+<h4 id="float"><a class="markdownIt-Anchor" href="#float"></a> float</h4>
+<p>单精度浮点型，长度 4 字节，存储范围：1.17549435 x 10<sup>-38</sup> ~ 3.4028235 x 10<sup>38</sup> 。</p>
+<p>浮点型的数据计算是有误差的，所以有些时候，我们会在计算的时候会使用整形来计算，比如计算价格的时候，价格是 19.80，我们会把它转成 1980 来计算，计算完成后，需要输出的时候，再除以 100 ，转成浮点型。</p>
+<p>为了跟其它类型区分，在定义 float 类型数据时，可以在数字后面加 <code>f</code> 或 <code>F</code> 作为后缀，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">float</span> <span class="variable">f</span> <span class="operator">=</span> <span class="number">3.14</span>;</span><br><span class="line"><span class="type">float</span> <span class="variable">f2</span> <span class="operator">=</span> <span class="number">3.14f</span>;</span><br><span class="line"><span class="type">float</span> <span class="variable">f3</span> <span class="operator">=</span> <span class="number">3.14F</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在 IntelliJ IDEA 中，默认小数是 double 类型，所以定义 float 类型数据时必须加上后缀 <code>f</code> 或 <code>F</code> ，否则会提示类型不匹配。</p>
+</blockquote>
+<h4 id="double"><a class="markdownIt-Anchor" href="#double"></a> double</h4>
+<p>双精度浮点型，长度 8字节，存储范围：2.2250738585072014 x 10<sup>-308</sup> ~ 1.7976931348623157 x 10<sup>308</sup> 。</p>
+<p>double 类型变量存储的范围更大，而且精度比 float 更高。</p>
+<p>为了与 float 区分，在定义 double 类型数据时，可以在后面加上 <code>d</code> 或 <code>D</code> 作为后缀，如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">3.14</span>;</span><br><span class="line"><span class="type">double</span> <span class="variable">d2</span> <span class="operator">=</span> <span class="number">3.14d</span>;</span><br><span class="line"><span class="type">double</span> <span class="variable">d3</span> <span class="operator">=</span> <span class="number">3.14D</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="char"><a class="markdownIt-Anchor" href="#char"></a> char</h4>
+<p>字符型，长度 2 字节，存储范围：<code>‘\u0000’</code> ~ <code>'\uFFFF'</code> 。</p>
+<p>在 java 中的字符指的是广义的 Unicode 字符集中的字符，包括英文、中文、希腊文、藏文等等各种语言文字，也包括各种中英文标点、数学符号、特殊字符等等。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">char</span> <span class="variable">c</span> <span class="operator">=</span> <span class="string">&#x27;a&#x27;</span>;</span><br><span class="line"><span class="type">char</span> <span class="variable">c2</span> <span class="operator">=</span> <span class="string">&#x27;好&#x27;</span>;</span><br><span class="line"><span class="type">char</span> <span class="variable">c3</span> <span class="operator">=</span> <span class="string">&#x27;⑤&#x27;</span>;</span><br><span class="line"><span class="type">char</span> <span class="variable">c4</span> <span class="operator">=</span> <span class="string">&#x27;\u00BE&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="boolean"><a class="markdownIt-Anchor" href="#boolean"></a> boolean</h4>
+<p>布尔型，长度 1 位，值为 <code>true</code> 或 <code>false</code> 。</p>
+<p>在 java 中 boolean 类型的值只有 <code>true</code> 、<code>false</code> ，在条件判断时也只有这两个值，不像其他编程语言 0 可以当 false 使用。</p>
+<h4 id="数值格式"><a class="markdownIt-Anchor" href="#数值格式"></a> 数值格式</h4>
+<p>在定义数值类型数据后，可以直接给该变量赋值，在数字可以使用下划线 <code>_</code> 来分隔数字，便于阅读；还可以使用科学计数法表示数值。如：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="type">int</span> <span class="variable">i</span> <span class="operator">=</span> <span class="number">1_000</span>; <span class="comment">// 1000</span></span><br><span class="line"><span class="type">long</span> <span class="variable">l</span> <span class="operator">=</span> <span class="number">1_2000_0000L</span>; <span class="comment">// 一亿两千万</span></span><br><span class="line"><span class="type">float</span> <span class="variable">f</span> <span class="operator">=</span> <span class="number">1_234.56f</span>; <span class="comment">// 1234.56</span></span><br><span class="line"><span class="type">double</span> <span class="variable">d</span> <span class="operator">=</span> <span class="number">1.23e-3D</span>; <span class="comment">// 0.00123</span></span><br><span class="line"><span class="type">double</span> <span class="variable">d2</span> <span class="operator">=</span> <span class="number">1_1.23E3D</span>; <span class="comment">// 11230.0</span></span><br></pre></td></tr></table></figure>
+<h4 id="小结"><a class="markdownIt-Anchor" href="#小结"></a> 小结</h4>
+<p>对于整形数据类型的最大值与最小值，就看它的存储空间的位数 x，最小值就是 -2<sup>x-1</sup> ，最大值就是 2<sup>x-1</sup> - 1，指数减一是因为整形数据的首位是符号位要去掉。比如整形 int，4 字节，存储空间有 4 × 8 = 32 位，所以整形数据类型的最大值就是  -2<sup>31</sup> ，最大值就是 2<sup>31</sup>-1 。</p>
+<p>此外，在这些基本数据类型对应的封装类中，存在常量 <code>MIN_VALUE</code> 和 <code>MAX_VALUE</code> ，通过获取这两个常量值也可以知道此类型数据的值存储范围。</p>
+<h3 id="基本数据类型对应的包装类"><a class="markdownIt-Anchor" href="#基本数据类型对应的包装类"></a> 基本数据类型对应的包装类</h3>
+<p>Java 中基本数据类型对应的包装类（或称为封装类）都在 <code>java.lang</code> 包中，这个包是 java 语言的核心，除了这些基本数据类型的包装类，还包括 Object 类、 Class 类、String 类、基本数学类等最基本的类。</p>
+<h4 id="自动拆包"><a class="markdownIt-Anchor" href="#自动拆包"></a> 自动拆包</h4>
+<p>在 java 中封装类在使用时，和基本数据类型一样使用，不需要手动转换，因为 jvm 将自动完成拆包的动作。</p>
+<h4 id="equals-方法"><a class="markdownIt-Anchor" href="#equals-方法"></a> equals() 方法</h4>
+<p>在基本数据类型的封装类中，使用 <code>equals()</code> 方法与另一个对象进行比较时，实际比较的是两个对象的值，不是比较对象的内存地址。如 Byte 类中的 <code>equals()</code> 方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="type">boolean</span> <span class="title function_">equals</span><span class="params">(Object obj)</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> (obj <span class="keyword">instanceof</span> Byte) &#123;</span><br><span class="line">        <span class="keyword">return</span> value == ((Byte)obj).byteValue();</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="都有的属性和方法"><a class="markdownIt-Anchor" href="#都有的属性和方法"></a> 都有的属性和方法</h4>
+<p>在基本数据类型的封装类中有一些属性和方法，是所有封装类都有的。</p>
+<h5 id="属性"><a class="markdownIt-Anchor" href="#属性"></a> 属性</h5>
+<p>都有的属性：最大值（<code>MAX_VALUE</code>）、最小值（<code>MIN_VALUE</code>）、字节数（<code>BYTES</code>）、位数（<code>SIZE</code>）</p>
+<h5 id="compareto-方法"><a class="markdownIt-Anchor" href="#compareto-方法"></a> compareTo() 方法</h5>
+<p>这些封装类都实现了 <code>Comparable</code> 接口，都实现了该接口中的 <code>compareTo()</code> 方法，这个方法用来比较相同类型数据的大小，返回结果类型是 int，但返回值不太一样：</p>
+<ul>
+<li>对于 <code>Byte</code> 、 <code>Short</code> 和 <code>Character</code> 数据返回值是当前对象值减其他对象值的差；</li>
+<li>对于<code>Integer</code> 、<code>Long</code> 以及浮点型是比较值大小，大于返回 1，小于返回 -1，等于返回 0；</li>
+<li>对于 <code>Boolean</code> 类型，当值相同时返回 0，不同时看本对象的值，为 <code>true</code> 返回 1，为 <code>false</code> 则返回 -1。</li>
+</ul>
+<h5 id="与字符串类型的转换"><a class="markdownIt-Anchor" href="#与字符串类型的转换"></a> 与字符串类型的转换</h5>
+<p>所有基本数据类型的封装类都提供了与 String 类型的转换方法，提供了 <code>toString()</code> 方法转换成字符串类型，提供了 <code>valueOf()</code> 和 <code>parseXxx()</code> 方法用于将字符串形式的值转换成对应类型，Xxx 是峰值类型，如 Integer 中的 <code>parseInt()</code>。同时每种封装类都提供了带 String 类型参数的构造方法，可以直接创建响应对象，如 Short 类型的构造方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="title function_">Short</span><span class="params">(String s)</span> <span class="keyword">throws</span> NumberFormatException &#123;</span><br><span class="line">    <span class="built_in">this</span>.value = parseShort(s, <span class="number">10</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="数据转换方法"><a class="markdownIt-Anchor" href="#数据转换方法"></a> 数据转换方法</h5>
+<p><code>Byte</code> 、<code>Short</code> 、<code>Integer</code> 、<code>Long</code> 、<code>Float</code> 、<code>Double</code> 这几个类都继承自 <code>Number</code> 类，所以都实现了 <code>Number</code> 中用于转换数据类型的方法： <code>byteValue()</code> 、<code>shortValue</code> 、<code>intValue()</code> 、<code>longValue()</code> 、<code>floatValue()</code> 、<code>doubleValue()</code> 。</p>
+<h5 id="整形数据的无符号值"><a class="markdownIt-Anchor" href="#整形数据的无符号值"></a> 整形数据的无符号值</h5>
+<p>对于整形数据，有无符号数值，即原来首位是符号位，现在首位也用来表示数字，这样只能存储非负数，但存储范围变大。在 java 中，各个整形数据类型的封装类中提供了将数转换成无符号值的方法：</p>
+<ul>
+<li><code>Byte</code> 、<code>Short</code> 类，有 <code>toUnsignedInt()</code> 、 <code>toUnsignedLong()</code> 方法，用于将值转成无符号整数或无符号长整型数；</li>
+<li><code>Integer</code> 类有 <code>toUnsignedLong()</code> 方法将值转成无符号长整型数；</li>
+<li><code>Long</code> 类有 <code>toUnsignedBigInteger()</code> 方法，用于将长整型数转成无符号大整数。</li>
+</ul>
+<h4 id="byte-2"><a class="markdownIt-Anchor" href="#byte-2"></a> Byte</h4>
+<p>字节类型 byte 的封装类，字节类型是 java 中最小的数据单位。</p>
+<h4 id="short-2"><a class="markdownIt-Anchor" href="#short-2"></a> Short</h4>
+<p>短整型 short 的封装类，在这个类中还提供了 <code>reverseByBytes(short)</code> 方法，用于得到字节逆序的 short 值。</p>
+<h4 id="integer"><a class="markdownIt-Anchor" href="#integer"></a> Integer</h4>
+<p>整形 int 的封装类，这是用的最多的数据类型，在这个封装类中提供了很多实用方法：</p>
+<ul>
+<li>无符号类型整数的运算：比较 <code>compareUnsigned(int,int)</code> ，除法 <code>divideUnsigned(int,int)</code> ，解析无符号字符串为整形 <code>parseUnsignedInt(String)</code> 等</li>
+<li>字符串解码成整形：<code>decode(String)</code> 将十进制、十六进制、八进制形式的数字字符串解码成整数。</li>
+<li>获取按字节逆序值：<code>reverse(int)</code></li>
+<li>转换成各种进制字符串：二进制 <code>toBinaryString(int)</code> 、十六进制 <code>toHexString(int)</code> 、八进制 <code>toOctalString(int)</code> 。</li>
+</ul>
+<h4 id="long-2"><a class="markdownIt-Anchor" href="#long-2"></a> Long</h4>
+<p>长整型 long 的封装类，使用的也很多，也提供了很多方法，大多与 Integer 中的类似。</p>
+<h4 id="float-2"><a class="markdownIt-Anchor" href="#float-2"></a> Float</h4>
+<p>单精度浮点型 float 类型的封装类。</p>
+<p>在 FLoat 类中，提供了一些特别的常量：</p>
+<ul>
+<li><code>NaN</code> 非数字，值为 <code>0.0f / 0.0</code></li>
+<li><code>NEGATIVE_INFINITY</code> 负数极限值，值为 <code>-1.0f / 0.0f</code></li>
+<li><code>POSITIVE_INFINITY</code> 正数极限值，值为 <code>1.0f / 0.0f</code></li>
+</ul>
+<p>提供了很多方法：</p>
+<ul>
+<li>
+<p>转换成整形数值的方法：<code>floatToIntBits(float)</code></p>
+</li>
+<li>
+<p>判断数值合法的方法：<code>isFinite(float)</code> ， <code>isNaN()</code></p>
+</li>
+<li>
+<p>转换成十六进制字符串的方法：<code>toHexString(float)</code></p>
+</li>
+<li>
+<p>…</p>
+</li>
+</ul>
+<h4 id="double-2"><a class="markdownIt-Anchor" href="#double-2"></a> Double</h4>
+<p>双精度浮点型 double 类型的封装类。</p>
+<p>常量与方法与 Float 类型类似。</p>
+<h4 id="character"><a class="markdownIt-Anchor" href="#character"></a> Character</h4>
+<p>字符型 char 类型的封装类。</p>
+<p>提供了很多个常量。</p>
+<p>提供很多方法：</p>
+<ul>
+<li>判断字符大小写和转换大小写的方法</li>
+<li>字符属性判断方法</li>
+<li>等</li>
+</ul>
+<h4 id="boolean-2"><a class="markdownIt-Anchor" href="#boolean-2"></a> Boolean</h4>
+<p>布尔类型 boolean 的封装类。</p>
+<p>在这个类中提供了布尔运算方法，与运算 <code>logicalAnd(boolean,boolean)</code> ，或运算 <code>logicalOr(boolean,boolean)</code> ，异或运算 <code>logicalXor(boolean,boolean)</code> 。</p>
+<p>Boolean 类中的 <code>compareTo(Boolean)</code> 方法在两个对象值相同时，返回 0，否则根据当前对象的值决定返回值，当前对象值为 true 返回 1，否则返回 -1 。</p>
+<h3 id="不同数据类型的转换"><a class="markdownIt-Anchor" href="#不同数据类型的转换"></a> 不同数据类型的转换</h3>
+<p>数值类型数据可以直接通过各自封装类中的 <code>byteValue()</code> 、<code>shortValue()</code> 、<code>IntegerValue()</code> 、<code>longValue()</code> 、<code>floatValue()</code> 、<code>doubleValue()</code> 方法转换成想要的类型。</p>
+<blockquote>
+<p>注意：长度更大的类型转换成长度小的类型时，会损失精度。</p>
+</blockquote>
+<p>字符类型和布尔类型不能转换成数值类型。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>Java八大基本类型详解_Java_呆呆papa-CSDN博客 <a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42089228/article/details/104905036">https://blog.csdn.net/weixin_42089228/article/details/104905036</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>基本数据类型是最基础的知识，这些数据类型和包装类中的方法都要用的滚瓜烂熟才行。这些基本数据类型里面有些跟 C 语言是一样的，但没有 C 语言中的无符号类型数据，因此在处理一些协议数据的时候，对于无符号类型要特别注意。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/09/esp8266-%E7%82%B9%E7%81%AF%E4%B8%8E%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81/" rel="prev" title="esp8266 点灯与摩斯密码">
+                  <i class="fa fa-chevron-left"></i> esp8266 点灯与摩斯密码
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/19/MyCat-%E5%88%9D%E8%AF%86/" rel="next" title="MyCat 初识">
+                  MyCat 初识 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

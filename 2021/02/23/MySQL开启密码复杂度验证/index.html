@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 数据库密码的复制程度关系的数据的安全性，这篇文章介绍了在 MySQL 和 MariaDB 数据库中开启密码复杂度校验的方法，开启校验功能后，用户不能再创建简单密码的账户，能够大大提升安全性。   关于密码复杂度 安全的密码通常要求长度不低于8位，包含字母、数字、特殊字符。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MySQL开启密码复杂度验证">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/02/23/MySQL%E5%BC%80%E5%90%AF%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%AA%8C%E8%AF%81/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 数据库密码的复制程度关系的数据的安全性，这篇文章介绍了在 MySQL 和 MariaDB 数据库中开启密码复杂度校验的方法，开启校验功能后，用户不能再创建简单密码的账户，能够大大提升安全性。   关于密码复杂度 安全的密码通常要求长度不低于8位，包含字母、数字、特殊字符。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/lock.jpg">
+<meta property="article:published_time" content="2021-02-23T11:09:08.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.249Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="mysql">
+<meta property="article:tag" content="database">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/lock.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/02/23/MySQL%E5%BC%80%E5%90%AF%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%AA%8C%E8%AF%81/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/02/23/MySQL%E5%BC%80%E5%90%AF%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%AA%8C%E8%AF%81/","path":"2021/02/23/MySQL开启密码复杂度验证/","title":"MySQL开启密码复杂度验证"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MySQL开启密码复杂度验证 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6"><span class="nav-number">2.</span> <span class="nav-text"> 关于密码复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mariadb-%E5%BC%80%E5%90%AF%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%AA%8C%E8%AF%81"><span class="nav-number">3.</span> <span class="nav-text"> MariaDB 开启密码复杂度验证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AF%86%E7%A0%81%E7%9B%B8%E5%85%B3%E7%9A%84%E5%8F%98%E9%87%8F"><span class="nav-number">3.1.</span> <span class="nav-text"> 查看数据库密码相关的变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mariadb-%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E6%A3%80%E6%9F%A5%E6%8F%92%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text"> MariaDB 安装密码检查插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%85%8D%E7%BD%AE"><span class="nav-number">3.3.</span> <span class="nav-text"> 修改复杂度配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E5%AF%86%E7%A0%81%E6%A3%80%E6%9F%A5%E6%8F%92%E4%BB%B6"><span class="nav-number">3.4.</span> <span class="nav-text"> 卸载密码检查插件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#mysql"><span class="nav-number">4.</span> <span class="nav-text"> MySQL</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%88%E6%9F%A5%E7%9C%8B%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F"><span class="nav-number">4.1.</span> <span class="nav-text"> 先查看系统变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AF%86%E7%A0%81%E6%A0%A1%E9%AA%8C%E6%8F%92%E4%BB%B6"><span class="nav-number">4.2.</span> <span class="nav-text"> 安装密码校验插件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E6%A0%A1%E9%AA%8C%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.</span> <span class="nav-text"> 修改密码复杂度校验配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%B8%E8%BD%BD%E5%AF%86%E7%A0%81%E6%A0%A1%E9%AA%8C%E6%8F%92%E4%BB%B6"><span class="nav-number">4.4.</span> <span class="nav-text"> 卸载密码校验插件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/02/23/MySQL%E5%BC%80%E5%90%AF%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%AA%8C%E8%AF%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MySQL开启密码复杂度验证 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MySQL开启密码复杂度验证<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/MySQL%E5%BC%80%E5%90%AF%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%AA%8C%E8%AF%81.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-23 19:09:08" itemprop="dateCreated datePublished" datetime="2021-02-23T19:09:08+08:00">2021-02-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/mysql/" itemprop="url" rel="index"><span itemprop="name">mysql</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>数据库密码的复制程度关系的数据的安全性，这篇文章介绍了在 MySQL 和 MariaDB 数据库中开启密码复杂度校验的方法，开启校验功能后，用户不能再创建简单密码的账户，能够大大提升安全性。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/lock.jpg" alt="" /></p>
+<h3 id="关于密码复杂度"><a class="markdownIt-Anchor" href="#关于密码复杂度"></a> 关于密码复杂度</h3>
+<p>安全的密码通常要求长度不低于8位，包含字母、数字、特殊字符。</p>
+<span id="more"></span>
+<h3 id="mariadb-开启密码复杂度验证"><a class="markdownIt-Anchor" href="#mariadb-开启密码复杂度验证"></a> MariaDB 开启密码复杂度验证</h3>
+<p>在 MariaDB 中使用 simple_password_check 插件进行密码复杂度校验。</p>
+<h4 id="查看数据库密码相关的变量"><a class="markdownIt-Anchor" href="#查看数据库密码相关的变量"></a> 查看数据库密码相关的变量</h4>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;%password%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">+----------------------------+-------+</span><br><span class="line">| Variable_name              | Value |</span><br><span class="line">+----------------------------+-------+</span><br><span class="line">| old_passwords              | OFF   |</span><br><span class="line">| report_password            |       |</span><br><span class="line">| strict_password_validation | ON    |</span><br><span class="line">+----------------------------+-------+</span><br></pre></td></tr></table></figure>
+<p>此时没有开启密码复杂度验证，可以创建简单密码的用户：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;mytest&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;12345&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="mariadb-安装密码检查插件"><a class="markdownIt-Anchor" href="#mariadb-安装密码检查插件"></a> MariaDB 安装密码检查插件</h4>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install SONAME <span class="string">&#x27;simple_password_check&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>安装成功后，即开启密码复杂度验证，此时再查询密码相关的变量，结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">+-----------------------------------------+-------+</span><br><span class="line">| Variable_name                           | Value |</span><br><span class="line">+-----------------------------------------+-------+</span><br><span class="line">| old_passwords                           | OFF   |</span><br><span class="line">| report_password                         |       |</span><br><span class="line">| simple_password_check_digits            | 1     |</span><br><span class="line">| simple_password_check_letters_same_case | 1     |</span><br><span class="line">| simple_password_check_minimal_length    | 8     |</span><br><span class="line">| simple_password_check_other_characters  | 1     |</span><br><span class="line">| strict_password_validation              | ON    |</span><br><span class="line">+-----------------------------------------+-------+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数说明：</p>
+<ul>
+<li><em>simple_password_check_digits</em> ：密码至少要包含数字的个数</li>
+<li><em>simple_password_check_letters_same_case</em> ：密码至少要包含大写字母个数和小写字母个数</li>
+<li><em>simple_password_check_minimal_length</em> ：密码最小长度</li>
+<li><em>simple_password_check_other_characters</em> ：密码至少要包含的特殊字符个数</li>
+</ul>
+<p>当前密码要求：至少8位，且包含大写字母、小写字母、数字、特殊字符。</p>
+</blockquote>
+<p>安装插件后，已不能创建简单密码的用户，当密码复杂度不满足要求时，报错：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</span><br></pre></td></tr></table></figure>
+<p>用户密码需要至少8位，且包含大小写字母、数字、特殊字符，如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;mytest1&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;Qq@12345&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="修改复杂度配置"><a class="markdownIt-Anchor" href="#修改复杂度配置"></a> 修改复杂度配置</h4>
+<p>如修改特殊字符数量，其他同理：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> simple_password_check_other_characters<span class="operator">=</span><span class="number">2</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="卸载密码检查插件"><a class="markdownIt-Anchor" href="#卸载密码检查插件"></a> 卸载密码检查插件</h4>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uninstall SONAME <span class="string">&#x27;simple_password_check&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h3 id="mysql"><a class="markdownIt-Anchor" href="#mysql"></a> MySQL</h3>
+<p>MySQL 中使用 validate_password 插件进行密码复杂度校验，这里以 MySQL 5.7.33 为例。</p>
+<h4 id="先查看系统变量"><a class="markdownIt-Anchor" href="#先查看系统变量"></a> 先查看系统变量</h4>
+<p>默认未启用密码复杂度校验，可创建简单密码用户：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;mytest&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;12345&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>查询与密码相关的系统参数：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">show</span> variables <span class="keyword">like</span> <span class="string">&#x27;%password%&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">+----------------------------------------+-----------------+ </span><br><span class="line">| Variable_name                          | Value           | </span><br><span class="line">+----------------------------------------+-----------------+ </span><br><span class="line">| default_password_lifetime              | 0               | </span><br><span class="line">| disconnect_on_expired_password         | ON              | </span><br><span class="line">| log_builtin_as_identified_by_password  | OFF             | </span><br><span class="line">| mysql_native_password_proxy_users      | OFF             | </span><br><span class="line">| old_passwords                          | 0               | </span><br><span class="line">| report_password                        |                 | </span><br><span class="line">| sha256_password_auto_generate_rsa_keys | ON              | </span><br><span class="line">| sha256_password_private_key_path       | private_key.pem | </span><br><span class="line">| sha256_password_proxy_users            | OFF             | </span><br><span class="line">| sha256_password_public_key_path        | public_key.pem  | </span><br><span class="line">+----------------------------------------+-----------------+ </span><br></pre></td></tr></table></figure>
+<h4 id="安装密码校验插件"><a class="markdownIt-Anchor" href="#安装密码校验插件"></a> 安装密码校验插件</h4>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">install plugin validate_password soname <span class="string">&#x27;validate_password.so&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<p>再查看系统参数：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">+----------------------------------------+-----------------+</span><br><span class="line">| Variable_name                          | Value           |</span><br><span class="line">+----------------------------------------+-----------------+</span><br><span class="line">| default_password_lifetime              | 0               |</span><br><span class="line">| disconnect_on_expired_password         | ON              |</span><br><span class="line">| log_builtin_as_identified_by_password  | OFF             |</span><br><span class="line">| mysql_native_password_proxy_users      | OFF             |</span><br><span class="line">| old_passwords                          | 0               |</span><br><span class="line">| report_password                        |                 |</span><br><span class="line">| sha256_password_auto_generate_rsa_keys | ON              |</span><br><span class="line">| sha256_password_private_key_path       | private_key.pem |</span><br><span class="line">| sha256_password_proxy_users            | OFF             |</span><br><span class="line">| sha256_password_public_key_path        | public_key.pem  |</span><br><span class="line">| validate_password_check_user_name      | OFF             |</span><br><span class="line">| validate_password_dictionary_file      |                 |</span><br><span class="line">| validate_password_length               | 8               |</span><br><span class="line">| validate_password_mixed_case_count     | 1               |</span><br><span class="line">| validate_password_number_count         | 1               |</span><br><span class="line">| validate_password_policy               | MEDIUM          |</span><br><span class="line">| validate_password_special_char_count   | 1               |</span><br><span class="line">+----------------------------------------+-----------------+</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数说明：</p>
+<ul>
+<li><em>validate_password_check_user_name</em> ：用户名监测（新版本的才有）</li>
+<li><em>validate_password_dictionary_file</em> ：插件用于验证密码强度的字典文件路径</li>
+<li><em>validate_password_length</em> ：密码最小长度</li>
+<li><em>validate_password_mixed_case_count</em> ：密码至少要包含的小写字母个数和大写字母个数</li>
+<li><em>validate_password_number_count</em> ：密码至少要包含的数字个数</li>
+<li><em>validate_password_policy</em> ：密码强度检查等级</li>
+<li><code>0</code>/<code>LOW</code> ：只检查长度</li>
+<li><code>1</code>/<code>MEDIUM</code>：检查长度、数字、大小写、特殊字符</li>
+<li><code>2</code>/<code>STRONG</code>：检查长度、数字、大小写、特殊字符字典文件</li>
+<li><em>validate_password_special_char_count</em> ：密码至少要包含的特殊字符数</li>
+</ul>
+</blockquote>
+<p>插件安装成功后，即启用密码校验，再次创建简单密码用户，将报错:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ERROR 1819 (HY000): Your password does not satisfy the current policy requirements</span><br></pre></td></tr></table></figure>
+<p>创建密码复杂度符合要求的用户：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> <span class="string">&#x27;mytest1&#x27;</span>@<span class="string">&#x27;localhost&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;Qq@12345&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="修改密码复杂度校验配置"><a class="markdownIt-Anchor" href="#修改密码复杂度校验配置"></a> 修改密码复杂度校验配置</h4>
+<p>使用修改 MySQL 变量参数的方法修改密码复杂度校验配置，如修改密码最小长度，其他项同理：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">set</span> <span class="keyword">global</span> validate_password_length<span class="operator">=</span><span class="number">10</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="卸载密码校验插件"><a class="markdownIt-Anchor" href="#卸载密码校验插件"></a> 卸载密码校验插件</h4>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uninstall PLUGIN validate_password;</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>mariadb:简单密码检查插件(转载) : <a target="_blank" rel="noopener" href="https://www.cnblogs.com/huiy/p/13461596.html">https://www.cnblogs.com/huiy/p/13461596.html</a></li>
+<li>MySQL密码强度审计插件:validate_password的使用说明: <a target="_blank" rel="noopener" href="http://www.xuchanggang.cn/archives/1033.html">http://www.xuchanggang.cn/archives/1033.html</a></li>
+<li>mysql新版本中的validate_password插件测试：<a target="_blank" rel="noopener" href="https://www.58jb.com/html/162.html">https://www.58jb.com/html/162.html</a></li>
+<li>mysql之validate_password_policy: <a target="_blank" rel="noopener" href="https://blog.csdn.net/wltsysterm/article/details/79649484">https://blog.csdn.net/wltsysterm/article/details/79649484</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>这篇文章介绍的方式是在线安装插件，不需要重启数据库，方便使用。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+              <a href="/tags/database/" rel="tag"># database</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/02/03/Windows%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/" rel="prev" title="Windows脚本编写">
+                  <i class="fa fa-chevron-left"></i> Windows脚本编写
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/03/11/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E5%8E%9F%E5%9E%8B%E6%A8%A1%E5%BC%8F/" rel="next" title="设计模式之原型模式">
+                  设计模式之原型模式 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

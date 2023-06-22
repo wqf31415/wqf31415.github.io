@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了在电子中最基本、最常用的电阻，内容包括电阻的分类、特性 、参数、识别方法和电路符号等。  什么是电阻器  电阻器是利用一些材料对电流有阻碍作用的特性制作而成的，在电路中的作用可以归纳为降低电压、分配电压、限制电流和向各种元器件提供必要的工作条件（电压、电流）等，通常将电阻器简称为电阻。  电阻器、电容器、电感器可以统称为阻抗元件，都具有阻碍电的能力，在电路中分别发挥纯阻抗（">
+<meta property="og:type" content="article">
+<meta property="og:title" content="认识电阻器">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/03/22/%E8%AE%A4%E8%AF%86%E7%94%B5%E9%98%BB%E5%99%A8/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了在电子中最基本、最常用的电阻，内容包括电阻的分类、特性 、参数、识别方法和电路符号等。  什么是电阻器  电阻器是利用一些材料对电流有阻碍作用的特性制作而成的，在电路中的作用可以归纳为降低电压、分配电压、限制电流和向各种元器件提供必要的工作条件（电压、电流）等，通常将电阻器简称为电阻。  电阻器、电容器、电感器可以统称为阻抗元件，都具有阻碍电的能力，在电路中分别发挥纯阻抗（">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor_function.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/dz_dwq.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/dz_dz.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor_guangmin.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor_paizu.png">
+<meta property="article:published_time" content="2020-03-22T14:52:24.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.304Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="电阻">
+<meta property="article:tag" content="电器元件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/03/22/%E8%AE%A4%E8%AF%86%E7%94%B5%E9%98%BB%E5%99%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/03/22/%E8%AE%A4%E8%AF%86%E7%94%B5%E9%98%BB%E5%99%A8/","path":"2020/03/22/认识电阻器/","title":"认识电阻器"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>认识电阻器 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF%E7%94%B5%E9%98%BB%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text"> 什么是电阻器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%94%B5%E9%98%BB%E5%99%A8%E5%88%86%E7%B1%BB"><span class="nav-number">3.</span> <span class="nav-text"> 电阻器分类</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BA%E5%AE%9A%E7%94%B5%E9%98%BB%E5%99%A8"><span class="nav-number">3.1.</span> <span class="nav-text"> 固定电阻器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%89%B9%E7%82%B9"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 特点</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%9C%E7%94%A8"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 作用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A7%8D%E7%B1%BB"><span class="nav-number">3.1.3.</span> <span class="nav-text"> 种类</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%AE%9E%E8%8A%AF%E7%94%B5%E9%98%BB%E5%99%A8"><span class="nav-number">3.1.3.1.</span> <span class="nav-text"> 实芯电阻器</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%96%84%E8%86%9C%E7%94%B5%E9%98%BB%E5%99%A8"><span class="nav-number">3.1.3.2.</span> <span class="nav-text"> 薄膜电阻器</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%BA%BF%E7%BB%95%E7%94%B5%E9%98%BB%E5%99%A8"><span class="nav-number">3.1.3.3.</span> <span class="nav-text"> 线绕电阻器</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%BB%E8%A6%81%E5%8F%82%E6%95%B0"><span class="nav-number">3.1.4.</span> <span class="nav-text"> 主要参数</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%A0%87%E7%A7%B0%E9%98%BB%E5%80%BC"><span class="nav-number">3.1.4.1.</span> <span class="nav-text"> 标称阻值</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%85%81%E8%AE%B8%E5%81%8F%E5%B7%AE"><span class="nav-number">3.1.4.2.</span> <span class="nav-text"> 允许偏差</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E9%A2%9D%E5%AE%9A%E5%8A%9F%E7%8E%87"><span class="nav-number">3.1.4.3.</span> <span class="nav-text"> 额定功率</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9E%8B%E5%8F%B7%E5%91%BD%E5%90%8D"><span class="nav-number">3.1.5.</span> <span class="nav-text"> 型号命名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%A0%87%E8%AF%86%E6%96%B9%E6%B3%95"><span class="nav-number">3.1.6.</span> <span class="nav-text"> 标识方法</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%A0%87%E6%B3%A8%E6%B3%95"><span class="nav-number">3.1.6.1.</span> <span class="nav-text"> 直接标注法</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E8%89%B2%E7%8E%AF%E6%A0%87%E5%BF%97%E6%B3%95"><span class="nav-number">3.1.6.2.</span> <span class="nav-text"> 色环标志法</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%89%E7%94%A8"><span class="nav-number">3.1.7.</span> <span class="nav-text"> 选用</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E9%98%BB%E5%80%BC"><span class="nav-number">3.1.7.1.</span> <span class="nav-text"> 确定阻值</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E8%AF%AF%E5%B7%AE"><span class="nav-number">3.1.7.2.</span> <span class="nav-text"> 确定误差</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E5%8A%9F%E7%8E%87"><span class="nav-number">3.1.7.3.</span> <span class="nav-text"> 确定功率</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E7%A1%AE%E5%AE%9A%E7%94%B5%E9%98%BB%E5%99%A8%E6%9E%81%E9%99%90%E7%94%B5%E5%8E%8B"><span class="nav-number">3.1.7.4.</span> <span class="nav-text"> 确定电阻器极限电压</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%AF%E8%B0%83%E7%94%B5%E9%98%BB%E5%99%A8"><span class="nav-number">3.2.</span> <span class="nav-text"> 可调电阻器</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%BE%AE%E8%B0%83%E7%94%B5%E9%98%BB%E5%99%A8"><span class="nav-number">3.2.1.</span> <span class="nav-text"> 微调电阻器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%B5%E4%BD%8D%E5%99%A8"><span class="nav-number">3.2.2.</span> <span class="nav-text"> 电位器</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9E%8B%E5%8F%B7%E5%91%BD%E5%90%8D-2"><span class="nav-number">3.2.3.</span> <span class="nav-text"> 型号命名</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%89%E7%94%A8-2"><span class="nav-number">3.2.4.</span> <span class="nav-text"> 选用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%B5%E8%B7%AF%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.3.</span> <span class="nav-text"> 电路符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%8F%E6%84%9F%E7%94%B5%E9%98%BB"><span class="nav-number">3.4.</span> <span class="nav-text"> 敏感电阻</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8E%92%E9%98%BB"><span class="nav-number">3.5.</span> <span class="nav-text"> 排阻</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/03/22/%E8%AE%A4%E8%AF%86%E7%94%B5%E9%98%BB%E5%99%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="认识电阻器 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          认识电阻器<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E8%AE%A4%E8%AF%86%E7%94%B5%E9%98%BB%E5%99%A8.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-03-22 22:52:24" itemprop="dateCreated datePublished" datetime="2020-03-22T22:52:24+08:00">2020-03-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E7%94%B5%E5%AD%90/" itemprop="url" rel="index"><span itemprop="name">电子</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><link href="https://cdnjs.cloudflare.com/ajax/libs/KaTeX/0.9.0/katex.min.css"  rel="stylesheet"/>
+<h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了在电子中最基本、最常用的电阻，内容包括电阻的分类、特性 、参数、识别方法和电路符号等。</p>
+<h3 id="什么是电阻器"><a class="markdownIt-Anchor" href="#什么是电阻器"></a> 什么是电阻器</h3>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor.png" alt="" /></p>
+<p>电阻器是利用一些材料对电流有阻碍作用的特性制作而成的，在电路中的作用可以归纳为降低电压、分配电压、限制电流和向各种元器件提供必要的工作条件（电压、电流）等，通常将电阻器简称为电阻。</p>
+<blockquote>
+<p>电阻器、电容器、电感器可以统称为阻抗元件，都具有阻碍电的能力，在电路中分别发挥纯阻抗（电阻器）、容抗（电容器）、感抗（电感器）的功能。</p>
+<ul>
+<li>电容器具有存储电荷的能力，特点是阻直流，通交流。</li>
+<li>电感器具有存储磁能的能力，特点是通直流，阻交流。</li>
+</ul>
+</blockquote>
+<span id="more"></span>
+<h3 id="电阻器分类"><a class="markdownIt-Anchor" href="#电阻器分类"></a> 电阻器分类</h3>
+<p>按结构不同可以将电阻器分为固定电阻器和可调电阻器。</p>
+<h4 id="固定电阻器"><a class="markdownIt-Anchor" href="#固定电阻器"></a> 固定电阻器</h4>
+<p>固定电阻器是阻值不变的的电阻器，就是我们通常说的电阻或电阻器。</p>
+<h5 id="特点"><a class="markdownIt-Anchor" href="#特点"></a> 特点</h5>
+<p>电阻器只有两根引脚，引脚无正负性之分，小型固定电阻器的两根引脚一般沿轴线方向伸出，可以弯曲，以便在电路板上进行安装。</p>
+<h5 id="作用"><a class="markdownIt-Anchor" href="#作用"></a> 作用</h5>
+<p>固定电阻器的主要功能有降压、限流、分流、分压。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor_function.png" alt="" /></p>
+<h5 id="种类"><a class="markdownIt-Anchor" href="#种类"></a> 种类</h5>
+<p>常用的固定电阻器有实芯电阻器、薄膜电阻器、线绕电阻器。</p>
+<h6 id="实芯电阻器"><a class="markdownIt-Anchor" href="#实芯电阻器"></a> 实芯电阻器</h6>
+<p>由碳和不良导电材料混合、并加入粘结剂制成的，型号中有 <code>RS</code> 标志。实芯电阻器成本低，价格便宜，可靠性高，但阻值误差大，稳定性差。在以前的电子管收音机中普遍使用，现在成品电器中很少使用了。</p>
+<h6 id="薄膜电阻器"><a class="markdownIt-Anchor" href="#薄膜电阻器"></a> 薄膜电阻器</h6>
+<p>用蒸发的方法将碳或某些合金渡在瓷管（棒）的表面制成的，是电子制作中最常用的电阻器。</p>
+<ul>
+<li>碳膜电阻器型号中有 <code>RT</code> 标志，小型碳膜电阻器为 <code>RTX</code> 。薄膜电阻器造价便宜，电压稳定性好，但是允许的额定功率较小。</li>
+<li>金属膜电阻器型号有 <code>RJ</code> 标志，外面常涂红色或棕色漆，特点是精度高，热稳定性好，相同功率下，体积只有碳膜电阻器的一半。</li>
+</ul>
+<h6 id="线绕电阻器"><a class="markdownIt-Anchor" href="#线绕电阻器"></a> 线绕电阻器</h6>
+<p>线绕电阻器型号中有 <code>RX</code> 标志，使用镍铬或锰铜合金电阻丝绕在绝缘支架上制作而成的，表面常涂有绝缘漆或耐热釉层。特点是精度高，能承受较大功率，热稳定性好，但价格贵，不容易得到高阻值。万用表中的分流器、分压器大多采用线绕电阻器。</p>
+<h5 id="主要参数"><a class="markdownIt-Anchor" href="#主要参数"></a> 主要参数</h5>
+<p>电阻器的主要参数包括标称阻值、允许偏差和额定功率，在实际应用时，选用电阻器需要考虑这些参数。</p>
+<h6 id="标称阻值"><a class="markdownIt-Anchor" href="#标称阻值"></a> 标称阻值</h6>
+<blockquote>
+<p>电阻值的单位是欧姆，简称欧，用希腊字母 <code>Ω</code> 表示。此外还有千欧(<code>kΩ</code>)和兆欧(<code>MΩ</code>)。</p>
+<p>1MΩ = 1000kΩ</p>
+<p>1kΩ = 1000Ω</p>
+</blockquote>
+<p>为了适应不用的需求，国家规定了一系列的电阻值作为产品的标准，并在产品上清楚标注电阻值，称之为标称电阻。</p>
+<p>我国电阻器标称阻值系列表：</p>
+<table>
+<thead>
+<tr>
+<th>等级</th>
+<th>允许偏差</th>
+<th>标称阻值系列</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>I 级</td>
+<td>±5%</td>
+<td>1.0、1.1、1.2、1.3、1.5、1.6、1.8、2.0、2.2、2.4、2.7、3.0、3.3、3.6、3.9、4.3、4.7、5.1、5.6、6.2、6.8、7.5、8.2、9.1</td>
+</tr>
+<tr>
+<td>II 级</td>
+<td>±10%</td>
+<td>1.0、1.2、1.5、1.8、2.2、2.7、3.3、3.9、4.7、5.6、6.8、8.2</td>
+</tr>
+<tr>
+<td>III 级</td>
+<td>±20%</td>
+<td>1.0、1.5、2.2、3.3、4.7、6.8</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>标称阻值系列表中给出的是基数，可以乘以 10、100、1000……，比如 3.3 这个基数，可以是 3.3Ω，也可以是 330Ω、3.3kΩ 和 3.3MΩ 等。</p>
+</blockquote>
+<h6 id="允许偏差"><a class="markdownIt-Anchor" href="#允许偏差"></a> 允许偏差</h6>
+<p>电阻器在生产 过程中存在误差，所以标称阻值与电阻器实际阻值是有差别的，差值与标称阻值的百分比被称为允许误差(或阻值误差)。电阻器允许误差分为三个等级：I 级允许误差 ±5%，II 级允许误差 ±10%，III 级误差允许误差 ±20%。</p>
+<h6 id="额定功率"><a class="markdownIt-Anchor" href="#额定功率"></a> 额定功率</h6>
+<p>电阻器长期工作允许的承受的最大电功率即为额定功率，单位是瓦（W）。电阻器都规定了标称功率，又称额定功率，如果低于额定功率使用，电阻器的寿命就长，工作安全；如果超负荷使用，会缩短使用寿命，严重还会烧坏电阻器。额定功率越大，能够承受的电流越大。</p>
+<p>一般电阻器额定功率有 1/16W、1/8W、1/4W、1/2W、1W、2W、5W、10W 等，使用中的电阻器实际消耗的功率必须小于它的额定功率。在电子制作中，如果电路中没有特别说明，通常使用 1/8W 和 1/4W 的电阻器。</p>
+<h5 id="型号命名"><a class="markdownIt-Anchor" href="#型号命名"></a> 型号命名</h5>
+<p>国产电阻器的型号命名一般由4部分组成：</p>
+<ul>
+<li>
+<p>第一部分是字母 <code>R</code> ，表示电阻器</p>
+</li>
+<li>
+<p>第二部分用汉语拼音字母表示构成电阻器的材料</p>
+<table>
+<thead>
+<tr>
+<th>代号</th>
+<th>材料</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>T</td>
+<td>碳膜</td>
+</tr>
+<tr>
+<td>H</td>
+<td>合成碳膜</td>
+</tr>
+<tr>
+<td>S</td>
+<td>有机实芯</td>
+</tr>
+<tr>
+<td>N</td>
+<td>无机实芯</td>
+</tr>
+<tr>
+<td>J</td>
+<td>金属膜</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>氧化膜</td>
+</tr>
+<tr>
+<td>C</td>
+<td>沉积膜</td>
+</tr>
+<tr>
+<td>I</td>
+<td>玻璃釉膜</td>
+</tr>
+<tr>
+<td>X</td>
+<td>线绕</td>
+</tr>
+<tr>
+<td>F</td>
+<td>复合膜</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>第三部分用阿拉伯数字表示电阻器分类，个别类型用汉语拼音字母</p>
+<table>
+<thead>
+<tr>
+<th>代号</th>
+<th>分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1、2</td>
+<td>普通型</td>
+</tr>
+<tr>
+<td>3</td>
+<td>超高频</td>
+</tr>
+<tr>
+<td>4</td>
+<td>高阻</td>
+</tr>
+<tr>
+<td>5</td>
+<td>高温</td>
+</tr>
+<tr>
+<td>7</td>
+<td>精密</td>
+</tr>
+<tr>
+<td>8</td>
+<td>高压</td>
+</tr>
+<tr>
+<td>9</td>
+<td>特殊</td>
+</tr>
+<tr>
+<td>G</td>
+<td>高功率</td>
+</tr>
+<tr>
+<td>T</td>
+<td>可调</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>第四部分用阿拉伯数字表示产品序号</p>
+</li>
+</ul>
+<p>通过国产电阻器型号，可以获得构成电阻器的材料、结构类型等信息。如 RT11 为普通碳膜电阻器，RX71 是精密线绕电阻器。</p>
+<h5 id="标识方法"><a class="markdownIt-Anchor" href="#标识方法"></a> 标识方法</h5>
+<h6 id="直接标注法"><a class="markdownIt-Anchor" href="#直接标注法"></a> 直接标注法</h6>
+<p>以前的国产电阻器大多数是将标称阻值、允许偏差和额定功率直接印刷在电阻器表面。</p>
+<h6 id="色环标志法"><a class="markdownIt-Anchor" href="#色环标志法"></a> 色环标志法</h6>
+<p>国际主流的电阻器标识方法，采用色环标志电阻器的标称阻值、允许偏差，这种方式标识醒目、清晰，不易褪色，而且从各个方向都能看清阻值和允许偏差，有利于自动化生产，也方便调试和修理。</p>
+<p>色环标志法的电阻器，在电阻器上印有 4 道或 5 道色环标志阻值，阻值单位是 Ω。</p>
+<ul>
+<li>对于 4 环电阻器，紧靠电阻器端部的色环为起始，第 1、2 色环表示两位有效数字，第 3 色环表示倍乘数，第 4 色环表示允许偏差。</li>
+<li>对于 5 环电阻器，紧靠端部的色环为起始，第 1、2、3 色环为有效数字，第 4 色环为倍乘数，第 5 色环为允许偏差。</li>
+</ul>
+<p>一般常用的碳膜电阻器多采用 4 色环，金属膜电阻器为了更好表示精度，多采用 5 色环。</p>
+<p>色环一般采用 黑、棕、红、橙、黄、绿、蓝、紫、灰、白、金、银 12 种颜色。</p>
+<table>
+<thead>
+<tr>
+<th>颜色</th>
+<th>有效数字</th>
+<th>倍乘数</th>
+<th>允许偏差</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>黑</td>
+<td>0</td>
+<td>10<sup>0</sup> = 1</td>
+<td></td>
+</tr>
+<tr>
+<td>棕</td>
+<td>1</td>
+<td>10<sup>1</sup></td>
+<td>±1%</td>
+</tr>
+<tr>
+<td>红</td>
+<td>2</td>
+<td>10<sup>2</sup></td>
+<td>±2%</td>
+</tr>
+<tr>
+<td>橙</td>
+<td>3</td>
+<td>10<sup>3</sup></td>
+<td></td>
+</tr>
+<tr>
+<td>黄</td>
+<td>4</td>
+<td>10<sup>4</sup></td>
+<td></td>
+</tr>
+<tr>
+<td>绿</td>
+<td>5</td>
+<td>10<sup>5</sup></td>
+<td>±0.5%</td>
+</tr>
+<tr>
+<td>蓝</td>
+<td>6</td>
+<td>10<sup>6</sup></td>
+<td>±0.25%</td>
+</tr>
+<tr>
+<td>紫</td>
+<td>7</td>
+<td>10<sup>7</sup></td>
+<td>±0.1%</td>
+</tr>
+<tr>
+<td>灰</td>
+<td>8</td>
+<td>10<sup>8</sup></td>
+<td></td>
+</tr>
+<tr>
+<td>白</td>
+<td>9</td>
+<td>10<sup>9</sup></td>
+<td></td>
+</tr>
+<tr>
+<td>金</td>
+<td></td>
+<td>10<sup>-1</sup> = 0.1</td>
+<td>±5%</td>
+</tr>
+<tr>
+<td>银</td>
+<td></td>
+<td>10<sup>-2</sup> = 0.01</td>
+<td>±10%</td>
+</tr>
+<tr>
+<td>无色</td>
+<td></td>
+<td></td>
+<td>±20%</td>
+</tr>
+</tbody>
+</table>
+<h5 id="选用"><a class="markdownIt-Anchor" href="#选用"></a> 选用</h5>
+<h6 id="确定阻值"><a class="markdownIt-Anchor" href="#确定阻值"></a> 确定阻值</h6>
+<p>根据电路设计，使用欧姆定律可以计算出所需电阻器的阻值：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>R</mi><mo>=</mo><mfrac><mi>U</mi><mi>I</mi></mfrac></mrow><annotation encoding="application/x-tex">R = \frac{U}{I}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.04633em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.36033em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<blockquote>
+<p>对于要求不高的电路，尽可能选择阻值接近的电阻。如果精度要求高但无法找到某个阻值的电阻，可以采用多个电阻器串联或并联的方式来解决。电阻器并联时阻值减小，串联时阻值增大。</p>
+</blockquote>
+<h6 id="确定误差"><a class="markdownIt-Anchor" href="#确定误差"></a> 确定误差</h6>
+<p>根据电路需求选择，误差越小越好。</p>
+<h6 id="确定功率"><a class="markdownIt-Anchor" href="#确定功率"></a> 确定功率</h6>
+<p>根据功率计算公式可以求出电阻器的功率大小：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><msup><mi>I</mi><mn>2</mn></msup><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">P = \frac{I^2}{R}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.177108em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.491108em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.07847em;">I</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+<p>为了让电阻器长时间运行稳定，选择的电阻器功率应该在实际功率两倍 以上。</p>
+<blockquote>
+<p>选择的电阻功率只能在要求的功率之上，小于需求功率值，电阻器容易烧坏。</p>
+<p>如果电阻器功率不够，可以采用多个大阻值的小功率电阻器并联，或采用多个小阻值的小功率电阻串联，这两种方式都可以让每个电阻器承受的功率减小。</p>
+<p>电阻器功率还可以使用如下公式计算：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>P</mi><mo>=</mo><mfrac><msup><mi>U</mi><mn>2</mn></msup><mi>R</mi></mfrac></mrow><annotation encoding="application/x-tex">P = \frac{U^2}{R}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:2.177108em;vertical-align:-0.686em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:1.491108em;"><span style="top:-2.314em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.677em;"><span class="pstrut" style="height:3em;"></span><span class="mord"><span class="mord"><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.686em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span></span></span></span></span></p>
+</blockquote>
+<h6 id="确定电阻器极限电压"><a class="markdownIt-Anchor" href="#确定电阻器极限电压"></a> 确定电阻器极限电压</h6>
+<p>电阻器用在高电压、小电流的电路中时，可能功率满足要求，但电阻器的极限电压小于电路加到它两端的电压，电阻器会被击穿。电阻器极限电压计算公式为：</p>
+<p class='katex-block'><span class="katex-display"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML" display="block"><semantics><mrow><mi>U</mi><mo>=</mo><msqrt><mrow><mi>P</mi><mi>R</mi></mrow></msqrt></mrow><annotation encoding="application/x-tex">U = \sqrt{PR}
+</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathnormal" style="margin-right:0.10903em;">U</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1.04em;vertical-align:-0.06445999999999996em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.9755400000000001em;"><span class="svg-align" style="top:-3em;"><span class="pstrut" style="height:3em;"></span><span class="mord" style="padding-left:0.833em;"><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mord mathnormal" style="margin-right:0.00773em;">R</span></span></span><span style="top:-2.93554em;"><span class="pstrut" style="height:3em;"></span><span class="hide-tail" style="min-width:0.853em;height:1.08em;"><svg width='400em' height='1.08em' viewBox='0 0 400000 1080' preserveAspectRatio='xMinYMin slice'><path d='M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z'/></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.06445999999999996em;"><span></span></span></span></span></span></span></span></span></span></p>
+<h4 id="可调电阻器"><a class="markdownIt-Anchor" href="#可调电阻器"></a> 可调电阻器</h4>
+<p>可调电阻器分为微调电阻器和电位器两大类，最大的特点是电阻值在一定范围内连续可调。</p>
+<h5 id="微调电阻器"><a class="markdownIt-Anchor" href="#微调电阻器"></a> 微调电阻器</h5>
+<p>微调电阻器又称微调电位器、半可调电阻器，阻值在一定范围内改变，常用于偶尔需要调整阻值的电路。</p>
+<blockquote>
+<p>微调电阻器增加了一个可以在两个固定电阻片引出脚之间滑动的触点引出脚，其中两个固定电阻片引出脚之间的电阻固定，称为标称阻值，而滑动触点引出脚与任何一个固定电阻片引出脚之间的电阻值可以随着滑动触点的转动而改变，从而起到了调节阻值的效果。</p>
+</blockquote>
+<p>微调电阻器的阻值一般打印在外壳或表面明显处，即为最大阻值。</p>
+<p>微调电阻多用于小电流的电路中，额定功率较小，多为合成碳膜电阻器，型号中有 <code>WH</code> 标志。</p>
+<h5 id="电位器"><a class="markdownIt-Anchor" href="#电位器"></a> 电位器</h5>
+<p>电位器多用于经常需要改变阻值、进行某种控制或调节的地方，如音量调节、稳压电源输出电压调节等。常见的电位器有普通旋转式电位器、带开关电位器、小型带开关电位器、直滑式电位器等。</p>
+<p>电位器一般有 3 个引出脚，两边的两个固定电阻引出脚间电阻最大，中间的滑动触点引出脚与左右两个引出脚之间的电阻，通过与旋轴相连的簧片式触点的移动来改变，这两个电阻值之和始终等于最大阻值（标称阻值）。</p>
+<p>电位器具有较长的旋轴和外壳，制造工艺更精巧，有的还带有独立的电源开关。</p>
+<p>电位器的主要参数除了标称阻值、允许偏差、额定功率之外，还有一个重要参数——阻值变化特性，指的是阻值随转轴的旋转角度（或动臂的滑动行程）而变化的关系。常见的电位器阻值变化规律有：直线式（X 或 B）、指数式（Z 或 A ）、对数式（D 或 C）。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/dz_dwq.png" alt="" /></p>
+<ul>
+<li>直线式电位器，阻值随旋轴旋轴角度均匀变化，适用于要求均匀调节的场合，如分压器、晶体三极管偏流调节等电路。</li>
+<li>指数式电位器，阻值随转轴角度改变，初始时电阻变化较小，转动角度加大，阻值变化逐渐加快。适用于音量控制电路，因为人耳对微小声音稍有增加时，感觉很灵敏，但音量达到一定值后，即使音量功率有较大增加，人耳感觉却变化不大，采用这种电位器，能够获得音量与电位器转角近似于线性的关系。</li>
+<li>对数式电位器，阻值在旋轴转动角度小时变化很快，随着转动角度加大，阻值变化逐渐变慢，与指数式电位器相反。适用于反馈式音调控制电路等。</li>
+</ul>
+<h5 id="型号命名-2"><a class="markdownIt-Anchor" href="#型号命名-2"></a> 型号命名</h5>
+<p>国产电位器型号命名一般由 4 部分构成：</p>
+<ul>
+<li>
+<p>第一部分用字母 <code>W</code> 表示电位器。</p>
+</li>
+<li>
+<p>第二部分用汉语拼音字母表示电位器电阻体的材料</p>
+<table>
+<thead>
+<tr>
+<th>代号</th>
+<th>材料类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>H</td>
+<td>合成碳膜</td>
+</tr>
+<tr>
+<td>S</td>
+<td>有机实芯</td>
+</tr>
+<tr>
+<td>N</td>
+<td>无机实芯</td>
+</tr>
+<tr>
+<td>J</td>
+<td>金属膜</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>氧化膜</td>
+</tr>
+<tr>
+<td>I</td>
+<td>玻璃釉膜</td>
+</tr>
+<tr>
+<td>X</td>
+<td>线绕</td>
+</tr>
+<tr>
+<td>D</td>
+<td>导电塑料</td>
+</tr>
+<tr>
+<td>F</td>
+<td>复合膜</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>第三部分用汉语拼音字母表示电位器分类</p>
+<table>
+<thead>
+<tr>
+<th>代号</th>
+<th>分类</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>G</td>
+<td>高压类</td>
+</tr>
+<tr>
+<td>H</td>
+<td>组合类</td>
+</tr>
+<tr>
+<td>B</td>
+<td>片式类</td>
+</tr>
+<tr>
+<td>W</td>
+<td>螺杆驱动预调类</td>
+</tr>
+<tr>
+<td>Y</td>
+<td>旋转预调类</td>
+</tr>
+<tr>
+<td>J</td>
+<td>单圈旋转预调类</td>
+</tr>
+<tr>
+<td>D</td>
+<td>多圈旋转预调类</td>
+</tr>
+<tr>
+<td>M</td>
+<td>直滑式精密类</td>
+</tr>
+<tr>
+<td>X</td>
+<td>旋转式低功率类</td>
+</tr>
+<tr>
+<td>Z</td>
+<td>直滑式低功率类</td>
+</tr>
+<tr>
+<td>P</td>
+<td>旋转功率类</td>
+</tr>
+<tr>
+<td>T</td>
+<td>特殊类</td>
+</tr>
+</tbody>
+</table>
+</li>
+<li>
+<p>第四部分用阿拉伯数字表示产品序号。</p>
+</li>
+</ul>
+<h5 id="选用-2"><a class="markdownIt-Anchor" href="#选用-2"></a> 选用</h5>
+<ul>
+<li>标称阻值尽量相同</li>
+<li>额定功率尽量相同，可以用功率大的替代，但不能用功率小的替代</li>
+<li>阻值变化特性尽量相同</li>
+<li>选择外形和体积合适的电位器</li>
+</ul>
+<h4 id="电路符号"><a class="markdownIt-Anchor" href="#电路符号"></a> 电路符号</h4>
+<p>固定电阻器的文字符号是 R，可调电阻器的文字符号是 RP，常写在图形符号旁边。如果电路中有多个同类元器件，在文字符号后面或右下角标上数字，以示区别，如 R1、RP2 或 R<sub>1</sub> 、RP<sub>2</sub> 等。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/dz_dz.png" alt="" /></p>
+<h4 id="敏感电阻"><a class="markdownIt-Anchor" href="#敏感电阻"></a> 敏感电阻</h4>
+<p>敏感电阻是指阻值随某些外界条件改变而变化的电阻器，常见的有热敏电阻、光敏电阻、湿敏电阻、压敏电阻、力敏电阻、气敏电阻、磁敏电阻等。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor_guangmin.png" alt="" title="光敏电阻" /></p>
+<h4 id="排阻"><a class="markdownIt-Anchor" href="#排阻"></a> 排阻</h4>
+<p>排阻又称电阻排，是由多个电阻器按一定方式制作并封装在一起构成的，排阻具有安装精度高和安装方便等优点，广泛用于数字电路系统中。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/electronics_resistor_paizu.png" alt="" title="排阻" /></p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>
+<p>张晓东. 不可不知的36种电子元器件（第2版） (科技制作小达人). 人民邮电出版社</p>
+</li>
+<li>
+<p>蔡杏山. 电子工程师自学速成——入门篇 . 人民邮电出版社</p>
+</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>电阻是电路中使用最多的元器件，在网上购买的电阻器大多有时是没有标注阻值的，所以掌握辨识电阻信息的知识就显得非常重要了。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E7%94%B5%E9%98%BB/" rel="tag"># 电阻</a>
+              <a href="/tags/%E7%94%B5%E5%99%A8%E5%85%83%E4%BB%B6/" rel="tag"># 电器元件</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/03/19/%E8%BD%AF%E4%BB%B6%E7%89%88%E6%9C%AC%E7%AE%A1%E7%90%86/" rel="prev" title="软件版本管理">
+                  <i class="fa fa-chevron-left"></i> 软件版本管理
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/03/24/%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%9A%84%E8%AE%BE%E8%AE%A1%E5%8E%9F%E5%88%99/" rel="next" title="面向对象的设计原则">
+                  面向对象的设计原则 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

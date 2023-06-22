@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 互联网时代，海量数据的存储和访问成为了系统设计与使用的瓶颈问题。这篇文章介绍了一个解决大数据量存储和查询新能问题的数据库中间件——MyCat，主要介绍了 MyCat 的一下概念，以及安装测试过程。  认识 MyCat   官网：http:&#x2F;&#x2F;www.mycat.io  MyCat 是一个国内的、开源的、通用（兼容绝大多数数据库）的、高性能的、分布式的数据库中间件。Mycat 是用 java">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MyCat 初识">
+<meta property="og:url" content="https://www.wqf31415.xyz/2020/02/19/MyCat-%E5%88%9D%E8%AF%86/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 互联网时代，海量数据的存储和访问成为了系统设计与使用的瓶颈问题。这篇文章介绍了一个解决大数据量存储和查询新能问题的数据库中间件——MyCat，主要介绍了 MyCat 的一下概念，以及安装测试过程。  认识 MyCat   官网：http:&#x2F;&#x2F;www.mycat.io  MyCat 是一个国内的、开源的、通用（兼容绝大多数数据库）的、高性能的、分布式的数据库中间件。Mycat 是用 java">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/mycat_logo.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/mysql_connect_mycat.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/mycat_jvm_param_error.png">
+<meta property="article:published_time" content="2020-02-19T05:38:58.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.248Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="数据库">
+<meta property="article:tag" content="mysql">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/mycat_logo.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2020/02/19/MyCat-%E5%88%9D%E8%AF%86/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/02/19/MyCat-%E5%88%9D%E8%AF%86/","path":"2020/02/19/MyCat-初识/","title":"MyCat 初识"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>MyCat 初识 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-mycat"><span class="nav-number">2.</span> <span class="nav-text"> 认识 MyCat</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text"> 相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#mycat-%E4%B8%AD%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="nav-number">3.1.</span> <span class="nav-text"> MyCat 中的概念</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%BA%93%E4%B8%AD%E9%97%B4%E4%BB%B6"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 数据库中间件</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E5%BA%93schema"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 逻辑库（Schema）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%A1%A8table"><span class="nav-number">3.1.3.</span> <span class="nav-text"> 逻辑表（Table）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E7%89%87%E8%8A%82%E7%82%B9datanode"><span class="nav-number">3.1.4.</span> <span class="nav-text"> 分片节点（dataNode）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%8A%82%E7%82%B9%E4%B8%BB%E6%9C%BAdatahost"><span class="nav-number">3.1.5.</span> <span class="nav-text"> 节点主机（dataHost）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%86%E7%89%87%E8%A7%84%E5%88%99rule"><span class="nav-number">3.1.6.</span> <span class="nav-text"> 分片规则（rule）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%A8%E5%B1%80%E5%BA%8F%E5%88%97%E5%8F%B7sequence"><span class="nav-number">3.1.7.</span> <span class="nav-text"> 全局序列号（sequence）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E6%8D%AE%E5%88%87%E5%88%86"><span class="nav-number">3.2.</span> <span class="nav-text"> 数据切分</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%9E%82%E7%9B%B4%E5%88%87%E5%88%86"><span class="nav-number">3.2.1.</span> <span class="nav-text"> 垂直切分</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B0%B4%E5%B9%B3%E5%88%87%E5%88%86"><span class="nav-number">3.2.2.</span> <span class="nav-text"> 水平切分</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%90%8C%E4%BA%BA%E7%9C%BC%E4%B8%AD%E7%9A%84-mycat"><span class="nav-number">3.3.</span> <span class="nav-text"> 不同人眼中的 MyCat</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#dba"><span class="nav-number">3.3.1.</span> <span class="nav-text"> DBA</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6%E5%B7%A5%E7%A8%8B%E5%B8%88"><span class="nav-number">3.3.2.</span> <span class="nav-text"> 软件工程师</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84%E5%B8%88"><span class="nav-number">3.3.3.</span> <span class="nav-text"> 架构师</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mycat-%E5%8E%9F%E7%90%86"><span class="nav-number">3.4.</span> <span class="nav-text"> MyCat 原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mycat-%E5%BA%94%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">3.5.</span> <span class="nav-text"> MyCat 应用场景</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%BD%93%E9%AA%8C"><span class="nav-number">4.</span> <span class="nav-text"> 安装体验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%8E%AF%E5%A2%83"><span class="nav-number">4.1.</span> <span class="nav-text"> 环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8"><span class="nav-number">4.2.</span> <span class="nav-text"> 启动</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#mycat-%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.</span> <span class="nav-text"> MyCat 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%98%B2%E7%81%AB%E5%A2%99%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.1.</span> <span class="nav-text"> 防火墙配置</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#schema-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.2.</span> <span class="nav-text"> Schema 标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#table-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.3.</span> <span class="nav-text"> table 标签</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#childtable-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.3.1.</span> <span class="nav-text"> childTable 标签</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#datanode-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.4.</span> <span class="nav-text"> dataNode 标签</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#datahost-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.5.</span> <span class="nav-text"> dataHost 标签</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#heartbeat-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.5.1.</span> <span class="nav-text"> heartbeat 标签</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#writehost-readhost-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.5.2.</span> <span class="nav-text"> writeHost 、 readHost 标签</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#serverxml-%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.6.</span> <span class="nav-text"> server.xml 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#user-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.6.1.</span> <span class="nav-text"> user 标签</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#privileges-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.6.2.</span> <span class="nav-text"> privileges 标签</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#system-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.6.3.</span> <span class="nav-text"> system 标签</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#rulexml-%E9%85%8D%E7%BD%AE"><span class="nav-number">4.3.7.</span> <span class="nav-text"> rule.xml 配置</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#tablerule-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.7.1.</span> <span class="nav-text"> tableRule 标签</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#function-%E6%A0%87%E7%AD%BE"><span class="nav-number">4.3.7.2.</span> <span class="nav-text"> function 标签</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">4.4.</span> <span class="nav-text"> 测试</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">5.</span> <span class="nav-text"> 遇到的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jre-%E7%8E%AF%E5%A2%83%E4%B8%AD%E7%BC%BA%E5%B0%91-server-jvm"><span class="nav-number">5.1.</span> <span class="nav-text"> JRE 环境中缺少 ‘server’ JVM</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95"><span class="nav-number">5.1.1.</span> <span class="nav-text"> 解决方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jvm-%E9%85%8D%E7%BD%AE%E5%8F%82%E6%95%B0%E6%97%A0%E6%95%88"><span class="nav-number">5.2.</span> <span class="nav-text"> JVM 配置参数无效</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%86%B3%E5%8A%9E%E6%B3%95"><span class="nav-number">5.2.1.</span> <span class="nav-text"> 解决办法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2020/02/19/MyCat-%E5%88%9D%E8%AF%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="MyCat 初识 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          MyCat 初识<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/MyCat-%E5%88%9D%E8%AF%86.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-02-19 13:38:58" itemprop="dateCreated datePublished" datetime="2020-02-19T13:38:58+08:00">2020-02-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>互联网时代，海量数据的存储和访问成为了系统设计与使用的瓶颈问题。这篇文章介绍了一个解决大数据量存储和查询新能问题的数据库中间件——MyCat，主要介绍了 MyCat 的一下概念，以及安装测试过程。</p>
+<h3 id="认识-mycat"><a class="markdownIt-Anchor" href="#认识-mycat"></a> 认识 MyCat</h3>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/mycat_logo.png" alt="" /></p>
+<blockquote>
+<p>官网：<a target="_blank" rel="noopener" href="http://www.mycat.io">http://www.mycat.io</a></p>
+</blockquote>
+<p>MyCat 是一个国内的、开源的、通用（兼容绝大多数数据库）的、高性能的、分布式的数据库中间件。Mycat 是用 java 语言编写的，基于阿里开源稳定的 Cobar 演变而来，经过开发团队彻底重构，使用 NIO 重构网络模块，优化 Buffer 内核，增强聚合、Join 等功能，是一个强大的数据库中间件。</p>
+<span id="more"></span>
+<p>用户可以把 MyCat 看作是一个数据库代理，可以直接使用 MySql 客户端或命令行访问，后端程序只需要改一下数据库连接配置就可以直接使用。而 MyCat 还支持跨数据库使用，不仅支持 MySql、Oracle、PostgreSql 等关系型数据库，还支持 MongoDB 这种 NoSQL ，但从业务端来看，面对的还是一个传统的数据库表，使用标准 SQL 进行操作，对于开发者来说就无需修改代码和增加复杂的配置，提高了开发速度。</p>
+<p>MyCat 崇尚开源，承诺永不收费，永不闭源，持续推送开源社区的发展。</p>
+<h3 id="相关概念"><a class="markdownIt-Anchor" href="#相关概念"></a> 相关概念</h3>
+<h4 id="mycat-中的概念"><a class="markdownIt-Anchor" href="#mycat-中的概念"></a> MyCat 中的概念</h4>
+<h5 id="数据库中间件"><a class="markdownIt-Anchor" href="#数据库中间件"></a> 数据库中间件</h5>
+<p>数据库中间件是介于数据库和应用之间，进行数据处理与交互的中间服务，数据库中间件可以帮我们完成分片数据的读取，处理多个数据源、事务、聚合等任务。数据库中间件的性能与处理能力直接决定应用的读写性能。</p>
+<h5 id="逻辑库schema"><a class="markdownIt-Anchor" href="#逻辑库schema"></a> 逻辑库（Schema）</h5>
+<p>对于应用来说，并不需要知道中间件的存在，开发人员只需要知道数据库的概念，所以数据库中间件可以被看做是一个或多个数据库集群构成的逻辑库。</p>
+<h5 id="逻辑表table"><a class="markdownIt-Anchor" href="#逻辑表table"></a> 逻辑表（Table）</h5>
+<p>在分布式数据库中，对应用来说，读写数据的表就是逻辑表。</p>
+<ul>
+<li>
+<p>分片表，指那些原本很大数据的表，需要切分到多个数据库的表，每个分片都有一部分数据，所有分片构成了完整的数据。</p>
+</li>
+<li>
+<p>非分片表，数据量比较小的不需要做切分的表</p>
+</li>
+<li>
+<p>ER 表，基于实物关系模型(Entity-Relationship Model) 的数据分片策略，字表的记录与所关联的父表记录存放在同一个数据分片上，即字表依赖于父表，通过表分组保证数据 join 不会跨库操作。</p>
+</li>
+<li>
+<p>全局表，在业务系统中变动很少，类似字典表的表。特点是变动不频繁，数据量总体变化不大，数据规模不大，很少有超过数十万条记录。</p>
+<blockquote>
+<p>MyCat 中通过数据冗余来解决字典表的 join，即所有分片上都有一份数据的拷贝，将所有字典表或具有字典表特性的表定义成全局表。</p>
+</blockquote>
+</li>
+</ul>
+<h5 id="分片节点datanode"><a class="markdownIt-Anchor" href="#分片节点datanode"></a> 分片节点（dataNode）</h5>
+<p>数据切分后，一张大表被分到不同的分片数据库上，每个表分片所在的数据库就是分片节点。</p>
+<h5 id="节点主机datahost"><a class="markdownIt-Anchor" href="#节点主机datahost"></a> 节点主机（dataHost）</h5>
+<p>数据切分后，每个分片节点不一定独占一台机器，同一机器上面可以有多个分片数据库，这样一个或多个分片节点所在的机器就是节点主机。</p>
+<p>为了规避单节点主机并发数限制，尽量将读写压力高的分片节点均衡的放在不同的节点主机上。</p>
+<h5 id="分片规则rule"><a class="markdownIt-Anchor" href="#分片规则rule"></a> 分片规则（rule）</h5>
+<p>要将一张大表切分成数个分片表，就需要一定的规则，选择合适的分片规则非常重要，将极大地避免后续数据处理的难度。</p>
+<h5 id="全局序列号sequence"><a class="markdownIt-Anchor" href="#全局序列号sequence"></a> 全局序列号（sequence）</h5>
+<p>数据切分后，原有的关系数据库主键约束在分布式条件下将无法使用，因此需要引入外部机制保证数据唯一性标识，这种保证全局性的数据唯一标识的机制就是全局序列号。</p>
+<h4 id="数据切分"><a class="markdownIt-Anchor" href="#数据切分"></a> 数据切分</h4>
+<p>数据切分是按某种特定的条件，将存放在同一数据库中的数据分散存放到多个数据库，达到分散单台设备负载的效果。根据切分规则不同，可以分为垂直（纵向）切分、水平（横向）切分。</p>
+<h5 id="垂直切分"><a class="markdownIt-Anchor" href="#垂直切分"></a> 垂直切分</h5>
+<p>垂直切分是按不同的表（或 schema）来切分到不同的数据库上。垂直拆分的优点是规则简单，实施方便，尤其适合各业务之间耦合度非常低，相互影响很小，业务逻辑非常清晰的系统。对于按模块开发的应用，垂直切分就非常方便，比如拆分成用户系统、订单系统、支付系统等。</p>
+<blockquote>
+<p>在实际开发中，往往有些表难以做到完全独立，存在着 join 的情况，对于这类的表，就需要去做平衡，是数据库让步业务，共用一个数据源，还是分成多个库，业务之间通过接口来调用。</p>
+</blockquote>
+<p>一般业务存在复杂 join 的场景是难以切分的，业务独立的易于切分。</p>
+<h5 id="水平切分"><a class="markdownIt-Anchor" href="#水平切分"></a> 水平切分</h5>
+<p>水平切分是根据表中的数据的逻辑关系，将一个表中的数据按照某种条件拆分到多台数据库上。水平拆分稍微复杂一些，需要将一个表中数据拆分到不同数据库，拆分规则本身比按表名拆分更复杂，后期的数据维护也会更为复杂一些。</p>
+<p>水平拆分是按照某个字段的某种规则来分散到多个库中，每个库中包含一部分数据。</p>
+<p>常见的水平分片规则：</p>
+<ul>
+<li>按用户 ID 求模，将数据分散到不同数据库，具有相同 ID 用户的数据都被分到一个库中</li>
+<li>按照日期，将不同月、日的数据分散到不同库中</li>
+<li>按照某个特定字段求模，或根据特定范围分散到不同库中，比如按地区切分</li>
+</ul>
+<h4 id="不同人眼中的-mycat"><a class="markdownIt-Anchor" href="#不同人眼中的-mycat"></a> 不同人眼中的 MyCat</h4>
+<h5 id="dba"><a class="markdownIt-Anchor" href="#dba"></a> DBA</h5>
+<blockquote>
+<p>MyCat 就是 MySQL Server，而 MyCat 后面连接的 MySQL Server，就好像是 MySQL 的存储引擎，如 InnoDB、MyISAM 等。因此，MyCat 本身并不存储数据，数据是在后端的 MySQL 上存储的，因此数据可靠性以及事物等都是 MySQL 保证的。简单说，MyCat 就是 MySQL 最佳伴侣，它在一定程度上让 MySQL 拥有跟 Oracle PK 的能力。</p>
+</blockquote>
+<h5 id="软件工程师"><a class="markdownIt-Anchor" href="#软件工程师"></a> 软件工程师</h5>
+<blockquote>
+<p>MyCat 就是一个近似等于 MySQL 的数据库服务器，你可以用连接 MySQL 的方式去连接 MyCat（除了端口不同，MyCat 默认端口 8066，而非 MySQL 的 3306），大多数情况，可以用你熟悉的对象映射框架使用 MyCat，但建议对于分片表，尽量使用基础的 SQL 语句，因为这样能达到最佳性能，特别是几千万甚至几百亿条记录的情况下。</p>
+</blockquote>
+<h5 id="架构师"><a class="markdownIt-Anchor" href="#架构师"></a> 架构师</h5>
+<blockquote>
+<p>MyCat 是一个强大的数据库中间件，不仅可以做读写分离、分库分表、容灾备份，还可以用于多租户应用开发、云平台基础设施、让你的架构具有很强的适应性和灵活性，借助即将发布的 MyCat 智能优化模块，系统的数据访问瓶颈和热点一目了然，根据这些统计分析数据，你可以自动或手动调整后端存储，将不同的表映射到不同存储引擎上，而整个应用的代码一行也不用改。</p>
+</blockquote>
+<h4 id="mycat-原理"><a class="markdownIt-Anchor" href="#mycat-原理"></a> MyCat 原理</h4>
+<p>MyCat 原理中最重要的一个动作是 <code>拦截</code> ，它拦截了用户发过来的 SQL 语句，先对 SQL 做一些特定的分析，如：分片分析、路由分析、读写分离分析、缓存分析等，然后将此 SQL 发往后端的真实数据库并将返回的结果做适当的处理，最终再返回给用户。</p>
+<h4 id="mycat-应用场景"><a class="markdownIt-Anchor" href="#mycat-应用场景"></a> MyCat 应用场景</h4>
+<ul>
+<li>读写分离、主从切换</li>
+<li>分库分表，对超过 1000 万的表进行分片，最大支持 1000 亿的单表分片</li>
+<li>多租户应用，每个应用一个库，但应用程序只连接 MyCat，从而不改造程序本身，实现多租户化</li>
+<li>报表系统，借助于 MyCat 的分表能力，处理大规模报表的统计</li>
+<li>替代 Hbase，分析大数据</li>
+<li>海量数据实时查询的一种简单有效方案，比如 100 亿条频繁查询的记录需要在 3 秒内查询出结果，处理基于主键的查询，还可能存在范围查询或其他属性查询，此时 MyCat 可能是最简单有效的选择</li>
+</ul>
+<h3 id="安装体验"><a class="markdownIt-Anchor" href="#安装体验"></a> 安装体验</h3>
+<h4 id="环境"><a class="markdownIt-Anchor" href="#环境"></a> 环境</h4>
+<ul>
+<li>
+<p>jdk，需要1.7 及以上版本的 JDK。</p>
+</li>
+<li>
+<p>MySQL，MyCat 支持多种数据库，推荐使用 MySQL 做集群。可以使用 docker 开启多个 mysql 实例来进行测试。</p>
+</li>
+<li>
+<p>MyCat，官网 <a target="_blank" rel="noopener" href="http://www.mycat.io">http://www.mycat.io</a>  下载，提供编译好的安装包，支持 Windows、Linux、Mac、Solaris等系统。</p>
+</li>
+</ul>
+<h4 id="启动"><a class="markdownIt-Anchor" href="#启动"></a> 启动</h4>
+<p>我使用的是 Windows 操作系统来做测试，下载对应压缩包后，将其解压出来，放到一个没有中文和空格的目录下。</p>
+<p>进入 <code>bin</code> 目录，运行命令 <code>mycat.bat console</code> 就可以在控制台中启动程序，也可以运行 <code>startup_nowrap.bat</code> 启动。</p>
+<p>正确启动后，MyCat 默认连接端口是 <code>8066</code> ，可以使用数据库管理工具连接，或使用mysql 在命令中连接，如使用命令： <code>mysql -P8066 -uroot -p</code></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/mysql_connect_mycat.png" alt="" /></p>
+<blockquote>
+<p>注意：登陆用户名和密码在 <code>/conf/server.xml</code> 中配置，在其中的 <code>user</code> 标签中指定了用户名、密码和访问权限。</p>
+</blockquote>
+<h4 id="mycat-配置"><a class="markdownIt-Anchor" href="#mycat-配置"></a> MyCat 配置</h4>
+<h5 id="防火墙配置"><a class="markdownIt-Anchor" href="#防火墙配置"></a> 防火墙配置</h5>
+<p>在 <code>server.xml</code> 中可以配置白名单和黑名单，限定访问 IP 和权限。</p>
+<p>如：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">firewall</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">whitehost</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">host</span> <span class="attr">user</span>=<span class="string">&quot;mycat&quot;</span> <span class="attr">host</span>=<span class="string">&quot;127.0.0.1&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">host</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">whitehost</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">blacklist</span> <span class="attr">check</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;selelctAllow&quot;</span>&gt;</span>false<span class="tag">&lt;/<span class="name">property</span>&gt;</span> </span><br><span class="line">    <span class="tag">&lt;/<span class="name">blacklist</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">firewall</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h5 id="schema-标签"><a class="markdownIt-Anchor" href="#schema-标签"></a> Schema 标签</h5>
+<p>在 <code>Schema.xml</code> 中可以配置 MyCat 逻辑库、表、分片规则、DataNode 和 DataSource，搞懂这些配置是使用 MyCat 的基础。</p>
+<p>在 <code>Schema.xml</code> 文件中， <code>schema</code> 标签用来定义逻辑库，可有有多个逻辑库，每个逻辑库有自己相关的配置。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">schema</span> <span class="attr">name</span>=<span class="string">&quot;TESTDB&quot;</span> <span class="attr">checkSQLschema</span>=<span class="string">&quot;false&quot;</span> <span class="attr">sqlMaxLimit</span>=<span class="string">&quot;100&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;travelrecord&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;auto-sharding-long&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">schema</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上配置定义了一个逻辑库 <code>TESTDB</code> ，不检查 SQL 语句中的 schema，如果查询语句中没有 <code>limit</code> 限制查询数量，将自动添加 <code>limit 100</code> 限制查询 100 条记录；在逻辑库中定义了一张逻辑表 <code>travelrecord</code> 。</p>
+<p><code>schema</code> 标签相关属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>功能</th>
+<th>值</th>
+<th>数量限制</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>dataNode</td>
+<td>指定数据分片节点</td>
+<td>任意 String</td>
+<td>(0…1)</td>
+</tr>
+<tr>
+<td>checkSQLschema</td>
+<td>是否检查 SQL语句中的 schema，如果跟当前 <code>schema</code> 中名称相同，则会将 sql 中的 schema 去掉</td>
+<td>Boolean</td>
+<td>(1)</td>
+</tr>
+<tr>
+<td>sqlMaxLimit</td>
+<td>如果 sql 语句中没有 limit 限定查询条数，将自动添加查询限定条数</td>
+<td>Integer</td>
+<td>(1)</td>
+</tr>
+</tbody>
+</table>
+<h5 id="table-标签"><a class="markdownIt-Anchor" href="#table-标签"></a> table 标签</h5>
+<p>在 <code>Schema.xml</code> 中 <code>table</code> 标签用于定义逻辑表，所有需要拆分的表都需要在这个标签中定义。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;travelrecord&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2,dn3&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;auto-sharding-long&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上配置定义了一张逻辑表，名叫 <code>travelrecord</code> ，使用数据节点 <code>dn1</code> 、<code>dn2</code> 、 <code>dn3</code> ，数据将被分片存储到这三个节点上，指定分片规则使用 <code>auto-sharding-long</code> ，具体规则要到 <code>/conf/rule.xml</code> 文件中找到名为 <code>auto-sharding-long</code> 的配置。</p>
+<p>相关属性：</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>功能</th>
+<th>值</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>d</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>dataNode</td>
+<td>逻辑表所属的分片节点，如果只有一个节点即为不分片表，<abbr title="这个属性的值需要和 dataNode 标签中的 name 属性值相互对应">注</abbr></td>
+<td>String</td>
+<td>（1…*）</td>
+</tr>
+<tr>
+<td>rule</td>
+<td>逻辑表使用的规则名称，规则名称在 <code>rule.xml</code> 中定义，<abbr title="这个属性值必须与 tableRule 标签中的 name 属性值对应">注</abbr></td>
+<td>String</td>
+<td>（0…1）</td>
+</tr>
+<tr>
+<td>ruleRequired</td>
+<td>指定表是否绑定分片规则，<abbr title="如果值为 true 但未配置具体 rule 程序会报错">注</abbr></td>
+<td>Boolean</td>
+<td>（0…1）</td>
+</tr>
+<tr>
+<td>primaryKey</td>
+<td>逻辑表对应真实表的主键，<abbr title="分片规则是使用非主键进行分片，在使用主键查询时，将会发送查询语句到所有配置的 DN 上；如果使用该属性配置真实表的主键，那么MyCat会缓存主键与具体DN的信息，下次再使用非主角进行查询时就不会进行广播式查询，而是直接发送查询语句给具体的 DN">例如</abbr></td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>type</td>
+<td>定义逻辑表的类型，目前只有：全局表(<code>global</code>) 和普通表(不指定该值)</td>
+<td>String</td>
+<td>（0…1）</td>
+</tr>
+<tr>
+<td>autoIncrement</td>
+<td>指定表有使用自增长主键，默认值 <code>false</code></td>
+<td>Boolean</td>
+<td>（0…1）</td>
+</tr>
+<tr>
+<td>subTables</td>
+<td>分表，添加方式：<code>subTables=&quot;t_order$1-2,t_order3&quot;</code></td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>needAddLimit</td>
+<td>是否需要自动在每条语句后面加上 limit 限制。默认为 <code>true</code> ，默认限制数量为 <code>100</code></td>
+<td>Boolean</td>
+<td>（0…1）</td>
+</tr>
+</tbody>
+</table>
+<h6 id="childtable-标签"><a class="markdownIt-Anchor" href="#childtable-标签"></a> childTable 标签</h6>
+<p>在 <code>table</code> 标签内，可以使用 <code>childTable</code> 来定义 E-R 分片的子表，通过标签上的属性与父表进行关联。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;customer&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;ID&quot;</span> <span class="attr">dataNode</span>=<span class="string">&quot;dn1,dn2&quot;</span> <span class="attr">rule</span>=<span class="string">&quot;sharding-by-intfile&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">childTable</span> <span class="attr">name</span>=<span class="string">&quot;orders&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;ID&quot;</span> <span class="attr">joinKey</span>=<span class="string">&quot;customer_id&quot;</span> <span class="attr">parentKey</span>=<span class="string">&quot;id&quot;</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">childTable</span> <span class="attr">name</span>=<span class="string">&quot;order_items&quot;</span> <span class="attr">joinKey</span>=<span class="string">&quot;order_id&quot;</span> <span class="attr">parentKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">childTable</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">childTable</span> <span class="attr">name</span>=<span class="string">&quot;customer_addr&quot;</span> <span class="attr">primaryKey</span>=<span class="string">&quot;ID&quot;</span> <span class="attr">joinKey</span>=<span class="string">&quot;customer_id&quot;</span> <span class="attr">parentKey</span>=<span class="string">&quot;id&quot;</span> /&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">table</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>以上配置定义了子表 <code>orders</code> 和 <code>customer_addr</code> ，子表中的 <code>customer_id</code> 与父表 <code>customer</code> 中的 <code>id</code> 关联；在 <code>orders</code> 表中又定义了子表 <code>order_items</code> 。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>功能</th>
+<th>值</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>子表表名</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>joinKey</td>
+<td>插入子表时用这个列的值查找父表存储的数据节点</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>parentKey</td>
+<td>父表中建立关系的列名</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>primaryKey</td>
+<td>当前表主键</td>
+<td>String</td>
+<td>（0…1）</td>
+</tr>
+<tr>
+<td>needAddLimit</td>
+<td>是否需要添加 limit 限制</td>
+<td>Boolean</td>
+<td>（0…1）</td>
+</tr>
+</tbody>
+</table>
+<h5 id="datanode-标签"><a class="markdownIt-Anchor" href="#datanode-标签"></a> dataNode 标签</h5>
+<p>在 <code>schema.xml</code> 中的 <code>datanode</code> 标签用来定义数据节点，也就是所谓的数据分片。一个 dataNode 就是一个独立的数据分片。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dataNode</span> <span class="attr">name</span>=<span class="string">&quot;dn1&quot;</span> <span class="attr">dataHost</span>=<span class="string">&quot;lch3307&quot;</span> <span class="attr">database</span>=<span class="string">&quot;db1&quot;</span> &gt;</span><span class="tag">&lt;/<span class="name">dataNode</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>上述配置定义了一个名为 <code>dn1</code> 的数据节点，使用名为 <code>lch3307</code> 的数据库实例上的 <code>db1</code> 物理数据库。</p>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>功能</th>
+<th>值</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>数据节点名称，需要唯一，在 <code>table</code> 标签中会用到这个名字</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>dataHost</td>
+<td>定义这个分片属于哪个数据库实例，属性值引用的是 <code>dataHost</code> 标签的 <code>name</code> 属性</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>database</td>
+<td>定义分片属于哪个具体数据库实例的具体数据库</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+</tbody>
+</table>
+<h5 id="datahost-标签"><a class="markdownIt-Anchor" href="#datahost-标签"></a> dataHost 标签</h5>
+<p><code>schema.xml</code> 中的 <code>dataHost</code> 标签用于定义数据库实例、读写分离配置、心跳语句。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">dataHost</span> <span class="attr">name</span>=<span class="string">&quot;localhost1&quot;</span> <span class="attr">maxCon</span>=<span class="string">&quot;1000&quot;</span> <span class="attr">minCon</span>=<span class="string">&quot;10&quot;</span> <span class="attr">balance</span>=<span class="string">&quot;0&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">writeType</span>=<span class="string">&quot;0&quot;</span> <span class="attr">dbType</span>=<span class="string">&quot;mysql&quot;</span> <span class="attr">dbDriver</span>=<span class="string">&quot;native&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">heartbeat</span>&gt;</span>select user()<span class="tag">&lt;/<span class="name">heartbeat</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- can have multi write hosts --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">writeHost</span> <span class="attr">host</span>=<span class="string">&quot;hostM1&quot;</span> <span class="attr">url</span>=<span class="string">&quot;localhost:3306&quot;</span> <span class="attr">user</span>=<span class="string">&quot;root&quot;</span> </span></span><br><span class="line"><span class="tag">    <span class="attr">password</span>=<span class="string">&quot;123456&quot;</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- can have multi read hosts --&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- &lt;readHost host=&quot;hostS1&quot; url=&quot;localhost:3306&quot; user=&quot;root&quot; password=&quot;123456&quot;</span></span><br><span class="line"><span class="comment">    /&gt; --&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">writeHost</span>&gt;</span></span><br><span class="line">    <span class="comment">&lt;!-- &lt;writeHost host=&quot;hostM2&quot; url=&quot;localhost:3316&quot; user=&quot;root&quot; password=&quot;123456&quot;/&gt; --&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dataHost</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>功能</th>
+<th>值</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>name</td>
+<td>数据主机名称，在 <code>dataNode</code> 标签中会引用</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>maxCon</td>
+<td>每个读写实例连接池最大连接，<abbr title="标签内嵌的 writeHost 和 readHost 都会使用这个属性值来确定实例化连接池的最大连接数">注</abbr></td>
+<td>Integer</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>minCon</td>
+<td>每个读写实例连接池最小连接，初始化连接池的大小</td>
+<td>Integer</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>balance</td>
+<td>负载均衡类型：<br /> <code>0</code> 不开启读写分离，所有读操作都发送到当前可用的 writeHost 上；<br /> <code>1</code> 全部的 readHost 的 stand by writeHost 参与 select 语句的负载均衡，<abbr title="当双主双从模式（M1→S1，M2→S2，且 M1 和 M2 互为主备），正常情况下，M2，S1，S2 都参与 select 语句的负载均衡">举例</abbr>；<br /> <code>2</code> 所有读操作都随机在 writeHost、readHost 上分发；<br /> <code>3</code> 所有读请求随机分发到 writeHost 对应的 readHost 执行，writeHost 不负担读压力。</td>
+<td>Integer</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>writeType</td>
+<td>负载均衡类型：<br /> <code>0</code> 所有写操作都发送到第一个配置的 writeHost ，第一个挂了切到第二个还生存的 writeHost，重启后以切换后的为准，切换记录在配置文件 <code>dnindex.properties</code> ；<br /> <code>1</code> 所有写操作都随机打发送到配置的 writeHost，1.5 版本后废弃不推荐</td>
+<td>Integer</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>dbType</td>
+<td>后端连接的数据库类型，目前支持二级制的 mysql 协议，还有其他使用 JDBC 连接的数据库，如 MongoDB、Oracle、spark 等</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>dbDriver</td>
+<td>连接后端数据库使用的 Driver，目前可选值有 <code>native</code> (使用二进制 mysql 协议，可以使用 MySQL 和 MariaDB)、<code>JDBC</code> 可以连接使用 JDBC 驱动的数据库。</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+</tbody>
+</table>
+<h6 id="heartbeat-标签"><a class="markdownIt-Anchor" href="#heartbeat-标签"></a> heartbeat 标签</h6>
+<p>指定用于检测后端数据库的心跳语句。MySQL 可以使用 <code>select user()</code> ，Oracle 可以使用 <code>select 1 from dual</code> 。</p>
+<h6 id="writehost-readhost-标签"><a class="markdownIt-Anchor" href="#writehost-readhost-标签"></a> writeHost 、 readHost 标签</h6>
+<p>指定数据库相关配置，用于实例化后端连接池，writeHost 指定写实例，readHost 指定读实例。</p>
+<p>在一个 dataHost 内可以定义多个 writeHost 和 readHost，但是如果 writeHost 指定的数据库宕机，那么这个 writeHost 绑定的所有 readHost 都将不可用。另一方面由于这个 writeHost 宕机系统会自动检测到，并切换到备用的 writeHost 。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+<table>
+<thead>
+<tr>
+<th>属性</th>
+<th>功能</th>
+<th>值</th>
+<th>数量</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>host</td>
+<td>标识不同的实例，一般 writeHost 使用 *M1，readHost 使用 *S1</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>url</td>
+<td>后端实例连接地址，如果使用 <code>native</code> 的 dbDriver，一般是 <code>host:port</code> 形式；<br />如果是 JDBC 或其他 dbDriver，则需要特殊指定，如使用 JDBC 时指定为 <code>jdbc:mysql://localhost:3306</code></td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>password</td>
+<td>数据库连接密码</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>user</td>
+<td>数据库用户名</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>weight</td>
+<td>在 readHost 中作为 readHost 中作为读节点的权重</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+<tr>
+<td>usingDecrypt</td>
+<td>是否读密码加密：<code>0</code> 不加密，<code>1</code> 使用加密程序对密码加密</td>
+<td>String</td>
+<td>（1）</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>对密码加密的命令：</p>
+<p><code>java -cp Mycat-server-xxx.jar io.mycat.util.DecryUtil 1:host:user:password</code></p>
+<p>参数中的 <code>1</code> 是 db 端加密标志，<code>host</code> 为 dataHost 的 host 名称</p>
+</blockquote>
+<h5 id="serverxml-配置"><a class="markdownIt-Anchor" href="#serverxml-配置"></a> server.xml 配置</h5>
+<p>保存了 MyCat 需要的系统配置信息，在代码内的直接映射类为 <code>SystemConfig</code> 类。</p>
+<h6 id="user-标签"><a class="markdownIt-Anchor" href="#user-标签"></a> user 标签</h6>
+<p>用于定义登陆用户和权限。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>TESTDB,db1<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;readOnly&quot;</span>&gt;</span>true<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>如上配置，定义了一个名叫 <code>user</code> 的用户，密码是 <code>123456</code> ，可以访问 <code>TESTDB</code> 和 <code>db1</code> 数据库，但只有读取权限。</p>
+<p>在 <code>user</code> 标签里可以指定一些属性，可以修改对应名称属性标签中的值：</p>
+<table>
+<thead>
+<tr>
+<th>属性名称</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>password</td>
+<td>密码</td>
+</tr>
+<tr>
+<td>schemas</td>
+<td>可访问的数据库，多个数据库以 <code>,</code> 分隔</td>
+</tr>
+<tr>
+<td>readOnly</td>
+<td>限制用户是否只读</td>
+</tr>
+<tr>
+<td>benchmark</td>
+<td>mycat 连接服务器处理：benchmark 基准，当前端的整体连接数达到基准数值时，开始拒绝该用户的连接，0 或者不设置表示不限制</td>
+</tr>
+<tr>
+<td>useDecrypt</td>
+<td>是否对密码加密，默认值 0 不加密，1 加密</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>使用加密程序对密码进行加密，加密命令是执行 mycat.jar 程序：</p>
+<p><code>java -cp Mycat-server-xxx.jar io.mycat.util.DecryptUtil 0:user:password</code></p>
+<p><code>Mycat-server-xxx.jar</code> 是mycat download 目录文件</p>
+<p><code>0:user:password</code> 中 0 是前端加密标志</p>
+</blockquote>
+<h6 id="privileges-标签"><a class="markdownIt-Anchor" href="#privileges-标签"></a> privileges 标签</h6>
+<p>对用户 scheme 和下级的 table 进行精细化权限控制，其中 check 属性指定是否进行权限检查，默认值 false。</p>
+<p>privileges 下可以配置多个 scheme，对多个库和表进行精细的 DML 权限控制。</p>
+<p>在 scheme 和 table 中的 dml 值为四位数字，依次用于指定 insert、update、select、delete 权限，有权限则将对应位置的数字值为1，没有权限则值为 0。如只有查询权限则 <code>dml=&quot;0010&quot;</code> 。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">user</span> <span class="attr">name</span>=<span class="string">&quot;user&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;password&quot;</span>&gt;</span>123456<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;schemas&quot;</span>&gt;</span>TESTDB,db1<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">privileges</span> <span class="attr">check</span>=<span class="string">&quot;true&quot;</span>&gt;</span></span><br><span class="line">    	<span class="tag">&lt;<span class="name">scheme</span> <span class="attr">name</span>=<span class="string">&quot;TESTDB&quot;</span> <span class="attr">dml</span>=<span class="string">&quot;0110&quot;</span>&gt;</span></span><br><span class="line">    		<span class="tag">&lt;<span class="name">table</span> <span class="attr">name</span>=<span class="string">&quot;table_1&quot;</span> <span class="attr">dml</span>=<span class="string">&quot;0111&quot;</span>/&gt;</span></span><br><span class="line">    	<span class="tag">&lt;/<span class="name">scheme</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">privileges</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">user</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h6 id="system-标签"><a class="markdownIt-Anchor" href="#system-标签"></a> system 标签</h6>
+<p>system 标签用于配置系统参数，这个标签中全都使用 property 子标签来配置参数，property 标签中的 name 属性就是要配置的系统参数。</p>
+<ul>
+<li>
+<p><strong>charset 属性</strong> ：设置字符集</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">system</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;charset&quot;</span>&gt;</span>utf8<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">system</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>如果需要使用 utf8mb2 等特殊字符集，可以在 index_to_charset.properties 配置中配置数据库短的字符集 ID=字符集</p>
+<p>配置字符集时，一定要保持 mycat 和后端数据库的字符集一致。</p>
+</blockquote>
+</li>
+<li>
+<p><strong>defaultSqlParser 属性</strong> ：指定 sql 解析器，1.4 以后默认值为：<code>druidparser</code> ，可选值 <code>fdbparser</code></p>
+</li>
+<li>
+<p><strong>processors</strong> ： 指定系统可用线程数，默认为 CPU 核心线程数，影响 <code>processorBufferPool</code>、<code>processorBufferLocalPercent</code>、<code>processorExecutor</code> 属性，<code>NIOProcessor</code> 的个数也是由这个参数指定的，所以调优的时候可以适当调高这个数值。</p>
+</li>
+<li>
+<p>TCP 连接相关参数</p>
+</li>
+<li>
+<p>MySql 连接相关参数</p>
+</li>
+<li>
+<p>心跳属性</p>
+</li>
+<li>
+<p>服务相关属性：<code>bindIp</code> 服务绑定 IP 地址，默认 <code>0.0.0.0</code> ；<code>serverPort</code> 服务端口，默认 8066；<code>managePort</code> myCat 管理端口，默认 9066</p>
+</li>
+<li>
+<p><em>fakeMySQLVersion</em> ：模拟的 MySQL 版本，默认值为 5.6 版本，支持 5.5、5.6。不建议修改这个值，可能会导致错误</p>
+</li>
+<li>
+<p>全局表一致性检测</p>
+</li>
+</ul>
+<h5 id="rulexml-配置"><a class="markdownIt-Anchor" href="#rulexml-配置"></a> rule.xml 配置</h5>
+<p><code>rule.xml</code> 中配置了表拆分的规则，可以灵活的对表使用不同的分片算法，或对表使用相同算法，但参数不同。</p>
+<h6 id="tablerule-标签"><a class="markdownIt-Anchor" href="#tablerule-标签"></a> tableRule 标签</h6>
+<p>定义表规则</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">tableRule</span> <span class="attr">name</span>=<span class="string">&quot;rule1&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">rule</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">columns</span>&gt;</span>id<span class="tag">&lt;/<span class="name">columns</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">algorithm</span>&gt;</span>func1<span class="tag">&lt;/<span class="name">algorithm</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">rule</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">tableRule</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>name 指定唯一名称，区分不同的表规则</p>
+<p>rule 中指定分片使用的列和算法</p>
+<p>columns 指定分片使用的列</p>
+<p>algorithm 指定分片算法，指定算法时引用 function 标签中的 name 属性</p>
+</blockquote>
+<h6 id="function-标签"><a class="markdownIt-Anchor" href="#function-标签"></a> function 标签</h6>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">function</span> <span class="attr">name</span>=<span class="string">&quot;hash-int&quot;</span></span></span><br><span class="line"><span class="tag"><span class="attr">class</span>=<span class="string">&quot;io.mycat.route.function.PartitionByFileMap&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">&quot;mapFile&quot;</span>&gt;</span>partition-hash-int.txt<span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">function</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>name 为分片算法名称</p>
+<p>class 为算法具体类名称</p>
+<p>property 为算法中使用的一些属性</p>
+</blockquote>
+<h4 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h4>
+<p>修改好 mycat 配置，使用命令 <code>mycat console</code> 启动，启动后可以使用 mysql 自带的命令行工具连接 mycat：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mysql -P8066 -uroot -p</span><br></pre></td></tr></table></figure>
+<p>也可以使用像 navicat 之类的数据库管理工具连接，数据库类型选择 MySQL，修改端口为 mycat 端口 8066，填入设定的用户名，密码即可完成连接。</p>
+<p>正确连接 mycat 后，可以查看到在 scheme.xml 中配置的逻辑库。</p>
+<p>在使用 sql 插入数据前，需要先到具体的后端数据库中创建相应的实体库和表，否则插入数据会报错。</p>
+<h3 id="遇到的问题"><a class="markdownIt-Anchor" href="#遇到的问题"></a> 遇到的问题</h3>
+<h4 id="jre-环境中缺少-server-jvm"><a class="markdownIt-Anchor" href="#jre-环境中缺少-server-jvm"></a> JRE 环境中缺少 ‘server’ JVM</h4>
+<p>使用命令 <code>mycat.bat console</code> 启动 MyCat 时，提示 <code>Error: missing 'server' JVM at 'G:\develop\Java\jre1.8.0_121\bin\server\jvm.dll'.</code> ，具体错误日志如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wrapper  | --&gt; Wrapper Started as Console</span><br><span class="line">wrapper  | Launching a JVM...</span><br><span class="line">jvm 1    | Error: missing `server&#x27; JVM at `G:\develop\Java\jre1.8.0_121\bin\server\jvm.dll&#x27;.</span><br><span class="line">jvm 1    | Please install or use the JRE or JDK that contains these missing components.</span><br><span class="line">wrapper  | JVM exited while loading the application.</span><br></pre></td></tr></table></figure>
+<h5 id="解决方法"><a class="markdownIt-Anchor" href="#解决方法"></a> 解决方法</h5>
+<p>将 <code>JAVA_HOME/jdk1.8.0_121/jre/bin</code> 目录下的 <code>server</code> 文件夹复制到 <code>jre1.8.0_121/bin/</code> 目录下。</p>
+<h4 id="jvm-配置参数无效"><a class="markdownIt-Anchor" href="#jvm-配置参数无效"></a> JVM 配置参数无效</h4>
+<p>我是用的是 JDK 8 ，在使用 <code>mycat.bat console</code> 启动 MyCat 时，提示设置最大堆容量 <code>-Xmx4G</code> 无效，超过了最大可用空间。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">wrapper  | --&gt; Wrapper Started as Console</span><br><span class="line">wrapper  | Launching a JVM...</span><br><span class="line">jvm 1    | Error: Could not create the Java Virtual Machine.</span><br><span class="line">jvm 1    | Error: A fatal exception has occurred. Program will exit.</span><br><span class="line">jvm 1    | Java HotSpot(TM) Server VM warning: ignoring option MaxPermSize=64M; support was removed in 8.0</span><br><span class="line">jvm 1    | Invalid maximum heap size: -Xmx4G</span><br><span class="line">jvm 1    | The specified size exceeds the maximum representable size.</span><br><span class="line">wrapper  | JVM exited while loading the application.</span><br></pre></td></tr></table></figure>
+<h5 id="解决办法"><a class="markdownIt-Anchor" href="#解决办法"></a> 解决办法</h5>
+<p>打开 <code>/conf/wrapper.conf</code> 文件，搜索 <code>-Xmx4G</code> ，大概在 36 行，在这一行前面加一个 <code>#</code> ，将其注释掉即可。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/mycat_jvm_param_error.png" alt="" /></p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li><a target="_blank" rel="noopener" href="http://www.mycat.io/document/mycat-definitive-guide.pdf">《MyCat 权威指南》</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/MyCATApache/Mycat-Server/wiki">MyCat WiKi</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>官方文档真的特别良心，从基本原理到实际应用场景，应有尽有，而且<strong>都是中文</strong>，真是太棒了！只是有一点不太好，pdf 文档阅读没有目录大纲，内容又特别多，导致看的时候想要跳一下要翻到文档开头的目录去找。另外文档中有个别错别字，不过影响不大。总的来说，这次 MyCat 初体验非常舒心！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/mysql/" rel="tag"># mysql</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/02/12/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/" rel="prev" title="Java 基本数据类型及包装类">
+                  <i class="fa fa-chevron-left"></i> Java 基本数据类型及包装类
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/02/29/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity/" rel="next" title="SpringBoot 中使用 SpringSecurity">
+                  SpringBoot 中使用 SpringSecurity <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

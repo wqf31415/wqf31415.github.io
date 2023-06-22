@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="摘要：这篇文章详细讲解了利用 nodejs + hexo + github 搭建个人静态博客的操作步骤，尽可能描述得简单详细，目的是让每一个人，不管会不会编程都能照葫芦画瓢的搭建好自己的博客。   题外话：说说我为什么要建立这个博客，一是为了学(zhuang)习(bi)，拥有一个自己的个人域名，在浏览器一打开，就是一个外观精美，内容丰富的网站，想想还有点小激动呢！第二是为了给自己的成长做一个见证，">
+<meta property="og:type" content="article">
+<meta property="og:title" content="教你从0开始搭建个人博客">
+<meta property="og:url" content="https://www.wqf31415.xyz/2017/02/22/%E6%95%99%E4%BD%A0%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="摘要：这篇文章详细讲解了利用 nodejs + hexo + github 搭建个人静态博客的操作步骤，尽可能描述得简单详细，目的是让每一个人，不管会不会编程都能照葫芦画瓢的搭建好自己的博客。   题外话：说说我为什么要建立这个博客，一是为了学(zhuang)习(bi)，拥有一个自己的个人域名，在浏览器一打开，就是一个外观精美，内容丰富的网站，想想还有点小激动呢！第二是为了给自己的成长做一个见证，">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/logo_nodejs_hexo_github.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/npm-v.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/git--version.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/sign_up_for_github.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/github_create_repository_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/github_create_repository_2.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/coding_index.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/aliyun.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/aliyun_domain_search_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_init_command.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_init_files.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_server_success.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_firstPage.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/hexo_blog_config_deploy.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/coding_open_pages.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/aliyun_domain_resolve.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/domain_resolve_record.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/github_pages_CNAME.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/coding_pages_binding_domain.png">
+<meta property="article:published_time" content="2017-02-22T15:58:11.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.292Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="hexo">
+<meta property="article:tag" content="blog">
+<meta property="article:tag" content="git">
+<meta property="article:tag" content="域名">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/image/logo_nodejs_hexo_github.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2017/02/22/%E6%95%99%E4%BD%A0%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2017/02/22/%E6%95%99%E4%BD%A0%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/","path":"2017/02/22/教你从0开始搭建个人博客/","title":"教你从0开始搭建个人博客"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>教你从0开始搭建个人博客 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%88%E7%9C%8B%E7%9C%8B%E9%9C%80%E8%A6%81%E7%9A%84%E5%8E%9F%E6%9D%90%E6%96%99"><span class="nav-number">1.</span> <span class="nav-text"> 先看看需要的原材料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%A4%84%E7%90%86%E5%8E%9F%E6%9D%90%E6%96%99"><span class="nav-number">2.</span> <span class="nav-text"> 处理原材料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85nodejs"><span class="nav-number">2.1.</span> <span class="nav-text"> 安装nodejs</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85git"><span class="nav-number">2.2.</span> <span class="nav-text"> 安装git</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C-github-%E5%B9%B6%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E4%BB%93%E5%BA%93"><span class="nav-number">2.3.</span> <span class="nav-text"> 注册 GitHub 并创建博客仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8Ccoding-%E5%B9%B6%E5%88%9B%E5%BB%BA%E5%8D%9A%E5%AE%A2%E4%BB%93%E5%BA%93"><span class="nav-number">2.4.</span> <span class="nav-text"> 注册coding 并创建博客仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E5%86%8C%E5%9F%9F%E5%90%8D"><span class="nav-number">2.5.</span> <span class="nav-text"> 注册域名</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8B%E6%89%8B%E5%90%A7%E5%93%A6%E4%B8%8D%E5%8A%A8%E6%89%8B%E9%A2%9D-%E5%BC%80%E6%95%B4"><span class="nav-number">3.</span> <span class="nav-text"> 下手吧，哦不，动手，额。。。开整。。</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8%E6%9C%AC%E5%9C%B0%E7%94%9F%E6%88%90hexo%E5%8D%9A%E5%AE%A2"><span class="nav-number">3.1.</span> <span class="nav-text"> 在本地生成hexo博客</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0blog%E5%88%B0git%E4%BB%93%E5%BA%93"><span class="nav-number">3.2.</span> <span class="nav-text"> 上传blog到git仓库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%91%E5%AE%9A%E5%9F%9F%E5%90%8D"><span class="nav-number">3.3.</span> <span class="nav-text"> 绑定域名</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%9E%E5%AE%9A%E6%94%B6%E5%B7%A5%E6%B4%97%E6%BE%A1%E7%9D%A1%E8%A7%89"><span class="nav-number">4.</span> <span class="nav-text"> 搞定收工，洗澡睡觉。。。</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2017/02/22/%E6%95%99%E4%BD%A0%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="教你从0开始搭建个人博客 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          教你从0开始搭建个人博客<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E6%95%99%E4%BD%A0%E4%BB%8E0%E5%BC%80%E5%A7%8B%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2017-02-22 23:58:11" itemprop="dateCreated datePublished" datetime="2017-02-22T23:58:11+08:00">2017-02-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>摘要：这篇文章详细讲解了利用 nodejs + hexo + github 搭建个人静态博客的操作步骤，尽可能描述得简单详细，目的是让每一个人，不管会不会编程都能照葫芦画瓢的搭建好自己的博客。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/logo_nodejs_hexo_github.png" alt="" title="nodejs + hexo + github" /></p>
+<blockquote>
+<p>题外话：说说我为什么要建立这个博客，一是为了学(zhuang)习(bi)，拥有一个自己的个人域名，在浏览器一打开，就是一个外观精美，内容丰富的网站，想想还有点小激动呢！第二是为了给自己的成长做一个见证，回忆起在过去的几年里，发现好像没有太多的东西留下了，感觉自己正在恍恍惚惚中度过了青年时光，这可不行，为了将来老了，能够坐在摇椅上慢慢聊，必须把成长的脚印的记录下来！第三是想写点东西，记得在高中的时候，语文写作还是班级前几名，而现在提起笔却什么都写不出来，不免有些伤感，于是决定闲暇时还是开始写点小文章，记录点感悟！第四是想把博客作为一个学习的笔记本，记录下学过的东西，以便在用到的时候可以随时翻出来看看，因为挂在网上，所以随时可以查阅非常方便！第五……等等一系列原因导致我想建立这个博客。</p>
+</blockquote>
+<p>闲话少扯，下面开始办正事！！！</p>
+<span id="more"></span>
+<h3 id="先看看需要的原材料"><a class="markdownIt-Anchor" href="#先看看需要的原材料"></a> 先看看需要的原材料</h3>
+<p>首先需要一台能上网的电脑，然后再看看需要哪些工具：</p>
+<ul>
+<li>windows 系统</li>
+<li><a target="_blank" rel="noopener" href="https://nodejs.org/en/">nodejs</a></li>
+<li><a target="_blank" rel="noopener" href="https://git-scm.com/">git</a></li>
+<li><a target="_blank" rel="noopener" href="https://github.com/">github</a>帐号 或 <a target="_blank" rel="noopener" href="https://coding.net/">coding</a>帐号，或者两个都想要？——也可以</li>
+<li>域名，这东西可是装13利器，必不可少，哈哈哈哈哈</li>
+</ul>
+<h3 id="处理原材料"><a class="markdownIt-Anchor" href="#处理原材料"></a> 处理原材料</h3>
+<h4 id="安装nodejs"><a class="markdownIt-Anchor" href="#安装nodejs"></a> 安装nodejs</h4>
+<ul>
+<li>从官网下载最新的<a target="_blank" rel="noopener" href="https://nodejs.org/en/">nodejs</a>安装包，双击打开，一直点下一步就行。</li>
+<li>安装完成后按快捷键 <code>Win + R</code> ，打开 <strong>cmd</strong> ，进入命令行对话框后输入 <code>node -v</code> 查看nodejs的版本，如果显示出版本号说明node安装成功。</li>
+<li>在安装nodejs的同时会自动装上npm工具，在命令行输入 <code>npm -v</code> 查看npm版本，能显示出版本号说明安装成功，如下图。<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/npm-v.png" alt="" title="查看npm版本" /></li>
+<li>（可选）我们后续的操作要使用npm工具，但npm的仓库在国外，国内使用的时候速度可能会比较慢，因此推荐使用国内的<a target="_blank" rel="noopener" href="http://npm.taobao.org/">npm淘宝镜像</a>，在命令行执行：<br />
+<code>npm install -g cnpm --registry=https://registry.npm.taobao.org</code></li>
+</ul>
+<h4 id="安装git"><a class="markdownIt-Anchor" href="#安装git"></a> 安装git</h4>
+<ul>
+<li>从官网下载最新版本<a target="_blank" rel="noopener" href="https://git-scm.com/">git</a>，双击打开安装。</li>
+<li>安装完成后运行打开命令行，运行 <code>git --version</code> 查看git版本，正常显示版本信息说明安装成功。<br />
+<img src="http://blog-images.qiniu.wqf31415.xyz/image/git--version.png" alt="" title="查看git版本" /></li>
+</ul>
+<h4 id="注册-github-并创建博客仓库"><a class="markdownIt-Anchor" href="#注册-github-并创建博客仓库"></a> 注册 GitHub 并创建博客仓库</h4>
+<ul>
+<li>打开 <a target="_blank" rel="noopener" href="https://github.com/">github</a> 填写用户名、邮箱、密码，点击 <strong>Sign up for GitHub</strong> 即可 ↓↓↓</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/sign_up_for_github.png" alt="" title="github注册" /></p>
+<p>​</p>
+<ul>
+<li>注册完成后登录github，新建一个仓库取名叫 <code>username.github.io</code> ，username是刚才注册时填写的用户名</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/github_create_repository_1.png" alt="" title="点击右上角头像边的“+”号，点“New repository”" /></p>
+<p>​</p>
+<ul>
+<li>我的用户名叫wqf31415，所以我的仓库名叫 <code>wqf31415.github.io</code>  ↓↓↓</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/github_create_repository_2.png" alt="" title="填写仓库名username.github.io，点击“Create repository”" /></p>
+<ul>
+<li>完成上面的操作，github远端仓库就已经创建好了</li>
+</ul>
+<p>在 GitHub 仓库建好就可以开始生成博客了，coding为可选方案，因为 GitHub 的服务器在国外，访问速度有时会比较慢，coding服务器在国内，相对要快点。但 GitHub 是世界性的，世界上很多技术牛人都在用，而且很多最前沿的开源项目都是托管在 GitHub 上的，所以说这个 “逼格” 更高！</p>
+<h4 id="注册coding-并创建博客仓库"><a class="markdownIt-Anchor" href="#注册coding-并创建博客仓库"></a> 注册coding 并创建博客仓库</h4>
+<ul>
+<li>打开 <a target="_blank" rel="noopener" href="https://coding.net/">coding</a> 注册</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/coding_index.png" alt="" title="coding.net" /></p>
+<ul>
+<li>中文网站注册过程就不再赘述了，注册完成后登录 coding，新建一个项目以用户名来命名，我的用户名叫wqf31415，因此我的项目名也叫wqf31415，选择“公开”选项，创建一个开源项目。</li>
+</ul>
+<p>![](<a target="_blank" rel="noopener" href="http://blog-images.qiniu.wqf31415.xyz/image/coding_create_project.png">http://blog-images.qiniu.wqf31415.xyz/image/coding_create_project.png</a> &quot;在主界面点击“+“号新建项目，以用户名命名”)</p>
+<ul>
+<li>完成上述操作，coding仓库也就准备好了！</li>
+</ul>
+<h4 id="注册域名"><a class="markdownIt-Anchor" href="#注册域名"></a> 注册域名</h4>
+<p>国内注册域名，我推荐 <a target="_blank" rel="noopener" href="https://www.aliyun.com/">阿里云</a> ，我也是在这里注册的，操作简单也很便宜，直接用支付宝支付，还可以用支付宝实名认证，方便！</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/aliyun.png" alt="" title="注册并登录阿里云，点击域名注册" /></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/aliyun_domain_search_1.png" alt="" title="搜索自己想要的域名" /></p>
+<ul>
+<li>
+<p>选好域名后加入到购物车，xyz域名第一年只要6块钱，有活动的时候更便宜，直接用支付宝支付即可！</p>
+</li>
+<li>
+<p>备选注册方案：腾讯云、百度云、<a target="_blank" rel="noopener" href="https://sg.godaddy.com/zh/">西部数据</a> 、 <a target="_blank" rel="noopener" href="https://sg.godaddy.com/zh/">godaddy</a></p>
+</li>
+</ul>
+<h3 id="下手吧哦不动手额-开整"><a class="markdownIt-Anchor" href="#下手吧哦不动手额-开整"></a> 下手吧，哦不，动手，额。。。开整。。</h3>
+<h4 id="在本地生成hexo博客"><a class="markdownIt-Anchor" href="#在本地生成hexo博客"></a> 在本地生成hexo博客</h4>
+<ul>
+<li>
+<p>安装hexo工具，打开命令行工具，运行下面的命令</p>
+<p><code>npm install hexo-cli -g</code></p>
+<p>如果配置了淘宝镜像可以换成 <code>cnpm install hexo-cli -g</code></p>
+</li>
+<li>
+<p>初始化博客，新建一个文件夹，名为blog，用来存放所有文件，进入blog文件夹，在空白区域按住shift键右击，“在此处打开命令窗口”，执行下面命令，来生成博客需要的基本文件</p>
+<p><code>hexo init</code></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_init_command.png" alt="" title="初始化过程可能要等几分钟" /></p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_init_files.png" alt="" title="hexo init执行后生成的文件" /></p>
+</li>
+<li>
+<p>安装必要的工具，执行下面命令，用npm安装博客需要的工具包</p>
+<p><code>npm install</code></p>
+<p>如果配置了淘宝镜像可以换成<code>cnpm install</code></p>
+</li>
+<li>
+<p>开启本地hexo服务来测试</p>
+<p><code>hexo server</code></p>
+<p>也可以简写为<code>hexo s</code></p>
+<p>现在已经在本地开启了hexo服务，如果出现下面的字样，说明搭建成功</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_server_success.png" alt="" title="已经在http://localhost:4000/ 开启hexo，按Ctrl + C停止服务" /></p>
+<p>现在可以打开本地浏览器，输入<a target="_blank" rel="noopener" href="http://localhost:4000/">http://localhost:4000/</a> 来访问，如果出现下面的页面，就说明是真的成功了！！！</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_firstPage.png" alt="" title="hexo生成的最初页面" /></p>
+</li>
+</ul>
+<h4 id="上传blog到git仓库"><a class="markdownIt-Anchor" href="#上传blog到git仓库"></a> 上传blog到git仓库</h4>
+<ul>
+<li>
+<p>上面已经创建好了本地blog，现在让我们把它上传到github或coding中，这样在网上也能看到了</p>
+</li>
+<li>
+<p>打开blog目录下的 <strong>_config.yml</strong> 文件，在最下面的 <strong>deploy</strong> 添加git仓库信息</p>
+</li>
+</ul>
+   <figure class="highlight yml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">deploy:</span></span><br><span class="line">  <span class="attr">type:</span> <span class="string">git</span></span><br><span class="line">  <span class="attr">repository:</span> <span class="string">git@github.com:username/username.github.io.git</span></span><br><span class="line">  <span class="attr">branch:</span> <span class="string">master</span></span><br></pre></td></tr></table></figure>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/hexo_blog_config_deploy.png" alt="" title="git配置仓库信息" /></p>
+<ul>
+<li>
+<p>若想同时把博客部署到github和coding，配置信息参照上图</p>
+</li>
+<li>
+<p>安装部署到git的插件，运行命令</p>
+</li>
+</ul>
+<p><code>npm install hexo-deployer-git --save</code></p>
+<ul>
+<li>将博客部署到git仓库，运行命令</li>
+</ul>
+<p><code>hexo deploy</code> 也可简写为 <code>hexo d</code></p>
+<ul>
+<li>
+<p>打开浏览器访问git的pages地址： <a target="_blank" rel="noopener" href="http://username.github.io">username.github.io</a> 或 <a target="_blank" rel="noopener" href="http://username.coding.me">username.coding.me</a> ,可以尝试访问我的 <a target="_blank" rel="noopener" href="http://wqf31415.github.io">wqf31415.github.io</a> 或 <a target="_blank" rel="noopener" href="http://wqf31415.coding.me">wqf31415.coding.me</a></p>
+</li>
+<li>
+<p>注意：<strong>github的username.github.io仓库会自动启动Pages服务，而coding仓库需手动开启Pages服务</strong> ，使用coding时先打开部署博客的仓库，点击启动Pages服务，部署来源选择“master分支”</p>
+</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/coding_open_pages.png" alt="" title="点击“Pages 服务”" /></p>
+<ul>
+<li>可以发现，访问后网址自动变成了 blog.wqf31415.xyz 和 www.wqf31415.xyz ，这就是绑定了域名的结果</li>
+</ul>
+<h4 id="绑定域名"><a class="markdownIt-Anchor" href="#绑定域名"></a> 绑定域名</h4>
+<ul>
+<li>登陆阿里云，打开 控制台-域名与网站(万网)-域名-解析</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/aliyun_domain_resolve.png" alt="" title="解析域名" /></p>
+<ul>
+<li>添加解析记录，添加 <strong>CNAME</strong> 记录，主机记录为www，<a target="_blank" rel="noopener" href="http://xn--username-wg0m435ebfa971rzi2f.github.io">解析地址为username.github.io</a> 或 <a target="_blank" rel="noopener" href="http://username.coding.me">username.coding.me</a></li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/domain_resolve_record.png" alt="" title="其中www记录解析到wqf31415.coding.me，blog记录解析到github仓库ip地址，实际就是wqf31415.github.io" /></p>
+<ul>
+<li>
+<p>其中CNAME记录解析到git仓库的pages地址，A记录解析到git的ip地址，但还要在git平台中添加相应的记录才能正确的解析</p>
+</li>
+<li>
+<p>解析到github平台pages，到github中username.github.io仓库根目录中添加一个CNAME文件，内容为 <code>blog.wqf31415.xyz</code> ，我将blog记录解析到github pages</p>
+</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/github_pages_CNAME.png" alt="" title="手动添加一个CNAME文件，并填入域名" /></p>
+<ul>
+<li>解析到coding平台pages，登陆coding，打开部署博客的仓库，在自定义域名中添加自己的域名，我将www的记录解析到coding的Pages服务地址</li>
+</ul>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/coding_pages_binding_domain.png" alt="" title="将www.wqf31415.xyz解析到coding的Pages" /></p>
+<h3 id="搞定收工洗澡睡觉"><a class="markdownIt-Anchor" href="#搞定收工洗澡睡觉"></a> 搞定收工，洗澡睡觉。。。</h3>
+<p>这篇文字是在博客已经建立起来了才来写的，也不知道有没有什么遗漏，在建立 blog 时也遇到很多坑，一个坑一个坑的踩过来的，算有点经验，欢迎交流！</p>
+<p>我的邮箱：<a href="mailto:wqf31415@hotmail.coms?subject=Let us talk about hexo blog">wqf31415@hotmail.com</a></p>
+<p>转载请注明出处！</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/hexo/" rel="tag"># hexo</a>
+              <a href="/tags/blog/" rel="tag"># blog</a>
+              <a href="/tags/git/" rel="tag"># git</a>
+              <a href="/tags/%E5%9F%9F%E5%90%8D/" rel="tag"># 域名</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2017/02/16/2017%E5%B9%B4%E8%A6%81%E8%AF%BB%E7%9A%8424%E6%9C%AC%E4%B9%A6/" rel="prev" title="2017年要读的24本书">
+                  <i class="fa fa-chevron-left"></i> 2017年要读的24本书
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2017/02/23/%E5%B0%8F%E7%99%BD%E9%83%BD%E8%83%BD%E5%AD%A6%E4%BC%9A%E7%9A%84Git%E6%93%8D%E4%BD%9C/" rel="next" title="小白都能学会的Git操作">
+                  小白都能学会的Git操作 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

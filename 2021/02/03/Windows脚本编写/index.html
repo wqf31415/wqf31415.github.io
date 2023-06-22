@@ -1,0 +1,1121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 灵活使用脚本可以完成一些重复性的工作，提高工作效率，这篇文章介绍了 Windows 系统脚本的编写规则和一些常用命令。   认识 Windows 脚本 Windows 脚本又被称为批处理脚本，是包含一系列 DOS 命令的文本文件，用于自动执行重复性任务，脚本文件以 .bat 或 .cmd 为后缀。  bat 与 cmd 文件的异同： 他们都是 Windows 脚本，编码方式相同，使用的命令">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Windows脚本编写">
+<meta property="og:url" content="https://www.wqf31415.xyz/2021/02/03/Windows%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 灵活使用脚本可以完成一些重复性的工作，提高工作效率，这篇文章介绍了 Windows 系统脚本的编写规则和一些常用命令。   认识 Windows 脚本 Windows 脚本又被称为批处理脚本，是包含一系列 DOS 命令的文本文件，用于自动执行重复性任务，脚本文件以 .bat 或 .cmd 为后缀。  bat 与 cmd 文件的异同： 他们都是 Windows 脚本，编码方式相同，使用的命令">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/plant-computer.jpg">
+<meta property="article:published_time" content="2021-02-03T10:55:08.000Z">
+<meta property="article:modified_time" content="2023-06-22T13:59:36.926Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="Windows">
+<meta property="article:tag" content="bat">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/plant-computer.jpg">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2021/02/03/Windows%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/02/03/Windows%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/","path":"2021/02/03/Windows脚本编写/","title":"Windows脚本编写"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Windows脚本编写 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-windows-%E8%84%9A%E6%9C%AC"><span class="nav-number">2.</span> <span class="nav-text"> 认识 Windows 脚本</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E8%A7%84%E5%88%99"><span class="nav-number">3.</span> <span class="nav-text"> 语法规则</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%98%E6%96%B9%E6%96%87%E6%A1%A3"><span class="nav-number">3.1.</span> <span class="nav-text"> 官方文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%80%BB%E7%BA%B2"><span class="nav-number">3.2.</span> <span class="nav-text"> 总纲</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E9%87%8A"><span class="nav-number">3.3.</span> <span class="nav-text"> 注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E9%97%AD%E5%8D%95%E8%A1%8C%E5%91%BD%E4%BB%A4%E5%9B%9E%E6%98%BE"><span class="nav-number">3.4.</span> <span class="nav-text"> @ 关闭单行命令回显</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%82%E6%95%B0"><span class="nav-number">3.5.</span> <span class="nav-text"> 参数</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%82%E6%95%B0%E5%A2%9E%E5%BC%BA%E5%A4%84%E7%90%86"><span class="nav-number">3.5.1.</span> <span class="nav-text"> 参数增强处理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E9%87%8F"><span class="nav-number">3.6.</span> <span class="nav-text"> 变量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">3.6.1.</span> <span class="nav-text"> 自定义变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E7%94%A8%E6%88%B7%E8%BE%93%E5%85%A5%E5%8F%98%E9%87%8F%E5%80%BC"><span class="nav-number">3.6.2.</span> <span class="nav-text"> 获取用户输入变量值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E7%AE%97%E6%9C%AF%E5%8F%98%E9%87%8F"><span class="nav-number">3.6.3.</span> <span class="nav-text"> 定义算术变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%98%E9%87%8F"><span class="nav-number">3.6.4.</span> <span class="nav-text"> 系统变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E5%8F%98%E9%87%8F"><span class="nav-number">3.6.5.</span> <span class="nav-text"> 临时变量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%8F%98%E9%87%8F%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">3.6.6.</span> <span class="nav-text"> 字符串变量的处理</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%88%AA%E5%8F%96"><span class="nav-number">3.6.6.1.</span> <span class="nav-text"> 截取</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E6%9B%BF%E6%8D%A2"><span class="nav-number">3.6.6.2.</span> <span class="nav-text"> 替换</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#%E5%90%88%E5%B9%B6"><span class="nav-number">3.6.6.3.</span> <span class="nav-text"> 合并</span></a></li></ol></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%AF%94%E8%BE%83"><span class="nav-number">3.6.7.</span> <span class="nav-text"> 比较</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B7%AF%E5%BE%84"><span class="nav-number">3.7.</span> <span class="nav-text"> 路径</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%89%B9%E6%AE%8A%E7%AC%A6%E5%8F%B7"><span class="nav-number">3.8.</span> <span class="nav-text"> 特殊符号</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%B3%BB%E7%BB%9F%E5%8F%A5%E6%9F%84"><span class="nav-number">3.9.</span> <span class="nav-text"> 系统句柄</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E6%96%87"><span class="nav-number">3.10.</span> <span class="nav-text"> 中文</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">4.</span> <span class="nav-text"> 常用命令</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#title"><span class="nav-number">4.1.</span> <span class="nav-text"> TITLE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#echo"><span class="nav-number">4.2.</span> <span class="nav-text"> ECHO</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#pause"><span class="nav-number">4.3.</span> <span class="nav-text"> PAUSE</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#goto-%E5%92%8C"><span class="nav-number">4.4.</span> <span class="nav-text"> GOTO 和 :</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#if"><span class="nav-number">4.5.</span> <span class="nav-text"> IF</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%94%99%E8%AF%AF%E7%A0%81%E5%88%A4%E6%96%AD"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 错误码判断</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%AF%94%E8%BE%83"><span class="nav-number">4.5.2.</span> <span class="nav-text"> 字符串比较</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%96%87%E4%BB%B6%E6%98%AF%E5%90%A6%E5%AD%98%E5%9C%A8"><span class="nav-number">4.5.3.</span> <span class="nav-text"> 判断文件是否存在</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A4%E6%96%AD%E6%95%B0%E5%AD%97%E7%9A%84%E6%AF%94%E8%BE%83%E7%AC%A6"><span class="nav-number">4.5.4.</span> <span class="nav-text"> 判断数字的比较符</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#for"><span class="nav-number">4.6.</span> <span class="nav-text"> FOR</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#call"><span class="nav-number">4.7.</span> <span class="nav-text"> CALL</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E5%85%B6%E4%BB%96%E8%84%9A%E6%9C%AC"><span class="nav-number">4.7.1.</span> <span class="nav-text"> 调用其他脚本</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%A0%87%E7%AD%BE"><span class="nav-number">4.7.2.</span> <span class="nav-text"> 调用标签</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E4%BB%B6%E6%93%8D%E4%BD%9C%E7%9B%B8%E5%85%B3%E5%91%BD%E4%BB%A4"><span class="nav-number">4.8.</span> <span class="nav-text"> 文件操作相关命令</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E7%9B%AE%E5%BD%95-mkdir-md"><span class="nav-number">4.8.1.</span> <span class="nav-text"> 创建目录-mkdir、md</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E6%96%87%E4%BB%B6-del-erase"><span class="nav-number">4.8.2.</span> <span class="nav-text"> 删除文件-del、erase</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%A0%E9%99%A4%E7%9B%AE%E5%BD%95-rd-rmdir"><span class="nav-number">4.8.3.</span> <span class="nav-text"> 删除目录-rd、rmdir</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%8B%B7%E8%B4%9D%E6%96%87%E4%BB%B6-copy"><span class="nav-number">4.8.4.</span> <span class="nav-text"> 拷贝文件-copy</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%A7%BB%E5%8A%A8%E6%96%87%E4%BB%B6-move"><span class="nav-number">4.8.5.</span> <span class="nav-text"> 移动文件-move</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B%E7%9B%AE%E5%BD%95%E4%B8%AD%E7%9A%84%E6%96%87%E4%BB%B6-dir"><span class="nav-number">4.8.6.</span> <span class="nav-text"> 查看目录中的文件-dir</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B%E6%96%87%E4%BB%B6"><span class="nav-number">4.8.7.</span> <span class="nav-text"> 压缩与解压文件</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2021/02/03/Windows%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Windows脚本编写 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Windows脚本编写<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Windows%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-02-03 18:55:08" itemprop="dateCreated datePublished" datetime="2021-02-03T18:55:08+08:00">2021-02-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-06-22 21:59:36" itemprop="dateModified" datetime="2023-06-22T21:59:36+08:00">2023-06-22</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>灵活使用脚本可以完成一些重复性的工作，提高工作效率，这篇文章介绍了 Windows 系统脚本的编写规则和一些常用命令。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/plant-computer.jpg" alt="" /></p>
+<h3 id="认识-windows-脚本"><a class="markdownIt-Anchor" href="#认识-windows-脚本"></a> 认识 Windows 脚本</h3>
+<p>Windows 脚本又被称为批处理脚本，是包含一系列 DOS 命令的文本文件，用于自动执行重复性任务，脚本文件以 <code>.bat</code> 或 <code>.cmd</code> 为后缀。</p>
+<blockquote>
+<p>bat 与 cmd 文件的异同：</p>
+<p>他们都是 Windows 脚本，编码方式相同，使用的命令行代码也是共同的。</p>
+<p>bat 为 Windows 批处理文件，是 batch 的简写，所有 windows 系统都可以执行，可用命令相对较少。</p>
+<p>cmd 为 Windows 脚本文件，cmd 文件只能在 Windows2000 以上的系统才能运行，可用命令更多。</p>
+</blockquote>
+<span id="more"></span>
+<h3 id="语法规则"><a class="markdownIt-Anchor" href="#语法规则"></a> 语法规则</h3>
+<h4 id="官方文档"><a class="markdownIt-Anchor" href="#官方文档"></a> 官方文档</h4>
+<p>本文中用到的和没用到的命令都可以从官方文档中查到，讲解非常全面，而且可以按首字母查询，有疑惑可以去查阅：</p>
+<p><a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands">https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands</a></p>
+<h4 id="总纲"><a class="markdownIt-Anchor" href="#总纲"></a> 总纲</h4>
+<ul>
+<li>脚本文件后缀为 <code>.cmd</code> 或 <code>.bat</code></li>
+<li>关键字与变量名不区分大小写，例如：<code>REM</code> = <code>rem</code> = <code>rEM</code> ，<code>%JAVA_HOME%</code> = <code>%java_home%</code> = <code>%jAva_hOmE%</code></li>
+<li>一行为一条命令，按行读取命令，每次处理一行</li>
+<li>多行命令使用小括号 <code>()</code> 包裹</li>
+</ul>
+<h4 id="注释"><a class="markdownIt-Anchor" href="#注释"></a> 注释</h4>
+<p>在 Windows 脚本中以 <code>REM</code> 、<code>::</code> 注释一行代码。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">REM 这是注释</span><br><span class="line">:: 这是注释</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>RME</code> 和 <code>::</code> 的区别：</p>
+<ol>
+<li>
+<p>任何以冒号 <code>:</code> 开头的字符行，在处理中都被视作标号，而直接忽略其后面的所有内容。</p>
+<p>有效标号：冒号后紧跟一个以字母数字开头的字符串，goto 语句可识别。</p>
+<p>无效标号：冒号后紧跟一个非字母数字的一个特殊符号，goto 无法识别的标号，可以起到注释作用。所以 <code>::</code> 常被用做注释，其实 <code>:+</code> 也可起注释作用。</p>
+</li>
+<li>
+<p>与 <code>REM</code> 不同的是，<code>REM</code> 行会回显；<code>::</code> 后的字符在执行时不会回显，无论是否用 <code>echo on</code> 开启命令回显功能，因为命令解释器不认为它是一个有效命令行。</p>
+</li>
+</ol>
+</blockquote>
+<p>如果想注释多行，可以使用 <code>GOTO</code> 的跳转实现，如注释两行内容：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">GOTO next</span><br><span class="line"><span class="built_in">echo</span> 要注释的内容</span><br><span class="line"><span class="built_in">echo</span> 要注释的内容</span><br><span class="line">:next</span><br></pre></td></tr></table></figure>
+<h4 id="关闭单行命令回显"><a class="markdownIt-Anchor" href="#关闭单行命令回显"></a> @ 关闭单行命令回显</h4>
+<p><code>@</code> 符号放在命令前将关闭该行命令回显，无论 echo 是否开启回显。</p>
+<h4 id="参数"><a class="markdownIt-Anchor" href="#参数"></a> 参数</h4>
+<p>参数是指在执行脚本时，在脚本后以空格符分隔的内容。理论上可支持无限多个参数，但脚本内对前 9 个参数可直接获取，使用 <code>%number</code> 方式即可获取执行脚本时指定的参数。如：</p>
+<ul>
+<li><code>%0</code> 为第一个参数，即当前脚本。这个参数可以用于调用当前脚本本身，达到循环执行当前脚本功能，也可以用于复制文件自身，如: <code>copy %0 d:\\test.bat</code> (注意，调用时要使用脚本全称(包括扩展名)，才能完成复制脚本本身文件)</li>
+<li><code>%1</code> 到 <code>%9</code> 为脚本后的第 1 到第 9 个参数</li>
+<li><code>%*</code> 获取从第 1 个开始的所有参数</li>
+</ul>
+<p>如创建一个 <code>hello.bat</code> 脚本，内容如下：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> Current script is: %<span class="number">0</span></span><br><span class="line"><span class="built_in">echo</span> First <span class="keyword">param</span> is: %<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>使用命令行执行命令 <code>hello world</code> ，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop&gt;hello world</span><br><span class="line">Current script is: hello</span><br><span class="line">First param is: world</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意，如果执行的命令是 <code>hello.bat world</code> ，第一个参数值为 <code>hello.bat</code></p>
+</blockquote>
+<h5 id="参数增强处理"><a class="markdownIt-Anchor" href="#参数增强处理"></a> 参数增强处理</h5>
+<p>使用 <code>%</code> 引用参数时，可使用 <code>~</code> 加增强标识，对参数进行扩展增强处理。以第一个参数 <code>%1</code> 为例：</p>
+<table>
+<thead>
+<tr>
+<th>扩展</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%~1</code></td>
+<td>清除字符串首尾引号（仅当字符串首有引号或首尾都有引号时生效）</td>
+</tr>
+<tr>
+<td><code>%~a1</code></td>
+<td>扩展到文件属性</td>
+</tr>
+<tr>
+<td><code>%~d1</code></td>
+<td>扩展到一个驱动器号</td>
+</tr>
+<tr>
+<td><code>%~f1</code></td>
+<td>扩展到一个完全合格的驱动器号</td>
+</tr>
+<tr>
+<td><code>%~n1</code></td>
+<td>扩展到一个文件名</td>
+</tr>
+<tr>
+<td><code>%~p1</code></td>
+<td>扩展到一个路径</td>
+</tr>
+<tr>
+<td><code>%~s1</code></td>
+<td>扩展的路径指含有短名</td>
+</tr>
+<tr>
+<td><code>%~t1</code></td>
+<td>扩展到文件的日期/时间</td>
+</tr>
+<tr>
+<td><code>%~x1</code></td>
+<td>扩展到文件扩展名</td>
+</tr>
+<tr>
+<td><code>%~z1</code></td>
+<td>扩展到文件大小</td>
+</tr>
+<tr>
+<td><code>%~$PATH:1</code></td>
+<td>查找列在 PATH 环境变量的目录，并将 <code>%1</code> 扩展到找到的第一个完全合格的名称，如果环境变量名未定义，或者没有找到文件，此组合键会扩展到空字符串</td>
+</tr>
+<tr>
+<td><code>%~dp1</code></td>
+<td>扩展到驱动器号和路径</td>
+</tr>
+<tr>
+<td><code>%~nx1</code></td>
+<td>扩展到文件名和扩展名</td>
+</tr>
+<tr>
+<td><code>%~dp$PATH:1</code></td>
+<td>在列在 PATH 环境变量中的目录里查找 <code>%1</code> ，并扩展到找到的第一个文件的驱动器和路径</td>
+</tr>
+<tr>
+<td><code>%~ftza1</code></td>
+<td>若 <code>%1</code> 为目录或文件，会转变成 dir 的输出行</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>用法示例：</p>
+<ul>
+<li><code>%~dp0</code> 返回当前脚本所在目录的全路径</li>
+<li><code>%~n0</code> 返回当前脚本文件名（不含扩展名）</li>
+<li><code>%~nx0</code> 返回当前脚本文件名（包括扩展名）</li>
+</ul>
+</blockquote>
+<h4 id="变量"><a class="markdownIt-Anchor" href="#变量"></a> 变量</h4>
+<ul>
+<li>
+<p>dos 中只能进行整数计算，不能进行浮点数运算。</p>
+</li>
+<li>
+<p>只能精确到 32 位，有效值范围：-2147483648至2147483647</p>
+</li>
+<li>
+<p>十六进制前缀为 <code>0x</code> ，八进制前缀为 <code>0</code> 。</p>
+</li>
+</ul>
+<h5 id="自定义变量"><a class="markdownIt-Anchor" href="#自定义变量"></a> 自定义变量</h5>
+<p>使用 <code>set</code> 关键字定义变量，使用 <code>%param_name%</code> 访问变量。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set [变量名=[变量值]]</span><br></pre></td></tr></table></figure>
+<p>使用 <code>set</code> 定义的变量，不能改变，只能覆盖，如果要删除可执行 <code>set var=</code> ，会将 var 变量删除，置为 <code>not defined</code> 状态。</p>
+<blockquote>
+<p>使用 <code>set</code> 定义的变量只在当前上下文中生效，即同一个 cmd 窗口。如果要定义长期有效的变量可以使用  <code>setx</code> ，具体参考：<a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx">https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/setx</a></p>
+</blockquote>
+<p>例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">set</span> name=world</span><br><span class="line"><span class="built_in">echo</span> The name is %name%</span><br></pre></td></tr></table></figure>
+<p>结果：<code>The name is world</code></p>
+<blockquote>
+<p><strong>注意：设置变量时等号前后不能有空格，如果设置 <code>set name = abc</code> ，那么等号前的空格是变量名 <code>name</code> 的一部分 ，在使用时要带上这个空格，使用 <code>%name %</code> ；等号后面的空格是值的一部分，打印出来前面有一个空格。</strong></p>
+</blockquote>
+<blockquote>
+<p>变量名可以是中文，如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">set</span> 你=张三</span><br><span class="line"><span class="built_in">echo</span> 你：%你%</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="获取用户输入变量值"><a class="markdownIt-Anchor" href="#获取用户输入变量值"></a> 获取用户输入变量值</h5>
+<p>使用 <code>set</code> 定义变量时，可增加参数 <code>/p</code> ，能够获取用户输入的值。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set /p 变量名=[提示文字]</span><br></pre></td></tr></table></figure>
+<p>如 <code>set /p var=Please input name:</code> ，将打印提示文字 <code>Please input name:</code> ，此时用户可输入，输入完成后按回车键确认，这样就能将用户输入值赋给变量 <code>name</code> 。</p>
+<h5 id="定义算术变量"><a class="markdownIt-Anchor" href="#定义算术变量"></a> 定义算术变量</h5>
+<p>使用 <code>set</code> 定义变量时，可增加参数 <code>/a</code> ，定义一个可计算的数值型变量，赋值内容可以是一个表达式。如 <code>set /a sum=var1+var2</code></p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">set /a 变量名=表达式</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：使用 <code>/a</code> 定义变量时，表达式中的变量可不加 <code>%</code> ，直接使用变量名引用</p>
+<p>注意：Windows 脚本中只能进行整数计算，3/2 结果为 1</p>
+</blockquote>
+<p>使用 <code>/a</code> 参数后，可用如下运算符（优先级由高到低排序）</p>
+<table>
+<thead>
+<tr>
+<th>运算符</th>
+<th>执行的操作</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>(</code> <code>)</code></td>
+<td>小括号，聚合</td>
+</tr>
+<tr>
+<td><code>!</code> <code>~</code> <code>-</code></td>
+<td>一元计算符</td>
+</tr>
+<tr>
+<td><code>*</code> <code>/</code> <code>%</code></td>
+<td>算术运算符</td>
+</tr>
+<tr>
+<td><code>+</code> <code>-</code></td>
+<td>算术运算符</td>
+</tr>
+<tr>
+<td><code>&lt;&lt;</code> <code>&gt;&gt;</code></td>
+<td>二进制移位运算</td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>按位与</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>按位异或</td>
+</tr>
+<tr>
+<td>`</td>
+<td>`</td>
+</tr>
+<tr>
+<td><code>=</code> <code>*=</code> <code>/=</code> <code>%=</code> <code>+=</code> <code>-=</code> <code>&amp;=</code> <code>^=</code></td>
+<td>算术赋值</td>
+</tr>
+<tr>
+<td><code>&amp;=</code> <code>^=</code> `</td>
+<td>=<code> </code>&lt;&lt;=<code> </code>&gt;&gt;=`</td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>逗号表达式分隔符</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注意：<code>%</code> 、<code>&lt;&lt;</code> 、<code>&gt;&gt;</code> 、<code>&amp;</code> 、<code>|</code> 等是特殊符号，所以在用于计算时要把表达式使用双引号 <code>&quot;&quot;</code> 括起来，其中 <code>&lt;</code> 、<code>&gt;</code> 、<code>&amp;</code> 可使用 <code>^</code> 进行转义，取模使用 <code>%%</code>。</p>
+<p>用法示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">set</span> /a a=(<span class="number">1</span>+<span class="number">1</span>)*<span class="number">2</span></span><br><span class="line"><span class="built_in">set</span> /a b=!<span class="number">0</span></span><br><span class="line"><span class="built_in">set</span> /a c=~<span class="number">4</span></span><br><span class="line"><span class="built_in">set</span> /a d=<span class="literal">-4</span></span><br><span class="line"><span class="built_in">set</span> /a e=<span class="number">10</span>%%<span class="number">3</span></span><br><span class="line"><span class="built_in">set</span> /a f=<span class="number">1</span>^&lt;^&lt;<span class="number">3</span></span><br><span class="line"><span class="built_in">set</span> /a g=<span class="number">1024</span>^&amp;<span class="number">512</span></span><br><span class="line"><span class="built_in">set</span> /a <span class="built_in">h</span>=<span class="number">1024</span><span class="string">&quot;^&quot;</span><span class="number">512</span></span><br><span class="line"><span class="built_in">set</span> /a i=<span class="number">1024</span><span class="string">&quot;|&quot;</span><span class="number">512</span></span><br><span class="line"><span class="built_in">set</span> /a j=<span class="string">&quot;1024^512&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> (<span class="number">1</span>+<span class="number">1</span>)*<span class="number">2</span> = %a%</span><br><span class="line"><span class="built_in">echo</span> !<span class="number">0</span> = %b%</span><br><span class="line"><span class="built_in">echo</span> ~<span class="number">4</span> = %c%</span><br><span class="line"><span class="built_in">echo</span> <span class="literal">-4</span> = %d%</span><br><span class="line"><span class="built_in">echo</span> <span class="number">10</span>%%<span class="number">3</span> = %e%</span><br><span class="line"><span class="built_in">echo</span> <span class="number">1</span>^&lt;^&lt;<span class="number">3</span> = %f%</span><br><span class="line"><span class="built_in">echo</span> <span class="number">1024</span>^&amp;<span class="number">512</span> = %g%</span><br><span class="line"><span class="built_in">echo</span> <span class="number">1024</span>^^<span class="number">512</span> = %<span class="built_in">h</span>%</span><br><span class="line"><span class="built_in">echo</span> <span class="number">1024</span>^|<span class="number">512</span> = %i%</span><br><span class="line"><span class="built_in">echo</span> <span class="number">1024</span>^^<span class="number">512</span> = %j%</span><br></pre></td></tr></table></figure>
+<p>结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">(1+1)*2 = 4</span><br><span class="line">!0 = 1</span><br><span class="line">~4 = -5</span><br><span class="line">-4 = -4</span><br><span class="line">10%3 = 1</span><br><span class="line">1&lt;&lt;3 = 8</span><br><span class="line">1024&amp;512 = 0</span><br><span class="line">1024^512 = 1536</span><br><span class="line">1024|512 = 1536</span><br><span class="line">1024^512 = 1536</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>示例：计算从 1 加到 100 的和，结果输出：<code>Sum: 5050</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">set</span> /a sum=<span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> /l %%i <span class="keyword">in</span> (<span class="number">1</span>,<span class="number">1</span>,<span class="number">100</span>) <span class="keyword">do</span> (</span><br><span class="line">    <span class="built_in">set</span> /a sum=sum+%%i</span><br><span class="line">) </span><br><span class="line"><span class="built_in">echo</span> Sum: %sum%</span><br></pre></td></tr></table></figure>
+<h5 id="系统变量"><a class="markdownIt-Anchor" href="#系统变量"></a> 系统变量</h5>
+<p>使用 <code>%%</code> 可以获取系统变量，如 <code>%JAVA_HOME%</code> 。</p>
+<p>一些常用的系统变量：</p>
+<table>
+<thead>
+<tr>
+<th>系统变量</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>%random%</code></td>
+<td>获取 [0,32767] 之间的随机数</td>
+</tr>
+<tr>
+<td><code>%allusersprofile%</code></td>
+<td>所有用户配置文件的位置</td>
+</tr>
+<tr>
+<td><code>%appdata%</code></td>
+<td>默认情况下应用程序存储数据的位置</td>
+</tr>
+<tr>
+<td><code>%cd%</code></td>
+<td>当前目录字符串</td>
+</tr>
+<tr>
+<td><code>%cmdcmdline%</code></td>
+<td>启动当前的 cmd.exe 的准确命令行</td>
+</tr>
+<tr>
+<td><code>%cmdextversion%</code></td>
+<td>当前的命令处理程序扩展的版本号</td>
+</tr>
+<tr>
+<td><code>%computername%</code></td>
+<td>计算机名称</td>
+</tr>
+<tr>
+<td><code>%comspec%</code></td>
+<td>命令行解释器可执行程序的准确路径</td>
+</tr>
+<tr>
+<td><code>%date%</code></td>
+<td>当前日期</td>
+</tr>
+<tr>
+<td><code>%errorlevel%</code></td>
+<td>上一条命令的错误代码，通常用非零值表示错误</td>
+</tr>
+<tr>
+<td><code>%homedrive%</code></td>
+<td>连接到用户主目录的本地工作站驱动器号。基于主目录值而设置。用户主目录是在“本地用户和组”中指定的</td>
+</tr>
+<tr>
+<td><code>%homepath%</code></td>
+<td>用户主目录的完整路径。基于主目录值而设置。用户主目录是在“本地用户和组”中指定的</td>
+</tr>
+<tr>
+<td><code>%homeshare%</code></td>
+<td>用户的共享主目录的网络路径。基于主目录值而设置。用户主目录是在“本地用户和组”中指定的</td>
+</tr>
+<tr>
+<td><code>%logonserver%</code></td>
+<td>验证当前登录会话的域控制器的名称</td>
+</tr>
+<tr>
+<td><code>%number_of_processors%</code></td>
+<td>指定安装在计算机上的处理器的数目</td>
+</tr>
+<tr>
+<td><code>%os%</code></td>
+<td>操作系统名称。windows 2000显示其操作系统为 windows_nt</td>
+</tr>
+<tr>
+<td><code>%path%</code></td>
+<td>指定可执行文件的搜索路径</td>
+</tr>
+<tr>
+<td><code>%pathext%</code></td>
+<td>操作系统认为可执行的文件扩展名的列表</td>
+</tr>
+<tr>
+<td><code>%processor_architecture%</code></td>
+<td>处理器的芯片体系结构。值：x86 或 ia64 基于itanium</td>
+</tr>
+<tr>
+<td><code>%processor_identfier%</code></td>
+<td>处理器说明</td>
+</tr>
+<tr>
+<td><code>%processor_level%</code></td>
+<td>计算机上安装的处理器的型号</td>
+</tr>
+<tr>
+<td><code>%processor_revision%</code></td>
+<td>处理器的版本号</td>
+</tr>
+<tr>
+<td><code>%prompt%</code></td>
+<td>当前解释程序的命令提示符设置。由 cmd.exe 生成</td>
+</tr>
+<tr>
+<td><code>%systemdrive%</code></td>
+<td>包含系统根目录的驱动器</td>
+</tr>
+<tr>
+<td><code>%systemroot%</code></td>
+<td>系统根目录的位置</td>
+</tr>
+<tr>
+<td><code>%temp%</code> <code>%tmp%</code></td>
+<td>对当前登录用户可用的应用程序所使用的默认临时目录。有些应用程序需要 temp，而其他应用程序则需要 tmp</td>
+</tr>
+<tr>
+<td><code>%time%</code></td>
+<td>当前时间。使用与 time /t 命令相同的格式</td>
+</tr>
+<tr>
+<td><code>%userdomain%</code></td>
+<td>包含用户帐户的域的名称</td>
+</tr>
+<tr>
+<td><code>%username%</code></td>
+<td>当前登录的用户的名称</td>
+</tr>
+<tr>
+<td><code>%userprofile%</code></td>
+<td>当前用户的配置文件的位置</td>
+</tr>
+<tr>
+<td><code>%windir%</code></td>
+<td>操作系统目录的位置</td>
+</tr>
+</tbody>
+</table>
+<h5 id="临时变量"><a class="markdownIt-Anchor" href="#临时变量"></a> 临时变量</h5>
+<p>在 <code>setlocal</code> 和 <code>endlocal</code> 之间定义的变量是临时变量，只在这个区域内生效。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> %path%</span><br><span class="line">setlocal</span><br><span class="line"><span class="built_in">set</span> path=D:/</span><br><span class="line"><span class="built_in">echo</span> %path%</span><br><span class="line">endlocal</span><br><span class="line"><span class="built_in">echo</span> %path%</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>脚本中三个 echo 的输出结果：第一个输出环境变量中的 path，第二个输出设置的变量值 <code>D:/</code> ，第三个输出环境变量中的 path</p>
+</blockquote>
+<blockquote>
+<p>关于 <code>setlocal enabledelayedexpansion</code> :</p>
+<p>这个命令的作用是设置环境变量延迟扩展，能够让变量延迟赋值，延迟赋值的变量使用双叹号 <code>!!</code> 括起来。如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off </span><br><span class="line">setlocal enabledelayedexpansion </span><br><span class="line"><span class="built_in">set</span> a=<span class="number">4</span> </span><br><span class="line"><span class="built_in">set</span> a=<span class="number">5</span>&amp;<span class="built_in">echo</span> !a! </span><br><span class="line">pause</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h5 id="字符串变量的处理"><a class="markdownIt-Anchor" href="#字符串变量的处理"></a> 字符串变量的处理</h5>
+<h6 id="截取"><a class="markdownIt-Anchor" href="#截取"></a> 截取</h6>
+<p>可以按开始位置和结束位置截取；也可以按开始位置截取指定长度。截取时第一个参数是开始位置，第二个参数是正数时，表示截取长度，第二个参数为负数时，表示结束位置（不包含结束位置的字符）。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">%str:~start,end%</span><br><span class="line">%str:~start,length%</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：位置从前向后计数时从 0 开始，从后向前倒数时从 -1 开始。</p>
+</blockquote>
+<p>示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">set</span> str=abcde12345</span><br><span class="line"><span class="built_in">echo</span> 原字符串：%str%</span><br><span class="line"><span class="built_in">echo</span> 前三个：%str:~<span class="number">0</span>,<span class="number">3</span>%</span><br><span class="line"><span class="built_in">echo</span> 后三个：%str:~<span class="literal">-3</span>,<span class="number">3</span>%</span><br><span class="line"><span class="built_in">echo</span> 第五到第八：%str:~<span class="number">4</span>,<span class="number">4</span>%</span><br><span class="line"><span class="built_in">echo</span> 第三到倒数第三：%str:~<span class="number">2</span>,<span class="literal">-3</span>%</span><br></pre></td></tr></table></figure>
+<h6 id="替换"><a class="markdownIt-Anchor" href="#替换"></a> 替换</h6>
+<p>使用新字符串替换旧字符串</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">%str:old=new%</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">set</span> str=hello world</span><br><span class="line"><span class="built_in">echo</span> result: %str:world=bat%</span><br></pre></td></tr></table></figure>
+<h6 id="合并"><a class="markdownIt-Anchor" href="#合并"></a> 合并</h6>
+<p>通过对多个变量取值，再赋值给另一个变量，以此完成字符串拼接。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">set</span> str1=hello</span><br><span class="line"><span class="built_in">set</span> str2=world</span><br><span class="line"><span class="built_in">set</span> str3=%str1% %str2%</span><br><span class="line"><span class="built_in">echo</span> str3：%str3%</span><br></pre></td></tr></table></figure>
+<p>输出结果: <code>str3: hello world</code></p>
+<blockquote>
+<p>注意：上面示例中 <code>set str3=%str1% %str2%</code> ，str1 和 str2 变量中间有一个空格，所以在 str3 中是包含这个空格的。</p>
+</blockquote>
+<h5 id="比较"><a class="markdownIt-Anchor" href="#比较"></a> 比较</h5>
+<p>参考本文章节：常用命令-IF-字符串比较</p>
+<h4 id="路径"><a class="markdownIt-Anchor" href="#路径"></a> 路径</h4>
+<p>Windows 脚本中的路径写法规则如下：</p>
+<ul>
+<li>文件及目录路径使用反斜杠 <code>\</code> 分隔，如：<code>D:\test\abc.txt</code></li>
+<li>文件及目录路径中包含空格时要用双引号括起来，如： <code>&quot;C:\Program Files\test\abc.txt&quot;</code></li>
+<li><strong>不区分大小写</strong></li>
+</ul>
+<h4 id="特殊符号"><a class="markdownIt-Anchor" href="#特殊符号"></a> 特殊符号</h4>
+<p>一些符号在 Windows 脚本中有特定功能。</p>
+<table>
+<thead>
+<tr>
+<th>特殊符号</th>
+<th>功能</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>@</code></td>
+<td>命令回显屏蔽符</td>
+<td>放在行首，屏蔽改行命令回显</td>
+</tr>
+<tr>
+<td><code>%</code></td>
+<td>变量引导符</td>
+<td>用于获取变量值，如 <code>%1</code> 、 <code>%name%</code> 、<code>%%i</code></td>
+</tr>
+<tr>
+<td><code>&gt;</code></td>
+<td>(覆盖)输出重定向符</td>
+<td>将输出结果以覆盖的方式传递到后面的范围，后写入的内容将覆盖之前的内容，如写入文件：<code>echo hello &gt; hello.txt</code> ；写入控制台：<code>echo hello &gt; con</code> ；将执行成功结果输出到控制台，执行失败结果输出到文件：<code>dir test 1&gt; con 2&gt; log.txt</code></td>
+</tr>
+<tr>
+<td><code>&gt;&gt;</code></td>
+<td>(追加)输出重定向符</td>
+<td>将输出结果以追加的方式传递到后面的范围，后写入的内容将追加在之前内容的后面，如写入文件: <code>echo hello &gt;&gt; hello.txt</code> 这种方式可用来输出日志</td>
+</tr>
+<tr>
+<td><code>&lt;</code></td>
+<td>输入重定向符</td>
+<td>从文件或设备中读取命令输入，默认从读取键盘输入</td>
+</tr>
+<tr>
+<td><code>&lt;&amp;</code></td>
+<td>输入重定向符</td>
+<td>从后一个句柄读取输入并写入前一个句柄的输入中</td>
+</tr>
+<tr>
+<td>`</td>
+<td>`</td>
+<td>命令管道符</td>
+</tr>
+<tr>
+<td><code>^</code></td>
+<td>转义字符</td>
+<td>消除特殊字符 <code>&lt;</code> 、<code>&gt;</code> 、<code>&amp;</code> 的特殊功能，将其转成字符本身，如 <code>echo 2^&gt;1</code> ，将打印 <code>2&gt;1</code> 而不是写入文件。放在行尾可当作连字符，因为其可以转义换行符，使换行符失效</td>
+</tr>
+<tr>
+<td><code>&amp;</code></td>
+<td>组合命令</td>
+<td>顺序执行多条命令，不管是否成功，如 <code>dir test &amp; echo ok</code> ，不管 <code>dir test</code> 命令是否成功，都会输出 <code>ok</code></td>
+</tr>
+<tr>
+<td><code>&amp;&amp;</code></td>
+<td>组合命令</td>
+<td>顺序执行多条命令，当其中一条执行失败，后续命令不执行，如 <code>dir test &amp;&amp; echo ok</code></td>
+</tr>
+<tr>
+<td>`</td>
+<td></td>
+<td>`</td>
+</tr>
+<tr>
+<td><code>\&quot;\&quot;</code></td>
+<td>字符串界定符</td>
+<td>双引号运行字符串包含空格，如进入包含空格的目录：<code>cd \&quot;program files\&quot;</code></td>
+</tr>
+<tr>
+<td><code>,</code></td>
+<td>逗号</td>
+<td>在一些情况下，逗号可当作空格，如 <code>dir,a</code> 和 <code>dir a</code> 效果相同</td>
+</tr>
+<tr>
+<td><code>;</code></td>
+<td>分号</td>
+<td>当命令相同时，可以用分号来隔离不同目标，如 <code>mkdir a;b;c</code> 将创建 a、b、c 三个文件夹</td>
+</tr>
+<tr>
+<td><code>()</code></td>
+<td>括号</td>
+<td>括号中可包含多条命令，这些命令将会看作一个整体处理，</td>
+</tr>
+<tr>
+<td><code>!</code></td>
+<td>感叹号</td>
+<td>用在对延迟变量取值，如 <code>!name!</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="系统句柄"><a class="markdownIt-Anchor" href="#系统句柄"></a> 系统句柄</h4>
+<table>
+<thead>
+<tr>
+<th>句柄</th>
+<th>句柄号</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>STDIN</td>
+<td>0</td>
+<td>标准输入，默认从键盘输入</td>
+</tr>
+<tr>
+<td>STDOUT</td>
+<td>1</td>
+<td>标准输出，默认输出到命令提示符，如将执行成功结果输出到文件：<code>echo ok 1&gt; success.log</code></td>
+</tr>
+<tr>
+<td>STDERR</td>
+<td>2</td>
+<td>标准错误输出，默认输出到命令提示符，如将错误信息输出到文件：<code>dir abc 2&gt; error.log</code></td>
+</tr>
+<tr>
+<td>UNDEFINED</td>
+<td>3-9</td>
+<td>未定义句柄，由程序和各个具体工具单独定义</td>
+</tr>
+<tr>
+<td>nul</td>
+<td></td>
+<td>空设备，如将结果输出到空设备，即不显示执行结果：<code>ping -n 2 localhost &gt; nul</code></td>
+</tr>
+<tr>
+<td>con</td>
+<td></td>
+<td>控制台，如输出结果到控制台：<code>echo hello &gt; con</code></td>
+</tr>
+<tr>
+<td>prn</td>
+<td></td>
+<td>打印机</td>
+</tr>
+</tbody>
+</table>
+<h4 id="中文"><a class="markdownIt-Anchor" href="#中文"></a> 中文</h4>
+<p>Windows 系统命令行默认使用 GBK 编码（编号: 936），如果需要显示中文，编写的脚本可以使用 <code>ANSI</code> 或 <code>GB2312</code> 编码。</p>
+<p>如果脚本使用 <code>utf8</code> 编码，可以使用 <code>chcp 65001</code> 命令，将当前命令行设置成使用 <code>utf8</code> 编码即可显示中文。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">chcp <span class="number">65001</span></span><br><span class="line"><span class="built_in">echo</span> 你好</span><br></pre></td></tr></table></figure>
+<h3 id="常用命令"><a class="markdownIt-Anchor" href="#常用命令"></a> 常用命令</h3>
+<h4 id="title"><a class="markdownIt-Anchor" href="#title"></a> TITLE</h4>
+<p>设置命令行窗口的标题，执行后当前命令行窗口标题显示为设置的名称。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">TITLE my_title</span><br></pre></td></tr></table></figure>
+<p>将命令行窗口名设置成当前脚本名： <code>TITLE %0</code></p>
+<h4 id="echo"><a class="markdownIt-Anchor" href="#echo"></a> ECHO</h4>
+<p>输出信息，如 <code>echo hello</code>；</p>
+<p>开启/关闭命令回显，开启回显 <code>echo on</code> ，关闭回显 <code>echo off</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@ECHO OFF</span><br><span class="line">ECHO hello world</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>为了防止脚本中所有命令都回显，一般都会在脚本最开头使用 <code>echo off</code> 关闭命令回显，加上 <code>@</code> 是为了关闭 <code>echo off</code> 这条命令的回显。</p>
+</blockquote>
+<p>特殊输出:</p>
+<ul>
+<li><code>echo</code> 不带内容，将输出当前命令回显状态</li>
+<li><code>echo.</code> 输出空行（注意 <code>echo</code> 和 <code>.</code> 之间不能有空格）</li>
+</ul>
+<h4 id="pause"><a class="markdownIt-Anchor" href="#pause"></a> PAUSE</h4>
+<p>暂停执行，并输出提示语 <code>请按任意键继续. . .</code> ，英文的话输出 <code>Press any key to continue . . .</code> 。</p>
+<p>如需更改提示信息，可自己用 echo 输出提示文字，同时将 pause 命令的输出内容重定向到 <code>nul</code> ：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> 其他提示语信息 &amp;&amp; pause &gt; nul</span><br></pre></td></tr></table></figure>
+<h4 id="goto-和"><a class="markdownIt-Anchor" href="#goto-和"></a> GOTO 和 :</h4>
+<p><code>GOTO</code> 跳转到指定标签处执行，如 <code>GOTO work</code> 跳转到 <code>work</code> 标签处。</p>
+<p><code>:</code> 用于指定标签，如 <code>:work</code> 设定标签名为 <code>work</code></p>
+<p>如果要跳出执行当前脚本可用 <code>GOTO :eof</code> ，<code>:eof</code>  是文件结尾标签。当用标签定义一个方法函数时，在最后也要用 <code>goto :eof</code> 跳出，否则会执行后面的命令。</p>
+<h4 id="if"><a class="markdownIt-Anchor" href="#if"></a> IF</h4>
+<p>条件判断。</p>
+<p>语法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [not] ERRORLEVEL &lt;number&gt; &lt;<span class="built_in">command</span>&gt; [<span class="keyword">else</span> &lt;expression&gt;]</span><br><span class="line"><span class="keyword">if</span> [not] &lt;string1&gt;==&lt;string2&gt; &lt;<span class="built_in">command</span>&gt; [<span class="keyword">else</span> &lt;expression&gt;]</span><br><span class="line"><span class="keyword">if</span> [not] exist &lt;filename&gt; &lt;<span class="built_in">command</span>&gt; [<span class="keyword">else</span> &lt;expression&gt;]</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>判断时加 <code>not</code> 对判断条件取反。</p>
+</blockquote>
+<h5 id="错误码判断"><a class="markdownIt-Anchor" href="#错误码判断"></a> 错误码判断</h5>
+<p>使用错误码判断命令是否执行成功。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">dir</span> abc</span><br><span class="line"><span class="built_in">echo</span> errorlevel: %errorlevel%</span><br><span class="line"><span class="keyword">if</span> errorlevel <span class="number">0</span> (<span class="built_in">echo</span> ok) <span class="keyword">else</span> (<span class="built_in">echo</span> fail)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：上面脚本执行失败时将输出 <code>ok</code> ，因为 <code>errorlevel 0</code> 判断的是 errorlevel &gt;= 0，errorlevel 值为 1，满足条件，因此输出了 <code>ok</code>。</p>
+</blockquote>
+<p>还可以直接使用错误码变量进行判断：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">dir abc</span><br><span class="line">echo errorlevel: %errorlevel%</span><br><span class="line">if %errorlevel% == 0 (echo ok) else (echo fail)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面脚本是判断 errorlevel 是否等于 0，如果执行失败将打出 <code>fail</code>。</p>
+</blockquote>
+<h5 id="字符串比较"><a class="markdownIt-Anchor" href="#字符串比较"></a> 字符串比较</h5>
+<p>判断字符串是否相同时，默认是区分大小写的，可以加 <code>/i</code> 参数，忽略大小写。如下脚本将输出 <code>equal</code></p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">set</span> a=hello</span><br><span class="line"><span class="built_in">set</span> b=hellO</span><br><span class="line"><span class="keyword">if</span> /i %a%==%b% (<span class="built_in">echo</span> equal) <span class="keyword">else</span> (<span class="built_in">echo</span> not equal)</span><br></pre></td></tr></table></figure>
+<h5 id="判断文件是否存在"><a class="markdownIt-Anchor" href="#判断文件是否存在"></a> 判断文件是否存在</h5>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="keyword">if</span> exist test.cmd (<span class="built_in">echo</span> exist) <span class="keyword">else</span> (<span class="built_in">echo</span> not exist)</span><br></pre></td></tr></table></figure>
+<h5 id="判断数字的比较符"><a class="markdownIt-Anchor" href="#判断数字的比较符"></a> 判断数字的比较符</h5>
+<p>由于 <code>&lt;</code> 、<code>&gt;</code> 是用于输入重定向和输出重定向的特殊符号，不能用来判断，所以比较数值时要用比较关键字：</p>
+<table>
+<thead>
+<tr>
+<th>关键字</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EQU</code></td>
+<td>等于</td>
+</tr>
+<tr>
+<td><code>NEQ</code></td>
+<td>不等于</td>
+</tr>
+<tr>
+<td><code>LSS</code></td>
+<td>小于</td>
+</tr>
+<tr>
+<td><code>LEQ</code></td>
+<td>小于等于</td>
+</tr>
+<tr>
+<td><code>GTR</code></td>
+<td>大于</td>
+</tr>
+<tr>
+<td><code>GEQ</code></td>
+<td>大于等于</td>
+</tr>
+</tbody>
+</table>
+<p>例如：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="keyword">if</span> <span class="number">3</span> gtr <span class="number">2</span> (<span class="built_in">echo</span> right) <span class="keyword">else</span> (<span class="built_in">echo</span> wrong)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>将输出 <code>right</code></p>
+</blockquote>
+<h4 id="for"><a class="markdownIt-Anchor" href="#for"></a> FOR</h4>
+<p>循环遍历，可用于递归遍历目录中的文件。</p>
+<p>语法：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> [参数] %%变量 <span class="keyword">in</span> (匹配规则) <span class="keyword">do</span> 执行的命令</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意 <code>in</code> 、<code>do</code> 和括号之间是有空格的，如果连在一起会报错。</p>
+</blockquote>
+<p>参数：</p>
+<ul>
+<li>不带参数：遍历当前路径下的文件夹下的<strong>文件</strong>，但也可在（匹配规则）中指定路径。如遍历 D盘下 test 目录下的所有文件：<code>for /d %%i in (D:\\test\*) do echo %%i</code></li>
+<li><code>/d</code> ：遍历当前路径下的文件夹下的<strong>文件夹</strong>，但也可在（匹配规则）中指定路径。如遍历 D盘下 test 目录下的所有目录：<code>for /d %%i in (D:\\test\*) do echo %%i</code></li>
+<li><code>/r [路径]</code> ：递归遍历指定路径下的所有文件，将遍历所有子目录下的文件。如遍历 D盘下 test 目录中的所有 <code>.txt</code> 文件：<code>for /r D:\\test\ %%i in (*.txt) do echo %%i</code></li>
+<li><code>l</code> ：在一个范围内迭代，此时匹配规则为 <code>(start,step,end)</code> ，start 为开始值，step 为每次迭代递增值，end 为结束遍历的值，类似其他编程语言中的 for 循环： <code>for(int i = start; i&lt; end; i += step)</code> 。示例打印 1 到 100：<code>for /l %%i in (1,1,100) echo %%i</code></li>
+<li><code>f</code> ：遍历文件中的内容。如逐行打印文件中的内容：<code>for /f %%i in (list.txt) do echo %%i</code></li>
+</ul>
+<p>变量：用来指向每次遍历的值，只能用单个字符，如 <code>%%a</code> 、<code>%%B</code> 、<code>%%i</code> 。变量名区分大小写，<code>%%a</code> 和 <code>%%A</code> 不同。</p>
+<p>匹配规则：<code>*</code> 匹配多个字符，<code>?</code> 匹配单个字符。如遍历所有 <code>.txt</code> 文件 <code>*.txt</code> 。规则可以有多个，如遍历所有 <code>.jpg</code> 和 <code>.jpeg</code> 图片：<code>*.jpg *.jpeg</code> 。</p>
+<p>执行的命令：可执行单条命令，或使用括号包括以执行多条命令</p>
+<h4 id="call"><a class="markdownIt-Anchor" href="#call"></a> CALL</h4>
+<p>调用其他脚本或标签。</p>
+<p>语法：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">call [盘符:][路径]&lt;脚本文件&gt; [批处理参数] [:&lt;标签&gt; [&lt;参数&gt;]]</span><br></pre></td></tr></table></figure>
+<h5 id="调用其他脚本"><a class="markdownIt-Anchor" href="#调用其他脚本"></a> 调用其他脚本</h5>
+<p>使用 call 可以在当前脚本中调用其他脚本，在调用时可以传递参数。在调用的脚本执行完成后，接着执行下面的命令。</p>
+<p>hello.bat 脚本：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">call hi xiaoming</span><br><span class="line"><span class="built_in">echo</span> over</span><br></pre></td></tr></table></figure>
+<p>被调用的脚本 <code>hi.bat</code> ：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="built_in">echo</span> Hi, %<span class="number">1</span></span><br></pre></td></tr></table></figure>
+<p>执行结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Hi, xiaoming</span><br><span class="line">over</span><br></pre></td></tr></table></figure>
+<h5 id="调用标签"><a class="markdownIt-Anchor" href="#调用标签"></a> 调用标签</h5>
+<p>使用 call 能够调用当前脚本中的其他标签。</p>
+<p>脚本 call.bat</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="keyword">if</span> %<span class="number">1</span> equ <span class="number">1</span> call :isOne</span><br><span class="line">goto :eof</span><br><span class="line"></span><br><span class="line">:isOne</span><br><span class="line"><span class="built_in">echo</span> it is one</span><br><span class="line">goto :eof</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>上面脚本判断参数是否为 1，如果是 1，就调用标签，否则就退出。</p>
+<p>当运行 <code>call 1</code> 时，将输出 <code>it is one</code> 。</p>
+</blockquote>
+<h4 id="文件操作相关命令"><a class="markdownIt-Anchor" href="#文件操作相关命令"></a> 文件操作相关命令</h4>
+<h5 id="创建目录-mkdir-md"><a class="markdownIt-Anchor" href="#创建目录-mkdir-md"></a> 创建目录-mkdir、md</h5>
+<p><code>mkdir</code> 与 <code>md</code> 命令用于创建目录及子目录。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir [&lt;<span class="type">drive</span>&gt;:]&lt;path&gt;</span><br></pre></td></tr></table></figure>
+<p>示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">mkdir test</span><br><span class="line">mkdir D:\test</span><br><span class="line">mkdir D:\test\abc</span><br><span class="line"><span class="built_in">md</span> test</span><br><span class="line"><span class="built_in">md</span> D:\test</span><br><span class="line"><span class="built_in">md</span> D:\test\abc</span><br></pre></td></tr></table></figure>
+<h5 id="删除文件-del-erase"><a class="markdownIt-Anchor" href="#删除文件-del-erase"></a> 删除文件-del、erase</h5>
+<p><code>del</code> 和 <code>earse</code> 命令用于删除文件，注意：使用 <code>del</code> 命令删除的文件将无法恢复。</p>
+<p>常用选项：</p>
+<ul>
+<li><code>/p</code> (Prompts) 删除文件前询问用户是否删除</li>
+<li><code>/s</code> (Subdirectories) 递归删除子目录中的文件</li>
+<li><code>/f</code> (Forces) 强制删除只读文件</li>
+<li><code>/q</code> (Quiet mode) 不打印删除提示信息</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">del</span> a.txt</span><br><span class="line"><span class="built_in">del</span> /p a.txt</span><br><span class="line">:: 删除当前目录及子目录中的所有 a.txt 文件</span><br><span class="line"><span class="built_in">del</span> /s a.txt</span><br></pre></td></tr></table></figure>
+<h5 id="删除目录-rd-rmdir"><a class="markdownIt-Anchor" href="#删除目录-rd-rmdir"></a> 删除目录-rd、rmdir</h5>
+<blockquote>
+<p><code>rd</code> 和 <code>rmdir</code> 命令相同，用于删除目录和目录下的内容。</p>
+</blockquote>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rmdir</span> [&lt;<span class="type">drive</span>&gt;:]&lt;path&gt; [/<span class="type">s</span> [/<span class="type">q</span>]]</span><br></pre></td></tr></table></figure>
+<p>选项：</p>
+<ul>
+<li><code>/s</code> 删除目录以及目录中的内容</li>
+<li><code>/q</code> 不输出删除信息</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">rd</span> test</span><br><span class="line"><span class="built_in">rd</span> /s D:\test</span><br><span class="line"><span class="built_in">rd</span> /s /q D:\test</span><br><span class="line"><span class="built_in">rmdir</span> test</span><br><span class="line"><span class="built_in">rmdir</span> /s D:\test</span><br><span class="line"><span class="built_in">rmdir</span> /s /q D:\test</span><br></pre></td></tr></table></figure>
+<h5 id="拷贝文件-copy"><a class="markdownIt-Anchor" href="#拷贝文件-copy"></a> 拷贝文件-copy</h5>
+<p><code>copy</code> 命令用于复制一个或多个文件到其他目录，该命令还可用于将多个文件合并为一个文件。</p>
+<p>常用选项：</p>
+<ul>
+<li><code>/y</code> 拷贝文件时默认覆盖同名文件</li>
+<li><code>/-y</code> 拷贝文件时，询问用户是否覆盖同名文件</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">copy</span> test\a.txt test2\</span><br><span class="line"><span class="built_in">copy</span> a.txt b.txt D:\test\</span><br><span class="line"><span class="built_in">copy</span> /y *.txt D:\test</span><br><span class="line"><span class="built_in">copy</span> /<span class="literal">-y</span> my-*.txt D:\test</span><br><span class="line"><span class="built_in">copy</span> *.txt Combined.doc</span><br><span class="line"><span class="built_in">copy</span> /b *.exe Combined.exe</span><br><span class="line"><span class="built_in">copy</span> *.txt + *.ref *.doc</span><br></pre></td></tr></table></figure>
+<p>更多信息请参考官方文档：<a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/copy">copy | Microsoft Learn</a></p>
+<h5 id="移动文件-move"><a class="markdownIt-Anchor" href="#移动文件-move"></a> 移动文件-move</h5>
+<p><code>move</code> 命令用于移动一个或多个文件到其他目录，此命令可用于修改文件名。</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">move</span> [&lt;<span class="type">source</span>&gt;] [&lt;<span class="type">target</span>&gt;]</span><br></pre></td></tr></table></figure>
+<p>选项：</p>
+<ul>
+<li><code>/y</code> 移动时默认确认覆盖同名文件</li>
+<li><code>/-y</code> 移动文件时，询问用户是否覆盖同名文件</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">move</span> test\a.txt test2\</span><br><span class="line"><span class="built_in">move</span> test\a.txt test\b.txt</span><br><span class="line"><span class="built_in">move</span> test\abc\ test2\</span><br><span class="line"><span class="built_in">move</span> /y test\abc test2\</span><br></pre></td></tr></table></figure>
+<h5 id="查看目录中的文件-dir"><a class="markdownIt-Anchor" href="#查看目录中的文件-dir"></a> 查看目录中的文件-dir</h5>
+<p><code>dir</code> 命令用于列举目录中的文件。</p>
+<p>常用选项：</p>
+<ul>
+<li><code>/s</code> 列举子目录中的文件</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">dir</span> D:\test</span><br><span class="line"><span class="built_in">dir</span> /s *.txt</span><br></pre></td></tr></table></figure>
+<p>更多信息参考官方文档: <a target="_blank" rel="noopener" href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/dir">dir | Microsoft Learn</a></p>
+<blockquote>
+<p>注：如果想在脚本中遍历文件夹中的内容，可以使用 <code>FOR</code> ，示例打印 E:\test 目录下所有 .txt 文件：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line"><span class="keyword">for</span> /<span class="built_in">r</span> E:\test\ %%i <span class="keyword">in</span> (*.txt) <span class="keyword">do</span> (</span><br><span class="line">    <span class="built_in">echo</span> %%i</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>如果要匹配所有文件，把 <code>*.txt</code> 替换成 <code>*</code> 。</p>
+</blockquote>
+<h5 id="压缩与解压文件"><a class="markdownIt-Anchor" href="#压缩与解压文件"></a> 压缩与解压文件</h5>
+<p>在 bat 中是没有包含压缩文件相关的命令，可以通过调用 WinRAR.exe 或其他支持命令行执行的压缩程序(如 <a target="_blank" rel="noopener" href="https://www.7-zip.org/">7-ZIP</a>)，来完成目录、文件的压缩，以及解压文件。</p>
+<p>压缩文件示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@echo off</span><br><span class="line">D:\WinRAR\WinRAR.exe a myScripts.zip *.bat</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>命令说明：</p>
+<ul>
+<li><code>D:\WinRAR\WinRAR.exe</code> 是 WinRAR 的可执行文件全路径，因为一般这个路径没有添加到系统 path 配置中，需要使用全路径调用</li>
+<li><code>a</code> 是 WinRAR 的运行命令，含义是添加文件到压缩包</li>
+<li><code>myScripts.zip</code> 是压缩包名</li>
+<li><code>*.bat</code> 是要压缩的文件，也可以是目录，如 <code>test\</code> ，也可以是多个文件，如 <code>a.txt b.txt</code> 。</li>
+</ul>
+</blockquote>
+<p>解压文件示例：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">@<span class="built_in">echo</span> off</span><br><span class="line">D:\WinRAR\WinRAR.exe x myScripts.zip myScripts\</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>更多：更多压缩命令与参数可以查看 WinRAR 的帮助文档，在 WinRAR 的安装目录下有一个 <code>WinRAR.chm</code> 文件，就是帮助文件，双击打开即可查看。</p>
+</blockquote>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>windows批处理(cmd/bat)编程详解: <a target="_blank" rel="noopener" href="https://blog.csdn.net/qqlixiao2014/article/details/79172654">https://blog.csdn.net/qqlixiao2014/article/details/79172654</a></li>
+<li>批处理（bat）遍历文件夹下所有文件: <a target="_blank" rel="noopener" href="https://blog.csdn.net/bigbear00007/article/details/105759830">https://blog.csdn.net/bigbear00007/article/details/105759830</a></li>
+<li>批处理脚本遍历指定文件夹下的文件: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/liangblog/p/9835940.html">https://www.cnblogs.com/liangblog/p/9835940.html</a></li>
+<li>BAT脚本编写教程简单入门篇: <a target="_blank" rel="noopener" href="https://blog.csdn.net/daoming1112/article/details/77197558">https://blog.csdn.net/daoming1112/article/details/77197558</a></li>
+<li>Windows bat 编程基本语法: <a target="_blank" rel="noopener" href="https://blog.51cto.com/8686505/2438270">https://blog.51cto.com/8686505/2438270</a></li>
+<li>Windows commands | Microsoft Docs: <a target="_blank" rel="noopener" href="https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands">https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands</a></li>
+<li>BAT命令: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/liuweida/p/11062750.html">https://www.cnblogs.com/liuweida/p/11062750.html</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>Windows 官方说，命令比用户界面执行效率更高，可以执行很多诡异的操作而不受界面的限制，合理的使用脚本能帮我们处理很多重复性工作。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Windows/" rel="tag"># Windows</a>
+              <a href="/tags/bat/" rel="tag"># bat</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/23/%E4%BD%BF%E7%94%A8Sonar%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/" rel="prev" title="使用Sonar检查代码质量">
+                  <i class="fa fa-chevron-left"></i> 使用Sonar检查代码质量
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/23/MySQL%E5%BC%80%E5%90%AF%E5%AF%86%E7%A0%81%E5%A4%8D%E6%9D%82%E5%BA%A6%E9%AA%8C%E8%AF%81/" rel="next" title="MySQL开启密码复杂度验证">
+                  MySQL开启密码复杂度验证 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

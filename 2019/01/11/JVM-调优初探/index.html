@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="简介 初次接触到 JVM 调优，在本文中记录了相关的概念、方法与工具使用。  遇到的问题  线上运行的项目，在一次版本更新时配置出错，没有开启数据消费线程，导致 Redis 消息队列中积压了超四百万条数据，修改配置后再运行时，程序自动读取消息队列中数据开始解析，结果发现服务器 cpu 占用率长时间达到 100%，消息队列中不断积压数据，后台管理页面无法访问。   思路  这台服务器是虚拟机，发现">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM 调优初探">
+<meta property="og:url" content="https://www.wqf31415.xyz/2019/01/11/JVM-%E8%B0%83%E4%BC%98%E5%88%9D%E6%8E%A2/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="简介 初次接触到 JVM 调优，在本文中记录了相关的概念、方法与工具使用。  遇到的问题  线上运行的项目，在一次版本更新时配置出错，没有开启数据消费线程，导致 Redis 消息队列中积压了超四百万条数据，修改配置后再运行时，程序自动读取消息队列中数据开始解析，结果发现服务器 cpu 占用率长时间达到 100%，消息队列中不断积压数据，后台管理页面无法访问。   思路  这台服务器是虚拟机，发现">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jps_hsperfdata_windows.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jmap_help.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jstack_help.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jconsole_1.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jvisualvm.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/jvisualvm_monitor.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arthas.png">
+<meta property="article:published_time" content="2019-01-11T01:58:19.000Z">
+<meta property="article:modified_time" content="2023-05-23T02:54:17.243Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="jvm">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/jps_hsperfdata_windows.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2019/01/11/JVM-%E8%B0%83%E4%BC%98%E5%88%9D%E6%8E%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/01/11/JVM-%E8%B0%83%E4%BC%98%E5%88%9D%E6%8E%A2/","path":"2019/01/11/JVM-调优初探/","title":"JVM 调优初探"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>JVM 调优初探 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.</span> <span class="nav-text"> 简介</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%81%87%E5%88%B0%E7%9A%84%E9%97%AE%E9%A2%98"><span class="nav-number">2.</span> <span class="nav-text"> 遇到的问题</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%9D%E8%B7%AF"><span class="nav-number">3.</span> <span class="nav-text"> 思路</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#jdk-%E8%87%AA%E5%B8%A6%E7%9A%84%E7%9B%91%E6%B5%8B%E5%B7%A5%E5%85%B7"><span class="nav-number">4.</span> <span class="nav-text"> JDK 自带的监测工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#jps"><span class="nav-number">4.1.</span> <span class="nav-text"> jps</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8A%9F%E8%83%BD"><span class="nav-number">4.1.1.</span> <span class="nav-text"> 功能</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%94%A8%E6%B3%95"><span class="nav-number">4.1.2.</span> <span class="nav-text"> 用法</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#jps-%E5%8E%9F%E7%90%86"><span class="nav-number">4.1.3.</span> <span class="nav-text"> jps 原理</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jstatd"><span class="nav-number">4.2.</span> <span class="nav-text"> jstatd</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%93%8D%E4%BD%9C%E6%AD%A5%E9%AA%A4"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 操作步骤</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jmap"><span class="nav-number">4.3.</span> <span class="nav-text"> jmap</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95"><span class="nav-number">4.3.1.</span> <span class="nav-text"> 使用方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jstack"><span class="nav-number">4.4.</span> <span class="nav-text"> jstack</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95-2"><span class="nav-number">4.4.1.</span> <span class="nav-text"> 使用方法</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jconsole"><span class="nav-number">4.5.</span> <span class="nav-text"> jconsole</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9C%AC%E5%9C%B0%E4%BD%BF%E7%94%A8"><span class="nav-number">4.5.1.</span> <span class="nav-text"> 本地使用</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E4%BD%BF%E7%94%A8"><span class="nav-number">4.5.2.</span> <span class="nav-text"> 远程使用</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#jvisualvm"><span class="nav-number">4.6.</span> <span class="nav-text"> jvisualvm</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%93%E5%BC%80%E6%96%B9%E5%BC%8F"><span class="nav-number">4.6.1.</span> <span class="nav-text"> 打开方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#arthas"><span class="nav-number">5.</span> <span class="nav-text"> Arthas</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">119</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">18</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">94</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2019/01/11/JVM-%E8%B0%83%E4%BC%98%E5%88%9D%E6%8E%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="JVM 调优初探 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JVM 调优初探<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/JVM-%E8%B0%83%E4%BC%98%E5%88%9D%E6%8E%A2.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-01-11 09:58:19" itemprop="dateCreated datePublished" datetime="2019-01-11T09:58:19+08:00">2019-01-11</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/java/" itemprop="url" rel="index"><span itemprop="name">java</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="简介"><a class="markdownIt-Anchor" href="#简介"></a> 简介</h3>
+<p>初次接触到 JVM 调优，在本文中记录了相关的概念、方法与工具使用。</p>
+<h3 id="遇到的问题"><a class="markdownIt-Anchor" href="#遇到的问题"></a> 遇到的问题</h3>
+<blockquote>
+<p>线上运行的项目，在一次版本更新时配置出错，没有开启数据消费线程，导致 Redis 消息队列中积压了超四百万条数据，修改配置后再运行时，程序自动读取消息队列中数据开始解析，结果发现服务器 cpu 占用率长时间达到 100%，消息队列中不断积压数据，后台管理页面无法访问。</p>
+</blockquote>
+<h3 id="思路"><a class="markdownIt-Anchor" href="#思路"></a> 思路</h3>
+<ol>
+<li>这台服务器是虚拟机，发现服务器居然是单核 cpu 的(–!)，多分配 cpu 应该可以提高程序运行效率；</li>
+<li>项目正常运行时，消息队列消费速度快，不会积压，或是有少量积压也能迅速消费掉，这次由于意外导致消息队列积压数据太多，最终导致程序无法消费，要想办法提高程序吞吐量；</li>
+<li>怀疑消息消费代码效率太低，测试发现在消息积压过多时，消费速度严重下降，可能是线程太多，处理不过来；</li>
+<li>检查代码发现，应用开启后不断的从消息队列拿数据，生成任务对象放到了一个 LinkedBlockingQueue 中，这个 queue 没有指定容量，使用的是最大容量 Integer.MAX_VALUE ，怀疑是放入了太多的数据，把内存占满了；</li>
+</ol>
+<span id="more"></span>
+<h3 id="jdk-自带的监测工具"><a class="markdownIt-Anchor" href="#jdk-自带的监测工具"></a> JDK 自带的监测工具</h3>
+<p>以下工具是 Oracle JDK 1.8 中自带的一些 JVM 监测和分析工具，在 JDK 目录下的 <code>/bin</code> 目录中就能找到。</p>
+<h4 id="jps"><a class="markdownIt-Anchor" href="#jps"></a> jps</h4>
+<h5 id="功能"><a class="markdownIt-Anchor" href="#功能"></a> 功能</h5>
+<p>JAVA 虚拟机程序状态工具，全称 JavaVirtual Machine Process Status Tool ，用于查看当前运行的 java 进程，可输出进程号 pid 、名称及参数。</p>
+<h5 id="用法"><a class="markdownIt-Anchor" href="#用法"></a> 用法</h5>
+<p>直接在命令行执行 <code>jps</code> 命令即可，结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator&gt; jps</span><br><span class="line">12480 JpademoApplication</span><br><span class="line">14272 Launcher</span><br><span class="line">11604 MyApp</span><br><span class="line">11736</span><br><span class="line">6440 RemoteMavenServer</span><br><span class="line">13932 Jps</span><br></pre></td></tr></table></figure>
+<p>可选参数：</p>
+<ul>
+<li><code>-help</code> 查看帮助信息</li>
+<li><code>-q</code> 只显示进程号</li>
+<li><code>-m</code> 输出传入 main 方法的参数</li>
+<li><code>-l</code> 输出完全的包名，应用主类名，jar的完全路径名</li>
+<li><code>-v</code> 输出jvm参数</li>
+<li><code>-V</code> 输出通过flag文件传递到JVM中的参数</li>
+<li><code>[&lt;hostid&gt;]</code> 远程调用，查询其它机器上的 java 进程，需要在待查看机器上启动 jstatd 。hostid： <code>[protocol:][[//]hostname][:port][/servername]</code></li>
+</ul>
+<h5 id="jps-原理"><a class="markdownIt-Anchor" href="#jps-原理"></a> jps 原理</h5>
+<p>Java 程序启动后，会在 <code>java.io.tmpdir</code> 指定的目录下生成 <code>hsperfdata_XXX</code> 的文件夹，XXX 为操作系统用户名，里面的文件就是以 java 进程号命名的，通过解析这些文件获取相关的参数信息。</p>
+<blockquote>
+<p><code>java.io.tmpdir</code> 在 windows 系统下默认为： <code>C:\Users\Administrator\AppData\Local\Temp\hsperfdata_Administrator</code></p>
+<p>Linux 下默认为： <code>/tmp/hsperfdata_&#123;userName&#125;/</code> 。</p>
+</blockquote>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/jps_hsperfdata_windows.png" alt="" title="Windows 下的 hsperfdata 目录及文件" /></p>
+<hr />
+<h4 id="jstatd"><a class="markdownIt-Anchor" href="#jstatd"></a> jstatd</h4>
+<p>jstatd 是一个基于 RMI (远程方法调用，Remove Method Invocation) 的服务程序，用于监控基于 HotSpot 的 JVM 中资源的创建及销毁，为远程监控工具提供接口，让他们能够连接到本地的 JVM 和执行命令。</p>
+<h5 id="操作步骤"><a class="markdownIt-Anchor" href="#操作步骤"></a> 操作步骤</h5>
+<ol>
+<li>创建安全访问策略文件 <code>jstatd.all.policy</code> ，文件内容为：</li>
+</ol>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">grant codebase &quot;file:$&#123;java.home&#125;/../lib/tools.jar&quot; &#123;</span><br><span class="line">                    permission java.security.AllPermission;</span><br><span class="line">              &#125;;</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>
+<p>运行如下命令启动 jstatd 服务。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstatd -J-Djava.security.policy=jstatd.all.policy</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<blockquote>
+<p>参数含义：</p>
+<ul>
+<li><code>-J</code> 参数是一个公共的参数，如 jps、 jstat 等命令都可以接收这个参数。 由于 jps、 jstat 命令本身也是 Java 应用程序， -J 参数可以为 jps 等命令本身设置 Java 虚拟机参数。</li>
+<li><code>-Djava.security.policy</code> 指定策略文件</li>
+<li><code>-Djava.rmi.server.hostname</code> 指定服务器的 ip 地址（可忽略）<br />
+默认情况下， jstatd 开启在 1099 端口上开启 RMI 服务器。</li>
+</ul>
+</blockquote>
+<p>在 Windows 下启动后查看 1099 端口监听情况，发现进程号为 5984 的程序监听了 1099 端口：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\Administrator\Desktop&gt; netstat -ano | findstr 1099</span><br><span class="line">  TCP    0.0.0.0:1099           0.0.0.0:0              LISTENING       5984</span><br><span class="line">  TCP    172.16.19.233:1099     172.16.19.233:64912    ESTABLISHED     5984</span><br><span class="line">  TCP    172.16.19.233:64912    172.16.19.233:1099     ESTABLISHED     5984</span><br><span class="line">  TCP    [::]:1099              [::]:0                 LISTENING       5984</span><br></pre></td></tr></table></figure>
+<p>使用 jps 远程查看 java 进程，看到进程号为 5984 的程序是 Jstatd：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">C:\Users\Administrator\Desktop&gt;jps 172.16.19.233</span><br><span class="line">12480 JpademoApplication</span><br><span class="line">5984 Jstatd</span><br><span class="line">11736</span><br><span class="line">22280 MyApp</span><br><span class="line">22300 Launcher</span><br></pre></td></tr></table></figure>
+<hr />
+<h4 id="jmap"><a class="markdownIt-Anchor" href="#jmap"></a> jmap</h4>
+<p>jmap 可以用来查看内存使用情况，生成 java 程序的 dump 文件，查看对内对象的统计信息，查看类加载器 (ClassLoader) 的信息和 finalizer 队列</p>
+<h5 id="使用方法"><a class="markdownIt-Anchor" href="#使用方法"></a> 使用方法</h5>
+<p>命令行执行如下命令，pid 是 java 进程 id，可以通过 <strong>jps</strong> 命令查看获得。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jmap &lt;pid&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/jmap_help.png" alt="" title="jmap -help" /></p>
+<hr />
+<h4 id="jstack"><a class="markdownIt-Anchor" href="#jstack"></a> jstack</h4>
+<p>jstack 用于查看或导出 java 程序线程堆栈信息。</p>
+<h5 id="使用方法-2"><a class="markdownIt-Anchor" href="#使用方法-2"></a> 使用方法</h5>
+<p>命令行执行， pid 是 java 程序 id，通过 <strong>jps</strong> 工具查询获取</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jstack &lt;pid&gt;</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/jstack_help.png" alt="" title="jstack -help" /></p>
+<hr />
+<h4 id="jconsole"><a class="markdownIt-Anchor" href="#jconsole"></a> jconsole</h4>
+<blockquote>
+<p>Java Monitoring and Management Console，一种基于 JMX 的，对 JVM 性能和资源消耗的可视化监视、管理工具。</p>
+</blockquote>
+<h5 id="本地使用"><a class="markdownIt-Anchor" href="#本地使用"></a> 本地使用</h5>
+<p>在 Windows 系统下，命令行执行 <code>jconsole</code> 命令，或打开 jdk 的 bin 目录下的 <code>jconsole.exe</code> ，打开后会自动检索当前机器上运行的 java 进程，选择需要查看的，点击 <code>连接</code> 即可。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/jconsole_1.png" alt="" title="jconsole" /></p>
+<p>如果连接失败可以添加如下 JVM 参数配置后再试，如果是用 Tomcat 运行的，就加到 Tomcat 的启动参数里（修改 <code>bin/catalina.bat</code> ，修改 <code>JAVA_OPTS</code> ）；如果是开发时用 IDE 运行的，就加到 IDE 的项目启动配置里。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-Dcom.sun.management.jmxremote</span><br><span class="line">-Dcom.sun.management.jmxremote.port=8011</span><br><span class="line">-Dcom.sun.management.jmxremote.ssl=false</span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate=false</span><br></pre></td></tr></table></figure>
+<h5 id="远程使用"><a class="markdownIt-Anchor" href="#远程使用"></a> 远程使用</h5>
+<ol>
+<li>添加配置</li>
+</ol>
+<p>首先要修改远程机器上的项目 jvm 参数配置，如果只是内网测试，可以用上面的配置，不验证用户名、密码。使用远程监控一般需要添加验证，可以使用下面的配置：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">// 远程连接地址</span><br><span class="line">-Djava.rmi.server.hostname=172.16.19.233</span><br><span class="line">-Dcom.sun.management.jmxremote</span><br><span class="line">// 远程连接端口号</span><br><span class="line">-Dcom.sun.management.jmxremote.port=9999</span><br><span class="line">// 是否需要用户认证</span><br><span class="line">-Dcom.sun.management.jmxremote.authenticate=true</span><br><span class="line">// 是否通过 ssl 连接</span><br><span class="line">-Dcom.sun.management.jmxremote.ssl=false</span><br><span class="line">// 指定用户名密码文件</span><br><span class="line">-Dcom.sun.management.jmxremote.pwd.file=C:/Program Files (x86)/Java/jdk1.8.0_111/jre/lib/management/jmxremote.password</span><br></pre></td></tr></table></figure>
+<ol start="2">
+<li>添加用户</li>
+</ol>
+<p>在上面的配置中，我们指定远程连接密码文件在 $JAVA_HOME/jre/lib/management/ 目录下，默认在这个目录下有几个文件：</p>
+<table>
+<thead>
+<tr>
+<th>文件</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>jmxremote.access</code></td>
+<td>定义用户与权限</td>
+</tr>
+<tr>
+<td><code>jmxremote.password.template</code></td>
+<td>定义用户与密码，远程连接密码配置模板文件，可以复制这个文件修改成自己需要的用户与密码，在 Linux 下需要把复制的文件权限设置为 600</td>
+</tr>
+<tr>
+<td><code>management.properties</code></td>
+<td>默认用户名权限文件和用户名密码文件为 <code>$JAVA_HOME/jre/lib/management/</code> 目录下的 <code>jmxremote.access</code> 和 <code>jmxremote.password</code> 文件，可以在此配置文件中修改</td>
+</tr>
+<tr>
+<td><code>snmp.acl.template</code></td>
+<td>SNMP 监控连接配置</td>
+</tr>
+</tbody>
+</table>
+<p>修改 <code>jmxremote.access</code> 文件，添加用户名和权限：</p>
+  <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user   readonly</span><br></pre></td></tr></table></figure>
+<p>复制 <code>jmxremote.password.template</code> 修改文件名为 <code>jmxremote.password</code> ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 <code>chmod 600 jmxremote.password</code> ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：<br />
+复制 <code>jmxremote.password.template</code> 修改文件名为 <code>jmxremote.password</code> ，修改文件内容，要修改文件权限为 600  (Linux 系统中执行命令 <code>chmod 600 jmxremote.password</code> ，Windows 下暂时不知道怎么设置)，在文件末尾添加内容：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">user 123456</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>启动应用程序，远程连接</li>
+</ol>
+<p>在其他机器上启动 jconsole ，使用远程连接，填入设定的地址、端口，以及用户名、密码，点击 “连接” 即可在监控远程服务器上的 java 程序。</p>
+<hr />
+<h4 id="jvisualvm"><a class="markdownIt-Anchor" href="#jvisualvm"></a> jvisualvm</h4>
+<blockquote>
+<p>功能比较齐全的可视化监控 JVM 的工具，可以查看监视内存使用情况，查看线程状态等，可以监控本地或远程的 JVM。</p>
+<p>官方文档：<a target="_blank" rel="noopener" href="http://visualvm.github.io/documentation.html" title="VisualVM 官方文档">http://visualvm.github.io/documentation.html</a></p>
+</blockquote>
+<h5 id="打开方式"><a class="markdownIt-Anchor" href="#打开方式"></a> 打开方式</h5>
+<p>命令行执行如下命令，将打开 jvisualvm 工具界面：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">jvisualvm</span><br></pre></td></tr></table></figure>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/jvisualvm.png" alt="" title="jvisualvm" /></p>
+<p>可视化操作，非常方便，可以在左侧选择本地或远程运行的 java 进程，监视效果如下：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/jvisualvm_monitor.png" alt="" title="jvisualvm 监视 java 进程" /></p>
+<hr />
+<h3 id="arthas"><a class="markdownIt-Anchor" href="#arthas"></a> Arthas</h3>
+<blockquote>
+<p>Arthas (阿尔萨斯) 是 Alibaba 开源的 java 诊断工具，深受开发者喜爱。</p>
+<p>Arthas 用户文档: <a target="_blank" rel="noopener" href="https://alibaba.github.io/arthas/">https://alibaba.github.io/arthas/</a></p>
+</blockquote>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/arthas.png" alt="" /></p>
+<blockquote>
+<p>还没体验过，以后体验过再来写！</p>
+</blockquote>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>
+<p>jvm 性能调优工具之 jps： <a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d39b2e208e72">https://www.jianshu.com/p/d39b2e208e72</a></p>
+</li>
+<li>
+<p>Java jstatd详解： <a target="_blank" rel="noopener" href="https://www.cnblogs.com/tulianghui/p/5918345.html">https://www.cnblogs.com/tulianghui/p/5918345.html</a></p>
+</li>
+<li>
+<p>java jvm常用命令工具——jstatd命令(Java Statistics Monitoring Daemon)：<a target="_blank" rel="noopener" href="https://www.iteye.com/blog/bijian1013-2221434">https://www.iteye.com/blog/bijian1013-2221434</a></p>
+</li>
+<li>
+<p>JConsole远程连接配置: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/think-in-java/p/6138439.html">https://www.cnblogs.com/think-in-java/p/6138439.html</a></p>
+</li>
+<li>
+<p>使用JCONSOLE远程监控JVM: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/Dhouse/p/7827175.html">https://www.cnblogs.com/Dhouse/p/7827175.html</a></p>
+</li>
+<li>
+<p>JVM的SNMP监控配置: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/zhukunrong/p/3860803.html">https://www.cnblogs.com/zhukunrong/p/3860803.html</a></p>
+</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>这篇文章主要介绍了几种 jvm 监控调试的工具，我利用这些工具监控 java 项目在启动时的情况，最后发现项目启动时创建了大量的对象，结合代码分析，确认是项目中使用了不限长度的任务处理 Queue ，当任务积压时，程序不断的创建任务并放入任务队列，导致内存耗尽，频繁 gc。最终我们限制了任务队列容量，使用阻塞的 Queue，解决了问题。</p>
+<p>虽然我们最终解决了问题，但由于自身对 JVM 认识不深，很多时候工具输出结果看不懂，导致难以定位问题，所以，还需要补充更多 JVM 相关的知识才行。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+              <a href="/tags/jvm/" rel="tag"># jvm</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2018/11/23/SpringBoot-%E4%BD%BF%E7%94%A8-JPA/" rel="prev" title="SpringBoot 使用 JPA">
+                  <i class="fa fa-chevron-left"></i> SpringBoot 使用 JPA
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/02/14/MySql%E6%95%B0%E6%8D%AE%E5%BA%93%E8%A1%A8%E8%87%AA%E5%8A%A8%E5%88%9B%E5%BB%BA%E4%B8%8E%E5%88%A0%E9%99%A4%E5%88%86%E5%8C%BA/" rel="next" title="MySql数据库表自动创建与删除分区">
+                  MySql数据库表自动创建与删除分区 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
