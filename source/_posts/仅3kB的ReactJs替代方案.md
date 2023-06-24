@@ -6,12 +6,12 @@ tags:
   - 嵌入式
 categories:
   - js
-date: 2022-12-05 21:50:08
+date: 2023-06-24 22:30:08
 ---
 
 ### 概述
 
-这篇文章简要的介绍了一款开源的前端 js 库——PreactJs，其特点是小巧且易用，仅 3kB 即可实现类似 React 的现代化前端 api，特别适用于存储空间有限的环境，比如嵌入式的 web 项目。
+这篇文章简要的介绍了一款开源的前端 js 框架——PreactJs，其特点是小巧且易用，仅 3kB 即可实现类似 React 的现代化前端 api，特别适用于存储空间有限的环境，比如嵌入式的 web 项目。
 
 
 
@@ -19,7 +19,7 @@ date: 2022-12-05 21:50:08
 
 > 官网: <https://preactjs.com/> 
 >
-> Github(star 33k): <https://github.com/preactjs/preact> 
+> Github(star 34.6k): <https://github.com/preactjs/preact> 
 
 PreactJs 是 React 的轻量化、快速的替代方案，拥有与其相同的现代化 API，其优势在于：
 
@@ -37,7 +37,31 @@ PreactJs 是 React 的轻量化、快速的替代方案，拥有与其相同的�
 
 ### 快速开始
 
+> 注：以下示例基于 preact 10.15.1 版本。
 
+使用 `script` 标签直接引入 preact 的 js 包，引入之后，会自动在浏览器 window 对象上添加一个 `preact` 对象，里面包含了 preact 提供的函数，可以直接调用，如 `preact.h('h1', null, 'hello world')` 
+
+```html
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Preact 快速开始</title>
+		<script src="preact.min.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+	</body>
+	<script>
+		const app = preact.h('h1', null, 'hello world');
+		preact.render(app, document.getElementById('app'));  
+	</script>
+</html>
+```
+
+
+
+示例：<a href="/example/preactjs/quickstart.html" target="_blank">PreactJS 快速开始示例</a> 
 
 
 

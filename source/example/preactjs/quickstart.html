@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Preact 快速开始</title>
+		<script src="preact.min.js"></script>
+	</head>
+	<body>
+		<div id="app"></div>
+	</body>
+	<script>
+		console.log(this.preact)
+		const app = preact.h('h1', null, 'hello world');
+		preact.render(app, document.getElementById('app'));  
+	</script>
+</html>
