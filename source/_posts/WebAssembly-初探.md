@@ -129,6 +129,8 @@ InstalledDir: E:\project\opensource\emsdk\upstream\bin
 
 从 GitHub 仓库下载 emsdk 源码后，进入项目目录中的 docker 目录，里面有 `Dockerfile` 文件，可用来创建 docker 镜像。
 
+> apiaryio/emcc - Docker Image | Docker Hub： <https://hub.docker.com/r/apiaryio/emcc> 
+
 具体用法参考 docker 目录中的 `README.md` 文件。
 
 
