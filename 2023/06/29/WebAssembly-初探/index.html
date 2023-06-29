@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 WebAssembly 已经极 html、css、js 之后，成为 Web 平台的第四种语言，这篇文章介绍了 WebAssembly 的概念，特点以及使用场景，提供了一个将 C 代码编译成 wasm 并在浏览器访问的简单示例。  认识 WebAssembly  官网: WebAssembly https:&#x2F;&#x2F;webassembly.org&#x2F; 中文网：WebAssembly 中文网 http">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebAssembly-初探">
+<meta property="og:url" content="https://www.wqf31415.xyz/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 WebAssembly 已经极 html、css、js 之后，成为 Web 平台的第四种语言，这篇文章介绍了 WebAssembly 的概念，特点以及使用场景，提供了一个将 C 代码编译成 wasm 并在浏览器访问的简单示例。  认识 WebAssembly  官网: WebAssembly https:&#x2F;&#x2F;webassembly.org&#x2F; 中文网：WebAssembly 中文网 http">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/wasm-hello.png">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/wasm-hello-2.png">
+<meta property="article:published_time" content="2023-06-29T02:56:49.000Z">
+<meta property="article:modified_time" content="2023-06-29T15:10:15.217Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="WebAssembly">
+<meta property="article:tag" content="c">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/wasm-hello.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/","path":"2023/06/29/WebAssembly-初探/","title":"WebAssembly-初探"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>WebAssembly-初探 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-webassembly"><span class="nav-number">2.</span> <span class="nav-text"> 认识 WebAssembly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webassembly-%E7%94%A8%E9%80%94"><span class="nav-number">3.</span> <span class="nav-text"> WebAssembly 用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webassembly-%E4%BC%98%E5%8A%BF"><span class="nav-number">4.</span> <span class="nav-text"> WebAssembly 优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hello-world"><span class="nav-number">5.</span> <span class="nav-text"> Hello World</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-number">5.1.</span> <span class="nav-text"> 开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85"><span class="nav-number">5.1.1.</span> <span class="nav-text"> 编译安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">5.1.2.</span> <span class="nav-text"> 测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#docker-%E5%AE%89%E8%A3%85"><span class="nav-number">5.1.3.</span> <span class="nav-text"> Docker 安装</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.2.</span> <span class="nav-text"> 第一个示例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#c-%E8%AF%AD%E8%A8%80%E4%BB%A3%E7%A0%81"><span class="nav-number">5.2.1.</span> <span class="nav-text"> C 语言代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">5.2.2.</span> <span class="nav-text"> 编译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-2"><span class="nav-number">5.2.3.</span> <span class="nav-text"> 测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A"><span class="nav-number">5.2.4.</span> <span class="nav-text"> 更多</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="WebAssembly-初探 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WebAssembly-初探<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/WebAssembly-%E5%88%9D%E6%8E%A2.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2023-06-29 10:56:49 / 修改时间：23:10:15" itemprop="dateCreated datePublished" datetime="2023-06-29T10:56:49+08:00">2023-06-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/wasm/" itemprop="url" rel="index"><span itemprop="name">wasm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>WebAssembly 已经极 html、css、js 之后，成为 Web 平台的第四种语言，这篇文章介绍了 WebAssembly 的概念，特点以及使用场景，提供了一个将 C 代码编译成 wasm 并在浏览器访问的简单示例。</p>
+<h3 id="认识-webassembly"><a class="markdownIt-Anchor" href="#认识-webassembly"></a> 认识 WebAssembly</h3>
+<blockquote>
+<p>官网: WebAssembly <a target="_blank" rel="noopener" href="https://webassembly.org/">https://webassembly.org/</a></p>
+<p>中文网：WebAssembly 中文网 <a target="_blank" rel="noopener" href="https://www.wasm.com.cn/">https://www.wasm.com.cn/</a></p>
+</blockquote>
+<p>WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈的二进制指令格式的虚拟机标准，它的设计目标包括：高可移植性、高安全性、高效率（包括载入效率和运行效率）、尽可能小的程序体积。WebAssembly 能够在主流的浏览器中运行，它的出现是为了解决前端项目 JavaScript 运行低效的问题。浏览器支持情况参考：<a target="_blank" rel="noopener" href="https://webassembly.org/roadmap/">Roadmap - WebAssembly</a> 。</p>
+<span id="more"></span>
+<h3 id="webassembly-用途"><a class="markdownIt-Anchor" href="#webassembly-用途"></a> WebAssembly 用途</h3>
+<p>wasm 可以在主流的浏览器中运行，也可以脱离浏览器环境。在 Web 中，可以全部使用 wasm ，或使用 wasm 完成复杂的算法，使用 js 完成交互逻辑，还可以在已有的 web 项目中应用部分 wasm 作为工具库，完成部分计算任务。</p>
+<p>一些应用场景：</p>
+<ul>
+<li>更好的让一些语言和工具可以编译到 Web 平台运行</li>
+<li>图片/视频编辑</li>
+<li>游戏：需要快速打开的小游戏、AAA级资源量很大的游戏、游戏门户（代理/原创游戏平台）</li>
+<li>P2P应用（游戏/实时合作编辑）</li>
+<li>音乐播放器（流媒体/缓存）</li>
+<li>图像识别</li>
+<li>视频直播</li>
+<li>VR和虚拟现实</li>
+<li>CAD软件</li>
+<li>科学可视化和仿真</li>
+<li>互动教育软件和新闻文章</li>
+<li>模拟仿真平台（ARC、DOSBOX、QEMU等）</li>
+<li>语言编译器、虚拟机</li>
+<li>POSIX用户空间环境，允许移植现有的POSIX应用程序</li>
+<li>开发者工具（编辑器、编译器、调试器等）</li>
+<li>远程桌面</li>
+<li>VPN</li>
+<li>加密工具</li>
+</ul>
+<h3 id="webassembly-优势"><a class="markdownIt-Anchor" href="#webassembly-优势"></a> WebAssembly 优势</h3>
+<p>在浏览器中， WebAssembly 程序运行在 WebAssembly 虚拟机中，Web 页面通过一组 JavaScript 对象进行 WebAssembly 模块的编译、载入、配置、调用等操作。</p>
+<ul>
+<li>体积小：wasm 是编译成二进制文件，比原生的 JavaScript 体积更小</li>
+<li>加载和运行速度快：由于 wasm 体积更小，因此从服务端下载耗时更短，在运行时，是在浏览器提供的 wasm 虚拟机中运行，力求发挥硬件能力已达到原生执行效率</li>
+<li>可移植性高：由于 wasm 是一套虚拟机标准，因此在有 wasm 虚拟机的环境中都可运行，就像 java 代码号称一次编译到处运行一样，都是靠虚拟机屏蔽了系统及硬件差异</li>
+</ul>
+<h3 id="hello-world"><a class="markdownIt-Anchor" href="#hello-world"></a> Hello World</h3>
+<h4 id="开发环境"><a class="markdownIt-Anchor" href="#开发环境"></a> 开发环境</h4>
+<blockquote>
+<p>Emscripten：<a target="_blank" rel="noopener" href="https://emscripten.org/">https://emscripten.org/</a></p>
+</blockquote>
+<p>Emscripten  最用 C/C++ 开发 WebAssembly  应用的最主流开发工具链，是 WebAssembly  宿主接口事实上的标准之一（另一个是 WASI 规范）。</p>
+<h5 id="编译安装"><a class="markdownIt-Anchor" href="#编译安装"></a> 编译安装</h5>
+<blockquote>
+<p>参考官方下载安装文档:</p>
+<p>Emscripten Download and install: <a target="_blank" rel="noopener" href="https://emscripten.org/docs/getting_started/downloads.html">https://emscripten.org/docs/getting_started/downloads.html</a></p>
+</blockquote>
+<p>从 GitHub 仓库中下载 <a target="_blank" rel="noopener" href="https://github.com/emscripten-core/emsdk">emsdk</a> ，然后进入 emsdk 目录，执行安装命令和激活命令：</p>
+<p>linux:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/emscripten-core/emsdk.git</span><br><span class="line"><span class="built_in">cd</span> emsdk/</span><br><span class="line">./emsdk install latest</span><br><span class="line">./emsdk activate latest</span><br><span class="line"><span class="built_in">source</span> ./emsdk_env.sh</span><br></pre></td></tr></table></figure>
+<p>windows:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/emscripten<span class="literal">-core</span>/emsdk.git</span><br><span class="line"><span class="built_in">cd</span> emsdk/</span><br><span class="line">emsdk install latest</span><br><span class="line">emsdk activate latest</span><br><span class="line">emsdk_env.bat</span><br></pre></td></tr></table></figure>
+<p>注： 最后一条命令是创建系统环境，将一些路径写入系统的环境命令 Path 中，如果写入失败，可以手动修改环境变量，添加响应的路径到 Path。</p>
+<h5 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h5>
+<p>开启命令行，执行命令 <code>emcc -v</code> ，打印 emscripten 版本信息，正常打印说明安装成功。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.40 (5c27e79dd0a9c4e27ef2326841698cdd4f6b5784)</span><br><span class="line">clang version 17.0.0 (https://github.com/llvm/llvm-project 2922e7cd9334797c24a317d41275f1258ef9ddd3)</span><br><span class="line">Target: wasm32-unknown-emscripten</span><br><span class="line">Thread model: posix</span><br><span class="line">InstalledDir: E:\project\opensource\emsdk\upstream\bin</span><br></pre></td></tr></table></figure>
+<h5 id="docker-安装"><a class="markdownIt-Anchor" href="#docker-安装"></a> Docker 安装</h5>
+<p>从 GitHub 仓库下载 emsdk 源码后，进入项目目录中的 docker 目录，里面有 <code>Dockerfile</code> 文件，可用来创建 docker 镜像。</p>
+<p>具体用法参考 docker 目录中的 <code>README.md</code> 文件。</p>
+<h4 id="第一个示例"><a class="markdownIt-Anchor" href="#第一个示例"></a> 第一个示例</h4>
+<h5 id="c-语言代码"><a class="markdownIt-Anchor" href="#c-语言代码"></a> C 语言代码</h5>
+<p>一个最简单的 C 语言 hello world 代码：</p>
+<p><code>hello.c</code> ，打印输出 <code>你好 wasm!</code> 。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span></span><br><span class="line">&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;你好 wasm!\n&quot;</span>);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="编译"><a class="markdownIt-Anchor" href="#编译"></a> 编译</h5>
+<p>在 <code>hello.c</code> 文件目录中打开命令行，执行编译命令：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc hello.c</span><br></pre></td></tr></table></figure>
+<p>编译完成后，将生成两个文件：</p>
+<ul>
+<li>
+<p><code>a.out.wasm</code> 由 C 语言代码编译得到的 WebAssembly 代码</p>
+</li>
+<li>
+<p><code>a.out.js</code> 自动生成的一个调用 <code>a.out.wasm</code> 的 JavaScript 代码</p>
+</li>
+</ul>
+<h5 id="测试-2"><a class="markdownIt-Anchor" href="#测试-2"></a> 测试</h5>
+<p>如果安装了 node ，可以直接在命令行中执行 <code>node a.out.js</code> ，即可看到打印出 <code>你好 wasm!</code> 。</p>
+<p>此外，可以手动写一个 html 来调用，新建一个 <code>index.html</code> ，内容如下：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;utf-8&quot;</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">title</span>&gt;</span>WebAssembly Demo<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">&quot;a.out.js&quot;</span>&gt;</span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>在这个 html 文件仅仅引用了 <code>a.out.js</code> 文件，并没有做其他事，接下来就要访问这个页面。</p>
+<p><strong>注意：需要将 <code>index.html</code> 、<code>a.out.js</code> 、<code>a.out.wasm</code> 文件放在同一级目录中，并放在 web 服务器（如 <a target="_blank" rel="noopener" href="http://nginx.org/">nginx</a> 、<a target="_blank" rel="noopener" href="https://tomcat.apache.org/">Tomcat</a> ）中，然后在浏览器中访问。</strong> 直接双击打开是无法正确运行的。</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/wasm-hello.png" alt="" /></p>
+<p>打开浏览1器的开发者工具，进入控制台。看到控制台输出了 <code>你好 wasm!</code> ，运行成功。</p>
+<h5 id="更多"><a class="markdownIt-Anchor" href="#更多"></a> 更多</h5>
+<p>在使用 <code>emcc</code> 编译 C 语言代码文件时，如果不指定输出的文件名，则默认输出 <code>a.out.js</code> 和 <code>a.out.wasm</code> 文件，我们可以添加参数 <code>-o</code> 指定编译输出内容，如:</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc hello.c <span class="literal">-o</span> hello.html</span><br></pre></td></tr></table></figure>
+<p>当使用 <code>-o</code> 参数指定的输出文件名后缀为 <code>.html</code> 时，将输出同名的 <code>.html</code> 、<code>.js</code> 、<code>.wasm</code> 文件；当指定输出的文件名后缀为 <code>.js</code> 时，将输出同名的 <code>.js</code> 和 <code>.wasm</code> 文件。</p>
+<p>如上面的命令将输出文件：<code>hello.html</code> 、<code>hello.js</code> 、<code>hello.wasm</code> ，将这三个文件放到 web 服务器中，使用浏览器访问，页面如下：</p>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/wasm-hello-2.png" alt="" /></p>
+<blockquote>
+<p>这个页面上方的黑色区域是一个 canvas 画布，用来模拟图形界面；下方的黑色区域是一个模拟标准控制台输入/输出区域，会打印出 <code>你好 wasm!</code> ；同时开发者工具中的控制台也输出了打印内容 <code>你好 wasm!</code> 。</p>
+</blockquote>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>丁尔男, 柴树杉. 《面向WebAssembly编程：应用开发方法与实践》. 机械工业出版社, 2021</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>WebAssembly 本质上是一个纯的虚拟机指令规范（模块的二级制格式等都属于外延部分），同时在软件层面定义了和外部宿主环境的交互接口。WebAssembly 是对标 Java 中 JVM 的技术，目标是替代底层 CPU，提供一个虚拟机，支持从 C/C++、Rust、Java 等高级语言编译而来的字节码，就像在 JVM 中可以运行很多语言编译而来的字节码。</p>
+<p>WQSI（WebAssembly System Interface） 是 WebAssembly 最新的一个技术发展方向，也是 WebAssembly 能够突破 Web 环境自由发展的一个必要前提。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"># js</a>
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+              <a href="/tags/web/" rel="tag"># web</a>
+              <a href="/tags/WebAssembly/" rel="tag"># WebAssembly</a>
+              <a href="/tags/c/" rel="tag"># c</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/24/%E4%BB%853kB%E7%9A%84ReactJs%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/" rel="prev" title="仅3kB的ReactJs替代方案">
+                  <i class="fa fa-chevron-left"></i> 仅3kB的ReactJs替代方案
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>
