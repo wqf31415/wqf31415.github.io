@@ -25,11 +25,11 @@ WebAssembly 已经极 html、css、js 之后，成为 Web 平台的第四种语�
 >
 > W3C 标准：
 > 
-> WebAssembly Core Specification <https://www.w3.org/TR/wasm-core-1/>
+> WebAssembly Core Specification: <https://www.w3.org/TR/wasm-core-1/>
 >
-> WebAssembly JavaScript Interface <https://www.w3.org/TR/wasm-js-api-1/> 
+> WebAssembly JavaScript Interface: <https://www.w3.org/TR/wasm-js-api-1/> 
 >
-> WebAssembly Web API <https://www.w3.org/TR/wasm-web-api-1/>
+> WebAssembly Web API: <https://www.w3.org/TR/wasm-web-api-1/>
 
 WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈的二进制指令格式的虚拟机标准，它的设计目标包括：高可移植性、高安全性、高效率（包括载入效率和运行效率）、尽可能小的程序体积。WebAssembly 能够在主流的浏览器中运行，它的出现是为了解决前端项目 JavaScript 运行低效的问题。浏览器支持情况参考：[Roadmap - WebAssembly](https://webassembly.org/roadmap/) 。
 
@@ -87,7 +87,7 @@ Emscripten  最用 C/C++ 开发 WebAssembly  应用的最主流开发工具链�
 
 
 
-##### 编译安装
+##### 编译安装 Emscripten
 
 > 参考官方下载安装文档: 
 >
@@ -133,9 +133,9 @@ InstalledDir: E:\project\opensource\emsdk\upstream\bin
 
 
 
-##### Docker 安装
+##### Docker 安装 Emscripten
 
-从 GitHub 仓库下载 emsdk 源码后，进入项目目录中的 docker 目录，里面有 `Dockerfile` 文件，可用来创建 docker 镜像。
+从 GitHub 仓库下载 emsdk 源码后，进入项目目录中的 docker 目录，里面有 `Dockerfile` 文件，可用来创建 docker 镜像。也可以从 docker 官方仓库拉取 `apiaryio/emc` 镜像，但 docker 仓库中的镜像很长时间都没有更新了，建议拉取源码自己创建镜像。
 
 > apiaryio/emcc - Docker Image | Docker Hub： <https://hub.docker.com/r/apiaryio/emcc> 
 
@@ -205,6 +205,8 @@ emcc hello.c
 
 打开浏览1器的开发者工具，进入控制台。看到控制台输出了 `你好 wasm!` ，运行成功。
 
+示例页面链接：<a href="/example/wasm/hello/index.html">/example/wasm/hello/index.html</a> 
+
 
 
 ##### 更多
@@ -223,31 +225,37 @@ emcc hello.c -o hello.html
 
 > 这个页面上方的黑色区域是一个 canvas 画布，用来模拟图形界面；下方的黑色区域是一个模拟标准控制台输入/输出区域，会打印出 `你好 wasm!` ；同时开发者工具中的控制台也输出了打印内容 `你好 wasm!` 。
 
+示例页面链接：<a href="/example/wasm/hello/hello.html">/example/wasm/hello/hello.html</a> 
+
 
 
 ### 相关开源项目
 
-- emscripten-core/emscripten: Emscripten: An LLVM-to-WebAssembly Compiler https://github.com/emscripten-core/emscripten
+以下是 GitHub 仓库中一些与 WebAssembly 相关或使用到 WebAssembly 的开源项目。
 
-- wasmerio/wasmer: 🚀 The leading WebAssembly Runtime supporting WASI and Emscripten https://github.com/wasmerio/wasmer
+- emscripten-core/emscripten: Emscripten: An LLVM-to-WebAssembly Compiler: https://github.com/emscripten-core/emscripten
 
-- AssemblyScript/assemblyscript: A TypeScript-like language for WebAssembly. https://github.com/AssemblyScript/assemblyscript
+- wasmerio/wasmer: 🚀 The leading WebAssembly Runtime supporting WASI and Emscripten: https://github.com/wasmerio/wasmer
 
-- bytecodealliance/wasmtime: A fast and secure runtime for WebAssembly https://github.com/bytecodealliance/wasmtime
+- AssemblyScript/assemblyscript: A TypeScript-like language for WebAssembly: https://github.com/AssemblyScript/assemblyscript
 
-- WebAssembly/design: WebAssembly Design Documents https://github.com/WebAssembly/design
+- bytecodealliance/wasmtime: A fast and secure runtime for WebAssembly: https://github.com/bytecodealliance/wasmtime
 
-- ffmpegwasm/ffmpeg.wasm: FFmpeg for browser and node, powered by WebAssembly https://github.com/ffmpegwasm/ffmpeg.wasm
+- WebAssembly/design: WebAssembly Design Documents: https://github.com/WebAssembly/design
 
-- mbasso/awesome-wasm: 😎 Curated list of awesome things regarding WebAssembly (wasm) ecosystem. https://github.com/mbasso/awesome-wasm
+- ffmpegwasm/ffmpeg.wasm: FFmpeg for browser and node, powered by WebAssembly: https://github.com/ffmpegwasm/ffmpeg.wasm
 
-- WebAssembly/binaryen: Optimizer and compiler/toolchain library for WebAssembly https://github.com/WebAssembly/binaryen
+- mbasso/awesome-wasm: 😎 Curated list of awesome things regarding WebAssembly (wasm) ecosystem: https://github.com/mbasso/awesome-wasm
 
-- naptha/tesseract.js: Pure Javascript OCR for more than 100 Languages 📖🎉🖥 https://github.com/naptha/tesseract.js
+- WebAssembly/binaryen: Optimizer and compiler/toolchain library for WebAssembly: https://github.com/WebAssembly/binaryen
 
-- pion/webrtc: Pure Go implementation of the WebRTC API https://github.com/pion/webrtc
+- naptha/tesseract.js: Pure Javascript OCR for more than 100 Languages 📖🎉🖥: https://github.com/naptha/tesseract.js
 
-- tinygo-org/tinygo: Go compiler for small places. Microcontrollers, WebAssembly (WASM/WASI), and command-line tools. Based on LLVM. https://github.com/tinygo-org/tinygo
+- pion/webrtc: Pure Go implementation of the WebRTC API: https://github.com/pion/webrtc
+
+- tinygo-org/tinygo: Go compiler for small places. Microcontrollers, WebAssembly (WASM/WASI), and command-line tools. Based on LLVM: https://github.com/tinygo-org/tinygo
+
+
 
 ### 参考资料
 
