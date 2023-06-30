@@ -21,7 +21,15 @@ WebAssembly 已经极 html、css、js 之后，成为 Web 平台的第四种语�
 
 > 官网: WebAssembly <https://webassembly.org/> 
 >
-> 中文网：WebAssembly 中文网 <https://www.wasm.com.cn/> 
+> 中文网：WebAssembly 中文网 <https://www.wasm.com.cn/>
+>
+> W3C 标准：
+> 
+> WebAssembly Core Specification <https://www.w3.org/TR/wasm-core-1/>
+>
+> WebAssembly JavaScript Interface <https://www.w3.org/TR/wasm-js-api-1/> 
+>
+> WebAssembly Web API <https://www.w3.org/TR/wasm-web-api-1/>
 
 WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈的二进制指令格式的虚拟机标准，它的设计目标包括：高可移植性、高安全性、高效率（包括载入效率和运行效率）、尽可能小的程序体积。WebAssembly 能够在主流的浏览器中运行，它的出现是为了解决前端项目 JavaScript 运行低效的问题。浏览器支持情况参考：[Roadmap - WebAssembly](https://webassembly.org/roadmap/) 。
 
