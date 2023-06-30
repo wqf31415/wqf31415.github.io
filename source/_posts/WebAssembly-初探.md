@@ -217,6 +217,30 @@ emcc hello.c -o hello.html
 
 
 
+### 相关开源项目
+
+- emscripten-core/emscripten: Emscripten: An LLVM-to-WebAssembly Compiler https://github.com/emscripten-core/emscripten
+
+- wasmerio/wasmer: 🚀 The leading WebAssembly Runtime supporting WASI and Emscripten https://github.com/wasmerio/wasmer
+
+- AssemblyScript/assemblyscript: A TypeScript-like language for WebAssembly. https://github.com/AssemblyScript/assemblyscript
+
+- bytecodealliance/wasmtime: A fast and secure runtime for WebAssembly https://github.com/bytecodealliance/wasmtime
+
+- WebAssembly/design: WebAssembly Design Documents https://github.com/WebAssembly/design
+
+- ffmpegwasm/ffmpeg.wasm: FFmpeg for browser and node, powered by WebAssembly https://github.com/ffmpegwasm/ffmpeg.wasm
+
+- mbasso/awesome-wasm: 😎 Curated list of awesome things regarding WebAssembly (wasm) ecosystem. https://github.com/mbasso/awesome-wasm
+
+- WebAssembly/binaryen: Optimizer and compiler/toolchain library for WebAssembly https://github.com/WebAssembly/binaryen
+
+- naptha/tesseract.js: Pure Javascript OCR for more than 100 Languages 📖🎉🖥 https://github.com/naptha/tesseract.js
+
+- pion/webrtc: Pure Go implementation of the WebRTC API https://github.com/pion/webrtc
+
+- tinygo-org/tinygo: Go compiler for small places. Microcontrollers, WebAssembly (WASM/WASI), and command-line tools. Based on LLVM. https://github.com/tinygo-org/tinygo
+
 ### 参考资料
 
 - 丁尔男, 柴树杉. 《面向WebAssembly编程：应用开发方法与实践》. 机械工业出版社, 2021
