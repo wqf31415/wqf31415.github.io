@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="概述 这篇文章介绍了在 JavaScript 中通过 WebAssembly 调用 C 语言编写的函数，以及在 C 代码中调用 JavaScript 函数。  web 使用 wasm 流程 在 web 项目中使用 WebAssembly 时，需要先编写 C 语言代码，然后使用 emscripten 编译成 .wasm 和 .js 文件，最后在 html 文件中引入 js 文件，就可以调用在 C">
+<meta property="og:type" content="article">
+<meta property="og:title" content="WebAssembly-函数调用">
+<meta property="og:url" content="https://www.wqf31415.xyz/2023/07/01/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了在 JavaScript 中通过 WebAssembly 调用 C 语言编写的函数，以及在 C 代码中调用 JavaScript 函数。  web 使用 wasm 流程 在 web 项目中使用 WebAssembly 时，需要先编写 C 语言代码，然后使用 emscripten 编译成 .wasm 和 .js 文件，最后在 html 文件中引入 js 文件，就可以调用在 C">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/wasm_c_call_js_alert.png">
+<meta property="article:published_time" content="2023-07-01T13:45:28.000Z">
+<meta property="article:modified_time" content="2023-07-30T04:59:19.620Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="js">
+<meta property="article:tag" content="前端">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="WebAssembly">
+<meta property="article:tag" content="c">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/wasm_c_call_js_alert.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2023/07/01/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2023/07/01/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/","path":"2023/07/01/WebAssembly-函数调用/","title":"WebAssembly-函数调用"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>WebAssembly-函数调用 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-%E4%BD%BF%E7%94%A8-wasm-%E6%B5%81%E7%A8%8B"><span class="nav-number">2.</span> <span class="nav-text"> web 使用 wasm 流程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#web-js-%E4%B8%AD%E4%BD%BF%E7%94%A8-wasm"><span class="nav-number">3.</span> <span class="nav-text"> WEB JS 中使用 WASM</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%92%8C%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%9A%84%E5%87%BD%E6%95%B0"><span class="nav-number">3.1.</span> <span class="nav-text"> 编译和实例化的函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E5%8F%82%E6%95%B0"><span class="nav-number">3.2.</span> <span class="nav-text"> 函数参数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">3.3.</span> <span class="nav-text"> 函数返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%A4%BA%E4%BE%8B"><span class="nav-number">3.4.</span> <span class="nav-text"> 示例</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9"><span class="nav-number">3.5.</span> <span class="nav-text"> 注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#js-%E8%B0%83%E7%94%A8-c-%E5%87%BD%E6%95%B0"><span class="nav-number">4.</span> <span class="nav-text"> JS 调用 C 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#c-%E8%AF%AD%E8%A8%80%E4%BB%A3%E7%A0%81"><span class="nav-number">4.1.</span> <span class="nav-text"> C 语言代码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91-wasm"><span class="nav-number">4.2.</span> <span class="nav-text"> 编译 wasm</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#js-%E4%B8%AD%E8%B0%83%E7%94%A8-c-%E5%87%BD%E6%95%B0"><span class="nav-number">4.3.</span> <span class="nav-text"> JS 中调用 C 函数：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-2"><span class="nav-number">4.4.</span> <span class="nav-text"> 注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#c-%E8%B0%83%E7%94%A8-js-%E5%87%BD%E6%95%B0"><span class="nav-number">5.</span> <span class="nav-text"> C 调用 JS 函数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#emscripten_run_script"><span class="nav-number">5.1.</span> <span class="nav-text"> emscripten_run_script()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#em_js"><span class="nav-number">5.2.</span> <span class="nav-text"> EM_JS()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#em_asm"><span class="nav-number">5.3.</span> <span class="nav-text"> EM_ASM()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9-3"><span class="nav-number">5.4.</span> <span class="nav-text"> 注意事项</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2023/07/01/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="WebAssembly-函数调用 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          WebAssembly-函数调用<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-07-01 21:45:28" itemprop="dateCreated datePublished" datetime="2023-07-01T21:45:28+08:00">2023-07-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-07-30 12:59:19" itemprop="dateModified" datetime="2023-07-30T12:59:19+08:00">2023-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/wasm/" itemprop="url" rel="index"><span itemprop="name">wasm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了在 JavaScript 中通过 WebAssembly 调用 C 语言编写的函数，以及在 C 代码中调用 JavaScript 函数。</p>
+<h3 id="web-使用-wasm-流程"><a class="markdownIt-Anchor" href="#web-使用-wasm-流程"></a> web 使用 wasm 流程</h3>
+<p>在 web 项目中使用 WebAssembly 时，需要先编写 C 语言代码，然后使用 emscripten 编译成 <code>.wasm</code> 和 <code>.js</code> 文件，最后在 html 文件中引入 js 文件，就可以调用在 C 中定义的函数。在 wasm 中是无法操作 dom 的，需要结合 js 使用。</p>
+<pre class="mermaid">graph LR;
+C(C代码) ---> WASM ---> HTML
+JS ---> HTML
+C -.-> JS</pre>
+<blockquote>
+<p>注意：使用 emscripten 自动生成的胶水 js 文件是对 wasm 的实例化和调用函数的封装，方便使用，这个 js 文件中对各种运行环境（node、shell、web、worker）做了支持，实际使用时可以根据自己的业务需求，排除不需要的代码以缩小 js 文件代码量，或自己编写封装成 js 文件。</p>
+</blockquote>
+<span id="more"></span> 
+<h3 id="web-js-中使用-wasm"><a class="markdownIt-Anchor" href="#web-js-中使用-wasm"></a> WEB JS 中使用 WASM</h3>
+<p>目前在浏览器中还不支持直接使用 ES6 模块加载（将来会支持），使用 WebAssembly 的方式是从服务端获取 WebAssembly 字节码，然后使用 <code>WebAssembly.instantiateStreaming()</code> 或 <code>WebAssembly.instantiate()</code> 编译并实例化。</p>
+<pre class="mermaid">graph TB
+a(获取wasm字节码) ---> b(实例化) ---> c(实例对象)
+b ---> d(模型对象)
+c ---> e(函数封装) ---> f(函数调用)
+d ---> g(传递给Worker实例化使用)</pre>
+<h4 id="编译和实例化的函数"><a class="markdownIt-Anchor" href="#编译和实例化的函数"></a> 编译和实例化的函数</h4>
+<ul>
+<li><code>WebAssembly.instantiateStreaming()</code> ：直接从流中编译和实例化，是一种更优的加载 wasm 代码方式。</li>
+<li><code>WebAssembly.instantiate()</code> ：需要先将流转成 <code>ArrayBuffer</code> ，然后再使用此函数编译实例化 wasm。</li>
+</ul>
+<h4 id="函数参数"><a class="markdownIt-Anchor" href="#函数参数"></a> 函数参数</h4>
+<p><code>WebAssembly.instantiateStreaming(source, importObject)</code> 函数的参数：</p>
+<ul>
+<li><code>source</code> 是一个 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/Web/API/Response"><code>Response</code></a> 对象或一个 Promise （可以解析得到一个 <code>Response</code>）。</li>
+<li><code>importObject</code> 要导入到最终 WebAssembly 实例中的值或函数，如 <code>WebAssembly.Memory</code> 对象。</li>
+</ul>
+<p><code>WebAssembly.instantiate()</code> 函数的参数：</p>
+<p>第一个参数是：包含 wasm 二进制代码的类型数组(typed array)或数组缓冲区 (ArrayBuffer)；或一个 <code>WebAssembly.Module</code> 对象。</p>
+<p>第二个参数与上面函数相同，是包含要导入到最终 WebAssembly 实例中的值或函数的对象。</p>
+<h4 id="函数返回值"><a class="markdownIt-Anchor" href="#函数返回值"></a> 函数返回值</h4>
+<p>这两个函数的返回值是一样的，是一个 Promise，可以解析成一个 ResultObject，其中包含两个对象：</p>
+<ul>
+<li><code>module</code> 编译完成的 WebAssembly 模块，可用于再次实例化或通过 <code>postMessage()</code> 与 Worker 共享。</li>
+<li><code>instance</code> 一个 <code>WebAssembly.Instance</code> 实例对象，其中包含了导出的 WebAssembly 函数。</li>
+</ul>
+<blockquote>
+<p>关于编译和实例化：</p>
+<p>使用 <code>WebAssembly.compile()</code> 编译字节数组，使用 <code>new WebAssembly.Instance()</code> 实例化模块。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">function</span> <span class="title function_">instantiate</span>(<span class="params">bytes, imports</span>) &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="title class_">WebAssembly</span>.<span class="title function_">compile</span>(bytes)</span><br><span class="line">      .<span class="title function_">then</span>(<span class="function"><span class="params">m</span> =&gt;</span> <span class="keyword">new</span> <span class="title class_">WebAssembly</span>.<span class="title class_">Instance</span>(m, imports));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</blockquote>
+<h4 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例</h4>
+<p>示例一：使用 <code>fetch</code> 从服务端获取 <code>.wasm</code> ，使用 <code>arrayBuffer()</code> 将响应转换成 <code>ArrayBuffer</code> ，然后使用 <code>WebAssembly.instantiate()</code> 编译和实例化。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_">fetch</span>(<span class="string">&quot;example.wasm&quot;</span>).<span class="title function_">then</span>(<span class="function"><span class="params">response</span> =&gt;</span></span><br><span class="line">    response.<span class="title function_">arrayBuffer</span>()</span><br><span class="line">).<span class="title function_">then</span>(<span class="function"><span class="params">bytes</span> =&gt;</span></span><br><span class="line">    <span class="title class_">WebAssembly</span>.<span class="title function_">instantiate</span>(bytes, importObject)</span><br><span class="line">).<span class="title function_">then</span>(<span class="function"><span class="params">result</span> =&gt;</span> &#123;</span><br><span class="line">    result.<span class="property">instance</span>.<span class="property">exports</span>.<span class="title function_">_Z5sayHiv</span>();</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>示例二：使用  <code>XMLHttpRequest</code> 从服务端获取 <code>.wasm</code> ，然后使用 <code>WebAssembly.instantiate()</code> 编译和实例化。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">request = <span class="keyword">new</span> <span class="title class_">XMLHttpRequest</span>();</span><br><span class="line">request.<span class="title function_">open</span>(<span class="string">&#x27;GET&#x27;</span>, <span class="string">&#x27;simple.wasm&#x27;</span>);</span><br><span class="line">request.<span class="property">responseType</span> = <span class="string">&#x27;arraybuffer&#x27;</span>; <span class="comment">// 关键：指定响应类型为 ArrayBuffer</span></span><br><span class="line">request.<span class="title function_">send</span>();</span><br><span class="line"></span><br><span class="line">request.<span class="property">onload</span> = <span class="keyword">function</span>(<span class="params"></span>) &#123;</span><br><span class="line">  <span class="keyword">var</span> bytes = request.<span class="property">response</span>;</span><br><span class="line">  <span class="title class_">WebAssembly</span>.<span class="title function_">instantiate</span>(bytes, importObject).<span class="title function_">then</span>(<span class="function"><span class="params">results</span> =&gt;</span> &#123;</span><br><span class="line">    results.<span class="property">instance</span>.<span class="property">exports</span>.<span class="title function_">exported_func</span>();</span><br><span class="line">  &#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>示例三：使用 <code>fetch</code> 从服务端获取 <code>.wasm</code> ，使用 <code>WebAssembly.instantiateStreaming()</code> 从响应流编译和实例化。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">WebAssembly</span>.<span class="title function_">instantiateStreaming</span>(<span class="title function_">fetch</span>(<span class="string">&#x27;simple.wasm&#x27;</span>), importObject)</span><br><span class="line">.<span class="title function_">then</span>(<span class="function"><span class="params">obj</span> =&gt;</span> obj.<span class="property">instance</span>.<span class="property">exports</span>.<span class="title function_">exported_func</span>());</span><br></pre></td></tr></table></figure>
+<h4 id="注意事项"><a class="markdownIt-Anchor" href="#注意事项"></a> 注意事项</h4>
+<p>在使用 <code>WebAssembly.instantiateStreaming()</code> 或 <code>WebAssembly.instantiate()</code> 编译并实例化 WebAssembly 时，第二个参数是一个对象，里面包含了要导入到 WebAssembly 实例的数据和函数。每个已编译模块的声明导入必须有一个匹配属性，否则抛出 <a target="_blank" rel="noopener" href="https://developer.mozilla.org/en-US/docs/WebAssembly/JavaScript_interface/LinkError">WebAssembly.LinkError </a> 异常。</p>
+<h3 id="js-调用-c-函数"><a class="markdownIt-Anchor" href="#js-调用-c-函数"></a> JS 调用 C 函数</h3>
+<h4 id="c-语言代码"><a class="markdownIt-Anchor" href="#c-语言代码"></a> C 语言代码</h4>
+<blockquote>
+<p>在线示例: <a href="/example/wasm/interacting/jsCallCFunc.html" target="_blank">jsCallCFunc.html</a></p>
+</blockquote>
+<p>在 C 语言代码中，首先需要包含 emscripten 的头文件 <code>emscripten.h</code> ，然后使用 <code>EMSCRIPTEN_KEEPALIVE</code> 宏来指明要导出的函数， 如果未使用 <code>EMSCRIPTEN_KEEPALIVE</code> 宏，在某些情况下会导致未被调用的函数被编译器优化掉。</p>
+<p><code>jsCallCFunc.c</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;emscripten.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">EMSCRIPTEN_KEEPALIVE</span><br><span class="line"><span class="type">void</span> <span class="title function_">sayHi</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Hi!\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EMSCRIPTEN_KEEPALIVE</span><br><span class="line"><span class="type">int</span> <span class="title function_">getInt</span><span class="params">()</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">99</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EMSCRIPTEN_KEEPALIVE</span><br><span class="line"><span class="type">float</span> <span class="title function_">add</span><span class="params">(<span class="type">float</span> a, <span class="type">float</span> b)</span> &#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EMSCRIPTEN_KEEPALIVE</span><br><span class="line"><span class="type">void</span> <span class="title function_">greeting</span><span class="params">(<span class="type">char</span> *name)</span>&#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Hello, %s\n&quot;</span>, name);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>在上述 C 代码中，定义了无参无返回值的函数、无参返回整数的函数、多个浮点型参数返回浮点型数据的函数、字符指针参数的函数。</p>
+</blockquote>
+<h4 id="编译-wasm"><a class="markdownIt-Anchor" href="#编译-wasm"></a> 编译 wasm</h4>
+<p>编译命令（powershell）：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc .\jsCallCFunc.c <span class="literal">-o</span> jsCallCFunc.html <span class="literal">-sDEFAULT_LIBRARY_FUNCS_TO_INCLUDE</span>=<span class="variable">$stringToNewUTF8</span> <span class="literal">-sEXPORTED_FUNCTIONS</span>=<span class="string">&quot;_malloc,_free&quot;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>编译选项说明：</p>
+<ul>
+<li><code>DEFAULT_LIBRARY_FUNCS_TO_INCLUDE</code> 指定要导出的库函数，这里导出了函数 <code>stringToNewUTF8</code> ，用于在 JavaScript 中将字符串转换字节数组，用于将字符串擦书传递给 C 函数。</li>
+<li><code>EXPORTED_FUNCTIONS</code> : 要导出的函数，因为库函数 <code>stringToNewUTF8</code> 依赖函数 <code>malloc</code> 所以需要导出，导出时要在函数名前加下划线 <code>_</code> 。因为使用 <code>malloc</code> 函数分配内存后，需要使用 <code>free</code> 函数释放内存，所以需要同时导出 <code>free</code> 函数。</li>
+</ul>
+</blockquote>
+<h4 id="js-中调用-c-函数"><a class="markdownIt-Anchor" href="#js-中调用-c-函数"></a> JS 中调用 C 函数：</h4>
+<p>将编译得到的 <code>.wasm</code> 、<code>.js</code> 、<code>.html</code> 文件放到 web 服务器中，使用浏览器访问，打开开发者工具并进入控制台，在控制台输入函数进行调用：</p>
+<p>引入使用 emscripten 生成的 js 文件，可以使用 <code>Module._func（）</code> 或直接使用  <code>_func()</code>  来调用 c 中定义的函数。需要注意的是，对于字符串参数的传递方式，在 JavaScript 中，需要使用 <code>stringToNewUTF8</code> 函数将 js 字符串转成字节数组并获取其指针，然后通过传递指针的方式传参给 C 函数。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="title class_">Module</span>.<span class="title function_">_sayHi</span>(); <span class="comment">// 或 _sayHi();￥</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Module</span>.<span class="title function_">_getInt</span>(); <span class="comment">// 或 _getInt();</span></span><br><span class="line"></span><br><span class="line"><span class="title class_">Module</span>.<span class="title function_">_add</span>(<span class="number">3</span>, <span class="number">2</span>); <span class="comment">// 或 _add(3, 2);</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> name = <span class="title function_">stringToNewUTF8</span>(<span class="string">&#x27;world&#x27;</span>);</span><br><span class="line"><span class="title class_">Module</span>.<span class="title function_">_greeting</span>(name);</span><br><span class="line"><span class="title class_">Module</span>.<span class="title function_">_free</span>(name); <span class="comment">// 注意字节数组用完成后要释放内存</span></span><br></pre></td></tr></table></figure>
+<h4 id="注意事项-2"><a class="markdownIt-Anchor" href="#注意事项-2"></a> 注意事项</h4>
+<p>在 C++ 中，为了防止编译 wasm 时导出的函数名不确定，需要使用 C 语言方式导出函数，建议添加宏来统一处理。</p>
+<p><code>wasm_common.h</code></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">ifndef</span> __WASM_COMMON_H_</span></span><br><span class="line"><span class="meta">#<span class="keyword">define</span> __WASM_COMMON_H_</span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">ifndef</span> EM_PORT_API</span></span><br><span class="line"><span class="meta">#  <span class="keyword">if</span> defined(__EMSCRIPTEN__)</span></span><br><span class="line"><span class="meta">#    <span class="keyword">include</span> <span class="string">&lt;emscripten.h&gt;</span></span></span><br><span class="line"><span class="meta">#    <span class="keyword">if</span> defined(__cplusplus)</span></span><br><span class="line"><span class="meta">#      <span class="keyword">define</span> EM_PORT_API(rettype) extern <span class="string">&quot;C&quot;</span> rettype EMSCRIPTEN_KEEPALIVE</span></span><br><span class="line"><span class="meta">#    <span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#      <span class="keyword">define</span> EM_PORT_API(rettype) rettype EMSCRIPTEN_KEEPALIVE</span></span><br><span class="line"><span class="meta">#    <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#  <span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#    <span class="keyword">if</span> defined(_cplusplus)</span></span><br><span class="line"><span class="meta">#      <span class="keyword">define</span> EM_PORT_API(rettype) extern <span class="string">&quot;C&quot;</span> rettype</span></span><br><span class="line"><span class="meta">#    <span class="keyword">else</span></span></span><br><span class="line"><span class="meta">#      <span class="keyword">define</span> EM_PORT_API(rettype) rerttype</span></span><br><span class="line"><span class="meta">#    <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#  <span class="keyword">endif</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br><span class="line"></span><br><span class="line"><span class="meta">#<span class="keyword">endif</span></span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>代码说明：在上述代码中，通过 检查宏<code>__EMSCRIPTEN__</code> 判断是否 emscripten 环境，如果不是，就按普通 C/C++ 处理。</p>
+<p>如果是 emscripten 环境，则包含 <code>emscripten.h</code> 头文件，并通过检查宏 <code>_cplusplus</code> 判断是否 C++ 环境，分辨定义宏 <code>EM_PORT_API</code> 的内容。</p>
+</blockquote>
+<p>修改 C 语言代码，使用定义的宏 <code>EM_PORT_API</code>：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;wasm_common.h&quot;</span></span></span><br><span class="line"></span><br><span class="line">EM_PORT_API(<span class="type">void</span>) sayHi() &#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Hi!\n&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EM_PORT_API(<span class="type">int</span>) getInt() &#123;</span><br><span class="line">  <span class="keyword">return</span> <span class="number">99</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EM_PORT_API(<span class="type">float</span>) add(<span class="type">float</span> a, <span class="type">float</span> b) &#123;</span><br><span class="line">  <span class="keyword">return</span> a + b;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">EM_PORT_API(<span class="type">void</span>) greeting(<span class="type">char</span> *name) &#123;</span><br><span class="line">  <span class="built_in">printf</span>(<span class="string">&quot;Hello, %s\n&quot;</span>, name);</span><br><span class="line">&#125; </span><br></pre></td></tr></table></figure>
+<h3 id="c-调用-js-函数"><a class="markdownIt-Anchor" href="#c-调用-js-函数"></a> C 调用 JS 函数</h3>
+<p>在 C 语言代码中可以直接使用 <code>emscripten_run_script()</code> 执行 JavaScript 代码，但这种方式是使用 <code>eval()</code> 将字符串转换成 js 代码后执行的，效率低。</p>
+<p>更高效的方式是使用 <code>EM_JS()</code> 、<code>EM_ASM()</code> 等宏定义执行 js 代码，这种方式在编译执行时，直接将宏定义中的 js 代码加入到生成的代码中运行。</p>
+<h4 id="emscripten_run_script"><a class="markdownIt-Anchor" href="#emscripten_run_script"></a> emscripten_run_script()</h4>
+<p>这是最直接的方式，但效率较低，底层是使用 <code>eval()</code> 函数将字符串转换成 JavaScript 代码后执行的。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;emscripten.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	emscripten_run_script(<span class="string">&quot;alert(&#x27;hi&#x27;)&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>页面访问：</p>
+<blockquote>
+<p>在线示例: <a href="/example/wasm/interacting/cCallJsFunc.html" target="_blank">cCallJsFunc.html</a></p>
+</blockquote>
+<p><img src="http://blog-images.qiniu.wqf31415.xyz/wasm_c_call_js_alert.png" alt="" /></p>
+<h4 id="em_js"><a class="markdownIt-Anchor" href="#em_js"></a> EM_JS()</h4>
+<p><code>EM_JS()</code> 宏可以在 C 代码中定义一个调用 JavaScript 的函数。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;emscripten.h&gt;</span></span></span><br><span class="line"></span><br><span class="line">EM_JS(<span class="type">void</span>, call_alert, (), &#123;</span><br><span class="line">	alert(<span class="string">&#x27;Hello world&#x27;</span>);</span><br><span class="line">	throw <span class="string">&#x27;all done&#x27;</span>;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	call_alert();</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：在 <code>EM_JS</code> 代码中使用的是单引号 <code>'</code> 定义的字符串，这是 JavaScript 的语法，在 C 语言中是不能用单引号定义字符串的。</p>
+</blockquote>
+<p>访问页面，弹框显示 <code>Hello world</code> ，关闭弹框后，控制台输出 <code>Uncaught all done</code> 。</p>
+<blockquote>
+<p>在线示例: <a href="/example/wasm/interacting/emJsDemo.html" target="_blank">emJsDemo.html</a></p>
+</blockquote>
+<h4 id="em_asm"><a class="markdownIt-Anchor" href="#em_asm"></a> EM_ASM()</h4>
+<p><code>EM_ASM()</code> 能够在 C 语言函数内部执行 JavaScript 代码。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;emscripten.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">	EM_ASM(&#123;</span><br><span class="line">		alert(<span class="string">&#x27;Hello world&#x27;</span>);</span><br><span class="line">		throw <span class="string">&#x27;all done&#x27;</span>;</span><br><span class="line">	&#125;);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>访问页面，弹框显示 <code>Hello world</code> ，关闭弹框后，控制台输出 <code>Uncaught all done</code> 。</p>
+<blockquote>
+<p>在线示例: <a href="/example/wasm/interacting/emAsmDemo.html" target="_blank">emAsmDemo.html</a></p>
+</blockquote>
+<h4 id="注意事项-3"><a class="markdownIt-Anchor" href="#注意事项-3"></a> 注意事项</h4>
+<p>文章中的示例只涉及到部分 api，更多宏定义及用法，可参考官方文档：<a target="_blank" rel="noopener" href="https://emscripten.org/docs/api_reference/emscripten.h.html">https://emscripten.org/docs/api_reference/emscripten.h.html</a> 。</p>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>
+<p>Interacting with code | Emscripten中文网: <a target="_blank" rel="noopener" href="https://emcc.zcopy.site/docs/porting/connecting_cpp_and_javascript/interacting-with-code/">https://emcc.zcopy.site/docs/porting/connecting_cpp_and_javascript/interacting-with-code/</a></p>
+</li>
+<li>
+<p>Interacting with code — Emscripten 3.1.42-git (dev) documentation: <a target="_blank" rel="noopener" href="https://emscripten.org/docs/porting/connecting_cpp_and_javascript/Interacting-with-code.html">https://emscripten.org/docs/porting/connecting_cpp_and_javascript/Interacting-with-code.html</a></p>
+</li>
+<li>
+<p>丁尔男, 柴树杉. 《面向WebAssembly编程：应用开发方法与实践》. 机械工业出版社, 2021</p>
+</li>
+<li>
+<p>加载和运行 WebAssembly 代码 - WebAssembly | MDN: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/WebAssembly/Loading_and_running">https://developer.mozilla.org/zh-CN/docs/WebAssembly/Loading_and_running</a></p>
+</li>
+<li>
+<p>webassembly介绍: <a target="_blank" rel="noopener" href="https://www.cnblogs.com/peter-web/p/16442856.html">https://www.cnblogs.com/peter-web/p/16442856.html</a></p>
+</li>
+<li>
+<p>编译 C/C++ 为 WebAssembly - WebAssembly | MDN: <a target="_blank" rel="noopener" href="https://developer.mozilla.org/zh-CN/docs/WebAssembly/C_to_Wasm">https://developer.mozilla.org/zh-CN/docs/WebAssembly/C_to_Wasm</a></p>
+</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>在 WebAssembly 中灵活使用 JavaScript 与 C 语言的代码交互是使用 WebAssembly 的基础。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/js/" rel="tag"># js</a>
+              <a href="/tags/%E5%89%8D%E7%AB%AF/" rel="tag"># 前端</a>
+              <a href="/tags/web/" rel="tag"># web</a>
+              <a href="/tags/WebAssembly/" rel="tag"># WebAssembly</a>
+              <a href="/tags/c/" rel="tag"># c</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/" rel="prev" title="WebAssembly-初探">
+                  <i class="fa fa-chevron-left"></i> WebAssembly-初探
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">This_Wei</span>
+</div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
+  <script src="/js/third-party/tags/mermaid.js"></script>
+
+
+
+
+  
+
+
+
+
+
+</body>
+</html>

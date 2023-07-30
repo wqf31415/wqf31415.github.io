@@ -124,7 +124,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -175,6 +175,108 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2023/07/01/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="undefined | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/07/01/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/" class="post-title-link" itemprop="url">WebAssembly-函数调用</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-07-01 21:45:28" itemprop="dateCreated datePublished" datetime="2023-07-01T21:45:28+08:00">2023-07-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-07-30 12:59:19" itemprop="dateModified" datetime="2023-07-30T12:59:19+08:00">2023-07-30</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/wasm/" itemprop="url" rel="index"><span itemprop="name">wasm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了在 JavaScript 中通过 WebAssembly 调用 C 语言编写的函数，以及在 C 代码中调用 JavaScript 函数。</p>
+<h3 id="web-使用-wasm-流程"><a class="markdownIt-Anchor" href="#web-使用-wasm-流程"></a> web 使用 wasm 流程</h3>
+<p>在 web 项目中使用 WebAssembly 时，需要先编写 C 语言代码，然后使用 emscripten 编译成 <code>.wasm</code> 和 <code>.js</code> 文件，最后在 html 文件中引入 js 文件，就可以调用在 C 中定义的函数。在 wasm 中是无法操作 dom 的，需要结合 js 使用。</p>
+<pre class="mermaid">graph LR;
+C(C代码) ---> WASM ---> HTML
+JS ---> HTML
+C -.-> JS</pre>
+<blockquote>
+<p>注意：使用 emscripten 自动生成的胶水 js 文件是对 wasm 的实例化和调用函数的封装，方便使用，这个 js 文件中对各种运行环境（node、shell、web、worker）做了支持，实际使用时可以根据自己的业务需求，排除不需要的代码以缩小 js 文件代码量，或自己编写封装成 js 文件。</p>
+</blockquote>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/07/01/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -203,9 +305,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-06-29 10:56:49 / 修改时间：23:10:15" itemprop="dateCreated datePublished" datetime="2023-06-29T10:56:49+08:00">2023-06-29</time>
+      <time title="创建时间：2023-06-29 10:56:49" itemprop="dateCreated datePublished" datetime="2023-06-29T10:56:49+08:00">2023-06-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-06-30 21:44:54" itemprop="dateModified" datetime="2023-06-30T21:44:54+08:00">2023-06-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -233,6 +341,10 @@
 <blockquote>
 <p>官网: WebAssembly <a target="_blank" rel="noopener" href="https://webassembly.org/">https://webassembly.org/</a></p>
 <p>中文网：WebAssembly 中文网 <a target="_blank" rel="noopener" href="https://www.wasm.com.cn/">https://www.wasm.com.cn/</a></p>
+<p>W3C 标准：</p>
+<p>WebAssembly Core Specification: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-core-1/">https://www.w3.org/TR/wasm-core-1/</a></p>
+<p>WebAssembly JavaScript Interface: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-js-api-1/">https://www.w3.org/TR/wasm-js-api-1/</a></p>
+<p>WebAssembly Web API: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-web-api-1/">https://www.w3.org/TR/wasm-web-api-1/</a></p>
 </blockquote>
 <p>WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈的二进制指令格式的虚拟机标准，它的设计目标包括：高可移植性、高安全性、高效率（包括载入效率和运行效率）、尽可能小的程序体积。WebAssembly 能够在主流的浏览器中运行，它的出现是为了解决前端项目 JavaScript 运行低效的问题。浏览器支持情况参考：<a target="_blank" rel="noopener" href="https://webassembly.org/roadmap/">Roadmap - WebAssembly</a> 。</p>
           <!--noindex-->
@@ -1019,113 +1131,6 @@
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2022/07/06/%E7%B3%BB%E7%BB%9F%E6%8F%90%E5%8D%87%E5%B7%A5%E4%BD%9C%E6%95%88%E7%8E%87/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2022/06/27/%E5%B5%8C%E5%85%A5%E5%BC%8FWeb%E6%9C%8D%E5%8A%A1%E5%99%A8GoAhead%E4%B9%8B%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content="undefined | This_Wei">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/27/%E5%B5%8C%E5%85%A5%E5%BC%8FWeb%E6%9C%8D%E5%8A%A1%E5%99%A8GoAhead%E4%B9%8B%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/" class="post-title-link" itemprop="url">嵌入式Web服务器GoAhead之权限控制</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-27 20:57:38" itemprop="dateCreated datePublished" datetime="2022-06-27T20:57:38+08:00">2022-06-27</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 11:13:07" itemprop="dateModified" datetime="2023-05-23T11:13:07+08:00">2023-05-23</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>在嵌入式 web 服务中引入访问权限控制对于保证设备安全非常重要，这篇文章介绍了嵌入式服务器 GoAhead 中权限相关的功能，包括用户信息配置、uri 路由权限配置，介绍了项目中的权限配置流程。</p>
-<blockquote>
-<p>本文中示例基于 GoAhead 5.2.0</p>
-</blockquote>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/padlock-428549_1280.jpg" alt="" /></p>
-<h3 id="goahead-权限"><a class="markdownIt-Anchor" href="#goahead-权限"></a> GoAhead 权限</h3>
-<blockquote>
-<p>官方文档: <a target="_blank" rel="noopener" href="https://www.embedthis.com/goahead/doc/users/authentication.html">https://www.embedthis.com/goahead/doc/users/authentication.html</a></p>
-</blockquote>
-<p>GoAhead 提供了三种权限架构：</p>
-<ul>
-<li>基于Web表单（Web Form）的身份验证：使用 HTML web 表单让用户输入用户名、密码，以 POST 方法请求身份验证。</li>
-<li>基本（Basic）认证：基于浏览器弹出框捕获用户名和密码，然后简单编码后传输，这种方式与明文方式并无太大差异。</li>
-<li>摘要式（Digest）身份验证：对基本认证方案进行 MD5 处理后传输凭据。</li>
-</ul>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/27/%E5%B5%8C%E5%85%A5%E5%BC%8FWeb%E6%9C%8D%E5%8A%A1%E5%99%A8GoAhead%E4%B9%8B%E6%9D%83%E9%99%90%E6%8E%A7%E5%88%B6/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>

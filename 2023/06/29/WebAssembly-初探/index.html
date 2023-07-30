@@ -29,7 +29,7 @@
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/wasm-hello.png">
 <meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/wasm-hello-2.png">
 <meta property="article:published_time" content="2023-06-29T02:56:49.000Z">
-<meta property="article:modified_time" content="2023-06-29T15:10:15.217Z">
+<meta property="article:modified_time" content="2023-06-30T13:44:54.592Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="js">
 <meta property="article:tag" content="前端">
@@ -122,7 +122,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-webassembly"><span class="nav-number">2.</span> <span class="nav-text"> 认识 WebAssembly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webassembly-%E7%94%A8%E9%80%94"><span class="nav-number">3.</span> <span class="nav-text"> WebAssembly 用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webassembly-%E4%BC%98%E5%8A%BF"><span class="nav-number">4.</span> <span class="nav-text"> WebAssembly 优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hello-world"><span class="nav-number">5.</span> <span class="nav-text"> Hello World</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-number">5.1.</span> <span class="nav-text"> 开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85"><span class="nav-number">5.1.1.</span> <span class="nav-text"> 编译安装</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">5.1.2.</span> <span class="nav-text"> 测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#docker-%E5%AE%89%E8%A3%85"><span class="nav-number">5.1.3.</span> <span class="nav-text"> Docker 安装</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.2.</span> <span class="nav-text"> 第一个示例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#c-%E8%AF%AD%E8%A8%80%E4%BB%A3%E7%A0%81"><span class="nav-number">5.2.1.</span> <span class="nav-text"> C 语言代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">5.2.2.</span> <span class="nav-text"> 编译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-2"><span class="nav-number">5.2.3.</span> <span class="nav-text"> 测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A"><span class="nav-number">5.2.4.</span> <span class="nav-text"> 更多</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">6.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-webassembly"><span class="nav-number">2.</span> <span class="nav-text"> 认识 WebAssembly</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webassembly-%E7%94%A8%E9%80%94"><span class="nav-number">3.</span> <span class="nav-text"> WebAssembly 用途</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#webassembly-%E4%BC%98%E5%8A%BF"><span class="nav-number">4.</span> <span class="nav-text"> WebAssembly 优势</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#hello-world"><span class="nav-number">5.</span> <span class="nav-text"> Hello World</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E7%8E%AF%E5%A2%83"><span class="nav-number">5.1.</span> <span class="nav-text"> 开发环境</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E5%AE%89%E8%A3%85-emscripten"><span class="nav-number">5.1.1.</span> <span class="nav-text"> 编译安装 Emscripten</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">5.1.2.</span> <span class="nav-text"> 测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#docker-%E5%AE%89%E8%A3%85-emscripten"><span class="nav-number">5.1.3.</span> <span class="nav-text"> Docker 安装 Emscripten</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AC%AC%E4%B8%80%E4%B8%AA%E7%A4%BA%E4%BE%8B"><span class="nav-number">5.2.</span> <span class="nav-text"> 第一个示例</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#c-%E8%AF%AD%E8%A8%80%E4%BB%A3%E7%A0%81"><span class="nav-number">5.2.1.</span> <span class="nav-text"> C 语言代码</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91"><span class="nav-number">5.2.2.</span> <span class="nav-text"> 编译</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95-2"><span class="nav-number">5.2.3.</span> <span class="nav-text"> 测试</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9B%B4%E5%A4%9A"><span class="nav-number">5.2.4.</span> <span class="nav-text"> 更多</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE"><span class="nav-number">6.</span> <span class="nav-text"> 相关开源项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -135,7 +135,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">121</span>
+          <span class="site-state-item-count">122</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -215,9 +215,15 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">发表于</span>
-      
 
-      <time title="创建时间：2023-06-29 10:56:49 / 修改时间：23:10:15" itemprop="dateCreated datePublished" datetime="2023-06-29T10:56:49+08:00">2023-06-29</time>
+      <time title="创建时间：2023-06-29 10:56:49" itemprop="dateCreated datePublished" datetime="2023-06-29T10:56:49+08:00">2023-06-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-06-30 21:44:54" itemprop="dateModified" datetime="2023-06-30T21:44:54+08:00">2023-06-30</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -244,6 +250,10 @@
 <blockquote>
 <p>官网: WebAssembly <a target="_blank" rel="noopener" href="https://webassembly.org/">https://webassembly.org/</a></p>
 <p>中文网：WebAssembly 中文网 <a target="_blank" rel="noopener" href="https://www.wasm.com.cn/">https://www.wasm.com.cn/</a></p>
+<p>W3C 标准：</p>
+<p>WebAssembly Core Specification: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-core-1/">https://www.w3.org/TR/wasm-core-1/</a></p>
+<p>WebAssembly JavaScript Interface: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-js-api-1/">https://www.w3.org/TR/wasm-js-api-1/</a></p>
+<p>WebAssembly Web API: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-web-api-1/">https://www.w3.org/TR/wasm-web-api-1/</a></p>
 </blockquote>
 <p>WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈的二进制指令格式的虚拟机标准，它的设计目标包括：高可移植性、高安全性、高效率（包括载入效率和运行效率）、尽可能小的程序体积。WebAssembly 能够在主流的浏览器中运行，它的出现是为了解决前端项目 JavaScript 运行低效的问题。浏览器支持情况参考：<a target="_blank" rel="noopener" href="https://webassembly.org/roadmap/">Roadmap - WebAssembly</a> 。</p>
 <span id="more"></span>
@@ -283,7 +293,7 @@
 <p>Emscripten：<a target="_blank" rel="noopener" href="https://emscripten.org/">https://emscripten.org/</a></p>
 </blockquote>
 <p>Emscripten  最用 C/C++ 开发 WebAssembly  应用的最主流开发工具链，是 WebAssembly  宿主接口事实上的标准之一（另一个是 WASI 规范）。</p>
-<h5 id="编译安装"><a class="markdownIt-Anchor" href="#编译安装"></a> 编译安装</h5>
+<h5 id="编译安装-emscripten"><a class="markdownIt-Anchor" href="#编译安装-emscripten"></a> 编译安装 Emscripten</h5>
 <blockquote>
 <p>参考官方下载安装文档:</p>
 <p>Emscripten Download and install: <a target="_blank" rel="noopener" href="https://emscripten.org/docs/getting_started/downloads.html">https://emscripten.org/docs/getting_started/downloads.html</a></p>
@@ -297,8 +307,11 @@
 <h5 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h5>
 <p>开启命令行，执行命令 <code>emcc -v</code> ，打印 emscripten 版本信息，正常打印说明安装成功。</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">emcc (Emscripten gcc/clang-like replacement + linker emulating GNU ld) 3.1.40 (5c27e79dd0a9c4e27ef2326841698cdd4f6b5784)</span><br><span class="line">clang version 17.0.0 (https://github.com/llvm/llvm-project 2922e7cd9334797c24a317d41275f1258ef9ddd3)</span><br><span class="line">Target: wasm32-unknown-emscripten</span><br><span class="line">Thread model: posix</span><br><span class="line">InstalledDir: E:\project\opensource\emsdk\upstream\bin</span><br></pre></td></tr></table></figure>
-<h5 id="docker-安装"><a class="markdownIt-Anchor" href="#docker-安装"></a> Docker 安装</h5>
-<p>从 GitHub 仓库下载 emsdk 源码后，进入项目目录中的 docker 目录，里面有 <code>Dockerfile</code> 文件，可用来创建 docker 镜像。</p>
+<h5 id="docker-安装-emscripten"><a class="markdownIt-Anchor" href="#docker-安装-emscripten"></a> Docker 安装 Emscripten</h5>
+<p>从 GitHub 仓库下载 emsdk 源码后，进入项目目录中的 docker 目录，里面有 <code>Dockerfile</code> 文件，可用来创建 docker 镜像。也可以从 docker 官方仓库拉取 <code>apiaryio/emc</code> 镜像，但 docker 仓库中的镜像很长时间都没有更新了，建议拉取源码自己创建镜像。</p>
+<blockquote>
+<p>apiaryio/emcc - Docker Image | Docker Hub： <a target="_blank" rel="noopener" href="https://hub.docker.com/r/apiaryio/emcc">https://hub.docker.com/r/apiaryio/emcc</a></p>
+</blockquote>
 <p>具体用法参考 docker 目录中的 <code>README.md</code> 文件。</p>
 <h4 id="第一个示例"><a class="markdownIt-Anchor" href="#第一个示例"></a> 第一个示例</h4>
 <h5 id="c-语言代码"><a class="markdownIt-Anchor" href="#c-语言代码"></a> C 语言代码</h5>
@@ -325,6 +338,7 @@
 <p><strong>注意：需要将 <code>index.html</code> 、<code>a.out.js</code> 、<code>a.out.wasm</code> 文件放在同一级目录中，并放在 web 服务器（如 <a target="_blank" rel="noopener" href="http://nginx.org/">nginx</a> 、<a target="_blank" rel="noopener" href="https://tomcat.apache.org/">Tomcat</a> ）中，然后在浏览器中访问。</strong> 直接双击打开是无法正确运行的。</p>
 <p><img src="http://blog-images.qiniu.wqf31415.xyz/wasm-hello.png" alt="" /></p>
 <p>打开浏览1器的开发者工具，进入控制台。看到控制台输出了 <code>你好 wasm!</code> ，运行成功。</p>
+<p>示例页面链接：<a href="/example/wasm/hello/index.html">/example/wasm/hello/index.html</a></p>
 <h5 id="更多"><a class="markdownIt-Anchor" href="#更多"></a> 更多</h5>
 <p>在使用 <code>emcc</code> 编译 C 语言代码文件时，如果不指定输出的文件名，则默认输出 <code>a.out.js</code> 和 <code>a.out.wasm</code> 文件，我们可以添加参数 <code>-o</code> 指定编译输出内容，如:</p>
 <figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emcc hello.c <span class="literal">-o</span> hello.html</span><br></pre></td></tr></table></figure>
@@ -334,6 +348,44 @@
 <blockquote>
 <p>这个页面上方的黑色区域是一个 canvas 画布，用来模拟图形界面；下方的黑色区域是一个模拟标准控制台输入/输出区域，会打印出 <code>你好 wasm!</code> ；同时开发者工具中的控制台也输出了打印内容 <code>你好 wasm!</code> 。</p>
 </blockquote>
+<p>示例页面链接：<a href="/example/wasm/hello/hello.html">/example/wasm/hello/hello.html</a></p>
+<h3 id="相关开源项目"><a class="markdownIt-Anchor" href="#相关开源项目"></a> 相关开源项目</h3>
+<p>以下是 GitHub 仓库中一些与 WebAssembly 相关或使用到 WebAssembly 的开源项目。</p>
+<ul>
+<li>
+<p>emscripten-core/emscripten: Emscripten: An LLVM-to-WebAssembly Compiler: <a target="_blank" rel="noopener" href="https://github.com/emscripten-core/emscripten">https://github.com/emscripten-core/emscripten</a></p>
+</li>
+<li>
+<p>wasmerio/wasmer: 🚀 The leading WebAssembly Runtime supporting WASI and Emscripten: <a target="_blank" rel="noopener" href="https://github.com/wasmerio/wasmer">https://github.com/wasmerio/wasmer</a></p>
+</li>
+<li>
+<p>AssemblyScript/assemblyscript: A TypeScript-like language for WebAssembly: <a target="_blank" rel="noopener" href="https://github.com/AssemblyScript/assemblyscript">https://github.com/AssemblyScript/assemblyscript</a></p>
+</li>
+<li>
+<p>bytecodealliance/wasmtime: A fast and secure runtime for WebAssembly: <a target="_blank" rel="noopener" href="https://github.com/bytecodealliance/wasmtime">https://github.com/bytecodealliance/wasmtime</a></p>
+</li>
+<li>
+<p>WebAssembly/design: WebAssembly Design Documents: <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/design">https://github.com/WebAssembly/design</a></p>
+</li>
+<li>
+<p>ffmpegwasm/ffmpeg.wasm: FFmpeg for browser and node, powered by WebAssembly: <a target="_blank" rel="noopener" href="https://github.com/ffmpegwasm/ffmpeg.wasm">https://github.com/ffmpegwasm/ffmpeg.wasm</a></p>
+</li>
+<li>
+<p>mbasso/awesome-wasm: 😎 Curated list of awesome things regarding WebAssembly (wasm) ecosystem: <a target="_blank" rel="noopener" href="https://github.com/mbasso/awesome-wasm">https://github.com/mbasso/awesome-wasm</a></p>
+</li>
+<li>
+<p>WebAssembly/binaryen: Optimizer and compiler/toolchain library for WebAssembly: <a target="_blank" rel="noopener" href="https://github.com/WebAssembly/binaryen">https://github.com/WebAssembly/binaryen</a></p>
+</li>
+<li>
+<p>naptha/tesseract.js: Pure Javascript OCR for more than 100 Languages 📖🎉🖥: <a target="_blank" rel="noopener" href="https://github.com/naptha/tesseract.js">https://github.com/naptha/tesseract.js</a></p>
+</li>
+<li>
+<p>pion/webrtc: Pure Go implementation of the WebRTC API: <a target="_blank" rel="noopener" href="https://github.com/pion/webrtc">https://github.com/pion/webrtc</a></p>
+</li>
+<li>
+<p>tinygo-org/tinygo: Go compiler for small places. Microcontrollers, WebAssembly (WASM/WASI), and command-line tools. Based on LLVM: <a target="_blank" rel="noopener" href="https://github.com/tinygo-org/tinygo">https://github.com/tinygo-org/tinygo</a></p>
+</li>
+</ul>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
 <ul>
 <li>丁尔男, 柴树杉. 《面向WebAssembly编程：应用开发方法与实践》. 机械工业出版社, 2021</li>
@@ -366,6 +418,9 @@
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2023/07/01/WebAssembly-%E5%87%BD%E6%95%B0%E8%B0%83%E7%94%A8/" rel="next" title="WebAssembly-函数调用">
+                  WebAssembly-函数调用 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
