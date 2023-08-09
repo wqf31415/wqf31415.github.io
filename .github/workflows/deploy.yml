@@ -33,8 +33,7 @@ jobs:
 #      - name: download theme
 #        run: npm install hexo-theme-next
 
-      - name: cp config file
-         run: echo "Tmp fix"
+#      - name: cp config file
 #        run: |
 #          cp themes_config/next/_config.yml themes/next/
 #          cp themes_config/next/languages/zh-CN.yml themes/next/languages/
