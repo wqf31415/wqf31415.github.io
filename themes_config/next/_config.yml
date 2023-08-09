@@ -120,8 +120,8 @@ menu_settings:
 
 sidebar:
   # Sidebar Position.
-  #position: left
-  position: right
+  position: left
+  #position: right
 
   # Manual define the sidebar width. If commented, will be default for:
   # Muse | Mist: 320
@@ -161,6 +161,9 @@ social:
   GitHub: https://github.com/wqf31415 || github || fab fa-github
   E-Mail: mailto:wqf31415@hotmail.com || fa fa-envelope
   Weibo: https://weibo.com/wqf31415 || fab fa-weibo
+  #GitHub: https://github.com/yourname || fab fa-github
+  #E-Mail: mailto:yourname@gmail.com || fa fa-envelope
+  #Weibo: https://weibo.com/yourname || fab fa-weibo
   #Twitter: https://twitter.com/yourname || fab fa-twitter
   #FB Page: https://www.facebook.com/yourname || fab fa-facebook
   #StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow
@@ -218,14 +221,15 @@ footer:
     color: "#ff0000"
 
   # If not defined, `author` from Hexo `_config.yml` will be used.
-  copyright: This_Wei
+  # Set to `false` to disable the copyright statement.
+  copyright:
 
   # Powered by Hexo & NexT
-  powered: false
+  powered: true
 
   # Beian ICP and gongan information for Chinese users. See: https://beian.miit.gov.cn, http://www.beian.gov.cn
   beian:
-    enable: true
+    enable: false
     icp: '蜀ICP备18009638号'
     # The digit in the num of gongan beian.
     gongan_id: 51011502000320
@@ -289,7 +293,7 @@ follow_me:
 # Related popular posts
 # Dependencies: https://github.com/sergeyzwezdin/hexo-related-posts
 related_posts:
-  enable: true
+  enable: false
   icon: fa fa-signs-post
 
 # Post edit
@@ -375,6 +379,10 @@ codeblock:
     enable: false
     # Available values: default | flat | mac
     style:
+  # Fold code block
+  fold:
+    enable: false
+    height: 500
 
 back2top:
   enable: true
@@ -396,7 +404,7 @@ reading_progress:
 
 # Bookmark Support
 bookmark:
-  enable: true
+  enable: false
   # Customize the color of the bookmark.
   color: "#222"
   # If auto, save the reading progress when closing the page or clicking the bookmark-icon.
@@ -535,6 +543,9 @@ mermaid:
     light: default
     dark: dark
 
+# WaveDrom tag
+wavedrom:
+  enable: false
 
 # ---------------------------------------------------------------
 # Third Party Plugins & Services Settings
@@ -768,7 +779,7 @@ google_analytics:
 
 # Baidu Analytics
 # See: https://tongji.baidu.com
-baidu_analytics: 573d2959947383d4158d7b1756b9d63c
+baidu_analytics: 573d2959947383d4158d7b1756b9d63c # <app_id>
 
 # Growingio Analytics
 # See: https://www.growingio.com
@@ -874,7 +885,7 @@ local_search:
 # Firstly, you need to enable and configure the chat service.
 chat:
   enable: false
-  icon: fa fa-comment # Icon name in Font Awesome, set false to disable icon.
+  icon: fa fa-comment # Icon name in Font Awesome, set to `false` to disable icon.
 
 # Chatra is a functional, easy to use piece of chat software for websites.
 # For more information: https://chatra.com
@@ -891,12 +902,6 @@ chatra:
 tidio:
   enable: false
   key: # Public Key, get it from dashboard. See: https://www.tidio.com/panel/settings/developer
-
-# Gitter is a chat and networking platform.
-# For more information: https://gitter.im
-gitter:
-  enable: false
-  room:
 
 
 # ---------------------------------------------------------------
@@ -918,7 +923,6 @@ vendors:
   # custom_cdn_url: https://cdn.jsdelivr.net/npm/${npm_name}@${version}/${minified}
   # custom_cdn_url: https://cdnjs.cloudflare.com/ajax/libs/${cdnjs_name}/${version}/${cdnjs_file}
   custom_cdn_url:
-
 
 # Assets
 # Accelerate delivery of static files using a CDN
