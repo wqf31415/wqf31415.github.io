@@ -33,10 +33,10 @@ jobs:
 #      - name: download theme
 #        run: npm install hexo-theme-next
 
-#      - name: cp config file
-#        run: |
-#          cp themes_config/next/_config.yml themes/next/
-#          cp themes_config/next/languages/zh-CN.yml themes/next/languages/
+      - name: cp config file
+        run: |
+          cp themes_config/next/_config.yml themes/next/
+          cp themes_config/next/languages/zh-CN.yml themes/next/languages/
 
       - name: hexo generate
         run: hexo generate
