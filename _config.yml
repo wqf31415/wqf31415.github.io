@@ -115,3 +115,15 @@ mermaid:
   cdn: //cdn.bootcdn.net/ajax/libs/mermaid/8.9.3/mermaid.min.js
   version: 8.9.3
   options:
+
+sitemap:
+  path: 
+    - sitemap.xml 
+    - sitemap.txt 
+  template: ./sitemap_template.xml 
+  template_txt: ./sitemap_template.txt 
+  rel: false 
+  tags: true 
+  categories: true
+
+
