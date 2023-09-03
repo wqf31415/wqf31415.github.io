@@ -236,7 +236,7 @@ footer:
     # The full num of gongan beian.
     gongan_num: '川公网安备 51011502000320号'
     # The icon for gongan beian. See: http://www.beian.gov.cn/portal/download
-    gongan_icon_url: "http://blog-images.qiniu.wqf31415.xyz/beian_logo.png"
+    gongan_icon_url: "https://blog-images.qiniu.wqf31415.xyz/beian_logo.png"
 
 
 # ---------------------------------------------------------------
