@@ -45,7 +45,7 @@ AngularJS 是一个 js 框架，用于开发动态 web 应用。AngularJs 可以
 
 AngularJS 最大的特点包括： **MVC模式** ， **模块化** ， **双向数据绑定** ， **依赖注入**
 
-![](http://blog-images.qiniu.wqf31415.xyz/AngularJS-Shield.svg "AngularJS") 
+![](https://blog-images.qiniu.wqf31415.xyz/AngularJS-Shield.svg "AngularJS") 
 
 
 

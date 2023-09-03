@@ -424,7 +424,7 @@ npm i hexo-renderer-markdown-it-plus --save
 
 2019年12月，澳大利亚昆士兰州车辆管理新规允许车主在车牌中增加一个 emoji 表情，可选的 emoji 包括：:sunglasses: :heart_eyes: :wink: :smile: :joy: 。
 
-![](http://blog-images.qiniu.wqf31415.xyz/emoji_plate.jpeg)
+![](https://blog-images.qiniu.wqf31415.xyz/emoji_plate.jpeg)
 
 
 

@@ -12,7 +12,7 @@ date: 2020-09-09 19:35:40
 
 镜像是 docker 的精髓，只有了解 docker 镜像，才能真正理解 docker 的内涵。这篇文章介绍了镜像相关的操作和对镜像的操作。
 
-![](http://blog-images.qiniu.wqf31415.xyz/docker_whale_2.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/docker_whale_2.jpg)
 
 
 
@@ -39,7 +39,7 @@ docker 镜像采用分层机制，相同部分独立成层，只需要存储一�
 
 容器是在镜像的基础上创建的，从文件系统的角度看，它是在镜像的基础上增加一个新的空白层，这个新分层是可读写的。容器的所有写操作都会存储在最上面的可读写层。
 
-![](http://blog-images.qiniu.wqf31415.xyz/docker_image_container_layer.png)
+![](https://blog-images.qiniu.wqf31415.xyz/docker_image_container_layer.png)
 
 使用 `docker commit` 命令提交对镜像的修改，会将修改的层叠加到已有镜像层之上，形成新的镜像，最终用户看到的是所有层叠加的结果，所看到的文件也是所有层文件的集合。如：
 

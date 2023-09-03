@@ -16,7 +16,7 @@ categories:
 ### 背景
 开发过微信公众号程序的同学都知道，微信公众号的服务器配置中，需要指定服务器地址，微信平台会往这个地址推送消息。这个地址必须是公网能够访问的，我们在本地开发测试时，就需要一个地址，能够在公网中访问本地运行的程序，内网穿透就是干这个的。以前我使用的是别人的 ngrok ，但有一些问题，比如不能指定 url 前缀，使用自定义的需要交费，再比如别人服务器关了，我就要满世界去找其它的工具了。
 frp 是一款开源的用于内网穿透的反向代理工具，支持 tcp、udp 协议，为 http、https 协议提供了额外的能力。
-![](http://blog-images.qiniu.wqf31415.xyz/network_server.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/network_server.jpg)
 
 <!-- more -->
 
@@ -39,7 +39,7 @@ frp 是一个开源项目，可以从其 github 上获取最新发布版本，�
 > 官网最新版本下载地址：[https://github.com/fatedier/frp/releases](https://github.com/fatedier/frp/releases "frp release")
 
 因为我的服务器和客户端都是 windows 系统，所以下载的是 frp_0.21.0_windows_amd64.zip ，解压出来之后有下面这些文件：
-![](http://blog-images.qiniu.wqf31415.xyz/frp_zip_files.png "frp 压缩包中文件")
+![](https://blog-images.qiniu.wqf31415.xyz/frp_zip_files.png "frp 压缩包中文件")
 
 从文件名可以知道这些文件的功能：
 - frpc.exe 客户端程序
@@ -159,14 +159,14 @@ custom_domains = frp.wqf31415.xyz
 > 域名可能需要备案，可以到域名申请商或服务器供应商处进行域名本案。
 
 添加两条域名解析，一条 A 类型，主机记录 `frp` ，记录值为服务器 ip 地址；第二条 CNAME 类型，主机记录为 `*.frp` ，记录值为 `frp.wqf31415.xyz` 。配置结果如下图所示，其中 wqf31415.xyz 是我的域名：
-![](http://blog-images.qiniu.wqf31415.xyz/frp_domain_dns.png "域名解析配置")
+![](https://blog-images.qiniu.wqf31415.xyz/frp_domain_dns.png "域名解析配置")
 
 > 添加 `*.frp` 的解析规则是为了实现自定义域名前缀，添加这条解析规则后，可以将 `xxx.frp.wqf31415.xyz` 的请求解析到云服务器上来。
 
 ### 测试使用
 完成域名配置后，到服务器启动 frp 服务，可以将启动命令写入一个 bat 文件，使用 nssm 或 WinSW 工具将其设置成服务，开机自动启动，方便使用。
 启动本地 web 服务，启动本地 frp 客户端，在公网访问配置的域名 wx.frp.wqf31415.xyz 即可访问本地 web 服务。
-![](http://blog-images.qiniu.wqf31415.xyz/frp_client_run.png "启动 frp 客户端")
+![](https://blog-images.qiniu.wqf31415.xyz/frp_client_run.png "启动 frp 客户端")
 
 ### 参考资料
 - frp github：[https://github.com/fatedier/frp](https://github.com/fatedier/frp "frp github 仓库") 

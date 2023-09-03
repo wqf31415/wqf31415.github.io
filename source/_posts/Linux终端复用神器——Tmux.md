@@ -16,7 +16,7 @@ categories:
 
 ### 认识 Tmux
 
-![](http://blog-images.qiniu.wqf31415.xyz/tmux_pane.png)
+![](https://blog-images.qiniu.wqf31415.xyz/tmux_pane.png)
 
 Tmux （terminal multiplexer），是一个开源的 unix 系统终端复用器，能够在一个窗口中启动一系列终端会话；能够让会话在后台持续运行；在一个会话中可开启多个窗口执行不同命令。
 
@@ -66,7 +66,7 @@ tmux
 
 > 未指定窗口名时，默认窗口名为数字，从 0 开始。
 
-![](http://blog-images.qiniu.wqf31415.xyz/tmux.png) 
+![](https://blog-images.qiniu.wqf31415.xyz/tmux.png) 
 
 退出方式，执行 `exit` 命令，或按快捷键 <kbd>Ctrl</kbd> + <kbd>D</kbd> 。
 
@@ -165,7 +165,7 @@ tmux new-window -n wname
 
 > 注意下方的状态栏，多了两个窗口，编号 1 和编号 2 的窗口，窗口名分表为 `bash` 和 `wname`。其中的 `*` 号表明当前所在的窗口。
 
-![](http://blog-images.qiniu.wqf31415.xyz/tmux_window.png)
+![](https://blog-images.qiniu.wqf31415.xyz/tmux_window.png)
 
 #### 切换窗口
 
@@ -215,7 +215,7 @@ tmux split-window -h
 - 划分左右两个窗格：<kbd>Ctrl</kbd> + <kbd>b</kbd> <kbd>%</kbd> 
 - 划分上下两个窗格：<kbd>Ctrl</kbd> + <kbd>b</kbd> <kbd>"</kbd> 
 
-![](http://blog-images.qiniu.wqf31415.xyz/tmux_pane.png)
+![](https://blog-images.qiniu.wqf31415.xyz/tmux_pane.png)
 
 
 

@@ -12,7 +12,7 @@ date: 2020-09-12 20:09:51
 
 这篇文章讲解了 docker 的相关概念，使用 docker 官方仓库管理镜像，搭建私有的 docker 仓库。
 
-![](http://blog-images.qiniu.wqf31415.xyz/docker_whale.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/docker_whale.jpg)
 
 
 

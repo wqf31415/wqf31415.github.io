@@ -14,7 +14,7 @@ Oracle JDK 每半年发布一个版本，现在最新的已经到 15 了，不�
 
 
 
-![](http://blog-images.qiniu.wqf31415.xyz/coffee-java11.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/coffee-java11.jpg)
 
 
 

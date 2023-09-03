@@ -13,7 +13,7 @@ date: 2020-09-18 14:04:38
 
 这篇文章介绍了 https 的用途、原理以及在实际项目中的部署使用。
 
-![](http://blog-images.qiniu.wqf31415.xyz/https.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/https.jpg)
 
 ### 什么是 HTTPS
 
@@ -55,7 +55,7 @@ HTTPS 与 HTTP 的主要不同点：
 
 HTTPS 工作流程如下图所示：
 
-![](http://blog-images.qiniu.wqf31415.xyz/https_work_flow.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/https_work_flow.jpg)
 
 #### 证书验证
 

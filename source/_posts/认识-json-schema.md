@@ -15,7 +15,7 @@ date: 2020-04-02 10:33:29
 
 ### 什么是 json schema
 
-![](http://blog-images.qiniu.wqf31415.xyz/json.png)
+![](https://blog-images.qiniu.wqf31415.xyz/json.png)
 
 JSON Schema 是一种用来定义 json 数据结构的文件，JSON Schema 自身也是以 json 文档形式存在。JSON Schema 被设计用于对 json 文件进行校验、注释、链接导航、交互控制。官方提出了一种用于描述 JSON Schema 的新媒体类型（Media Type）：`application/schema+json` 。
 

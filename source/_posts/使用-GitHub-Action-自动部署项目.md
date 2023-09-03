@@ -55,15 +55,15 @@ jobs: # 任务
 
 提交代码到 `test` 仓库的 `master` 分支，点击 `Actions` 标签，将展示工作执行结果：
 
-![](http://blog-images.qiniu.wqf31415.xyz/github_action_1.png)
+![](https://blog-images.qiniu.wqf31415.xyz/github_action_1.png)
 
 点击下方的记录，查看详情：
 
-![](http://blog-images.qiniu.wqf31415.xyz/github_action_2.png)
+![](https://blog-images.qiniu.wqf31415.xyz/github_action_2.png)
 
 点击 `build` 查看构建的日志详情：
 
-![](http://blog-images.qiniu.wqf31415.xyz/github_action_3.png)
+![](https://blog-images.qiniu.wqf31415.xyz/github_action_3.png)
 
 查看输出的日志，可以看到我们在配置文件中定义的任务都被正确执行了。
 
@@ -273,7 +273,7 @@ jobs:
 
 在构建与部署过程中，我们可能需要用的一些加密信息，这时我们需要在仓库设置中添加加密信息，需要输入名称和值。
 
-![](http://blog-images.qiniu.wqf31415.xyz/github_repo_add_secret.png)
+![](https://blog-images.qiniu.wqf31415.xyz/github_repo_add_secret.png)
 
 在使用密码时，可以作为输入参数或者环境变量，如使用名为 `MY_PWD` 的加密信息：
 
@@ -302,7 +302,7 @@ steps:
 
 当在线编辑 action 工作流配置文件时，在编辑页面右侧的 Marketplace 选项卡中可以检索社区分享的操作，点击后可查看操作的介绍。
 
-![](http://blog-images.qiniu.wqf31415.xyz/github_edit_action_conf_marketplace.png)
+![](https://blog-images.qiniu.wqf31415.xyz/github_edit_action_conf_marketplace.png)
 
 
 

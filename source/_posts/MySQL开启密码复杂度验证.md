@@ -13,7 +13,7 @@ categories:
 
 数据库密码的复制程度关系的数据的安全性，这篇文章介绍了在 MySQL 和 MariaDB 数据库中开启密码复杂度校验的方法，开启校验功能后，用户不能再创建简单密码的账户，能够大大提升安全性。
 
-![](http://blog-images.qiniu.wqf31415.xyz/lock.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/lock.jpg)
 
 
 

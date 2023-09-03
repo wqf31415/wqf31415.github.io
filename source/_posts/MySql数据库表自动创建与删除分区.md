@@ -13,7 +13,7 @@ categories:
 
 数据库中表数据量太大时，查询速度变慢，而且在进行数据迁移时不方便。我们可以对数据量较大（超2GB）的表进行分区，以提高查询效率，方便数据维护。文章中示例了按时间对数据库表进行分区，并使用数据库存储过程与事件完成数据库表分区的自动创建与删除。
 
-![](http://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/database_patition_1.jpg)
 
 ### 环境
 
@@ -77,7 +77,7 @@ categories:
 
 使用 Navicat 打开数据库，对表结构进行修改，将 collected_time 设置为主键。
 
-![](http://blog-images.qiniu.wqf31415.xyz/modify_primary_key_by_navicat.png "使用 Navicat 修改数据库表主键")
+![](https://blog-images.qiniu.wqf31415.xyz/modify_primary_key_by_navicat.png "使用 Navicat 修改数据库表主键")
 
 或执行 SQL 语句修改表结构：
 
@@ -95,15 +95,15 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
 
   1. 设计表 -> 选项 -> 分割区
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_1.png "Navicat 分区1")
+  ![](https://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_1.png "Navicat 分区1")
 
   2. 添加分区( less than )
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_2.png "Navicat 分区2")
+  ![](https://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_2.png "Navicat 分区2")
 
   3. 添加最后一个分区( less than maxvalue)
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_3.png "Navicat 分区3")
+  ![](https://blog-images.qiniu.wqf31415.xyz/create_partition_by_navicat_3.png "Navicat 分区3")
 
   4. 确定分区后，点击确定回到设计表界面，点击 “保存” 完成分区。
 
@@ -126,7 +126,7 @@ ALTER TABLE `meteorology_sensor` DROP PRIMARY KEY ,ADD PRIMARY KEY ( `id`,`colle
 #### 查看分区文件
   进入 MySQL 的数据存储目录下，查看数据库的文件，发现出现了如下的分区文件，说明初始分区正确：
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/partition_file.png "分区文件")
+  ![](https://blog-images.qiniu.wqf31415.xyz/partition_file.png "分区文件")
 
 #### 创建新分区的存储过程
 

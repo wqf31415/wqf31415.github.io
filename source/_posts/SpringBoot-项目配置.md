@@ -310,7 +310,7 @@ springboot 项目的默认配置文件是 `application.properties` ，我们也�
 
   在配置文件中，只需要输入我们自定义的配置前缀，就会有相应的提示出现，提示内容包括配置项、说明、默认值以及字段类型。
   
-  ![](http://blog-images.qiniu.wqf31415.xyz/springboot-custom-conf-hint.gif)
+  ![](https://blog-images.qiniu.wqf31415.xyz/springboot-custom-conf-hint.gif)
 
 
 

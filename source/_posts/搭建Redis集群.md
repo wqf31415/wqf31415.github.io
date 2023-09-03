@@ -156,7 +156,7 @@ cd 7000
 
 执行命令后，将会给每个节点编写配置文件，会打印出预设的配置出来，如果觉得没问题，可以输入 `yes` ，将配置应用到集群中，让各个节点进行通信。执行结果：
 
-![](http://blog-images.qiniu.wqf31415.xyz/redis_cli_create_cluster.png)
+![](https://blog-images.qiniu.wqf31415.xyz/redis_cli_create_cluster.png)
 
 
 
@@ -170,7 +170,7 @@ redis-cli -c -p 7000
 
 连接到端口 `7000` 的 redis 节点，使用 `set` 命令设置值，会自动重定向到 `7002` 的节点，使用 `get` 也能正确获取到值，说明集群运行正常。
 
-![](http://blog-images.qiniu.wqf31415.xyz/redis_cli_test_cluster.png)
+![](https://blog-images.qiniu.wqf31415.xyz/redis_cli_test_cluster.png)
 
 
 
@@ -186,7 +186,7 @@ Redis 提供了一个创建集群的脚本（`create-cluster`），使用这个�
 
 默认将创建端口从 `30001` 开始的 6 个集群模式的 Redis 实例。
 
-![](http://blog-images.qiniu.wqf31415.xyz/script_start_cluster.png)
+![](https://blog-images.qiniu.wqf31415.xyz/script_start_cluster.png)
 
 
 
@@ -198,7 +198,7 @@ Redis 提供了一个创建集群的脚本（`create-cluster`），使用这个�
 
 创建集群，会将预设的主从分配方式打印出来，确认没问题输入 `yes` 。
 
-![](http://blog-images.qiniu.wqf31415.xyz/script_create_cluster.png)
+![](https://blog-images.qiniu.wqf31415.xyz/script_create_cluster.png)
 
 
 
@@ -210,7 +210,7 @@ Redis 提供了一个创建集群的脚本（`create-cluster`），使用这个�
 
 关闭集群中所有实例。
 
-![](http://blog-images.qiniu.wqf31415.xyz/script_stop_cluster.png)
+![](https://blog-images.qiniu.wqf31415.xyz/script_stop_cluster.png)
 
 
 
@@ -328,7 +328,7 @@ docker exec -it redis-node-1 bash
 redis-cli --cluster create 172.17.0.4:7000 172.17.0.5:7001 172.17.0.6:7002 172.17.0.7:7003 172.17.0.8:7004 172.17.0.9:7005 --cluster-replicas 1
 ```
 
-![](http://blog-images.qiniu.wqf31415.xyz/docker_create_redis_cluster.png)
+![](https://blog-images.qiniu.wqf31415.xyz/docker_create_redis_cluster.png)
 
 
 

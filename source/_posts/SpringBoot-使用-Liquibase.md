@@ -48,7 +48,7 @@ Liquibase 是用于数据库重构、管理、记录变化与回滚的开源工�
 > 官网下载地址：[https://download.liquibase.org/download/?frm=n](https://download.liquibase.org/download/?frm=n "download liquibase")
 > liquibase-3.6.3-bin.zip: [我的下载地址](http://source.qiniu.wqf31415.xyz/liquibase-3.6.3-bin.zip "我的下载地址")
 
-![](http://blog-images.qiniu.wqf31415.xyz/liquibase_download.png "download liquibase")
+![](https://blog-images.qiniu.wqf31415.xyz/liquibase_download.png "download liquibase")
 
 ##### 解压文件、下载 JDBC jar 包
 将上一步下载好的 liquibase zip 包解压出来。
@@ -133,14 +133,14 @@ liquibase.bat --url="jdbc:mysql://localhost:3306/test_liquibase?useUnicode=true&
   关于命令的更多内容可以使用 `liquibase --help` 命令查看帮助信息，也可以到官网查询详细信息: [http://www.liquibase.org/documentation/command_line.html](http://www.liquibase.org/documentation/command_line.html)
 
 执行结果：
-![](http://blog-images.qiniu.wqf31415.xyz/liquibase_update_by_cmd.png "update success")
+![](https://blog-images.qiniu.wqf31415.xyz/liquibase_update_by_cmd.png "update success")
 
 ##### 检查数据库
 查看 `test_liquibase` 数据库，发现多了 4 张表：
-![](http://blog-images.qiniu.wqf31415.xyz/liquibase_create_table.png "数据库表")
+![](https://blog-images.qiniu.wqf31415.xyz/liquibase_create_table.png "数据库表")
 
 打开 databasechanagelog 表，发现在 `master.yml` 中的 3 个修改都已经被执行了(表中 EXECTYPE 值为 EXECUTED)。
-![](http://blog-images.qiniu.wqf31415.xyz/liquibase_create_table_2.png "databasechanagelog")
+![](https://blog-images.qiniu.wqf31415.xyz/liquibase_create_table_2.png "databasechanagelog")
 
 #### SpringBoot 项目集成 Liquibase
 SpringBoot 提供了自动装配，大大降低了其它组件的使用难度，在使用 Liquibase 时，可以说非常简单了。
@@ -211,7 +211,7 @@ SpringBoot 提供了自动装配，大大降低了其它组件的使用难度，
 
 ##### 添加 changelog 与数据
 为了放管理，我们在项目 `resources` 目录下创建 `liquibase` 目录用于存放 liquibase 相关的配置文件，在 `liquibase` 目录下创建 `changelog` 目录存放所有 changelog 文件，创建 `initdata` 目录用于存放初始化项目时的数据。
-![](http://blog-images.qiniu.wqf31415.xyz/liquibase_springboot_resources.png "项目 resources 目录")
+![](https://blog-images.qiniu.wqf31415.xyz/liquibase_springboot_resources.png "项目 resources 目录")
 
 ###### changelog
 在 `liquibase` 目录下的 `master.xml` 为 liquibase 的入口，通过 include 标签将其它的 changelog 文件引入进来。
@@ -354,7 +354,7 @@ spring:
 ##### 运行项目
 在运行项目前需要提前创建 url 中指定的数据库，我这里需要创建名为 `liquibase_demo` 的数据库。
 运行项目，查看数据库，建表正确且 `user` 表中数据正确。
-![](http://blog-images.qiniu.wqf31415.xyz/liquibase_data.png "初始化的数据")
+![](https://blog-images.qiniu.wqf31415.xyz/liquibase_data.png "初始化的数据")
 
 ### 配置文件
 #### SpringBoot 配置项

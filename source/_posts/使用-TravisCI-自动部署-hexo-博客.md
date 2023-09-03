@@ -18,7 +18,7 @@ date: 2020-02-07 13:58:38
 
 ### Travis-CI 是什么
 
-![](http://blog-images.qiniu.wqf31415.xyz/travis_ci.jpeg)
+![](https://blog-images.qiniu.wqf31415.xyz/travis_ci.jpeg)
 
 > 官网：<https://www.travis-ci.org/> 
 
@@ -54,25 +54,25 @@ Hexo 是一个开源的，高效、简洁的静态博客工具，基于 `nodejs`
 
 - **搜索 Travis 扩展** 登录 github ，进入 `Marketplace` ，搜索 `travis` ，或直接进入 <https://github.com/marketplace/travis-ci> 。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/github_extend_travis.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/github_extend_travis.png)
 
 - **选择开源版本** 将 travis-ci 扩展添加到 github，这里需要选择 `Open Source` 免费版本，点击 `Install it for free` 按钮。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/github_install_travis_ci.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/github_install_travis_ci.png)
 
 - **确认订单并安装** Travis CI 扩展。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/github_install_travis_ci_complete.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/github_install_travis_ci_complete.png)
 
 - **仓库访问权限** 选择 Travis-CI 可用的仓库，默认是所有仓库，可以根据需要选择指定的仓库，选好之后点击 `Install` ，会出现密码确认界面，输入 github 密码确认安装。
 
   > 如果后续需要修改仓库访问权限：登录你的 github 账户，在 `Applications settings` 中配置 Travis CI 权限，使其能够访问你的仓库。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/github_install_travis_ci_select_repo.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/github_install_travis_ci_select_repo.png)
 
 - **登录 Travis CI** 确认安装后，会自动跳转到 Travis CI 的页面，我们可以直接使用 github 账户授权登录。如果没有自动跳转，可以手动打开 <https://travis-ci.com/> 。
 
-  ![travis-ci sign in](http://blog-images.qiniu.wqf31415.xyz/travis_ci_sign_in.png)
+  ![travis-ci sign in](https://blog-images.qiniu.wqf31415.xyz/travis_ci_sign_in.png)
 
 - 使用 github 账户登录 Travis CI 后，可以看到自己 github 的仓库。
 
@@ -84,19 +84,19 @@ Hexo 是一个开源的，高效、简洁的静态博客工具，基于 `nodejs`
 
 - 另开一个页面登录 github ，进入配置页面（快捷链接：<https://github.com/settings/profile>），进入开发者选项配置。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/github_developer_settings.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/github_developer_settings.png)
 
 - 个人访问令牌配置（快捷链接：<https://github.com/settings/tokens>），点击新建令牌。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/github_personal_access_tokens.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/github_personal_access_tokens.png)
 
 - 填写令牌名称，勾选权限，这里主要需要读和写的权限，然后点击最下方的创建按钮即可。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/github_travis_ci_token.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/github_travis_ci_token.png)
 
 - 创建好令牌后，一定要把令牌复制并保存下来，因为离开这个页面后，将无法再查看这个令牌的内容。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/github_travis_ci_token_content.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/github_travis_ci_token_content.png)
 
   
 
@@ -106,11 +106,11 @@ Hexo 是一个开源的，高效、简洁的静态博客工具，基于 `nodejs`
 
 - 回到 Travis CI 页面，选择需要存放博客源码的仓库，进入仓库配置页面。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/travis_ci_settings.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/travis_ci_settings.png)
 
 - 将 github 访问令牌添加到环境变量，在 Travis 配置页面下拉，找到 `Environment Variables` 配置，添加一个名为 `GH_TOKEN` 的记录(名称可以自己定义)，值(value) 为上一步获得的 访问令牌，分支选择所有，**一定要确认 `DISPLAY VALUE INBUILD LOG` 选项<span style="color:red">未勾选</span>，防止访问令牌泄露**，点击 `Add` 添加记录。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/travis_ci_add_github_token.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/travis_ci_add_github_token.png)
 
   
 
@@ -153,7 +153,7 @@ notifications: # 通知
 
 将 `.travis.yml` 文件推送到 github 仓库中，将自动触发部署任务，这时候进入 Travis CI 网站 <https://travis-ci.com/>，可以看到自动构建部署的输出日志。
 
-![](http://blog-images.qiniu.wqf31415.xyz/travis_ci_build_log.png)
+![](https://blog-images.qiniu.wqf31415.xyz/travis_ci_build_log.png)
 
 等待 Travis CI 自动构建部署完成后，可以登录你的 github pages 地址看看是不是部署成功了。
 

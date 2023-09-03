@@ -18,7 +18,7 @@ categories:
 
 ### 认识 Sonar
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube.png)
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube.png)
 
 > sonar ，读作 `/ˈsoʊnɑːr/` ，意为声呐，声波定位仪。
 
@@ -69,7 +69,7 @@ docker run -d --name my-sonarqube -p9000:9000 sonarqube:8.6.0-community
 
 安装完成后，使用浏览器访问 <http://localhost:9000> ，刚启动时 SonarQube 需要一段时间进行初始化，随后进入登陆界面，使用默认用户名 `admin` 密码 `admin` 登陆，修改密码后，即可开始享用 SonarQube。
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_login.png) 
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube_login.png) 
 
 
 
@@ -79,7 +79,7 @@ SonarQube 默认界面为英文，可安装中文包，方便使用。
 
 点击 **Administration** 菜单，点击 **Marketplace** 子菜单，在 Plugins 搜索栏中搜索 `Chinese` ，安装中文包 `Chinese Pack` ，安装完成后需要重启 SonarQube。(页面上会提示安装了新插件需要重启，点击页面按钮即可完成重启)
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_chinese_pack.png)
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube_chinese_pack.png)
 
 
 
@@ -89,7 +89,7 @@ SonarQube 默认界面为英文，可安装中文包，方便使用。
 
 检测代码质量前需要先创建项目。登陆 SonarQube ，点击 **项目** 菜单，创建新项目，或点击右上角 **+** 按钮，创建项目。填入项目表示和名称后，还需要创建一个令牌，在执行分析时要使用。
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_create_project.png)
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube_create_project.png)
 
 
 
@@ -99,7 +99,7 @@ SonarQube 默认界面为英文，可安装中文包，方便使用。
 
 创建令牌后，页面会提示分析项目，根据页面提示选择项目构建类型，SonarQube 会给出检测方法。
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_maven.png)
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_maven.png)
 
 这里我用来检测一个使用 maven 构建的 springboot 测试项目，所以选择 Maven，按页面提示在项目根目录执行命令：
 
@@ -132,7 +132,7 @@ mvn sonar:sonar -Dsonar.projectKey=test-demo -Dsonar.host.url=http://localhost:9
 
 执行结果：
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_do_analysis.png)
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube_do_analysis.png)
 
 
 
@@ -143,11 +143,11 @@ mvn sonar:sonar -Dsonar.projectKey=test-demo -Dsonar.host.url=http://localhost:9
 - 2 个安全性漏洞
 - 单元测试率为 0 
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_result.png)
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_result.png)
 
 点击 **问题** 菜单，查看漏洞详情，能够按照多种方式进行过滤，这里我们选择查看 `严重` 级别的问题。
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_issue.png)
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_issue.png)
 
 
 
@@ -155,7 +155,7 @@ mvn sonar:sonar -Dsonar.projectKey=test-demo -Dsonar.host.url=http://localhost:9
 
 根据检测结果对项目代码进行整改，整改完成后再次检测。
 
-![](http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_modify.png)
+![](https://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_modify.png)
 
 
 

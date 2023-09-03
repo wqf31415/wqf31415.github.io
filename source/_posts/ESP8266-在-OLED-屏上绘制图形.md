@@ -15,7 +15,7 @@ categories:
 
 在购买 ESP8266 开发板时，选择了带 0.96 OLED 屏的套餐，于是研究了一下怎么在屏幕上显示图像，自己用画图写了一个 `Hello!` ，将它显示到了 OLED 屏幕上。将信息显示到屏幕上是一种比较方便的交互方式，可以直观的查看设备运行状况。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_show.jpg "效果图")
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_show.jpg "效果图")
 
 ### 概述
 
@@ -39,7 +39,7 @@ categories:
 
 > 原理：我们使用 ESP8266 的 3V 和 G 用于给 OLED 供电，还需要调用 Wire 库来与 OLED 通信，在 Arduino 的 Wire 库中为 I2C 协议设置的默认 GPIO， GPIO5 为 SCL，GPIO4 为 SDA，对应查看 ESP8266 的针脚配置， GPIO5 为 D1，GPIO4 为 D2。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board_pins.png "ESP8266 引脚分布图")
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_board_pins.png "ESP8266 引脚分布图")
 
 
 ### 操作流程
@@ -48,11 +48,11 @@ categories:
 
 使用 Windows 自带的画图绘制一个 128x64 像素大小的图像，也可以使用其他工具，如 ps 。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello.png "绘制图片")
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello.png "绘制图片")
 
 保存为 bmp 位图文件。
 
-![](http://blog-images.qiniu.wqf31415.xyz/hello.bmp "位图文件")
+![](https://blog-images.qiniu.wqf31415.xyz/hello.bmp "位图文件")
 
 #### 将图片转成字节数组
 
@@ -71,7 +71,7 @@ categories:
 
 点击 **保存** 即可将数据保存到文件。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_tool.png "Image2Lcd")
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_tool.png "Image2Lcd")
 
 
 打开保存的文件，里面是如下内容，是一个 c 语言定义的 char 数组，长度为 1024，一个字节表示 1 x 8 列中的像素数量，如希望下半部全部点亮，就使用 `00001111`，对应十六进制 0x0F。
@@ -149,7 +149,7 @@ const unsigned char gImage_hello[1024] = { /* 0X22,0X01,0X80,0X00,0X40,0X00, */
 
 点击 Arduino 菜单栏 **“项目” - “加载库” - “管理库”** ，在弹出的库管理窗口的搜索框中输入 `ACROBOTIC SSD1306` ，选择一个版本安装，一般选择最新版就可以了。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_lib.png "ACROBOTIC SSD1306库")
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_draw_hello_lib.png "ACROBOTIC SSD1306库")
 
 安装完成后，在 Arduino 的示例中就可以找到 ACROBOTIC SSD1306 相关的示例了。
 
@@ -257,7 +257,7 @@ void loop()
 
 如我们修改上面的图片，在图片最边上添加一圈边框，如下：
 
-![](http://blog-images.qiniu.wqf31415.xyz/hello_border.bmp )
+![](https://blog-images.qiniu.wqf31415.xyz/hello_border.bmp )
 
 按上面描述的方法生成字节数组，并在开头添加 8 * 16 个 0x00，然后修改代码，最终代码如下：
 

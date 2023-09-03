@@ -13,7 +13,7 @@ date: 2021-09-07 13:10:59
 
 这篇文章介绍了 MySQL 数据库自动备份的方式，包括使用 Navicat 工具备份和使用 MySQL 自带的 `mysqldump` 工具备份。
 
-![](http://blog-images.qiniu.wqf31415.xyz/data-ball.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/data-ball.jpg)
 
 <!-- more -->
 
@@ -35,31 +35,31 @@ date: 2021-09-07 13:10:59
 
 - 点击 `计划` ， `新建批处理作业` 
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_1.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_1.png)
 
 - 打开数据库连接，点击选择要备份的数据库（jhdemo），双击 `可用任务` 中的 `Backup jhdemo`，这个任务会出现在下方 `已选择任务` 中，点击保存；
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_2.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_2.png)
 
 - 输入名字后点击确定，关闭对话框；
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_3.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_3.png)
 
 - 回到 `计划` 页面，选择刚才保存的批处理作业，点击 `设置计划任务` 
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_4.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_4.png)
 
 - 在弹出的对话框中，点击 `计划` 选项卡中的新建，设定计划周期和时间，点击确定；周期可选每天、每周、每月、一次性、系统启动时、系统空闲时、登陆时，高级选项中还可以设置任务开始结束日期。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_5.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_5.png)
 
 - 输入电脑的密码，点击 **确定** 即可完成设置
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_6.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_6.png)
 
   备份事例：
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_7.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_7.png)
 
 
 
@@ -67,7 +67,7 @@ date: 2021-09-07 13:10:59
 
 在创建批处理任务时（或编辑已创建批处理任务时），可点击点击 `高级` 选项卡，勾选 `传送邮件` 选项卡，填入收件人、发件邮箱等相关信息即可。
 
-![](http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_8.png)
+![](https://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_8.png)
 
 
 

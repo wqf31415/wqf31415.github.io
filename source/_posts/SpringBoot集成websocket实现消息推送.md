@@ -334,7 +334,7 @@ public class MsgResponseDTO {
 
 启动项目后，使用浏览器访问项目地址，这里的是 <http://localhost:8989> 。点击 `连接` 按钮，与后端建立连接，然后输入名称与消息内容，点击 `发送` 即可完成消息发送，下方将显示后端推送的消息。可以打开多个页面访问进行测试，这样就形成了一个简易聊天室。
 
-![](http://blog-images.qiniu.wqf31415.xyz/springboot-websocket-demo.png)
+![](https://blog-images.qiniu.wqf31415.xyz/springboot-websocket-demo.png)
 
 
 

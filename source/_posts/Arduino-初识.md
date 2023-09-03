@@ -20,7 +20,7 @@ categories:
 
 Arduino 诞生于 2005年，是一个开源的，简单易用的电子开发平台。在这里除了 Arduino 这个名字被注册成了商标，需要授权才能以 Arduino 命名，其他的都是开源的，其中包括电路板等硬件资源，也包括开发使用的软件 IDE。Arduino 抛开了传统硬件开发的复杂操作，不需要了解硬件的内部结构和寄存器设置，也不需要过多的电子知识和编程知识，只需要简单的学习，了解各个引脚和函数的作用，就可以开发出各种出色的项目。还可以跟其他硬件结合，开发出更有趣的作品。
 
-![](http://blog-images.qiniu.wqf31415.xyz/arduino_logo.png)
+![](https://blog-images.qiniu.wqf31415.xyz/arduino_logo.png)
 
 <!-- more -->
 
@@ -30,19 +30,19 @@ Arduino 诞生于 2005年，是一个开源的，简单易用的电子开发平�
 
 - ArduPilot，<http://ardupilot.org/> ，基于 Arduino 开发的无人机控制系统。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/ArduPilot.jpg)
+  ![](https://blog-images.qiniu.wqf31415.xyz/ArduPilot.jpg)
 
   
 
 - MakerBot，<https://www.makerbot.com/> ，使用 ArduinoMega 作为主控制器的 3D 打印机。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/MakerBot.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/MakerBot.png)
 
   
 
 - ArduSat，<https://www.kickstarter.com/projects/575960623/ardusat-your-arduino-experiment-in-space> ，采用 Arduino 的人造卫星项目。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/ArduSat.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/ArduSat.png)
 
 
 
@@ -76,7 +76,7 @@ Arduino 诞生至今出现了很多硬件设备，包括核心的控制器（也
 
 使用最广泛的 Arduino 控制器，价格便宜，初学者首选。
 
-![](http://blog-images.qiniu.wqf31415.xyz/arduino_uno_r3.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/arduino_uno_r3.jpg)
 
 #### Arduino MEGA
 
@@ -173,7 +173,7 @@ Arduino IDE 支持三大主流的操作系统，其中在 Windows 8 和 Windows 
 
 第一步，打开 Arduino IDE，点击 **"文件"** - **"示例"** - **"01.Basics"** - **"Blink"** ，即可打开官方自带的 LED 灯闪烁示例
 
-![](http://blog-images.qiniu.wqf31415.xyz/arduino_example_blink.png)
+![](https://blog-images.qiniu.wqf31415.xyz/arduino_example_blink.png)
 
 可以简单阅读一下代码，其中说明内容比较完善，这个程序(在 Arduino 中叫做 sketch) 的作用是让控制器板上内嵌的 LED 闪烁。
 
@@ -181,7 +181,7 @@ Arduino IDE 支持三大主流的操作系统，其中在 Windows 8 和 Windows 
 
 通过 USB 连接线将控制器连接到电脑上，可能需要安装驱动程序，连接正确时，可以在设备管理器中看到，如下图所示：
 
-![](http://blog-images.qiniu.wqf31415.xyz/arduino_connect_computer.png)
+![](https://blog-images.qiniu.wqf31415.xyz/arduino_connect_computer.png)
 
 在 Windows 系统中，通过设备管理器查看 “端口”，即可看到连接上的 Arduino 控制器，如上图中显示的，我的控制器是使用 CH340 进行数据传输的，在电脑的 3 号串口上进行通信。
 
@@ -191,13 +191,13 @@ Arduino IDE 支持三大主流的操作系统，其中在 Windows 8 和 Windows 
 
 在上传程序代码到控制器前，首先要选择使用的开发板，配置相应的参数，如下图所示，我选择的开发板是 Arduino UNO，选择的端口是刚才在设备管理器中看到的 "COM3"
 
-![](http://blog-images.qiniu.wqf31415.xyz/arduino_connect_config.png)
+![](https://blog-images.qiniu.wqf31415.xyz/arduino_connect_config.png)
 
 ##### 编译并上传程序代码
 
 代码编辑完成后，可以点击 Arduino IDE 工具栏中的 “验证” 按钮，检验代码是否存在问题，确认没问题后，点击 “上传” 按钮即可将程序上传到控制器，上传期间，标为 “TX” 和 “RX” 的 LED 灯快速闪烁，说明正在写入。上传完成后，UNO 将自动开始执行代码，板子上标为 “L” 的 LED 灯开始闪烁。
 
-![](http://blog-images.qiniu.wqf31415.xyz/arduino_ide_upload_btn.png)
+![](https://blog-images.qiniu.wqf31415.xyz/arduino_ide_upload_btn.png)
 
 
 

@@ -14,7 +14,7 @@ date: 2020-02-19 13:38:58
 
 ### 认识 MyCat
 
-![](http://blog-images.qiniu.wqf31415.xyz/mycat_logo.png)
+![](https://blog-images.qiniu.wqf31415.xyz/mycat_logo.png)
 
 > 官网：<http://www.mycat.io> 
 
@@ -152,7 +152,7 @@ MyCat 原理中最重要的一个动作是 `拦截` ，它拦截了用户发过�
 
 正确启动后，MyCat 默认连接端口是 `8066` ，可以使用数据库管理工具连接，或使用mysql 在命令中连接，如使用命令： `mysql -P8066 -uroot -p` 
 
-![](http://blog-images.qiniu.wqf31415.xyz/mysql_connect_mycat.png)
+![](https://blog-images.qiniu.wqf31415.xyz/mysql_connect_mycat.png)
 
 > 注意：登陆用户名和密码在 `/conf/server.xml` 中配置，在其中的 `user` 标签中指定了用户名、密码和访问权限。
 
@@ -513,7 +513,7 @@ wrapper  | JVM exited while loading the application.
 
 打开 `/conf/wrapper.conf` 文件，搜索 `-Xmx4G` ，大概在 36 行，在这一行前面加一个 `#` ，将其注释掉即可。
 
-![](http://blog-images.qiniu.wqf31415.xyz/mycat_jvm_param_error.png)
+![](https://blog-images.qiniu.wqf31415.xyz/mycat_jvm_param_error.png)
 
 
 

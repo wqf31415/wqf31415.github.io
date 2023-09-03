@@ -14,7 +14,7 @@ date: 2022-06-25 14:15:49
 
 这篇文件介绍了嵌入式项目中使用的 web  服务器——GoAhead，介绍了 GoAhead 的功能与使用方法，附带一个 helloworld 示例。
 
-![](http://blog-images.qiniu.wqf31415.xyz/goahead-hello.png) 
+![](https://blog-images.qiniu.wqf31415.xyz/goahead-hello.png) 
 
 
 

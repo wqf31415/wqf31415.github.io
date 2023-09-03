@@ -27,7 +27,7 @@ JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司�
 #### 创建项目
 
 简单起见，直接使用 http://start.spring.io 来创建项目，添加3个依赖: `JPA` 、 `MySQL` 、 `Web` 。
-![](http://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png '创建 jpademo 项目') 
+![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png '创建 jpademo 项目') 
 demo 项目中的 pom.xml 如下：
 
 ``````xml

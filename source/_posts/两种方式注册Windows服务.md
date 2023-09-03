@@ -27,11 +27,11 @@ categories:
 
 打开命令行（CMD 或 PowerShell），或使用快捷键 <kbd>Windows</kbd> + <kbd>R</kbd> 调出运行工具，执行 `services.msc` ，即可快速打开系统服务管理界面。在服务列表中点击服务名，可查看服务详情，可对服务进行启动、停止等操作。右键点击服务名称，点击 “属性” 可修改服务启动类型（自动延迟、自动、手动、禁用）。
 
-![](http://blog-images.qiniu.wqf31415.xyz/windows_service.png)
+![](https://blog-images.qiniu.wqf31415.xyz/windows_service.png)
 
 另外，在任务管理器中的 “服务” 选项卡中点击 “打开服务” 按钮，也可以打开系统服务管理界面，如：
 
-![](http://blog-images.qiniu.wqf31415.xyz/windows_tm_service.png)
+![](https://blog-images.qiniu.wqf31415.xyz/windows_tm_service.png)
 
 
 
@@ -53,7 +53,7 @@ nssm 是一个开源的用于注册 Windows 服务的工具。
 
 登陆[官网](http://www.nssm.cc/)，下载安装包，nssm 最新版是 2014年8月31日发布的 2.24，下载的压缩包中包含为 32位和64位系统准备的主程序文件，还包含软件源码，可以进行二次开发。
 
-![](http://blog-images.qiniu.wqf31415.xyz/nssm_package.png)
+![](https://blog-images.qiniu.wqf31415.xyz/nssm_package.png)
 
 
 
@@ -67,10 +67,10 @@ nssm install <servicename>
 
 > 其中，`<servicename>` 是你想注册服务的名称，即在 Windows 服务管理中显示的服务名。
 
-![](http://blog-images.qiniu.wqf31415.xyz/nssm_install_service.png)
+![](https://blog-images.qiniu.wqf31415.xyz/nssm_install_service.png)
 
 在 `Application` 选项卡中选择要注册服务的程序路径（Application Path）和启动路径（Startup directory），然后点击 `Install service` 按钮，显示如下提示框，则说明注册服务成功，可进入服务管理中心查看。
-![](http://blog-images.qiniu.wqf31415.xyz/nssm_install_service_success.png)  
+![](https://blog-images.qiniu.wqf31415.xyz/nssm_install_service_success.png)  
 
 > **更多配置：**
 >
@@ -108,7 +108,7 @@ nssm remove <servicename>
 
 执行命令后，会弹出删除服务的确认提示框，点击 `是` 即可删除服务。
 
-![](http://blog-images.qiniu.wqf31415.xyz/nssm_remove_service.png)
+![](https://blog-images.qiniu.wqf31415.xyz/nssm_remove_service.png)
 
 > 如果不想弹出确认提示框，可执行命令：`nssm remove <servicename> confirm` 
 
@@ -124,7 +124,7 @@ WinSW 全称 Windows Service Wrapper，是一个开源的 Windows 服务打包�
 
 根据需要选择版本，建议选择稳定版，官方提供 32位、64位的可执行文件，还提供配置文件示例、.NET 执行文件以及源码下载。
 
-![](http://blog-images.qiniu.wqf31415.xyz/winsw_download.png)
+![](https://blog-images.qiniu.wqf31415.xyz/winsw_download.png)
 
 根据需要下载相应版本，可下载示例配置文件作为参考。
 

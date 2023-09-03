@@ -21,7 +21,7 @@ categories:
 
 本文主要内容包括购买 ESP8266 开发板，安装与配置开发使用的 Arduino IDE，使用 Arduino 编写一个 hello world 代码，然后烧录到 ESP8266 中，使用 Arduino 查看串口输出结果。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png "ESP8266 开发板")
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_board.png "ESP8266 开发板")
 
 ### 什么是 ESP8266
 
@@ -39,7 +39,7 @@ ESP8266 是 [乐鑫信息科技公司](https://www.espressif.com/) 开发的一�
 
 可以上京东或淘宝购买，直接搜索 “ESP8266开发板”，如上图，可以直接使用 安卓数据线接入电脑使用。注意：一般直接搜索 “ESP8266” 找到的是 wifi 模块（如下图），需要另外使用烧录工具，会稍微麻烦一点。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png "ESP8266 wifi 模块")
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png "ESP8266 wifi 模块")
 
 
 
@@ -61,7 +61,7 @@ ESP8266 是 [乐鑫信息科技公司](https://www.espressif.com/) 开发的一�
 http://arduino.esp8266.com/stable/package_esp8266com_index.json
 ```
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_preferences.png)
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_preferences.png)
 
 
 
@@ -69,7 +69,7 @@ http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 点击 Arduino 菜单栏 **“工具” - “开发板” - “开发板管理器”** ，搜索 `esp8266` ，找到 **ESP8266 Community** ，选择一个版本进行安装，我安装的是 2.5.0 版本。安装包不大，但由于网络原因，可能会有点慢，我下载了快两小时才下载完。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_board_manage.png)
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_board_manage.png)
 
 
 
@@ -85,7 +85,7 @@ http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 连接后打开设备管理器（Windows系统），看到 **端口（COM 和 LPT）** 选项中有如下图的设备，说明已经连接成功，同时可以确定连接的串口号，如下图的是 `COM3` 。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_connect_computer.png)
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_connect_computer.png)
 
 > 值得注意的是，上图中显示的 CH340，如果没有显示这个设备，可能是因为驱动没安装好，可以上百度搜索 `CH340驱动` ，下载安装好之后才能够实现电脑与开发板通信，才能上传程序代码。
 
@@ -129,7 +129,7 @@ void loop() {
 
 点击 Arduino 工具栏中的 **上传** 图标，将写的程序烧录到 ESP8266 中，期间 ESP8266 的指示灯会一直闪烁，在 Arduino 控制台中会显示上传进度，上传到 100% 就可以查看效果了。
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_upload.png)
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_upload.png)
 
 
 
@@ -137,7 +137,7 @@ void loop() {
 
 点击 **“工具” - “串口监视器”**，或使用默认快捷键 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> 打开串口监视器，在串口监视器窗口中设置波特率为 `115200` ，可以看到每隔 2 秒会打印一句 `Hello world!` 
 
-![](http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_com_output.png)
+![](https://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_com_output.png)
 
 
 

@@ -13,7 +13,7 @@ date: 2021-01-21 23:04:43
 
 这篇文章介绍了使用 ibd 文件还原 MySQL 数据的方法。
 
-![](http://blog-images.qiniu.wqf31415.xyz/binary_data.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/binary_data.jpg)
 
 ### ibd 简介
 

@@ -18,11 +18,11 @@ categories:
 hexo new "Hello Hexo"
   ```
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/image/hexo_new_article.png "用Hexo生成一篇叫 Hello Hexo 的文章") 
+  ![](https://blog-images.qiniu.wqf31415.xyz/image/hexo_new_article.png "用Hexo生成一篇叫 Hello Hexo 的文章") 
 
 执行完这条命令后，我们到 `source/_posts` 目录下看看，就会发现一个名叫 **Hello-Hexo.md** 的文件，.md文件是markdown格式文件的扩展名，实质上也是文本文件，我们可以用熟悉的文本编辑器来编写，最简单的就是直接用记事本打开，只要熟悉markdown语法就可以愉快的进行写作了。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/image/hexo_new_article_file.png "Hexo生成的文章为 .md 格式") 
+  ![](https://blog-images.qiniu.wqf31415.xyz/image/hexo_new_article_file.png "Hexo生成的文章为 .md 格式") 
 
 ### 编辑文章
 
@@ -44,7 +44,7 @@ hexo generate
 
 > 执行 `hexo generate` 命令后，hexo 将会解析 `/source/_post` 目录下的所有 markdown 文档，根据 hexo 主题配置渲染生成静态 html 页面文件。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/image/hexo_generate_article.png "已经生成了文章的静态html页面") 
+  ![](https://blog-images.qiniu.wqf31415.xyz/image/hexo_generate_article.png "已经生成了文章的静态html页面") 
 
 
 ### 在本地预览文章（别自信回头）
@@ -90,7 +90,7 @@ hexo deploy
 
   - 我们打开新生成的文章可以发现，默认的模板里只有文章的属性信息，如下图
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/image/hexo_new_article_head.png "用Hexo默认文章模板生成的文章") 
+  ![](https://blog-images.qiniu.wqf31415.xyz/image/hexo_new_article_head.png "用Hexo默认文章模板生成的文章") 
 
   - 生成文章用的模板在 **blog/scaffolds** 文件夹里，打开后看到里面有三个文件
   
@@ -100,7 +100,7 @@ hexo deploy
   
   - 根据需要修改对应的模板，我们在这里修改一下 **post.md** ，打开这个文件，由三条横杠包含的是文章的属性信息，默认只有标题、创建时间和标签，我们可以增加自己想要的属性，比如增加文章更新时间和分类
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/image/hexo_scaffolds_post.png "在post模板中增加了更新时间和分类属性") 
+  ![](https://blog-images.qiniu.wqf31415.xyz/image/hexo_scaffolds_post.png "在post模板中增加了更新时间和分类属性") 
 
   - 文章的属性有下面几个：
 <table><thead><td>属性</td><td>描述</td><td>值</td></thead><tr><td>layout</td><td>Layout</td><td>post或page</td></tr><tr><td>title</td><td>文章标题</td><td>&nbsp;</td></tr><tr><td>date</td><td>创建日期</td><td>文件的创建日期</td></tr><tr><td>updated</td><td>修改日期</td><td>文件的修改日期</td></tr><tr><td>comments</td><td>是否开启评论</td><td>默认true</td></tr><tr><td>tags</td><td>标签</td><td>&nbsp;</td></tr><tr><td>categories</td><td>分类</td><td>&nbsp;</td></tr><tr><td>permalink</td><td>url中的名字</td><td>文件名</td></tr></table>
@@ -130,4 +130,4 @@ hexo publish "文章标题"
 ### 下台鞠躬！
 
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/meme/meme_bow_01.jpg) 
+  ![](https://blog-images.qiniu.wqf31415.xyz/meme/meme_bow_01.jpg) 

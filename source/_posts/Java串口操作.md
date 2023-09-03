@@ -14,7 +14,7 @@ date: 2021-05-28 17:35:43
 
 这篇文章讲解了使用 rxtx 工具包在 java 程序中连接串口，并使用串口收发数据。
 
-![](http://blog-images.qiniu.wqf31415.xyz/serial_interface.png)
+![](https://blog-images.qiniu.wqf31415.xyz/serial_interface.png)
 
 
 
@@ -219,7 +219,7 @@ public class Test {
 
 软件操作很简单，创建一个 `Pair` 即可，我创建的是 `COM2` 和 `COM3` ，是两个虚拟串口，通过程序连上这两个串口后，软件上会显示串口连接信息，包括连接的程序、配置、收发字节数。
 
-![](http://blog-images.qiniu.wqf31415.xyz/vspd.gif) 
+![](https://blog-images.qiniu.wqf31415.xyz/vspd.gif) 
 
 将上述的 java 代码再复制一份，并将代码中的连接串口名分别改成创建的虚拟串口 `COM2` 和 `COM3` ，运行代码后，查看 Virtual Serial Port Driver ，发现串口已经被连接上了。查看java程序控制台，发现其中一个程序控制台输出收到的数据，说明程序运行成功。
 
@@ -239,7 +239,7 @@ Hex data: 68656c6c6f
 
 为开发、测试、排错人员设计的串口工具，能够创建大量虚拟串口，解决系统没有串口的难题。Virtual Serial Port Driver 不能能单独使用，还能将高级特性直接集成到用户的产品中去。
 
-![](http://blog-images.qiniu.wqf31415.xyz/vspd.gif)
+![](https://blog-images.qiniu.wqf31415.xyz/vspd.gif)
 
 
 
@@ -249,7 +249,7 @@ Hex data: 68656c6c6f
 
 能够创建使用虚拟零调制解调器线缆（virtual null-modem cable）连接的虚拟串口，让软件像连接真实的零调制解调器线缆一样工作。
 
-![](http://blog-images.qiniu.wqf31415.xyz/vspk.gif)
+![](https://blog-images.qiniu.wqf31415.xyz/vspk.gif)
 
 
 
@@ -259,7 +259,7 @@ Hex data: 68656c6c6f
 
 Windows 平台下的串口模拟工具，能够创建使用虚拟零调制解调器线缆（virtual null-modem cable）连接的虚拟串口。支持 Win 10 32位和64位，支持Windows Server 2019。
 
-![](http://blog-images.qiniu.wqf31415.xyz/vspt.gif)
+![](https://blog-images.qiniu.wqf31415.xyz/vspt.gif)
 
 完整版可免费试用14天，免费版可免费使用，但功能有限制，限制包括：
 

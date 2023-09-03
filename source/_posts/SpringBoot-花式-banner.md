@@ -60,12 +60,12 @@ SpringBoot 默认寻找banner的顺序是：
 
 在 **resources ** 目录下创建文件 `banner.txt` ，将想要展示的文字内容写到这个文件中即可。
 
-![](http://blog-images.qiniu.wqf31415.xyz/spring-boot-banner.txt.png "banner.txt 文件位置")
+![](https://blog-images.qiniu.wqf31415.xyz/spring-boot-banner.txt.png "banner.txt 文件位置")
 
 > 在使用 SpringBoot 1.5.8 测试图片类型的 banner 时，发现在控制台中打印出来的都是乱码，╮(￣▽￣")╭
 测试发现使用 2.x 的 SpringBoot 可以打出来，在使用 GIF 动图 `banner.gif` 时，会把动图的每个画面打印出来，如果同时还存在 `banner.txt`，会在最后打出文本中的内容。
 
-![](http://blog-images.qiniu.wqf31415.xyz/banner.gif "banner.gif")
+![](https://blog-images.qiniu.wqf31415.xyz/banner.gif "banner.gif")
 
 
 
@@ -77,7 +77,7 @@ SpringBoot 默认寻找banner的顺序是：
 
 > 输入想要的文字，生成图形文字，将生成的内容粘贴到 `banner.txt` 中即可。
 
-![](http://blog-images.qiniu.wqf31415.xyz/text2text-graph.png "生成文字图")
+![](https://blog-images.qiniu.wqf31415.xyz/text2text-graph.png "生成文字图")
 
 
 
@@ -85,27 +85,27 @@ SpringBoot 默认寻找banner的顺序是：
 
 > 这个就厉害了，给定图片链接，将其转换成文字图形。例如将示例中的美女图转成txt文字：
 
-![](http://blog-images.qiniu.wqf31415.xyz/img2txt-1.png "在线图片转文字")
+![](https://blog-images.qiniu.wqf31415.xyz/img2txt-1.png "在线图片转文字")
 
 =======>
 
-![](http://blog-images.qiniu.wqf31415.xyz/img2txt-2.png "文字图")
+![](https://blog-images.qiniu.wqf31415.xyz/img2txt-2.png "文字图")
 
 将文字部分粘贴到 `banner.txt` 中，运行项目看到：
 
-![](http://blog-images.qiniu.wqf31415.xyz/img2txt-3.png "初始效果")
+![](https://blog-images.qiniu.wqf31415.xyz/img2txt-3.png "初始效果")
 
  如果发现图片有点大了，可以退回到上一步，设置图片输出大小，重新获得txt 文本。
 
 我们看现在这个 banner，在控制台中输出时，被压扁了，我们要把它撑开，在每个字符后面添加一个空格。将文本粘贴到一个空白 word 文档中，按 `Ctrl + F` 键调出查找功能对话框，在 `替换` 选项卡中，勾选上使用通配符，在上面输入问号 `?` ，在下面输入 ^& 加一个空格，点击 `全部替换` 。将全部文本复制到 `banner.txt` 中。
 
-![](http://blog-images.qiniu.wqf31415.xyz/img2txt-4.png "使用 Word 给每个字符间添加空格")
+![](https://blog-images.qiniu.wqf31415.xyz/img2txt-4.png "使用 Word 给每个字符间添加空格")
 
 
 
 最终效果：
 
-![](http://blog-images.qiniu.wqf31415.xyz/img2txt-5.png "最终效果图")
+![](https://blog-images.qiniu.wqf31415.xyz/img2txt-5.png "最终效果图")
 
 
 
@@ -178,4 +178,4 @@ Ansi 颜色代码
 
 好了，关于SpringBoot 的 banner 设置内容就先写到这里了。
 
-![](http://blog-images.qiniu.wqf31415.xyz/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg ) 
+![](https://blog-images.qiniu.wqf31415.xyz/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg ) 

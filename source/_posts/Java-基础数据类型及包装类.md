@@ -13,7 +13,7 @@ date: 2020-02-12 22:03:21
 
 ### 什么是基础数据类型
 
-![](http://blog-images.qiniu.wqf31415.xyz/coffee.png)
+![](https://blog-images.qiniu.wqf31415.xyz/coffee.png)
 
 在 Java 语言中，提供了 8 种基本数据类型，6 种数字类型(4 种整数类型，2 种浮点型)， 2 种字符型，这些基本数据类型从 Java 发布以来就是 java 语言的一部分。
 

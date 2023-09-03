@@ -201,7 +201,7 @@ emcc hello.c
 
 **注意：需要将 `index.html` 、`a.out.js` 、`a.out.wasm` 文件放在同一级目录中，并放在 web 服务器（如 [nginx](http://nginx.org/) 、[Tomcat](https://tomcat.apache.org/) ）中，然后在浏览器中访问。** 直接双击打开是无法正确运行的。
 
-![](http://blog-images.qiniu.wqf31415.xyz/wasm-hello.png)
+![](https://blog-images.qiniu.wqf31415.xyz/wasm-hello.png)
 
 打开浏览1器的开发者工具，进入控制台。看到控制台输出了 `你好 wasm!` ，运行成功。
 
@@ -221,7 +221,7 @@ emcc hello.c -o hello.html
 
 如上面的命令将输出文件：`hello.html` 、`hello.js` 、`hello.wasm` ，将这三个文件放到 web 服务器中，使用浏览器访问，页面如下：
 
-![](http://blog-images.qiniu.wqf31415.xyz/wasm-hello-2.png)
+![](https://blog-images.qiniu.wqf31415.xyz/wasm-hello-2.png)
 
 > 这个页面上方的黑色区域是一个 canvas 画布，用来模拟图形界面；下方的黑色区域是一个模拟标准控制台输入/输出区域，会打印出 `你好 wasm!` ；同时开发者工具中的控制台也输出了打印内容 `你好 wasm!` 。
 

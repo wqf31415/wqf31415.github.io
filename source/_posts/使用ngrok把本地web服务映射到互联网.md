@@ -47,7 +47,7 @@ categories:
 
 双击 **start.bat** ，会自动打开命令窗口，出现如下界面：
 
-![](http://blog-images.qiniu.wqf31415.xyz/ngrok_run.jpg '运行ngrok')  
+![](https://blog-images.qiniu.wqf31415.xyz/ngrok_run.jpg '运行ngrok')  
 
 说明 ngrok 已经正确运行了，只要访问上面提示的链接即可访问本地的项目了，现在的链接是：http://mywebserver.tunnel.qydev.com ，快去试试吧，骚年！
 
@@ -61,7 +61,7 @@ categories:
 
 然后运行：`ngrok http 8080` 
 
-![](http://blog-images.qiniu.wqf31415.xyz/ngrok_64_run.jpg '运行 ngrok') 
+![](https://blog-images.qiniu.wqf31415.xyz/ngrok_64_run.jpg '运行 ngrok') 
 
 访问提示的链接(http://10e4cc06.ngrok.io/)了，界面中上半部分是运行情况，下面是请求统计，可以直接看到请求状态！
 
@@ -91,5 +91,5 @@ ngrok 还有其它功能，比如创建 TCP 通道等。
 
 ### 下台鞠躬！
 
-![](http://blog-images.qiniu.wqf31415.xyz/meme/meme_bow_02.jpg )  
+![](https://blog-images.qiniu.wqf31415.xyz/meme/meme_bow_02.jpg )  
 

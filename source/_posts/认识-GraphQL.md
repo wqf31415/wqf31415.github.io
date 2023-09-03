@@ -16,7 +16,7 @@ date: 2020-05-17 15:08:29
 
 ### 什么是 GraphQL
 
-![](http://blog-images.qiniu.wqf31415.xyz/graphql.png)
+![](https://blog-images.qiniu.wqf31415.xyz/graphql.png)
 
 > 官网：<https://graphql.cn/> 
 
@@ -156,7 +156,7 @@ public static void main(String[] args) {
 
 Apollo 是一个平台，用于构建数据图并作为前后端之间的连接层，让你可以轻松使用 GraphQL。
 
-![](http://blog-images.qiniu.wqf31415.xyz/apollo_data_graph.png)
+![](https://blog-images.qiniu.wqf31415.xyz/apollo_data_graph.png)
 
 #### Graphcool
 

@@ -461,7 +461,7 @@ docker run --name=my-app -p8080:8080 myapp:1.0
 
 运行结果：
 
-![](http://blog-images.qiniu.wqf31415.xyz/springboot-docker-run.png)
+![](https://blog-images.qiniu.wqf31415.xyz/springboot-docker-run.png)
 
 访问测试接口 <http://localhost:8080/hello> ，页面显示 `world` 说明运行正确。
 
@@ -807,7 +807,7 @@ docker-compose -f docker/app.yml up
 
 执行命令后，将自动启动 mysql 容器和 app 容器。
 
-![](http://blog-images.qiniu.wqf31415.xyz/springboot-docker-compose-up.png) 
+![](https://blog-images.qiniu.wqf31415.xyz/springboot-docker-compose-up.png) 
 
 启动成功后，访问 <http://localhost:8080/students> ，能查询到自动插入数据中的数据表明启动成功。
 

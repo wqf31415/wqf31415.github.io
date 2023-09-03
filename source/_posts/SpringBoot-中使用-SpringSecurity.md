@@ -44,7 +44,7 @@ Spring Security 是一个强大的高度定制化的身份认证和访问权限�
 
 - Apache Shiro 
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/apache-shiro-logo.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/apache-shiro-logo.png)
 
   > 官网：<http://shiro.apache.org>  
 
@@ -233,7 +233,7 @@ public class SecuritydemoApplication {
 
 运行项目，在浏览器访问项目，发现页面自动跳转到了一个登陆页面，可以输入我们配置好的用户名、密码进行登陆。如我们使用 admin 用户登陆，密码也是 admin。
 
-![](http://blog-images.qiniu.wqf31415.xyz/spring_security_basal_login_page.png)
+![](https://blog-images.qiniu.wqf31415.xyz/spring_security_basal_login_page.png)
 
 登陆成功之后还是 404 的错误提示页，是因为我们还没给项目添加首页页面。我们访问定义的测试接口 `/hello` ，即访问地址 <http://localhost:8080/hello> ，页面显示 `hello, admin` ，测试完成。
 

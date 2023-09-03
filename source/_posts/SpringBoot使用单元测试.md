@@ -130,7 +130,7 @@ public class Greeting {
 
 创建测试类：使用 IntelliJ IDEA 编辑器开发时，可使用编辑器创建测试类。使用方法是打开要测试的类，点击菜单栏中 `Navigate` 中的 `Test` ，Windows 系统中默认快捷键是 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>T</kbd> ，在弹出的选项中点击 `Create New Test...` ，随后在弹出框中勾选要测试的方法，点击确定，编辑器就帮我们生成了测试类，生成的测试类在 `src/test/java` 目录下的相同包中。
 
-![](http://blog-images.qiniu.wqf31415.xyz/idea_create_test.png)
+![](https://blog-images.qiniu.wqf31415.xyz/idea_create_test.png)
 
 测试类：
 

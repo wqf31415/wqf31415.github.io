@@ -63,7 +63,7 @@ $$
 
 Typora 编辑器已经支持输入 LaTex 公式与符号，输入公式直接使用双美元符号(`$$`)包裹，如需显示 LaTex 符号，需要在配置中勾选内联公式选项。
 
-![](http://blog-images.qiniu.wqf31415.xyz/typora_setting_latex.png)
+![](https://blog-images.qiniu.wqf31415.xyz/typora_setting_latex.png)
 
 现在知乎、简书都支持使用 LaTex 公式了。
 

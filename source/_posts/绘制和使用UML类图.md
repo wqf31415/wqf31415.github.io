@@ -240,7 +240,7 @@ class Task{
 
 地址：<https://www.processon.com/> 
 
-![](http://blog-images.qiniu.wqf31415.xyz/processon.png)
+![](https://blog-images.qiniu.wqf31415.xyz/processon.png)
 
 ProcessOn是一个在线作图工具的聚合平台。
 
@@ -256,7 +256,7 @@ ProcessOn是一个在线作图工具的聚合平台。
 
 地址：<https://www.diagrams.net/> 
 
-![](http://blog-images.qiniu.wqf31415.xyz/drawio_create.png)
+![](https://blog-images.qiniu.wqf31415.xyz/drawio_create.png)
 
 **开源**的网页绘图设计工具，github 地址 : <https://github.com/jgraph/drawio> 。
 
@@ -274,7 +274,7 @@ ProcessOn是一个在线作图工具的聚合平台。
 
 地址: <http://www.edrawsoft.cn/> 
 
-![](http://blog-images.qiniu.wqf31415.xyz/yitu_class_diagram.png)
+![](https://blog-images.qiniu.wqf31415.xyz/yitu_class_diagram.png)
 
 亿图图示是一个简单易用的图形表达工作台，既能实现流程图、架构图、工程图、思维导图等数百种专业领域图形图表的绘制，又能提供一个白板进行头脑风暴和任意编排，轻松实现数据和创意的可视化呈现。支持Windows、Mac、Linux及网页版，一端创作，多端同步。
 

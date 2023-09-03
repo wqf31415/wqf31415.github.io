@@ -11,7 +11,7 @@ categories:
 
 摘要：Git是现今世界上最先进的分布式版本控制工具。这篇文章主要介绍了什么是Git，如何安装以及简单的使用Git。
 
-![git](http://blog-images.qiniu.wqf31415.xyz/image/git/git_logo.png "git")
+![git](https://blog-images.qiniu.wqf31415.xyz/image/git/git_logo.png "git")
 
 > 官方说明文档：https://git-scm.com/book/zh/v2
 
@@ -25,7 +25,7 @@ categories:
 
 <!-- more -->
 
-![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_workflow.png "git 工作流")
+![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_workflow.png "git 工作流")
 
 这里面就有几个概念要理解一下了，**“最先进”**  这个是毫无疑问的，全球最知名的互联网公司包括Google、Facebook、微软、twitter 等等都在使用 git。
 **“版本控制工具”** 英文名Concurrent Version System （CVS）,提供完备的版本管理功能，用于存储、追踪目录（文件夹）和文件的修改历史，是软件开发者的必备工具，是软件公司的基础设施 。简单来说就是用来记录文件的修改历史的，让你可以回到以前的状态，犹如word里面的Ctrl + Z 撤销功能，软件记录下你前面的操作，如果不小心失误了，就可以撤销操作返回到上一个状态。
@@ -45,15 +45,15 @@ categories:
 
 在windows安装git的同时会默认安装 git bash 插件，我们在桌面上右击鼠标就能看到 `git bsah here` 选项，点击后将在桌面打开 git bash 命令行工具：
 
-![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_0.png "git bash here")
+![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_0.png "git bash here")
 
 
 
 git bash 命令行如下图所示：
-![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_cli.png "Git Bash 命令行")
+![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_cli.png "Git Bash 命令行")
 
 我们可以输入 `git --version` 来查看git版本
-![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_gitVersion.png "查看git版本")
+![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_gitBash_gitVersion.png "查看git版本")
 
 #### 获取帮助
 
@@ -71,16 +71,16 @@ git config --global user.email wqf31415@hotmail.com
 第一句指令是设置用户名，用英文的双引号括起来，第二句是设置邮箱
 
 设置好之后没有提示，我们可以在 git bash 命令行工具中输入 `git config --list` 查看设置结果
-![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_config_list.png "查看git设置")
+![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_config_list.png "查看git设置")
 
 也可以输入 `git config user.name` 单独查看用户名
-![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_look_username.png "查看git用户名")
+![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_look_username.png "查看git用户名")
 
 #### 初始化git仓库
 
 `git init` 指令用于初始化一个仓库
 我们可以在一个空的文件夹里初始化仓库，也可以在一个用文件的文件夹里初始化，只需要我们在要初始化的文件空白区域右击打开 git bash 工具，执行 `git init` 命令即可，执行完成后将会在该目录下创建一个名叫 `.git` 的隐藏文件夹，这里面存放的是git仓库的所有信息文件。
- ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_init.png "初始化git仓库")
+ ![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_init.png "初始化git仓库")
 
 #### 设置忽略文件
 
@@ -128,7 +128,7 @@ local.properties
 #### 查看仓库状态
 
 因为在用 git bash 向 git 仓库中添加文件时，添加成功时没有任何信息显示，为了查看我们是否添加成功，我们需要使用 `git status` 指令来查看git仓库状态：
-![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_status_1.png "git 仓库状态") 
+![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_status_1.png "git 仓库状态") 
 根据输出的结果，我们可以看到仓库中没有跟踪的文件，现在所有的文件和目录都没有跟踪。
 
  #### 添加文件到暂存区(stage)
@@ -138,39 +138,39 @@ local.properties
 ##### 添加单个文件
 
  `git add 1.txt` 将 1.txt 文件添加到仓库，添加时要输入文件名和扩展名，windows 中 git bash 默认是不支持输入中文的，所以用这种方式不能添加以中文命名的文件，可以使用下面的方式将全部文件都添加进仓库，避免了输入文件名；
- ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_single_file.png "添加单个文件")
+ ![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_add_single_file.png "添加单个文件")
  添加文件后我们再查看仓库状态，发现 1.txt 文件已经不在未跟踪文件列表里了，而是在 **changes to be committed** 下，意思是已经跟踪的文件被改变了，可以提交了。
 
 ##### 添加同一类型的文件
 
  `git add *.html`将所有 html 文件添加到仓库，*为通配符，用这种方式可以向git仓库添加一个类型的文件；
- ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_one_type_files.png "添加一个类型的文件")
+ ![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_add_one_type_files.png "添加一个类型的文件")
 
 > 采用通配符的方式，我们还可以模糊匹配，如文件名太长，但知道结尾是 `xx.txt` ，就可以使用 `git add *xx.txt` 来添加文件
 
 ##### 添加所有文件
 
 `git add .` 直接将目录下所有文件添加到git仓库；
- ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_add_all_files.png "添加所有文件")
+ ![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_add_all_files.png "添加所有文件")
 
  #### 删除已添加的文件
 
  如果不小心把不需要跟踪的文件（如1.txt）添加到了仓库，可以使用 `git rm --cached 1.txt` 将文件从已添加文件中删除：
- ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_rm_single_file.png "删除已添加文件")
+ ![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_rm_single_file.png "删除已添加文件")
  我们看到 1.txt 又回到了未跟踪文件列表。
 
  #### 提交文件
 
  在用 `git add .` 指令添加所有文件后，我们就需要提交修改过的文件到仓库：
  `git commit -m 'change description'` 引号括起来的是对修改内容的描述；
- ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_m.png "提交修改")
+ ![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_m.png "提交修改")
 
  此外，也可以用 `git commit` 命令来提交，提交后还会启动 vim 编辑器让你输入修改描述：
  按 <kbd>a</kbd>、<kbd>i</kbd>、<kbd>o</kbd> 键可以进入插入模式，然后就可以输入提交信息了。
- ![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit.png "输入修改内容描述")
+ ![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_commit.png "输入修改内容描述")
  在输入完成后，按 <kbd>Esc</kbd> 键退出输入模式，再输入命令 `:wq` 保存并退出，或 `:wq!` 强制保存并退出。输入命令 `:q` 退出 vim 编辑，或 `:q!` 不保存修改强制退出。
 
-![](http://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_2.png "提交1.txt")
+![](https://blog-images.qiniu.wqf31415.xyz/image/git/git_commit_2.png "提交1.txt")
 
  在所有文件添加完成后，我们查看仓库状态发现显示 **On branch master nothing to commit, working tree clean** ，就是说所有的文件修改都提交了，工作树很干净了。
 

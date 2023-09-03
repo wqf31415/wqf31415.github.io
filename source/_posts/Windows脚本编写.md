@@ -12,7 +12,7 @@ categories:
 
 灵活使用脚本可以完成一些重复性的工作，提高工作效率，这篇文章介绍了 Windows 系统脚本的编写规则和一些常用命令。
 
-![](http://blog-images.qiniu.wqf31415.xyz/plant-computer.jpg)
+![](https://blog-images.qiniu.wqf31415.xyz/plant-computer.jpg)
 
 ### 认识 Windows 脚本
 

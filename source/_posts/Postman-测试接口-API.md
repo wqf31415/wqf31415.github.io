@@ -17,7 +17,7 @@ categories:
 现在， Postman 被设计成 API 开发工具，不仅包含了接口测试功能，还添加了一些接口设计、自动化测试、模拟接口服务、监控、文档生成以及接口发布功能，最新版本的 Postman 还支持团队协作开发使用。
 Postman 提供企业版，提供了更加强大的测试功能。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman.png "postman")
+![](https://blog-images.qiniu.wqf31415.xyz/postman.png "postman")
 
 <!-- more -->
 
@@ -37,7 +37,7 @@ Postman 提供企业版，提供了更加强大的测试功能。
 
 打开 Postman ，进入软件界面后，按 <kbd>Ctrl</kbd> + <kbd>T</kbd> 新建一个请求 Tab，选择 GET 方法，在地址栏中填入要请求的 api 地址，如：`postman-echo.com/get` ，点击 Send 按钮即可发送请求，请求成功后在下面的 Response 区域将显示请求结果，请求结果可以格式化显示。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_get_request.png "postman request")
+![](https://blog-images.qiniu.wqf31415.xyz/postman_get_request.png "postman request")
 
 
 
@@ -93,7 +93,7 @@ GET、POST、PUT、PATCH、DELETE、COPY、HEAD、OPTIONS、LINK、UNLINK、PURG
 
 我们可以把接口测试请求保存下来，下次继续使用，只需点击 **Save** 按钮(快捷键 <kbd>Ctrl</kbd> + <kbd>S</kbd>) 即会弹出保存窗口，填入请求名称、描述，并选择或创建接口集后即可保存请求。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_save_request.png "save request")
+![](https://blog-images.qiniu.wqf31415.xyz/postman_save_request.png "save request")
 
 
 
@@ -101,7 +101,7 @@ GET、POST、PUT、PATCH、DELETE、COPY、HEAD、OPTIONS、LINK、UNLINK、PURG
 
 Postman 控制台中会输出请求的详细信息，帮助用户排除请求的错误信息，点击 Postman 界面下发的 **Postman Console** 按钮(快捷键 <kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>C</kbd>) 即可打开控制台界面。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_console.png "Postman Console")
+![](https://blog-images.qiniu.wqf31415.xyz/postman_console.png "Postman Console")
 
 
 
@@ -117,7 +117,7 @@ Postman 控制台中会输出请求的详细信息，帮助用户排除请求的
 
   在 Postm 界面中点击 **New** 按钮，点击 **Environment** 选项即可进入添加环境的界面，填入环境名称以及变量信息后，点击 **Add** 按钮添加环境。如下图添加了名为 `local_test` 的环境，同理还可以添加 `prod_test` 的环境。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/postman_env_add.png "add environment")
+  ![](https://blog-images.qiniu.wqf31415.xyz/postman_env_add.png "add environment")
 
   
 
@@ -125,7 +125,7 @@ Postman 控制台中会输出请求的详细信息，帮助用户排除请求的
 
   添加环境后，在请求中就可以使用环境中添加的变量，在测试时根据需要随时切换环境。
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/postman_use_environment.png "use environment")
+  ![](https://blog-images.qiniu.wqf31415.xyz/postman_use_environment.png "use environment")
 
   
 
@@ -133,7 +133,7 @@ Postman 控制台中会输出请求的详细信息，帮助用户排除请求的
 
 Postman 中可以一键将请求导出成请求代码，点击界面中的 **Code** 按钮，选择代码类型，即可生成相应的请求代码，点击 **Copy to Clipboard** 按钮将代码复制到剪贴板。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_code_btm.png "postman code button")
+![](https://blog-images.qiniu.wqf31415.xyz/postman_code_btm.png "postman code button")
 
 
 
@@ -145,7 +145,7 @@ Postman 中可以一键将请求导出成请求代码，点击界面中的 **Cod
 
 此外，在保存请求的时候将会提示选择或创建接口集。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_create_collection.png)
+![](https://blog-images.qiniu.wqf31415.xyz/postman_create_collection.png)
 
 创建了接口集后，即可将请求保存的接口集中，在接口集中将会保存接口完整的请求信息，包括 url、参数、脚本等。
 
@@ -173,7 +173,7 @@ Postman 中可以一键将请求导出成请求代码，点击界面中的 **Cod
 
 使用 Postman 可以方便的将接口集、请求描述生成接口文档。点击接口集旁边的按钮即可显示接口集中的描述信息，点击 **View in web** 还可以生成网页版，**在网页版中不仅包含了基本描述信息，还可以生成请求示例代码**，如生成请求对应的 cURL 请求命令，生成 jQuery 请求代码，生成 Ruby、Python Requests、Node、PHP、Go 请求代码。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_api_doc.png)
+![](https://blog-images.qiniu.wqf31415.xyz/postman_api_doc.png)
 
 
 
@@ -189,7 +189,7 @@ Postman 允许用户将自己的接口集发布到官方的 [API Network](https:
 
 例如: <https://documenter.getpostman.com/view/7042523/S1a1aosZ>
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_publish_collection.png "publish")
+![](https://blog-images.qiniu.wqf31415.xyz/postman_publish_collection.png "publish")
 
 
 
@@ -205,7 +205,7 @@ collection 中的 -> folder 中的 -> request 中的
 
 测试脚本执行顺序与预请求脚本执行顺序相同，如下图所示:
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_script_execOrder.png "script exec order")
+![](https://blog-images.qiniu.wqf31415.xyz/postman_script_execOrder.png "script exec order")
 
 - **请求前脚本** 
 
@@ -217,7 +217,7 @@ collection 中的 -> folder 中的 -> request 中的
 
   在 Postman 界面上有一些快捷按钮帮助生成代码片段：
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/postman_add_pre_request_script.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/postman_add_pre_request_script.png)
 
   也可以在利用脚本在每个请求头中添加数据，如在请求头中添加 `Cookie` 和 `X-CSRF-TOKEN` 数据以通过权限验证，具体的 `Cookie` 和 `X-CSRF-TOKEN` 值可以在变量中设定，如 `myCookie` 和 `myX-CSRF-TOKEN` ，这样每次测试时，只需要修改变量中的值即可完成集合中每个请求的权限验证。脚本如下：
 
@@ -238,7 +238,7 @@ collection 中的 -> folder 中的 -> request 中的
   });
   ```
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/postman_test_script.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/postman_test_script.png)
 
   还可以验证返回结果中的内容是否正确，如判断返回结果的 json 中的 `found` 值是否为 `true` ：
 
@@ -261,7 +261,7 @@ Postman 中可以设置监控器来定时执行 API 请求，用来测试接口�
 
   通过 Postman 侧边栏、New 按钮、启动页面、网页版添加监控器，如：
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/postman_add_monitor.png "add monitor")
+  ![](https://blog-images.qiniu.wqf31415.xyz/postman_add_monitor.png "add monitor")
 
 - **设置监控器参数** 
 
@@ -281,7 +281,7 @@ Postman 中可以设置监控器来定时执行 API 请求，用来测试接口�
 
   登陆 Postman 网页控制台，找到接口集并进入监控器页面，即可看到添加的监控器，点击监控器名称进入结果展示页面。如：
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/postman_monitor_result.png "monitor result")
+  ![](https://blog-images.qiniu.wqf31415.xyz/postman_monitor_result.png "monitor result")
 
   
 
@@ -293,13 +293,13 @@ Postman 中可以设置监控器来定时执行 API 请求，用来测试接口�
 
   - 在 Postman 中可以使用 **New** 按钮、开始页面、Postman app、Postman API 创建模拟服务器。在这里我们通过点击 **New** 按钮，然后点击 **Mock Server** 选项来创建。
 
-    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_0.png "create mock server")
+    ![](https://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_0.png "create mock server")
 
   
 
   - 创建 mock 服务器时可以选择已有的接口集，也可以自己填入新的接口，我们在这里添加了一个 `/hello` 的接口，返回结果是一个 json ，点击 **Next** 进入配置页面。
 
-    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server.png "create mock server")
+    ![](https://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server.png "create mock server")
 
     
 
@@ -307,19 +307,19 @@ Postman 中可以设置监控器来定时执行 API 请求，用来测试接口�
 
     > 注意：如果创建 Mock 服务器时选择了环境，创建成功后，选择的环境被删除时，该 Mock 服务器也将失效。
 
-    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_2.png "create mock server")
+    ![](https://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_2.png "create mock server")
 
     
 
   - 创建完成后，将自动添加一个接口集和一个环境，名称都是 mock 服务器的名称，这里是 `HelloMoceServer`。
 
-    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_3.png "create mock server")
+    ![](https://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_3.png "create mock server")
 
     
 
   - 测试，进入接口集 `HelloMoceServer` ，选择刚才添加的 `/hello` 接口请求，设定环境为 `HelloMoceServer` ，发送请求，返回结果为我们设定的返回值。
 
-    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_4.png "test mock server")
+    ![](https://blog-images.qiniu.wqf31415.xyz/postman_create_mock_server_4.png "test mock server")
   
     
   
@@ -331,7 +331,7 @@ Postman 中可以设置监控器来定时执行 API 请求，用来测试接口�
 
     当接口服务器已经可以使用的，可以先发送请求，收到返回结果后，点击返回结果区域中的 **Save** 按钮，即可跳转到保存为 example 的界面，根据需要修改名称等信息，保存即可。
 
-    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_example_by_request.png)
+    ![](https://blog-images.qiniu.wqf31415.xyz/postman_create_example_by_request.png)
 
     
 
@@ -339,7 +339,7 @@ Postman 中可以设置监控器来定时执行 API 请求，用来测试接口�
 
     当服务器后台还未开发完成时，可以添加一些模拟的请求与结果样例，完成模拟测试。点击请求区域右上方的 **Examples** 按钮，将跳转的添加界面，填入名称、请求方法、请求参数、返回结果码、返回结果内容后，保存。可以给一个接口添加多个不同请求方法、不同参数、不同返回结果的请求样例，增加测试的多样性。
 
-    ![](http://blog-images.qiniu.wqf31415.xyz/postman_create_example.png)
+    ![](https://blog-images.qiniu.wqf31415.xyz/postman_create_example.png)
 
     
 
@@ -349,13 +349,13 @@ Postman 新特性允许用户直接通过 Postman 设计 API，增加了 API 栏
 
 点击 Postman 界面上侧边栏选项卡中的 **APIs** ，然后点击 **+ New API** 按钮，填入 API 名称即可创建。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_create_API.png)
+![](https://blog-images.qiniu.wqf31415.xyz/postman_create_API.png)
 
 
 
 创建 API 后，需要添加定义，点击 API 显示区域中的 **Add Schema** 下拉选框，选择 **Create new** ，当然如果你有写好的定义文件，也可以从文件导入。
 
-![](http://blog-images.qiniu.wqf31415.xyz/postman_create_API_2.png)
+![](https://blog-images.qiniu.wqf31415.xyz/postman_create_API_2.png)
 
 
 

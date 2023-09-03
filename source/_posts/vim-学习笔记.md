@@ -14,7 +14,7 @@ categories:
 
 ### vim 是个啥?
 
-![](http://blog-images.qiniu.wqf31415.xyz/vim_logo.png "vim")
+![](https://blog-images.qiniu.wqf31415.xyz/vim_logo.png "vim")
 
 Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创建、修改多种类型文本。在多数 UNIX 系统和 Apple OS X 中集成了 vi。vi 是 vim 的子集, vim 具有 vi 的所有功能, 且拥有更多的实用特性。
 > 官网: <https://www.vim.org/> 
@@ -44,11 +44,11 @@ Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创�
 
 - 执行安装程序
   安装时建议勾选 `Create .bat files for command line use` , 这样安装完成后可以在 Windows 命令行中直接使用 vim
-  ![](http://blog-images.qiniu.wqf31415.xyz/vim_install_on_win.png) 
+  ![](https://blog-images.qiniu.wqf31415.xyz/vim_install_on_win.png) 
   
 - 打开 vim 
   安装完成后, 可以在命令行中使用, 也可以使用 GUI 版, 使用 `gvim` 即可打开, 如下图: 
-  ![](http://blog-images.qiniu.wqf31415.xyz/vim_on_win.png)
+  ![](https://blog-images.qiniu.wqf31415.xyz/vim_on_win.png)
 > 此外, 在 Windows 中安装 git 后, 在 gitbash 中也可以使用 vim 。
 
 #### Linux
@@ -99,7 +99,7 @@ sudo make install
 
 #### 进入与退出
 进入终端(或命令行)，执行命令 `vim` 即可进入 vim , 如下图所示，左边是 Windows powershell ，右边是 gitbash 进入 vim 的初始界面。
-![](http://blog-images.qiniu.wqf31415.xyz/vim_start.png ) 
+![](https://blog-images.qiniu.wqf31415.xyz/vim_start.png ) 
 
 正如初始界面中提示的，我们可以输入命令查看帮助、保存或退出，输入命令后按 <kbd>回车</kbd> 执行：
 
@@ -118,7 +118,7 @@ sudo make install
 
 在进入 vim 后，我们首先进入的是 <span style="background:red;color:white"> normal 模式 </span> ，需要按小写字母 <kbd>a</kbd> 、 <kbd>i</kbd> 、<kbd>o</kbd> 或大写字母 <kbd>A</kbd> 、 <kbd>I</kbd> 、<kbd>O</kbd> 键进入 <span style="background:red;color:white"> insert 模式 </span> ，这样就可以正常编辑文本，修改与输入内容了，与常规文本编辑器相同，可以用键盘上的上下左右键移动光标。按 <kbd>Esc</kbd> 键回到 normal 模式。
 
-![](http://blog-images.qiniu.wqf31415.xyz/vim_insert_mode.png) 
+![](https://blog-images.qiniu.wqf31415.xyz/vim_insert_mode.png) 
 
 在插入模式中可以使用键盘上下左右键移动光标，编辑内容，使用退格键或 Delete 键删除内容。编辑完成后，按 <kbd>Esc</kbd> 键回到 normal 模式，输入 `:w` 然后按 <kbd>回车</kbd> 保存文件，也可以输入 `:wq` 然后按 <kbd>回车</kbd> 保存并退出。 
 
@@ -568,7 +568,7 @@ call plug#end()
 2. 重启 vim ，或者使用 source 重新加载一下 vimrc 文件 `:source ~/.vimrc` 
 3. 在 vim 中执行命令 `:PlugInstall` ，之后 vim-plug 就会自动下载插件并安装好。
 
-  重新打开 vim 发现安装的 vim-startify 插件已经生效：![](http://blog-images.qiniu.wqf31415.xyz/vim_plug_startify.png "vim-startify")
+  重新打开 vim 发现安装的 vim-startify 插件已经生效：![](https://blog-images.qiniu.wqf31415.xyz/vim_plug_startify.png "vim-startify")
 
 
 
@@ -583,7 +583,7 @@ call plug#end()
 
 - 状态栏美化: <https://github.com/vim-airline/vim-airline> 
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/vim_plug_airline.png "vim-airline") 
+  ![](https://blog-images.qiniu.wqf31415.xyz/vim_plug_airline.png "vim-airline") 
 
 - 增加代码缩进线条: https://github.com/Yggdroot/indentLine
 
@@ -595,7 +595,7 @@ call plug#end()
 
   查找当前文件位置: `nnoremap <leader>v :NERDTreeFind<cr>` 
 
-  ![](http://blog-images.qiniu.wqf31415.xyz/vim_plug_nerdtree.png "nerdtree")
+  ![](https://blog-images.qiniu.wqf31415.xyz/vim_plug_nerdtree.png "nerdtree")
 
 - 模糊搜索: ctrlp.vim，<https://github.com/ctrlpvim/ctrlp.vim> 
 

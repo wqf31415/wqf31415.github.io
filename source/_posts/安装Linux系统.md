@@ -73,61 +73,61 @@ Linux通常被打包成供个人计算机和服务器使用的 Linux 发行版�
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/css/lightgallery.min.css"/>
 <script src="https://cdn.jsdelivr.net/npm/lightgallery.js@1.1.3/dist/js/lightgallery.min.js"></script>
 <div id="gallery-container" style="max-width: 900px;position: relative;">
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_1.png" data-sub-html="<h4>1. 打开VirtualBox，点击新建</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_1.png" data-sub-html="<h4>1. 打开VirtualBox，点击新建</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_1.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_1.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_2.png" data-sub-html="<h4>2. 填写虚拟机名称，选择存储的目录、虚拟机类型、版本</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_2.png" data-sub-html="<h4>2. 填写虚拟机名称，选择存储的目录、虚拟机类型、版本</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_2.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_2.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_3.png" data-sub-html="<h4>3. 选择内存大小，默认为1G</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_3.png" data-sub-html="<h4>3. 选择内存大小，默认为1G</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_3.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_3.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_4.png" data-sub-html="<h4>4. 选择创建虚拟硬盘，点击下一步</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_4.png" data-sub-html="<h4>4. 选择创建虚拟硬盘，点击下一步</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_4.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_4.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_5.png" data-sub-html="<h4>5. 选择虚拟硬盘类型</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_5.png" data-sub-html="<h4>5. 选择虚拟硬盘类型</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_5.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_5.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_6.png" data-sub-html="<h4>6. 选择动态分配</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_6.png" data-sub-html="<h4>6. 选择动态分配</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_6.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_6.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_7.png" data-sub-html="<h4>7. 选择文件存储位置，调整硬盘大小，默认为10G，点击创建</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_7.png" data-sub-html="<h4>7. 选择文件存储位置，调整硬盘大小，默认为10G，点击创建</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_7.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_7.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_8.png" data-sub-html="<h4>8. 创建完成，点击启动</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_8.png" data-sub-html="<h4>8. 创建完成，点击启动</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_8.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_8.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_9.png" data-sub-html="<h4>9. 选择启动盘，点击右侧添加新镜像</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_9.png" data-sub-html="<h4>9. 选择启动盘，点击右侧添加新镜像</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_9.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_9.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_10.png" data-sub-html="<h4>10. 选择下载的镜像</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_10.png" data-sub-html="<h4>10. 选择下载的镜像</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_10.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_10.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_11.png" data-sub-html="<h4>11. 点击启动</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_11.png" data-sub-html="<h4>11. 点击启动</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_11.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_11.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_12.png" data-sub-html="<h4>12. 选择字体：中文(简体)</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_12.png" data-sub-html="<h4>12. 选择字体：中文(简体)</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_12.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_12.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_13.png" data-sub-html="<H4>13. 选择安装 </H4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_13.png" data-sub-html="<H4>13. 选择安装 </H4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_13.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_13.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_14.png" data-sub-html="<h4>14. 开始安装</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_14.png" data-sub-html="<h4>14. 开始安装</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_14.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_create_vm_14.png"/>
     </a>
 </div>
 <script>
@@ -147,53 +147,53 @@ Linux通常被打包成供个人计算机和服务器使用的 Linux 发行版�
 > 安装设置过程中的分区和用户信息非常关键，分区可根据系统用途进行细微调整，初学者可直接使用默认配置，用户信息在登陆时要用到，需要记住。
 
 <div id="gallery-container-2" style="max-width: 900px;position: relative;">
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_1.png" data-sub-html="<h4>1. 选择系统语言</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_1.png" data-sub-html="<h4>1. 选择系统语言</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_1.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_1.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_2.png" data-sub-html="<h4>2. 是否更新和安装第三方软件</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_2.png" data-sub-html="<h4>2. 是否更新和安装第三方软件</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_2.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_2.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_3.png" data-sub-html="<h4>3. 磁盘设置</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_3.png" data-sub-html="<h4>3. 磁盘设置</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_3.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_3.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_4.png" data-sub-html="<h4>4. 确认分区，点击继续</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_4.png" data-sub-html="<h4>4. 确认分区，点击继续</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_4.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_4.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_5.png" data-sub-html="<h4>5. 选择时区</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_5.png" data-sub-html="<h4>5. 选择时区</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_5.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_5.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_6.png" data-sub-html="<h4>6. 选择键盘布局</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_6.png" data-sub-html="<h4>6. 选择键盘布局</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_6.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_6.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_7.png" data-sub-html="<h4>7. 填写用户名、密码</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_7.png" data-sub-html="<h4>7. 填写用户名、密码</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_7.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_7.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_8.png" data-sub-html="<h4>8. 开始安装，等待安装完成</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_8.png" data-sub-html="<h4>8. 开始安装，等待安装完成</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_8.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_8.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_9.png" data-sub-html="<h4>9. 已经安装完成，点击重启</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_9.png" data-sub-html="<h4>9. 已经安装完成，点击重启</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_9.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_9.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_10.png" data-sub-html="<h4>10. 重启，提示移除安装媒体，按回车继续</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_10.png" data-sub-html="<h4>10. 重启，提示移除安装媒体，按回车继续</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_10.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_10.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_11.png" data-sub-html="<h4>11. 已经启动，输入密码进入系统</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_11.png" data-sub-html="<h4>11. 已经启动，输入密码进入系统</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_11.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_11.png"/>
     </a>
-    <a data-src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_12.png" data-sub-html="<h4>12. 进入系统</h4>">
+    <a data-src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_12.png" data-sub-html="<h4>12. 进入系统</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
-             src="http://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_12.png"/>
+             src="https://blog-images.qiniu.wqf31415.xyz/virtualBox_ubuntu_12.png"/>
     </a>
 </div>
 <script>
@@ -218,7 +218,7 @@ Linux通常被打包成供个人计算机和服务器使用的 Linux 发行版�
 >
 > 文件系统选项可能会影响系统安装，建议选择 `FAT32` 类型。
 
-![](http://blog-images.qiniu.wqf31415.xyz/iso_to_usb.png) 
+![](https://blog-images.qiniu.wqf31415.xyz/iso_to_usb.png) 
 
 一些镜像刻录工具：
 
