@@ -130,6 +130,8 @@ public class SampleController {
 #### 使用 IDEA 中提供的 Spring Initilizr 创建
 - 点击 Create New Project ，选择 **Spring Initilizr**，点击 **Next**
   
+  > 注意：这种方式实际上是使用 SpringBoot 官方提供的 [Spring Initilizr](https://start.spring.io) 创建项目，当不使用 IDEA 进行开发时，也可直接使用浏览器访问该网站，在线创建项目。
+  > 
   > 初始化服务地址可以换成阿里的：https://start.aliyun.com/ 
   >
   > 使用阿里的创建 springboot 项目时的选项和官方的不太一样，创建的项目也略有不同，不过用起来同样方便。
@@ -255,7 +257,10 @@ CLI 意思是 Command Line Interface，即命令行界面，使用命令行工�
 - 在要存储项目的目录下打开命令行工具，执行指令 `spring init --dependencies=web spring-boot-demo`，（其中 **spring-boot-demo** 是项目名，也是模块名，artifactId），会访问 https://start.spring.io/ ，过一会就会将项目需要的文件下载到 /spring-boot-demo 目录下，将其导入IDEA下载相关maven依赖后就可以启动。如果需要多个依赖可以在参数后面，如 `spring init --dependencies=web,jpa spring-boot-demo` 。
   ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_07.png "使用springboot-cli创建项目")
 
-#### 一个文件体验springboot
+#### 单文件体验 springboot
+
+> 这种方式仅作为体验方式，正式项目开发不会用这种方式。
+
 - 写一个 java 测试文件，文件名为：**app.java**，内容如下：
 ``````java
 @RestController
@@ -409,13 +414,13 @@ public class HelloService {
         </resource>
         <!-- 打包 resources 目录下的资源 -->
         <resource>
-        <directory>${basedir}/src/main/resources</directory>
-        <includes>
-            <include>**/**</include>
-        </includes>
-    </resource>
+            <directory>${basedir}/src/main/resources</directory>
+            <includes>
+                <include>**/**</include>
+            </includes>
+        </resource>
     </resources>
-    </resources>
+
     <plugins>
         <plugin>
             <groupId>org.springframework.boot</groupId>
