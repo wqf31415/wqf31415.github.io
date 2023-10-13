@@ -22,7 +22,6 @@ date: 2020-05-17 15:08:29
 
 > GraphQL 是一种用于 API 的查询语言，也是一个满足你数据查询的运行时。 GraphQL 对你的 API 中的数据提供了一套易于理解的完整描述，使得客户端能够准确地获得它需要的数据，而且没有任何冗余，也让 API 更容易地随着时间推移而演进，还能用于构建强大的开发者工具。
 
-<iframe height="415" width="544"  src="//player.bilibili.com/player.html?aid=92129366&bvid=BV1F7411N7UL&cid=157308905&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
 <!-- more -->
 
 ### 类似技术
