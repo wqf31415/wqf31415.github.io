@@ -51,7 +51,7 @@ darkmode: false
 # ---------------------------------------------------------------
 
 favicon:
-  small: /uploads/favicon.png
+  small: /uploads/favicon.png/uploads/favicon.png
   medium: /uploads/favicon.png
   apple_touch_icon: /uploads/favicon.png
   safari_pinned_tab: /uploads/favicon.png
@@ -106,7 +106,7 @@ menu:
   #commonweal: /404/ || fa fa-heartbeat
   #weather: /weather/ || snowflake-o
   nav: /nav/ || fa fa-sitemap
-
+  
 # Enable / Disable menu icons / item badges.
 menu_settings:
   icons: true
@@ -161,9 +161,6 @@ social:
   GitHub: https://github.com/wqf31415 || github || fab fa-github
   E-Mail: mailto:wqf31415@hotmail.com || fa fa-envelope
   Weibo: https://weibo.com/wqf31415 || fab fa-weibo
-  #GitHub: https://github.com/yourname || fab fa-github
-  #E-Mail: mailto:yourname@gmail.com || fa fa-envelope
-  #Weibo: https://weibo.com/yourname || fab fa-weibo
   #Twitter: https://twitter.com/yourname || fab fa-twitter
   #FB Page: https://www.facebook.com/yourname || fab fa-facebook
   #StackOverflow: https://stackoverflow.com/yourname || fab fa-stack-overflow
@@ -227,7 +224,7 @@ footer:
   # Powered by Hexo & NexT
   powered: true
 
-  # Beian ICP and gongan information for Chinese users. See: https://beian.miit.gov.cn, http://www.beian.gov.cn
+  # Beian ICP and gongan information for Chinese users. See: https://beian.miit.gov.cn, https://beian.mps.gov.cn
   beian:
     enable: false
     icp: '蜀ICP备18009638号'
@@ -235,7 +232,7 @@ footer:
     gongan_id: 51011502000320
     # The full num of gongan beian.
     gongan_num: '川公网安备 51011502000320号'
-    # The icon for gongan beian. See: http://www.beian.gov.cn/portal/download
+    # The icon for gongan beian. Login and See: https://beian.mps.gov.cn/web/business/businessHome/website
     gongan_icon_url: "https://blog-images.qiniu.wqf31415.xyz/beian_logo.png"
 
 
@@ -414,7 +411,7 @@ bookmark:
 # `Follow me on GitHub` banner in the top-right corner.
 github_banner:
   enable: false
-  permalink: https://github.com/wqf31415
+  permalink: https://github.com/yourname
 
 
 # ---------------------------------------------------------------
@@ -776,10 +773,11 @@ google_analytics:
   # By default, NexT will load an external gtag.js script on your site.
   # If you only need the pageview feature, set the following option to true to get a better performance.
   only_pageview: false
+  # only needed if you are using `only_pageview` mode, https://developers.google.com/analytics/devguides/collection/protocol/ga4
+  measure_protocol_api_secret:
 
 # Baidu Analytics
 # See: https://tongji.baidu.com
-#baidu_analytics: 573d2959947383d4158d7b1756b9d63c # <app_id>
 baidu_analytics: 9fcd953c49319d619a2c25032c4f3c47 # <app_id>
 
 # Growingio Analytics
