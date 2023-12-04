@@ -145,17 +145,38 @@ Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管�
 
 ```
 http {
-server {
-listen    80;
-server_name    localhost;
+  server {
+    listen    80;
+    server_name    localhost;
 
-location /project_metadata/spring-boot {
-default_type    application/json;
-return 200 '{"id":"spring-boot","name":"spring boot"}';
-}
-}
+    location /project_metadata/spring-boot {
+      default_type    application/json;
+      return 200 '{"id":"spring-boot","name":"spring boot"}'; # 要返回的 json 数据
+    }
+  }
 }
 ```
+
+### 搭建仓库服务
+
+当团队中有多人都在内网环境开发时，可以考虑在内网搭建 sonatype nexus 仓库管理服务，作为 Maven 仓库使用。而且 nexus 还可以创建 apt、docker、npm、pypi、rubygems、yum 等类型的离线仓库，满足Linux开发、前端开发等开发的仓库需求。
+
+> nexus 官网下载链接: <https://www.sonatype.com/products/sonatype-nexus-oss-download> 
+
+#### 安装
+
+##### Windows系统
+
+##### Linux系统
+
+##### docker安装
+
+#### 创建 maven 仓库
+
+#### 上传 maven 依赖
+
+#### 本地 maven 配置
+
 
 ### 遇到的问题
 
