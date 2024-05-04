@@ -3,6 +3,7 @@ title: 认识cron表达式
 tags:
   - cron
   - linux
+  - 
 categories:
   - 技术
 date: 2024-04-28 20:45:19
@@ -11,6 +12,8 @@ date: 2024-04-28 20:45:19
 ### 概要
 
 这篇文章介绍了 cron 的含义、cron 表达式语法和应用场景。
+
+![](https://blog-images.qiniu.wqf31415.xyz/clock.jpg) 
 
 
 
@@ -73,9 +76,43 @@ cron 表达式是一个字符串，有七个域，分别是秒、分、时、日
 
 ### 使用场景
 
-#### java项目
+#### Java Spring 项目
 
-在 SpringBoot 项目中，创建定时执行任务时，可以使用 cron 表达式来指定执行策略。
+在使用 Spring 框架开发的 Java 项目中，可以很方便的创建定时执行任务，并使用 cron 表达式来指定执行策略。如以下代码将每 5 秒打印一句 `Hi` ：
+
+```java
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
+import org.springframework.stereotype.Component;
+
+@Component
+@EnableScheduling
+public class ScheduleService {
+
+    @Scheduled(cron = "0/5 * * * * ?")
+    private void sayHi(){
+        System.out.println("Hi");
+    }
+}
+```
+
+> 代码说明：
+>
+> - `@Component` 注解用于将这个类标识为 Spring 组件，让 Spring 框架帮我们实例化和管理生命周期。
+> - `@EnableScheduling` 注解用于告诉 Spring 开启定时执行功能。
+> - `@Scheduled(cron = "0/5 * * * * ?")` 注解用于标识定时执行的方法，其中参数 `cron` 指定使用 cron 表达式作为触发条件，这里的 `0/5 * * * * ?` 表达式为 每 5 秒触发一次。
+
+
+
+#### Java Cron 库
+
+- cron-utils: <http://cron-parser.com/> 
+
+  一个用于解析、校验、迁移 cron 表达式的库。
+
+- Quartz Enterprise Job Scheduler: <https://www.quartz-scheduler.org/> 
+
+  一个功能丰富且开源的企业级定时任务框架。
 
 
 
@@ -98,4 +135,4 @@ cron 表达式是一个字符串，有七个域，分别是秒、分、时、日
 
 Cron 表达式用于创建定时器，表达式域包含 秒、分、时、日、月、周、年，域之间用空格分隔，一般年可省略。
 
-在不同平台、编程语言、定时任务框架中，Cron 表达式规则可能不一样。
+要注意在不同平台、编程语言、定时任务框架中，Cron 表达式的规则可能不一样。
