@@ -1,5 +1,5 @@
 ---
-title: Rust学习笔记1-初始Rust
+title: Rust学习笔记1-初识Rust
 date: 2024-01-31 23:44:46
 tags:
 - Rust
