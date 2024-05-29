@@ -356,6 +356,8 @@ fn main() {
 
 
 
+
+
 #### 结构体（Struct）
 
 
@@ -400,13 +402,75 @@ fn main() {
 
 ### Rust 函数定义
 
+在 Rust 中使用 `fn` 关键字定义函数，函数定义格式为：`fn 函数名(参数1:参数1类型, 参数2:参数2类型,...)->返回值类型 {函数内容}`，定义函数时可以不加参数，即定义无参函数，也可以不指定返回值类型。函数调用方式为 `函数名(参数1, 参数2,...)`。
+
+Rust 中的变量名和函数名使用 snake case 命名规范，即全使用小写字母，单词间使用下划线分隔，如 say_hello。
+
+Rust 函数不区分定义的先后顺序，不像 C 语言要先定义才能使用。
+
+Rust 中函数体可包含一些列语句，可选由一个表达式结束，**大多数函数会以最后一个表达式的值作为函数的返回值**，如果想提前返回可以使用 `return` 关键字。
+
+> 语句是执行一些动作的指令，如函数定义或以分号结尾的一句代码。在 Rust 中不允许将语句赋值给一个变量，如 `let a = (let b = 1)` 是不合法的。
+>
+> 表达式可执行一些运算，如算式 `3+2`，最终得到一个值，所有字面值都是表达式，如 `5` 、`"hello"`。
+
+```rust
+fn main() { 
+    say_hello(); // hello
+    hello_someone("rust"); // hello, rust
+    let a = get_five();
+    println!("a = {}", a); // a = 5
+    let b = plus_five(a);
+    println!("b = {}", b); // b = 10
+    let c = get_max(3, 5);
+    println!("c = {}", c); // c = 5
+}
+  
+// 无参参数
+fn say_hello() {
+    println!("hello");
+}
+
+// 有参函数
+fn hello_someone(name: &str) {
+    println!("hello, {}", name);
+}
+
+// 无参有返回值函数
+fn get_five() -> i32 {
+    5
+}
+
+// 有参有返回值函数
+fn plus_five(x: i32) -> i32 {
+    x + 5
+}
+
+fn get_max(x: i32, y: i32) -> i32 {
+    if x > y {
+        return x; // 使用 return 关键字返回结果
+    }
+    y // 最后一个表达式作为函数返回值
+}
+```
+
 
 
 ### Rust 分支结构
+
+#### if-else 分支
 
 
 
 ### Rust 循环结构
 
+#### loop 循环
 
+
+
+#### while 循环
+
+
+
+#### for 循环
 
