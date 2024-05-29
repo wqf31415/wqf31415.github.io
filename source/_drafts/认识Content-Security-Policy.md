@@ -10,6 +10,8 @@ categories:
 
 ### 概述
 
+浏览器 http 请求头中携带的 Content Security Policy 有什么作用呢？
+
 
 
 <!-- more --> 

@@ -10,11 +10,11 @@ categories:
 
 ### 概述
 
+这篇文章介绍了 JMX 的含义，用途与用法。
 
 
 
-
-什么是 JMX
+### 什么是 JMX
 
 JMX(Java Management Extensions) 是一个为应用程序植入管理功能的框架。
 

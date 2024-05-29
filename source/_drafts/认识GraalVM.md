@@ -10,6 +10,8 @@ categories:
 
 ### 概述
 
+这篇文章介绍了 GraalVM 是什么，它能做什么，以及怎么使用 GraalVM。
+
 
 
 <!-- more -->

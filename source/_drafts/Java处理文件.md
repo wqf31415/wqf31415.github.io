@@ -22,6 +22,11 @@ categories:
 
 #### json
 
+在 java 中常用的 json 库有：
+
+- gson：谷歌公司提供
+- jackson
+
 #### xml
 
 #### Excel
