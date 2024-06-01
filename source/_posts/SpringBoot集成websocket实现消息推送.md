@@ -16,7 +16,7 @@ date: 2021-01-11 16:07:43
 
 ### 什么是 websocket
 
-> websocket 是 html5 开始提供的一种在单个 TCP 连接上进行全双工通讯的协议。websocket 使得客户端和服务器之间的数据交换变得更加简单，允许服务端主动向客户端推动数据。在 websocket api 中，浏览器和服务器只需要完成以此握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。
+> websocket 是 html5 开始提供的一种特性，在单个 TCP 连接上进行全双工通讯的协议。websocket 使得客户端和服务器之间的数据交换变得更加简单，允许客户端向服务端发送消息，也允许服务端主动向客户端推动数据。在 websocket api 中，浏览器和服务器只需要完成一次握手，两者之间就直接可以创建持久性的连接，并进行双向数据传输。
 
 
 
@@ -30,7 +30,7 @@ date: 2021-01-11 16:07:43
 
 ##### 创建 springboot 工程并引入依赖
 
-使用喜欢的方式创建一个 springboot 工程，引入 springboot 提供的 web 和 websocket 的 starter 依赖。如下示例是使用 maven 创建的项目，pom.xml 信息如下:
+使用喜欢的方式创建一个 springboot 工程，引入 springboot 提供的 web 和 websocket 的 starter 依赖： `spring-boot-starter-web`  和 `spring-boot-starter-websocket`。如下示例是使用 maven 创建的 springboot 项目，pom.xml 信息如下:
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -371,4 +371,4 @@ public class MsgService {
 
 ### 总结
 
-使用 websocket 可以异步处理前端请求，或是实时推送通知消息，还能实现实时聊天功能，还可以实现给指定用户推送消息。
+使用 websocket 可以异步处理前端请求，或是实时推送通知消息，基于 websocket 可以实现实时聊天功能（群聊），后端可根据需要对数据和用户信息进行过滤后，可以实现给指定用户推送消息（私聊）。
