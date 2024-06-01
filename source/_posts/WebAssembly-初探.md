@@ -13,7 +13,7 @@ date: 2023-06-29 10:56:49
 
 ### 概述
 
-WebAssembly 已经极 html、css、js 之后，成为 Web 平台的第四种语言，这篇文章介绍了 WebAssembly 的概念，特点以及使用场景，提供了一个将 C 代码编译成 wasm 并在浏览器访问的简单示例。
+WebAssembly 已经成为继 html、css、js 之后， Web 平台开发的第四种语言，这篇文章介绍了 WebAssembly 的概念，特点以及使用场景，提供了一个将 C 代码编译成 wasm 并在浏览器访问的简单示例。
 
 
 
@@ -31,7 +31,9 @@ WebAssembly 已经极 html、css、js 之后，成为 Web 平台的第四种语�
 >
 > WebAssembly Web API: <https://www.w3.org/TR/wasm-web-api-1/>
 
-WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈的二进制指令格式的虚拟机标准，它的设计目标包括：高可移植性、高安全性、高效率（包括载入效率和运行效率）、尽可能小的程序体积。WebAssembly 能够在主流的浏览器中运行，它的出现是为了解决前端项目 JavaScript 运行低效的问题。浏览器支持情况参考：[Roadmap - WebAssembly](https://webassembly.org/roadmap/) 。
+WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈的二进制指令格式的虚拟机标准，它的设计目标包括：高可移植性、高安全性、高效率（包括载入效率和运行效率）、尽可能小的程序体积。WebAssembly 能够在主流的浏览器中运行，它的出现是为了解决前端项目 JavaScript 运行低效的问题。
+
+浏览器支持情况参考：[Roadmap - WebAssembly](https://webassembly.org/roadmap/) 。
 
 
 
@@ -42,11 +44,11 @@ WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈
 
 ### WebAssembly 用途
 
-wasm 可以在主流的浏览器中运行，也可以脱离浏览器环境。在 Web 中，可以全部使用 wasm ，或使用 wasm 完成复杂的算法，使用 js 完成交互逻辑，还可以在已有的 web 项目中应用部分 wasm 作为工具库，完成部分计算任务。
+wasm 可以在主流的浏览器中运行，也可以脱离浏览器环境。在 Web 中，可以不使用 js ，全部使用 wasm ；或使用 wasm 完成复杂的算法，使用 js 完成交互逻辑；还可以在已有的 web 项目中应用部分 wasm 作为工具库，完成部分计算任务，不影响原有业务逻辑。
 
-一些应用场景：
+WebAssembly 的一些应用场景：
 
-- 更好的让一些语言和工具可以编译到 Web 平台运行
+- 更好的让一些语言和工具可以编译到 Web 平台运行（而不是采用 js 重新实现该工具）
 - 图片/视频编辑
 - 游戏：需要快速打开的小游戏、AAA级资源量很大的游戏、游戏门户（代理/原创游戏平台）
 - P2P应用（游戏/实时合作编辑）
@@ -72,8 +74,8 @@ wasm 可以在主流的浏览器中运行，也可以脱离浏览器环境。在
 在浏览器中， WebAssembly 程序运行在 WebAssembly 虚拟机中，Web 页面通过一组 JavaScript 对象进行 WebAssembly 模块的编译、载入、配置、调用等操作。
 
 - 体积小：wasm 是编译成二进制文件，比原生的 JavaScript 体积更小
-- 加载和运行速度快：由于 wasm 体积更小，因此从服务端下载耗时更短，在运行时，是在浏览器提供的 wasm 虚拟机中运行，力求发挥硬件能力已达到原生执行效率
-- 可移植性高：由于 wasm 是一套虚拟机标准，因此在有 wasm 虚拟机的环境中都可运行，就像 java 代码号称一次编译到处运行一样，都是靠虚拟机屏蔽了系统及硬件差异
+- 加载和运行速度快：加载速度快，由于 wasm 体积更小，减少从服务端下载的耗时；运行速度快，WebAssembly 是在浏览器提供的 wasm 虚拟机中运行，力求发挥硬件能力以达到原生执行效率
+- 可移植性高：由于 wasm 是一套虚拟机标准，在所有 wasm 虚拟机环境中都可以直接运行，就像 java 号称一次编译到处运行一样，可以靠虚拟机屏蔽系统及硬件差异
 
 
 
@@ -115,7 +117,7 @@ emsdk activate latest
 emsdk_env.bat
 ```
 
-注： 最后一条命令是创建系统环境，将一些路径写入系统的环境命令 Path 中，如果写入失败，可以手动修改环境变量，添加响应的路径到 Path。
+> 注： 最后一条命令是创建系统环境，将一些路径写入系统的环境命令 Path 中，如果写入失败，可以手动修改环境变量，添加响应的路径到 Path。
 
 
 
@@ -203,7 +205,7 @@ emcc hello.c
 
 ![](https://blog-images.qiniu.wqf31415.xyz/wasm-hello.png)
 
-打开浏览1器的开发者工具，进入控制台。看到控制台输出了 `你好 wasm!` ，运行成功。
+打开浏览器的开发者工具，进入控制台。看到控制台输出了 `你好 wasm!` ，运行成功。
 
 示例页面链接：<a href="/example/wasm/hello/index.html">/example/wasm/hello/index.html</a> 
 
@@ -211,7 +213,7 @@ emcc hello.c
 
 ##### 更多
 
-在使用 `emcc` 编译 C 语言代码文件时，如果不指定输出的文件名，则默认输出 `a.out.js` 和 `a.out.wasm` 文件，我们可以添加参数 `-o` 指定编译输出内容，如:
+在使用 `emcc` 编译 C 语言代码文件时，如果不指定输出的文件名，则默认输出 `a.out.js` 和 `a.out.wasm` 文件，我们可以添加参数 `-o` 指定编译后输出的文件内容。如:
 
 ```powershell
 emcc hello.c -o hello.html
@@ -265,6 +267,6 @@ emcc hello.c -o hello.html
 
 ### 总结
 
-WebAssembly 本质上是一个纯的虚拟机指令规范（模块的二级制格式等都属于外延部分），同时在软件层面定义了和外部宿主环境的交互接口。WebAssembly 是对标 Java 中 JVM 的技术，目标是替代底层 CPU，提供一个虚拟机，支持从 C/C++、Rust、Java 等高级语言编译而来的字节码，就像在 JVM 中可以运行很多语言编译而来的字节码。
+WebAssembly 本质上是一个纯的虚拟机指令规范（模块的二进制格式等都属于外延部分），同时在软件层面定义了和外部宿主环境的交互接口。WebAssembly 是对标 Java 中 JVM 的技术，目标是替代底层 CPU，提供一个虚拟机，支持从 C/C++、Rust、Java 等高级语言编译而来的字节码，就像在 JVM 中可以运行很多语言编译而来的字节码。
 
-WQSI（WebAssembly System Interface） 是 WebAssembly 最新的一个技术发展方向，也是 WebAssembly 能够突破 Web 环境自由发展的一个必要前提。
+WASI（WebAssembly System Interface） 是 WebAssembly 最新的一个技术发展方向，也是 WebAssembly 能够突破 Web 环境自由发展的一个必要前提。
