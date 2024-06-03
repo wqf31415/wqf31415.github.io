@@ -790,11 +790,93 @@ fn main() {
 
 #### loop 循环
 
+Rust 中使用 `loop` 创建无限循环。
+
+Rust 中的 `loop` 循环可以作为表达式，在 `break` 关键字后指定循环的返回值。
+
+```rust
+fn main() {
+    let mut a = 0;
+    loop {
+        if a == 100 {
+            break;
+        }
+        if a%2 == 1 {
+            a += 1;
+            continue;
+        }
+        println!("{}", a);
+        a += 1;
+    }
+    let b = ['h', 'e', 'l', 'l', 'o'];
+    let mut i = 0;
+    let location = loop { // 获取loop循环的返回值
+        if b[i] == 'l' {
+            break i;
+        }
+        i += 1;
+    };
+    println!("location: {}", location);
+}
+```
+
 
 
 #### while 循环
 
+Rust 中 while 循环与其他编程语言的 while 循环用法类似，先判断条件是否满足，条件为真则进入循环体，直到条件不满足退出循环，在循环体中可使用 `continue` 跳过本次循环，使用 `break` 跳出整个循环。
+
+Rust 中条件表达式不使用小括号包含。
+
+```rust
+fn main() {
+    let mut a = 0;
+    while a<10 {
+        if a == 3 { // 当值为 3 时，跳过本次循环
+            println!("{} skip", a);
+            a += 1; // 由于continue会跳过本次循环体后续内容，必须在这里进行加一，否则会出现死循环
+            continue;
+        }
+        if a == 6 { // 当值为 6 时，中断循环
+            println!("{} break", a);
+            break
+        }
+        println!("{}",a);
+        a += 1;
+    }
+}
+```
+
 
 
 #### for 循环
+
+Rust 中的 for 循环是 foreach 循环，是专门用来遍历可迭代对象的语法，用法是 `for 变量名 in 迭代器 {函数体}`。
+
+迭代器是一类对象，如数组、Vector等，其实现了迭代器相关的方法。
+
+```rust
+fn main() {
+    let arr = [2, 1, 3, 5, 6, 4];
+    for i in arr { // 遍历数组
+        println!("{}", i);
+    }
+
+    for i in 1..5 { // 快速的递增迭代 1~5，不包含 5
+        println!("{}", i);
+    }
+
+    for i in 0..arr.len() { // 按数组下标遍历数组
+        println!("arr[{}]={}", i, arr[i]);
+    }
+
+    let mut v: Vec<i32> = Vec::new();
+    v.push(3);
+    v.push(5);
+    v.push(8);
+    for i in v { // 遍历Vector
+        println!("{}", i);
+    }
+}
+```
 
