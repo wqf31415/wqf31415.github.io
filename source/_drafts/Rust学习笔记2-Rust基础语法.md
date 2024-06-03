@@ -680,6 +680,110 @@ fn main() {
 
 #### if-else 分支
 
+if-else 用于分支判断，Rust 中 if-else 条件语句的格式如下：
+
+```
+if 判断条件 {
+    // 一些代码
+} else {
+    // 另一些代码
+}
+```
+
+Rust 中的判断条件表达式不需要使用小括号包含，代码语句必须使用大括号包含。
+
+Rust 中条件表达式必须是布尔类型（bool），不能是数字。
+
+```rust
+fn main() {
+    let a = 5;
+    // if-else
+    if a > 0 {
+        println!("a>0");
+    } else {
+        println!("a<=0");
+    }
+    // if
+    if a<10 {
+        println!("a<10");
+    }
+    //if-else-if
+    let b = 83;
+    if b>100 || b<0 {
+        println!("成绩错误");
+    } else if b>85 {
+        println!("优");
+    } else if b>75 && b<=85 {
+        println!("良");
+    } else if b>=60 && b<= 75 {
+        println!("中");
+    } else {
+        println!("不及格");
+    }
+}
+```
+
+
+
+#### 三元表达式
+
+在 Rust 中不支持三元表达式，但 Rust 中可以使用 if-else 来实现相同效果。
+
+```rust
+let a = 65;
+let b = if a>0 {1} else {-1};
+let c = if a>85 {
+    "优"
+} else if a>75 {
+    "良"
+} else if a>=60 {
+    "中"
+} else {
+    "不及格"
+};
+```
+
+
+
+#### match 语句
+
+Rust 中没有 switch 语句，Rust 中的多分支判断使用 `match` ，`match` 每个分支结束时不用 break 跳出。
+
+Rust 中的 `match` 判断项也不需要使用小括号包含，多个匹配项使用 `|` 分隔，每个匹配项后使用 `=>{}` 指定执行代码，多个匹配项之间使用逗号 `,` 分隔。
+
+Rust 中 `match` 必须匹配所有可选项，在最后可以使用下划线 `_` 匹配所有剩余项，类似其他编程语言中的 `default` 。
+
+Rust 中 `match` 也可以返回值。
+
+```rust
+fn main() {
+    let a = 1;
+    match a {
+        1 => { // 匹配单项
+            println!("a=1");
+        },
+        2|3|4 => { // 匹配多项
+            println!("a=2 or 3 or 4");
+        },
+        _ => { // 剩余项
+            println!("other number");
+        }
+    }
+    let b = match a { // match返回值
+        1 => {
+            "一"
+        },
+        2|3|4 => {
+            "二、三、四"
+        },
+        _ => {
+            "其他"
+        }
+    };
+    println!("{}",b);
+}
+```
+
 
 
 ### Rust 循环结构
