@@ -450,6 +450,28 @@ fn main() {
 
 
 
+#### Range
+
+Rust 中的 `Range` 类型用于创建指定范围内的数字集合，创建时指定开始和结束数字，即可创建从开始值到结束值（不包含结束值）的范围数据， 语法为 `let a: Range<i32> = 1..4;`。
+
+`Range` 提供了 `rev()` 方法，用来反转 `Range` ，方法返回一个迭代器，可用 `for` 循环遍历。
+
+```rust
+use std::ops::Range;
+
+fn main() {
+    let a: Range<i32> = 0..3; // 定义一个 Range
+    for i in a {
+        println!("{}", i);
+    }
+    for i in (0..3).rev() { // 使用 rev() 方法反转一个 Range
+        println!("{}", i);
+    }
+}
+```
+
+
+
 ### 运算
 
 #### 基础数学运算
@@ -840,7 +862,7 @@ fn main() {
         println!("{}", i);
     }
 
-    for i in 1..5 { // 快速的递增迭代 1~5，不包含 5
+    for i in 1..5 { // 使用 Range 类型快速的递增迭代 1~5，不包含 5
         println!("{}", i);
     }
 
