@@ -12,7 +12,7 @@ date: 2022-06-25 14:15:49
 
 ### 概述
 
-这篇文件介绍了嵌入式项目中使用的 web  服务器——GoAhead，介绍了 GoAhead 的功能与使用方法，附带一个 helloworld 示例。
+这篇文件介绍了嵌入式项目中可使用的 web  服务器——GoAhead，介绍了 GoAhead 的功能与使用方法，附带一个 helloworld 示例。
 
 ![](https://blog-images.qiniu.wqf31415.xyz/goahead-hello.png) 
 
@@ -26,7 +26,7 @@ date: 2022-06-25 14:15:49
 
 源码: Github: <https://github.com/embedthis/goahead> 
 
-GoAhead 是一个流行的嵌入式 web 服务器，简单小巧，结构紧凑（115K代码），易于移植。GoAhead 针对通过事件驱动的单线程内核托管动态嵌入式 web 应用程序进行了优化，在减少 web 应用程序的每个请求的内存开销方面特别有效。
+GoAhead 是一个流行的嵌入式 web 服务器，C 语言开发，简单小巧，结构紧凑（115K代码），易于移植。GoAhead 针对通过事件驱动的单线程内核托管动态嵌入式 web 应用程序进行了优化，在减少 web 应用程序的每个请求的内存开销方面特别有效。
 
 GoAhead 具有一组强大的功能，包括：HTTP/1.1、SSL/TSL、身份验证、基于角色的权限控制、会话状态存储、CGI、沙盒资源限制、日志记录等。
 
@@ -38,9 +38,9 @@ GoAhead 具有一组强大的功能，包括：HTTP/1.1、SSL/TSL、身份验证
 
 - HTTP web 服务器程序和库
 - 灵活的 URI 路由和重定向
-- 基于劫色的访问权限控制
+- 基于角色的访问权限控制
 - 本地或基于 PAM 的密码存储
-- CGI处理程序
+- CGI 处理程序
 - 内存中 URI 处理程序
 - 支持 HTTPS
 - 请求跟踪和日志记录
@@ -55,7 +55,7 @@ GoAhead 具有一组强大的功能，包括：HTTP/1.1、SSL/TSL、身份验证
 >
 > Github: <https://github.com/cesanta/mongoose> 
 
-开源的嵌入式 web 服务器，为 C/C++ 提供 http、websocket、mqtt 功能库，能够将软件产品、设备或应用APP转变成一个 web 服务器，从而使用浏览器访问和远程控制。mongoose支持 RESTful API 和实时双向通信，能够在内存很小的设备上保存大型固定文件，可通过定时拉取或版本检查，或显式推送自动更新设备。
+开源的嵌入式 web 服务器，为 C/C++ 提供 http、websocket、mqtt 功能库，能够将软件产品、设备或应用APP转变成一个 web 服务器，从而使用浏览器访问和远程控制。mongoose 支持 RESTful API 和实时双向通信，能够在内存很小的设备上保存大型固定文件，可通过定时拉取或版本检查，或显式推送自动更新设备。
 
 - mongoose 支持多平台，包括 Linux/UNIX、MacOS、Android、FreeRTOS等；
 
@@ -646,7 +646,7 @@ goahead -v --home /etc/goahead /var/www/goahead
 
 #### 使用 c99 标准编译
 
-当在 GoAhead 根目录中使用 `make` 命令编译时，发散错误:
+当在 GoAhead 根目录中使用 `make` 命令编译时，出现错误:
 
 ```
 src/mbedtls/mbedtls.c:7408: error: 'for' loop initial declarations are only allowed in C99 mode
@@ -702,4 +702,4 @@ GoAhead 使用起来还是比较简单的，需要注意的请求的路由是在
 route uri=/action handler=action
 ```
 
-所以，所有 action 类型的请求都需要以 `/action` 开始，如 `/action/hello`，直接访问 http://ip:80/hello 是不行的，除非配置 `route uri=/ handler=action` 。
+所以，所有 action 类型的请求都需要以 `/action` 开始，如 `/action/hello`。如果想直接访问 http://ip:80/hello ，需要修改路由配置，改为 `route uri=/ handler=action` 。
