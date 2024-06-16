@@ -131,7 +131,17 @@ fn print_string(s: &str) {
 
 使用 `clone` 方法可以创建数据的深拷贝，即栈和堆的数据都会被拷贝一份。
 
+```rust
+fn main() {
+    let a: String = String::from("Hello world");
+    print_string(a.clone()); // 将字符串克隆后传递给函数
+    println!("{}", a); // 原来的变量依然可用
+}
 
+fn print_string(s: String) {
+    println!("{}", s);
+}
+```
 
 #### 借用（Borrowing）
 
