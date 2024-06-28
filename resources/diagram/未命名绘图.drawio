@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-06-28T08:39:54.806Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0" etag="Z5Pg2eqGd9cs3Kyn8zUw" version="24.6.4" type="github">
+<mxfile host="app.diagrams.net" modified="2024-06-28T08:54:32.300Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0" etag="UFid7zw92yBPq7m_VpAc" version="24.6.4" type="github">
   <diagram name="第 1 页" id="P6it8yVpT8q8zQFZJWA3">
     <mxGraphModel dx="1386" dy="905" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -218,6 +218,9 @@
             <mxPoint x="339" y="362" as="sourcePoint" />
             <mxPoint x="468" y="237" as="targetPoint" />
           </mxGeometry>
+        </mxCell>
+        <mxCell id="oaa1z2Yil38wOHCqSiIb-54" value="Rust ownership move" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;" vertex="1" parent="1">
+          <mxGeometry x="261" y="570" width="306" height="30" as="geometry" />
         </mxCell>
       </root>
     </mxGraphModel>
