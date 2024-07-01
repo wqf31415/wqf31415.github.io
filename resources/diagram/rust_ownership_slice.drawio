@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2024-06-30T01:19:24.409Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0" etag="nJ3FksijQMnXSXLLXPe_" version="24.6.4" type="github">
+<mxfile host="app.diagrams.net" modified="2024-07-01T01:22:27.894Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36 Edg/126.0.0.0" etag="5LpdAc5TPGOg8P91D55-" version="24.6.4" type="github">
   <diagram name="第 1 页" id="Do2yNHhP7MYPO5L7pLm-">
     <mxGraphModel dx="1386" dy="785" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -77,7 +77,7 @@
         <mxCell id="vEPfFsJE0u8WYmD6qUds-37" value="let world = &amp;amp;str[6..11];&lt;div&gt;&lt;br&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=bottom;fillColor=#f8cecc;strokeColor=#b85450;dashed=1;" parent="1" vertex="1">
           <mxGeometry x="230" y="299" width="150" height="182" as="geometry" />
         </mxCell>
-        <mxCell id="vEPfFsJE0u8WYmD6qUds-52" value="Rust ownership clice" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;" parent="1" vertex="1">
+        <mxCell id="vEPfFsJE0u8WYmD6qUds-52" value="Rust ownership slice" style="text;strokeColor=none;align=center;fillColor=none;html=1;verticalAlign=middle;whiteSpace=wrap;rounded=0;fontSize=28;" parent="1" vertex="1">
           <mxGeometry x="261" y="609" width="306" height="30" as="geometry" />
         </mxCell>
         <mxCell id="vEPfFsJE0u8WYmD6qUds-72" value="" style="shape=table;startSize=0;container=1;collapsible=0;childLayout=tableLayout;" parent="1" vertex="1">
