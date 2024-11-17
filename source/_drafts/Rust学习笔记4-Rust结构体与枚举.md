@@ -5,7 +5,7 @@ tags:
   - Rust
 categories:
   - Rust
-date: 2024-06-24 20:35:07
+date: 2024-11-17 21:06:07
 ---
 
 ### 概述
@@ -18,7 +18,7 @@ date: 2024-06-24 20:35:07
 
 结构体是一种允许用户自行定义的数据类型，可将多种类型的数据打包成有意义的组合，并给每个数据命名。与 C 语言中的结构体不同，Rust 中可以为结构体和枚举声明函数。
 
-枚举是一种允许用户定义所有可能类型的数据类型。
+枚举是一种允许用户列举所有可能类型的数据类型。
 
 <!-- more -->
 
@@ -28,7 +28,7 @@ date: 2024-06-24 20:35:07
 
 #### 定义结构体
 
-Rust 中使用 `struct` 关键字定义结构体，并为结构体命名；
+Rust 中使用 `struct` 关键字定义结构体，定义时为结构体命名；
 
 在花括号内，为所有字段（Field）定义名称和类型；
 
@@ -299,10 +299,179 @@ fn main() {
 
 ### Rust 枚举
 
+#### 定义枚举
+
+枚举是一种允许用户列举所有可能值来定义数据类型，枚举使用 `enum` 关键字定义，后面指定枚举名，在花括号中声明所有可能得值，枚举中所有可能的值被称为枚举的变体。
+
+使用枚举时，用枚举名加 `::` 再加某个变体名。
+
+```rust
+enum Weekday {
+    Mon,
+    Tues,
+    Wed,
+    Thur,
+    Fri,
+    Sat,
+    Sun,
+}
+fn main() {
+    let today = Weekday::Sun;
+    let tomorrow = Weekday::Mon;
+}
+```
+
+#### 将数据附加到枚举的变体中
+
+Rust 允许为枚举变体设定附加数据，可以为变体设定不同类型和梳理的附加数据。
+
+```rust
+enum IpAddr {
+    V4(u8,u8,u8,u8),
+	V6(String),
+}
+fn main() {
+    let a = IpAddr::V4(127, 0, 0, 1);
+    let b = IpAddr::V6(String::from("::1"));
+}
+```
+
+#### 为枚举定义方法
+
+Rust 中允许为枚举定义方法，与结构体相同，使用 `impl` 关键字，在代码块中定义方法，方法第一个参数是 `self`。
+
+```rust
+impl IpAddr {
+    fn print(&self) {
+        // ...方法的代码
+    }
+}
+```
+
+#### 使用 match 匹配枚举
+
+Rust 中使用 `match` 匹配枚举，一旦匹配到其中某个变体，就执行这个代码块，后续的不再匹配。
+
+注意，match 匹配必须穷尽所有可能，可以使用下划线 `_` 匹配剩余的可能，注意下划线匹配必须放在最后一个。
+
+```rust
+enum Weekday {
+    Mon(String),
+    Tues,
+    Wed,
+    Thur,
+    Fri,
+    Sat,
+    Sun,
+}
+
+fn is_workday(day: Weekday) -> bool {
+    match day {
+        Weekday::Mon(content) => { // 如果变体中有附加数据，使用括号声明，然后在代码块中使用
+            println!("Monday: {}", content); // 如果有多行代码，需要使用花括号包裹代码块
+            true // 代码块最后一句的结果作为返回值
+        },
+        Weekday::Tues => true, // 直接返回值作为 match 的返回值
+        Weekday::Wed => true,
+        Weekday::Thur => true,
+        Weekday::Fri => true,
+        _ => false, // 使用下划线匹配剩余的可能变体
+    }
+}
+
+fn main() {
+    is_workday(Weekday::Mon(String::from("Start work")));
+}
+```
+
+#### Option 枚举
+
+Option 枚举定义于标准库中，在 Prelude（预导入模块）中，可以直接使用。
+
+在 Rust 中没有 NULL 的概念，有类似 NULL 概念的枚举 Option<T> ，它描述了某个值可能存在（某种类型）或不存在的情况。
+
+Option<T> 枚举包含两个变体：
+
+- Some<T> 表示存在类型 T 的值，要使用其中的 T，需要先将 Option<T> 转换成 T
+
+- None 表示没有值
+
+```rust
+fn main() {
+    let five = Some(5); // Option 枚举已经预导入，不需要使用 Option::Some()
+    let six = plus_one(five);
+    let none = plus_one(None);
+}
+
+fn plus_one(opt: Option<i32>) -> Option<i32> { // 传入一个 Option 枚举，返回一个 Option 枚举
+    match opt {
+        Some(i) => Some(i+1), // 如果有值，则将值加一，返回一个Option枚举
+        None => None // 如果没值，就返回 None 变体
+    }
+}
+```
+
+#### 枚举与模式匹配
+
+`if let` 可用于处理只关心一种匹配，忽略其他匹配的情况。
+
+```rust
+enum Weekday {
+    Mon(String),
+    Tues,
+    Wed,
+    Thur,
+    Fri,
+    Sat,
+    Sun,
+}
+
+fn main() {
+    let day = Weekday::Fri;
+    match day {
+        Weekday::Fri => println!("Friday"),
+        _ => (), // 返回空元组，表示什么都不做
+    }
+
+    if let Weekday::Fri = day { // 与上面的 match 匹配效果相同
+        println!("Friday");
+    }
+}
+```
+
+`if let` 可以配合 `else` 使用：
+
+```rust
+fn main() {
+    let day = Weekday::Fri;
+    match day {
+        Weekday::Fri => println!("Friday"),
+        _ => println!("other"),
+    }
+
+    if let Weekday::Fri = day { // 与上面的 match 匹配效果相同 
+        println!("Friday");
+    } else {
+        println!("other");
+    }
+}
+```
+
 
 
 ### 参考资料
 
+- Using Structs to Structure Related Data: <https://doc.rust-lang.org/book/ch05-00-structs.html> 
+- Enums and Pattern Matching: <https://doc.rust-lang.org/book/ch06-00-enums.html> 
+
 
 
 ### 总结
+
+Rust 中使用 `struct` 关键字定义结构体，使用 `enum` 关键字定义枚举，使用 `impl` 可以为结构体和枚举定义方法。
+
+可以给结构体定义关联函数，关联函数使用结构名调用，而不是使用实例调用，类似 java 中的静态函数。
+
+Rust 枚举使用 `match` 进行匹配，使用通配符 `_` 匹配剩余可能的变体，通配符匹配要放在最后，类似其他编程语言中 switch 的 default。
+
+Rust 提供了 `if let` 来处理只需要关注一种枚举变体的情况，是 match 的语法糖。
