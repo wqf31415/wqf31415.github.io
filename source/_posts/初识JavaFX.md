@@ -249,9 +249,7 @@ public class Main extends Application {
 
 ### 使用 JavaFX Scene Builder
 
-JavaFX Scene Builder 是一个可视化布局工具，直接通过推拽方式添加组件，修改组件属性，可快速设计 JavaFX 程序界面，保存后可得到界面结构的 fxml 代码文件。
-
-> JavaFX Scene Builder 下载链接：<http://javafxchina.net/code/download/SceneBuilder.jar> 
+JavaFX Scene Builder 是一个可视化布局工具，直接通过推拽方式添加组件，修改组件属性，可快速设计 JavaFX 程序界面，保存后可得到界面结构的 fxml 代码文件。 
 
 ![](https://blog-images.qiniu.wqf31415.xyz/javafx_scene_builder.png)
 
