@@ -259,7 +259,6 @@ JavaFX Scene Builder 是一个可视化布局工具，直接通过推拽方式�
 
 ### 参考资料
 
-- JavaFX China: <http://www.javafxchina.net/main/> 
 - JavaFX教程™: <https://www.yiibai.com/javafx/> 
 
 
