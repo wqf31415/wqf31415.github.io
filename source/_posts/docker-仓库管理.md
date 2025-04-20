@@ -56,9 +56,13 @@ Docker 官方维护了一个共有仓库 Docker Hub：<https://hub.docker.com/> 
 "registry-mirrors":["http://hub-mirror.c.163.com"]
 ```
 
+修改配置文件后，需要重启 Docker daemon。
+
+还需要根据不同的操作系统修改对应的配置文件，参考阿里云容器镜像服务的说明文档: <https://help.aliyun.com/zh/acr/user-guide/accelerate-the-pulls-of-docker-official-images> 。
+
 国内一些云平台提供了 docker 镜像仓库服务，如：
 
-- 阿里云：<https://www.aliyun.com/> 
+- 阿里云：<https://help.aliyun.com/zh/acr/user-guide/accelerate-the-pulls-of-docker-official-images> 
 - 网易数帆：<https://www.163yun.com/> 
 
 
