@@ -65,16 +65,18 @@ Docker 是一个开源的容器化平台，用于开发、部署和运行应用�
 
 |                    |   主机1   |  主机2   |   主机3    |
 | :----------------: | :-------: | :------: | :--------: |
-|      操作系统      | Windows 10 | CentOS 7 | armbian 12 |
+|      操作系统      | Windows 10 | Ubuntu 24.04 | armbian 12 |
 |        内存        |   16G     |    4G    |     1G     |
 |        硬盘        |    1T     |   64G    |     8G     |
-|     docker版本     |    无     |  1.13.1  |   28.1.1   |
-| docker-compose版本 |    无     |  1.18.0  |     无     |
-|         IP         |     -     | 192.168.1.8 | 192.168.1.10 |
+|     docker版本     |    无     |  28.1.1  |   28.1.1   |
+| docker-compose版本 |    无     |  v2.33.1  |     无     |
+|         IP         |     -     | 192.168.2.202 | 192.168.2.243 |
 
 #### ESPHome 环境准备
 
 由于我的 Home Assistant 是用 docker 安装的，容器版的 Home Assistant 不支持扩展功能，无法直接在扩展中安装 ESPHome，因此使用 docker 在 Linux 小主机上单独安装 ESPHome。
+
+> 官方的安装指导：<https://esphome.io/guides/getting_started_command_line/> 
 
 由于国内访问 docker 仓库网络受阻，通过 github 从 docker 官方仓库下载了 ESPHome 的镜像 `esphome/esphome`，版本是 `stable` ，上传到 linux 小主机，执行指令 `docker load -i esphome_esphome_stable-amd64.tar.gz` 加载镜像。
 
@@ -95,9 +97,13 @@ services:
     image: esphome/esphome:stable
     privileged: true
     volumes:
-      - ./config:/config
-    ports:
-      - "6052:6052"
+      - /data/esphome/config:/config
+      - /etc/localtime:/etc/localtime:ro
+    privileged: true
+    network_mode: host
+    environment:
+      - USERNAME=admin
+      - PASSWORD=123456
     restart: unless-stopped
 ```
 
@@ -107,25 +113,154 @@ services:
 docker-compose -f esphome.yml up -d
 ```
 
-运行成功后，打开浏览器，访问主机的 6052 端口验证是否成功启动，我的访问地址是：http://192.168.1.8:6052 
+运行成功后，打开浏览器，访问主机的 6052 端口验证是否成功启动，我的访问地址是：http://192.168.2.202:6052 ，登录用户名密码是 decker-compse.yml 中设置的，我这里的用户名是 admin，密码是 123456。
 
-> 推荐使用最新版本的谷歌浏览器，使用国产360急速浏览器发现设备配置编辑、加密信息页面打开是空白的。
+> 推荐使用最新版本的谷歌浏览器或edge浏览器，使用国产360急速浏览器发现设备配置编辑、加密信息页面打开是空白的。
 
-#### 将 ESPHome 添加到 Home Assistant
-
-登录 Home Assistant，进入 “设置”-“设备与服务”，点击 “添加集成”，搜索 “ESPHome” 点击搜索到的项，在 ESPHome 的节点连接配置中输入安装 ESPHome 的主机 IP、端口，我的主机IP是 `192.168.1.8`，端口是默认的 `6053` ，点击“提交”。
-
-在 Home Assistant 的“设置”-“设备与服务”页面，选择“集成”选项卡，发现有一个“ESPHome”，说明配置成功。后面的 ESP8266 设备将自动发现添加到 Home Assistant 中。
+![](/images/post/esp8266/esphome_page_home.png)
 
 #### 使用 ESPHome 生成 ESP8266 固件
 
+进入到eshome页面，点击页面中 `+ NEW DEVICE` 按钮，添加新设备，弹框提示需要通过usb将设备接入电脑，我们点击继续 `CONTINUE` 按钮。
+
+![](/images/post/esp8266/esphome_add_device.png) 
+
+
+页面弹框提示需要输入设备名称、网络名称和密码，我这里设定设备名称为 `test-001`，网络名称为我家的WiFi名称，密码为WiFi密码。点击 `NEXT` 。
+
+![](/images/post/esp8266/esphome_create_device_config.png) 
+
+页面弹框显示需要选择设备类型，这里点击选项 `ESP8266`。
+
+![](/images/post/esp8266/esphome_create_device_type.png) 
+
+页面弹框显示配置已创建，并显示了一个秘钥，把这个秘钥复制保存下来，点击 `INSTALL` 按钮。
+
+![](/images/post/esp8266/esphome_create_device_config_ok.png) 
+
+页面提示选择安装配置到设备的方式，这里是第一次安装，需要选择 `Manual download`，即手动下载安装。
+
+![](/images/post/esp8266/esphome_create_device_install_select.png) 
+
+页面弹出编译固件界面，这里需要从网络下载需要的包，并完成固件编译，编译完成后触发浏览器下载文档到本地。
+
+![](/images/post/esp8266/esphome_create_device_install_compile_finish.png) 
+
 #### 烧录固件到 ESP8266 开发板
 
+将 ESP8266 设备连接到电脑上，我这里是连接在串口3上。
+
+打开从乐鑫官网下载的固件烧录程序，弹框提示选择烧录固件的芯片类型，Chip Type 选择 `ESP8266` ，WorkMode 选择 `Develop` ，点击 `OK` 进入烧录界面。
+
+![](/images/post/esp8266/flash_download_tool_start.png) 
+
+选择下载的固件文件，地址填 `0x00`，`COM` 端口选择ESP8266 连接的串口 `COM3`，点击 `START` 开始烧录。
+
+![](/images/post/esp8266/flash_download_tool_down.png) 
+
+等待一会，烧录完成后界面显示 `FINISH完成` 。按一下板卡上的 `RST` 按钮，或断电重连。
+
+![](/images/post/esp8266/flash_download_tool_down_finish.png) 
+
+#### 添加设备到HomeAssistant
+
+登录到 HomeAssistant 页面，发现有新的通知，点击查看。
+
+![](/images/post/esp8266/home_assistant_notice.png) 
+
+HomeAssistant通知提示在网络中发现新的设备，我们点击 `Check it out` ，进入设备配置页面。
+
+![](/images/post/esp8266/home_assistant_notice_content.png) 
+
+在HomeAssistant的设备配置页面中有一个标记为 `已发现` 的设备，点击 `配置` 按钮，提示是否要添加到 HomeAssistant，点击 `提交`。
+
+![](/images/post/esp8266/home_assistant_find_esphome_device.png) 
+
+弹框提示需要输入设备加密秘钥，我们将上一步获取到的设备秘钥填入，点击 `提交` ，这样设备就被添加到了 HomeAssistant 中。
+
+#### 添加控制LED的配置
+
+登录到 esphome 页面，页面中显示了添加的设备，且设备显示状态为在线 `ONLINE` ，点击 `EDIT` 按钮编辑设备配置。
+
+![](/images/post/esp8266/esphome_device_list.png) 
+
+在配置编辑页面中添加如下配置，点击 `SAVE` 按钮或按 Ctrl+S 快捷键保存配置，点击 `INSTALL` 按钮安装到设备。
+
+```yaml
+switch:
+  - platform: gpio
+    pin: GPIO02
+    name: "LED BUILTIN"
+```
+
+![](/images/post/esp8266/esphome_device_edit.png) 
+
+弹框提示选择安装配置的方式，点击 `Wirelessly` 无线安装。
+
+> 设备已经通过无线方式注册到 esphome 中了，所以可以使用 ota 方式进行升级。
+
+![](/images/post/esp8266/esphome_device_config_install.png) 
+
+等待编译完成，完成后 esphome 会通过WiFi将固件包传给ESP8266，并完成安装。
+
+![](/images/post/esp8266/esphome_create_device_config_install.png) 
+
 #### 验证远程控制点灯
+
+等待esphome将修改后的配置安装到设备后，设备会自动重启，不需要再手动按 RST按键。
+
+登录 HomeAssistant 页面，在概览页面找到添加的设备，发现开关按钮和状态显示，点击开关按钮，查看ESP8266板卡上的LED，发现通过HomeAssistant页面上的按钮可以控制板载LED灯的亮和灭。
+
+![](/images/post/esp8266/home_assistant_esp8266_led_switch.png) 
+
+> 但是这里有个问题，HomeAssistant页面显示的开关状态和灯的状态是相反的，即页面显示是关，ESP8266上的灯是亮的。原因是我们使用ESP8266的2号引脚控制板载LED，这个引脚为高电平时LED灯熄灭，这个引脚为低电平时LED灯点亮。
+
+#### 优化配置
+
+esphome 的开关提供了状态逆转配置项 `inverted` ，添加这个配置项并将其设置为 `true` ，重新安装到设备，发现开关控制状态和板载LED灯状态一致。
+
+完整配置内容如下：
+
+```yaml
+esphome:
+  name: test-001
+  friendly_name: test_001
+
+esp8266:
+  board: esp01_1m
+
+# Enable logging
+logger:
+
+# Enable Home Assistant API
+api:
+  encryption:
+    key: "iWlG3sG+FXXhp+9xPFR8IpCxPvQW+gweZ47ijvjZRR0="
+
+ota:
+  - platform: esphome
+    password: "9c546b72baa8ca4b339253548fd7c839"
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "Test-001 Fallback Hotspot"
+    password: "QLlqZI6DKXSD"
+
+captive_portal:
+switch:
+  - platform: gpio
+    pin: GPIO02
+    name: "LED BUILTIN"
+    inverted: True
+```
 
 ### 总结
 
 这篇文章中涉及到的知识点包括： 
 - 使用 Docker 运行 ESPHome 容器，将 ESPHome 接入到 Home Assistant。
-- 使用 ESPHome 生成 ESP8266 开发板固件，修改 ESPHome 的配置脚本，添加控制板载 LED 的控制开关配置。
+- 使用 ESPHome 生成 ESP8266 开发板固件，修改 ESPHome 的配置脚本，添加控制板载 LED 的控制开关配置。更多的配置选项可参考 esphome 官方文档。
 - 使用乐鑫官方Flash烧录工具给 ESP8266 烧录固件，操作方式可扩展到 ESP32 开发板。
