@@ -28,6 +28,27 @@ date: 2025-09-03 22:30:55
 
 ### 搭建Jenkins
 
+```yaml
+version: '3.0'  # 使用 Docker Compose 的 3.0 版本语法
+services:
+  jenkins:
+    image: jenkins/jenkins:2.504.1-lts-jdk17  # 使用 Jenkins 的长期支持 (LTS) 版本镜像
+    container_name: jenkins  # 将容器命名为 jenkins
+    ports:
+      - "8081:8080"   # 将容器的 8080 端口映射到主机的 8081 端口，用于 Web 访问
+      - "50000:50000" # 映射 50000 端口，用于 Jenkins 代理（agent）连接
+    volumes:
+      - /root/docker/data/jenkins:/var/jenkins_home  # 挂载 Jenkins 数据卷，持久化配置和数据
+      - /var/run/docker.sock:/var/run/docker.sock  # （可选）允许 Jenkins 容器内使用 Docker
+      - /usr/bin/docker:/usr/bin/docker  # （可选）将主机 Docker 命令行工具挂载到容器中
+      - /etc/localtime:/etc/localtime:ro  # 让容器使用与主机相同的时区
+    environment:
+      - TZ=Asia/Shanghai  # 设置容器的时区为亚洲/上海（请根据你的实际位置调整）
+      - JAVA_OPTS=-Duser.timezone=Asia/Shanghai  # 设置 Java 虚拟机时区参数
+    user: root  # 以 root 用户身份运行容器（注意潜在安全风险，仅用于示例）
+    restart: always  # 设置容器始终自动重启，除非手动停止
+    privileged: true  # 授予容器特权模式（有时为挂载 Docker 所需，但有安全风险，请谨慎使用）
+```
 
 ### Jenkins配置
 
