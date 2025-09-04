@@ -14,11 +14,11 @@ date: 2025-09-04 22:26:55
 
 ### 概述
 
-这篇文章介绍如何在服务器上使用docker搭建jenkins，并使用jenkins自动从github仓库拉取 Hexo 博客的源代码，完成项目构建与部署，使用nginx对外提供web服务。
+这篇文章介绍如何在服务器上使用docker搭建jenkins，并使用jenkins自动从github仓库拉取自己 Hexo 博客的源代码，完成项目构建与部署，使用nginx对外提供博客访问服务。
 
 ### 认识 jenkins
 
-Jenkins 是一个开源的自动化构建、部署工具，支持数百款插件扩展。
+Jenkins 是一个开源的自动化构建、部署工具，支持数百款插件扩展，支持各种自动化业务场景。Jenkins使用 java 开发，支持使用jar包部署或docker部署。
 
 > Jenkins 官网：<https://www.jenkins.io/> 
 
@@ -27,23 +27,27 @@ Jenkins 是一个开源的自动化构建、部署工具，支持数百款插件
 
 ### 核心流程与概念
 
-1、Hexo 博客编译后生成静态页面和前端资源，可使用 nginx 部署，提供博客访问。
-2、使用服务器系统自带的软件管理工具安装 nginx 服务，修改配置，部署博客。
-3、使用 docker 部署 Jenkins，并将博客部署的路径挂载到Jenkins容器中，这样使用Jenkins构建完成后直接将前端资源拷贝到部署目录下，即可完成发布。
+1、Hexo 是静态博客，源代码编译后会生成静态页面和前端资源，可使用 nginx 部署，提供web页面访问。
+2、使用服务器系统自带的软件管理工具可以一键安装 nginx 服务，修改少量配置，即可完成前端项目部署。
+3、使用 docker 可以一键部署 Jenkins，部署时将博客部署的路径挂载到Jenkins容器中，就可以让Jenkins构建项目完成后直接把前端资源拷贝到部署目录，即可完成博客新内容的发布。
 4、在Jenkins中创建自动构建任务，支持在GitHub提交代码时触发构建和定时每天完成构建。
 
 ### 搭建nginx
 
-使用 centOS 的包管理工具 yum 安装 nginx：
+使用 CentOS 的包管理工具 yum 安装 nginx：
 
 ```bash
+# （可选但建议做）更新资源
 yum update
+
+# 安装 nginx
 yum install nginx -y
 ```
 
-安装完成后的 nginx 的文件目录在：
+安装完成后的 nginx 的主要文件与目录：
 
-- 配置文件：/etc/nginx/
+- 可执行程序：/usr/sbin/nginx
+- 配置文件目录：/etc/nginx/
 - web页面默认目录：/usr/share/nginx/
 - 日志目录：/var/log/nginx/
 
@@ -61,13 +65,15 @@ server {
 }
 ```
 
-创建部署 blog 的文件目录，将编译好的博客前端文件放到目录中。后面将会把这个部署目录挂载到 Jenkins 容器中，方便编译完成后直接发布。
+创建部署博客静态资源的目录 `/usr/share/nginx/blog`，将编译好的博客前端文件放到目录中。
+
+> 后面需要把这个目录挂载到 Jenkins 容器中，方便编译完成后直接发布。
 
 ```bash 
 mkdir -p /usr/share/nginx/blog
 ```
 
-修改好配置并将blog文件部署到指定目录后，验证配置是否正确，重新加载配置。浏览器打开博客域名，确认是否可以访问。
+修改好nginx配置并将博客静态文件放到指定目录后，使用 nginx 命令验证配置是否正确，重新加载配置。浏览器打开博客域名，确认是否可以访问。
 
 ```bash
 # 验证配置是否正确
