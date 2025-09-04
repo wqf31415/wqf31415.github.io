@@ -6,27 +6,80 @@ tags:
   - docker
   - 服务器
   - nginx
+  - github
 categories:
   - 工具
-date: 2025-09-03 22:30:55
+date: 2025-09-04 22:26:55
 ---
 
 ### 概述
-这篇文章介绍如何在服务器上使用docker搭建jenkins，并使用jenkins自动从github仓库拉取代码，部署到本地，使用nginx提供服务。
 
-
+这篇文章介绍如何在服务器上使用docker搭建jenkins，并使用jenkins自动从github仓库拉取 Hexo 博客的源代码，完成项目构建与部署，使用nginx对外提供web服务。
 
 ### 认识 jenkins
 
+Jenkins 是一个开源的自动化构建、部署工具，支持数百款插件扩展。
+
+> Jenkins 官网：<https://www.jenkins.io/> 
 
 
 <!-- more -->
 
 ### 核心流程与概念
 
+1、Hexo 博客编译后生成静态页面和前端资源，可使用 nginx 部署，提供博客访问。
+2、使用服务器系统自带的软件管理工具安装 nginx 服务，修改配置，部署博客。
+3、使用 docker 部署 Jenkins，并将博客部署的路径挂载到Jenkins容器中，这样使用Jenkins构建完成后直接将前端资源拷贝到部署目录下，即可完成发布。
+4、在Jenkins中创建自动构建任务，支持在GitHub提交代码时触发构建和定时每天完成构建。
+
 ### 搭建nginx
 
+使用 centOS 的包管理工具 yum 安装 nginx：
+
+```bash
+yum update
+yum install nginx -y
+```
+
+安装完成后的 nginx 的文件目录在：
+
+- 配置文件：/etc/nginx/
+- web页面默认目录：/usr/share/nginx/
+- 日志目录：/var/log/nginx/
+
+修改 nginx 配置文件 **/etc/nginx/conf.d/default.conf** ，关键内容如下。
+
+> 配置说明：将从 `www.wqf31415.xyz` 来的请求定位到本地 `/usr/share/nginx/blog` 目录中，首页文件配置为 `index.html`
+
+```
+server {
+    server_name  www.wqf31415.xyz;
+    location / {
+        root /usr/share/nginx/blog;
+        index index.html;
+    }
+}
+```
+
+创建部署 blog 的文件目录，将编译好的博客前端文件放到目录中。后面将会把这个部署目录挂载到 Jenkins 容器中，方便编译完成后直接发布。
+
+```bash 
+mkdir -p /usr/share/nginx/blog
+```
+
+修改好配置并将blog文件部署到指定目录后，验证配置是否正确，重新加载配置。浏览器打开博客域名，确认是否可以访问。
+
+```bash
+# 验证配置是否正确
+nginx -t
+
+# 重新加载配置
+nginx -s reload
+```
+
 ### 搭建Jenkins
+
+编辑 docker-compose 配置文件 `docker-compose-jenkins.yml` ，内容如下：
 
 ```yaml
 version: '3.0'  # 使用 Docker Compose 的 3.0 版本语法
@@ -40,7 +93,7 @@ services:
     volumes:
       - /root/docker/data/jenkins:/var/jenkins_home  # 挂载 Jenkins 数据卷，持久化配置和数据
       - /var/run/docker.sock:/var/run/docker.sock  # （可选）允许 Jenkins 容器内使用 Docker
-      - /usr/bin/docker:/usr/bin/docker  # （可选）将主机 Docker 命令行工具挂载到容器中
+      - /usr/share/nginx/blog:/mnt/blog # 用于发布blog内容
       - /etc/localtime:/etc/localtime:ro  # 让容器使用与主机相同的时区
     environment:
       - TZ=Asia/Shanghai  # 设置容器的时区为亚洲/上海（请根据你的实际位置调整）
@@ -49,6 +102,13 @@ services:
     restart: always  # 设置容器始终自动重启，除非手动停止
     privileged: true  # 授予容器特权模式（有时为挂载 Docker 所需，但有安全风险，请谨慎使用）
 ```
+
+使用 docker-compose 启动 Jenkins 容器:
+
+```bash
+docker-compose -f docker-compose-jenkins.yml up -d
+```
+> 部署完需要从 Jenkins 日志中获取管理员密码，首次登陆Jenkins需要使用这个密码登录，登录成功后可创建其他管理员账号。
 
 ### Jenkins配置
 
@@ -107,9 +167,9 @@ cat ~/.ssh/id_rsa
 
 在 **源码管理** 中选择 `Git` 类型，仓库地址 `Repository URL` 一栏填写项目的 ssh 地址，证书 `Credentials` 选择创建的github ssh 证书，分支填写仓库的源码分支，我这里是 `source`。
 
-#### 定时触发配置
+#### 构建触发配置
 
-在构建配置的触发器 Triggers 中选择定时构建，日程表中填写如下内容。
+**定时触发**：在构建配置的触发器 Triggers 中选择定时构建，日程表中填写如下内容。
 
 ```bash
 # 指定时区
@@ -117,6 +177,15 @@ TZ=Asia/Shanghai
 # 每天1点的某分钟触发
 H 1 * * *
 ```
+
+**GitHub事件触发**：勾选 **GitHub hook trigger for GITScm polling** 选项。
+
+在GitHub的博客代码项目中，进入 **Setting** - **Webhooks** ，点击 **Add webhook** 添加，关键配置如下:
+
+- Payload URL：http://服务器ip或域名:8081/github-webhook/ ，注意这里是 http
+- Content type：选 `application/json`
+- SSL verification：保持默认的 `Enable SSL verification`
+- Which events would you like to trigger this webhook?：选择 `Just the push event.` 只发送推代码的事件
 
 #### 构建配置
 
@@ -137,7 +206,7 @@ npm install
 
 #下载主题
 #当前使用的是 NexT 主题，下载方式，进入项目根目录，执行：
-git clone https://github.com/next-theme/hexo-theme-next themes/next
+git clone git@github.com:next-theme/hexo-theme-next.git themes/next
 
 #修改主题配置
 #在 themes_config 目录中存了主题相关的配置文件备份，将其中配置文件 _config.yml 复制到 themes/next/ 目录下覆盖文件：
@@ -158,6 +227,11 @@ node_modules/hexo/bin/hexo generate
 
 # （可选）将构建产物打包，便于后续传输
 tar -zcvf blog_public.tar.gz public/
+
+# 备份原来的内容，更换成新的内容
+tar -zcvf blog_bak.tar.gz /mnt/blog/
+rm -rf /mnt/blog/*
+cp -r public/* /mnt/blog/
 ```
 
 #### 构建后配置
@@ -175,9 +249,9 @@ tar -zcvf blog_public.tar.gz public/
 
 > 填写配置后，在最下面有个选项可以发送测试邮件验证配置是否正确。
 
-### 参考资料
-
 ### 总结
 
+这篇文章内容比较简单，但其中涉及到多个工具软件，包括nginx的部署与配置，docker的使用，Jenkins的使用与配置，GitHub的配置。
 
+扩展玩法：使用 **Certbot** 自动生成和配置 https 证书。
 
