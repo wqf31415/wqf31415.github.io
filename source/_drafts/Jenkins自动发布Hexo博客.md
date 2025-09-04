@@ -60,8 +60,11 @@ services:
 
 安装完成后可以在插件管理的 **Installed plugins** 中找到，确保 `NodeJS Plugin` 插件是启用状态。
 
+![](/iamges/poost/jenkins/jenkins_installed_plugins.png) 
+
 进入 **Manage Jenkins** - **Tools** 页面，找到 `NodeJS 安装` ，点击 **新增NodeJS**，填写别名 `NodeJs14`，版本选 14 版本中最新的一个，保存。 
 
+![](/iamges/poost/jenkins/jenkins_add_nodejs_env.png) 
 
 #### 配置ssh凭证
 
