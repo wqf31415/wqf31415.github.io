@@ -16,7 +16,7 @@ date: 2020-03-14 21:01:20
 
 ### 定义
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker.jpg)
+![](/images/post/docker/docker.webp)
 
 > 官网：<https://www.docker.com/> 
 
@@ -130,7 +130,7 @@ docker 中共享层存在冲突问题，比如 A 应用需要修改操作系统�
 
 在镜像中包含了软件运行需要的完整文件系统和程序包，没有动态生成新文件的需求。在作为容器运行时，就可能需要修改文件（输出日志、生成数据文件等），这时就需要空白层来做写时拷贝。
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker_image_container_layer.png)
+![](/images/post/docker/docker_image_container_layer.webp)
 
 
 
@@ -286,7 +286,7 @@ docker [OPTIONS] COMMAND
 
 `docker search 关键字` ，按关键字在仓库中检索镜像。如查找 nginx 镜像：`docker search nginx` 
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker_search_nginx.png)
+![](/images/post/docker/docker_search_nginx.webp)
 
 > 检索结果分为五项，分别是：
 >
@@ -324,7 +324,7 @@ docker pull nginx:perl
 
 拉取最新版 nginx 镜像：
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker_pull_nginx.png)
+![](/images/post/docker/docker_pull_nginx.webp)
 
 
 
@@ -346,7 +346,7 @@ docker run --name my-nginx -d -p 9080:80 nginx
 
 运行结果：
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker_run_nginx.png)
+![](/images/post/docker/docker_run_nginx.webp)
 
 命令执行后输出的这一段文字是运行成功输出的容器 ID。
 
@@ -356,7 +356,7 @@ docker run --name my-nginx -d -p 9080:80 nginx
 
 使用 docker 启动了 nginx 后，我们可以在浏览器中访问指定的映射端口(这里是 9080)，访问地址 <http://localhost:9080/> ，出现 nginx 的欢迎页面，说明容器运行正常。
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker_run_nginx_result.png)
+![](/images/post/docker/docker_run_nginx_result.webp)
 
 
 
@@ -364,7 +364,7 @@ docker run --name my-nginx -d -p 9080:80 nginx
 
 使用 `docker ps` 命令查看正在运行的容器，可以加 `-a` 参数来查看包含未启动的容器。
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker_ps.png)
+![](/images/post/docker/docker_ps.webp)
 
 > 输出内容有六项，分别是：
 >
@@ -396,7 +396,7 @@ docker stop my-nginx
 
 docker 需要使用到电脑的虚拟化功能，如果未开启这个功能，将导致 docker 运行失败。在 windows 10 电脑任务管理器中的 `性能` 一栏中可以看到是否启用虚拟化功能，如图：
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker_windows_virtual.png) 
+![](/images/post/docker/docker_windows_virtual.webp) 
 
 
 

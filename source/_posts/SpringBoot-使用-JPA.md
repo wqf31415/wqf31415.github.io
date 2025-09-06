@@ -27,7 +27,7 @@ JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司�
 #### 创建项目
 
 简单起见，直接使用 http://start.spring.io 来创建项目，添加3个依赖: `JPA` 、 `MySQL` 、 `Web` 。
-![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png '创建 jpademo 项目') 
+![](/images/post/spring/spring_boot_jpa_start.webp '创建 jpademo 项目') 
 demo 项目中的 pom.xml 如下：
 
 ``````xml
@@ -1583,10 +1583,10 @@ java.sql.SQLException: The server time zone value 'ÖÐ¹ú±ê×¼Ê±¼ä' is 
 - 方法一: 修改数据库时区配置；
 
   ``````sql
--- 以 root 用户登录 mysql 数据库，运行以下命令
-set global time_zone='+8:00';
--- 查看是否修改成功： 
--- show variables like '%time_zone%';
+  -- 以 root 用户登录 mysql 数据库，运行以下命令
+  set global time_zone='+8:00';
+  -- 查看是否修改成功： 
+  -- show variables like '%time_zone%';
   ``````
 
 或者修改 mysql 配置文件：

@@ -376,20 +376,20 @@ HTML：
 
 ```markdown
 markdown:
-![这是个灯泡](https://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "灯泡")
+![这是个灯泡](https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp "灯泡")
 ![这是引用模式的][dengpao]
 
-[dengpao]: https://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "引用模式-灯泡"
+[dengpao]: https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp "引用模式-灯泡"
 
 html:
 <p>
-  <img src="https://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png" alt="这是个灯泡" title="灯泡"/><br/>
-  <img src="https://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png" alt="这是引用模式的" title="引用模式-灯泡"/>
+  <img src="https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp" alt="这是个灯泡" title="灯泡"/><br/>
+  <img src="https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp" alt="这是引用模式的" title="引用模式-灯泡"/>
 </p>
 ```
 
 效果：
-![这是个灯泡](https://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "灯泡")
+![这是个灯泡](https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp "灯泡")
 ![这是引用模式的][dengpao]
 
 [dengpao]: https://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png "引用模式-灯泡"
@@ -426,7 +426,7 @@ markdown 是纯文本的，所以原则上只要是文本编辑器都可以写�
 
 > 官网: <https://typora.io/>
 
-![](https://blog-images.qiniu.wqf31415.xyz/typora.png "Typora")
+![](https://www.wqf31415.xyz/images/post/markdown/typora.webp "Typora")
 
 windows 平台中五星推荐的编辑器。
 - 支持 markdown基础语法、markdown math、流程图、html 行内样式。
@@ -444,7 +444,7 @@ windows 平台中五星推荐的编辑器。
 
 > 官网：<http://25.io/mou/>
 
-![](https://blog-images.qiniu.wqf31415.xyz/mou.png "Mou")
+![](https://www.wqf31415.xyz/images/post/markdown/mou.webp "Mou")
 
 仅支持 Mac OS
 - 界面美观
@@ -466,7 +466,7 @@ windows 平台中五星推荐的编辑器。
 
 例如，网易云音乐中以 iframe 形式分享音乐，将分享的 html 代码粘贴到 markdown 中即可使用：
 
-![](https://blog-images.qiniu.wqf31415.xyz/wangyiyunyinyue_url.png "网易云音乐外链")
+![](https://www.wqf31415.xyz/images/post/markdown/wangyiyunyinyue_url.webp "网易云音乐外链")
 
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28188427&auto=1&height=66"></iframe>
 使用相同方法可以在 markdown 文档插入分享的 bilibili 的视频，例如：
@@ -481,7 +481,7 @@ windows 平台中五星推荐的编辑器。
 
 在 Typora 、CSDN 中支持数学公式，用法为 `$LaTex符号$` ，其中 LaTex符号 可以参考 [莱斯大学LaTex Math在线PDF手册](https://www.caam.rice.edu/~heinken/latex/symbols.pdf ) 
 如: `$\alpha$、$\pi$、$\approx $` 效果( _由于 hexo 博客里不支持数学公式，下面公式的示例效果都是在 Typora 中的展示效果_ )：
-![](https://blog-images.qiniu.wqf31415.xyz/markdown_latex.png "Typora 中 LaTex 符号")
+![](https://www.wqf31415.xyz/images/post/markdown/markdown_latex.webp "Typora 中 LaTex 符号")
 
 也可以编写复杂的数学公式，使用 `$$数学公式$$` 方式来创建，如：
 
@@ -496,7 +496,7 @@ $$
 ```
 
 效果：
-![](https://blog-images.qiniu.wqf31415.xyz/markdown_latex_2.png "Typora 中 LaTex 公式")
+![](https://www.wqf31415.xyz/images/post/markdown/markdown_latex_2.webp "Typora 中 LaTex 公式")
 
 
 
@@ -507,16 +507,16 @@ $$
 > 图表的语法参考：<https://mermaidjs.github.io/>
 
 用法是使用 "```" 包裹图的代码，代码类型标记为 **mermaid**，例如：
-![](https://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_code_01.png "markdown 流程图写法")
+![](https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_code_01.webp "markdown 流程图写法")
 
 效果：
-![](https://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_01.png "流程图") 
+![](https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_01.webp "流程图") 
 
 甘特图语法：
-![](https://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_code_02.png "markdown 甘特图")
+![](https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_code_02.webp "markdown 甘特图")
 
 效果：
-![](https://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_02.png "甘特图")
+![](https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_02.webp "甘特图")
 
 
 #### 图床
@@ -562,5 +562,4 @@ $$
 - [Hexo博客中插入音乐/视频/](https://www.jianshu.com/p/26a7fc7cc185 )
 - [使用Markdown输出LaTex数学公式](https://segmentfault.com/a/1190000018527239 )
 - [mermaid · GitBook](https://mermaidjs.github.io/ )
-
 

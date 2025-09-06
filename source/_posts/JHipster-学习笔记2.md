@@ -350,4 +350,3 @@ service * with serviceClass
 ### JHipster版本不同，使用的生成命令可能不同
 在现在(20190304)使用的 JHipster 5.8.2 中，生成单个实体的命令为：`jhipster entity <entityName> --[options]`，使用 JDL 批量生成实体的命令变成了：`jhipster import-jdl your-jdl-file.jh`。
 
-

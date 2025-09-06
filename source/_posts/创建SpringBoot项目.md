@@ -12,7 +12,7 @@ categories:
 ## 什么是 SpringBoot ?
 > 官网：[http://projects.spring.io/spring-boot/](http://projects.spring.io/spring-boot/ "springboot官网")
 
-![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_logo.png ) 
+![](/images/post/spring/spring_boot_logo.webp ) 
 
 简单来说，SpringBoot 的出现是为了简化Spring项目的创建、运行、调试、部署过程，boot的意思是启动、引导，整体来说就是快速启动 Spring。springboot 并不是一个新的框架，它只是spring的一个封装，从根本上讲就是一些库的集合，帮助开发者快速构建spring 项目，项目里面还是使用 spring 框架实现，所以 Spring 能做的，SpringBoot 也能做，而且做的更方便、快捷。
 
@@ -34,24 +34,24 @@ SpringBoot 能够使我们更加专注于业务逻辑的开发，只需记住 **
 ### 使用 maven 创建 SpringBoot 项目
 #### 用IDEA创建maven项目框架
 - 打开IDEA，点击 **Create New Project** 创建项目
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_01.png "创建项目")
+  ![](/images/post/spring/spring_boot_project_create_01.webp "创建项目")
 
 
 - 选择maven项目，Project SDK 选择 java1.8（如果没有，点击 **New...** 选择java安装路径），点击 **Next**
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_02.png "选择maven项目和java版本")
+  ![](/images/post/spring/spring_boot_project_create_02.webp "选择maven项目和java版本")
 
 
 - 填入 GroupId 和 ArtifactId，点击 **Next**
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_03.png "填写项目信息")
+  ![](/images/post/spring/spring_boot_project_create_03.webp "填写项目信息")
 > GroupId 一般是公司域名倒序，如域名为 xxx.com，GroupId 就写com.xxx。ArtifactId 为模块名，也就是项目名。
 
 
 - 填写项目名和存储路径，点击 **Finish**
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_04.png "填写项目名称及存储路径")
+  ![](/images/post/spring/spring_boot_project_create_04.webp "填写项目名称及存储路径")
 
 
 - 完成项目创建，这是一个maven项目，目前还只有项目骨架
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_05.png "")
+  ![](/images/post/spring/spring_boot_project_create_05.webp "")
 
 
 
@@ -74,7 +74,7 @@ SpringBoot 能够使我们更加专注于业务逻辑的开发，只需记住 **
 ``````
 
 - 用IDEA下载需要的包，将自动导入springframework的包，以及tomcat、日志等web项目需要的包
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_06.png "导入的包") 
+  ![](/images/post/spring/spring_boot_project_create_06.webp "导入的包") 
 
 
 #### 编写项目逻辑代码
@@ -107,19 +107,19 @@ public class SampleController {
 
 #### 运行项目
 - 在IDEA中点击 **Run** 菜单中的 **Edit Configuration**，进入配置编辑界面
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_07.png "点击 Edit Configuration")
+  ![](/images/post/spring/spring_boot_project_create_07.webp "点击 Edit Configuration")
 
 - 点击左上角的 “**+**”，选择 **SpringBoot**
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_08.png "新增一个SpringBoot配置项目")
+  ![](/images/post/spring/spring_boot_project_create_08.webp "新增一个SpringBoot配置项目")
 
 - Main Class 选择刚才创建的类，点击 **OK** 完成配置
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_09.png "选择刚才创建的类")
+  ![](/images/post/spring/spring_boot_project_create_09.webp "选择刚才创建的类")
 
 - 运行项目，点击IDEA工具栏中的运行图标
-  ![](https://blog-images.qiniu.wqf31415.xyz/idea_run.png "运行项目")
+  ![](/images/post/spring/idea_run.webp "运行项目")
 
 - 运行结果，如果项目启动，并在控制台打出如下日志信息，说明已经成功启动
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_project_create_10.png "项目启动成功")
+  ![](/images/post/spring/spring_boot_project_create_10.webp "项目启动成功")
 
 - 访问 [http://localhost:8080](http://localhost:8080 ) ，页面显示 hello springboot! 
 
@@ -136,25 +136,25 @@ public class SampleController {
   >
   > 使用阿里的创建 springboot 项目时的选项和官方的不太一样，创建的项目也略有不同，不过用起来同样方便。
   
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_02.png "选择 Spring Initilizr")
+  ![](/images/post/spring/spring_boot_initializr_02.webp "选择 Spring Initilizr")
   
 - 选择java版本、创建方式、打包方式、填写项目信息，点击 **Next** 
 
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_03.png "选择java版本，填入项目信息")
+  ![](/images/post/spring/spring_boot_initializr_03.webp "选择java版本，填入项目信息")
 
 - 选择需要的依赖，这里列出了所有可能需要的库，根据需要进行选择，选择完成后点击 **Next**，现在只是创建简单的java web项目体验，所以我们只选择 **Web** 依赖，点击 **Next**
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_04.png "选择需要的依赖")
+  ![](/images/post/spring/spring_boot_initializr_04.webp "选择需要的依赖")
   
 - 填写项目名称及存储路径，点击 **Finish** 完成项目创建
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_05.png "填写项目名称及存储路径")
+  ![](/images/post/spring/spring_boot_initializr_05.webp "填写项目名称及存储路径")
 
 #### 使用 Spring Initilizr 网页版创建
 - 进入网站 [https://start.spring.io](https://start.spring.io) ，填入项目相关信息及依赖，点击 “**Create Project**” 按钮即可将初始化完成的项目zip压缩包下载到本地
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_01.png "Spring Initilizr")
+  ![](/images/post/spring/spring_boot_initializr_01.webp "Spring Initilizr")
 
 
 - 将demo项目从压缩包解压出来，导入到IDEA中，导入maven的依赖，完成项目创建
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_06.png "项目结构")
+  ![](/images/post/spring/spring_boot_initializr_06.webp "项目结构")
 
 
 - 自动创建的pom.xml 内容如下：
@@ -212,7 +212,7 @@ public class SampleController {
 
 #### 运行测试
 - **用IDEA启动**，在IDEA中直接点击工具栏中的运行按钮，即可运行项目，运行起来后到浏览器中访问：[http://localhost:8080](http://localhost:8080 ) ，发现显示如下页面，这说明项目已经正确的运行起来了，只是我们还没有写controller来处理请求，所以返回这个错误提示页面。
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_initializr_07.png )
+  ![](/images/post/spring/spring_boot_initializr_07.webp )
 
 - **使用springboot maven插件运行**，因为Spring Boot Maven插件中包含一个run目标，可以用来快速编译和运行程序，这种运行模式是热加载，可以即时编辑资源。进入项目根目录，运行指令 `mvn spring-boot:run`，会编译并运行项目。类似的，如果项目用gradle构建，可以运行 `gradle bootRun` 来运行项目。
 
@@ -240,22 +240,22 @@ CLI 意思是 Command Line Interface，即命令行界面，使用命令行工�
 > SpringBoot-Cli 下载地址：[http://repo.spring.io/release/org/springframework/boot/spring-boot-cli/](http://repo.spring.io/release/org/springframework/boot/spring-boot-cli/ "下载地址")
 
 - 打开链接后发现有很多历史版本可以选，根据需要选择下载，推荐下载最新发行版：1.5.8.RELEASE/
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_01.png "下载springboot-cli 1.5.8")
+  ![](/images/post/spring/spring_boot_cli_01.webp "下载springboot-cli 1.5.8")
 
 - 在windows系统下，我们选择下载 zip 压缩包
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_02.png "下载zip压缩包")
+  ![](/images/post/spring/spring_boot_cli_02.webp "下载zip压缩包")
 
 - 解压文件，并将 bin 目录配置到系统环境变量 path 中，这样在任意路径下都可以使用
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_03.png "配置环境变量")
+  ![](/images/post/spring/spring_boot_cli_03.webp "配置环境变量")
 
 - 测试安装结果，打开命令行工具（windows键 + R，运行 cmd），指定指令 `spring --version` ，如果正确显示spring cli 版本号，说明安装正确
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_04.png "查看spring cli 版本")
+  ![](/images/post/spring/spring_boot_cli_04.webp "查看spring cli 版本")
 
 - 使用 `spring help` 指令可以获取更多帮助信息
 
 #### 用springboot-cli创建SpringBoot项目
 - 在要存储项目的目录下打开命令行工具，执行指令 `spring init --dependencies=web spring-boot-demo`，（其中 **spring-boot-demo** 是项目名，也是模块名，artifactId），会访问 https://start.spring.io/ ，过一会就会将项目需要的文件下载到 /spring-boot-demo 目录下，将其导入IDEA下载相关maven依赖后就可以启动。如果需要多个依赖可以在参数后面，如 `spring init --dependencies=web,jpa spring-boot-demo` 。
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_07.png "使用springboot-cli创建项目")
+  ![](/images/post/spring/spring_boot_cli_07.webp "使用springboot-cli创建项目")
 
 #### 单文件体验 springboot
 
@@ -285,7 +285,7 @@ class Hello {
 
 #### 运行测试
 - 进入到测试文件目录下，打开命令行工具，使用SpringBoot-CLI 提供的 **spring run <文件>** 指令来启动SpringBoot。如果是java测试文件，执行指令 `spring run app.java`，如果是groovy测试文件，执行指令 `spring run app.groovy`，打出如下日志，说明已经正确启动项目
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_05.png "成功在8080端口启动项目")
+  ![](/images/post/spring/spring_boot_cli_05.webp "成功在8080端口启动项目")
 - 打开浏览器，进入 [http://localhost:8080](http://localhost:8080) 页面，显示 Hello Spring Boot!
 
 
@@ -365,12 +365,12 @@ public class HelloService {
 ### 使用IDEA打包
 
 - 如图所示，点击IDEA侧边的 **Maven Projects** → 项目名 “**demo**” → **Lifecycle** → **package** 或 **install**，点击上方的绿色播放按钮“Run Maven Build”开始打包。使用IDEA 的maven项目管理功能打包完成后，提示 “ **BUILD SUCCESS** ”，说明打包成功，在项目根目录下的 target目录下存放着打包好的项目文件，文件名为：demo-0.0.1-SNAPSHOT.jar，如果打包方式为 war，将产生 .war 的包。
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_maven_package_01.png "IDAE maven 打包")
+  ![](/images/post/spring/spring_boot_maven_package_01.webp "IDAE maven 打包")
 
 - 使用 maven 指令打包，进入到项目根目录，打开命令行工具，执行 maven 打打包命令 `mvn package` 或 maven 的安装命令 `mvn install` 开始打包，打包完成后提示 **BUILD SUCCESS**，说明打包成功，可以到target目录下查看打好的包。<small>(打包前最好先使用 `mvn clean` 清除以前编译的内容，或者使用 `mvn clean package` 命令先清空再编译打包。如果需要跳过测试可增加参数，如 `mvn clean package -D maven.test.skip=true` 。)</small> 
 
 - 使用 SpringBoot-CLI 打包，前面的示例中，我们可以只写一个 java 或groovy文件就用 springboot-cli 启动了项目，现在我们只需要执行 `spring jar app.jar *.java`，就可以打包成一个名叫 app.jar 的包了，同样可以执行 `spring jar app.jar *.groovy` 来打包groovy文件。使用 `spring init` 指令创建的项目也是maven项目，打包方式参考上面两条。
-  ![](https://blog-images.qiniu.wqf31415.xyz/spring_boot_cli_06.png "使用springboot-cli打包")
+  ![](/images/post/spring/spring_boot_cli_06.webp "使用springboot-cli打包")
 
 
 
@@ -436,7 +436,7 @@ public class HelloService {
 
 
 ## 完结撒花
-![](https://blog-images.qiniu.wqf31415.xyz/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg )
+![](/images/post/spring/%E5%AE%8C%E7%BB%93%E6%92%92%E8%8A%B1.jpg )
 
 
 

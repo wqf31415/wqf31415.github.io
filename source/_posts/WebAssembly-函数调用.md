@@ -297,7 +297,7 @@ int main(){
 
 > 在线示例: <a href="/example/wasm/interacting/cCallJsFunc.html" target="_blank">cCallJsFunc.html</a> 
 
-![](https://blog-images.qiniu.wqf31415.xyz/wasm_c_call_js_alert.png) 
+![](/images/post/webassembly/wasm_c_call_js_alert.webp) 
 
 
 

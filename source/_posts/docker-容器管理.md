@@ -14,7 +14,7 @@ date: 2020-08-24 09:03:32
 
 这篇文章介绍了 docker 中的容器的概念以及docker 容器的操作和应用。
 
-![](https://blog-images.qiniu.wqf31415.xyz/docker_container.jpg)
+![](/images/post/docker/docker_container.webp)
 
 
 

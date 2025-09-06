@@ -13,7 +13,7 @@ date: 2024-04-28 20:45:19
 
 这篇文章介绍了 cron 的含义、cron 表达式语法和应用场景。
 
-![](https://blog-images.qiniu.wqf31415.xyz/clock.jpg) 
+![](/images/post/featured-img/clock.webp) 
 
 
 

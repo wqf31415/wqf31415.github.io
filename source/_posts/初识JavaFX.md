@@ -12,7 +12,7 @@ date: 2021-09-23 15:00:34
 
 这篇文章介绍了 Java FX ，以及创建 java FX 项目。
 
-![](http://images.qiniu.wqf31415.xyz/desk_1280.jpg)
+![](/images/post/java/desk_1280.webp)
 
 ### 关于 JavaFX
 
@@ -51,7 +51,7 @@ JavaFX 是一个开源的、使用 java 开发桌面应用的技术，包含了�
 
 JavaFX 程序结构内容包括舞台（Stage）、场景（Scene）、容器（Container）、布局（Layout）和控件（Controls）。
 
-![](https://blog-images.qiniu.wqf31415.xyz/javafx_program_frame.jpg)
+![](/images/post/java/javafx_program_frame.webp)
 
 
 
@@ -69,7 +69,7 @@ IDE 可使用 Intellij IDEA 、 Eclipse 或 NetBeans ，其中 IDEA 和 NetBeans
 
 点击 IDEA 菜单栏 “File” - “New” - “Project...” ，然后在新建项目对话框中选择 Java FX，点击 “NEXT” 填写项目名称、路径等信息创建项目，使用 idea 创建的项目包含示例代码。
 
-![](https://blog-images.qiniu.wqf31415.xyz/idea_create_javafx.png) 
+![](/images/post/java/idea_create_javafx.webp) 
 
 
 
@@ -251,7 +251,7 @@ public class Main extends Application {
 
 JavaFX Scene Builder 是一个可视化布局工具，直接通过推拽方式添加组件，修改组件属性，可快速设计 JavaFX 程序界面，保存后可得到界面结构的 fxml 代码文件。 
 
-![](https://blog-images.qiniu.wqf31415.xyz/javafx_scene_builder.png)
+![](/images/post/java/javafx_scene_builder.webp)
 
 
 

@@ -48,7 +48,7 @@ Liquibase 是用于数据库重构、管理、记录变化与回滚的开源工�
 > 官网下载地址：[https://download.liquibase.org/download/?frm=n](https://download.liquibase.org/download/?frm=n "download liquibase")
 > liquibase-3.6.3-bin.zip: [我的下载地址](http://source.qiniu.wqf31415.xyz/liquibase-3.6.3-bin.zip "我的下载地址")
 
-![](https://blog-images.qiniu.wqf31415.xyz/liquibase_download.png "download liquibase")
+![](/images/post/spring/liquibase_download.webp "download liquibase")
 
 ##### 解压文件、下载 JDBC jar 包
 将上一步下载好的 liquibase zip 包解压出来。
@@ -133,14 +133,14 @@ liquibase.bat --url="jdbc:mysql://localhost:3306/test_liquibase?useUnicode=true&
   关于命令的更多内容可以使用 `liquibase --help` 命令查看帮助信息，也可以到官网查询详细信息: [http://www.liquibase.org/documentation/command_line.html](http://www.liquibase.org/documentation/command_line.html)
 
 执行结果：
-![](https://blog-images.qiniu.wqf31415.xyz/liquibase_update_by_cmd.png "update success")
+![](/images/post/spring/liquibase_update_by_cmd.webp "update success")
 
 ##### 检查数据库
 查看 `test_liquibase` 数据库，发现多了 4 张表：
-![](https://blog-images.qiniu.wqf31415.xyz/liquibase_create_table.png "数据库表")
+![](/images/post/spring/liquibase_create_table.webp "数据库表")
 
 打开 databasechanagelog 表，发现在 `master.yml` 中的 3 个修改都已经被执行了(表中 EXECTYPE 值为 EXECUTED)。
-![](https://blog-images.qiniu.wqf31415.xyz/liquibase_create_table_2.png "databasechanagelog")
+![](/images/post/spring/liquibase_create_table_2.webp "databasechanagelog")
 
 #### SpringBoot 项目集成 Liquibase
 SpringBoot 提供了自动装配，大大降低了其它组件的使用难度，在使用 Liquibase 时，可以说非常简单了。
@@ -211,7 +211,7 @@ SpringBoot 提供了自动装配，大大降低了其它组件的使用难度，
 
 ##### 添加 changelog 与数据
 为了放管理，我们在项目 `resources` 目录下创建 `liquibase` 目录用于存放 liquibase 相关的配置文件，在 `liquibase` 目录下创建 `changelog` 目录存放所有 changelog 文件，创建 `initdata` 目录用于存放初始化项目时的数据。
-![](https://blog-images.qiniu.wqf31415.xyz/liquibase_springboot_resources.png "项目 resources 目录")
+![](/images/post/spring/liquibase_springboot_resources.webp "项目 resources 目录")
 
 ###### changelog
 在 `liquibase` 目录下的 `master.xml` 为 liquibase 的入口，通过 include 标签将其它的 changelog 文件引入进来。
@@ -224,7 +224,7 @@ SpringBoot 提供了自动装配，大大降低了其它组件的使用难度，
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-
+  
     <include file="classpath:liquibase/changelog/init_00000000000000.xml" relativeToChangelogFile="false"/>
     <include file="classpath:liquibase/changelog/user_20190313171720.xml" relativeToChangelogFile="false"/>
 	
@@ -233,46 +233,46 @@ SpringBoot 提供了自动装配，大大降低了其它组件的使用难度，
 
 - init_00000000000000.xml
   ``````xml
-<databaseChangeLog
+  <databaseChangeLog
         xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
         xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
         http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-
+  
     <property name="now" value="now()" dbms="mysql,h2"/>
     <property name="now" value="current_timestamp" dbms="postgresql"/>
     <property name="now" value="sysdate" dbms="oracle"/>
-
+  
     <property name="autoIncrement" value="true" dbms="mysql,h2,postgresql,oracle"/>
-
+  
     <property name="floatType" value="float4" dbms="postgresql, h2"/>
     <property name="floatType" value="float" dbms="mysql, oracle"/>
-
+  
     <changeSet id="20190313172000" author="wqf31415">
         <createTable tableName="book">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints nullable="false" primaryKey="true"/>
             </column>
-
+  
             <column name="title" type="varchar(255)" remarks="书名">
                 <constraints nullable="false"/>
             </column>
-
+  
             <column name="description" type="text" remarks="描述">
                 <constraints nullable="true"/>
             </column>
-
+  
             <column name="price" type="${floatType}" remarks="价格">
                 <constraints nullable="true"/>
             </column>
-
+  
             <column name="add_time" type="timestamp" defaultValue="${now}">
                 <constraints nullable="true"/>
             </column>
         </createTable>
     </changeSet>
-</databaseChangeLog>
+  </databaseChangeLog>
   ``````
   
 - user_20190313171720.xml
@@ -354,7 +354,7 @@ spring:
 ##### 运行项目
 在运行项目前需要提前创建 url 中指定的数据库，我这里需要创建名为 `liquibase_demo` 的数据库。
 运行项目，查看数据库，建表正确且 `user` 表中数据正确。
-![](https://blog-images.qiniu.wqf31415.xyz/liquibase_data.png "初始化的数据")
+![](/images/post/spring/liquibase_data.webp "初始化的数据")
 
 ### 配置文件
 #### SpringBoot 配置项

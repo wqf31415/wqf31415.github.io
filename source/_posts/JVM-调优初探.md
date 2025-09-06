@@ -64,7 +64,7 @@ Java 程序启动后，会在 `java.io.tmpdir` 指定的目录下生成 `hsperfd
 >
 > Linux 下默认为： `/tmp/hsperfdata_{userName}/` 。
 
-![](https://blog-images.qiniu.wqf31415.xyz/jps_hsperfdata_windows.png "Windows 下的 hsperfdata 目录及文件") 
+![](/images/post/java/jps_hsperfdata_windows.webp "Windows 下的 hsperfdata 目录及文件") 
 
 
 
@@ -131,7 +131,7 @@ jmap 可以用来查看内存使用情况，生成 java 程序的 dump 文件，
 jmap <pid>
 ```
 
-![](https://blog-images.qiniu.wqf31415.xyz/jmap_help.png "jmap -help")
+![](/images/post/java/jmap_help.webp "jmap -help")
 
 
 
@@ -151,7 +151,7 @@ jstack 用于查看或导出 java 程序线程堆栈信息。
 jstack <pid>
 ```
 
-![](https://blog-images.qiniu.wqf31415.xyz/jstack_help.png "jstack -help")
+![](/images/post/java/jstack_help.webp "jstack -help")
 
 
 
@@ -163,7 +163,7 @@ jstack <pid>
 ##### 本地使用
 在 Windows 系统下，命令行执行 `jconsole` 命令，或打开 jdk 的 bin 目录下的 `jconsole.exe` ，打开后会自动检索当前机器上运行的 java 进程，选择需要查看的，点击 `连接` 即可。
 
-![](https://blog-images.qiniu.wqf31415.xyz/jconsole_1.png "jconsole")
+![](/images/post/java/jconsole_1.webp "jconsole")
 
 如果连接失败可以添加如下 JVM 参数配置后再试，如果是用 Tomcat 运行的，就加到 Tomcat 的启动参数里（修改 `bin/catalina.bat` ，修改 `JAVA_OPTS` ）；如果是开发时用 IDE 运行的，就加到 IDE 的项目启动配置里。
 ``````
@@ -239,11 +239,11 @@ user 123456
 jvisualvm
 ```
 
-![](https://blog-images.qiniu.wqf31415.xyz/jvisualvm.png "jvisualvm")
+![](/images/post/java/jvisualvm.webp "jvisualvm")
 
 可视化操作，非常方便，可以在左侧选择本地或远程运行的 java 进程，监视效果如下：
 
-![](https://blog-images.qiniu.wqf31415.xyz/jvisualvm_monitor.png "jvisualvm 监视 java 进程")
+![](/images/post/java/jvisualvm_monitor.webp "jvisualvm 监视 java 进程")
 
 
 
@@ -255,7 +255,7 @@ jvisualvm
 >
 > Arthas 用户文档: <https://alibaba.github.io/arthas/>
 
-![](https://blog-images.qiniu.wqf31415.xyz/arthas.png)
+![](/images/post/java/arthas.webp)
 
 > 还没体验过，以后体验过再来写！
 

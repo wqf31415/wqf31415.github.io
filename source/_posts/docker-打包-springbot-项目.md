@@ -29,7 +29,7 @@ date: 2021-01-13 10:37:05
 
 #### 创建示例用的 springboot 项目
 
-使用喜欢的方式创建一个 springboot 项目，以 maven 构建。
+使用喜欢的方式创建一个 springboot 项目，本次示例以 maven 构建。
 
 pom.xml :
 
@@ -461,7 +461,7 @@ docker run --name=my-app -p8080:8080 myapp:1.0
 
 运行结果：
 
-![](https://blog-images.qiniu.wqf31415.xyz/springboot-docker-run.png)
+![](/images/post/spring/springboot-docker-run.webp)
 
 访问测试接口 <http://localhost:8080/hello> ，页面显示 `world` 说明运行正确。
 
@@ -807,7 +807,7 @@ docker-compose -f docker/app.yml up
 
 执行命令后，将自动启动 mysql 容器和 app 容器。
 
-![](https://blog-images.qiniu.wqf31415.xyz/springboot-docker-compose-up.png) 
+![](/images/post/spring/springboot-docker-compose-up.webp) 
 
 启动成功后，访问 <http://localhost:8080/students> ，能查询到自动插入数据中的数据表明启动成功。
 

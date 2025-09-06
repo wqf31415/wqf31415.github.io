@@ -16,7 +16,7 @@ date: 2021-10-31 20:37:13
 
 
 
-![](https://blog-images.qiniu.wqf31415.xyz/coffee-beans.jpg)
+![](/images/post/java/coffee-beans.webp)
 
 
 

@@ -14,7 +14,7 @@ date: 2019-12-17 22:39:46
 
 这篇文章主要记录了读陈吕洲著的《Arduino程序设计基础》之后，记录的笔记，包含使用arduino开发硬件的一些基础知识点。
 
-![](https://blog-images.qiniu.wqf31415.xyz/arduino_book.jpg)
+![](/images/post/arduino/arduino_book.webp)
 
 ### 关于本书
 
@@ -195,7 +195,7 @@ str2 = "abc";
 
 **Arduino 按键控制 LED** 当未按下按键时，2 号引脚检测到的输入电压为低电平，当按下按键时，会导通 2 号引脚与 VCC ，此时检测到的输入电压为高电平，程序以此来判断按键是否被按下，从而控制 LED 是否点亮。
 
-!["Arduino按键控制LED电路图"](https://blog-images.qiniu.wqf31415.xyz/arduino_circuit_diagram_switch_led.jpg "Arduino按键控制LED电路图")
+!["Arduino按键控制LED电路图"](/images/post/arduino/arduino_circuit_diagram_switch_led.webp "Arduino按键控制LED电路图")
 
 **限流电阻** 一般的 LED 最大能承受的电流为 25mA，直接接入 5V 的 Arduino 电路中容易烧坏，因此需要在 LED 一端串联一个电阻 R2（220Ω），这样做可以减小流过 LED 的电流，防止 LED 损坏，这个电阻称为限流电阻。
 
@@ -213,7 +213,7 @@ str2 = "abc";
 
 **模拟输入引脚** 在 Arduino 控制器上，编号前带有 `A` 的引脚是模拟输入引脚，可以读取这些引脚上输入的模拟值，即读取引脚上输入的电压大小。模拟输入引脚是带有 ADC（Analog-to-Digital Converter 模/数转换器）功能的引脚，可以将外部输入的模拟信号转换成芯片运行时可以识别得数字信号，从而实现读入模拟值的功能。
 
-![](https://blog-images.qiniu.wqf31415.xyz/arduino_analog_pin.jpg)
+![](/images/post/arduino/arduino_analog_pin.webp)
 
 > 使用 AVR 芯片作为主控器的 Arduino 模拟输入功能有 10 位精度，即可将 0\~5V 的电压转换成 1\~1023 的整数形式表示。
 
@@ -227,7 +227,7 @@ analogWrite 函数的用法是：`analogWrite(pin, value);` ，其中参数 *pin
 
 **PWM引脚** 大多数 Arduino 控制器的 PWM 引脚都会用 `~` 标识，不同型号的 Arduino 对应不同位置和不同数量的 PWM 引脚。
 
-![](https://blog-images.qiniu.wqf31415.xyz/arduino_pwm_pin.jpg)
+![](/images/post/arduino/arduino_pwm_pin.webp)
 
 
 
@@ -648,7 +648,7 @@ Arduino 与外部设备的通信都是串行通信，因为 并行通信占用�
 
 Arduino 与其他期间通信过程中，数据传输实际上都是以数字信号（即高低电平变化）的形式进行的，串口通信也是如此。当使用 `Serial.print()` 函数输出数据时，Arduino 发送端会输出一连串的数字信号，称为数据帧。
 
-!["Serial.print(A)"](https://blog-images.qiniu.wqf31415.xyz/arduino_serial_data_frame.jpg "Serial.print('A')")
+!["Serial.print(A)"](/images/post/arduino/arduino_serial_data_frame.webp "Serial.print('A')")
 
 - **起始位** 起始位总为低电平，是一组数据帧开始传输的信号。
 - **数据位** 是一个数据包，其中承载了实际发送的数据段。当 Arduino 通过串口发送一个数据包时，实际数据可能不是 8 位的，比如 标准的 ASCII 码是 0\~127 （7位），而扩展的 ASCII 码是 0\~255（8位）。如果数据使用简单文本（标准 ASCII），那么每个数据包将使用 7 位数据。Arduino 默认使用 8 位数据位，即每次可以传输 1B 数据。
@@ -869,7 +869,7 @@ SPI 也是一种总线通信方式， Arduino 可以通过 SPI 接口连接多�
 
 > 大多数 Arduino 控制器都带有 6 针的 ICSP 引脚，可通过 ICSP 引脚来使用 SPI 总线。
 
-![](https://blog-images.qiniu.wqf31415.xyz/arduino_uno_icsp_pin.jpg)
+![](/images/post/arduino/arduino_uno_icsp_pin.webp)
 
 大多数情况下 Arduino 都是作为主机使用，并且 Arduino 的 SPI 类库没有提供 Arduino 作为从机的 API。
 

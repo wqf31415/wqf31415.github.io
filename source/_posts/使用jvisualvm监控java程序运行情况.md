@@ -38,7 +38,7 @@ jvisualvm 还支持扩展插件，实现更多功能。
 
 点击菜单栏 “工具” - “插件” ，打开插件管理界面，在 “可用插件” 选项卡中选择并安装需要的插件，在右侧可查看版本和功能说明。
 
-![](https://blog-images.qiniu.wqf31415.xyz/jvisualvm_plug.png)
+![](/images/post/java/jvisualvm_plug.webp)
 
 >如果更新插件列表失败，可以到 [Java VisualVM 插件中心](https://visualvm.github.io/pluginscenters.html) 找到对应 jdk 版本的插件更新目录链接，添加到插件设置中。
 
@@ -54,13 +54,13 @@ Java VisualVM 可以监视本地运行的 java 程序，也可以使用 JMX 远�
 
 - 监视：实时监视程序运行情况，可查看CPU使用情况、垃圾回收活动、堆使用情况、线程数量，还可以生成堆 Dump，手动执行垃圾回收。
 
-  ![](https://blog-images.qiniu.wqf31415.xyz/jvisualvm_monitor_springboot.png)
+  ![](/images/post/java/jvisualvm_monitor_springboot.webp)
 
   
 
 - 线程：实时监控线程活动情况，生成线程 Dump。
 
-  ![](https://blog-images.qiniu.wqf31415.xyz/jvisualvm_thread.png)
+  ![](/images/post/java/jvisualvm_thread.webp)
 
   
 
