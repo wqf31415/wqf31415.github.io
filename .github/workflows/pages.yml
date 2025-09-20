@@ -13,7 +13,7 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           # If your repository depends on submodule, please see: https://github.com/actions/checkout
-          submodules: recursive
+          submodules: true
       - name: Use Node.js 20
         uses: actions/setup-node@v4
         with:
@@ -29,8 +29,8 @@ jobs:
             ${{ runner.OS }}-npm-cache
       - name: Install Dependencies
         run: npm install
-      - name: download theme
-        run: git clone https://github.com/next-theme/hexo-theme-next themes/next
+#      - name: download theme
+#        run: git clone https://github.com/next-theme/hexo-theme-next themes/next
       - name: cp config file
         run: |
           cp themes_config/next/_config.yml themes/next/
