@@ -15,15 +15,247 @@ date: 2021-08-13 10:32:23
 
 ### curl 是什么
 
-curl 是一个命令行工具，利用 URL 语法在命令行中完成文件传输的工具，支持文件上传和下载。
+curl 是一个命令行工具，利用 URL 语法在命令行中完成数据传输的工具，支持文件上传和下载。
 
-curl 支持的通信协议有 FTP、HTTP、HTTPS、TFTP、SFTP、Gopher、SCP、Telnet、DICT、FILE、LDAP、LDAPS、IMAP、POP3、SMTP和RTSP。
+> 官网：<https://curl.se/> 
+>
+> 源码：<https://github.com/curl/curl> 
 
-curl 还支持 SSL 认证、HTTP POST、HTTP PUT、FTP 上传、HTTP form based upload、proxies、HTTP/2、cookies、用户名+密码认证（Basic、Plain、Digest、CRAM-MD5、NTLM、Negotiate and Kerberos）、file transfer resume、proxy tunneling。
+curl 支持的协议（参考官网介绍）：
 
+|协议|详情|
+|:----:|:-----|
+|Protocol|DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS, WSS|
+|Proxies|SOCKS4, SOCKS5, HTTP, HTTPS (HTTP/1 and HTTP/2), tunneling, via unix domain sockets, haproxy, SOCKS+HTTP proxy chain|
+|HTTP|GET, POST, PUT, HEAD, multipart formpost, HTTP/0.9, HTTP/1.0, HTTP/1.1, HTTP/2 (h2c, h2, prior knowledge), HTTP/3 (dual connect h1/h2 + h3 or h3-only), HSTS, Alt-Svc, cookies, PSL, etags, transfer compression, ranges, custom headers, custom method, follow redirects|
+|FTP|IPv6 (EPRT, EPSV), STLS, upload/download, append, range, passive/active, kerberos, directory listing, custom commands|
+|SCP + SFTP|known hosts, md5/sha256 fingerprint, compression, upload/download, directory listing|
+|TLS|1.0 - 1.3, mutual authentication, STARTTLS, OCSP stapling, ECH, False Start, key pinning, PQC ready, session resumption, early data, export/import sessions|
+|QUIC|0RTT handshakes|
+|Auth|Basic, Plain, Digest, CRAM-MD5, SCRAM-SHA, NTLM, Negotiate, Kerberos, Bearer tokens, AWS Sigv4, SASL, .netrc|
+|HTTP compression|gzip, brotli and zstd|
+|Name resolving|DNS-over-HTTPS, custom address for host, name+port redirect, custom DNS servers, DNS caching, HTTPS RR|
+|Connection|connection reuse, Interface binding, Happy Eyeballs, IPv4/IPv6-only, unix domain sockets, TCP keepalive, TCP Fast Open, TCP Nodelay, MPTCP, VLAN priority, IP Type Of Service|
+|Transfers|transfer rate limiting, request rate limiting, stall detection, retries, timeouts|
+|URLs|Unlimited amount, parallel and serial transfers, globbing|
+|Output|IDN hostnames, custom info from transfer, metadata as JSON, per content-disposition, libcurl source code, bold headers|
 
 
 <!-- more -->
+
+### curl 的特性
+
+curl 支持数百个选项参数，支持无限数量的 URL 地址。如果在同一命令行中指定多个URL，那么你就会看到它将使用多个连接或重用已有的连接，因此连接的计数器可能会增加，也可能不会增加，具体取决于curl需要执行的操作。
+
+curl首先会解析整个命令行，应用给定的命令行选项，然后（按从左到右的顺序）遍历URL并执行相应操作。
+
+curl会在处理完最后一个URL后返回一个退出码。想让curl在第一次出现错误时就退出，则可以使用--fail-early选项。
+
+curl还提供了另一个选项（--next，短格式为-;），用于在一组选项和URL之间插入间隔。当命令行解析器遇到--next选项时，它会将后面的选项应用于下一组URL。因此，--next选项其实是一组选项和URL之间的分隔符。使用多少个--next选项取决于实际的需要。
+
+curl在内部维护着一个连接池，这可以让之前使用过的连接继续存活一段时间，因此后续发给相同主机的请求可以重用这些已经建立的连接。
+
+curl使用保留符号[]和{}进行通配，使用[N-M]语法来指定一个数值范围，其中N是起始索引，M是结束索引（包括M在内）。可以指定步进（step counter）。curl也可以处理字母范围。
+
+有时URL的不同部分不会遵循这些简单的模式，那么你可以指定完整的列表，但要放在花括号，而不是中括号中。
+
+可以在同一个URL中使用多个通配，URL中的每个通配都对应一个单独的变量，可以通过 '#[num]' 来引用，即在 '#' 后面跟上与通配对应的数字，从1（对应第一个通配）开始，以最后一个通配结束。
+
+curl提供了“配置文件”功能。它允许你将命令行选项写在文本文件中，然后告诉curl，除了读取命令行外，还要从这个文件中读取命令行选项。使用-K或--config选项告诉curl从特定文件中读取更多的命令行选项
+
+配置文件可以接受短选项和长选项，就像你在命令行上写的那样。为了便于阅读，它还允许你使用不带破折号的长选项。
+
+命令行选项的参数必须与该选项处于同一行。
+
+为了让配置文件看起来更像真正的配置文件，它还允许你在选项及其参数之间使用'='或':'。虽然这样做不是必须的。
+
+选项的参数也可以不使用引号，curl将下一个空格或换行视为当前参数的结尾。不过，如果参数中带有空格，则必须使用双引号。
+
+如果想在配置文件中指定URL，则必须使用--url或url，而且不会像在命令行中那样不是选项的所有东西都被视为URL
+
+当被调用时，curl会检查是否存在默认配置文件（除非使用了-q）。在类Unix系统上，它会查找.curlrc文件，在Windows系统上则查找_curlrc文件。
+> 1. 尝试找到“主目录
+> 2. 在Windows系统上，如果主目录中没有_curlrc文件，那么它会查找curl可执行文件所在的目录
+
+#### 身份验证
+
+最基本的curl身份验证选项是-u或--user。它接受一个参数，即使用冒号分隔的用户名和密码
+避免在命令行上指定用户名和密码的一种方法是使用.netrc文件或配置文件
+也可以使用-u选项，但不指定密码，curl会在运行时提示用户输入密码。
+
+#### 保存文件
+
+可以通过-o [filename]（或--output）选项为curl指定一个特定的文件名来保存下载的内容。filename可以是文件名，也可以是文件的相对路径或完整路径。可以将-o放在URL之前或之后，二者没有什么区别。
+
+使用url中的文件名 -O（大写字母O）选项，或者--remote-name。-O选项从你提供的URL中提取文件名部分作为本地文件名。这点非常重要。你指定URL，curl从中选择文件名。即使发生重定向（而且你告诉curl要跟踪重定向），curl选择的文件名也不会发生变化。
+
+HTTP服务器可以选择在响应消息中提供Content-Disposition标头。这个标头可能包含服务器建议的文件名，你可以让curl使用这个名字作为本地文件名。-J或--remote-header-name选项就是用来打开这个功能的。如果同时还使用了-O选项，那么curl默认使用URL中的文件名，并且只有当响应消息中包含有效的Content-Disposition标头时，它才会使用这个建议的文件名。
+
+注意：
+curl只会使用建议文件名的最右边部分，因此服务器建议的其他路径或目录都会被忽略。
+如果服务器恰好提供了与本地文件相同的文件名，那么curl将覆盖当前目录中已有的本地文件。
+curl不会对文件名进行编码，因此你可能会得到一个URL编码的文件名
+
+每个URL都需要自己的“存储指令”。如果不提供“存储指令”，curl会默认将数据发送到stdout。如果你要下载两个URL并只为第一个URL提供保存位置，那么第二个URL将被发送到stdout
+“存储指令”的读取和处理顺序与下载的URL的顺序相同，因此它们不一定要位于URL之后。你可以将所有输出选项放在最前面或最后面，或者与URL交错放置
+-O只用于单个下载，如果你要下载多个URL，则需要使用多个-O
+
+#### 断点续传
+
+-C或--continu-at选项可以告诉curl从哪里开始传输，选项的值可以是一个普通的数字字节偏移量，或者使用字符串-让curl根据它所知道的信息自己决定从哪里开始传输。如果使用-，那么curl将基于目标文件确定本地已存在的数据量，并将其作为向服务器请求更多数据的偏移量。
+
+
+
+
+### 使用 curl 发起 http 请求
+
+curl 发起 http请求时，具体使用的请求方法取决于使用的选项。默认方法是 GET，`-d` 或 `-F` 选项对应 POST方法，`-I` 对应 HEAD 方法，`-T` 对应 PUT 方法。
+
+#### GET
+
+curl 默认发起的 http 请求使用 GET 方法，也可以使用 `-G` 或 `--get` 选项显式的指定使用 GET 方法。
+
+```bash
+curl https://www.example.com
+curl -G https://www.example.com
+
+# 带参数的 GET 请求
+curl http://example.com/?id=101&name=xiaoming
+```
+
+#### POST
+
+在 html 表单中填好表单后，浏览器会以URL编码的形式将数据发送出去，在 curl 中，可以使用 `-d` 或 `--data` 选项发送数据。
+
+```bash 
+curl -d 'name=xiaoming&age=12' http://example.com/
+```
+
+在命令行上使用多个 `-d` 选项时，curl 会将它们串联起来，并在它们之间插入 `&` 符号。以下命令和上面的是等价的:
+
+```bash 
+curl -d name=xiaoming -d age=12 http://example.com/
+```
+
+如果要发送的数据量不适合作为字符串放在命令行中，还可以从文件中读取：
+
+```bash
+curl -d @filename http://example.com
+```
+
+##### 发送 JSON 格式数据
+
+使用 curl 的 `-d` 选项发送 POST 请求时，请求中默认会包含一个类似 `Content-Type: application/x-www-form-urlencoded` 这样的标头。典型的浏览器在发送 POST 请求时也会使用这个标头。
+
+如果需要使用其他标头，可以使用 `-H` 指定想要的标头，如指定使用 JSON 格式传输数据:
+
+```bash 
+curl -d '{json}' -H 'Content-Type: application/json' http://example.com
+```
+
+##### 发送二进制内容
+
+使用 `-d` 选项从文件读取内容时，回车符和换行符将被移除，可以使用 `--data-binary` 选项让 curl 从文件读取二进制内容。
+
+```bash 
+curl --data-binary @filename http://example.com
+```
+
+##### 发送文件
+
+在 html 的表单中要上传文件时（通常是 type 属性为 file 的 input 标签），表单的 enctype 属性被设置成 `multipart/form-data` ，使用 curl时，可以通过 `-F` 或 `--form` 选项添加每个单独的 multipart，然后继续为表单每个字段添加一个 `-F` 。
+
+```bash 
+curl -F name=xiaoming -F img=@my.png http://example.com
+```
+
+#### 其他请求方法
+
+可以在-X或--request选项后面跟上方法名，让curl使用其他方法。
+-T表示这是一个PUT请求，并告诉curl要发送哪个文件。因为POST和PUT非常相似，所以你也可以用-d加上字符串来发送PUT请求：curl -d "data to PUT" -X PUT http://example.com/new/resource/file
+让curl从指定文件读取初始cookie：curl -L -b cookies.txt http://example.com
+可以用-c选项指定cookie jar：curl -c cookie-jar.txt http://example.com-c指示curl将cookie写入文件，-b指示curl从文件读取cookie。通常需要同时使用它们。
+可以通过-j或--junk-session-cookies选项让curl开始新的cookie会话：curl -j -b cookies.txt http://example.com/
+
+
+#### 身份认证
+
+要让 curl 发出带有身份认证的 http 请求，可以使用 `-u` 或 `--user` 选项提供用户名和密码（用冒号分隔）。
+
+```bash 
+curl -u admin:123456 http://example.com/
+```
+
+curl 默认使用 Basic 身份校验方法，如果想明确指定使用这个方法，可以使用 `--basic` 选项。
+
+如果要让 curl 先确认服务器是否真的需要身份验证，可以使用 `--anyauth` 选项，它会自动使用curl 所知道的最安全的身份验证方法。curl 将尝试无须身份验证的请求，然后在必要的时候使用身份验证。
+
+```bash 
+curl --anyauth -u admin:123456 http://example.com/
+```
+
+curl 通常支持几种身份验证方法，包括 Digest、Negotiate、NTLM，可以分别使用 `--digest` 、`--negotiate` 、`--ntlm` 选项指定。
+
+#### 请求 http 区间
+
+curl 支持获取http 资源的指定范围内容，如获取远程资源前 200 个字节或中间 300 个字节，curl 可以用 `-r` 或 `--range` 选项发起区间请求。
+
+```bash 
+# 获取前200个字节
+curl -r 0-199 http://example.com
+
+# 索引200之后的所有内容
+curl -r 200- http://example.com
+
+# 从索引0处获取200个字节，再从索引800处获取200个字节
+curl -r 0-199,800-199 http://example.com
+```
+
+#### 压缩
+
+HTTP响应消息能够以压缩的格式进行传输。服务器通常会在响应中包含Content-Encoding: gzip标头，以告诉客户端内容经过了压缩
+通过--compressed选项让curl请求压缩数据，并在接收gzip（或curl可以理解的任意其他压缩算法）压缩的内容后自动对其进行解压
+客户端要求服务器进行压缩传输编码，如果服务器接受了，它将做出响应，并通过一个标头指明它将进行压缩编码，curl将在接收到数据时对其进行解压。用户可以通过--tr-encoding选项请求服务器进行压缩传输编码
+
+
+
+#### 指定 http 协议版本
+
+| 选项 | 描述 |
+|:----:|:----:|
+|`--http1.0`|HTTP/1.0|
+|`--http1.1`|HTTP/1.1|
+|`http2`|HTTP/2|
+|`http3`|HTTP/3|
+
+
+### FTP 请求
+
+#### 关于FTP的一些知识
+
+FTP使用两个TCP连接！客户端在连接到FTP服务器时建立第一个连接，称作控制连接。作为初始连接，它将负责处理身份验证、切换到正确的远程服务器目录，等等。当客户端准备好传输文件时，第二个TCP连接将建立，并通过这个连接传输数据
+
+客户端可以请求服务器回连到客户端来建立连接，即所谓的“主动”连接。
+curl默认请求使用“被动”连接，它向服务器发送PASV或EPSV命令，服务器为第二个连接打开一个新端口，然后curl会连接到这个端口上。
+
+要想上传文件到FTP服务器，需要在URL中指定整个目标文件的路径和名字，并用-T或--upload-file选项指定要上传的本地文件。另外，如果目标URL以斜杠结尾，curl会自动将本地路径中的文件名追加到URL中，并将其作为远程文件名。
+使用本地文件名作为远程文件名：curl -T localfile ftp://ftp.example.com/dir/path/
+curl还支持-T参数通配
+SCP和SFTP都是建立在SSH之上的协议，SSH是一种类似于TLS的安全加密数据协议，但在某些方面有所不同。例如，SSH不使用任何类型的证书，而是使用公钥和私钥
+curl sftp://example.com/file.zip -u user
+curl scp://example.com/file.zip -u user
+如果URL尾部是斜杠，那么SFTP（不是SCP）可以获取文件列表：curl sftp://example.com/ -u user
+在使用SFTP或SCP URL请求文件时，给定的文件路径被视为远程服务器上的绝对路径，除非你特别指定要使用用户主目录的相对路径。你可以使用/~/来指定用户主目录的相对路径。这与FTP URL完全相反，因此容易导致用户混淆。
+密钥匹配通常需要用到密钥的散列和客户端用来保存已知服务器散列的文件，这个文件通常叫作known_hosts，存放在专门的SSH目录中。在Linux系统上，通常是~/.ssh目录。
+想强制curl跳过检查，可以使用-k或--insecure选项
+列出消息编号和大小：curl pop3://mail.example.com/
+下载消息1：curl pop3://mail.example.com/1
+删除消息1：curl --request DELE pop3://mail.example.com/1
+通过--mail-rcpt选项告诉服务器收件人的邮件地址（至少一个）
+通过--mail-from选项告诉服务器哪个是发件人的邮件地址
+需要提供要发送的电子邮件数据。它应该是一个使用RFC 5322指定格式的（文本）文件。它由一组标头和正文组成。标头和正文都需要进行正确编码。标头通常包括To:、From:、Subject:、Date:等
+如果你的邮件提供商提供了专门的SSL端口，则可以用smtps:// 代替smtp://，默认的SMTP SSL端口为465，并且整个连接都是基于SSL
+
 
 ### 参考资料
 
