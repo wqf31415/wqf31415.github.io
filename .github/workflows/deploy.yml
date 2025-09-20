@@ -2,21 +2,21 @@ name: Deploy to my server
 
 on:
   push:
-    branch: [source]
+    branches: [source]
     
 jobs:
   build:
     runs-on: ubuntu-latest
     name: Job to deploy blog
     steps:
-      - name: checkout
+      - name: checkout code
         id: checkout
         uses: actions/checkout@v2
         with:
           ref: source
           # submodules: true
 
-      - name: use node
+      - name: use nodeJS
         uses: actions/setup-node@v1
         with:
           node-version: '20'
@@ -46,14 +46,18 @@ jobs:
           jar -cvfM blog.war -C ./public/ .
           zip blog.zip ./public/
 
-      - name: upload file by sftp
-        uses: Creepios/sftp-action@v1.0.1
-        with:
-          host: 'www.wqf31415.xyz'
-          port: 22
-          username: ${{secrets.SFTP_USER}}
-          password: ${{secrets.SFTP_PASS}}
-          localPath: './blog.zip'
-          remotePath: './'
+      - name: deplay to github page
+        run: hexo deploy
+
+
+ #     - name: upload file by sftp
+ #       uses: Creepios/sftp-action@v1.0.1
+ #       with:
+ #         host: 'www.wqf31415.xyz'
+ #         port: 22
+ #         username: ${{secrets.SFTP_USER}}
+ #         password: ${{secrets.SFTP_PASS}}
+ #         localPath: './blog.zip'
+ #         remotePath: './'
         # run: curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${{secrets.FTP_PASS}} -T ./blog.war ftp://www.wqf31415.xyz/blog.war
 
