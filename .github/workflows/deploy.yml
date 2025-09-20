@@ -41,16 +41,17 @@ jobs:
       - name: hexo generate
         run: hexo generate
 
-      - name: pack by jar
+      - name: package
         run: |
-          jar -cvfM blog.war -C ./public/ .
-          zip blog.zip ./public/
+          tar -zcvf blog.tar.gz public/
+#          jar -cvfM blog.war -C ./public/ .
+#          zip blog.zip ./public/
 
-      - name: deplay to github page
-        run: |
-          git config --global user.email "wqf31415@hotmail.com"
-          git config --global user.name "wqf31415"
-          hexo deploy
+#      - name: deplay to github page
+#        run: |
+#          git config --global user.email "wqf31415@hotmail.com"
+#          git config --global user.name "wqf31415"
+#          hexo deploy
 
 
  #     - name: upload file by sftp
