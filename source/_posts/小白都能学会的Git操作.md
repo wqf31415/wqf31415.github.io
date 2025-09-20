@@ -264,6 +264,8 @@ git pull origin master
 
 `git pull origin master`  拉取远端仓库的 master 分支，并自动合并到当前分支
 
+`ssh-keygen -t rsa -b 4096 -C "your_email@example.com"` 生成 RSA 加密的公钥与私钥，用于配置和服务器的 SSH 通信。
+
 
 
 #### git 保存密码命令
