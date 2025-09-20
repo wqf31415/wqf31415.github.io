@@ -167,6 +167,20 @@ cat ~/.ssh/id_rsa.pub
 cat ~/.ssh/id_rsa
 ```
 
+配置 GIT 主机验证策略
+
+进入 Jenkins ，在 **Manage Jenkins** - **凭据** - **系统管理** - **全局安全配置** 中找到 **Git Host Key Verification Configuration** - **Host Key Verification Strategy**，默认选项是 `Known hosts file`，即使用内部的 `known_hosts` 文件完成主机校验，需要修改成 `Accept first connection` 首次连接时加入到  `known_hosts` 文件。
+
+> 或者可以不修改主机验证策略，直接在Jenkins容器中用git拉取一次仓库代码，拉取时输入 `yes` 确认接受连接即可。
+
+注如果不配置主机验证策略，将导致使用ssh拉取代码失败，构建输出错误信息如下：
+
+```
+using GIT_SSH to set credentials github
+Verifying host key using known hosts file
+You're using 'Known hosts file' strategy to verify ssh host keys, but your known_hosts file does not exist, please go to 'Manage Jenkins' -> 'Security' -> 'Git Host Key Verification Configuration' and configure host key verification
+```
+
 #### 创建任务与git仓库配置
 
 登录Jenkins页面，点击 **新建Item** ，输入任务名称，如 blog-deploy，选择类型为 **Freestyle project**，保存后进入项目，点击 **配置**。
