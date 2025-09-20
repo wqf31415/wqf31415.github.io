@@ -47,7 +47,10 @@ jobs:
           zip blog.zip ./public/
 
       - name: deplay to github page
-        run: hexo deploy
+        run: |
+          git config --global user.email "wqf31415@hotmail.com"
+          git config --global user.name "wqf31415"
+          hexo deploy
 
 
  #     - name: upload file by sftp
