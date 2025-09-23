@@ -1,7 +1,7 @@
 # .tarvis.yml
 language: node_js # 指定语言环境
 node_js:
-  - 10 # 指定 nodejs 版本
+  - 22 # 指定 nodejs 版本
 
 sudo: false # 是否需要 sudo 权限
 
@@ -33,18 +33,19 @@ deploy:
 
 after_success:
 # ### 打包成 war 包，通过 ftp 上传到服务器
-  - jar -cvfM blog.war -C ./public/ . # 将 public 目录下所有文件打包到 blog.war 中
+  - echo "After success..."
+#  - jar -cvfM blog.war -C ./public/ . # 将 public 目录下所有文件打包到 blog.war 中
   # 上传 war 包到服务器
   #  - curl --ftp-create-dirs --retry 5 --retry-delay 3 -u hexo:${FTP_PASS} -T ./blog.war ftp://118.24.50.165/blog.war
-  - curl -u hexo:${FTP_PASS} ftp://www.wqf31415.xyz/ -s
+#  - curl -u hexo:${FTP_PASS} ftp://www.wqf31415.xyz/ -s
 # ### 推送到 coding.net 
-  - git config --local user.name "travis-ci"
-  - git config --local user.email "deploy@travis-ci.org"
-  - sed -i '/wqf31415.github.io.git,master/d' _config.yml
-  - tail _config.yml
-  - sed -i'' "s~https://e.coding.net/~https://${GIT_CODING_TOKEN_USERNAME}:${GIT_CODING_REPO_TOKEN}@wqf31415.coding.net/~" _config.yml
-  - tail _config.yml
-  - hexo deploy
+#  - git config --local user.name "travis-ci"
+#  - git config --local user.email "deploy@travis-ci.org"
+#  - sed -i '/wqf31415.github.io.git,master/d' _config.yml
+#  - tail _config.yml
+#  - sed -i'' "s~https://e.coding.net/~https://${GIT_CODING_TOKEN_USERNAME}:${GIT_CODING_REPO_TOKEN}@wqf31415.coding.net/~" _config.yml
+#  - tail _config.yml
+#  - hexo deploy
   
 notifications:
   email: 
