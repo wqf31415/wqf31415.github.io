@@ -213,13 +213,16 @@ curl -r 0-199,800-199 http://example.com
 
 #### 压缩
 
-HTTP响应消息能够以压缩的格式进行传输。服务器通常会在响应中包含Content-Encoding: gzip标头，以告诉客户端内容经过了压缩
-通过--compressed选项让curl请求压缩数据，并在接收gzip（或curl可以理解的任意其他压缩算法）压缩的内容后自动对其进行解压
-客户端要求服务器进行压缩传输编码，如果服务器接受了，它将做出响应，并通过一个标头指明它将进行压缩编码，curl将在接收到数据时对其进行解压。用户可以通过--tr-encoding选项请求服务器进行压缩传输编码
+在 HTTP 响应消息支持以压缩格式传输，curl 中使用 `--compressed` 选项请求压缩传输数据，`--tr-encoding` 选项指定压缩传输编码。
 
+服务端接受压缩传输请求后，通常会在响应头中携带 `Content-Encoding: gzip` 的标头，通知客户端内容经过了压缩。
+
+在接收压缩的内容后，curl 会自动进行解压。
 
 
 #### 指定 http 协议版本
+
+使用如下选项指定使用的 HTTP 协议版本：
 
 | 选项 | 描述 |
 |:----:|:----:|
@@ -233,28 +236,96 @@ HTTP响应消息能够以压缩的格式进行传输。服务器通常会在响�
 
 #### 关于FTP的一些知识
 
-FTP使用两个TCP连接！客户端在连接到FTP服务器时建立第一个连接，称作控制连接。作为初始连接，它将负责处理身份验证、切换到正确的远程服务器目录，等等。当客户端准备好传输文件时，第二个TCP连接将建立，并通过这个连接传输数据
+使用 FTP 传输数据时，会创建两个 TCP 连接：
 
-客户端可以请求服务器回连到客户端来建立连接，即所谓的“主动”连接。
-curl默认请求使用“被动”连接，它向服务器发送PASV或EPSV命令，服务器为第二个连接打开一个新端口，然后curl会连接到这个端口上。
+1、客户端连接到 FTP 服务器时建立第一个连接，称作控制连接。作为初始连接，它将负责处理身份验证、切换到正确的远程服务器目录，等等。
 
-要想上传文件到FTP服务器，需要在URL中指定整个目标文件的路径和名字，并用-T或--upload-file选项指定要上传的本地文件。另外，如果目标URL以斜杠结尾，curl会自动将本地路径中的文件名追加到URL中，并将其作为远程文件名。
-使用本地文件名作为远程文件名：curl -T localfile ftp://ftp.example.com/dir/path/
-curl还支持-T参数通配
-SCP和SFTP都是建立在SSH之上的协议，SSH是一种类似于TLS的安全加密数据协议，但在某些方面有所不同。例如，SSH不使用任何类型的证书，而是使用公钥和私钥
+2、当客户端准备好传输文件时，第二个TCP连接将建立，并通过这个连接传输数据。
+
+FTP的主动模式和被动模式：
+
+**主动模式**：在建立数据传输的TCP连接时，客户端可以请求服务器回连到客户端来建立连接，即所谓的“主动”连接。
+
+**被动模式**：客户端向服务器发送 PASV 或 EPSV 命令，服务器为第二个连接打开一个新端口，然后客户端会连接到这个端口上。curl默认请求使用被动模式。
+
+#### 上传文件
+
+使用 FTP 上传文件时，需要在 URL 中指定整个目标文件的路径和名字，并用 `-T` 或 `--upload-file` 选项指定要上传的本地文件。
+
+> 如果目标URL以斜杠结尾，curl会自动将本地路径中的文件名追加到URL中，并将其作为远程文件名。
+
+```bash
+curl -T localfile ftp://ftp.example.com/dir/path/
+```
+
+curl 使用 FTP 上传文件时，`-T` 参数支持通配符，可一次指定上传多个文件。
+
+#### 安全文件传输
+
+SCP 和 SFTP 都是建立在 SSH 之上的协议，SSH是一种类似于 TLS 的安全加密数据协议，但在某些方面有所不同。例如，SSH不使用任何类型的证书，而是使用公钥和私钥。
+
+```bash
 curl sftp://example.com/file.zip -u user
 curl scp://example.com/file.zip -u user
-如果URL尾部是斜杠，那么SFTP（不是SCP）可以获取文件列表：curl sftp://example.com/ -u user
-在使用SFTP或SCP URL请求文件时，给定的文件路径被视为远程服务器上的绝对路径，除非你特别指定要使用用户主目录的相对路径。你可以使用/~/来指定用户主目录的相对路径。这与FTP URL完全相反，因此容易导致用户混淆。
-密钥匹配通常需要用到密钥的散列和客户端用来保存已知服务器散列的文件，这个文件通常叫作known_hosts，存放在专门的SSH目录中。在Linux系统上，通常是~/.ssh目录。
-想强制curl跳过检查，可以使用-k或--insecure选项
-列出消息编号和大小：curl pop3://mail.example.com/
-下载消息1：curl pop3://mail.example.com/1
-删除消息1：curl --request DELE pop3://mail.example.com/1
-通过--mail-rcpt选项告诉服务器收件人的邮件地址（至少一个）
-通过--mail-from选项告诉服务器哪个是发件人的邮件地址
-需要提供要发送的电子邮件数据。它应该是一个使用RFC 5322指定格式的（文本）文件。它由一组标头和正文组成。标头和正文都需要进行正确编码。标头通常包括To:、From:、Subject:、Date:等
-如果你的邮件提供商提供了专门的SSL端口，则可以用smtps:// 代替smtp://，默认的SMTP SSL端口为465，并且整个连接都是基于SSL
+```
+
+如果 URL 以斜杠 `/` 结尾，SFTP（不是SCP）可以获取文件列表：
+
+```bash
+curl sftp://example.com/ -u user
+```
+
+> FTP 与 SFTP、SCP 的 URL 路径区别：
+> SFTP 或 SCP 请求文件时，URL 中的文件路径被视为远程服务器上的绝对路径。可以使用 /~/ 来指定用户主目录的相对路径。
+> FTP 请求文件时， URL 中的路径是相对路径。
+
+使用基于密钥的安全传输时，如 SFTP、SCP，curl会先确认服务器是否可被信任，即检查 `known_hosts` 中是否存在目标主机的密钥散列，检查通过后 curl 就会开始执行传输。想强制 curl 跳过检查，可以使用 `-k` 或 `--insecure` 选项。
+
+> 在Linux系统上， `known_hosts` 文件通常存放在 `~/.ssh` 目录。
+
+
+
+### 邮件请求
+
+curl 支持邮件协议，可以收发邮件。
+
+#### 使用 POP3 读取邮件
+
+列出消息编号和大小：`curl pop3://mail.example.com/` 
+
+下载消息1：`curl pop3://mail.example.com/1` 
+
+删除消息1：`curl --request DELE pop3://mail.example.com/1` 
+
+#### 使用 SMTP 发送邮件
+
+发送邮件时，下面两个参数是必须的：
+
+- `--mail-rcpt` 选项指定收件人的邮箱（至少一个）
+
+- `--mail-from` 选项指定发件人的邮箱
+
+发送邮件时，邮件数据是一个使用RFC 5322 指定格式的文本文件，它由一组标头和正文组成，标头和正文都需要进行正确编码。
+
+标头通常包括 `To:`、`From:`、`Subject:`、`Date:` 等
+
+如果邮箱支持 SSL 端口，可以用 `smtps://` 代替 `smtp://`，默认的 SMTP SSL 端口为 465 。
+
+```bash
+curl smtp://mail.example.com --mail-form xiaoming@example.com --mail-rcpt daming@example.com --upload-file example.txt
+```
+
+example.txt:
+
+```
+From: Xiaoming<xiaoming@example.com>
+To: Daming<daming@example.com>
+Subject: Example email
+Date: Mon 23 Set 2025 23:19:00
+
+Dear Daming,
+xxxx....
+```
 
 
 ### 参考资料
