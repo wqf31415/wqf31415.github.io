@@ -45,21 +45,28 @@ curl 支持的协议（参考官网介绍）：
 
 ### curl 的特性
 
-curl 支持数百个选项参数，支持无限数量的 URL 地址。如果在同一命令行中指定多个URL，那么你就会看到它将使用多个连接或重用已有的连接，因此连接的计数器可能会增加，也可能不会增加，具体取决于curl需要执行的操作。
+#### 基本特性
 
-curl首先会解析整个命令行，应用给定的命令行选项，然后（按从左到右的顺序）遍历URL并执行相应操作。
+curl 支持数百个选项参数，支持无限数量的 URL 地址。
 
-curl会在处理完最后一个URL后返回一个退出码。想让curl在第一次出现错误时就退出，则可以使用--fail-early选项。
+curl 在内部维护着一个连接池，这可以让之前使用过的连接继续存活一段时间，因此后续发给相同主机的请求可以重用这些已经建立的连接。如果在同一命令行中指定多个 URL，就会看到它将使用多个连接或重用已有的连接，因此连接的计数器可能会增加，也可能不会增加，具体取决于 curl 需要执行的操作。
 
-curl还提供了另一个选项（--next，短格式为-;），用于在一组选项和URL之间插入间隔。当命令行解析器遇到--next选项时，它会将后面的选项应用于下一组URL。因此，--next选项其实是一组选项和URL之间的分隔符。使用多少个--next选项取决于实际的需要。
+执行 curl 指令时，curl 会先解析整条命令，应用指定的命令行选项，然后（按从左到右的顺序）遍历 URL 并执行相应操作。
 
-curl在内部维护着一个连接池，这可以让之前使用过的连接继续存活一段时间，因此后续发给相同主机的请求可以重用这些已经建立的连接。
 
-curl使用保留符号[]和{}进行通配，使用[N-M]语法来指定一个数值范围，其中N是起始索引，M是结束索引（包括M在内）。可以指定步进（step counter）。curl也可以处理字母范围。
+curl还提供了另一个选项（`--next`，短格式为 `-;` ），用于在一组选项和URL之间插入间隔。当命令行解析器遇到--next选项时，它会将后面的选项应用于下一组URL。因此，`--next` 选项其实是一组选项和URL之间的分隔符。使用多少个--next选项取决于实际的需要。
+
+curl会在处理完最后一个URL后返回一个退出码。想让curl在第一次出现错误时就退出，则可以使用 `--fail-early` 选项。
+
+#### 通配
+
+curl 使用保留符号 `[]` 和 `{}` 进行通配，使用 `[N-M]` 语法来指定一个数值范围，其中 `N` 是起始索引，`M` 是结束索引（包括M在内）。可以指定步进（step counter）,curl也可以处理字母范围。
 
 有时URL的不同部分不会遵循这些简单的模式，那么你可以指定完整的列表，但要放在花括号，而不是中括号中。
 
 可以在同一个URL中使用多个通配，URL中的每个通配都对应一个单独的变量，可以通过 '#[num]' 来引用，即在 '#' 后面跟上与通配对应的数字，从1（对应第一个通配）开始，以最后一个通配结束。
+
+#### 配置文件
 
 curl提供了“配置文件”功能。它允许你将命令行选项写在文本文件中，然后告诉curl，除了读取命令行外，还要从这个文件中读取命令行选项。使用-K或--config选项告诉curl从特定文件中读取更多的命令行选项
 
@@ -79,9 +86,11 @@ curl提供了“配置文件”功能。它允许你将命令行选项写在文�
 
 #### 身份验证
 
-最基本的curl身份验证选项是-u或--user。它接受一个参数，即使用冒号分隔的用户名和密码
-避免在命令行上指定用户名和密码的一种方法是使用.netrc文件或配置文件
-也可以使用-u选项，但不指定密码，curl会在运行时提示用户输入密码。
+curl 中最基本的身份验证选项是 `-u` 或 `--user`，支持传递用户名密码，用户名和密码使用冒号分隔，如 `-u admin:123456` 。
+
+为了避免在命令行中暴露密码信息，可以使用 `-u` 选项，但不指定密码，这样在执行时会提示用户输入密码。
+
+另外一种方法是使用 `.netrc` 文件或配置文件。
 
 #### 保存文件
 
@@ -102,14 +111,21 @@ curl不会对文件名进行编码，因此你可能会得到一个URL编码的�
 
 #### 断点续传
 
--C或--continu-at选项可以告诉curl从哪里开始传输，选项的值可以是一个普通的数字字节偏移量，或者使用字符串-让curl根据它所知道的信息自己决定从哪里开始传输。如果使用-，那么curl将基于目标文件确定本地已存在的数据量，并将其作为向服务器请求更多数据的偏移量。
+`-C` 或 `--continu-at` 选项可以指定开始传输的位置，选项的值可以是表示偏移量的普通的数字（单位：字节），或者使用字符串 `-` 让 curl 自动识别从哪里开始传输。
 
-
+如果使用 `-` ，那么 curl 将计算本地目标文件的数据量，并将其作为向服务器请求更多数据的偏移量。
 
 
 ### 使用 curl 发起 http 请求
 
 curl 发起 http请求时，具体使用的请求方法取决于使用的选项。默认方法是 GET，`-d` 或 `-F` 选项对应 POST方法，`-I` 对应 HEAD 方法，`-T` 对应 PUT 方法。
+
+| 请求方法 | 选项 | 示例 |
+|:-----:|:-----:|:-----|
+|GET|`-G` 或 `--get` |`curl -G http://example.com`|
+|POST|`-d` 或 `-F` |`curl -d 'name=xiaoming&age=12' http://example.com/`|
+|PUT| `-T` 或 `curl -T localfile http://example.com/new/resource/file` |
+|DELETE| `-X DELETE` | `curl -X DELETE http://example.com/file` |
 
 #### GET
 
@@ -169,14 +185,41 @@ curl --data-binary @filename http://example.com
 curl -F name=xiaoming -F img=@my.png http://example.com
 ```
 
+#### PUT
+
+`-T` 选项指定使用 PUT 方法，POST 和 PUT 非常相似，也可以用 `-d` 加上字符串来发送 PUT 请求：
+
+```bash
+curl -T localfile http://example.com/new/resource/file
+curl -d "data to PUT" -X PUT http://example.com/new/resource/file
+```
+
 #### 其他请求方法
 
-可以在-X或--request选项后面跟上方法名，让curl使用其他方法。
--T表示这是一个PUT请求，并告诉curl要发送哪个文件。因为POST和PUT非常相似，所以你也可以用-d加上字符串来发送PUT请求：curl -d "data to PUT" -X PUT http://example.com/new/resource/file
-让curl从指定文件读取初始cookie：curl -L -b cookies.txt http://example.com
-可以用-c选项指定cookie jar：curl -c cookie-jar.txt http://example.com-c指示curl将cookie写入文件，-b指示curl从文件读取cookie。通常需要同时使用它们。
-可以通过-j或--junk-session-cookies选项让curl开始新的cookie会话：curl -j -b cookies.txt http://example.com/
+使用 `-X` 或 `--request` 选项其他请求方法，如 `-X DELETE` 。
 
+```bash
+curl -X DELETE http://example.com/file
+```
+
+#### 使用 cookie
+
+使用 `-c` 选项将 cookie 写入指定文件：
+```bash
+curl -c cookie-jar.txt http://example.com
+```
+
+使用 `-b` 选项从文件读取初始 cookie：
+
+```bash
+curl -L -b cookies.txt http://example.com
+```
+
+使用 `-j` 或 `--junk-session-cookies` 选项让 curl 开始新的 cookie 会话：
+
+```bash
+curl -j -b cookies.txt http://example.com/
+```
 
 #### 身份认证
 
@@ -198,7 +241,7 @@ curl 通常支持几种身份验证方法，包括 Digest、Negotiate、NTLM，�
 
 #### 请求 http 区间
 
-curl 支持获取http 资源的指定范围内容，如获取远程资源前 200 个字节或中间 300 个字节，curl 可以用 `-r` 或 `--range` 选项发起区间请求。
+curl 支持获取http 资源的指定范围内容，如获取远程资源前 200 个字节或中间 300 个字节，使用 `-r` 或 `--range` 选项发起区间请求。
 
 ```bash 
 # 获取前200个字节
@@ -213,7 +256,7 @@ curl -r 0-199,800-199 http://example.com
 
 #### 压缩
 
-在 HTTP 响应消息支持以压缩格式传输，curl 中使用 `--compressed` 选项请求压缩传输数据，`--tr-encoding` 选项指定压缩传输编码。
+ HTTP 支持压缩传输响应消息，curl 中使用 `--compressed` 选项请求压缩后进行数据传输，可使用 `--tr-encoding` 选项指定压缩传输编码。
 
 服务端接受压缩传输请求后，通常会在响应头中携带 `Content-Encoding: gzip` 的标头，通知客户端内容经过了压缩。
 
