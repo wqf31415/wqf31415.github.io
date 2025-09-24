@@ -41,17 +41,22 @@ linux 系统中最常见的归档方式，可以把一大堆文件打成一个�
 
 使用 `tar` 命令进行打包、解析。
 
+##### 创建
+
 创建 `.tar` 包：
 
 ```bash
 tar -cf mytar.tar a.txt b.md
 ```
+##### 查看
 
 查看 `.tar` 包中的文件：
 
 ```bash
 tar -tvf mytar
 ```
+
+##### 解压
 
 解析 `.tar` 包文件：
 
@@ -65,7 +70,7 @@ tar -xf mytar
 
 使用 `tar` 打包后，再使用 `gzip` 压缩后的压缩包。使用 `tar` 工具打包和解压，也可以 `tar` 和 `gzip` 一起使用来操作。
 
-打包：
+##### 打包
 
 ```bash
 tar -zcf mytar.tar.gz a.txt b.md
@@ -80,7 +85,7 @@ gzip -r mytar.tar
 
  
 
-查看：
+##### 查看
 
 ```bash
 tar -ztvf mytar.tar.gz
@@ -88,7 +93,7 @@ tar -ztvf mytar.tar.gz
 
 
 
-解压：
+##### 解压
 
 ```bash
 tar -zxf mytar.tar.gz
@@ -107,7 +112,7 @@ tar -xf mytar.tar
 
 先使用 tar 打包，然后使用 xz 压缩的包。可使用 `tar` 工具打包或解压，可以同时使用 `tar` 和 `xz` 来操作。
 
-打包：
+##### 打包
 
 ```bash
 tar -Jcf mytar.tar.xz a.txt b.md 
@@ -122,7 +127,7 @@ xz mytar.tar
 
 
 
-查看：
+##### 查看
 
 ```bash
 tar -Jtvf mytar.tar.xz
@@ -130,7 +135,7 @@ tar -Jtvf mytar.tar.xz
 
 
 
-解压：
+##### 解压
 
 ```bash
 tar -Jxf mytar.tar.xz
@@ -156,20 +161,20 @@ tar -xf mytar.tar
 > yum install -y unzip
 > ```
 
-打包：
+##### 打包
 
 ```bash
 zip -r myZip.zip a.txt b.md
 zip -r myDir.zip myDir/
 ```
 
-查看：
+##### 查看
 
 ```bash
 unzip -l myZip.zip
 ```
 
-解压：
+##### 解压
 
 ```bash
 unzip myZip.zip
@@ -179,7 +184,7 @@ unzip myZip.zip
 
 #### .bz2
 
-打包：
+##### 打包
 
 ```bash
 tar -jcf myBzip.bz2 a.txt b.md
@@ -194,7 +199,7 @@ bzip2 mytar.tar
 
 
 
-查看：
+##### 查看
 
 ```bash
 tar -jtvf myBzip.bz2
@@ -202,7 +207,7 @@ tar -jtvf myBzip.bz2
 
 
 
-解压：
+##### 解压
 
 ```bash
 tar -jxf myBzip.bz2
