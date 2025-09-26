@@ -17,9 +17,11 @@ mermaid 用于在 markdown 插入文档图，本文介绍了在 markdown 中使�
 
 ### 认识 mermaid 图
 
-> mermaid github: <https://github.com/mermaid-js/mermaid> 
+> mermaid github: <https://github.com/mermaid-js/mermaid>
+>
+> 中文网：<https://mermaid.nodejs.cn/> 
 
-mermaid 美人鱼，是用文本语法来描述文档图形的工具，可以描述流程图、时序图、甘特图、类图等。在markdown 文档中可以使用 mermaid 文本插入文档图形，比如：
+mermaid （中文翻译为：美人鱼），是用文本语法来描述文档图形的工具，可以描述流程图、时序图、甘特图、类图等。在markdown 文档中可以使用 mermaid 文本插入文档图形，比如：
 
 ```mermaid
 graph TB;
