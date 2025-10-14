@@ -264,3 +264,4 @@ switch:
 - 使用 Docker 运行 ESPHome 容器，将 ESPHome 接入到 Home Assistant。
 - 使用 ESPHome 生成 ESP8266 开发板固件，修改 ESPHome 的配置脚本，添加控制板载 LED 的控制开关配置。更多的配置选项可参考 esphome 官方文档。
 - 使用乐鑫官方Flash烧录工具给 ESP8266 烧录固件，操作方式可扩展到 ESP32 开发板。
+- 更多玩法：参考 ESPHome 官方文档，添加传感器，采集传感器数据上报到 Home Assistant。
