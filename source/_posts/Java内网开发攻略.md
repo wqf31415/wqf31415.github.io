@@ -48,7 +48,10 @@ Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管�
 
 - 下载 maven 压缩包：从 Apache maven 官网下载 maven 压缩包，解压，添加 bin 路径到系统环境变量 path 中，然后修改配置文件，添加阿里镜像源，提升下载速度。
 
-- 创建 pom.xml：创建最简单的 maven 项目依赖文件，添加自己需要的依赖，依赖的信息可以从 maven 在线仓库 <https://mvn repository.com> 中搜索得到。
+- 创建 pom.xml：创建最简单的 maven 项目依赖文件，添加自己需要的依赖，依赖的信息可以从 maven 在线仓库中搜索得到。
+
+  > maven 官方中央仓库提供的搜索网站：<https://central.sonatype.com/> 
+  > 常用的第三方maven依赖查询网站：<https://mvnrepository.com/> 
 
   ```xml
   <project>
