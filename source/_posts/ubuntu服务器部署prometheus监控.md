@@ -128,6 +128,8 @@ sudo docker ps
 
 容器运行正常，可以用浏览器访问服务器的 `9090` 端口，我的访问地址是 http://192.168.2.201:9090，查看 prometheus 页面，在页面的 Status -> Target Health 页面中能看到监控的 prometheus 自身服务，State 为 `UP` 说明监控正常。
 
+![](/images/post/prometheus/prometheus_status.webp "Prometheus状态页面")
+
 
 ### 安装node-exporter
 
@@ -355,3 +357,4 @@ Grafana 官网提供了很多看板模板，可以复制模板的 ID 或 json �
 
 进入 grafana 页面的 Dashboards 页面，点击 New -> Import ，模板ID 填写 `1860`，点击 `Load` 加载模板，加载完成后选择已添加的 prometheus 数据源，保存后就可以在 Dashboards 页面查看监控面板。
 
+![](/images/post/prometheus/grafana_dashboards_prometheus.webp "Prometheus 看板")
