@@ -81,6 +81,8 @@ LuckFox Pico 开发板没有 SPI NAND Flash 存储器，所以必须烧录操作
 
 下载 RK 驱动助手 DriverAssitant，运行后点击“安装驱动”。
 
+![](/images/post/luckfox/DriverAssitant_install.webp) 
+
 #### 烧录Buildroot镜像到内存卡
 
 下载用于 LuckFox Pico 开发板的镜像 Luckfox_Pico_MicroSD_250313，将镜像解压出来。
@@ -97,6 +99,8 @@ LuckFox Pico 开发板没有 SPI NAND Flash 存储器，所以必须烧录操作
 
 点击 `创建 SD`，等待写入完成，当提示 `创建SD卡成功` 说明系统烧录完成。
 
+![](/images/post/luckfox/SocToolKit_create_sd.webp) 
+
 弹出内存卡，将内存卡插到 LuckFox Pico 开发板上。
 
 ### SSH远程访问
@@ -105,7 +109,13 @@ LuckFox Pico 开发板没有 SPI NAND Flash 存储器，所以必须烧录操作
 
 打开 Windows 电脑设置，进入 “网络和Internet” -> “以太网”，找到一个 `未识别的网络`，描述信息是 `Remote NDIS based Internet Sharing Device` ，在 “IP分配” 项中点击编辑，将 `自动(DHCP)` 修改为 `手动`，开启 `IPv4`，IP地址设置为 `172.32.0.100`，子网掩码设置为 `255.255.0.0`，保存配置。
 
+![](/images/post/luckfox/windows_network_config.webp) 
+
 打开 MobaXterm 软件，创建 SSH 连接，Remote host 为 `172.32.0.93`，勾选 `Specify username` 并填写用户名 `root`，点击 OK，输入密码 `luckfox` 回车。
+
+![](/images/post/luckfox/MobaXterm_ssh_pico.webp) 
+
+![](/images/post/luckfox/pico_login_success.webp) 
 
 ### Hello world
 
@@ -164,7 +174,7 @@ arm-rockchip830-linux-uclibcgnueabihf-gcc hello.c -o hello
 
 ##### 方式二：Makefile
 
-在代码文件目录中创建 `Makefile` 文件，内容如下：
+在代码文件目录中创建 `Makefile` 文件，内容如下(注意下述的路径要根据交叉编译工具链的实际路径修改)：
 
 ```Makefile
 CC := /home/wqf31415/tools/arm-rockchip830-linux-uclibcgnueabihf/bin/arm-rockchip830-linux-uclibcgnueabihf-gcc
@@ -193,6 +203,8 @@ chmod +x hello
 ```bash
 ./hello
 ```
+
+![](/images/post/luckfox/pico_hello_world.webp) 
 
 ### 总结
 
