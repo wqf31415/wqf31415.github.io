@@ -13,9 +13,13 @@ categories:
 这篇文章主要讲解了 markdown 的语法规则、编辑器以及一些使用技巧。
 
 ### 在线测试一下
-下面这个是用来尝试 markdown 语法的：
 
-<iframe src="http://wqf31415.coding.me/app/markdown-viewer.html" name="iframe_a" style="border: 1px solid #ccc;width: 100%; height: 500px;"></iframe>
+可以到下面这些在线网站可以在线编辑并实时预览 markdown 语法：
+
+- [Markdown 在线编辑器 - Markdown Live Preview](https://markdownlivepreview.com/) - 打开网页后左侧编辑 markdown，右侧实时预览结果
+- [Dillinger](https://dillinger.io/) - 在线 markdown 编辑器，支持导出 HTML/PDF
+- [jbt markdown editor](https://jbt.github.io/markdown-editor/) - 简单的分栏在线编辑器
+
 <!-- more -->
 
 ### 概念
