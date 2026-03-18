@@ -68,7 +68,7 @@ Maven 是一个广泛使用的 java 项目构建工具，它能够帮我们管�
 
 - 拷贝依赖包：将下载到本地的依赖文件打包，默认本地依赖保存路径是 `~/.m2` ，将其压缩打包后，传输到内网，使用时直接将其中内容解压，与内网原有依赖放在一起即可使用。
 
-- 更新idea本地仓库索引：进入 idea，点击菜单栏 File ，点 `Settings...` 进入设计界面，进入 `Build, Execution, Deployment` - `Build Tools` - `Maven` - `Repositories`，在右侧选择本地仓库（Type为Local），点击 `Update`。
+- 更新idea本地仓库索引：进入 idea，点击菜单栏 File，点 `Settings...` 进入设计界面，进入 `Build, Execution, Deployment` - `Build Tools` - `Maven` - `Repositories`，在右侧选择本地仓库（Type为Local），点击 `Update`。
 
 #### springboot
 

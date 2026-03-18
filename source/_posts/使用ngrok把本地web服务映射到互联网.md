@@ -23,7 +23,7 @@ categories:
 <!--more-->
 
 ### 大爷，来玩嘛！~
-可以直接来我家找我哦！有好多版本可以选择的呢，有Mac OS的，有Linux的，有Windows的，有。。。。
+可以直接来我家找我哦！有好多版本可以选择的呢，有Mac OS的，有Linux的，有Windows的，有……
 
 这次就点 Windows 的好了，在主页 Download 页面选择 windows 版本下载，如果网速慢，可以[点这里](http://ouq616hsi.bkt.clouddn.com/7z/ngrok.7z 'ngrok') ，我打包好的，应该要快点！
 

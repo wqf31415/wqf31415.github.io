@@ -116,7 +116,7 @@ public @interface MyAspectAnno {
 
 在切面类中使用 `@Around` 、`@Before` 、`@After` 、`@AfterReturning` 、`@AfterThrowing` 来标记方法来指定相应的通知处理，这些通知的注解中需要指定切点，可以引用 `@Pointcut` 注解定义切点的方法，也可以使用切点表达式来指定。
 
-我们要添加的逻辑代码就放在这些通知方法中，这些方法中都有一个 `JoinPoint` 类型的参数（Around 通知方法中的参数 `ProceedingJoinPoint` 继承了 `JoinPoint`），。
+我们要添加的逻辑代码就放在这些通知方法中，这些方法中都有一个 `JoinPoint` 类型的参数（Around 通知方法中的参数 `ProceedingJoinPoint` 继承了 `JoinPoint`）。
 
 MyAspect.java
 
