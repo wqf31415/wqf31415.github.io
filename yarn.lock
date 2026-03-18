@@ -219,13 +219,6 @@ debug@2.6.9:
   dependencies:
     ms "2.0.0"
 
-deep-assign@^2.0.0:
-  version "2.0.0"
-  resolved "https://registry.npmmirror.com/deep-assign/-/deep-assign-2.0.0.tgz"
-  integrity sha512-2QhG3Kxulu4XIF3WL5C5x0sc/S17JLgm1SfvDfIRsR/5m7ZGmcejII7fZ2RyWhN0UWIJm0TNM/eKow6LAn3evQ==
-  dependencies:
-    is-obj "^1.0.0"
-
 deepmerge@^4.2.2:
   version "4.3.1"
   resolved "https://registry.npmmirror.com/deepmerge/-/deepmerge-4.3.1.tgz"
@@ -463,13 +456,6 @@ hexo-deployer-git@^4.0.0:
     luxon "^3.0.4"
     nunjucks "^3.2.3"
     picocolors "^1.0.0"
-
-hexo-filter-mermaid-diagrams@^1.0.5:
-  version "1.0.5"
-  resolved "https://registry.npmmirror.com/hexo-filter-mermaid-diagrams/-/hexo-filter-mermaid-diagrams-1.0.5.tgz"
-  integrity sha512-/IkIMKn4V7PBAzMJGNDPSoBFlv1JGvIELXm5AWkR8N5N44kDTNJLtabb4h095UhZQIXOrF9zA1WYhi6wrWLW5Q==
-  dependencies:
-    deep-assign "^2.0.0"
 
 hexo-front-matter@^4.2.1:
   version "4.2.1"
@@ -763,11 +749,6 @@ is-number@^7.0.0:
   version "7.0.0"
   resolved "https://registry.npmmirror.com/is-number/-/is-number-7.0.0.tgz"
   integrity sha512-41Cifkg6e8TylSpdtTpeLVMqvSBEVzTttHvERD741+pnZ8ANv0004MRL43QKPDlK9cGvNp6NZWZUBlbGXYxxng==
-
-is-obj@^1.0.0:
-  version "1.0.1"
-  resolved "https://registry.npmmirror.com/is-obj/-/is-obj-1.0.1.tgz"
-  integrity sha512-l4RyHgRqGN4Y3+9JHVrNqO+tN0rV5My76uW5/nuO4K1b6vw5G8d/cmFjP9tRfEsdhZNt0IFdZuK/c2Vr4Nb+Qg==
 
 is-plain-object@^5.0.0:
   version "5.0.0"
