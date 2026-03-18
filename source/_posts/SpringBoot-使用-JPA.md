@@ -18,7 +18,7 @@ categories:
 
 ### 什么是 JPA ？
 
-JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司提出的一套标准，用于将运行期对象持久化存储到数据库，具体实现的产品有： Hiberate、Eclipselink、Toplink、Spring Data JPA等。
+JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司提出的一套标准，用于将运行期对象持久化存储到数据库，具体实现的产品有：Hibernate、Eclipselink、Toplink、Spring Data JPA等。
 
 <!-- more -->
 
