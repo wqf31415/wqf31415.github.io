@@ -21,7 +21,7 @@ mermaid 用于在 markdown 插入文档图，本文介绍了在 markdown 中使�
 >
 > 中文网：<https://mermaid.nodejs.cn/> 
 
-mermaid （中文翻译为：美人鱼），是用文本语法来描述文档图形的工具，可以描述流程图、时序图、甘特图、类图等。在markdown 文档中可以使用 mermaid 文本插入文档图形，比如：
+mermaid （中文翻译为：美人鱼），是用文本语法来描述文档图形的工具，可以描述流程图、时序图、甘特图、类图等。在 markdown 文档中可以使用 mermaid 文本插入文档图形，比如：
 
 ```mermaid
 graph TB;
@@ -71,7 +71,7 @@ A-->B
 
 ##### 节点定义
 
-节点是指文档图中的文本块，比如在流程图中使用圆角矩形表示开始与结束，使用菱形表示条件判断，使用矩形表示流程。mermaid 中定义节点时，必须指定一个节点ID，ID 用于与其他节点创建连线，区分大小写。可以指定节点形状以及描述文字，节点形状缺省为矩形，描述文字缺省为节点ID，如 `start(开始)` 将创建一个圆角矩形的节点，显示内容为 `开始` ，节点ID 为 `start`。
+节点是指文档图中的文本块，比如在流程图中使用圆角矩形表示开始与结束，使用菱形表示条件判断，使用矩形表示流程。mermaid 中定义节点时，必须指定一个节点 ID，ID 用于与其他节点创建连线，区分大小写。可以指定节点形状以及描述文字，节点形状缺省为矩形，描述文字缺省为节点 ID，如 `start(开始)` 将创建一个圆角矩形的节点，显示内容为 `开始`，节点 ID 为 `start`。
 
 | 语法         | 说明                     |
 | ------------ | ------------------------ |
@@ -185,11 +185,11 @@ A ->> B : I'm fine, too.
 
 ##### 参与者
 
-在序列图中可以使用 `participant 参与者` 来定义参与者，可以为参与者添加别名，如  `participant A as participantA` ，关键字 `patticipant` 和 `as` 不区分大小写。
+在序列图中可以使用 `participant 参与者` 来定义参与者，可以为参与者添加别名，如  `participant A as participantA`，关键字 `participant` 和 `as` 不区分大小写。
 
 ```
 sequenceDiagram
-    participant m as 小明 
+    participant m as 小明
     Participant h As 小红
     PARTICIPANT g AS 小刚
     m ->> h : hi
@@ -197,7 +197,7 @@ sequenceDiagram
     g ->> m : ok
 ```
 
-效果
+效果：
 
 ```mermaid
 sequenceDiagram
@@ -248,7 +248,7 @@ sequenceDiagram
 
 在消息线末尾增加 `+` ，则消息接收者进入当前消息的处理中状态，在消息线末尾增加 `-` ，则消息接收者离开当前消息处理中状态。
 
-或者使用 `activate 参与者` 指定参与者处于处理状态，使用 `deactivate 参与者` 指定参与者离开处理状态  。注意 `activate` 和 `deactivate` 必须成对出现，否则会报错。
+或者使用 `activate 参与者` 指定参与者处于处理状态，使用 `deactivate 参与者` 指定参与者离开处理状态。注意 `activate` 和 `deactivate` 必须成对出现，否则会报错。
 
 示例：
 
@@ -323,7 +323,7 @@ sequenceDiagram;
 
 ##### 循环
 
-使用 `loop 描述` 在序列图中添加循环， 使用 `end` 标记循环结束。
+使用 `loop 描述` 在序列图中添加循环，使用 `end` 标记循环结束。
 
 示例
 
@@ -552,12 +552,26 @@ CSDN 博客文章也是用 markdown 语法编辑的，其中也支持 mermaid。
 
 ### 在 hexo 博客中使用 mermaid
 
-在 hexo 中使用 mermaid 需要添加 Hexo 的 mermaid 过滤器 `hexo-filter-mermaid-diagrams` ，可以使用 yarn 或 npm 安装：
+在 Hexo 中使用 mermaid，如果你使用的是较新版本的 NexT 主题（8.25+），**不需要安装任何插件**，NexT 已经内置了 mermaid 支持。
 
-- yarn: `yarn add hexo-filter-mermaid-diagrams` 
-- npm: `npm install hexo-filter-mermaid-diagrams` 
+只需要两步：
 
-然后需要根据使用的主题修改配置与模板文件，我使用的是 next 主题，最新版的 next 主题不需要修改配置，直接部署即可支持 mermaid 。
+1. 在 NexT 主题配置中启用 mermaid：
+```yaml
+mermaid:
+  enable: true
+```
+
+2. 在文章中直接使用标准 markdown fenced code block 语法：
+
+````markdown
+```mermaid
+graph TB;
+A-->B & C-->D
+```
+````
+
+保存生成后，mermaid 图表就会自动在前端渲染出来。
 
 
 
