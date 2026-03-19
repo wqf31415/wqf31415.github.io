@@ -42,7 +42,9 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
+      - name: Inject token into _config.yml
+        run: |
+          sed -i "s|repo: https://github.com/wqf31415/wqf31415.github.io.git|repo: https://${GITHUB_TOKEN}@github.com/wqf31415/wqf31415.github.io.git|g" _config.yml
+
       - name: Build and Deploy
         run: npm run deploy
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
