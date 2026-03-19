@@ -66,6 +66,53 @@
 
 
 
+<style>
+/* Global responsive styles for SVG images on mobile */
+.post-body svg,
+.post-body img[src$=".svg"] {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  box-sizing: border-box;
+}
+</style>
+<script>
+// Global fix for inline SVG with fixed width on mobile
+document.addEventListener('DOMContentLoaded', function() {
+  (function() {
+    function fixSvgSize() {
+      var svgs = document.querySelectorAll('.post-body svg');
+      for (var i = 0; i < svgs.length; i++) {
+        var svg = svgs[i];
+        var width = svg.getAttribute('width');
+        var height = svg.getAttribute('height');
+
+        // If SVG has width/height attributes but no viewBox, add viewBox
+        if (width && height && !svg.getAttribute('viewBox')) {
+          // Remove any units, just get the number
+          var wNum = parseFloat(width);
+          var hNum = parseFloat(height);
+          if (wNum && hNum) {
+            svg.setAttribute('viewBox', '0 0 ' + wNum + ' ' + hNum);
+          }
+        }
+
+        // Force preserveAspectRatio to maintain original ratio
+        if (!svg.getAttribute('preserveAspectRatio')) {
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        }
+      }
+    }
+    // Run on page load
+    fixSvgSize();
+    // Run again after any dynamic content loads
+    if (document.addEventListener) {
+      document.addEventListener('pjax:complete', fixSvgSize);
+    }
+  })();
+});
+</script>
 
   <noscript>
     <link rel="stylesheet" href="/css/noscript.css">
@@ -229,7 +276,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -326,7 +373,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -422,7 +469,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -523,7 +570,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -620,7 +667,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -717,7 +764,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -814,7 +861,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -915,7 +962,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1011,7 +1058,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1104,7 +1151,7 @@
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+      <time title="修改时间：2026-03-19 15:47:40" itemprop="dateModified" datetime="2026-03-19T15:47:40+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">

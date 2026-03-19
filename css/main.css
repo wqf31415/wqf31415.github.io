@@ -1283,7 +1283,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #65eb67;
+  background: #956c8f;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
@@ -2716,4 +2716,12 @@ header.header {
 }
 .sub-menu .menu-item {
   display: inline-block;
+}
+.post-body svg,
+.post-body img[src$=".svg"] {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  box-sizing: border-box;
 }
