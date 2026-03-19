@@ -112,7 +112,7 @@ deploy:
   type: git
   repo: https://github.com/wqf31415/wqf31415.github.io.git
   message: ":high_heel: 发布版本: {{ now('YYYY-MM-DD HH:mm:ss') }}"
-  branch: master
+  branch: pages
 
 #mermaid:
 #  enable: true
