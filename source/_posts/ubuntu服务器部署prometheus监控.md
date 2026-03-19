@@ -13,6 +13,14 @@ categories:
 date: 2026-02-12 15:39:48
 ---
 
+<style>
+/* 让 SVG 图片自适应屏幕宽度，移动端正常显示 */
+.post-body svg {
+  max-width: 100%;
+  height: auto !important;
+}
+</style>
+
 ### 概述
 
 文章介绍了在 ubuntu 服务器上使用 docker 部署服务监控软件普罗米修斯（prometheus），并将其他 linux 主机添加到监控。
