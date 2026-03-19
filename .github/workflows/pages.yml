@@ -37,6 +37,11 @@ jobs:
           cp themes_config/next/_config.yml themes/next/
           cp themes_config/next/languages/zh-CN.yml themes/next/languages/
 
+      - name: Setup git user
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+
       - name: Build and Deploy
         run: npm run deploy
         env:
