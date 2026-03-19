@@ -37,14 +37,19 @@ jobs:
           cp themes_config/next/_config.yml themes/next/
           cp themes_config/next/languages/zh-CN.yml themes/next/languages/
 
+      - name: Build
+        run: npm run build
+
       - name: Setup git user
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Inject token into _config.yml
+      - name: Deploy to pages branch
         run: |
-          sed -i "s|repo: https://github.com/wqf31415/wqf31415.github.io.git|repo: https://${GITHUB_TOKEN}@github.com/wqf31415/wqf31415.github.io.git|g" _config.yml
-
-      - name: Build and Deploy
-        run: npm run deploy
+          # Create a new git repo in public folder and force push to pages branch
+          cd public
+          git init
+          git add -A
+          git commit -m "github-actions: deployed $(date)"
+          git push -f "https://${{ secrets.GITHUB_TOKEN }}@github.com/wqf31415/wqf31415.github.io.git" master:pages
