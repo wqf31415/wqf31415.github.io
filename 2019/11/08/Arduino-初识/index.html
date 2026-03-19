@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="摘要 这篇文章主要介绍了 Arduino 的概念，分析了 Arduino 在硬件开发中的优势，从硬件、软件角度认识什么是 Arduino，最后体验了使用 Arduino IDE 开发点亮 LED 灯的项目，分析了项目代码。  Arduino 是什么？  官网：https:&#x2F;&#x2F;www.arduino.cc&#x2F;  Arduino 诞生于 2005年，是一个开源的，简单易用的电子开发平台。在这里除了 A">
 <meta property="og:type" content="article">
@@ -26,26 +26,25 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="摘要 这篇文章主要介绍了 Arduino 的概念，分析了 Arduino 在硬件开发中的优势，从硬件、软件角度认识什么是 Arduino，最后体验了使用 Arduino IDE 开发点亮 LED 灯的项目，分析了项目代码。  Arduino 是什么？  官网：https:&#x2F;&#x2F;www.arduino.cc&#x2F;  Arduino 诞生于 2005年，是一个开源的，简单易用的电子开发平台。在这里除了 A">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_logo.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/ArduPilot.jpg">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/MakerBot.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/ArduSat.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_uno_r3.jpg">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_example_blink.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_connect_computer.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_connect_config.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_ide_upload_btn.png">
-<meta property="article:published_time" content="2019-11-08T08:10:08.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.231Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/arduino_logo.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/ArduPilot.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/MakerBot.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/ArduSat.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/arduino_uno_r3.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/arduino_example_blink.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/arduino_connect_computer.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/arduino_connect_config.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/arduino/arduino_ide_upload_btn.webp">
+<meta property="article:published_time" content="2019-11-08T16:10:08.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.110Z">
 <meta property="article:author" content="This_Wei">
-<meta property="article:tag" content="arduino">
 <meta property="article:tag" content="IoT">
+<meta property="article:tag" content="arduino">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/arduino_logo.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/arduino/arduino_logo.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2019/11/08/Arduino-%E5%88%9D%E8%AF%86/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/11/08/Arduino-%E5%88%9D%E8%AF%86/","path":"2019/11/08/Arduino-初识/","title":"Arduino 初识"}</script>
@@ -54,10 +53,29 @@
 <title>Arduino 初识 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -139,18 +157,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -220,14 +238,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-11-08 16:10:08" itemprop="dateCreated datePublished" datetime="2019-11-08T16:10:08+08:00">2019-11-08</time>
+      <time title="创建时间：2019-11-08 16:10:08" itemprop="dateCreated datePublished" datetime="2019-11-08T16:10:08+00:00">2019-11-08</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -255,21 +273,21 @@
 <p>官网：<a target="_blank" rel="noopener" href="https://www.arduino.cc/">https://www.arduino.cc/</a></p>
 </blockquote>
 <p>Arduino 诞生于 2005年，是一个开源的，简单易用的电子开发平台。在这里除了 Arduino 这个名字被注册成了商标，需要授权才能以 Arduino 命名，其他的都是开源的，其中包括电路板等硬件资源，也包括开发使用的软件 IDE。Arduino 抛开了传统硬件开发的复杂操作，不需要了解硬件的内部结构和寄存器设置，也不需要过多的电子知识和编程知识，只需要简单的学习，了解各个引脚和函数的作用，就可以开发出各种出色的项目。还可以跟其他硬件结合，开发出更有趣的作品。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_logo.png" alt="" /></p>
+<p><img src="/images/post/arduino/arduino_logo.webp" alt="" /></p>
 <span id="more"></span>
 <h3 id="一些基于-arduino-开发的项目"><a class="markdownIt-Anchor" href="#一些基于-arduino-开发的项目"></a> 一些基于 Arduino 开发的项目</h3>
 <ul>
 <li>
 <p>ArduPilot，<a target="_blank" rel="noopener" href="http://ardupilot.org/">http://ardupilot.org/</a> ，基于 Arduino 开发的无人机控制系统。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/ArduPilot.jpg" alt="" /></p>
+<p><img src="/images/post/arduino/ArduPilot.webp" alt="" /></p>
 </li>
 <li>
 <p>MakerBot，<a target="_blank" rel="noopener" href="https://www.makerbot.com/">https://www.makerbot.com/</a> ，使用 ArduinoMega 作为主控制器的 3D 打印机。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/MakerBot.png" alt="" /></p>
+<p><img src="/images/post/arduino/MakerBot.webp" alt="" /></p>
 </li>
 <li>
 <p>ArduSat，<a target="_blank" rel="noopener" href="https://www.kickstarter.com/projects/575960623/ardusat-your-arduino-experiment-in-space">https://www.kickstarter.com/projects/575960623/ardusat-your-arduino-experiment-in-space</a> ，采用 Arduino 的人造卫星项目。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/ArduSat.png" alt="" /></p>
+<p><img src="/images/post/arduino/ArduSat.webp" alt="" /></p>
 </li>
 </ul>
 <h3 id="arduino-的优势"><a class="markdownIt-Anchor" href="#arduino-的优势"></a> Arduino 的优势</h3>
@@ -285,7 +303,7 @@
 <p>Arduino 诞生至今出现了很多硬件设备，包括核心的控制器（也可以称之为开发板）、外围设备和扩展板。</p>
 <h4 id="arduino-uno"><a class="markdownIt-Anchor" href="#arduino-uno"></a> Arduino UNO</h4>
 <p>使用最广泛的 Arduino 控制器，价格便宜，初学者首选。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_uno_r3.jpg" alt="" /></p>
+<p><img src="/images/post/arduino/arduino_uno_r3.webp" alt="" /></p>
 <h4 id="arduino-mega"><a class="markdownIt-Anchor" href="#arduino-mega"></a> Arduino MEGA</h4>
 <p>增强版，比 UNO 具有更多的 I/O 接口，可以控制更多的设备，同时也拥有更大的程序空间和内存，适合较大型项目。</p>
 <h4 id="arduino-leonardo"><a class="markdownIt-Anchor" href="#arduino-leonardo"></a> Arduino Leonardo</h4>
@@ -352,19 +370,19 @@
 <p>硬件开发时的 Hello World 是点亮 LED 灯，我们从点亮第一盏灯开始 Arduino 之旅，也是第一次体验使用 Arduino 进行硬件开发。</p>
 <h5 id="打开官方示例代码"><a class="markdownIt-Anchor" href="#打开官方示例代码"></a> 打开官方示例代码</h5>
 <p>第一步，打开 Arduino IDE，点击 <strong>“文件”</strong> - <strong>“示例”</strong> - <strong>“01.Basics”</strong> - <strong>“Blink”</strong> ，即可打开官方自带的 LED 灯闪烁示例</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_example_blink.png" alt="" /></p>
+<p><img src="/images/post/arduino/arduino_example_blink.webp" alt="" /></p>
 <p>可以简单阅读一下代码，其中说明内容比较完善，这个程序(在 Arduino 中叫做 sketch) 的作用是让控制器板上内嵌的 LED 闪烁。</p>
 <h5 id="连接控制器开发板"><a class="markdownIt-Anchor" href="#连接控制器开发板"></a> 连接控制器(开发板)</h5>
 <p>通过 USB 连接线将控制器连接到电脑上，可能需要安装驱动程序，连接正确时，可以在设备管理器中看到，如下图所示：</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_connect_computer.png" alt="" /></p>
+<p><img src="/images/post/arduino/arduino_connect_computer.webp" alt="" /></p>
 <p>在 Windows 系统中，通过设备管理器查看 “端口”，即可看到连接上的 Arduino 控制器，如上图中显示的，我的控制器是使用 CH340 进行数据传输的，在电脑的 3 号串口上进行通信。</p>
 <p>在 Mac OS 或 Linux 中，串口名称一般为 <code>/dev/tty.usbmodem</code> 加数字编号，或者 <code>/dev/cu.usbmodem</code> 加数字编号</p>
 <h5 id="参数设置"><a class="markdownIt-Anchor" href="#参数设置"></a> 参数设置</h5>
 <p>在上传程序代码到控制器前，首先要选择使用的开发板，配置相应的参数，如下图所示，我选择的开发板是 Arduino UNO，选择的端口是刚才在设备管理器中看到的 “COM3”</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_connect_config.png" alt="" /></p>
+<p><img src="/images/post/arduino/arduino_connect_config.webp" alt="" /></p>
 <h5 id="编译并上传程序代码"><a class="markdownIt-Anchor" href="#编译并上传程序代码"></a> 编译并上传程序代码</h5>
 <p>代码编辑完成后，可以点击 Arduino IDE 工具栏中的 “验证” 按钮，检验代码是否存在问题，确认没问题后，点击 “上传” 按钮即可将程序上传到控制器，上传期间，标为 “TX” 和 “RX” 的 LED 灯快速闪烁，说明正在写入。上传完成后，UNO 将自动开始执行代码，板子上标为 “L” 的 LED 灯开始闪烁。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/arduino_ide_upload_btn.png" alt="" /></p>
+<p><img src="/images/post/arduino/arduino_ide_upload_btn.webp" alt="" /></p>
 <h4 id="代码解析"><a class="markdownIt-Anchor" href="#代码解析"></a> 代码解析</h4>
 <p>Arduino 中使用的是 <strong>C++</strong> 和 <strong>C</strong> 语言进行编程，但是我们在示例代码中并没有找到 main 函数，并不是不需要 main 函数，而是main 函数被包含在了 Arduino 核心库中了，不需要用户手动添加了。</p>
 <p>下面是 Arduino IDE 官方的 Blink 示例代码：</p>
@@ -377,7 +395,7 @@
 </blockquote>
 <p><strong>delay</strong> 函数用于暂停程序，参数为暂停时间的毫秒数。</p>
 <h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
-<p>这篇文章主要是对 Arduino 的初步认识，了解这是什么，能干什么，有什么优势，使用官方示例体验 Arduino 开发硬件。</p>
+<p>这篇文章主要是对 Arduino 的初步认识，介绍 Arduino 是什么，能干什么，有什么优势，使用官方示例体验 Arduino 开发硬件。</p>
 
     </div>
 
@@ -386,6 +404,24 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/arduino/" rel="tag"># arduino</a>
               <a href="/tags/IoT/" rel="tag"># IoT</a>
@@ -396,12 +432,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2019/10/25/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B8%80/" rel="prev" title="数据结构学习笔记一">
-                  <i class="fa fa-chevron-left"></i> 数据结构学习笔记一
+                  <i class="fa fa-angle-left"></i> 数据结构学习笔记一
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2019/11/30/%E4%BD%BF%E7%94%A8%E6%8C%81%E7%BB%AD%E9%9B%86%E6%88%90%E5%B7%A5%E5%85%B7/" rel="next" title="使用持续集成工具">
-                  使用持续集成工具 <i class="fa fa-chevron-right"></i>
+                  使用持续集成工具 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -414,6 +450,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -421,17 +458,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -452,25 +488,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

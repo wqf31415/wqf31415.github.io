@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="概述 这篇文章总结了 Java 中的基本数据类型和对应的封装类，以及各种类型数据之间的转换操作。  什么是基础数据类型  在 Java 语言中，提供了 8 种基本数据类型，6 种数字类型(4 种整数类型，2 种浮点型)， 2 种字符型，这些基本数据类型从 Java 发布以来就是 java 语言的一部分。    类型 大小 最小值 最大值 初始值 包装类     byte 8bits -27 27">
 <meta property="og:type" content="article">
@@ -26,17 +26,16 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="概述 这篇文章总结了 Java 中的基本数据类型和对应的封装类，以及各种类型数据之间的转换操作。  什么是基础数据类型  在 Java 语言中，提供了 8 种基本数据类型，6 种数字类型(4 种整数类型，2 种浮点型)， 2 种字符型，这些基本数据类型从 Java 发布以来就是 java 语言的一部分。    类型 大小 最小值 最大值 初始值 包装类     byte 8bits -27 27">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/coffee.png">
-<meta property="article:published_time" content="2020-02-12T14:03:21.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.240Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/java/coffee.webp">
+<meta property="article:published_time" content="2020-02-12T22:03:21.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.110Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="java">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/coffee.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/java/coffee.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2020/02/12/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/02/12/Java-%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B%E5%8F%8A%E5%8C%85%E8%A3%85%E7%B1%BB/","path":"2020/02/12/Java-基础数据类型及包装类/","title":"Java 基本数据类型及包装类"}</script>
@@ -45,10 +44,29 @@
 <title>Java 基本数据类型及包装类 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -130,18 +148,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -211,14 +229,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-02-12 22:03:21" itemprop="dateCreated datePublished" datetime="2020-02-12T22:03:21+08:00">2020-02-12</time>
+      <time title="创建时间：2020-02-12 22:03:21" itemprop="dateCreated datePublished" datetime="2020-02-12T22:03:21+00:00">2020-02-12</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -242,7 +260,7 @@
     <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
 <p>这篇文章总结了 Java 中的基本数据类型和对应的封装类，以及各种类型数据之间的转换操作。</p>
 <h3 id="什么是基础数据类型"><a class="markdownIt-Anchor" href="#什么是基础数据类型"></a> 什么是基础数据类型</h3>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/coffee.png" alt="" /></p>
+<p><img src="/images/post/java/coffee.webp" alt="" /></p>
 <p>在 Java 语言中，提供了 8 种基本数据类型，6 种数字类型(4 种整数类型，2 种浮点型)， 2 种字符型，这些基本数据类型从 Java 发布以来就是 java 语言的一部分。</p>
 <table>
 <thead>
@@ -483,6 +501,24 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/java/" rel="tag"># java</a>
           </div>
@@ -492,12 +528,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2020/02/09/esp8266-%E7%82%B9%E7%81%AF%E4%B8%8E%E6%91%A9%E6%96%AF%E5%AF%86%E7%A0%81/" rel="prev" title="esp8266 点灯与摩斯密码">
-                  <i class="fa fa-chevron-left"></i> esp8266 点灯与摩斯密码
+                  <i class="fa fa-angle-left"></i> esp8266 点灯与摩斯密码
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2020/02/19/MyCat-%E5%88%9D%E8%AF%86/" rel="next" title="MyCat 初识">
-                  MyCat 初识 <i class="fa fa-chevron-right"></i>
+                  MyCat 初识 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -510,6 +546,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -517,17 +554,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -548,25 +584,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

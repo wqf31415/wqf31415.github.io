@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档: https:&#x2F;&#x2F;www.jhipster.tech&#x2F;docume">
 <meta property="og:type" content="article">
@@ -26,20 +26,19 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="写在前面的话：这篇文章是 2017 年 4 月刚接触 jhipster 时写的，当时的版本比较低，springboot 还是使用 1.x，angular 还是使用 1.x ，现在的版本已经更新换代好几次了，下面的方法还可以用，但有些依赖包可能需要更新。此外，下面内容对应的官网文档可以访问一下地址，查看 jhipster 历史文档: https:&#x2F;&#x2F;www.jhipster.tech&#x2F;docume">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/jhipster_index_error.png">
-<meta property="article:published_time" content="2017-04-25T05:58:44.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.242Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/java/what_is_jhipster.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/java/jhipster_index_error.webp">
+<meta property="article:published_time" content="2017-04-25T13:58:44.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.110Z">
 <meta property="article:author" content="This_Wei">
-<meta property="article:tag" content="java">
 <meta property="article:tag" content="JHipster">
+<meta property="article:tag" content="java">
 <meta property="article:tag" content="web">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/java/what_is_jhipster.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2017/04/25/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2017/04/25/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/","path":"2017/04/25/JHipster-学习笔记1/","title":"JHipster 学习笔记1"}</script>
@@ -48,10 +47,29 @@
 <title>JHipster 学习笔记1 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -133,18 +151,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -214,14 +232,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2017-04-25 13:58:44" itemprop="dateCreated datePublished" datetime="2017-04-25T13:58:44+08:00">2017-04-25</time>
+      <time title="创建时间：2017-04-25 13:58:44" itemprop="dateCreated datePublished" datetime="2017-04-25T13:58:44+00:00">2017-04-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -256,7 +274,7 @@
 <p>根据官方自己的描述：JHipster就是一个用来创建 Spring Boot - Angular 项目的 Yeoman 代码生成器。</p>
 </blockquote>
 <p>简单的说 <strong>JHipster就是一个代码生成器</strong> ，帮我们自动生成一个 java web 项目源码，后台使用 Spring Boot ，前端使用 Angular 。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/what_is_jhipster.png" alt="" title="这就是 Jhipster" /></p>
+<p><img src="/images/post/java/what_is_jhipster.webp" alt="" title="这就是 Jhipster" /></p>
 <span id="more"></span>
 <h4 id="类似的技术"><a class="markdownIt-Anchor" href="#类似的技术"></a> 类似的技术</h4>
 <p>一些 java web 项目代码生成工具：</p>
@@ -453,7 +471,7 @@
 解决办法是打开 <strong>src/main/resources/config/application-dev.yml</strong> ，按下面的设置自己的用户名（username）和密码（password），并手动在本地数据库中创建需要的数据库：<strong>myJHipsterDemo</strong></p>
 <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">spring:</span>    </span><br><span class="line">    <span class="attr">datasource:</span></span><br><span class="line">        <span class="attr">type:</span> <span class="string">com.zaxxer.hikari.HikariDataSource</span></span><br><span class="line">        <span class="attr">url:</span> <span class="string">jdbc:mysql://localhost:3306/myJHipsterDemo?useUnicode=true&amp;characterEncoding=UTF8&amp;useSSL=true</span></span><br><span class="line">        <span class="attr">name:</span></span><br><span class="line">        <span class="attr">username:</span> <span class="string">root</span></span><br><span class="line">        <span class="attr">password:</span> <span class="number">123456</span></span><br></pre></td></tr></table></figure>
 <h4 id="导入-idea-后能运行但打开页面显示产生了一个错误"><a class="markdownIt-Anchor" href="#导入-idea-后能运行但打开页面显示产生了一个错误"></a> 导入 IDEA 后能运行，但打开页面显示产生了一个错误</h4>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/jhipster_index_error.png" alt="" title="出现了一个错误" /><br />
+<p><img src="/images/post/java/jhipster_index_error.webp" alt="" title="出现了一个错误" /><br />
 根据提示，在项目根目录下打开命令行，依次执行 <code>bower install</code> 和 <code>gulp install</code></p>
 <h4 id="运行-bower-install-命令时报错"><a class="markdownIt-Anchor" href="#运行-bower-install-命令时报错"></a> 运行 bower install 命令时报错：</h4>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bower swagger-ui#2.1.5      ECMDERR Failed to execute &quot;git ls-remote --tags --heads https://github.com/wordnik/swagger-ui.git&quot;, exit code of #128 fatal: unable to access &#x27;https://github .com/wordnik/swagger-ui.git/&#x27;: SSL read: error:00000000:lib(0):func(0):reason(0), errno 10054</span><br></pre></td></tr></table></figure>
@@ -474,9 +492,27 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
-              <a href="/tags/java/" rel="tag"># java</a>
               <a href="/tags/JHipster/" rel="tag"># JHipster</a>
+              <a href="/tags/java/" rel="tag"># java</a>
               <a href="/tags/web/" rel="tag"># web</a>
           </div>
 
@@ -485,12 +521,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2017/04/06/%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AETomcat8%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="prev" title="在本地安装配置Tomcat8服务器">
-                  <i class="fa fa-chevron-left"></i> 在本地安装配置Tomcat8服务器
+                  <i class="fa fa-angle-left"></i> 在本地安装配置Tomcat8服务器
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2017/05/03/AngularJS-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="next" title="AngularJS 学习笔记1">
-                  AngularJS 学习笔记1 <i class="fa fa-chevron-right"></i>
+                  AngularJS 学习笔记1 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -503,6 +539,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -510,17 +547,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -541,25 +577,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

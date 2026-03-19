@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="概述 这篇文章介绍了 linux 系统中常见的文件压缩类型，以及压缩工具的使用。  关于文件压缩 文件压缩就是通过某种编码方式将数据信息中的重复度、冗余度降低，达到数据压缩的目的。通过压缩文件可以缩小数据文件的大小，另外通过数据压缩还能将零散的文件整合到一起，便于网络传输。 网络中常见的文件压缩格式有：  .zip (Zipped 压缩档) .rar (WinRAR 压缩存档) .tar (un">
 <meta property="og:type" content="article">
@@ -26,8 +26,8 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="概述 这篇文章介绍了 linux 系统中常见的文件压缩类型，以及压缩工具的使用。  关于文件压缩 文件压缩就是通过某种编码方式将数据信息中的重复度、冗余度降低，达到数据压缩的目的。通过压缩文件可以缩小数据文件的大小，另外通过数据压缩还能将零散的文件整合到一起，便于网络传输。 网络中常见的文件压缩格式有：  .zip (Zipped 压缩档) .rar (WinRAR 压缩存档) .tar (un">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-08-05T11:54:56.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.244Z">
+<meta property="article:published_time" content="2021-08-05T19:54:56.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.110Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="linux">
 <meta name="twitter:card" content="summary">
@@ -36,17 +36,35 @@
 <link rel="canonical" href="https://www.wqf31415.xyz/2021/08/05/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/">
 
 
-
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/08/05/Linux%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9%E4%B8%8E%E8%A7%A3%E5%8E%8B/","path":"2021/08/05/Linux文件压缩与解压/","title":"Linux文件压缩与解压"}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title>Linux文件压缩与解压 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -115,7 +133,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <div class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.</span> <span class="nav-text"> 关于文件压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9"><span class="nav-number">3.</span> <span class="nav-text"> linux 中常用的文件压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tar"><span class="nav-number">3.1.</span> <span class="nav-text"> .tar</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#targz"><span class="nav-number">3.2.</span> <span class="nav-text"> .tar.gz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tarxz"><span class="nav-number">3.3.</span> <span class="nav-text"> .tar.xz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zip"><span class="nav-number">3.4.</span> <span class="nav-text"> .zip</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bz2"><span class="nav-number">3.5.</span> <span class="nav-text"> .bz2</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8E%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9"><span class="nav-number">2.</span> <span class="nav-text"> 关于文件压缩</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#linux-%E4%B8%AD%E5%B8%B8%E7%94%A8%E7%9A%84%E6%96%87%E4%BB%B6%E5%8E%8B%E7%BC%A9"><span class="nav-number">3.</span> <span class="nav-text"> linux 中常用的文件压缩</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#tar"><span class="nav-number">3.1.</span> <span class="nav-text"> .tar</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA"><span class="nav-number">3.1.1.</span> <span class="nav-text"> 创建</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B"><span class="nav-number">3.1.2.</span> <span class="nav-text"> 查看</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B"><span class="nav-number">3.1.3.</span> <span class="nav-text"> 解压</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#targz"><span class="nav-number">3.2.</span> <span class="nav-text"> .tar.gz</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%93%E5%8C%85"><span class="nav-number">3.2.1.</span> <span class="nav-text"> 打包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-2"><span class="nav-number">3.2.2.</span> <span class="nav-text"> 查看</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B-2"><span class="nav-number">3.2.3.</span> <span class="nav-text"> 解压</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#tarxz"><span class="nav-number">3.3.</span> <span class="nav-text"> .tar.xz</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%93%E5%8C%85-2"><span class="nav-number">3.3.1.</span> <span class="nav-text"> 打包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-3"><span class="nav-number">3.3.2.</span> <span class="nav-text"> 查看</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B-3"><span class="nav-number">3.3.3.</span> <span class="nav-text"> 解压</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#zip"><span class="nav-number">3.4.</span> <span class="nav-text"> .zip</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%93%E5%8C%85-3"><span class="nav-number">3.4.1.</span> <span class="nav-text"> 打包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-4"><span class="nav-number">3.4.2.</span> <span class="nav-text"> 查看</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B-4"><span class="nav-number">3.4.3.</span> <span class="nav-text"> 解压</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#bz2"><span class="nav-number">3.5.</span> <span class="nav-text"> .bz2</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%89%93%E5%8C%85-4"><span class="nav-number">3.5.1.</span> <span class="nav-text"> 打包</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%9F%A5%E7%9C%8B-5"><span class="nav-number">3.5.2.</span> <span class="nav-text"> 查看</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%A7%A3%E5%8E%8B-5"><span class="nav-number">3.5.3.</span> <span class="nav-text"> 解压</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">4.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
         </div>
         <!--/noindex-->
 
@@ -128,18 +146,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -209,14 +227,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-08-05 19:54:56" itemprop="dateCreated datePublished" datetime="2021-08-05T19:54:56+08:00">2021-08-05</time>
+      <time title="创建时间：2021-08-05 19:54:56" itemprop="dateCreated datePublished" datetime="2021-08-05T19:54:56+00:00">2021-08-05</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -259,33 +277,36 @@
 <p>tar 包只是将文件打包在一起形成一个包，而不进行压缩，如果需要压缩需要使用其他命令进行压缩。</p>
 </blockquote>
 <p>使用 <code>tar</code> 命令进行打包、解析。</p>
+<h5 id="创建"><a class="markdownIt-Anchor" href="#创建"></a> 创建</h5>
 <p>创建 <code>.tar</code> 包：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -cf mytar.tar a.txt b.md</span><br></pre></td></tr></table></figure>
+<h5 id="查看"><a class="markdownIt-Anchor" href="#查看"></a> 查看</h5>
 <p>查看 <code>.tar</code> 包中的文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -tvf mytar</span><br></pre></td></tr></table></figure>
+<h5 id="解压"><a class="markdownIt-Anchor" href="#解压"></a> 解压</h5>
 <p>解析 <code>.tar</code> 包文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xf mytar</span><br></pre></td></tr></table></figure>
 <h4 id="targz"><a class="markdownIt-Anchor" href="#targz"></a> .tar.gz</h4>
 <p>使用 <code>tar</code> 打包后，再使用 <code>gzip</code> 压缩后的压缩包。使用 <code>tar</code> 工具打包和解压，也可以 <code>tar</code> 和 <code>gzip</code> 一起使用来操作。</p>
-<p>打包：</p>
+<h5 id="打包"><a class="markdownIt-Anchor" href="#打包"></a> 打包</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zcf mytar.tar.gz a.txt b.md</span><br></pre></td></tr></table></figure>
 <p>或者，先打包成 <code>tar</code> 包，再用 <code>gzip</code> 压缩：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cf mytar.tar a.txt b.md</span><br><span class="line">gzip -r mytar.tar</span><br></pre></td></tr></table></figure>
-<p>查看：</p>
+<h5 id="查看-2"><a class="markdownIt-Anchor" href="#查看-2"></a> 查看</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -ztvf mytar.tar.gz</span><br></pre></td></tr></table></figure>
-<p>解压：</p>
+<h5 id="解压-2"><a class="markdownIt-Anchor" href="#解压-2"></a> 解压</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf mytar.tar.gz</span><br></pre></td></tr></table></figure>
 <p>或可先用 <code>gzip</code> 解压，再用 <code>tar</code> 提取文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">gzip -d mytar.tar.gz</span><br><span class="line">tar -xf mytar.tar</span><br></pre></td></tr></table></figure>
 <h4 id="tarxz"><a class="markdownIt-Anchor" href="#tarxz"></a> .tar.xz</h4>
 <p>先使用 tar 打包，然后使用 xz 压缩的包。可使用 <code>tar</code> 工具打包或解压，可以同时使用 <code>tar</code> 和 <code>xz</code> 来操作。</p>
-<p>打包：</p>
+<h5 id="打包-2"><a class="markdownIt-Anchor" href="#打包-2"></a> 打包</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -Jcf mytar.tar.xz a.txt b.md </span><br></pre></td></tr></table></figure>
 <p>或先打包成 <code>tar</code> 包，再使用 <code>xz</code> 压缩：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cf mytar.tar a.txt b.md</span><br><span class="line">xz mytar.tar</span><br></pre></td></tr></table></figure>
-<p>查看：</p>
+<h5 id="查看-3"><a class="markdownIt-Anchor" href="#查看-3"></a> 查看</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -Jtvf mytar.tar.xz</span><br></pre></td></tr></table></figure>
-<p>解压：</p>
+<h5 id="解压-3"><a class="markdownIt-Anchor" href="#解压-3"></a> 解压</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -Jxf mytar.tar.xz</span><br></pre></td></tr></table></figure>
 <p>或者先用 <code>xz</code> 解压，再用 <code>tar</code> 提取文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">xz -d mytar.tar.xz</span><br><span class="line">tar -xf mytar.tar</span><br></pre></td></tr></table></figure>
@@ -295,20 +316,20 @@
 <p><code>zip</code> 和 <code>unzip</code> 工具如果没有，可以使用系统包管理器安装。如(CentOS)：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">yum install -y zip</span><br><span class="line">yum install -y unzip</span><br></pre></td></tr></table></figure>
 </blockquote>
-<p>打包：</p>
+<h5 id="打包-3"><a class="markdownIt-Anchor" href="#打包-3"></a> 打包</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">zip -r myZip.zip a.txt b.md</span><br><span class="line">zip -r myDir.zip myDir/</span><br></pre></td></tr></table></figure>
-<p>查看：</p>
+<h5 id="查看-4"><a class="markdownIt-Anchor" href="#查看-4"></a> 查看</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip -l myZip.zip</span><br></pre></td></tr></table></figure>
-<p>解压：</p>
+<h5 id="解压-4"><a class="markdownIt-Anchor" href="#解压-4"></a> 解压</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">unzip myZip.zip</span><br></pre></td></tr></table></figure>
 <h4 id="bz2"><a class="markdownIt-Anchor" href="#bz2"></a> .bz2</h4>
-<p>打包：</p>
+<h5 id="打包-4"><a class="markdownIt-Anchor" href="#打包-4"></a> 打包</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jcf myBzip.bz2 a.txt b.md</span><br></pre></td></tr></table></figure>
 <p>或使用 <code>tar</code> 打包，再用 <code>bzip2</code> 压缩：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -cf mytar.tar</span><br><span class="line">bzip2 mytar.tar</span><br></pre></td></tr></table></figure>
-<p>查看：</p>
+<h5 id="查看-5"><a class="markdownIt-Anchor" href="#查看-5"></a> 查看</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jtvf myBzip.bz2</span><br></pre></td></tr></table></figure>
-<p>解压：</p>
+<h5 id="解压-5"><a class="markdownIt-Anchor" href="#解压-5"></a> 解压</h5>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -jxf myBzip.bz2</span><br></pre></td></tr></table></figure>
 <p>对于 <code>.tar.bz2</code> 的，也可以先用 <code>bzip2</code> 解压，再用 <code>tar</code> 提取文件：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">bzip2 -d mytar.tar.bz2</span><br><span class="line">tar -xf mytar.tar</span><br></pre></td></tr></table></figure>
@@ -326,6 +347,24 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/linux/" rel="tag"># linux</a>
           </div>
@@ -335,12 +374,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2021/07/31/SpringBoot%E4%BD%BF%E7%94%A8%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95/" rel="prev" title="SpringBoot使用单元测试">
-                  <i class="fa fa-chevron-left"></i> SpringBoot使用单元测试
+                  <i class="fa fa-angle-left"></i> SpringBoot使用单元测试
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2021/08/11/%E4%B8%A4%E7%A7%8D%E6%96%B9%E5%BC%8F%E6%B3%A8%E5%86%8CWindows%E6%9C%8D%E5%8A%A1/" rel="next" title="两种方式注册Windows服务">
-                  两种方式注册Windows服务 <i class="fa fa-chevron-right"></i>
+                  两种方式注册Windows服务 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -353,6 +392,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -360,17 +400,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -391,25 +430,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="写在前面 近期在 B站 上看到了一些使用 esp8266 开发板制作小东西的视频，有 wifi 杀手、实时显示B站粉丝数、显示天气信息等等，而一块 esp8266 开发板才十几块钱，也就一顿饭钱，于是心痒痒上淘宝买了一块来玩玩，花了两小时下软件和资源类库，花了半小时调通一个 hello world 代码，把其中过程记录一下。  概要 本文主要内容包括购买 ESP8266 开发板，安装与配置开发使">
 <meta property="og:type" content="article">
@@ -26,27 +26,26 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="写在前面 近期在 B站 上看到了一些使用 esp8266 开发板制作小东西的视频，有 wifi 杀手、实时显示B站粉丝数、显示天气信息等等，而一块 esp8266 开发板才十几块钱，也就一顿饭钱，于是心痒痒上淘宝买了一块来玩玩，花了两小时下软件和资源类库，花了半小时调通一个 hello world 代码，把其中过程记录一下。  概要 本文主要内容包括购买 ESP8266 开发板，安装与配置开发使">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_preferences.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_board_manage.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_connect_computer.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_upload.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_com_output.png">
-<meta property="article:published_time" content="2019-09-15T06:30:02.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.237Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esp8266_board.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esp8266_wifi_module.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esp8266_arduino_preferences.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esp8266_arduino_board_manage.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esp8266_connect_computer.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esp8266_upload.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esp8266_arduino_com_output.webp">
+<meta property="article:published_time" content="2019-09-15T14:30:02.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.110Z">
 <meta property="article:author" content="This_Wei">
-<meta property="article:tag" content="arduino">
 <meta property="article:tag" content="IoT">
+<meta property="article:tag" content="arduino">
 <meta property="article:tag" content="esp8266">
 <meta property="article:tag" content="开发板">
 <meta property="article:tag" content="硬件">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/esp8266/esp8266_board.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2019/09/15/ESP8266%E5%88%9D%E4%BD%93%E9%AA%8C-hello-world/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/09/15/ESP8266%E5%88%9D%E4%BD%93%E9%AA%8C-hello-world/","path":"2019/09/15/ESP8266初体验-hello-world/","title":"ESP8266初体验 hello world"}</script>
@@ -55,10 +54,29 @@
 <title>ESP8266初体验 hello world | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -140,18 +158,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -221,14 +239,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-09-15 14:30:02" itemprop="dateCreated datePublished" datetime="2019-09-15T14:30:02+08:00">2019-09-15</time>
+      <time title="创建时间：2019-09-15 14:30:02" itemprop="dateCreated datePublished" datetime="2019-09-15T14:30:02+00:00">2019-09-15</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -253,14 +271,14 @@
 <p>近期在 B站 上看到了一些使用 esp8266 开发板制作小东西的视频，有 wifi 杀手、实时显示B站粉丝数、显示天气信息等等，而一块 esp8266 开发板才十几块钱，也就一顿饭钱，于是心痒痒上淘宝买了一块来玩玩，花了两小时下软件和资源类库，花了半小时调通一个 hello world 代码，把其中过程记录一下。</p>
 <h3 id="概要"><a class="markdownIt-Anchor" href="#概要"></a> 概要</h3>
 <p>本文主要内容包括购买 ESP8266 开发板，安装与配置开发使用的 Arduino IDE，使用 Arduino 编写一个 hello world 代码，然后烧录到 ESP8266 中，使用 Arduino 查看串口输出结果。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_board.png" alt="" title="ESP8266 开发板" /></p>
+<p><img src="/images/post/esp8266/esp8266_board.webp" alt="" title="ESP8266 开发板" /></p>
 <h3 id="什么是-esp8266"><a class="markdownIt-Anchor" href="#什么是-esp8266"></a> 什么是 ESP8266</h3>
 <p>ESP8266 是 <a target="_blank" rel="noopener" href="https://www.espressif.com/">乐鑫信息科技公司</a> 开发的一款 wifi 模块，具有低功耗、高集成度的 wifi 芯片，内封了 8 Mbit 的 Flash，集成了低功耗的 32 位 <abbr title="微控制单元(Microcontroller Unit；MCU)">MCU</abbr>，带有 16 位精简模式，主频支持 80 MHz 和 160 Mhz，支持 RTOS，支持标准 IEEE802.11 b/g/n 协议，完整的 TCP/IP 协议栈。用户可以使用该模块为现有的设备添加联网功能，也可以构建独立的网络控制器。</p>
 <p>简单来说就是一个 wifi 模块，可以通过 wifi 联网或提供 wifi 服务，带了一个微处理器，我们可以写入自己的程序，比如联网调取 bilibili 接口获取用户粉丝数量，并通过 LCD 屏显示出来。</p>
 <span id="more"></span>
 <h3 id="购买-esp8266-开发板"><a class="markdownIt-Anchor" href="#购买-esp8266-开发板"></a> 购买 ESP8266 开发板</h3>
 <p>可以上京东或淘宝购买，直接搜索 “ESP8266开发板”，如上图，可以直接使用 安卓数据线接入电脑使用。注意：一般直接搜索 “ESP8266” 找到的是 wifi 模块（如下图），需要另外使用烧录工具，会稍微麻烦一点。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_wifi_module.png" alt="" title="ESP8266 wifi 模块" /></p>
+<p><img src="/images/post/esp8266/esp8266_wifi_module.webp" alt="" title="ESP8266 wifi 模块" /></p>
 <h3 id="安装开发工具-arduino-ide"><a class="markdownIt-Anchor" href="#安装开发工具-arduino-ide"></a> 安装开发工具 Arduino IDE</h3>
 <p>到 Arduino 官网下载 IDE 安装包，支持 Windows、Linux、MacOS，其中对于 Win 8.1 或 Win 10 系统，可以直接在 <a target="_blank" rel="noopener" href="https://www.microsoft.com/zh-cn/p/arduino-ide/9nblggh4rsd8?ocid=badge&amp;rtc=1#activetab=pivot:overviewtab">微软应用商店</a> 安装。</p>
 <blockquote>
@@ -270,16 +288,16 @@
 <h4 id="添加-esp8266-开发板管理地址"><a class="markdownIt-Anchor" href="#添加-esp8266-开发板管理地址"></a> 添加 ESP8266 开发板管理地址</h4>
 <p>打开 Arduino IDE，点击 <strong>“文件” - “首选项”</strong> ，或使用默认快捷键 <kbd>Ctrl</kbd> + <kbd>逗号</kbd> 打开首选项设置界面，在其中 “附加开发板管理地址” 中填入以下地址，点 “好” 确认：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://arduino.esp8266.com/stable/package_esp8266com_index.json</span><br></pre></td></tr></table></figure>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_preferences.png" alt="" /></p>
+<p><img src="/images/post/esp8266/esp8266_arduino_preferences.webp" alt="" /></p>
 <h4 id="下载安装-esp8266-开发板模块"><a class="markdownIt-Anchor" href="#下载安装-esp8266-开发板模块"></a> 下载安装 ESP8266 开发板模块</h4>
 <p>点击 Arduino 菜单栏 <strong>“工具” - “开发板” - “开发板管理器”</strong> ，搜索 <code>esp8266</code> ，找到 <strong>ESP8266 Community</strong> ，选择一个版本进行安装，我安装的是 2.5.0 版本。安装包不大，但由于网络原因，可能会有点慢，我下载了快两小时才下载完。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_board_manage.png" alt="" /></p>
+<p><img src="/images/post/esp8266/esp8266_arduino_board_manage.webp" alt="" /></p>
 <h4 id="查看-esp8266-开发板选项"><a class="markdownIt-Anchor" href="#查看-esp8266-开发板选项"></a> 查看 ESP8266 开发板选项</h4>
 <p>重启 Arduino ，点击菜单栏 <strong>“工具” - “开发板”</strong> ，看到 ESP8266 开发板相关的选项，说明安装正确。</p>
 <h3 id="连接-esp8266-开发板"><a class="markdownIt-Anchor" href="#连接-esp8266-开发板"></a> 连接 ESP8266 开发板</h3>
 <p>使用安卓数据线将 ESP8166 开发板连接到电脑上，通电时，开发板灯会闪烁一下。</p>
 <p>连接后打开设备管理器（Windows系统），看到 <strong>端口（COM 和 LPT）</strong> 选项中有如下图的设备，说明已经连接成功，同时可以确定连接的串口号，如下图的是 <code>COM3</code> 。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_connect_computer.png" alt="" /></p>
+<p><img src="/images/post/esp8266/esp8266_connect_computer.webp" alt="" /></p>
 <blockquote>
 <p>值得注意的是，上图中显示的 CH340，如果没有显示这个设备，可能是因为驱动没安装好，可以上百度搜索 <code>CH340驱动</code> ，下载安装好之后才能够实现电脑与开发板通信，才能上传程序代码。</p>
 </blockquote>
@@ -297,15 +315,18 @@
 <p>点击 <strong>“工具” - “Reset Method”</strong> ，选择 <strong>nodemcu</strong> 。</p>
 <p>点击 <strong>“工具” - “Upload Speed”</strong> ，选择 <strong>115200</strong> 。</p>
 <p>点击 Arduino 工具栏中的 <strong>上传</strong> 图标，将写的程序烧录到 ESP8266 中，期间 ESP8266 的指示灯会一直闪烁，在 Arduino 控制台中会显示上传进度，上传到 100% 就可以查看效果了。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_upload.png" alt="" /></p>
+<p><img src="/images/post/esp8266/esp8266_upload.webp" alt="" /></p>
 <h4 id="查看结果"><a class="markdownIt-Anchor" href="#查看结果"></a> 查看结果</h4>
 <p>点击 <strong>“工具” - “串口监视器”</strong>，或使用默认快捷键 <kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>M</kbd> 打开串口监视器，在串口监视器窗口中设置波特率为 <code>115200</code> ，可以看到每隔 2 秒会打印一句 <code>Hello world!</code></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/esp8266_arduino_com_output.png" alt="" /></p>
+<p><img src="/images/post/esp8266/esp8266_arduino_com_output.webp" alt="" /></p>
 <h3 id="遇到的问题"><a class="markdownIt-Anchor" href="#遇到的问题"></a> 遇到的问题</h3>
 <h4 id="下载开发板模块包时速度慢"><a class="markdownIt-Anchor" href="#下载开发板模块包时速度慢"></a> 下载开发板模块包时速度慢</h4>
 <p>可以找一个网速快的地方下啊，也可以想办法科学上网，实在不行可以找别人下载好的，直接拷贝到资源目录下。</p>
 <h4 id="上传程序失败"><a class="markdownIt-Anchor" href="#上传程序失败"></a> 上传程序失败</h4>
-<p>可能是 USB 转串口的驱动程序没安装好，据说市面上 ESP8266 有两种 USB 转串口芯片，一种是 ch340，一种是 cp2102，可以根据自己的开发板情况，下载不同的驱动安装到电脑上，推荐到安信可官网下载相关驱动： <a target="_blank" rel="noopener" href="https://wiki.ai-thinker.com/tools">https://wiki.ai-thinker.com/tools</a> 。</p>
+<p>可能是 USB 转串口的驱动程序没安装好，据说市面上 ESP8266 有两种 USB 转串口芯片，一种是 ch340，一种是 cp2102，可以根据自己的开发板情况，下载不同的驱动安装到电脑上，推荐到安信可官网下载相关驱动： <a target="_blank" rel="noopener" href="https://docs.ai-thinker.com/%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B72">https://docs.ai-thinker.com/开发工具2</a> 。</p>
+<blockquote>
+<p>如果上述链接失效，可访问安信可网站 <a target="_blank" rel="noopener" href="https://www.ai-thinker.com/">https://www.ai-thinker.com/</a>，从开发资料中的开发工具页面获取。</p>
+</blockquote>
 <p>可能是因为上传速度(Upload Speed)、重启方法(Reset Method)、端口选择错误，按 hello world 示例中的设置方式设置试试看吧！</p>
 <h4 id="不知道代码怎么写"><a class="markdownIt-Anchor" href="#不知道代码怎么写"></a> 不知道代码怎么写</h4>
 <p>点击 Arduino 菜单栏 <strong>“工具” - “开发板” - “Generic ESP8266 Module”</strong> ，然后点击 <strong>“文件” - “示例”</strong> ，就可以找到很多示例代码，可以通过这些示例学习代码编辑。</p>
@@ -324,6 +345,24 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/arduino/" rel="tag"># arduino</a>
               <a href="/tags/IoT/" rel="tag"># IoT</a>
@@ -337,12 +376,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2019/06/14/Postman-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3-API/" rel="prev" title="Postman 测试接口 API">
-                  <i class="fa fa-chevron-left"></i> Postman 测试接口 API
+                  <i class="fa fa-angle-left"></i> Postman 测试接口 API
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2019/09/19/ESP8266-%E5%9C%A8-OLED-%E5%B1%8F%E4%B8%8A%E7%BB%98%E5%88%B6%E5%9B%BE%E5%BD%A2/" rel="next" title="ESP8266 在 OLED 屏上绘制图形">
-                  ESP8266 在 OLED 屏上绘制图形 <i class="fa fa-chevron-right"></i>
+                  ESP8266 在 OLED 屏上绘制图形 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -355,6 +394,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -362,17 +402,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -393,25 +432,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

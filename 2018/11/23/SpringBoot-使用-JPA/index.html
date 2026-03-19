@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="内容概述 这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询，Specification 查询。  什么是 JPA ？ JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司">
 <meta property="og:type" content="article">
@@ -26,22 +26,21 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="内容概述 这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询，Specification 查询。  什么是 JPA ？ JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png">
-<meta property="article:published_time" content="2018-11-23T06:27:32.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.262Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/spring/spring_boot_jpa_start.webp">
+<meta property="article:published_time" content="2018-11-23T14:27:32.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.113Z">
 <meta property="article:author" content="This_Wei">
-<meta property="article:tag" content="java">
-<meta property="article:tag" content="springboot">
 <meta property="article:tag" content="database">
-<meta property="article:tag" content="数据库">
-<meta property="article:tag" content="spring">
+<meta property="article:tag" content="java">
 <meta property="article:tag" content="jpa">
+<meta property="article:tag" content="spring">
+<meta property="article:tag" content="springboot">
+<meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/spring/spring_boot_jpa_start.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2018/11/23/SpringBoot-%E4%BD%BF%E7%94%A8-JPA/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2018/11/23/SpringBoot-%E4%BD%BF%E7%94%A8-JPA/","path":"2018/11/23/SpringBoot-使用-JPA/","title":"SpringBoot 使用 JPA"}</script>
@@ -50,10 +49,29 @@
 <title>SpringBoot 使用 JPA | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -135,18 +153,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -216,14 +234,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2018-11-23 14:27:32" itemprop="dateCreated datePublished" datetime="2018-11-23T14:27:32+08:00">2018-11-23</time>
+      <time title="创建时间：2018-11-23 14:27:32" itemprop="dateCreated datePublished" datetime="2018-11-23T14:27:32+00:00">2018-11-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -247,12 +265,12 @@
     <div class="post-body" itemprop="articleBody"><h3 id="内容概述"><a class="markdownIt-Anchor" href="#内容概述"></a> 内容概述</h3>
 <p>这篇文章主要讲解了 JPA 相关的概念，以及如何在一个 SpringBoot 项目中使用 spring-data-jpa 来操作数据库，包括创建 Entity，自动建表，基础的增删改查，自定义查询方法，JPQL，原生sql查询，Specification 查询。</p>
 <h3 id="什么是-jpa"><a class="markdownIt-Anchor" href="#什么是-jpa"></a> 什么是 JPA ？</h3>
-<p>JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司提出的一套标准，用于将运行期对象持久化存储到数据库，具体实现的产品有： Hiberate、Eclipselink、Toplink、Spring Data JPA等。</p>
+<p>JPA，即 Java Persistence API ，中文意为Java持久层API，是 Sun 公司提出的一套标准，用于将运行期对象持久化存储到数据库，具体实现的产品有：Hibernate、Eclipselink、Toplink、Spring Data JPA等。</p>
 <span id="more"></span>
 <h3 id="使用-spring-data-jpa"><a class="markdownIt-Anchor" href="#使用-spring-data-jpa"></a> 使用 spring-data-jpa</h3>
 <h4 id="创建项目"><a class="markdownIt-Anchor" href="#创建项目"></a> 创建项目</h4>
 <p>简单起见，直接使用 <a target="_blank" rel="noopener" href="http://start.spring.io">http://start.spring.io</a> 来创建项目，添加3个依赖: <code>JPA</code> 、 <code>MySQL</code> 、 <code>Web</code> 。<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/spring_boot_jpa_start.png" alt="" title="创建 jpademo 项目" /><br />
+<img src="/images/post/spring/spring_boot_jpa_start.webp" alt="" title="创建 jpademo 项目" /><br />
 demo 项目中的 pom.xml 如下：</p>
 <figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">xmlns</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0&quot;</span> <span class="attr">xmlns:xsi</span>=<span class="string">&quot;http://www.w3.org/2001/XMLSchema-instance&quot;</span></span></span><br><span class="line"><span class="tag">	<span class="attr">xsi:schemaLocation</span>=<span class="string">&quot;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&quot;</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">modelVersion</span>&gt;</span>4.0.0<span class="tag">&lt;/<span class="name">modelVersion</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>com.example<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>jpademo<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">version</span>&gt;</span>0.0.1-SNAPSHOT<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">packaging</span>&gt;</span>jar<span class="tag">&lt;/<span class="name">packaging</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">name</span>&gt;</span>jpademo<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">description</span>&gt;</span>Demo project for Spring Boot<span class="tag">&lt;/<span class="name">description</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">parent</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-parent<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">version</span>&gt;</span>2.1.0.RELEASE<span class="tag">&lt;/<span class="name">version</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">relativePath</span>/&gt;</span> <span class="comment">&lt;!-- lookup parent from repository --&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">parent</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">properties</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.build.sourceEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.build.sourceEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">project.reporting.outputEncoding</span>&gt;</span>UTF-8<span class="tag">&lt;/<span class="name">project.reporting.outputEncoding</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">java.version</span>&gt;</span>1.8<span class="tag">&lt;/<span class="name">java.version</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">properties</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-data-jpa<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-web<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>mysql<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>mysql-connector-java<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>runtime<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">dependency</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-starter-test<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">scope</span>&gt;</span>test<span class="tag">&lt;/<span class="name">scope</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">dependency</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"></span><br><span class="line">	<span class="tag">&lt;<span class="name">build</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">plugins</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;<span class="name">plugin</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">groupId</span>&gt;</span>org.springframework.boot<span class="tag">&lt;/<span class="name">groupId</span>&gt;</span></span><br><span class="line">				<span class="tag">&lt;<span class="name">artifactId</span>&gt;</span>spring-boot-maven-plugin<span class="tag">&lt;/<span class="name">artifactId</span>&gt;</span></span><br><span class="line">			<span class="tag">&lt;/<span class="name">plugin</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;/<span class="name">plugins</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">build</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <h4 id="修改配置文件"><a class="markdownIt-Anchor" href="#修改配置文件"></a> 修改配置文件</h4>
@@ -300,7 +318,7 @@ demo 项目中的 pom.xml 如下：</p>
 我们一般需要事务，所以使用的存储引擎是 <code>InnoDB</code> ，如果想改成这种存储引擎，需要在项目配置文件 <code>application.properties</code> 中添加如下配置项：</p>
 <figure class="highlight properties"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不加这句则默认为 MyISAM 引擎</span></span><br><span class="line"><span class="attr">spring.jpa.database-platform</span>=<span class="string">org.hibernate.dialect.MySQL5InnoDBDialect</span></span><br></pre></td></tr></table></figure>
 <p>经过上面的修改后，建表语句变成了:</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> student (id <span class="type">bigint</span> <span class="keyword">not</span> <span class="keyword">null</span> auto_increment, active bit, age <span class="type">integer</span>, birthday datetime, name <span class="type">varchar</span>(<span class="number">255</span>), <span class="keyword">primary</span> key (id)) engine<span class="operator">=</span>InnoDB</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">create table</span> student (id <span class="type">bigint</span> <span class="keyword">not null</span> auto_increment, active bit, age <span class="type">integer</span>, birthday datetime, name <span class="type">varchar</span>(<span class="number">255</span>), <span class="keyword">primary key</span> (id)) engine<span class="operator">=</span>InnoDB</span><br></pre></td></tr></table></figure>
 <p>观察后发现：<strong>name 字段的最大长度为 255 ，而实际上我们并不需要这么大的容量</strong>，所以我们需要限制一下，在 <code>name</code> 字段的 <code>@Column</code> 注解中添加 length 参数，改为 <code>@Column(length = 20)</code> ，这样修改后，生成的表将限制最大长度为 20。<br />
 <code>@Column</code> 注解参数说明：</p>
 <table>
@@ -405,7 +423,7 @@ demo 项目中的 pom.xml 如下：</p>
 <p>例如：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Table(name = &quot;tb_student&quot;,catalog = &quot;test&quot;,schema = &quot;testjpa&quot;,uniqueConstraints = &#123;@UniqueConstraint(columnNames = &#123;&quot;name&quot;,&quot;age&quot;&#125;)&#125;)</span></span><br><span class="line"><span class="comment">// 将在 test 数据库中创建名为 tb_student 的表，查询时使用 testjpa 的用户查询，并给这张表添加 name 与 age 的唯一约束</span></span><br></pre></td></tr></table></figure>
 <p>建表时运行的 sql 如下，在建表完成后，给表添加了约束条件：</p>
-<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> test.tb_student;</span><br><span class="line"><span class="keyword">create</span> <span class="keyword">table</span> test.tb_student (id <span class="type">bigint</span> <span class="keyword">not</span> <span class="keyword">null</span> auto_increment, active bit, age <span class="type">smallint</span> COMMENT <span class="string">&#x27;学生年龄&#x27;</span>, birthday datetime, name <span class="type">varchar</span>(<span class="number">20</span>), <span class="keyword">primary</span> key (id)) engine<span class="operator">=</span>InnoDB;</span><br><span class="line"><span class="keyword">alter</span> <span class="keyword">table</span> test.tb_student <span class="keyword">add</span> <span class="keyword">constraint</span> UKjryppi07bm3jtculd9mtfjtjf <span class="keyword">unique</span> (name, age);</span><br></pre></td></tr></table></figure>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">drop</span> <span class="keyword">table</span> if <span class="keyword">exists</span> test.tb_student;</span><br><span class="line"><span class="keyword">create table</span> test.tb_student (id <span class="type">bigint</span> <span class="keyword">not null</span> auto_increment, active bit, age <span class="type">smallint</span> COMMENT <span class="string">&#x27;学生年龄&#x27;</span>, birthday datetime, name <span class="type">varchar</span>(<span class="number">20</span>), <span class="keyword">primary key</span> (id)) engine<span class="operator">=</span>InnoDB;</span><br><span class="line"><span class="keyword">alter table</span> test.tb_student <span class="keyword">add constraint</span> UKjryppi07bm3jtculd9mtfjtjf <span class="keyword">unique</span> (name, age);</span><br></pre></td></tr></table></figure>
 <h4 id="自动插入初始数据"><a class="markdownIt-Anchor" href="#自动插入初始数据"></a> 自动插入初始数据</h4>
 <p>当配置项 <code>spring.jpa.hibernate.ddl-auto</code> 的值为 <code>create</code> 或 <code>create-drop</code> 时，项目启动建表完成后，会扫描 classpath 下(默认为resource目录)的 <code>import.sql</code> 文件，如果有就会执行这个脚本，我们可以在这里面添加插入数据的 sql，初始化数据库中的数据。</p>
 <h4 id="创建-repository"><a class="markdownIt-Anchor" href="#创建-repository"></a> 创建 Repository</h4>
@@ -940,7 +958,7 @@ JPA 自定义查询方法关键字：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@Query(value = &quot;select d.* from device d where d.sensor &amp; ?1 = ?1 &quot;</span></span><br><span class="line"><span class="meta">    ,nativeQuery = true</span></span><br><span class="line"><span class="meta">    ,countQuery = &quot;select count(*) from Device d where d.sensor &amp; ?1 = ?1&quot;)</span></span><br><span class="line">Page&lt;Device&gt; <span class="title function_">findBySensorType</span><span class="params">(Long sensorType,Pageable pageable)</span>;</span><br></pre></td></tr></table></figure>
 <p>错误提示信息如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">org.springframework.data.jpa.repository.query.InvalidJpaQueryMethodException: </span><br><span class="line">Cannot use native queries with dynamic sorting and/or pagination in method public abstract org.springframework.data.domain.Page com.xx.xxxx.repository.XxxRepository.findBySensorType(java.lang.Long,org.springframework.data.domain.Pageable)</span><br></pre></td></tr></table></figure>
-<p>解决方法是在查询语句中加上 <code>ORDER BY ?#&#123; #pageable &#125;</code> ，修改后如下：</p>
+<p>解决方法是在查询语句中加上 <code>ORDER BY ?#{ #pageable }</code> ，修改后如下：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@Query(value = &quot;select d.* from device d where d.sensor &amp; ?1 = ?1 order by ?#&#123; #pageable &#125;&quot;</span><br><span class="line">    ,nativeQuery = true</span><br><span class="line">    ,countQuery = &quot;select count(*) from Device d where d.sensor &amp; ?1 = ?1&quot;)</span><br><span class="line">Page&lt;Device&gt; findBySensorType(Long sensorType,Pageable pageable);</span><br></pre></td></tr></table></figure>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
 <ul>
@@ -958,11 +976,29 @@ JPA 自定义查询方法关键字：</p>
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/java/" rel="tag"># java</a>
               <a href="/tags/springboot/" rel="tag"># springboot</a>
-              <a href="/tags/database/" rel="tag"># database</a>
               <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
+              <a href="/tags/database/" rel="tag"># database</a>
               <a href="/tags/spring/" rel="tag"># spring</a>
               <a href="/tags/jpa/" rel="tag"># jpa</a>
           </div>
@@ -972,12 +1008,12 @@ JPA 自定义查询方法关键字：</p>
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2018/08/03/%E5%88%A9%E7%94%A8Excel%E5%92%8Cbat%E5%AF%B9%E6%96%87%E4%BB%B6%E6%89%B9%E9%87%8F%E9%87%8D%E5%91%BD%E5%90%8D/" rel="prev" title="利用Excel和bat对文件批量重命名">
-                  <i class="fa fa-chevron-left"></i> 利用Excel和bat对文件批量重命名
+                  <i class="fa fa-angle-left"></i> 利用Excel和bat对文件批量重命名
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2019/01/11/JVM-%E8%B0%83%E4%BC%98%E5%88%9D%E6%8E%A2/" rel="next" title="JVM 调优初探">
-                  JVM 调优初探 <i class="fa fa-chevron-right"></i>
+                  JVM 调优初探 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -990,6 +1026,7 @@ JPA 自定义查询方法关键字：</p>
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -997,17 +1034,16 @@ JPA 自定义查询方法关键字：</p>
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -1028,25 +1064,8 @@ JPA 自定义查询方法关键字：</p>
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

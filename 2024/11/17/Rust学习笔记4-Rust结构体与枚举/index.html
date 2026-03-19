@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 本文介绍了 Rust 中的结构体（struct）与枚举（enum），内容包含结构体的定义、实例化、使用与示例，枚举的定义与使用。   结构体和枚举 结构体是一种允许用户自行定义的数据类型，可将多种类型的数据打包成有意义的组合，并给每个数据命名。与 C 语言中的结构体不同，Rust 中可以为结构体和枚举声明方法。 枚举是一种允许用户列举所有可能类型的数据类型，Rust 中枚举允许携带数据，每">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust学习笔记4-Rust结构体与枚举">
+<meta property="og:url" content="https://www.wqf31415.xyz/2024/11/17/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Rust%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8E%E6%9E%9A%E4%B8%BE/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 本文介绍了 Rust 中的结构体（struct）与枚举（enum），内容包含结构体的定义、实例化、使用与示例，枚举的定义与使用。   结构体和枚举 结构体是一种允许用户自行定义的数据类型，可将多种类型的数据打包成有意义的组合，并给每个数据命名。与 C 语言中的结构体不同，Rust 中可以为结构体和枚举声明方法。 枚举是一种允许用户列举所有可能类型的数据类型，Rust 中枚举允许携带数据，每">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/crab-7627632_1280.webp">
+<meta property="article:published_time" content="2024-11-17T21:06:07.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.112Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="Rust">
+<meta property="article:tag" content="开发">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/crab-7627632_1280.webp">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2024/11/17/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Rust%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8E%E6%9E%9A%E4%B8%BE/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2024/11/17/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Rust%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8E%E6%9E%9A%E4%B8%BE/","path":"2024/11/17/Rust学习笔记4-Rust结构体与枚举/","title":"Rust学习笔记4-Rust结构体与枚举"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Rust学习笔记4-Rust结构体与枚举 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%92%8C%E6%9E%9A%E4%B8%BE"><span class="nav-number">2.</span> <span class="nav-text"> 结构体和枚举</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">3.</span> <span class="nav-text"> Rust 结构体</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">3.1.</span> <span class="nav-text"> 定义结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%8C%96%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">3.2.</span> <span class="nav-text"> 实例化结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%AD%E5%AD%97%E6%AE%B5"><span class="nav-number">3.3.</span> <span class="nav-text"> 访问结构体中字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E4%BD%9C%E4%B8%BA%E5%87%BD%E6%95%B0%E8%BF%94%E5%9B%9E%E5%80%BC"><span class="nav-number">3.4.</span> <span class="nav-text"> 结构体作为函数返回值</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%AD%97%E6%AE%B5%E5%88%9D%E5%A7%8B%E5%8C%96%E7%AE%80%E5%86%99"><span class="nav-number">3.5.</span> <span class="nav-text"> 结构体字段初始化简写</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E6%9B%B4%E6%96%B0%E8%AF%AD%E6%B3%95"><span class="nav-number">3.6.</span> <span class="nav-text"> 结构体更新语法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%83%E7%BB%84%E7%BB%93%E6%9E%84%E4%BD%93tuple-struct"><span class="nav-number">3.7.</span> <span class="nav-text"> 元组结构体（Tuple Struct）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unit-like-struct%E6%B2%A1%E6%9C%89%E4%BB%BB%E4%BD%95%E5%AD%97%E6%AE%B5"><span class="nav-number">3.8.</span> <span class="nav-text"> Unit-Like Struct（没有任何字段）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E6%95%B0%E6%8D%AE%E7%9A%84%E6%89%80%E6%9C%89%E6%9D%83"><span class="nav-number">3.9.</span> <span class="nav-text"> 结构体数据的所有权</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8println%E8%BE%93%E5%87%BA%E7%BB%93%E6%9E%84%E4%BD%93"><span class="nav-number">3.10.</span> <span class="nav-text"> 使用println输出结构体</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E6%96%B9%E6%B3%95"><span class="nav-number">3.11.</span> <span class="nav-text"> 结构体方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BB%93%E6%9E%84%E4%BD%93%E5%85%B3%E8%81%94%E5%87%BD%E6%95%B0"><span class="nav-number">3.12.</span> <span class="nav-text"> 结构体关联函数</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E6%9E%9A%E4%B8%BE"><span class="nav-number">4.</span> <span class="nav-text"> Rust 枚举</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%9A%E4%B9%89%E6%9E%9A%E4%B8%BE"><span class="nav-number">4.1.</span> <span class="nav-text"> 定义枚举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B0%86%E6%95%B0%E6%8D%AE%E9%99%84%E5%8A%A0%E5%88%B0%E6%9E%9A%E4%B8%BE%E7%9A%84%E5%8F%98%E4%BD%93%E4%B8%AD"><span class="nav-number">4.2.</span> <span class="nav-text"> 将数据附加到枚举的变体中</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%BA%E6%9E%9A%E4%B8%BE%E5%AE%9A%E4%B9%89%E6%96%B9%E6%B3%95"><span class="nav-number">4.3.</span> <span class="nav-text"> 为枚举定义方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-match-%E5%8C%B9%E9%85%8D%E6%9E%9A%E4%B8%BE"><span class="nav-number">4.4.</span> <span class="nav-text"> 使用 match 匹配枚举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#option-%E6%9E%9A%E4%B8%BE"><span class="nav-number">4.5.</span> <span class="nav-text"> Option 枚举</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9E%9A%E4%B8%BE%E4%B8%8E%E6%A8%A1%E5%BC%8F%E5%8C%B9%E9%85%8D"><span class="nav-number">4.6.</span> <span class="nav-text"> 枚举与模式匹配</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">5.</span> <span class="nav-text"> 参考资料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2024/11/17/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Rust%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8E%E6%9E%9A%E4%B8%BE/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Rust学习笔记4-Rust结构体与枚举 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust学习笔记4-Rust结构体与枚举<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B04-Rust%E7%BB%93%E6%9E%84%E4%BD%93%E4%B8%8E%E6%9E%9A%E4%B8%BE.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-11-17 21:06:07" itemprop="dateCreated datePublished" datetime="2024-11-17T21:06:07+00:00">2024-11-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>本文介绍了 Rust 中的结构体（struct）与枚举（enum），内容包含结构体的定义、实例化、使用与示例，枚举的定义与使用。</p>
+<p><img src="/images/post/crab-7627632_1280.webp" alt="" /></p>
+<h3 id="结构体和枚举"><a class="markdownIt-Anchor" href="#结构体和枚举"></a> 结构体和枚举</h3>
+<p>结构体是一种允许用户自行定义的数据类型，可将多种类型的数据打包成有意义的组合，并给每个数据命名。与 C 语言中的结构体不同，Rust 中可以为结构体和枚举声明方法。</p>
+<p>枚举是一种允许用户列举所有可能类型的数据类型，Rust 中枚举允许携带数据，每个枚举变体可以携带不同类型、不同数量的数据。</p>
+<span id="more"></span>
+<h3 id="rust-结构体"><a class="markdownIt-Anchor" href="#rust-结构体"></a> Rust 结构体</h3>
+<h4 id="定义结构体"><a class="markdownIt-Anchor" href="#定义结构体"></a> 定义结构体</h4>
+<p>Rust 中使用 <code>struct</code> 关键字定义结构体，定义时为结构体命名；</p>
+<p>在花括号内，为所有字段（Field）定义名称和类型；</p>
+<p>每个字段定义使用逗号 <code>,</code> 分隔，最后一个字段后可以加逗号。</p>
+<p>示例：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    age: <span class="type">u8</span>,</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="实例化结构体"><a class="markdownIt-Anchor" href="#实例化结构体"></a> 实例化结构体</h4>
+<p>要使用结构体，需要创建其实例：</p>
+<p>要为每个字段指定具体值，但无需按声明顺序进行指定；</p>
+<p>结构体字段赋值使用冒号 <code>:</code> 连接，每个字段赋值后使用逗号 <code>,</code> 分隔。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">zhangsan</span> = Student &#123;</span><br><span class="line">    name: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;ZhangSan&quot;</span>),</span><br><span class="line">    age: <span class="number">18</span>,</span><br><span class="line">    active: <span class="literal">true</span>,</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="访问结构体中字段"><a class="markdownIt-Anchor" href="#访问结构体中字段"></a> 访问结构体中字段</h4>
+<p>Rust 中使用点标记法访问结构体字段。</p>
+<p>使用 <code>mut</code> 关键字声明可变的结构体，只要结构体变量是可变的，其中所有字段都是可变的。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    age: <span class="type">u8</span>,</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">zhangsan</span> = Student &#123; <span class="comment">// 使用 mut 关键字将结构体定义为可变的</span></span><br><span class="line">        name: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;ZhangSan&quot;</span>),</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;name: &#123;&#125;&quot;</span>, zhangsan.name); <span class="comment">// 读取结构体的字段值</span></span><br><span class="line"></span><br><span class="line">    zhangsan.age = <span class="number">19</span>; <span class="comment">// 修改结构体的字段值</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;age: &#123;&#125;&quot;</span>, zhangsan.age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="结构体作为函数返回值"><a class="markdownIt-Anchor" href="#结构体作为函数返回值"></a> 结构体作为函数返回值</h4>
+<p>使用函数传入参数创建结构体：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">build_student</span>(name: <span class="type">String</span>, age: <span class="type">u8</span>)<span class="punctuation">-&gt;</span> Student &#123;</span><br><span class="line">    Student &#123;</span><br><span class="line">        name: name,</span><br><span class="line">        age: age,</span><br><span class="line">        active: <span class="literal">false</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="结构体字段初始化简写"><a class="markdownIt-Anchor" href="#结构体字段初始化简写"></a> 结构体字段初始化简写</h4>
+<p>当字段名与字段值对应的变量名相同时，就可以使用字段初始化的简写方式。</p>
+<p>上一个函数定义可以简化成下面的方式：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">build_student</span>(name: <span class="type">String</span>, age: <span class="type">u8</span>)<span class="punctuation">-&gt;</span> Student &#123;</span><br><span class="line">    Student &#123;</span><br><span class="line">        name, <span class="comment">//字段名与参数值的变量名相同，使用简写方式</span></span><br><span class="line">        age,</span><br><span class="line">        active: <span class="literal">false</span>,</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="结构体更新语法"><a class="markdownIt-Anchor" href="#结构体更新语法"></a> 结构体更新语法</h4>
+<p>当需要基于某个结构体实例来创建一个新实例时，可以使用结构体更新语法。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">zhangsan</span> = Student &#123; <span class="comment">// 使用 mut 关键字将结构体定义为可变的</span></span><br><span class="line">        name: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;ZhangSan&quot;</span>),</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">lisi</span>  = Student &#123;</span><br><span class="line">        name: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;LiSi&quot;</span>), <span class="comment">// 只修改了 name 字段</span></span><br><span class="line">        ..zhangsan <span class="comment">// 其他字段值使用 zhangsan 结构体的值</span></span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;name: &#123;&#125;&quot;</span>, lisi.name);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;age: &#123;&#125;&quot;</span>, lisi.age);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="元组结构体tuple-struct"><a class="markdownIt-Anchor" href="#元组结构体tuple-struct"></a> 元组结构体（Tuple Struct）</h4>
+<p>在Rust 中可以定义类似 tuple 的结构体，叫做 tuple struct：</p>
+<p>Tuple struct 整体有命名，但里面的元素没有名；</p>
+<p>适用于：想给整个 Tuple 起名，让它不同于其它 Tuple，而且不想给每个元素起名。</p>
+<p>定义Tuple struct 的方法：使用 <code>struct</code> 关键字，后面是名字，以及里面元素的类型。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Color</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);</span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Point</span>(<span class="type">i32</span>, <span class="type">i32</span>, <span class="type">i32</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">red</span> = <span class="title function_ invoke__">Color</span>(<span class="number">0xFF</span>, <span class="number">0</span>, <span class="number">0</span>);</span><br><span class="line"><span class="keyword">let</span> <span class="variable">origin</span> = <span class="title function_ invoke__">Point</span>(<span class="number">0</span>, <span class="number">0</span> ,<span class="number">0</span>);</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：red 和 origin 是不同的类型，是不同 Tuple struct 的实例。</p>
+</blockquote>
+<h4 id="unit-like-struct没有任何字段"><a class="markdownIt-Anchor" href="#unit-like-struct没有任何字段"></a> Unit-Like Struct（没有任何字段）</h4>
+<p>Rust 支持定义没有任何字段的 struct，叫做 Unit-Like struct （因为与 <code>()</code>，单元类型相似）。</p>
+<p>适用于：需要在某个类型上实现某个 trait，但里面没有想要存储的数据。</p>
+<h4 id="结构体数据的所有权"><a class="markdownIt-Anchor" href="#结构体数据的所有权"></a> 结构体数据的所有权</h4>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">struct</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    age: <span class="type">u8</span>,</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在结构体 <code>Student</code> 中，name 使用的是 <code>String</code> ，其他字段是标量类型，所以这个结构体持有了其所有字段的所有权，这种情况下，只有它的实例是有效的，那么它的字段都是有效的。</p>
+<p>结构体中字段也可以是引用类型，此时就需要用到生命周期，生命周期保证只要结构体实例是有效的，那么里面的字段都是有效的。</p>
+<p>如果结构体中字段是引用类型，又没有使用生命周期就会报错。</p>
+<h4 id="使用println输出结构体"><a class="markdownIt-Anchor" href="#使用println输出结构体"></a> 使用println输出结构体</h4>
+<p>Rust中使用 <code>println</code> 宏打印数据内容时，要求数据实现 <code>std::fmt::Display</code> 的 trait，而创建的结构体默认是没有实现这个 trait 的，直接打印会报错，提示没有实现 <code>std::fmt::Display</code> 。</p>
+<p>可以使用 <code>{:?}</code> 或 <code>{:#}</code> 替代原来的格式化占位符 <code>{}</code>，其中 <code>{:#}</code> 输出格式可读性更好；同时，需要在结构体定义前加上注解 <code>#[derive(Debug)]</code> ，如：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span> <span class="comment">// 加上注解，让 Student 实现 `Debug` trait</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    age: <span class="type">u8</span>,</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">zhangsan</span> = Student &#123;</span><br><span class="line">        name: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;ZhangSan&quot;</span>),</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, zhangsan); <span class="comment">// 使用 &#123;:?&#125; 或 &#123;:#&#125; 替换 &#123;&#125;</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>另外一个解决方法是给结构体实现 <code>std::fmt::Display</code> 。</p>
+</blockquote>
+<h4 id="结构体方法"><a class="markdownIt-Anchor" href="#结构体方法"></a> 结构体方法</h4>
+<p>方法和函数定义类似，也是使用 <code>fn</code> 关键字定义，包含名称、参数与返回值。</p>
+<p>方法与函数的不同之处：</p>
+<ul>
+<li>方法是在结构体（struct）、枚举（enum）或 trait 对象的上下文中定义。</li>
+<li>方法的第一个参数是 <code>self</code>，表示方法被调用的 struct 实例，第一个参数可以是 self 的借用 <code>&amp;self</code>，也可以获得其所有权 <code>self</code>，也可以是可变借用 <code>&amp;mut self</code>。</li>
+<li>使用 <code>impl</code> 关键字，后面跟结构体名，在 impl 声明的代码块中为结构体定义方法。可以在一个 impl 代码块中添加多个方法，也可以有多个 impl 代码块。</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#[derive(Debug)]</span></span><br><span class="line"><span class="keyword">struct</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    name: <span class="type">String</span>,</span><br><span class="line">    age: <span class="type">u8</span>,</span><br><span class="line">    active: <span class="type">bool</span>,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Student</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">de_active</span>(&amp;<span class="keyword">mut</span> <span class="keyword">self</span>) &#123; <span class="comment">// 方法内要修改结构体，所以要传可变引用</span></span><br><span class="line">        <span class="keyword">self</span>.active = <span class="literal">false</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">is_older</span>(&amp;<span class="keyword">self</span>, other: &amp;Student) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123; <span class="comment">// 包含第二个参数和返回值的方法</span></span><br><span class="line">        <span class="keyword">self</span>.age &gt; other.age</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">new</span>(name: <span class="type">String</span>, age: <span class="type">u8</span>) <span class="punctuation">-&gt;</span> Student &#123; <span class="comment">// 关联函数，用于创建一个实例</span></span><br><span class="line">        Student &#123;</span><br><span class="line">            name,</span><br><span class="line">            age,</span><br><span class="line">            active: <span class="literal">false</span></span><br><span class="line">         &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">impl</span> <span class="title class_">Student</span> &#123; <span class="comment">// 多个 impl 块</span></span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">introduce</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;我叫&#123;&#125;，我&#123;&#125;岁&quot;</span>, <span class="keyword">self</span>.name, <span class="keyword">self</span>.age);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">zhangsan</span> = Student &#123; <span class="comment">// 使用 mut 关键字将结构体定义为可变的</span></span><br><span class="line">        name: <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;ZhangSan&quot;</span>),</span><br><span class="line">        age: <span class="number">18</span>,</span><br><span class="line">        active: <span class="literal">true</span>,</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    zhangsan.<span class="title function_ invoke__">de_active</span>(); <span class="comment">// 调用结构体方法，方法只有一个 &amp;mut self 参数，不需要传参</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;:?&#125;&quot;</span>, zhangsan);</span><br><span class="line">    zhangsan.<span class="title function_ invoke__">introduce</span>();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">lisi</span> = Student::<span class="title function_ invoke__">new</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;LiSi&quot;</span>), <span class="number">17</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;zhangsan is older: &#123;&#125;&quot;</span>, zhangsan.<span class="title function_ invoke__">is_older</span>(&amp;lisi));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="结构体关联函数"><a class="markdownIt-Anchor" href="#结构体关联函数"></a> 结构体关联函数</h4>
+<p>可以在结构体 impl 块里定义不把 self 作为第一个参数的函数，叫做<strong>关联函数</strong>（不是方法）。</p>
+<p>关联函数不使用结构体实例调用，而是使用结构体名加 <code>::</code> 调用，例如 <code>String::from()</code> 。</p>
+<p>关联函数通常用于构造器，就是用来创建被关联类型的一个实例。</p>
+<blockquote>
+<p>关联函数类似于 java 的类里面定义的静态方法，java 中使用 <code>类.方法()</code> 调用静态方法，Rust 中使用 <code>结构体名::函数()</code> 调用关联函数。</p>
+</blockquote>
+<h3 id="rust-枚举"><a class="markdownIt-Anchor" href="#rust-枚举"></a> Rust 枚举</h3>
+<h4 id="定义枚举"><a class="markdownIt-Anchor" href="#定义枚举"></a> 定义枚举</h4>
+<p>枚举允许用户列举所有可能值来定义数据类型，枚举使用 <code>enum</code> 关键字定义，后面指定枚举名，在花括号中声明所有可能得值，枚举中所有可能的值被称为枚举的变体。</p>
+<p>使用枚举时，用枚举名加 <code>::</code> 再加某个变体名。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;</span><br><span class="line">    Mon,</span><br><span class="line">    Tues,</span><br><span class="line">    Wed,</span><br><span class="line">    Thur,</span><br><span class="line">    Fri,</span><br><span class="line">    Sat,</span><br><span class="line">    Sun,</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">today</span> = Weekday::Sun;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">tomorrow</span> = Weekday::Mon;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="将数据附加到枚举的变体中"><a class="markdownIt-Anchor" href="#将数据附加到枚举的变体中"></a> 将数据附加到枚举的变体中</h4>
+<p>Rust 允许为枚举变体设定附加数据，可以为变体设定不同类型和数量的附加数据。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">IpAddr</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">V4</span>(<span class="type">u8</span>,<span class="type">u8</span>,<span class="type">u8</span>,<span class="type">u8</span>),</span><br><span class="line">	<span class="title function_ invoke__">V6</span>(<span class="type">String</span>),</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = IpAddr::<span class="title function_ invoke__">V4</span>(<span class="number">127</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">1</span>);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = IpAddr::<span class="title function_ invoke__">V6</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;::1&quot;</span>));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="为枚举定义方法"><a class="markdownIt-Anchor" href="#为枚举定义方法"></a> 为枚举定义方法</h4>
+<p>Rust 中允许为枚举定义方法，与结构体相同，使用 <code>impl</code> 关键字，在代码块中定义方法，方法第一个参数是 <code>self</code>。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">impl</span> <span class="title class_">IpAddr</span> &#123;</span><br><span class="line">    <span class="keyword">fn</span> <span class="title function_">print</span>(&amp;<span class="keyword">self</span>) &#123;</span><br><span class="line">        <span class="comment">// ...方法的代码</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="使用-match-匹配枚举"><a class="markdownIt-Anchor" href="#使用-match-匹配枚举"></a> 使用 match 匹配枚举</h4>
+<p>Rust 中使用 <code>match</code> 匹配枚举，一旦匹配到其中某个变体，就执行这个代码块，后续的不再进行匹配。</p>
+<p>注意，match 匹配必须穷尽所有可能，可以使用下划线 <code>_</code> 匹配剩余的可能，注意下划线匹配必须放在最后一个。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Mon</span>(<span class="type">String</span>),</span><br><span class="line">    Tues,</span><br><span class="line">    Wed,</span><br><span class="line">    Thur,</span><br><span class="line">    Fri,</span><br><span class="line">    Sat,</span><br><span class="line">    Sun,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">is_workday</span>(day: Weekday) <span class="punctuation">-&gt;</span> <span class="type">bool</span> &#123;</span><br><span class="line">    <span class="keyword">match</span> day &#123;</span><br><span class="line">        Weekday::<span class="title function_ invoke__">Mon</span>(content) =&gt; &#123; <span class="comment">// 如果变体中有附加数据，使用括号声明，然后在代码块中使用</span></span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;Monday: &#123;&#125;&quot;</span>, content); <span class="comment">// 如果有多行代码，需要使用花括号包裹代码块</span></span><br><span class="line">            <span class="literal">true</span> <span class="comment">// 代码块最后一句的结果作为返回值</span></span><br><span class="line">        &#125;,</span><br><span class="line">        Weekday::Tues =&gt; <span class="literal">true</span>, <span class="comment">// 直接返回值作为 match 的返回值</span></span><br><span class="line">        Weekday::Wed =&gt; <span class="literal">true</span>,</span><br><span class="line">        Weekday::Thur =&gt; <span class="literal">true</span>,</span><br><span class="line">        Weekday::Fri =&gt; <span class="literal">true</span>,</span><br><span class="line">        _ =&gt; <span class="literal">false</span>, <span class="comment">// 使用下划线匹配剩余的可能变体</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="title function_ invoke__">is_workday</span>(Weekday::<span class="title function_ invoke__">Mon</span>(<span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;Start work&quot;</span>)));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="option-枚举"><a class="markdownIt-Anchor" href="#option-枚举"></a> Option 枚举</h4>
+<p>Option 枚举定义于标准库中，在 Prelude（预导入模块）中，可以直接使用。</p>
+<p>在 Rust 中没有 NULL 的概念，有类似 NULL 概念的枚举 Option<T> ，它描述了某个值可能存在（某种类型）或不存在的情况。</p>
+<p>Option<T> 枚举包含两个变体：</p>
+<ul>
+<li>
+<p>Some<T> 表示存在类型 T 的值，要使用其中的 T，需要先将 Option<T> 转换成 T</p>
+</li>
+<li>
+<p>None 表示没有值，类似其他编程语言中的 NULL</p>
+</li>
+</ul>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">five</span> = <span class="title function_ invoke__">Some</span>(<span class="number">5</span>); <span class="comment">// Option 枚举已经预导入，不需要使用 Option::Some()</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">six</span> = <span class="title function_ invoke__">plus_one</span>(five);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">none</span> = <span class="title function_ invoke__">plus_one</span>(<span class="literal">None</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">plus_one</span>(opt: <span class="type">Option</span>&lt;<span class="type">i32</span>&gt;) <span class="punctuation">-&gt;</span> <span class="type">Option</span>&lt;<span class="type">i32</span>&gt; &#123; <span class="comment">// 传入一个 Option 枚举，返回一个 Option 枚举</span></span><br><span class="line">    <span class="keyword">match</span> opt &#123;</span><br><span class="line">        <span class="title function_ invoke__">Some</span>(i) =&gt; <span class="title function_ invoke__">Some</span>(i+<span class="number">1</span>), <span class="comment">// 如果有值，则将值加一，返回一个Option枚举</span></span><br><span class="line">        <span class="literal">None</span> =&gt; <span class="literal">None</span> <span class="comment">// 如果没值，就返回 None 变体</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="枚举与模式匹配"><a class="markdownIt-Anchor" href="#枚举与模式匹配"></a> 枚举与模式匹配</h4>
+<p><code>if let</code> 可用于处理只关心一种变体匹配，忽略其他变体匹配的情况。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">enum</span> <span class="title class_">Weekday</span> &#123;</span><br><span class="line">    <span class="title function_ invoke__">Mon</span>(<span class="type">String</span>),</span><br><span class="line">    Tues,</span><br><span class="line">    Wed,</span><br><span class="line">    Thur,</span><br><span class="line">    Fri,</span><br><span class="line">    Sat,</span><br><span class="line">    Sun,</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">day</span> = Weekday::Fri;</span><br><span class="line">    <span class="keyword">match</span> day &#123;</span><br><span class="line">        Weekday::Fri =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Friday&quot;</span>), <span class="comment">// 只关注 `Weekday::Fri` ，其他变体忽略</span></span><br><span class="line">        _ =&gt; (), <span class="comment">// 返回空元组，表示什么都不做</span></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Weekday</span>::Fri = day &#123; <span class="comment">// 与上面的 match 匹配效果相同</span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Friday&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>if let</code> 可以配合 <code>else</code> 使用：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">day</span> = Weekday::Fri;</span><br><span class="line">    <span class="keyword">match</span> day &#123;</span><br><span class="line">        Weekday::Fri =&gt; <span class="built_in">println!</span>(<span class="string">&quot;Friday&quot;</span>),</span><br><span class="line">        _ =&gt; <span class="built_in">println!</span>(<span class="string">&quot;other&quot;</span>),</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> <span class="variable">Weekday</span>::Fri = day &#123; <span class="comment">// 与上面的 match 匹配效果相同 </span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;Friday&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;other&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>Using Structs to Structure Related Data: <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch05-00-structs.html">https://doc.rust-lang.org/book/ch05-00-structs.html</a></li>
+<li>Enums and Pattern Matching: <a target="_blank" rel="noopener" href="https://doc.rust-lang.org/book/ch06-00-enums.html">https://doc.rust-lang.org/book/ch06-00-enums.html</a></li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>Rust 中使用 <code>struct</code> 关键字定义结构体，使用 <code>enum</code> 关键字定义枚举，使用 <code>impl</code> 可以为结构体和枚举定义方法。</p>
+<p>可以给结构体定义关联函数，关联函数使用结构名调用，而不是使用实例调用，类似 java 中的静态函数。</p>
+<p>Rust 枚举使用 <code>match</code> 进行匹配，使用通配符 <code>_</code> 匹配剩余可能的变体，通配符匹配要放在最后，类似其他编程语言中 switch 的 default。</p>
+<p>Rust 提供了 <code>if let</code> 来处理只需要关注一种枚举变体的情况，是 match 的语法糖。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/08/29/%E9%83%A8%E7%BD%B2Hexo%E5%8D%9A%E5%AE%A2%E5%88%B0%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="prev" title="部署Hexo博客到云服务器">
+                  <i class="fa fa-angle-left"></i> 部署Hexo博客到云服务器
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/08/30/%E8%AE%A4%E8%AF%86%E5%92%8C%E4%BD%BF%E7%94%A8TCP%E5%8D%8F%E8%AE%AE/" rel="next" title="认识和使用TCP协议">
+                  认识和使用TCP协议 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

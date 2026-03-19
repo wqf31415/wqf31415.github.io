@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 这篇文件记录了使用友善 R3S 安装 ImmortalWrt 系统，搭建家庭软路由的安装配置过程。  组网 友善 NanoPi R3S （后简称R3S）搭载瑞芯微 RK3566 处理器，板载2G LPDDR4X 内存，支持 MicroSD，接口包含 1 个USB 3.0 Type-A接口，1个Type-C（5V2A）供电接口，2个千兆网口，适合当作软路由使用。设备原装了友善 Friendl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="友善R3S安装软路由">
+<meta property="og:url" content="https://www.wqf31415.xyz/2026/03/16/%E5%8F%8B%E5%96%84R3S%E5%AE%89%E8%A3%85%E8%BD%AF%E8%B7%AF%E7%94%B1/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文件记录了使用友善 R3S 安装 ImmortalWrt 系统，搭建家庭软路由的安装配置过程。  组网 友善 NanoPi R3S （后简称R3S）搭载瑞芯微 RK3566 处理器，板载2G LPDDR4X 内存，支持 MicroSD，接口包含 1 个USB 3.0 Type-A接口，1个Type-C（5V2A）供电接口，2个千兆网口，适合当作软路由使用。设备原装了友善 Friendl">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/balenaEtcher_setting.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/balenaEtcher_flashing.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/balenaEtcher_flash_finish.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/pc_ip_1.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/immortalwrt_login_page.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/immortalwrt_first_login.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/immortalwrt_port_cfg.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/immortalwrt_lan_ip_cfg.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/immortalwrt_lan_ip_saved.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/immortalwrt_lan_ip_cfg_apply.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/pc_ip_2.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/ssh_connect_immortalwrt.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/passwall_base_page.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/passwall_subcribe_cfg.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/passwall_node_list.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/passwall_apply_cfg.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/r3s/passwall_success.webp">
+<meta property="article:published_time" content="2026-03-16T21:35:45.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.117Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="科学上网">
+<meta property="article:tag" content="网络">
+<meta property="article:tag" content="软路由">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/r3s/balenaEtcher_setting.webp">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2026/03/16/%E5%8F%8B%E5%96%84R3S%E5%AE%89%E8%A3%85%E8%BD%AF%E8%B7%AF%E7%94%B1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2026/03/16/%E5%8F%8B%E5%96%84R3S%E5%AE%89%E8%A3%85%E8%BD%AF%E8%B7%AF%E7%94%B1/","path":"2026/03/16/友善R3S安装软路由/","title":"友善R3S安装软路由"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>友善R3S安装软路由 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E7%BD%91"><span class="nav-number">2.</span> <span class="nav-text"> 组网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text"> 物料</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%83%A7%E5%BD%95%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.</span> <span class="nav-text"> 烧录系统</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F"><span class="nav-number">4.1.</span> <span class="nav-text"> 下载系统镜像</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%83%A7%E5%BD%95%E9%95%9C%E5%83%8F%E5%88%B0tf%E5%8D%A1"><span class="nav-number">4.2.</span> <span class="nav-text"> 烧录镜像到TF卡</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%BD%91%E7%BB%9C"><span class="nav-number">5.</span> <span class="nav-text"> 配置网络</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E7%A8%8B%E5%BA%8F"><span class="nav-number">6.</span> <span class="nav-text"> 安装程序</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91"><span class="nav-number">7.</span> <span class="nav-text"> 科学上网</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">8.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2026/03/16/%E5%8F%8B%E5%96%84R3S%E5%AE%89%E8%A3%85%E8%BD%AF%E8%B7%AF%E7%94%B1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="友善R3S安装软路由 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          友善R3S安装软路由<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E5%8F%8B%E5%96%84R3S%E5%AE%89%E8%A3%85%E8%BD%AF%E8%B7%AF%E7%94%B1.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-03-16 21:35:45" itemprop="dateCreated datePublished" datetime="2026-03-16T21:35:45+00:00">2026-03-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文件记录了使用友善 R3S 安装 ImmortalWrt 系统，搭建家庭软路由的安装配置过程。</p>
+<h3 id="组网"><a class="markdownIt-Anchor" href="#组网"></a> 组网</h3>
+<p>友善 NanoPi R3S （后简称R3S）搭载瑞芯微 RK3566 处理器，板载2G LPDDR4X 内存，支持 MicroSD，接口包含 1 个USB 3.0 Type-A接口，1个Type-C（5V2A）供电接口，2个千兆网口，适合当作软路由使用。设备原装了友善 FriendlyWrt 系统，这次我用来运行 ImmortalWrt 系统，搭建家庭网络软路由。</p>
+<pre><code class="highlight mermaid">graph TD
+    Internet(((&quot;Internet&quot;))) --- |光缆| ONU[光猫]
+    ONU --- |网线 WAN| Router&#123;软路由&#125;
+    Router --- |网线 LAN| Switch[交换机]
+
+    Switch --- |网线| Router1[路由器1]
+    Switch --- |网线| Router2[路由器2]
+    Switch --- |网线| Router3[路由器3]
+
+    Router1 --- |网线| Laptop((&quot;电脑&quot;))
+
+    Router2 -.-&gt; |WiFi| Phone((&quot;手机&quot;))
+    Router3 -.-&gt; |WiFi| Tablet((&quot;平板&quot;))
+
+    style Router fill:#ffcc00, stroke:#ff6600, stroke-width:4px, font-weight:bold</code></pre>
+<span id="more"></span>
+<h3 id="物料"><a class="markdownIt-Anchor" href="#物料"></a> 物料</h3>
+<p>以下是关键物料：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>关键参数</th>
+<th>来源</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>友善 NanoPi R3S</td>
+<td>2G 内存，32G eMMC</td>
+<td>购于淘宝</td>
+<td>实际eMMC没用上，可以买不带eMMC版本</td>
+</tr>
+<tr>
+<td>光猫</td>
+<td>-</td>
+<td>网络运营商提供</td>
+<td>-</td>
+</tr>
+<tr>
+<td>交换机</td>
+<td>八孔千兆</td>
+<td>购于京东</td>
+<td>-</td>
+</tr>
+<tr>
+<td>路由器</td>
+<td>-</td>
+<td>网络运营商提供</td>
+<td>路由器设置成了桥接模式</td>
+</tr>
+<tr>
+<td>笔记本电脑</td>
+<td>Windows 11系统</td>
+<td>-</td>
+<td>用于连接软路由进行配置</td>
+</tr>
+<tr>
+<td>网线</td>
+<td>超六类，1米</td>
+<td>购于京东</td>
+<td>-</td>
+</tr>
+<tr>
+<td>TF卡</td>
+<td>32G</td>
+<td>购于淘宝</td>
+<td>购买时附送了读卡器</td>
+</tr>
+</tbody>
+</table>
+<h3 id="烧录系统"><a class="markdownIt-Anchor" href="#烧录系统"></a> 烧录系统</h3>
+<h4 id="下载系统镜像"><a class="markdownIt-Anchor" href="#下载系统镜像"></a> 下载系统镜像</h4>
+<blockquote>
+<p>适用于 R3S 的 ImmortalWrt 24.10.5 版本下载页面链接：<a href="https://firmware-selector.immortalwrt.org/?version=24.10.5&amp;target=rockchip%2Farmv8&amp;id=friendlyarm_nanopi-r3s">https://firmware-selector.immortalwrt.org/?version=24.10.5&amp;target=rockchip%2Farmv8&amp;id=friendlyarm_nanopi-r3s</a></p>
+</blockquote>
+<p>进入 ImmortalWrt 的固件下载网站 <a target="_blank" rel="noopener" href="https://firmware-selector.immortalwrt.org/">https://firmware-selector.immortalwrt.org/</a></p>
+<p>搜索型号：<code>FriendlyARM NanoPi R3S</code></p>
+<p>版本选择最新的稳定版本，现在最新的是：<code>24.10.5</code></p>
+<p>选择完成后，页面显示可下载的镜像，点击按钮下载。</p>
+<blockquote>
+<p>网站提供构建镜像功能，可以指定预装的软件包和启动脚本，在启动脚本中可以设置系统用户密码、ip地址等信息。</p>
+</blockquote>
+<p><strong>注意</strong>：页面提供两种格式的镜像，分别是 <code>EXT4</code> 和 <code>SQUASHFS</code> ，指的是两种不同的<strong>根文件系统格式</strong>，它们最核心的区别在于：<strong><code>squashfs</code> 是只读的，而 <code>ext4</code> 是可读写的</strong>。我选择的是 <code>EXT4</code> 的，因为我后续可能会装 docker 容器， <code>EXT4</code> 可以让我更方便地管理磁盘空间。</p>
+<table>
+<thead>
+<tr>
+<th>特性对比</th>
+<th>SQUASHFS格式</th>
+<th>EXT4格式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>核心特性</strong></td>
+<td><strong>高强度压缩，只读型</strong>的文件系统。</td>
+<td>Linux 系统标准的、<strong>可读写</strong>的日志型文件系统。</td>
+</tr>
+<tr>
+<td><strong>工作原理</strong></td>
+<td>固件本身是只读的，所有系统修改（如安装软件、更改配置）都保存在一个独立的、可读写的 <strong>overlay 分区</strong>中。</td>
+<td>整个根分区都是可读写的，对系统的任何修改都直接写入分区。</td>
+</tr>
+<tr>
+<td><strong>优势</strong></td>
+<td>1. <strong>“恢复出厂设置”功能</strong>：这是它最大的优点。当系统出错时，只需清除 overlay 分区，就能回到纯净的初始状态。 2. <strong>节省空间</strong>：固件镜像体积小，占用闪存空间少。</td>
+<td>1. <strong>空间利用率高</strong>：能充分利用存储介质（如硬盘、U盘、存储卡）的全部剩余空间。 2. <strong>灵活性高</strong>：对熟悉 Linux 的用户来说，管理和修改文件系统更直接。</td>
+</tr>
+<tr>
+<td><strong>劣势</strong></td>
+<td><strong>空间管理复杂</strong>：固件空间和可用空间是分开的，容易遇到“系统分区满，但存储空间没用上”的情况，需要手动扩容。</td>
+<td><strong>无法“恢复出厂设置”</strong>：一旦系统配置损坏或操作失误，无法通过简单的恢复操作还原，可能需要重刷整个固件。</td>
+</tr>
+<tr>
+<td><strong>适用场景</strong></td>
+<td>1. <strong>新手</strong>，或者希望系统有个“后悔药”，折腾坏了能轻松恢复。2. 你的设备<strong>存储空间非常有限</strong>（例如一些老旧的、只有16/32MB闪存的路由器），<code>squashfs</code> 的压缩特性可以有效节省空间。3. 希望系统核心文件保持绝对干净和安全，不易被意外修改或病毒感染</td>
+<td>1. 计划在路由器上运行<strong>需要大量读写的应用</strong>，比如 <code>docker</code> 容器服务、下载工具等，<code>ext4</code> 可以让你更方便地管理磁盘空间。2. 习惯于像操作普通Linux服务器一样直接管理文件系统，希望所有空间都一览无余，分区管理更直接。3. 设备存储空间<strong>非常充裕</strong>（比如用大容量U盘或硬盘运行的软路由），不在意固件镜像的体积差异。</td>
+</tr>
+</tbody>
+</table>
+<h4 id="烧录镜像到tf卡"><a class="markdownIt-Anchor" href="#烧录镜像到tf卡"></a> 烧录镜像到TF卡</h4>
+<p>将 TF 卡连接到电脑，打开 balenaEtcher 软件，选择下载的镜像文件，烧录目标设备选择插入的 TF 卡，点击开始烧录，等待约 1 分钟烧录完成。</p>
+<blockquote>
+<p>balenaEtcher是一款用于烧录操作系统到 SD 卡或 USB 设备的软件，下载地址是: <a target="_blank" rel="noopener" href="https://etcher.balena.io/">https://etcher.balena.io/</a></p>
+</blockquote>
+<p><img src="/images/post/r3s/balenaEtcher_setting.webp" alt="" /></p>
+<p><img src="/images/post/r3s/balenaEtcher_flashing.webp" alt="" /></p>
+<p><img src="/images/post/r3s/balenaEtcher_flash_finish.webp" alt="" /></p>
+<h3 id="配置网络"><a class="markdownIt-Anchor" href="#配置网络"></a> 配置网络</h3>
+<p>将烧录了 ImmortalWrt 系统的内存卡插入友善 R3S 的 TF 卡插槽，用网线把 R3S 的 wan 口连接到光猫，R3S 的 lan 口连接到交换机，交换机连接到路由器。</p>
+<p>给 R3S 上电，电源指示灯先快速闪动，最后常亮，说明系统启动完成。此时看 wan、lan 指示灯亮起。</p>
+<p>电脑连接到路由器或交换机，等待电脑获取到 IP ，查看电脑 IP，发现是 <code>192.168.1.*</code> 的网段。</p>
+<p><img src="/images/post/r3s/pc_ip_1.webp" alt="" /></p>
+<p>打开浏览器访问 R3S 的管理页面：<a target="_blank" rel="noopener" href="http://192.168.1.1">http://192.168.1.1</a> 。</p>
+<p><img src="/images/post/r3s/immortalwrt_login_page.webp" alt="" /></p>
+<p>系统默认用户是 root，没有密码，输入用户名后直接登录，登录后页面提示要修改密码。</p>
+<p><img src="/images/post/r3s/immortalwrt_first_login.webp" alt="" /></p>
+<p>进入管理页面的 <code>网络</code> --&gt; <code>接口</code> 页面，看到 lan 口的 IPv4 地址是 <code>192.168.1.1/24</code> ，和 wan 口 IP 是同一个段，需要修改。</p>
+<p><img src="/images/post/r3s/immortalwrt_port_cfg.webp" alt="" /></p>
+<p>点击编辑，将 IPv4地址修改为：<code>192.168.2.1</code> ，IPv4 广播地址自动更新为：<code>192.168.2.255</code> ，点击保存。</p>
+<p><img src="/images/post/r3s/immortalwrt_lan_ip_cfg.webp" alt="" /></p>
+<p>界面显示接口有3个未应用的修改，点击它，再点击 <code>保存并应用</code> ，弹出的提示框中再次点击确认。</p>
+<p><img src="/images/post/r3s/immortalwrt_lan_ip_saved.webp" alt="" /></p>
+<p><img src="/images/post/r3s/immortalwrt_lan_ip_cfg_apply.webp" alt="" /></p>
+<p>这时网络连接会中断，等待一段时间后（可能需要重启路由器），电脑显示联网成功，重新获取到了 IP，查看IP 已经是 <code>192.168.2.*</code> 的网段了，此时可以访问 <a target="_blank" rel="noopener" href="http://192.168.2.1">http://192.168.2.1</a> 进入软路由管理页面。</p>
+<p><img src="/images/post/r3s/pc_ip_2.webp" alt="" /></p>
+<h3 id="安装程序"><a class="markdownIt-Anchor" href="#安装程序"></a> 安装程序</h3>
+<p>安装程序的方式有两种：</p>
+<ul>
+<li>一是通过 ssh 访问软路由，如 <code>ssh root@192.168.2.1</code> ，在命令行窗口通过包管理工具 opkg 进行安装，如 <code>opkg install luci-i18n-passwall-zh-cn</code> ；</li>
+<li>二是在软路由管理界面的 <code>系统</code> --&gt; <code>软件包</code> 界面搜索软件包，点击安装。</li>
+</ul>
+<p><strong>注意</strong>：在安装软件包之前需要更新 opkg，可以执行命令 <code>opkg update</code> 或在软件包管理界面点击 <code>更新列表</code> 。</p>
+<p><img src="/images/post/r3s/ssh_connect_immortalwrt.png" alt="" /></p>
+<p>下面是要安装的一些软件：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">序号</th>
+<th style="text-align:center">软件包</th>
+<th style="text-align:center">功能</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">luci-i18n-ttyd-zh-cn</td>
+<td style="text-align:center">命令行工具</td>
+<td style="text-align:center">可选</td>
+</tr>
+<tr>
+<td style="text-align:center">2</td>
+<td style="text-align:center">luci-theme-argon</td>
+<td style="text-align:center">主题</td>
+<td style="text-align:center">建议安装，比原始主题好看</td>
+</tr>
+<tr>
+<td style="text-align:center">3</td>
+<td style="text-align:center">luci-i18n-passwall-zh-cn</td>
+<td style="text-align:center">代理工具</td>
+<td style="text-align:center">建议安装</td>
+</tr>
+<tr>
+<td style="text-align:center">4</td>
+<td style="text-align:center">luci-app-openclash</td>
+<td style="text-align:center">代理工具</td>
+<td style="text-align:center">可选</td>
+</tr>
+</tbody>
+</table>
+<h3 id="科学上网"><a class="markdownIt-Anchor" href="#科学上网"></a> 科学上网</h3>
+<p>安装上网代理工具 <code>luci-i18n-passwall-zh-cn</code> 后，重新登录软路由管理页面，进入 <code>服务</code> --&gt; <code>PassWall</code> 页面。</p>
+<p><img src="/images/post/r3s/passwall_base_page.webp" alt="" /></p>
+<p>在 <code>节点订阅</code> 选项卡中点击 <code>添加</code> ，填写机场备注、订阅地址（使用 V2Ray 订阅链接），其他选项可以保持默认，点击保存并应用，保存后可以看到已添加的订阅信息。</p>
+<p><img src="/images/post/r3s/passwall_subcribe_cfg.webp" alt="" /></p>
+<p>在 <code>节点订阅</code> 页面点击手动订阅后，进入 <code>节点列表</code> 选项卡，看到已经获取到的代理节点，根据需要选择合适、速度快的节点，点击后面的<code>使用</code> 按钮，在确认弹框中点击 <code>TCP</code> ，应用到 TCP 代理。</p>
+<p><img src="/images/post/r3s/passwall_node_list.webp" alt="" /></p>
+<p>进入 <code>基本设置</code> 选项卡，在 <code>主要</code> 配置中看到 TCP 节点已经设置成上一步选择的节点，勾选 <code>主开关</code>，UDP节点设置为 <code>与TCP节点相同</code> ，点击保存并应用。</p>
+<p><img src="/images/post/r3s/passwall_apply_cfg.webp" alt="" /></p>
+<p>等待约 1 分钟后，看到 TCP、UDP、DNS 的状态从未运行变成了运行中，点击 <code>谷歌连接点位检测</code> ，能够正确显示响应时间，说明启动代理成功，这时整个网络中的设备都可以使用浏览器访问谷歌 <a target="_blank" rel="noopener" href="https://www.google.com/">https://www.google.com/</a>。</p>
+<p><img src="/images/post/r3s/passwall_success.webp" alt="" /></p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>有了软路由后，再配置好上网代理，家里所有设备都可以科学上网了，而且如果要换网络运营商，只需要更换光猫就可以了，软路由以及后面的交换机、路由器都不需要调整，无感切换，非常方便。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag"># 网络</a>
+              <a href="/tags/%E8%BD%AF%E8%B7%AF%E7%94%B1/" rel="tag"># 软路由</a>
+              <a href="/tags/%E7%A7%91%E5%AD%A6%E4%B8%8A%E7%BD%91/" rel="tag"># 科学上网</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/02/25/LuckFoxPico%E5%BC%80%E5%8F%91%E6%9D%BF%E5%88%9D%E8%AF%95/" rel="prev" title="LuckFoxPico开发板初试">
+                  <i class="fa fa-angle-left"></i> LuckFoxPico开发板初试
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

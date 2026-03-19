@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,39 +14,38 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
-    <meta name="description" content="概述 这篇文章主要讲解了 markdown 的语法规则、编辑器以及一些使用技巧。  在线测试一下 下面这个是用来尝试 markdown 语法的：">
+    <meta name="description" content="概述 这篇文章主要讲解了 markdown 的语法规则、编辑器以及一些使用技巧。  在线测试一下 可以到下面这些在线网站可以在线编辑并实时预览 markdown 语法：  Markdown 在线编辑器 - Markdown Live Preview - 打开网页后左侧编辑 markdown，右侧实时预览结果 Dillinger - 在线 markdown 编辑器，支持导出 HTML&#x2F;PDF jb">
 <meta property="og:type" content="article">
 <meta property="og:title" content="markdown 语法学习">
 <meta property="og:url" content="https://www.wqf31415.xyz/2019/03/18/markdown-%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/index.html">
 <meta property="og:site_name" content="This_Wei">
-<meta property="og:description" content="概述 这篇文章主要讲解了 markdown 的语法规则、编辑器以及一些使用技巧。  在线测试一下 下面这个是用来尝试 markdown 语法的：">
+<meta property="og:description" content="概述 这篇文章主要讲解了 markdown 的语法规则、编辑器以及一些使用技巧。  在线测试一下 可以到下面这些在线网站可以在线编辑并实时预览 markdown 语法：  Markdown 在线编辑器 - Markdown Live Preview - 打开网页后左侧编辑 markdown，右侧实时预览结果 Dillinger - 在线 markdown 编辑器，支持导出 HTML&#x2F;PDF jb">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/typora.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/mou.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/wangyiyunyinyue_url.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/markdown_latex.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/markdown_latex_2.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_code_01.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_01.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_code_02.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_02.png">
-<meta property="article:published_time" content="2019-03-18T08:29:08.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.247Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp">
+<meta property="og:image" content="https://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/typora.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/mou.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/wangyiyunyinyue_url.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/markdown_latex.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/markdown_latex_2.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_code_01.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_01.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_code_02.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_02.webp">
+<meta property="article:published_time" content="2019-03-18T16:29:08.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.114Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="markdown">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2019/03/18/markdown-%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/03/18/markdown-%E8%AF%AD%E6%B3%95%E5%AD%A6%E4%B9%A0/","path":"2019/03/18/markdown-语法学习/","title":"markdown 语法学习"}</script>
@@ -55,10 +54,29 @@
 <title>markdown 语法学习 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -140,18 +158,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -221,14 +239,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-03-18 16:29:08" itemprop="dateCreated datePublished" datetime="2019-03-18T16:29:08+08:00">2019-03-18</time>
+      <time title="创建时间：2019-03-18 16:29:08" itemprop="dateCreated datePublished" datetime="2019-03-18T16:29:08+00:00">2019-03-18</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -252,8 +270,12 @@
     <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
 <p>这篇文章主要讲解了 markdown 的语法规则、编辑器以及一些使用技巧。</p>
 <h3 id="在线测试一下"><a class="markdownIt-Anchor" href="#在线测试一下"></a> 在线测试一下</h3>
-<p>下面这个是用来尝试 markdown 语法的：</p>
-<iframe src="http://wqf31415.coding.me/app/markdown-viewer.html" name="iframe_a" style="border: 1px solid #ccc;width: 100%; height: 500px;"></iframe>
+<p>可以到下面这些在线网站可以在线编辑并实时预览 markdown 语法：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://markdownlivepreview.com/">Markdown 在线编辑器 - Markdown Live Preview</a> - 打开网页后左侧编辑 markdown，右侧实时预览结果</li>
+<li><a target="_blank" rel="noopener" href="https://dillinger.io/">Dillinger</a> - 在线 markdown 编辑器，支持导出 HTML/PDF</li>
+<li><a target="_blank" rel="noopener" href="https://jbt.github.io/markdown-editor/">jbt markdown editor</a> - 简单的分栏在线编辑器</li>
+</ul>
 <span id="more"></span>
 <h3 id="概念"><a class="markdownIt-Anchor" href="#概念"></a> 概念</h3>
 <blockquote>
@@ -376,7 +398,7 @@
 <blockquote>
 <p>注：需要在代码中显示反单引号 <code>`</code> 时，用其他数量的反单引号组合包裹要显示的反单引号即可。如需要显示 1 个反单引号时，就用两个 单引号包裹这一个单引号，中间用空格分隔，<code>`` ` ``</code> ，效果：<code>`</code>。如果要显示两个反引号时，就用一个单引号包裹，<code>` `` `</code>，效果：<code>``</code>。</p>
 </blockquote>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">markdown：</span><br><span class="line"><span class="code">`` 单反引号 `</span> ``</span><br><span class="line"></span><br><span class="line"><span class="code">`var a = 12;`</span></span><br><span class="line"></span><br><span class="line"><span class="code">``const b = 1.2`</span>`</span><br><span class="line"></span><br><span class="line">​<span class="code">```java</span></span><br><span class="line"><span class="code">String c = &quot;hello&quot;;</span></span><br><span class="line"><span class="code">​```</span></span><br><span class="line"></span><br><span class="line">html:</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;<span class="name">code</span>&gt;</span></span>单反引号 `<span class="language-xml"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;<span class="name">code</span>&gt;</span></span>var a = 12;<span class="language-xml"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span> </span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;<span class="name">code</span>&gt;</span></span>const b = 1.2<span class="language-xml"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span> </span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">pre</span>&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">code</span> <span class="attr">class</span>=<span class="string">&quot;language-java&quot;</span>&gt;</span></span>String c = &amp;quot;hello&amp;quot;;<span class="language-xml"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">markdown：</span><br><span class="line"><span class="code">`` 单反引号 `</span> ``</span><br><span class="line"></span><br><span class="line"><span class="code">`var a = 12;`</span></span><br><span class="line"></span><br><span class="line"><span class="code">``const b = 1.2`</span>`</span><br><span class="line"></span><br><span class="line">​<span class="code">```java</span></span><br><span class="line"><span class="code">String c = &quot;hello&quot;;</span></span><br><span class="line"><span class="code">​```</span></span><br><span class="line"></span><br><span class="line">html:</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;<span class="name">code</span>&gt;</span></span>单反引号 `<span class="language-xml"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;<span class="name">code</span>&gt;</span></span>var a = 12;<span class="language-xml"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span> </span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;<span class="name">code</span>&gt;</span></span>const b = 1.2<span class="language-xml"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span> </span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">pre</span>&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">code</span> <span class="attr">class</span>=<span class="string">&quot;language-java&quot;</span>&gt;</span></span>String c = <span class="literal">&amp;quot;</span>hello<span class="literal">&amp;quot;</span>;<span class="language-xml"><span class="tag">&lt;/<span class="name">code</span>&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">pre</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>效果：<br />
 <code>单反引号 `</code></p>
 <p><code>var a = 12;</code></p>
@@ -412,10 +434,10 @@
 <ul>
 <li>使用 <code>[id]: url &quot;图片标题&quot;</code> 来定义链接信息，使用 <code>![说明信息][id]</code> 来引用图片。</li>
 </ul>
-<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">markdown:</span><br><span class="line">![<span class="string">这是个灯泡</span>](<span class="link">http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png &quot;灯泡&quot;</span>)</span><br><span class="line">![<span class="string">这是引用模式的</span>][<span class="symbol">dengpao</span>]</span><br><span class="line"></span><br><span class="line">[<span class="symbol">dengpao</span>]: <span class="link">http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png &quot;引用模式-灯泡&quot;</span></span><br><span class="line"></span><br><span class="line">html:</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;这是个灯泡&quot;</span> <span class="attr">title</span>=<span class="string">&quot;灯泡&quot;</span>/&gt;</span></span><span class="language-xml"><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;这是引用模式的&quot;</span> <span class="attr">title</span>=<span class="string">&quot;引用模式-灯泡&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
+<figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">markdown:</span><br><span class="line">![<span class="string">这是个灯泡</span>](<span class="link">https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp &quot;灯泡&quot;</span>)</span><br><span class="line">![<span class="string">这是引用模式的</span>][<span class="symbol">dengpao</span>]</span><br><span class="line"></span><br><span class="line">[<span class="symbol">dengpao</span>]: <span class="link">https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp &quot;引用模式-灯泡&quot;</span></span><br><span class="line"></span><br><span class="line">html:</span><br><span class="line"><span class="language-xml"><span class="tag">&lt;<span class="name">p</span>&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;这是个灯泡&quot;</span> <span class="attr">title</span>=<span class="string">&quot;灯泡&quot;</span>/&gt;</span></span><span class="language-xml"><span class="tag">&lt;<span class="name">br</span>/&gt;</span></span></span><br><span class="line">  <span class="language-xml"><span class="tag">&lt;<span class="name">img</span> <span class="attr">src</span>=<span class="string">&quot;https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp&quot;</span> <span class="attr">alt</span>=<span class="string">&quot;这是引用模式的&quot;</span> <span class="attr">title</span>=<span class="string">&quot;引用模式-灯泡&quot;</span>/&gt;</span></span></span><br><span class="line"><span class="language-xml"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></span></span><br></pre></td></tr></table></figure>
 <p>效果：<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png" alt="这是个灯泡" title="灯泡" /><br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png" alt="这是引用模式的" title="引用模式-灯泡" /></p>
+<img src="https://www.wqf31415.xyz/images/post/markdown/icon-dianyu.webp" alt="这是个灯泡" title="灯泡" /><br />
+<img src="https://blog-images.qiniu.wqf31415.xyz/icon-dianyu.png" alt="这是引用模式的" title="引用模式-灯泡" /></p>
 <hr />
 <h4 id="转义字符"><a class="markdownIt-Anchor" href="#转义字符"></a> 转义字符</h4>
 <p>在文章中需要显示 markdown 语法关键字符时，为了避免被编译成 HTML 标签，可以使用反斜杠 <code>\</code> 来添加转义字符，在输入成 HTML 时显示原字符。<br />
@@ -497,7 +519,7 @@
 <blockquote>
 <p>官网: <a target="_blank" rel="noopener" href="https://typora.io/">https://typora.io/</a></p>
 </blockquote>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/typora.png" alt="" title="Typora" /></p>
+<p><img src="https://www.wqf31415.xyz/images/post/markdown/typora.webp" alt="" title="Typora" /></p>
 <p>windows 平台中五星推荐的编辑器。</p>
 <ul>
 <li>支持 markdown基础语法、markdown math、流程图、html 行内样式。</li>
@@ -513,7 +535,7 @@
 <blockquote>
 <p>官网：<a target="_blank" rel="noopener" href="http://25.io/mou/">http://25.io/mou/</a></p>
 </blockquote>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/mou.png" alt="" title="Mou" /></p>
+<p><img src="https://www.wqf31415.xyz/images/post/markdown/mou.webp" alt="" title="Mou" /></p>
 <p>仅支持 Mac OS</p>
 <ul>
 <li>界面美观</li>
@@ -528,7 +550,7 @@
 <p>在 markdown 文档中，可以直接添加行内 html 标签，如 <code>&lt;del&gt;删除线&lt;/del&gt;</code> 、<code>&lt;abbr title=&quot;Not Only SQL&quot;&gt;NoSQL&lt;/abbr&gt;</code>、<code>&lt;kbd&gt;Ctrl&lt;/kbd&gt; + &lt;kbd&gt;C&lt;/kbd&gt;</code>等，效果：<del>删除线</del> 、<abbr title="Not Only SQL">NoSQL</abbr> 、<kbd>Ctrl</kbd> + <kbd>C</kbd>。</p>
 <p>利用这一特性，我们可以还可以在 markdown 文档中嵌入音频、视频等，甚至可以使用 <code>iframe</code> 标签嵌入一个 html 页面。</p>
 <p>例如，网易云音乐中以 iframe 形式分享音乐，将分享的 html 代码粘贴到 markdown 中即可使用：</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/wangyiyunyinyue_url.png" alt="" title="网易云音乐外链" /></p>
+<p><img src="https://www.wqf31415.xyz/images/post/markdown/wangyiyunyinyue_url.webp" alt="" title="网易云音乐外链" /></p>
 <iframe frameborder="no" border="0" marginwidth="0" marginheight="0" width=330 height=86 src="//music.163.com/outchain/player?type=2&id=28188427&auto=1&height=66"></iframe>
 使用相同方法可以在 markdown 文档插入分享的 bilibili 的视频，例如：
 <figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">iframe</span> <span class="attr">height</span>=<span class="string">&quot;415&quot;</span> <span class="attr">width</span>=<span class="string">&quot;544&quot;</span> <span class="attr">src</span>=<span class="string">&quot;//player.bilibili.com/player.html?aid=48918074&amp;cid=85668198&amp;page=1&quot;</span> <span class="attr">scrolling</span>=<span class="string">&quot;no&quot;</span> <span class="attr">border</span>=<span class="string">&quot;0&quot;</span> <span class="attr">frameborder</span>=<span class="string">&quot;no&quot;</span> <span class="attr">framespacing</span>=<span class="string">&quot;0&quot;</span> <span class="attr">allowfullscreen</span>=<span class="string">&quot;true&quot;</span>&gt;</span> <span class="tag">&lt;/<span class="name">iframe</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -536,24 +558,24 @@
 <h4 id="markdown-math-数学公式"><a class="markdownIt-Anchor" href="#markdown-math-数学公式"></a> Markdown Math 数学公式</h4>
 <p>在 Typora 、CSDN 中支持数学公式，用法为 <code>$LaTex符号$</code> ，其中 LaTex符号 可以参考 <a target="_blank" rel="noopener" href="https://www.caam.rice.edu/~heinken/latex/symbols.pdf">莱斯大学LaTex Math在线PDF手册</a><br />
 如: <code>$\alpha$、$\pi$、$\approx $</code> 效果( <em>由于 hexo 博客里不支持数学公式，下面公式的示例效果都是在 Typora 中的展示效果</em> )：<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/markdown_latex.png" alt="" title="Typora 中 LaTex 符号" /></p>
+<img src="https://www.wqf31415.xyz/images/post/markdown/markdown_latex.webp" alt="" title="Typora 中 LaTex 符号" /></p>
 <p>也可以编写复杂的数学公式，使用 <code>$$数学公式$$</code> 方式来创建，如：</p>
 <figure class="highlight markdown"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$$</span><br><span class="line">f(z) = \left\&#123; \begin&#123;array&#125;&#123;rcl&#125;</span><br><span class="line">\overline&#123;\overline&#123;z^2&#125;+\cos z&#125; &amp; \mbox&#123;for&#125;</span><br><span class="line">&amp; |z|&lt;3 \\ 0 &amp; \mbox&#123;for&#125; &amp; 3\leq|z|\leq5 \\</span><br><span class="line">\sin\overline&#123;z&#125; &amp; \mbox&#123;for&#125; &amp; |z|&gt;5</span><br><span class="line">\end&#123;array&#125;\right.</span><br><span class="line">$$</span><br></pre></td></tr></table></figure>
 <p>效果：<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/markdown_latex_2.png" alt="" title="Typora 中 LaTex 公式" /></p>
+<img src="https://www.wqf31415.xyz/images/post/markdown/markdown_latex_2.webp" alt="" title="Typora 中 LaTex 公式" /></p>
 <h4 id="流程图"><a class="markdownIt-Anchor" href="#流程图"></a> 流程图</h4>
 <p>我们可以在 markdown 文档中编写流程图、甘特图、UML图，但支持的平台比较少，我现在找到的只有在 typora、CSDN中支持。以下示例均在 Typora 中实现。</p>
 <blockquote>
 <p>图表的语法参考：<a target="_blank" rel="noopener" href="https://mermaidjs.github.io/">https://mermaidjs.github.io/</a></p>
 </blockquote>
 <p>用法是使用 “```” 包裹图的代码，代码类型标记为 <strong>mermaid</strong>，例如：<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_code_01.png" alt="" title="markdown 流程图写法" /></p>
+<img src="https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_code_01.webp" alt="" title="markdown 流程图写法" /></p>
 <p>效果：<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_01.png" alt="" title="流程图" /></p>
+<img src="https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_01.webp" alt="" title="流程图" /></p>
 <p>甘特图语法：<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_code_02.png" alt="" title="markdown 甘特图" /></p>
+<img src="https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_code_02.webp" alt="" title="markdown 甘特图" /></p>
 <p>效果：<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/markdown_mermaid_02.png" alt="" title="甘特图" /></p>
+<img src="https://www.wqf31415.xyz/images/post/markdown/markdown_mermaid_02.webp" alt="" title="甘特图" /></p>
 <h4 id="图床"><a class="markdownIt-Anchor" href="#图床"></a> 图床</h4>
 <p>由于在 markdown 中插入的图片时需要指定图片链接，在文章发布在网上时就需要先找地方存起来，将其链接添加到文章中，这个存放图片并提供链接访问的地方就成为图床。</p>
 <ul>
@@ -613,6 +635,24 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/markdown/" rel="tag"># markdown</a>
           </div>
@@ -622,12 +662,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2019/03/16/%E4%BD%BF%E7%94%A8%E4%BA%91%E6%9C%8D%E5%8A%A1%E5%99%A8%E6%90%AD%E5%BB%BA-frp-%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F/" rel="prev" title="使用云服务器搭建 frp 服务实现内网穿透">
-                  <i class="fa fa-chevron-left"></i> 使用云服务器搭建 frp 服务实现内网穿透
+                  <i class="fa fa-angle-left"></i> 使用云服务器搭建 frp 服务实现内网穿透
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2019/05/13/Spring-Boot-%E4%BD%BF%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-Thymeleaf/" rel="next" title="Spring Boot 使用模板引擎 Thymeleaf">
-                  Spring Boot 使用模板引擎 Thymeleaf <i class="fa fa-chevron-right"></i>
+                  Spring Boot 使用模板引擎 Thymeleaf <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -640,6 +680,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -647,17 +688,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -678,25 +718,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

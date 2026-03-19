@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="概述 在网络应用中，身份认证和授权操作是最基本的安全保证，在 Spring 全家桶中就提供了一个专门用于权限控制的框架——Security，这个框架在 Spring 应用中使用起来非常方便，支持多种认证和授权方式，还能够起到预防网络攻击的作用。  概念  是什么 Spring Security 是一个强大的高度定制化的身份认证和访问权限控制框架，是基于 Spring 项目的标准权限框架。Spri">
 <meta property="og:type" content="article">
@@ -26,21 +26,20 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="概述 在网络应用中，身份认证和授权操作是最基本的安全保证，在 Spring 全家桶中就提供了一个专门用于权限控制的框架——Security，这个框架在 Spring 应用中使用起来非常方便，支持多种认证和授权方式，还能够起到预防网络攻击的作用。  概念  是什么 Spring Security 是一个强大的高度定制化的身份认证和访问权限控制框架，是基于 Spring 项目的标准权限框架。Spri">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/apache-shiro-logo.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/spring_security_basal_login_page.png">
-<meta property="article:published_time" content="2020-02-29T04:13:12.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.256Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/spring/apache-shiro-logo.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/spring/spring_security_basal_login_page.webp">
+<meta property="article:published_time" content="2020-02-29T12:13:12.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.112Z">
 <meta property="article:author" content="This_Wei">
 <meta property="article:tag" content="java">
-<meta property="article:tag" content="springboot">
 <meta property="article:tag" content="spring">
+<meta property="article:tag" content="springboot">
 <meta property="article:tag" content="springsecurity">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/apache-shiro-logo.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/spring/apache-shiro-logo.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2020/02/29/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2020/02/29/SpringBoot-%E4%B8%AD%E4%BD%BF%E7%94%A8-SpringSecurity/","path":"2020/02/29/SpringBoot-中使用-SpringSecurity/","title":"SpringBoot 中使用 SpringSecurity"}</script>
@@ -49,10 +48,29 @@
 <title>SpringBoot 中使用 SpringSecurity | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -134,18 +152,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -215,14 +233,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2020-02-29 12:13:12" itemprop="dateCreated datePublished" datetime="2020-02-29T12:13:12+08:00">2020-02-29</time>
+      <time title="创建时间：2020-02-29 12:13:12" itemprop="dateCreated datePublished" datetime="2020-02-29T12:13:12+00:00">2020-02-29</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -268,7 +286,7 @@
 <ul>
 <li>
 <p>Apache Shiro</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/apache-shiro-logo.png" alt="" /></p>
+<p><img src="/images/post/spring/apache-shiro-logo.webp" alt="" /></p>
 <blockquote>
 <p>官网：<a target="_blank" rel="noopener" href="http://shiro.apache.org">http://shiro.apache.org</a></p>
 </blockquote>
@@ -299,7 +317,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> xyz.wqf;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> org.slf4j.Logger;</span><br><span class="line"><span class="keyword">import</span> org.slf4j.LoggerFactory;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.SpringApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.boot.autoconfigure.SpringBootApplication;</span><br><span class="line"><span class="keyword">import</span> org.springframework.core.env.Environment;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RequestMapping;</span><br><span class="line"><span class="keyword">import</span> org.springframework.web.bind.annotation.RestController;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> javax.servlet.http.HttpServletRequest;</span><br><span class="line"><span class="keyword">import</span> java.net.InetAddress;</span><br><span class="line"><span class="keyword">import</span> java.net.UnknownHostException;</span><br><span class="line"></span><br><span class="line"><span class="meta">@SpringBootApplication</span></span><br><span class="line"><span class="meta">@RestController</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">class</span> <span class="title class_">SecuritydemoApplication</span> &#123;</span><br><span class="line">	<span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="type">Logger</span> <span class="variable">logger</span> <span class="operator">=</span> LoggerFactory.getLogger(SecuritydemoApplication.class);</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title function_">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> UnknownHostException &#123;</span><br><span class="line">		<span class="type">SpringApplication</span> <span class="variable">app</span> <span class="operator">=</span> <span class="keyword">new</span> <span class="title class_">SpringApplication</span>(SecuritydemoApplication.class);</span><br><span class="line">		<span class="type">Environment</span> <span class="variable">env</span> <span class="operator">=</span> app.run(args).getEnvironment();</span><br><span class="line">		logger.info(<span class="string">&quot;\n--------------------------------------------\n&quot;</span> +</span><br><span class="line">				<span class="string">&quot;\tApplication &#123;&#125; is running! Access URLs:\n&quot;</span> +</span><br><span class="line">				<span class="string">&quot;\tLocal\thttp://localhost:&#123;&#125;\n&quot;</span> +</span><br><span class="line">				<span class="string">&quot;\tExternal\thttp://&#123;&#125;:&#123;&#125;&quot;</span>,</span><br><span class="line">				env.getProperty(<span class="string">&quot;spring.application.name&quot;</span>),</span><br><span class="line">				env.getProperty(<span class="string">&quot;server.port&quot;</span>),</span><br><span class="line">				InetAddress.getLocalHost().getHostAddress(),</span><br><span class="line">				env.getProperty(<span class="string">&quot;server.port&quot;</span>));</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="meta">@RequestMapping(&quot;/hello&quot;)</span></span><br><span class="line">	<span class="keyword">public</span> String <span class="title function_">hello</span><span class="params">(HttpServletRequest request)</span>&#123;</span><br><span class="line">		<span class="keyword">return</span> <span class="string">&quot;hello, &quot;</span>+ request.getRemoteUser();</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="运行与测试"><a class="markdownIt-Anchor" href="#运行与测试"></a> 运行与测试</h4>
 <p>运行项目，在浏览器访问项目，发现页面自动跳转到了一个登陆页面，可以输入我们配置好的用户名、密码进行登陆。如我们使用 admin 用户登陆，密码也是 admin。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/spring_security_basal_login_page.png" alt="" /></p>
+<p><img src="/images/post/spring/spring_security_basal_login_page.webp" alt="" /></p>
 <p>登陆成功之后还是 404 的错误提示页，是因为我们还没给项目添加首页页面。我们访问定义的测试接口 <code>/hello</code> ，即访问地址 <a target="_blank" rel="noopener" href="http://localhost:8080/hello">http://localhost:8080/hello</a> ，页面显示 <code>hello, admin</code> ，测试完成。</p>
 <h3 id="配置类说明"><a class="markdownIt-Anchor" href="#配置类说明"></a> 配置类说明</h3>
 <p>配置类中重写了 configure(AuthenticationManagerBuilder auth) 和 configure(HttpSecurity http) 方法。</p>
@@ -415,6 +433,24 @@ http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().ht
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/java/" rel="tag"># java</a>
               <a href="/tags/springboot/" rel="tag"># springboot</a>
@@ -427,12 +463,12 @@ http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().ht
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2020/02/19/MyCat-%E5%88%9D%E8%AF%86/" rel="prev" title="MyCat 初识">
-                  <i class="fa fa-chevron-left"></i> MyCat 初识
+                  <i class="fa fa-angle-left"></i> MyCat 初识
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2020/03/01/GitHub-%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E4%B8%AD%E4%BD%BF%E7%94%A8-emoji-%E8%A1%A8%E6%83%85/" rel="next" title="GitHub 提交记录中使用 emoji 表情">
-                  GitHub 提交记录中使用 emoji 表情 <i class="fa fa-chevron-right"></i>
+                  GitHub 提交记录中使用 emoji 表情 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -445,6 +481,7 @@ http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().ht
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -452,17 +489,16 @@ http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().ht
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -483,25 +519,8 @@ http.authorizeRequests().anyRequest().authenticated().and().formLogin().and().ht
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

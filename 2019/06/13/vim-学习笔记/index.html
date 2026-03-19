@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="概述 这篇文章介绍了文本编辑器 vim 的用法, 以及一些实用插件。  vim 是个啥?  Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创建、修改多种类型文本。在多数 UNIX 系统和 Apple OS X 中集成了 vi。vi 是 vim 的子集, vim 具有 vi 的所有功能, 且拥有更多的实用特性。  官网: https:&#x2F;&#x2F;www.vim.org&#x2F; Github: htt">
 <meta property="og:type" content="article">
@@ -26,26 +26,25 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="概述 这篇文章介绍了文本编辑器 vim 的用法, 以及一些实用插件。  vim 是个啥?  Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创建、修改多种类型文本。在多数 UNIX 系统和 Apple OS X 中集成了 vi。vi 是 vim 的子集, vim 具有 vi 的所有功能, 且拥有更多的实用特性。  官网: https:&#x2F;&#x2F;www.vim.org&#x2F; Github: htt">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_logo.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_install_on_win.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_on_win.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_start.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_insert_mode.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_plug_startify.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_plug_airline.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_plug_nerdtree.png">
-<meta property="article:published_time" content="2019-06-13T07:35:22.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.270Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/vim/vim_logo.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/vim/vim_install_on_win.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/vim/vim_on_win.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/vim/vim_start.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/vim/vim_insert_mode.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/vim/vim_plug_startify.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/vim/vim_plug_airline.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/vim/vim_plug_nerdtree.webp">
+<meta property="article:published_time" content="2019-06-13T15:35:22.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.114Z">
 <meta property="article:author" content="This_Wei">
-<meta property="article:tag" content="工具">
 <meta property="article:tag" content="vim">
+<meta property="article:tag" content="工具">
 <meta property="article:tag" content="编辑器">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/vim_logo.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/vim/vim_logo.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2019/06/13/vim-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2019/06/13/vim-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0/","path":"2019/06/13/vim-学习笔记/","title":"vim 学习笔记"}</script>
@@ -54,10 +53,29 @@
 <title>vim 学习笔记 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -139,18 +157,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -220,14 +238,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2019-06-13 15:35:22" itemprop="dateCreated datePublished" datetime="2019-06-13T15:35:22+08:00">2019-06-13</time>
+      <time title="创建时间：2019-06-13 15:35:22" itemprop="dateCreated datePublished" datetime="2019-06-13T15:35:22+00:00">2019-06-13</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -251,7 +269,7 @@
     <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
 <p>这篇文章介绍了文本编辑器 vim 的用法, 以及一些实用插件。</p>
 <h3 id="vim-是个啥"><a class="markdownIt-Anchor" href="#vim-是个啥"></a> vim 是个啥?</h3>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/vim_logo.png" alt="" title="vim" /></p>
+<p><img src="/images/post/vim/vim_logo.webp" alt="" title="vim" /></p>
 <p>Vim 是一个开源的、高度可配置的文本编辑器, 能够高效的创建、修改多种类型文本。在多数 UNIX 系统和 Apple OS X 中集成了 vi。vi 是 vim 的子集, vim 具有 vi 的所有功能, 且拥有更多的实用特性。</p>
 <blockquote>
 <p>官网: <a target="_blank" rel="noopener" href="https://www.vim.org/">https://www.vim.org/</a><br />
@@ -275,12 +293,12 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <li>
 <p>执行安装程序<br />
 安装时建议勾选 <code>Create .bat files for command line use</code> , 这样安装完成后可以在 Windows 命令行中直接使用 vim<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/vim_install_on_win.png" alt="" /></p>
+<img src="/images/post/vim/vim_install_on_win.webp" alt="" /></p>
 </li>
 <li>
 <p>打开 vim<br />
 安装完成后, 可以在命令行中使用, 也可以使用 GUI 版, 使用 <code>gvim</code> 即可打开, 如下图:<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/vim_on_win.png" alt="" /></p>
+<img src="/images/post/vim/vim_on_win.webp" alt="" /></p>
 </li>
 </ul>
 <blockquote>
@@ -288,13 +306,13 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 </blockquote>
 <h4 id="linux"><a class="markdownIt-Anchor" href="#linux"></a> Linux</h4>
 <p>Linux 系统下安装 vim 只需要 1 步，使用 linux 的安装包管理工具安装, 如 Ubuntu 中:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt install vim</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt install vim</span><br></pre></td></tr></table></figure>
 <h4 id="apple-os-x"><a class="markdownIt-Anchor" href="#apple-os-x"></a> Apple OS X</h4>
 <p>在 mac 下安装 vim 也只需要 1 步：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install vim</span><br></pre></td></tr></table></figure>
 <h4 id="自己编译"><a class="markdownIt-Anchor" href="#自己编译"></a> 自己编译</h4>
 <p>vim 的源码在 github 上, 可以自行克隆源码进行编译, 这样可以使用到最新开发的版本。大致的流程如下:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/vim/vim.git</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> vim</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> src</span><br><span class="line"></span><br><span class="line">make distclean  <span class="comment"># if you build Vim before</span></span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line">sudo make install</span><br></pre></td></tr></table></figure>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/vim/vim.git</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> vim</span><br><span class="line"></span><br><span class="line"><span class="built_in">cd</span> src</span><br><span class="line"></span><br><span class="line">make distclean  <span class="comment"># if you build Vim before</span></span><br><span class="line"></span><br><span class="line">make</span><br><span class="line"></span><br><span class="line"><span class="built_in">sudo</span> make install</span><br></pre></td></tr></table></figure>
 <h3 id="vim-五大模式"><a class="markdownIt-Anchor" href="#vim-五大模式"></a> vim 五大模式</h3>
 <p>划重点：在 vim 中存在 5 种编辑模式，分别是：常规模式(normal)、插入模式(insert)、命令模式(command)、可视模式(visual)、替换模式(replace)。</p>
 <p>进入 vim 时处于常规模式，是 vim 核心模式，可以从常规模式切换到其他模式，并通过按 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd> + <kbd>[</kbd> 键从其他模式返回常规模式。<br />
@@ -306,7 +324,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <p>以下操作内容全是在命令行中进行，在 windows 的 vim GUI 中，图形界面提供了一些便捷的操作按钮，也可以使用按键指令完成操作。</p>
 <h4 id="进入与退出"><a class="markdownIt-Anchor" href="#进入与退出"></a> 进入与退出</h4>
 <p>进入终端(或命令行)，执行命令 <code>vim</code> 即可进入 vim , 如下图所示，左边是 Windows powershell ，右边是 gitbash 进入 vim 的初始界面。<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/vim_start.png" alt="" /></p>
+<img src="/images/post/vim/vim_start.webp" alt="" /></p>
 <p>正如初始界面中提示的，我们可以输入命令查看帮助、保存或退出，输入命令后按 <kbd>回车</kbd> 执行：</p>
 <table>
 <thead>
@@ -348,7 +366,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 </table>
 <h4 id="编辑与保存"><a class="markdownIt-Anchor" href="#编辑与保存"></a> 编辑与保存</h4>
 <p>在进入 vim 后，我们首先进入的是 <span style="background:red;color:white"> normal 模式 </span> ，需要按小写字母 <kbd>a</kbd> 、 <kbd>i</kbd> 、<kbd>o</kbd> 或大写字母 <kbd>A</kbd> 、 <kbd>I</kbd> 、<kbd>O</kbd> 键进入 <span style="background:red;color:white"> insert 模式 </span> ，这样就可以正常编辑文本，修改与输入内容了，与常规文本编辑器相同，可以用键盘上的上下左右键移动光标。按 <kbd>Esc</kbd> 键回到 normal 模式。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/vim_insert_mode.png" alt="" /></p>
+<p><img src="/images/post/vim/vim_insert_mode.webp" alt="" /></p>
 <p>在插入模式中可以使用键盘上下左右键移动光标，编辑内容，使用退格键或 Delete 键删除内容。编辑完成后，按 <kbd>Esc</kbd> 键回到 normal 模式，输入 <code>:w</code> 然后按 <kbd>回车</kbd> 保存文件，也可以输入 <code>:wq</code> 然后按 <kbd>回车</kbd> 保存并退出。</p>
 <table>
 <thead>
@@ -455,7 +473,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>左移一个字符</td>
 </tr>
 <tr>
-<td><code>&#123;n&#125;h</code></td>
+<td><code>{n}h</code></td>
 <td>左移 n 个字符</td>
 </tr>
 <tr>
@@ -463,7 +481,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>下移一行</td>
 </tr>
 <tr>
-<td><code>&#123;n&#125;j</code></td>
+<td><code>{n}j</code></td>
 <td>下移 n 行</td>
 </tr>
 <tr>
@@ -471,7 +489,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>上移一行</td>
 </tr>
 <tr>
-<td><code>&#123;n&#125;k</code></td>
+<td><code>{n}k</code></td>
 <td>上移 n 行</td>
 </tr>
 <tr>
@@ -479,7 +497,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>右移一个字符</td>
 </tr>
 <tr>
-<td><code>&#123;n&#125;l</code></td>
+<td><code>{n}l</code></td>
 <td>右移 n 个字符</td>
 </tr>
 <tr>
@@ -499,7 +517,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>移动到文档尾</td>
 </tr>
 <tr>
-<td><code>:&#123;n&#125;</code> 或 <code>&#123;n&#125;G</code></td>
+<td><code>:{n}</code> 或 <code>{n}G</code></td>
 <td>跳转到第 n 行</td>
 </tr>
 <tr>
@@ -523,27 +541,27 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>移动到上一个单词开头</td>
 </tr>
 <tr>
-<td><code>f&#123;char&#125;</code></td>
+<td><code>f{char}</code></td>
 <td>移动到当前行下一个 char 字符处</td>
 </tr>
 <tr>
-<td><code>F&#123;char&#125;</code></td>
+<td><code>F{char}</code></td>
 <td>移动到当前行上一个 char 字符处</td>
 </tr>
 <tr>
-<td><code>t&#123;char&#125;</code></td>
+<td><code>t{char}</code></td>
 <td>移动到当前行下一个 char 字符前</td>
 </tr>
 <tr>
-<td><code>T&#123;char&#125;</code></td>
+<td><code>T{char}</code></td>
 <td>移动到当前行上一个 char 字符前</td>
 </tr>
 <tr>
-<td><code>&#123;</code></td>
+<td><code>{</code></td>
 <td>移动到上一段</td>
 </tr>
 <tr>
-<td><code>&#125;</code></td>
+<td><code>}</code></td>
 <td>移动到下一段</td>
 </tr>
 <tr>
@@ -652,7 +670,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>删除光标处的单词</td>
 </tr>
 <tr>
-<td><code>dt&#123;char&#125;</code></td>
+<td><code>dt{char}</code></td>
 <td>从当前位置删除到指定 char 处</td>
 </tr>
 <tr>
@@ -892,7 +910,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>创建一个新的标签页</td>
 </tr>
 <tr>
-<td><code>:tabe[dit] &#123;filename&#125;</code></td>
+<td><code>:tabe[dit] {filename}</code></td>
 <td>在新标签页中打开 {filename}</td>
 </tr>
 <tr>
@@ -916,7 +934,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>切换到下一个标签页</td>
 </tr>
 <tr>
-<td><code>:tabn[ext] &#123;N&#125;</code></td>
+<td><code>:tabn[ext] {N}</code></td>
 <td>切换到编号为 {N} 的标签页</td>
 </tr>
 <tr>
@@ -944,7 +962,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>显示所有可选配色</td>
 </tr>
 <tr>
-<td><code>:colorscheme &#123;name&#125;</code></td>
+<td><code>:colorscheme {name}</code></td>
 <td>使用指定名称为 {name} 的配色主题</td>
 </tr>
 </tbody>
@@ -995,7 +1013,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 </thead>
 <tbody>
 <tr>
-<td><code>&quot;&#123;register&#125;</code></td>
+<td><code>&quot;{register}</code></td>
 <td>使用指定的寄存器 {register}</td>
 </tr>
 <tr>
@@ -1003,7 +1021,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <td>查看所有寄存器</td>
 </tr>
 <tr>
-<td><code>:reg &#123;a&#125;</code></td>
+<td><code>:reg {a}</code></td>
 <td>查看 {a} 寄存器</td>
 </tr>
 </tbody>
@@ -1023,7 +1041,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 </ul>
 <h4 id="宏"><a class="markdownIt-Anchor" href="#宏"></a> 宏</h4>
 <p>宏(macro) 可以看作是一系列命令的集合，可以使用宏录制一系列操作，然后用于回放，宏可以非常方便的把一系列命令用在多行文本上。</p>
-<p>在常规模式下，按一下 <kbd>q</kbd> ，然后再按一个字母作为宏名，然后就可以开始录制宏(如 <code>qa</code> 录制宏并保存到寄存器 a)，录制完成后回到常规模式，按 <kbd>q</kbd> 结束录制。录制完成后即可使用 <code>@&#123;register&#125;</code> ，来执行宏，如 <code>@a</code> 执行宏 a。 按 <code>@@</code> 执行上一个宏。</p>
+<p>在常规模式下，按一下 <kbd>q</kbd> ，然后再按一个字母作为宏名，然后就可以开始录制宏(如 <code>qa</code> 录制宏并保存到寄存器 a)，录制完成后回到常规模式，按 <kbd>q</kbd> 结束录制。录制完成后即可使用 <code>@{register}</code> ，来执行宏，如 <code>@a</code> 执行宏 a。 按 <code>@@</code> 执行上一个宏。</p>
 <blockquote>
 <p>例如我们想给文档中每一行开头和结尾都添加一个引号 <code>&quot;</code> ，可以如下操作：</p>
 <ol>
@@ -1110,7 +1128,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <li>重启 vim ，或者使用 source 重新加载一下 vimrc 文件 <code>:source ~/.vimrc</code></li>
 <li>在 vim 中执行命令 <code>:PlugInstall</code> ，之后 vim-plug 就会自动下载插件并安装好。</li>
 </ol>
-<p>重新打开 vim 发现安装的 vim-startify 插件已经生效：<img src="http://blog-images.qiniu.wqf31415.xyz/vim_plug_startify.png" alt="" title="vim-startify" /></p>
+<p>重新打开 vim 发现安装的 vim-startify 插件已经生效：<img src="/images/post/vim/vim_plug_startify.webp" alt="" title="vim-startify" /></p>
 <h5 id="查找-vim-插件"><a class="markdownIt-Anchor" href="#查找-vim-插件"></a> 查找 vim 插件</h5>
 <ul>
 <li>直接到 GitHub 上找，很多插件都托管在 GitHub 上了。</li>
@@ -1123,7 +1141,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 </li>
 <li>
 <p>状态栏美化: <a target="_blank" rel="noopener" href="https://github.com/vim-airline/vim-airline">https://github.com/vim-airline/vim-airline</a></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/vim_plug_airline.png" alt="" title="vim-airline" /></p>
+<p><img src="/images/post/vim/vim_plug_airline.webp" alt="" title="vim-airline" /></p>
 </li>
 <li>
 <p>增加代码缩进线条: <a target="_blank" rel="noopener" href="https://github.com/Yggdroot/indentLine">https://github.com/Yggdroot/indentLine</a></p>
@@ -1133,7 +1151,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <p>使用 <code>:NERDTreeToggle</code> 命令打开文件树，可以添加映射到配置项： <code>map &lt;C-n&gt; :NERDTreeToggle&lt;CR&gt;</code> 使用快捷键 <kbd>ctrl</kbd> + <kbd>n</kbd> 快速打开/关闭文件目录树。</p>
 <p>启动 vim 时打开文件树: <code>autocmd vimenter * NERDTree</code></p>
 <p>查找当前文件位置: <code>nnoremap &lt;leader&gt;v :NERDTreeFind&lt;cr&gt;</code></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/vim_plug_nerdtree.png" alt="" title="nerdtree" /></p>
+<p><img src="/images/post/vim/vim_plug_nerdtree.webp" alt="" title="nerdtree" /></p>
 </li>
 <li>
 <p>模糊搜索: ctrlp.vim，<a target="_blank" rel="noopener" href="https://github.com/ctrlpvim/ctrlp.vim">https://github.com/ctrlpvim/ctrlp.vim</a></p>
@@ -1212,6 +1230,24 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
               <a href="/tags/vim/" rel="tag"># vim</a>
@@ -1223,12 +1259,12 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2019/05/13/Spring-Boot-%E4%BD%BF%E7%94%A8%E6%A8%A1%E6%9D%BF%E5%BC%95%E6%93%8E-Thymeleaf/" rel="prev" title="Spring Boot 使用模板引擎 Thymeleaf">
-                  <i class="fa fa-chevron-left"></i> Spring Boot 使用模板引擎 Thymeleaf
+                  <i class="fa fa-angle-left"></i> Spring Boot 使用模板引擎 Thymeleaf
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2019/06/14/Postman-%E6%B5%8B%E8%AF%95%E6%8E%A5%E5%8F%A3-API/" rel="next" title="Postman 测试接口 API">
-                  Postman 测试接口 API <i class="fa fa-chevron-right"></i>
+                  Postman 测试接口 API <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -1241,6 +1277,7 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -1248,17 +1285,16 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -1279,25 +1315,8 @@ Github: <a target="_blank" rel="noopener" href="https://github.com/vim/vim">http
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

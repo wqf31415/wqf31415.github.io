@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="概述 UML图是程序员必须学会的基础知识，这篇文章介绍了UML类图的使用方法。  什么是 UML 类图 UML (Uinfied Modeling Language)，统一建模语言，是广泛使用的开发建模工具，是面向对象设计的建模工具，独立于任何具体程序设计语言。UML图有用例图、协作图、活动图、序列图、部署图、构件图、类图、状态图，其中类图用于描述系统中的类，以及各个类之间的关系，是使用频率最高">
 <meta property="og:type" content="article">
@@ -26,23 +26,22 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="概述 UML图是程序员必须学会的基础知识，这篇文章介绍了UML类图的使用方法。  什么是 UML 类图 UML (Uinfied Modeling Language)，统一建模语言，是广泛使用的开发建模工具，是面向对象设计的建模工具，独立于任何具体程序设计语言。UML图有用例图、协作图、活动图、序列图、部署图、构件图、类图、状态图，其中类图用于描述系统中的类，以及各个类之间的关系，是使用频率最高">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/processon.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/drawio_create.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/yitu_class_diagram.png">
-<meta property="article:published_time" content="2021-04-28T09:47:43.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.295Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/design/processon.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/design/drawio_create.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/design/yitu_class_diagram.webp">
+<meta property="article:published_time" content="2021-04-28T17:47:43.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.118Z">
 <meta property="article:author" content="This_Wei">
-<meta property="article:tag" content="开发">
-<meta property="article:tag" content="工具">
 <meta property="article:tag" content="mermaid">
 <meta property="article:tag" content="uml">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="开发">
 <meta property="article:tag" content="设计">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/processon.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/design/processon.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2021/04/28/%E7%BB%98%E5%88%B6%E5%92%8C%E4%BD%BF%E7%94%A8UML%E7%B1%BB%E5%9B%BE/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/04/28/%E7%BB%98%E5%88%B6%E5%92%8C%E4%BD%BF%E7%94%A8UML%E7%B1%BB%E5%9B%BE/","path":"2021/04/28/绘制和使用UML类图/","title":"绘制和使用UML类图"}</script>
@@ -51,10 +50,29 @@
 <title>绘制和使用UML类图 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -136,18 +154,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -217,14 +235,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-04-28 17:47:43" itemprop="dateCreated datePublished" datetime="2021-04-28T17:47:43+08:00">2021-04-28</time>
+      <time title="创建时间：2021-04-28 17:47:43" itemprop="dateCreated datePublished" datetime="2021-04-28T17:47:43+00:00">2021-04-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -275,93 +293,93 @@
 <p>返回值类型是一个可选项，可以是基础数据类型或自定义类型，还可以是 void，表示返回值为空。如果是构造方法，则无返回类型。</p>
 </li>
 </ul>
-<pre class="mermaid">classDiagram
-class Employee{
+<pre><code class="highlight mermaid">classDiagram
+class Employee&#123;
 - name: String
 - age: int = 18
 +setName() void
 +getName(String name)String
-}</pre>
+&#125;</code></pre>
 <h4 id="类与类之间的关系"><a class="markdownIt-Anchor" href="#类与类之间的关系"></a> 类与类之间的关系</h4>
 <h5 id="泛化"><a class="markdownIt-Anchor" href="#泛化"></a> 泛化</h5>
 <p>继承关系，子类继承父类的特征和行为。</p>
 <p>表现形式：实线，带三角箭头，箭头指向父类。</p>
-<pre class="mermaid">classDiagram
+<pre><code class="highlight mermaid">classDiagram
 class Vehicle
 Vehicle : move()
-Vehicle <|-- Car</pre>
+Vehicle &lt;|-- Car</code></pre>
 <h5 id="实现"><a class="markdownIt-Anchor" href="#实现"></a> 实现</h5>
 <p>类与接口的关系，类实现接口所有特性和行为。</p>
 <p>表现形式：虚线，带三角箭头，箭头指向接口。在接口名上可增加 <code>&lt;&lt;interface&gt;&gt;</code> 标明是一个接口类。</p>
-<pre class="mermaid">classDiagram
+<pre><code class="highlight mermaid">classDiagram
 class Shape
 Shape : +draw()
-Shape <|.. Circle</pre>
+Shape &lt;|.. Circle</code></pre>
 <h5 id="关联"><a class="markdownIt-Anchor" href="#关联"></a> 关联</h5>
 <p>最常见的一种关系，表示一类对象与另一类对象之间又联系，如汽车和轮胎，班级和学生等。</p>
 <p>UML 类图中用实线连接有关联关系的类，在 java 中实现关联关系时，通常表现为一个类的对象作为另一个类的成员变量。</p>
 <p>表现形式：实线，双向关联可以有两个箭头，也可以没有箭头；单向关联有一个箭头，指向被拥有者。</p>
-<pre class="mermaid">classDiagram
-Teacher "m" -- "n" Student
-Student "1" --> "1..n" Caurse
-SingleDog "1" --> "1" SingleDog</pre>
+<pre><code class="highlight mermaid">classDiagram
+Teacher &quot;m&quot; -- &quot;n&quot; Student
+Student &quot;1&quot; --&gt; &quot;1..n&quot; Caurse
+SingleDog &quot;1&quot; --&gt; &quot;1&quot; SingleDog</code></pre>
 <h5 id="聚合"><a class="markdownIt-Anchor" href="#聚合"></a> 聚合</h5>
 <p>整体与部分的关系，部分可以离开整体单独存在。是一种较强的关联关系，如汽车和轮胎，轮胎是汽车的一部分，而又可以单独存在。</p>
 <p>在代码中表现为部分作为整体的成员变量。</p>
 <p>表现形式：实线，带空心菱形和箭头，菱形指向整体，箭头指向部分。</p>
-<pre class="mermaid">classDiagram
-Car "1" o--> "1" Engine
-Car "1" o--> "4" Wheel</pre>
+<pre><code class="highlight mermaid">classDiagram
+Car &quot;1&quot; o--&gt; &quot;1&quot; Engine
+Car &quot;1&quot; o--&gt; &quot;4&quot; Wheel</code></pre>
 <h5 id="组合"><a class="markdownIt-Anchor" href="#组合"></a> 组合</h5>
 <p>整体与部分的关系，部分不能离开整体单独存在。如公司和部门，没有公司就没有部门。</p>
 <p>在代码中表现为部分作为整体的成员变量。</p>
 <p>表现形式：实线，带实心菱形和箭头，菱形指向整体，箭头指向部分。</p>
-<pre class="mermaid">classDiagram
+<pre><code class="highlight mermaid">classDiagram
 class Face
-Face *--> Eye
-Face *--> Nose
-Face *--> Mouth</pre>
+Face *--&gt; Eye
+Face *--&gt; Nose
+Face *--&gt; Mouth</code></pre>
 <h5 id="依赖"><a class="markdownIt-Anchor" href="#依赖"></a> 依赖</h5>
 <p>是一种使用的关系，一个类的实现需要另一个类的协助。如大学生和手机，现在的大学生已经对手机产生了强烈的依赖。</p>
 <p>在代码中表现为作为局部变量、方法的参数，或对静态方法的调用。</p>
 <p>表现形式：虚线，带箭头，箭头指向被使用者。</p>
-<pre class="mermaid">classDiagram
-CollegeStudent ..> CellPhone</pre>
+<pre><code class="highlight mermaid">classDiagram
+CollegeStudent ..&gt; CellPhone</code></pre>
 <h3 id="示例"><a class="markdownIt-Anchor" href="#示例"></a> 示例</h3>
-<pre class="mermaid">classDiagram
-class JobHistory{
+<pre><code class="highlight mermaid">classDiagram
+class JobHistory&#123;
 	startDate: Instant
 	endDate: Instant
 	language: Language
-}
-JobHistory ..> Language
-class Language{
+&#125;
+JobHistory ..&gt; Language
+class Language&#123;
 	FRENCH
 	ENGLISH
 	SPANISH
-}
-JobHistory "1..1" -- Department
-class Department{
+&#125;
+JobHistory &quot;1..1&quot; -- Department
+class Department&#123;
 	departmentName: String*
-}
-Department "1..1" -- Location
-class Location{
+&#125;
+Department &quot;1..1&quot; -- Location
+class Location&#123;
 	streetAddress: String
 	postalCode: String
 	city: String
 	stateProvince: String
-}
-Location "1..1" -- Country
-class Country{
+&#125;
+Location &quot;1..1&quot; -- Country
+class Country&#123;
 	countryName: String
-}
-Country "1..1" -- Region
-class Region{
+&#125;
+Country &quot;1..1&quot; -- Region
+class Region&#123;
 	regionName:String
-}
-Employee o--> Department
-Employee --> Employee
-class Employee{
+&#125;
+Employee o--&gt; Department
+Employee --&gt; Employee
+class Employee&#123;
 	firstName: String
 	lastName: String
 	email: String
@@ -369,32 +387,33 @@ class Employee{
 	hireDate: Instant
 	salary: Long
 	commissionPct: Long
-}
+&#125;
 JobHistory -- Employee
-Employee "1..*" -- Job
-class Job{
+Employee &quot;1..*&quot; -- Job
+class Job&#123;
 	jobTitle: String
 	minSalary: Long
 	maxSalary: Long
-}
-JobHistory "1..1" -- Job
-Job "*..*" -- Task
-class Task{
+&#125;
+JobHistory &quot;1..1&quot; -- Job
+Job &quot;*..*&quot; -- Task
+class Task&#123;
 	title: String
 	description: String
-}</pre>
+&#125;
+</code></pre>
 <h3 id="绘制工具"><a class="markdownIt-Anchor" href="#绘制工具"></a> 绘制工具</h3>
 <h4 id="在线工具"><a class="markdownIt-Anchor" href="#在线工具"></a> 在线工具</h4>
 <h5 id="processon"><a class="markdownIt-Anchor" href="#processon"></a> ProcessOn</h5>
 <p>地址：<a target="_blank" rel="noopener" href="https://www.processon.com/">https://www.processon.com/</a></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/processon.png" alt="" /></p>
+<p><img src="/images/post/design/processon.webp" alt="" /></p>
 <p>ProcessOn是一个在线作图工具的聚合平台。</p>
 <p>支持流程图、思维导图、UI原型图、UML、网络拓扑图、组织结构图等等。</p>
 <p>支持团队实时协作。</p>
 <p>支持导出图片文件。</p>
 <h5 id="drawio"><a class="markdownIt-Anchor" href="#drawio"></a> <a target="_blank" rel="noopener" href="http://Draw.io">Draw.io</a></h5>
 <p>地址：<a target="_blank" rel="noopener" href="https://www.diagrams.net/">https://www.diagrams.net/</a></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/drawio_create.png" alt="" /></p>
+<p><img src="/images/post/design/drawio_create.webp" alt="" /></p>
 <p><strong>开源</strong>的网页绘图设计工具，github 地址 : <a target="_blank" rel="noopener" href="https://github.com/jgraph/drawio">https://github.com/jgraph/drawio</a> 。</p>
 <p>支持流程图、图表、网络图、UML图、商务图等。</p>
 <p>支持中文以及多种语言。</p>
@@ -402,7 +421,7 @@ class Task{
 <h4 id="绘制软件"><a class="markdownIt-Anchor" href="#绘制软件"></a> 绘制软件</h4>
 <h5 id="亿图-付费"><a class="markdownIt-Anchor" href="#亿图-付费"></a> 亿图 (付费)</h5>
 <p>地址: <a target="_blank" rel="noopener" href="http://www.edrawsoft.cn/">http://www.edrawsoft.cn/</a></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/yitu_class_diagram.png" alt="" /></p>
+<p><img src="/images/post/design/yitu_class_diagram.webp" alt="" /></p>
 <p>亿图图示是一个简单易用的图形表达工作台，既能实现流程图、架构图、工程图、思维导图等数百种专业领域图形图表的绘制，又能提供一个白板进行头脑风暴和任意编排，轻松实现数据和创意的可视化呈现。支持Windows、Mac、Linux及网页版，一端创作，多端同步。</p>
 <h4 id="其他相关绘图技术"><a class="markdownIt-Anchor" href="#其他相关绘图技术"></a> 其他相关绘图技术</h4>
 <h5 id="plantuml"><a class="markdownIt-Anchor" href="#plantuml"></a> PlantUML</h5>
@@ -415,14 +434,14 @@ class Task{
 <p>如：</p>
 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">classDiagram</span><br><span class="line">    Client --&gt; AbstractFactory</span><br><span class="line">    Client --&gt; AbstractProduct</span><br><span class="line">    AbstractFactory &lt;|-- ConcreteFactory</span><br><span class="line">    AbstractProduct &lt;|-- ConcreteProduct</span><br><span class="line">    class AbstractFactory&#123;</span><br><span class="line">        +createProduct()</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>效果：</p>
-<pre class="mermaid">classDiagram
-    Client --> AbstractFactory
-    Client --> AbstractProduct
-    AbstractFactory <|-- ConcreteFactory
-    AbstractProduct <|-- ConcreteProduct
-    class AbstractFactory{
+<pre><code class="highlight mermaid">classDiagram
+    Client --&gt; AbstractFactory
+    Client --&gt; AbstractProduct
+    AbstractFactory &lt;|-- ConcreteFactory
+    AbstractProduct &lt;|-- ConcreteProduct
+    class AbstractFactory&#123;
         +createProduct()
-    }</pre>
+    &#125;</code></pre>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
 <ul>
 <li>深入浅出UML类图: <a target="_blank" rel="noopener" href="http://www.uml.org.cn/oobject/201211231.asp">http://www.uml.org.cn/oobject/201211231.asp</a></li>
@@ -439,9 +458,27 @@ class Task{
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
-              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
               <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
               <a href="/tags/mermaid/" rel="tag"># mermaid</a>
               <a href="/tags/uml/" rel="tag"># uml</a>
               <a href="/tags/%E8%AE%BE%E8%AE%A1/" rel="tag"># 设计</a>
@@ -452,12 +489,12 @@ class Task{
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2021/04/10/%E4%BA%BA%E7%94%9F%E6%8B%AF%E6%95%91%E8%AE%A1%E5%88%92/" rel="prev" title="人生拯救计划">
-                  <i class="fa fa-chevron-left"></i> 人生拯救计划
+                  <i class="fa fa-angle-left"></i> 人生拯救计划
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2021/05/28/Java%E4%B8%B2%E5%8F%A3%E6%93%8D%E4%BD%9C/" rel="next" title="Java串口操作">
-                  Java串口操作 <i class="fa fa-chevron-right"></i>
+                  Java串口操作 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -470,6 +507,7 @@ class Task{
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -477,17 +515,16 @@ class Task{
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -508,25 +545,8 @@ class Task{
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

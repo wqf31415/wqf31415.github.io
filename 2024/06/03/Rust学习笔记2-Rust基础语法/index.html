@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 这篇文章介绍了 Rust 语言的基础语法规则，学会了这些语法内容，就可以使用 Rust 编写简单的程序了，文章内容包括 Rust 中最基础的程序结构、注释、基础数据类型、变量定义、函数定义、分支与循环结构。  一个简单的 Rust 程序代码 1234567fn main() &#123;     &#x2F;&#x2F; 定义变量    let mut name &#x3D; &quot;C&#x2F;C++&quot;;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust学习笔记2-Rust基础语法">
+<meta property="og:url" content="https://www.wqf31415.xyz/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-Rust%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了 Rust 语言的基础语法规则，学会了这些语法内容，就可以使用 Rust 编写简单的程序了，文章内容包括 Rust 中最基础的程序结构、注释、基础数据类型、变量定义、函数定义、分支与循环结构。  一个简单的 Rust 程序代码 1234567fn main() &#123;     &#x2F;&#x2F; 定义变量    let mut name &#x3D; &quot;C&#x2F;C++&quot;;">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-06-03T22:13:30.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.111Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="Rust">
+<meta property="article:tag" content="开发">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-Rust%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-Rust%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/","path":"2024/06/03/Rust学习笔记2-Rust基础语法/","title":"Rust学习笔记2-Rust基础语法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Rust学习笔记2-Rust基础语法 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%80%E4%B8%AA%E7%AE%80%E5%8D%95%E7%9A%84-rust-%E7%A8%8B%E5%BA%8F%E4%BB%A3%E7%A0%81"><span class="nav-number">2.</span> <span class="nav-text"> 一个简单的 Rust 程序代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E5%9F%BA%E7%A1%80%E4%BB%A3%E7%A0%81%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text"> Rust 基础代码结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E6%B3%A8%E9%87%8A"><span class="nav-number">4.</span> <span class="nav-text"> Rust 注释</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E8%A1%8C%E6%B3%A8%E9%87%8A"><span class="nav-number">4.1.</span> <span class="nav-text"> 单行注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A4%9A%E8%A1%8C%E6%B3%A8%E9%87%8A"><span class="nav-number">4.2.</span> <span class="nav-text"> 多行注释</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%87%E6%A1%A3%E6%B3%A8%E9%87%8A"><span class="nav-number">4.3.</span> <span class="nav-text"> 文档注释</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E5%AE%9A%E4%B9%89%E5%8F%98%E9%87%8F"><span class="nav-number">5.</span> <span class="nav-text"> Rust 定义变量</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8D%E5%8F%AF%E5%8F%98%E5%8F%98%E9%87%8F%E4%B8%8E%E5%8F%AF%E5%8F%98%E5%8F%98%E9%87%8F"><span class="nav-number">5.1.</span> <span class="nav-text"> 不可变变量与可变变量</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A%E5%8F%98%E9%87%8F%E7%B1%BB%E5%9E%8B"><span class="nav-number">5.2.</span> <span class="nav-text"> 指定变量类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%98%E9%87%8F%E7%9A%84%E9%9A%90%E8%97%8Fshadowing"><span class="nav-number">5.3.</span> <span class="nav-text"> 变量的隐藏（shadowing）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%B8%B8%E9%87%8Fconstant"><span class="nav-number">5.4.</span> <span class="nav-text"> 常量（constant）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%99%E6%80%81%E5%8F%98%E9%87%8Fstatic"><span class="nav-number">5.5.</span> <span class="nav-text"> 静态变量（static）</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">6.</span> <span class="nav-text"> Rust 数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">6.1.</span> <span class="nav-text"> 字面量</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B4%E6%95%B0%E7%9A%84%E5%AD%97%E9%9D%A2%E5%80%BC"><span class="nav-number">6.1.1.</span> <span class="nav-text"> 整数的字面值</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8B%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">6.1.2.</span> <span class="nav-text"> 浮点型字面量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E5%9E%8B%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">6.1.3.</span> <span class="nav-text"> 布尔型字面量</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8B%E5%AD%97%E9%9D%A2%E9%87%8F"><span class="nav-number">6.1.4.</span> <span class="nav-text"> 字符型字面量</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%95%B0%E6%8D%AE%E7%B1%BB%E5%9E%8B"><span class="nav-number">6.2.</span> <span class="nav-text"> 基础数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%95%B4%E5%BD%A2integer"><span class="nav-number">6.2.1.</span> <span class="nav-text"> 整形（Integer）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E6%B5%AE%E7%82%B9%E5%9E%8Bfloating-point"><span class="nav-number">6.2.2.</span> <span class="nav-text"> 浮点型（Floating-Point）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%B8%83%E5%B0%94%E5%9E%8Bboolean"><span class="nav-number">6.2.3.</span> <span class="nav-text"> 布尔型（Boolean）</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E5%9E%8Bchar"><span class="nav-number">6.2.4.</span> <span class="nav-text"> 字符型（Char）</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AD%97%E7%AC%A6%E4%B8%B2string-str"><span class="nav-number">6.3.</span> <span class="nav-text"> 字符串（String、&amp;str）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%83%E7%BB%84tuple"><span class="nav-number">6.4.</span> <span class="nav-text"> 元组（Tuple）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E7%BB%84array"><span class="nav-number">6.5.</span> <span class="nav-text"> 数组（Array）</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#range"><span class="nav-number">6.6.</span> <span class="nav-text"> Range</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%90%E7%AE%97"><span class="nav-number">7.</span> <span class="nav-text"> 运算</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97"><span class="nav-number">7.1.</span> <span class="nav-text"> 基础数学运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%95%B0%E5%AD%A6%E8%BF%90%E7%AE%97%E5%87%BD%E6%95%B0"><span class="nav-number">7.2.</span> <span class="nav-text"> 数学运算函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%BB%E8%BE%91%E8%BF%90%E7%AE%97"><span class="nav-number">7.3.</span> <span class="nav-text"> 逻辑运算</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%8D%E8%BF%90%E7%AE%97"><span class="nav-number">7.4.</span> <span class="nav-text"> 位运算</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E5%87%BD%E6%95%B0%E5%AE%9A%E4%B9%89"><span class="nav-number">8.</span> <span class="nav-text"> Rust 函数定义</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%97%AD%E5%8C%85closure"><span class="nav-number">9.</span> <span class="nav-text"> 闭包（Closure）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E5%88%86%E6%94%AF%E7%BB%93%E6%9E%84"><span class="nav-number">10.</span> <span class="nav-text"> Rust 分支结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#if-else-%E5%88%86%E6%94%AF"><span class="nav-number">10.1.</span> <span class="nav-text"> if-else 分支</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E5%85%83%E8%A1%A8%E8%BE%BE%E5%BC%8F"><span class="nav-number">10.2.</span> <span class="nav-text"> 三元表达式</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#match-%E8%AF%AD%E5%8F%A5"><span class="nav-number">10.3.</span> <span class="nav-text"> match 语句</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E5%BE%AA%E7%8E%AF%E7%BB%93%E6%9E%84"><span class="nav-number">11.</span> <span class="nav-text"> Rust 循环结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#loop-%E5%BE%AA%E7%8E%AF"><span class="nav-number">11.1.</span> <span class="nav-text"> loop 循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#while-%E5%BE%AA%E7%8E%AF"><span class="nav-number">11.2.</span> <span class="nav-text"> while 循环</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#for-%E5%BE%AA%E7%8E%AF"><span class="nav-number">11.3.</span> <span class="nav-text"> for 循环</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">12.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-Rust%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Rust学习笔记2-Rust基础语法 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust学习笔记2-Rust基础语法<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-Rust%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-06-03 22:13:30" itemprop="dateCreated datePublished" datetime="2024-06-03T22:13:30+00:00">2024-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了 Rust 语言的基础语法规则，学会了这些语法内容，就可以使用 Rust 编写简单的程序了，文章内容包括 Rust 中最基础的程序结构、注释、基础数据类型、变量定义、函数定义、分支与循环结构。</p>
+<h3 id="一个简单的-rust-程序代码"><a class="markdownIt-Anchor" href="#一个简单的-rust-程序代码"></a> 一个简单的 Rust 程序代码</h3>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123; </span><br><span class="line">    <span class="comment">// 定义变量</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">name</span> = <span class="string">&quot;C/C++&quot;</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello, &#123;&#125;!&quot;</span>, name); <span class="comment">// 打印输出</span></span><br><span class="line">    name = <span class="string">&quot;Rust&quot;</span>; <span class="comment">// 修改变量值</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello, &#123;&#125;!&quot;</span>, name);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<span id="more"></span>
+<h3 id="rust-基础代码结构"><a class="markdownIt-Anchor" href="#rust-基础代码结构"></a> Rust 基础代码结构</h3>
+<p>Rust 是一种大小写敏感的编程语言。</p>
+<p>Rust 代码语句使用分号 <code>;</code> 结尾，代码块使用大括号 <code>{}</code> 包括。</p>
+<p>在 Rust 中，使用 <code>fn</code> 关键字定义函数，使用 <code>let</code> 关键字定义变量。</p>
+<p>Rust 中程序入口为 <code>main</code> 函数。</p>
+<h3 id="rust-注释"><a class="markdownIt-Anchor" href="#rust-注释"></a> Rust 注释</h3>
+<h4 id="单行注释"><a class="markdownIt-Anchor" href="#单行注释"></a> 单行注释</h4>
+<p>和大部分编程语言一样，Rust 使用双斜杠 <code>//</code> 添加单行注释，单行注释可以添加在独立行或行尾。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 定义变量</span></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">name</span> = <span class="string">&quot;C/C++&quot;</span>; <span class="comment">// 定义变量</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><code>//</code> 会将标记处至后面第一个换行符的内容标识为注释。</p>
+</blockquote>
+<h4 id="多行注释"><a class="markdownIt-Anchor" href="#多行注释"></a> 多行注释</h4>
+<p>Rust 使用 <code>/**/</code> 添加多行注释。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* </span></span><br><span class="line"><span class="comment"> 注释1</span></span><br><span class="line"><span class="comment"> 注释2</span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/*注释1*/</span> <span class="built_in">print!</span>(<span class="string">&quot;abc&quot;</span>); <span class="comment">/* 注释2 */</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：上述程序将输出 abc</p>
+</blockquote>
+<h4 id="文档注释"><a class="markdownIt-Anchor" href="#文档注释"></a> 文档注释</h4>
+<p>Rust 中使用三斜杠 <code>///</code> 添加文档注释，使用文档注释函数后将在 ide 中快捷看到函数的注释信息。</p>
+<p>文档注释的内容可以使用 <code>cargo doc</code> 命令生成对应的 html 文档。</p>
+<p>文档注释中可以使用 markdown 语法添加文档格式。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123; </span><br><span class="line">    <span class="title function_ invoke__">print_hello</span>();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/// # print_hello</span></span><br><span class="line"><span class="comment">/// &gt; This function can print `hello`</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">print_hello</span>()<span class="punctuation">-&gt;</span>()&#123;</span><br><span class="line">    <span class="built_in">print!</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="rust-定义变量"><a class="markdownIt-Anchor" href="#rust-定义变量"></a> Rust 定义变量</h3>
+<h4 id="不可变变量与可变变量"><a class="markdownIt-Anchor" href="#不可变变量与可变变量"></a> 不可变变量与可变变量</h4>
+<p>Rust 中使用 <code>let</code> 关键字定义变量，以此定义的变量是不可变的，即不能重新赋值。</p>
+<p>如果要定义可变的变量，需要使用 <code>let mut</code> 关键字定义。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123; </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = <span class="number">1</span>; <span class="comment">// 定义一个不可变变量 a</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">b</span> = <span class="number">2</span>; <span class="comment">// 定义一个可变变量 b</span></span><br><span class="line">    <span class="comment">// a = 2; // 将报错 cannot mutate immutable variable `a`</span></span><br><span class="line">    b = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">let</span> 中文 = <span class="string">&quot;你好&quot;</span>; <span class="comment">// 变量名可以是中文，但不推荐使用中文命名</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, 中文);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>以上代码在编译时将报错，提示 <code>cannot mutate immutable variable `a` </code> ，意思是不能修改不可变变量 a。</p>
+</blockquote>
+<blockquote>
+<p><strong>为什么 Rust 中的变量不可变？</strong></p>
+<p>在大量的编程实践中，人们发现一个规律，开发者常常会用变量存储一个不可改变的值，仅仅是为了将这个值存储起来，后面好用。这些用途上不可变的变量，往往极大地影响并发程序中对变量的使用，因此 Rust 默认状态下保护了所有的变量。</p>
+</blockquote>
+<h4 id="指定变量类型"><a class="markdownIt-Anchor" href="#指定变量类型"></a> 指定变量类型</h4>
+<p>Rust 是静态编译语言，在编译时必须知道所有变量的类型。</p>
+<p>在 Rust 中，为变量赋值后，编译器会根据赋的值自动推断出变量的类型，如果不赋值则必须指明数据类型，否则编译将报错。</p>
+<p>如果可能的类型比较多（如把 String 转成整数的 <code>parse</code> 方法），也必须添加类型标识，否则编译会报错，例如 <code>let x: u32 = &quot;200&quot;.parse().expect(&quot;Not a number&quot;)</code>。</p>
+<p>当我们需要指定数据类型时，可以在变量名后添加 <code>:</code> 和类型标识，来指定该变量的数据类型。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">x</span> = <span class="number">1</span>; <span class="comment">// 自动推断类型为 i32</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">y</span> = <span class="number">3.14</span>; <span class="comment">// 自动推断类型为 f64</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">z</span> = <span class="number">1_u8</span>; <span class="comment">// 自动推断类型为 u8</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">s</span> = <span class="string">&quot;hello&quot;</span>; <span class="comment">// 自动推断类型为 &amp;str</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">bb</span> = <span class="literal">false</span>; <span class="comment">// 自动推断类型为 bool</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">cc</span>;	<span class="comment">// 自动推断类型为 i32</span></span><br><span class="line">cc = <span class="number">1</span>;</span><br><span class="line"><span class="comment">// let dd; // 编译报错 type annotations needed</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span>: <span class="type">i8</span> = <span class="number">1</span>; <span class="comment">// 指定类型为 i8·</span></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">b</span>: <span class="type">u8</span> = <span class="number">255</span>; <span class="comment">// 指定类型为 u8</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span>: <span class="type">f32</span> = <span class="number">3.14</span>; <span class="comment">// 指定类型为 f32</span></span><br><span class="line"><span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">s2</span>: &amp;<span class="type">str</span> = <span class="string">&quot;hello&quot;</span>; <span class="comment">// 指定类型为 &amp;str</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">bb2</span>: <span class="type">bool</span> = <span class="literal">true</span>; <span class="comment">// 指定类型为 bool</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：在给变量赋值时，右侧的具体值称为字面量，字面量值后面可以通过下划线 <code>_</code> 加类型方式指定字面量的数据类型，如 <code>_u8</code> 指定值为 <code>u8</code> 类型。</p>
+</blockquote>
+<p>Rust 默认将整形数字推断为 <code>i32</code> 类型，将浮点型数字推断为 <code>f64</code> 类型。</p>
+<h4 id="变量的隐藏shadowing"><a class="markdownIt-Anchor" href="#变量的隐藏shadowing"></a> 变量的隐藏（shadowing）</h4>
+<p>在 Rust 中，可以使用相同名字声明新的变量，新的变量就会 shadow（隐藏，或称为遮蔽、重影）之前声明的同名变量。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">100</span>; <span class="comment">// 首次声明变量 a</span></span><br><span class="line"><span class="comment">// a = -100; // 报错，无法效果不可变变量的值</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = -<span class="number">100</span>; <span class="comment">// 隐藏之前的变量 a，新的变量 a 值为 -100</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = a + <span class="number">100</span>; <span class="comment">// 隐藏之前的变量 a，新的变量 a 值为 之前 a 的值+100，值为 0</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="string">&quot;hello&quot;</span>; <span class="comment">// 隐藏之前的变量 a，新的变量 a 数据类型为 `&amp;str` ，值为 hello</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>隐藏是 Rust 中比较重要和特别的概念，在其他编程语言没有这种语法规则。</p>
+</blockquote>
+<h4 id="常量constant"><a class="markdownIt-Anchor" href="#常量constant"></a> 常量（constant）</h4>
+<p>Rust 中使用 <code>const</code> 定义常量，常量在声明时必须指定数据类型，常量赋值后不可变。</p>
+<p>常量名使用全大写字母，多个字母间使用下划线 <code>_</code> 分隔。</p>
+<p>常量在其声明的作用域内一直有效。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> PI: <span class="type">f64</span> = <span class="number">3.14</span>;</span><br><span class="line"><span class="keyword">const</span> MAX_CNT: <span class="type">i32</span> = <span class="number">100</span>;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>常量与不可变变量的区别：</p>
+<ul>
+<li>常量不可使用 <code>mut</code>，常量永远都是不可变的。</li>
+<li>声明常量使用 <code>const</code> 关键字，必须指定数据类型。</li>
+<li>常量可以在任何作用域中声明，包括全局作用域，使用 let 声明的变量只能在函数中使用。</li>
+<li>常量只能绑定到常量表达式，无法绑定到函数的调用结果或只能在运行时才能计算出的值。</li>
+</ul>
+</blockquote>
+<h4 id="静态变量static"><a class="markdownIt-Anchor" href="#静态变量static"></a> 静态变量（static）</h4>
+<p>静态变量可在函数外声明，被所有函数共享。</p>
+<p>使用 <code>static</code> 关键字声明静态变量，声明时必须指定类型和初始值，如 <code>static MAX_CNT:i32 = 100;</code>。</p>
+<p>默认静态变量是不可改变的，如果需要修改要使用 <code>static mut</code> 声明，如 <code>static mut CURR_CNT:i32 = 0;</code>。</p>
+<p>Rust 认为修改静态变量值是 “不安全” 行为，要放在 <code>unsafe</code> 块或函数中。因为在多线程程序中，同时有多个线程修改静态变量值，会出现不可预测的情况。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">static</span> MAX_CNT:<span class="type">i32</span> = <span class="number">100</span>;</span><br><span class="line"><span class="keyword">static</span> <span class="keyword">mut</span> CURR_CNT:<span class="type">i32</span> = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="comment">// MAX_CNT = 1; // 会报错，MAX_CNT 是无法修改的</span></span><br><span class="line">    <span class="keyword">unsafe</span> &#123;</span><br><span class="line">        CURR_CNT = <span class="number">1</span>; <span class="comment">// CURR_CNT 是可修改的，但 Rust 认为这种操作是不安全的，要放在 unsafe 块或函数中</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="rust-数据类型"><a class="markdownIt-Anchor" href="#rust-数据类型"></a> Rust 数据类型</h3>
+<h4 id="字面量"><a class="markdownIt-Anchor" href="#字面量"></a> 字面量</h4>
+<p>字面量是指在程序中无需变量保存，用于表示固定的值，可直接表示为一个具体的数字或字符串的值，即数据在程序中的书写格式。字面量只能作为右值出现，所谓右值是指等号右边的值。</p>
+<p>在 Rust 中，主要有四种字面量类型：整数类型、浮点类型、布尔类型、字符类型。</p>
+<h5 id="整数的字面值"><a class="markdownIt-Anchor" href="#整数的字面值"></a> 整数的字面值</h5>
+<p>整形字面量中间可以加 <code>_</code> 增强数据可读性，十六进制以 <code>0x</code> 打头，八进制以 <code>0o</code> 打头，二进制以 <code>0b</code> 打头，字节类型以 <code>b''</code> 表示。</p>
+<p>除了 byte 类型，其他数值字面值都允许使用类型后缀，如 <code>25u8</code> 。</p>
+<table>
+<thead>
+<tr>
+<th>进制</th>
+<th>示例</th>
+<th>备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>十进制</td>
+<td>10_086，255u8、100_000_086_i64</td>
+<td></td>
+</tr>
+<tr>
+<td>十六进制</td>
+<td>0xff，0xFFFF_FFFFu32</td>
+<td></td>
+</tr>
+<tr>
+<td>八进制</td>
+<td>0o177、0o77_i8、0o777_777_u32</td>
+<td></td>
+</tr>
+<tr>
+<td>二进制</td>
+<td>0b1111_0000</td>
+<td></td>
+</tr>
+<tr>
+<td>字节（u8类型）</td>
+<td>b’A’</td>
+<td>仅限于 u8 类型</td>
+</tr>
+</tbody>
+</table>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">10_086</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = <span class="number">255u8</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span> = <span class="number">100_000_086_i64</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d</span> = <span class="number">0xff</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">e</span> = <span class="number">0xFFFF_FFFFu32</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">g</span> = <span class="number">0o77_i8</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">h</span> = <span class="number">0o777_777_u32</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">i</span> = <span class="number">0b1111_0000</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">j</span> = <span class="number">0b11_111_111u8</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">k</span> = <span class="string">b&#x27;A&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="浮点型字面量"><a class="markdownIt-Anchor" href="#浮点型字面量"></a> 浮点型字面量</h5>
+<p>浮点型也可以使用下划线 <code>_</code> 增强数据可读性，也可以添加类型后缀。如</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">1.0</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span>: <span class="type">f32</span> = <span class="number">2.0</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span> = <span class="number">3.0_f32</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d</span> = <span class="number">10_086.123</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">e</span> = <span class="number">100_86.123f32</span>;</span><br></pre></td></tr></table></figure>
+<h5 id="布尔型字面量"><a class="markdownIt-Anchor" href="#布尔型字面量"></a> 布尔型字面量</h5>
+<p>Rust 中布尔类型字面量包括 <code>true</code> 和 <code>false</code> 。</p>
+<h5 id="字符型字面量"><a class="markdownIt-Anchor" href="#字符型字面量"></a> 字符型字面量</h5>
+<p>字符型字面量以单引号 <code>''</code> 包括， 如 <code>A</code>、<code>'你'</code> 、<code>'\t'</code> 。</p>
+<h4 id="基础数据类型"><a class="markdownIt-Anchor" href="#基础数据类型"></a> 基础数据类型</h4>
+<h5 id="整形integer"><a class="markdownIt-Anchor" href="#整形integer"></a> 整形（Integer）</h5>
+<p>整形即整数，Rust 中整形分为有符号整形（integer）和无符号整形（unsigned integer），有符号整形标识符以 <code>i</code> 打头，无符号整形标识以 <code>u</code> 打头，后面的数字表示数据占的位数（bit）。</p>
+<p>Rust 中默认的整形类型是 <code>i32</code> 。</p>
+<table>
+<thead>
+<tr>
+<th>长度</th>
+<th>有符号整形</th>
+<th>无符号整形</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>8bit</td>
+<td>i8</td>
+<td>u8</td>
+</tr>
+<tr>
+<td>16bit</td>
+<td>i16</td>
+<td>u16</td>
+</tr>
+<tr>
+<td>32bit</td>
+<td>i32</td>
+<td>u32</td>
+</tr>
+<tr>
+<td>64bit</td>
+<td>i64</td>
+<td>u64</td>
+</tr>
+<tr>
+<td>128bit</td>
+<td>i128</td>
+<td>u128</td>
+</tr>
+<tr>
+<td>arch</td>
+<td>isize</td>
+<td>usize</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>注：<code>arch</code> 长度由运行程序的计算机系统架构确定，如在 32 位架构中长度为 32bit，在 64 位架构中长度为 64bit。</p>
+<p><code>isize</code> 和 <code>usize</code> 的主要使用场景是对某种集合进行索引操作。</p>
+</blockquote>
+<p><strong>整数的溢出</strong>：当为整形变量赋值时，如果超出了该类型的边界，根据程序编译模式会发生以下两种情况：</p>
+<ul>
+<li>调试模式下编译：Rust会检查整数溢出，如果发生溢出，程序在运行时就会 panic（恐慌，大致可理解成异常）。</li>
+<li>发布模式下（<code>--release</code>）编译：Rust 不会检查可能导致 panic 的整数溢出，如果发生溢出， Rust 会执行 “环绕” 操作，如为 u8 变量赋值 256 会变成 0，赋值 257 会变成 1。</li>
+</ul>
+<h5 id="浮点型floating-point"><a class="markdownIt-Anchor" href="#浮点型floating-point"></a> 浮点型（Floating-Point）</h5>
+<p>浮点型即小数，Rust 中浮点型有双精度浮点型 <code>f64</code> 和单精度浮点型 <code>f32</code> ，长度分别为 64bit 和 32bit。</p>
+<p>Rust 的浮点型使用 IEEE-754 标准来表述。</p>
+<p>Rust 中默认的浮点型类型是 <code>f64</code> ，在现代计算机处理器中对两种 浮点数的计算速度几乎相同，但 64 位浮点数精度更高。</p>
+<h5 id="布尔型boolean"><a class="markdownIt-Anchor" href="#布尔型boolean"></a> 布尔型（Boolean）</h5>
+<p>布尔值表示是或否两种状态，Rust 中布尔型为 <code>bool</code> ，占 1 个字节，值为 <code>true</code> 或 <code>false</code> 。</p>
+<p>注意，Rust 中布尔值不能是数字，不能像某些编程语言中 0 表示 false，1 表示 true。</p>
+<h5 id="字符型char"><a class="markdownIt-Anchor" href="#字符型char"></a> 字符型（Char）</h5>
+<p>字符型表示单个字符，在 Rust 中字符型以 <code>char</code> 表示，单个字符是一个 Unicode 字符，长度为 4 个字节，这与其他编程语言有区别。</p>
+<p>字符值以单引号包括，如果是特殊字符需要使用转义符 <code>\</code> 进行转义，如单引号 <code>'\''</code> 。</p>
+<p>字符值可以是中文、藏文、日文、韩文、特殊字符、emoji 表情等合法 Unicode 字符。</p>
+ <figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="string">&#x27;你&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span>: <span class="type">char</span> = <span class="string">&#x27;C&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">d</span>: <span class="type">char</span> = <span class="string">&#x27;<span class="char escape_">\t</span>&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">e</span>: <span class="type">char</span> = <span class="string">&#x27;<span class="char escape_">\&#x27;</span>&#x27;</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">f</span>: <span class="type">char</span> = <span class="string">&#x27;ཀ&#x27;</span>; <span class="comment">// 一个藏文符号</span></span><br><span class="line"><span class="keyword">let</span> <span class="variable">g</span>: <span class="type">char</span> = <span class="string">&#x27;😂&#x27;</span>;</span><br></pre></td></tr></table></figure>
+<h4 id="字符串string-str"><a class="markdownIt-Anchor" href="#字符串string-str"></a> 字符串（String、&amp;str）</h4>
+<p>Rust 中字符串有两种类型 <code>String</code> 和 <code>&amp;str</code> ，一般情况下 <code>&amp;str</code> 更加实用，因为它几乎具备 <code>String</code> 的所有常用功能。如果不需要把字符串当做一个可以编辑的数据对象时，建议优先选择使用 <code>&amp;str</code> 数据类型。</p>
+<p>Rust 中的字符串常量用双引号 <code>&quot;&quot;</code> 包含，这种数据的类型是字符串切片 <code>&amp;str</code> ，如 <code>&quot;Hello world&quot;</code> 。</p>
+<p>字符串类型（String）可以使用 <code>from</code> 方法从字符串常量获得，如 <code>let string = String::from(&quot;This is String&quot;)</code>。</p>
+<p>Rust 中字符串可以灵活地追加字符或其他字符串，使用 <code>push()</code> 方法追加字符，使用 <code>push_str()</code> 方法追加字符串。</p>
+<p>字符串变量使用 <code>len()</code> 方法获取字符串长度，使用 <code>eq()</code> 方法比较两个字符串。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123; </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span>: &amp;<span class="type">str</span> = <span class="string">&quot;Hello world&quot;</span>; <span class="comment">// 字符串常量，数据类型为 &amp;str</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">string</span> = <span class="type">String</span>::<span class="title function_ invoke__">from</span>(<span class="string">&quot;This is String&quot;</span>); <span class="comment">// 使用 String 的 from 创建字符串数据类型</span></span><br><span class="line">    string.<span class="title function_ invoke__">push</span>(<span class="string">&#x27;!&#x27;</span>); <span class="comment">// 追加字符</span></span><br><span class="line">    string.<span class="title function_ invoke__">push_str</span>(<span class="string">&quot; This is new string.&quot;</span>); <span class="comment">// 追加字符串</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, string);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="string">&quot;Say 你好&quot;</span>; <span class="comment">// 长度为10，3个英文字母，1个空格，每个汉字（UTF-8编码）占 3 个字节</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;b len=&#123;&#125;&quot;</span>,b.<span class="title function_ invoke__">len</span>()); <span class="comment">// 使用 len() 方法获取字符串长度</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, b.<span class="title function_ invoke__">eq</span>(<span class="string">&quot;Say 你好&quot;</span>)); <span class="comment">// 使用 eq() 方法判断字符串是否相同</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="元组tuple"><a class="markdownIt-Anchor" href="#元组tuple"></a> 元组（Tuple）</h4>
+<p>元组是一系列数据的组合，可以包含不同类型数据。元组的长度是固定的，一旦声明就无法改变。</p>
+<p>Rust 中元组的值用小括号 <code>()</code> 包括，值之间以逗号 <code>,</code> 分隔；元组的类型定义以小括号 <code>()</code> 包括，元素类型以逗号 <code>,</code> 分隔。</p>
+<p>取元组类型的值时，可以使用变量名加 <code>.</code> 索引方式取值，如 <code>a.0</code> 取第一个元素值。</p>
+<p>可以使用模式匹配来解构（destructure）元组来获取元素的值。</p>
+<p>元组的使用场景是存放按顺序存储的若干数据，而不用像结构体一样为每个数据起一个名字。另外当函数需要返回多个数据时，使用元组也很方便。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123; </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = (<span class="number">1</span>, <span class="string">&quot;hello&quot;</span>, <span class="number">3.14</span>); <span class="comment">// 自动推断为元组类型：(i32, &amp;str, f64)</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;,&#123;&#125;,&#123;&#125;&quot;</span>, a.<span class="number">0</span>, a.<span class="number">1</span>, a.<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span>: (<span class="type">i32</span>, &amp;<span class="type">str</span>, <span class="type">f64</span>) = (<span class="number">2</span>, <span class="string">&quot;world&quot;</span>, <span class="number">1.732</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;,&#123;&#125;,&#123;&#125;&quot;</span>, b.<span class="number">0</span>, b.<span class="number">1</span>, b.<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> (x,y,z) = b; <span class="comment">// 模式匹配结构元组</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;,&#123;&#125;,&#123;&#125;&quot;</span>, x, y, z);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">c</span>: (<span class="type">i32</span>, &amp;<span class="type">str</span>, <span class="type">i32</span>) = (<span class="number">1</span>, <span class="string">&quot;XiaoMing&quot;</span>, <span class="number">18</span>); <span class="comment">// 创建可变元组</span></span><br><span class="line">    c.<span class="number">2</span> = <span class="number">20</span>; <span class="comment">// 修改元组成员值</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,c.<span class="number">2</span>);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">d</span> = <span class="title function_ invoke__">get_point</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;point:(&#123;&#125;,&#123;&#125;)&quot;</span>, d.<span class="number">0</span>, d.<span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 需要返回多个数据的函数，可使用元组作为返回值类型</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">get_point</span>() <span class="punctuation">-&gt;</span> (<span class="type">i32</span>,<span class="type">i32</span>) &#123;</span><br><span class="line">    (<span class="number">0</span>,<span class="number">0</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="数组array"><a class="markdownIt-Anchor" href="#数组array"></a> 数组（Array）</h4>
+<p>数组是一组相同类型数据的组合结构，数组在声明后成员数量就固定不变了。</p>
+<p>Rust 中数组值以中括号 <code>[]</code> 包括，各元素值之间使用逗号 <code>,</code> 分隔；数组定义使用中括号包含类型和长度 <code>[类型; 数组容量]</code> 表示，如定义一个 3个成员的 <code>i32</code> 类型数组，类型为 <code>[i32; 3]</code>。定义数组时，数组长度可以使用常量指定，作为数组长度的常量数据类型是 <code>usize</code>，不能使用 <code>let</code> 声明的变量。</p>
+<p>如果数组成员值相同，可以使用 <code>[值; 数组长度]</code> 方式创建数组，如 <code>let c = [3; 5]</code> 相当于 <code>let c = [3, 3, 3, 3, 3]</code> 。</p>
+<p>使用 <code>[索引值]</code> 获取数组中的值，如 <code>a[1]</code> 为数组中第二个值。如果访问的索引超出数组范围，编译会通过，运行时会报错。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123; </span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>]; <span class="comment">// 自动推断数据类型为 [i32; 3]</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;,&#123;&#125;,&#123;&#125;&quot;</span>,a[<span class="number">0</span>],a[<span class="number">1</span>],a[<span class="number">2</span>]); <span class="comment">//使用索引下标访问数组值</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span>: [&amp;<span class="type">str</span>; <span class="number">3</span>] = [<span class="string">&quot;red&quot;</span>, <span class="string">&quot;green&quot;</span>, <span class="string">&quot;blue&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = [<span class="number">3</span>; <span class="number">5</span>]; <span class="comment">// 填充数组，相当于 [3, 3, 3, 3, 3]</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">d</span>: [<span class="type">i32</span>; <span class="number">3</span>] = [<span class="number">0</span>; <span class="number">3</span>]; <span class="comment">// 创建可变数组</span></span><br><span class="line">    d[<span class="number">0</span>] = <span class="number">1</span>; <span class="comment">// 修改数组值</span></span><br><span class="line">    d[<span class="number">1</span>] = <span class="number">2</span>;</span><br><span class="line">    d[<span class="number">3</span>] = <span class="number">3</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">const</span> ARRAY_LEN: <span class="type">usize</span> = <span class="number">5</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span>: [<span class="type">i32</span>; ARRAY_LEN]; <span class="comment">// 使用常量指定声明数组的长度</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注：数组的数据存放在 stack（栈）上，而不是 heap（堆）上。</p>
+</blockquote>
+<h4 id="range"><a class="markdownIt-Anchor" href="#range"></a> Range</h4>
+<p>Rust 中的 <code>Range</code> 类型用于创建指定范围内的数字集合，创建时指定开始和结束数字，即可创建从开始值到结束值（不包含结束值）的范围数据， 语法为 <code>let a: Range&lt;i32&gt; = 1..4;</code>。</p>
+<p><code>Range</code> 提供了 <code>rev()</code> 方法，用来反转 <code>Range</code> ，方法返回一个迭代器，可用 <code>for</code> 循环遍历。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">use</span> std::ops::Range;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span>: Range&lt;<span class="type">i32</span>&gt; = <span class="number">0</span>..<span class="number">3</span>; <span class="comment">// 定义一个 Range</span></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> a &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> (<span class="number">0</span>..<span class="number">3</span>).<span class="title function_ invoke__">rev</span>() &#123; <span class="comment">// 使用 rev() 方法反转一个 Range</span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="运算"><a class="markdownIt-Anchor" href="#运算"></a> 运算</h3>
+<h4 id="基础数学运算"><a class="markdownIt-Anchor" href="#基础数学运算"></a> 基础数学运算</h4>
+<p>Rust 中基础数学运算包括加（<code>+</code>）、减（<code>-</code>）、乘（<code>*</code>）、除（<code>/</code>）、取模（<code>%</code>）。</p>
+<p>Rust 数学运算支持在运算符后加等号 <code>=</code> 实现自运算，如 <code>x += 1</code> 。</p>
+<p>Rust 中基础数学运算必须保证所有参与运算的值是相同类型，如果数据类型不同，将无法计算。不同类型的整形不能做计算，如 <code>1 + 1_i8</code>；整形和浮点型不能之间计算，如 <code>1 + 1.1</code> 。不同类型的数据需要进行类型转换后再参与运算，可以使用 <code>as</code> 关键字进行类型转换，如 <code>1_i8 as f64</code>。</p>
+<p>Rust 中不支持 <code>++</code> 和 <code>--</code> 运算，因为这两个运算符会影响代码可读性，开发者难以意识到值可能发生了改变。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span>: <span class="type">i8</span> = <span class="number">1</span> + <span class="number">1</span> + <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="number">3</span> - <span class="number">2</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = <span class="number">2</span> * <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">d</span> = <span class="number">10</span> / <span class="number">6</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">e</span> = <span class="number">10</span> % <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = <span class="number">1.0</span> + <span class="number">1.1</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">g</span> = <span class="number">10.0</span> / <span class="number">3.0</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a=&#123;&#125;&quot;</span>,a);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;b=&#123;&#125;&quot;</span>,b);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;c=&#123;&#125;&quot;</span>,c);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;d=&#123;&#125;&quot;</span>,d);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;e=&#123;&#125;&quot;</span>,e);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;f=&#123;&#125;&quot;</span>,f);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;g=&#123;&#125;&quot;</span>,g);</span><br><span class="line">    <span class="comment">// 不同类型数据的运算</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">h</span>: <span class="type">i32</span> = <span class="number">3</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">i</span>: <span class="type">f64</span> = <span class="number">10_f64</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">j</span> = i / (h <span class="keyword">as</span> <span class="type">f64</span>); <span class="comment">// 将整形转成浮点型后再参与计算</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">k</span> = <span class="number">1_i32</span> + (<span class="number">1_i8</span> <span class="keyword">as</span> <span class="type">i32</span>); <span class="comment">// 将不同整形转成相同整形后再参与计算</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;j=&#123;&#125;&quot;</span>,j);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;k=&#123;&#125;&quot;</span>,k);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="数学运算函数"><a class="markdownIt-Anchor" href="#数学运算函数"></a> 数学运算函数</h4>
+<p>Rust 中整形和浮点型数据自含一些数学运算函数，如整形的平方、取绝对值，浮点型的三角函数计算、开方、对数计算等。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span>: <span class="type">i8</span> = <span class="number">0</span> - <span class="number">1</span> - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = a.<span class="title function_ invoke__">pow</span>(<span class="number">3</span>); <span class="comment">// 整数的平方，-2 的三次方等于 -8</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;b=&#123;&#125;&quot;</span>,b);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = a.<span class="title function_ invoke__">abs</span>(); <span class="comment">// 取绝对值，-2 的绝对值为 2</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;c=&#123;&#125;&quot;</span>, c);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">d</span>: <span class="type">f32</span> = (<span class="number">30</span> <span class="keyword">as</span> <span class="type">f32</span>) * <span class="number">3.141592654</span>/<span class="number">180.0</span>; <span class="comment">// 将角度 30度转为弧度</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">e</span> = d.<span class="title function_ invoke__">sin</span>(); <span class="comment">// 求三角函数 sin30，值为 0.5</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">f</span> = d.<span class="title function_ invoke__">cos</span>(); <span class="comment">// 求三角函数 cos30，值约等于 0.8660254</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;sin30=&#123;&#125;&quot;</span>, e);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;cos30=&#123;&#125;&quot;</span>, f);</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">g</span> = (<span class="number">3.0_f32</span>).<span class="title function_ invoke__">sqrt</span>(); <span class="comment">// 求根号3</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">h</span> = g / <span class="number">2.0</span>; <span class="comment">// 二分之根号3，即 cos30 的值</span></span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;h=&#123;&#125;&quot;</span>,h);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>注意：三角函数运算时使用的是弧度。</p>
+</blockquote>
+<h4 id="逻辑运算"><a class="markdownIt-Anchor" href="#逻辑运算"></a> 逻辑运算</h4>
+<p>逻辑运算的结果是布尔型，逻辑运算包括逻辑判断和布尔值之间的逻辑运算。</p>
+<table>
+<thead>
+<tr>
+<th>逻辑运算名</th>
+<th>逻辑运算符</th>
+<th>示例</th>
+<th>示例结果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>大于</td>
+<td><code>&gt;</code></td>
+<td><code>3&gt;2</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>小于</td>
+<td><code>&lt;</code></td>
+<td><code>3&lt;2</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>等于</td>
+<td><code>==</code></td>
+<td><code>3==2</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>大于或等于</td>
+<td><code>&gt;=</code></td>
+<td><code>3&gt;=2</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>小于或等于</td>
+<td><code>&lt;=</code></td>
+<td><code>3&lt;=2</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>不等于</td>
+<td><code>!=</code></td>
+<td><code>3!=2</code></td>
+<td><code>true</code></td>
+</tr>
+<tr>
+<td>与运算</td>
+<td><code>&amp;&amp;</code></td>
+<td><code>true &amp;&amp; false</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>或运算</td>
+<td>`</td>
+<td></td>
+<td>`</td>
+</tr>
+<tr>
+<td>非运算</td>
+<td><code>!</code></td>
+<td><code>!true</code></td>
+<td><code>false</code></td>
+</tr>
+<tr>
+<td>异或运算</td>
+<td><code>^</code></td>
+<td><code>true^false</code></td>
+<td><code>true</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="位运算"><a class="markdownIt-Anchor" href="#位运算"></a> 位运算</h4>
+<p>位运算是指按二进制位，即bit位进行运算，常用位运算包括：与（<code>&amp;</code>）、或（<code>|</code>）、取反（<code>!</code>）、异或（<code>^</code>）、左移（<code>&lt;&lt;</code>）、右移（<code>&gt;&gt;</code>）。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span>: <span class="type">u8</span> = <span class="number">0b1101_1000</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span>: <span class="type">u8</span> = <span class="number">0b1010_0101</span>;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a   =0b&#123;:08b&#125;&quot;</span>, a);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;b   =0b&#123;:08b&#125;&quot;</span>, b);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a&amp;b =0b&#123;:08b&#125;&quot;</span>, a&amp;b);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a|b =0b&#123;:08b&#125;&quot;</span>, a|b);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;!a  =0b&#123;:08b&#125;&quot;</span>, !a);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;!b  =0b&#123;:08b&#125;&quot;</span>, !b);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a^b =0b&#123;:08b&#125;&quot;</span>, a^b);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a&lt;&lt;1=0b&#123;:08b&#125;&quot;</span>, a&lt;&lt;<span class="number">1</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a&gt;&gt;1=0b&#123;:08b&#125;&quot;</span>, a&gt;&gt;<span class="number">1</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>使用 <code>println!()</code> 宏打印输出时，可以指定输出参数的编码格式，方便查看结果。</p>
+<p>如以上代码示例中的 <code>{:08b}</code> 表示将参数值以二进制格式输出（<code>:b</code>），输出内容长度为 8 位，不足 8 位的前面补 0。</p>
+</blockquote>
+<h3 id="rust-函数定义"><a class="markdownIt-Anchor" href="#rust-函数定义"></a> Rust 函数定义</h3>
+<p>在 Rust 中使用 <code>fn</code> 关键字定义函数，函数定义格式为：<code>fn 函数名(参数1:参数1类型, 参数2:参数2类型,...)-&gt;返回值类型 {函数体}</code>，定义函数时可以不加参数，即定义无参函数，也可以不指定返回值类型。函数调用方式为 <code>函数名(参数1, 参数2,...)</code>。</p>
+<p>Rust 中的变量名和函数名使用 snake case 命名规范，即全使用小写字母，单词间使用下划线分隔，如 say_hello。</p>
+<p>Rust 函数不区分定义的先后顺序，不像 C 语言要先定义才能使用。</p>
+<p>Rust 中函数体可包含一些列语句，可选由一个表达式结束，<strong>Rust 中大多数函数会以最后一个表达式的值作为函数的返回值</strong>，如果想提前返回可以使用 <code>return</code> 关键字。</p>
+<blockquote>
+<p>语句是执行一些动作的指令，如函数定义或以分号结尾的一句代码。在 Rust 中不允许将语句赋值给一个变量，如 <code>let a = (let b = 1)</code> 是不合法的。</p>
+<p>表达式可执行一些运算，如算式 <code>3+2</code>，最终得到一个值，所有字面值都是表达式，如 <code>5</code> 、<code>&quot;hello&quot;</code>。</p>
+</blockquote>
+<p>Rust 中有函数对象（Function object）的概念，类似 C/C++ 中的函数指针，可以将函数当做变量或参数进行传递和使用，它使得动态标记函数变为可能。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123; </span><br><span class="line">    <span class="title function_ invoke__">say_hello</span>(); <span class="comment">// hello</span></span><br><span class="line">    <span class="title function_ invoke__">hello_someone</span>(<span class="string">&quot;rust&quot;</span>); <span class="comment">// hello, rust</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = <span class="title function_ invoke__">get_five</span>();</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;a = &#123;&#125;&quot;</span>, a); <span class="comment">// a = 5</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="title function_ invoke__">plus_five</span>(a);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;b = &#123;&#125;&quot;</span>, b); <span class="comment">// b = 10</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">c</span> = <span class="title function_ invoke__">get_max</span>(<span class="number">3</span>, <span class="number">5</span>);</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;c = &#123;&#125;&quot;</span>, c); <span class="comment">// c = 5</span></span><br><span class="line">    <span class="comment">// 函数对象</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">func</span>: <span class="title function_ invoke__">fn</span>(); </span><br><span class="line">    func = say_hello; <span class="comment">// 给函数对象赋值，右值为函数名</span></span><br><span class="line">    <span class="title function_ invoke__">func</span>(); <span class="comment">// 函数对象调用</span></span><br><span class="line">    func = say_hi; <span class="comment">// 修改函数对象的值</span></span><br><span class="line">    <span class="title function_ invoke__">func</span>();</span><br><span class="line">    <span class="comment">//带参数的函数对象</span></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">func2</span>: <span class="title function_ invoke__">fn</span>(&amp;<span class="type">str</span>);</span><br><span class="line">    func2 = hello_someone;</span><br><span class="line">    <span class="title function_ invoke__">func2</span>(<span class="string">&quot;world!&quot;</span>);</span><br><span class="line">    <span class="comment">// 有参带返回值的函数对象</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">func3</span>: <span class="title function_ invoke__">fn</span>(<span class="type">i32</span>,<span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span>;</span><br><span class="line">    func3 = get_max;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">max_val</span> = <span class="title function_ invoke__">func3</span>(<span class="number">2</span>,<span class="number">3</span>);</span><br><span class="line">&#125;</span><br><span class="line">  </span><br><span class="line"><span class="comment">// 无参参数</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">say_hello</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;hello&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">say_hi</span>() &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hi&quot;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有参函数</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">hello_someone</span>(name: &amp;<span class="type">str</span>) &#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;hello, &#123;&#125;&quot;</span>, name);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 无参有返回值函数</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">get_five</span>() <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    <span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 有参有返回值函数</span></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">plus_five</span>(x: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    x + <span class="number">5</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">fn</span> <span class="title function_">get_max</span>(x: <span class="type">i32</span>, y: <span class="type">i32</span>) <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> x &gt; y &#123;</span><br><span class="line">        <span class="keyword">return</span> x; <span class="comment">// 使用 return 关键字返回结果</span></span><br><span class="line">    &#125;</span><br><span class="line">    y <span class="comment">// 最后一个表达式作为函数返回值</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="闭包closure"><a class="markdownIt-Anchor" href="#闭包closure"></a> 闭包（Closure）</h3>
+<p>闭包、Lambda表达式、匿名函数，描述的是同一个概念，是一种快捷传递函数的方式，广泛用于异步编程。</p>
+<p>Rust 中闭包的定义方式是 <code>|参数1,参数2,...|-&gt;返回值类型{函数体}</code> ，其中返回值类型支持自动推断，可以省略。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">fun</span> = |x: <span class="type">i32</span>, y: <span class="type">i32</span>| <span class="punctuation">-&gt;</span> <span class="type">i32</span> &#123;</span><br><span class="line">        x + y</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = <span class="title function_ invoke__">fun</span>(<span class="number">3</span>, <span class="number">2</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="rust-分支结构"><a class="markdownIt-Anchor" href="#rust-分支结构"></a> Rust 分支结构</h3>
+<h4 id="if-else-分支"><a class="markdownIt-Anchor" href="#if-else-分支"></a> if-else 分支</h4>
+<p>if-else 用于分支判断，Rust 中 if-else 条件语句的格式如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">if 判断条件 &#123;</span><br><span class="line">    // 一些代码</span><br><span class="line">&#125; else &#123;</span><br><span class="line">    // 另一些代码</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>Rust 中的判断条件表达式不需要使用小括号包含，代码语句必须使用大括号包含。</p>
+<p>Rust 中条件表达式必须是布尔类型（bool），不能是数字。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = <span class="number">5</span>;</span><br><span class="line">    <span class="comment">// if-else</span></span><br><span class="line">    <span class="keyword">if</span> a &gt; <span class="number">0</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;a&gt;0&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;a&lt;=0&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// if</span></span><br><span class="line">    <span class="keyword">if</span> a&lt;<span class="number">10</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;a&lt;10&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">//if-else-if</span></span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="number">83</span>;</span><br><span class="line">    <span class="keyword">if</span> b&gt;<span class="number">100</span> || b&lt;<span class="number">0</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;成绩错误&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> b&gt;<span class="number">85</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;优&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> b&gt;<span class="number">75</span> &amp;&amp; b&lt;=<span class="number">85</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;良&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> <span class="keyword">if</span> b&gt;=<span class="number">60</span> &amp;&amp; b&lt;= <span class="number">75</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;中&quot;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;不及格&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="三元表达式"><a class="markdownIt-Anchor" href="#三元表达式"></a> 三元表达式</h4>
+<p>在 Rust 中不支持三元表达式，但 Rust 中可以使用 if-else 来实现相同效果。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="variable">a</span> = <span class="number">65</span>;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">b</span> = <span class="keyword">if</span> a&gt;<span class="number">0</span> &#123;<span class="number">1</span>&#125; <span class="keyword">else</span> &#123;-<span class="number">1</span>&#125;;</span><br><span class="line"><span class="keyword">let</span> <span class="variable">c</span> = <span class="keyword">if</span> a&gt;<span class="number">85</span> &#123;</span><br><span class="line">    <span class="string">&quot;优&quot;</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> a&gt;<span class="number">75</span> &#123;</span><br><span class="line">    <span class="string">&quot;良&quot;</span></span><br><span class="line">&#125; <span class="keyword">else</span> <span class="keyword">if</span> a&gt;=<span class="number">60</span> &#123;</span><br><span class="line">    <span class="string">&quot;中&quot;</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="string">&quot;不及格&quot;</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="match-语句"><a class="markdownIt-Anchor" href="#match-语句"></a> match 语句</h4>
+<p>Rust 中没有 switch 语句，Rust 中的多分支判断使用 <code>match</code> ，<code>match</code> 每个分支结束时不用 break 跳出。</p>
+<p>Rust 中的 <code>match</code> 判断项也不需要使用小括号包含，多个匹配项使用 <code>|</code> 分隔，每个匹配项后使用 <code>=&gt;{}</code> 指定执行代码，多个匹配项之间使用逗号 <code>,</code> 分隔。</p>
+<p>Rust 中 <code>match</code> 必须匹配所有可选项，在最后可以使用下划线 <code>_</code> 匹配所有剩余项，类似其他编程语言中的 <code>default</code> 。</p>
+<p>Rust 中 <code>match</code> 也可以返回值。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">a</span> = <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">match</span> a &#123;</span><br><span class="line">        <span class="number">1</span> =&gt; &#123; <span class="comment">// 匹配单项</span></span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;a=1&quot;</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="number">2</span>|<span class="number">3</span>|<span class="number">4</span> =&gt; &#123; <span class="comment">// 匹配多项</span></span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;a=2 or 3 or 4&quot;</span>);</span><br><span class="line">        &#125;,</span><br><span class="line">        _ =&gt; &#123; <span class="comment">// 剩余项</span></span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;other number&quot;</span>);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = <span class="keyword">match</span> a &#123; <span class="comment">// match返回值</span></span><br><span class="line">        <span class="number">1</span> =&gt; &#123;</span><br><span class="line">            <span class="string">&quot;一&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        <span class="number">2</span>|<span class="number">3</span>|<span class="number">4</span> =&gt; &#123;</span><br><span class="line">            <span class="string">&quot;二、三、四&quot;</span></span><br><span class="line">        &#125;,</span><br><span class="line">        _ =&gt; &#123;</span><br><span class="line">            <span class="string">&quot;其他&quot;</span></span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,b);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="rust-循环结构"><a class="markdownIt-Anchor" href="#rust-循环结构"></a> Rust 循环结构</h3>
+<h4 id="loop-循环"><a class="markdownIt-Anchor" href="#loop-循环"></a> loop 循环</h4>
+<p>Rust 中使用 <code>loop</code> 创建无限循环。</p>
+<p>Rust 中的 <code>loop</code> 循环可以作为表达式，在 <code>break</code> 关键字后指定循环的返回值。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">a</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">loop</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> a == <span class="number">100</span> &#123;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> a%<span class="number">2</span> == <span class="number">1</span> &#123;</span><br><span class="line">            a += <span class="number">1</span>;</span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, a);</span><br><span class="line">        a += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">b</span> = [<span class="string">&#x27;h&#x27;</span>, <span class="string">&#x27;e&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;l&#x27;</span>, <span class="string">&#x27;o&#x27;</span>];</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">i</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">location</span> = <span class="keyword">loop</span> &#123; <span class="comment">// 获取loop循环的返回值</span></span><br><span class="line">        <span class="keyword">if</span> b[i] == <span class="string">&#x27;l&#x27;</span> &#123;</span><br><span class="line">            <span class="keyword">break</span> i;</span><br><span class="line">        &#125;</span><br><span class="line">        i += <span class="number">1</span>;</span><br><span class="line">    &#125;;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;location: &#123;&#125;&quot;</span>, location);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="while-循环"><a class="markdownIt-Anchor" href="#while-循环"></a> while 循环</h4>
+<p>Rust 中 while 循环与其他编程语言的 while 循环用法类似，先判断条件是否满足，条件为真则进入循环体，直到条件不满足退出循环，在循环体中可使用 <code>continue</code> 跳过本次循环，使用 <code>break</code> 跳出整个循环。</p>
+<p>Rust 中条件表达式不使用小括号包含。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">a</span> = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">while</span> a&lt;<span class="number">10</span> &#123;</span><br><span class="line">        <span class="keyword">if</span> a == <span class="number">3</span> &#123; <span class="comment">// 当值为 3 时，跳过本次循环</span></span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; skip&quot;</span>, a);</span><br><span class="line">            a += <span class="number">1</span>; <span class="comment">// 由于continue会跳过本次循环体后续内容，必须在这里进行加一，否则会出现死循环</span></span><br><span class="line">            <span class="keyword">continue</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> a == <span class="number">6</span> &#123; <span class="comment">// 当值为 6 时，中断循环</span></span><br><span class="line">            <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125; break&quot;</span>, a);</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">        &#125;</span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>,a);</span><br><span class="line">        a += <span class="number">1</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="for-循环"><a class="markdownIt-Anchor" href="#for-循环"></a> for 循环</h4>
+<p>Rust 中的 for 循环是 foreach 循环，是专门用来遍历可迭代对象的语法，用法是 <code>for 变量名 in 迭代器 {函数体}</code>。</p>
+<p>迭代器是一类对象，如数组、Vector等，其实现了迭代器相关的方法。</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>() &#123;</span><br><span class="line">    <span class="keyword">let</span> <span class="variable">arr</span> = [<span class="number">2</span>, <span class="number">1</span>, <span class="number">3</span>, <span class="number">5</span>, <span class="number">6</span>, <span class="number">4</span>];</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> arr &#123; <span class="comment">// 遍历数组</span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">1</span>..<span class="number">5</span> &#123; <span class="comment">// 使用 Range 类型快速的递增迭代 1~5，不包含 5</span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> <span class="number">0</span>..arr.<span class="title function_ invoke__">len</span>() &#123; <span class="comment">// 按数组下标遍历数组</span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;arr[&#123;&#125;]=&#123;&#125;&quot;</span>, i, arr[i]);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> <span class="keyword">mut </span><span class="variable">v</span>: <span class="type">Vec</span>&lt;<span class="type">i32</span>&gt; = <span class="type">Vec</span>::<span class="title function_ invoke__">new</span>();</span><br><span class="line">    v.<span class="title function_ invoke__">push</span>(<span class="number">3</span>);</span><br><span class="line">    v.<span class="title function_ invoke__">push</span>(<span class="number">5</span>);</span><br><span class="line">    v.<span class="title function_ invoke__">push</span>(<span class="number">8</span>);</span><br><span class="line">    <span class="keyword">for</span> <span class="variable">i</span> <span class="keyword">in</span> v &#123; <span class="comment">// 遍历Vector</span></span><br><span class="line">        <span class="built_in">println!</span>(<span class="string">&quot;&#123;&#125;&quot;</span>, i);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>樊少冰, 孟祥莲. 《Rust编程从入门到实战》. 2022</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2024/04/28/%E8%AE%A4%E8%AF%86cron%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="prev" title="认识cron表达式">
+                  <i class="fa fa-angle-left"></i> 认识cron表达式
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03-Rust%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E4%B9%8B%E6%89%80%E6%9C%89%E6%9D%83/" rel="next" title="Rust学习笔记3-Rust核心概念之所有权">
+                  Rust学习笔记3-Rust核心概念之所有权 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

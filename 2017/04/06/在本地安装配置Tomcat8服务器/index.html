@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="摘要：本篇文章讲解在 windows 系统下，本地安装配置 Tomcat 服务器！    从官网下载 Tomcat8.5 官网地址：http:&#x2F;&#x2F;tomcat.apache.org&#x2F; 下载 Tomcat 8.x ：http:&#x2F;&#x2F;tomcat.apache.org&#x2F;download-80.cgi  对于 windows 系统，我们可以下载二进制文件压缩包，或者安装程序，对于新手来说，建议直接下载安">
 <meta property="og:type" content="article">
@@ -26,26 +26,25 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="摘要：本篇文章讲解在 windows 系统下，本地安装配置 Tomcat 服务器！    从官网下载 Tomcat8.5 官网地址：http:&#x2F;&#x2F;tomcat.apache.org&#x2F; 下载 Tomcat 8.x ：http:&#x2F;&#x2F;tomcat.apache.org&#x2F;download-80.cgi  对于 windows 系统，我们可以下载二进制文件压缩包，或者安装程序，对于新手来说，建议直接下载安">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/tomcat.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/download_tomcat_for_windows.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/open_system_config_on_windows.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/open_environment_variable.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/add_new_environment_variable_CATALINA_HOME.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/tomcat_directory.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/startup_tomcat.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/image/tomcat_index.png">
-<meta property="article:published_time" content="2017-04-06T07:57:11.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.283Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/windows/tomcat.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/windows/download_tomcat_for_windows.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/windows/open_system_config_on_windows.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/windows/open_environment_variable.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/windows/add_new_environment_variable_CATALINA_HOME.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/windows/tomcat_directory.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/windows/startup_tomcat.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/windows/tomcat_index.webp">
+<meta property="article:published_time" content="2017-04-06T15:57:11.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.117Z">
 <meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="tomcat">
 <meta property="article:tag" content="web">
 <meta property="article:tag" content="服务器">
-<meta property="article:tag" content="tomcat">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/image/tomcat.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/windows/tomcat.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2017/04/06/%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AETomcat8%E6%9C%8D%E5%8A%A1%E5%99%A8/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2017/04/06/%E5%9C%A8%E6%9C%AC%E5%9C%B0%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AETomcat8%E6%9C%8D%E5%8A%A1%E5%99%A8/","path":"2017/04/06/在本地安装配置Tomcat8服务器/","title":"在本地安装配置Tomcat8服务器"}</script>
@@ -54,10 +53,29 @@
 <title>在本地安装配置Tomcat8服务器 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -139,18 +157,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -220,14 +238,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2017-04-06 15:57:11" itemprop="dateCreated datePublished" datetime="2017-04-06T15:57:11+08:00">2017-04-06</time>
+      <time title="创建时间：2017-04-06 15:57:11" itemprop="dateCreated datePublished" datetime="2017-04-06T15:57:11+00:00">2017-04-06</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -251,11 +269,11 @@
     <div class="post-body" itemprop="articleBody"><blockquote>
 <p>摘要：本篇文章讲解在 windows 系统下，本地安装配置 Tomcat 服务器！</p>
 </blockquote>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/tomcat.png" alt="" /></p>
+<p><img src="/images/post/windows/tomcat.webp" alt="" /></p>
 <h3 id="从官网下载-tomcat85"><a class="markdownIt-Anchor" href="#从官网下载-tomcat85"></a> 从官网下载 Tomcat8.5</h3>
 <p>官网地址：<a target="_blank" rel="noopener" href="http://tomcat.apache.org/">http://tomcat.apache.org/</a></p>
 <p>下载 Tomcat 8.x ：<a target="_blank" rel="noopener" href="http://tomcat.apache.org/download-80.cgi">http://tomcat.apache.org/download-80.cgi</a></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/image/download_tomcat_for_windows.png" alt="" title="根据系统选择32/64位" /></p>
+<p><img src="/images/post/windows/download_tomcat_for_windows.webp" alt="" title="根据系统选择32/64位" /></p>
 <p>对于 windows 系统，我们可以下载二进制文件压缩包，或者安装程序，对于新手来说，建议直接下载安装程序，双击执行，根据提示一步一步操作即可，没什么难度。但是，我们这次偏要选择下载 zip 压缩包，先苦后甜。</p>
 <span id="more"></span>
 <hr />
@@ -263,16 +281,16 @@
 <p>选的时候要避免出现中文路径！然后要把这个地方记住，等会要用到的，如我把压缩文件解压到 E 盘的 tomcat 目录下，我的 tomcat 服务器的路径就是： <strong>E:\tomcat\apache-tomcat-8.5.14</strong></p>
 <h3 id="添加配置信息"><a class="markdownIt-Anchor" href="#添加配置信息"></a> 添加配置信息</h3>
 <p>打开 <strong>“控制面板”</strong> --&gt; <strong>“所有控制面板项”</strong> --&gt; <strong>“系统”</strong> ，点击 <strong>“高级系统设置”</strong><br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/image/open_system_config_on_windows.png" alt="" title="打开‘高级系统设置’" /></p>
+<img src="/images/post/windows/open_system_config_on_windows.webp" alt="" title="打开‘高级系统设置’" /></p>
 <p>在 <strong>“系统属性”</strong> 对话框中选择 <strong>“高级”</strong> 选项卡，点击下方的 <strong>“环境变量”</strong><br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/image/open_environment_variable.png" alt="" title="打开‘环境变量’" /></p>
+<img src="/images/post/windows/open_environment_variable.webp" alt="" title="打开‘环境变量’" /></p>
 <p>在 <strong>“环境变量”</strong> 中的 <strong>“系统变量”</strong> 中点击 <strong>“新建”</strong>，在 <strong>“新建系统变量”</strong> 中的 <strong>“变量名”</strong> 输入框中输入 <strong>CATALINA_HOME</strong> ，在 <strong>“变量值”</strong> 输入刚才的 tomcat 安装路径 <strong>E:\tomcat\apache-tomcat-8.5.14</strong><br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/image/add_new_environment_variable_CATALINA_HOME.png" alt="" title="添加 CATALINA_HOME" /></p>
+<img src="/images/post/windows/add_new_environment_variable_CATALINA_HOME.webp" alt="" title="添加 CATALINA_HOME" /></p>
 <p>同时新建一个变量 <strong>CATALINA_BASE</strong> ，变量值是刚才的安装目录 <strong>E:\tomcat\apache-tomcat-8.5.14</strong></p>
 <hr />
 <h3 id="测试"><a class="markdownIt-Anchor" href="#测试"></a> 测试</h3>
 <p>进入 tomcat 的安装目录，可以看到下面的文件夹：<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/image/tomcat_directory.png" alt="" title="tomcat 目录" /></p>
+<img src="/images/post/windows/tomcat_directory.webp" alt="" title="tomcat 目录" /></p>
 <ul>
 <li><strong>bin</strong> 二进制文件；</li>
 <li><strong>conf</strong> 配置文件；</li>
@@ -287,9 +305,9 @@
 <li><strong>RUNNING.txt</strong> 运行说明</li>
 </ul>
 <p>进入 <strong>bin</strong> 目录，运行 <strong>startup.bat</strong> ，如果出现下面的结果说明服务器已经正确启动了<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/image/startup_tomcat.png" alt="" title="运行 startup.bat" /></p>
+<img src="/images/post/windows/startup_tomcat.webp" alt="" title="运行 startup.bat" /></p>
 <p>打开 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080/</a> 若能打开页面，说明 tomcat 服务器已成功启动。<br />
-<img src="http://blog-images.qiniu.wqf31415.xyz/image/tomcat_index.png" alt="" title="http://localhost:8080/" /></p>
+<img src="/images/post/windows/tomcat_index.webp" alt="" title="http://localhost:8080/" /></p>
 <p>若想停止 tomcat 服务器，可以运行 <strong>bin</strong> 目录下的 <strong>shutdown.bat</strong> ，或者在启动时的命令行界面按 <strong>Ctrl + C</strong> 停止。</p>
 <h3 id="将-tomcat-添加到系统服务中"><a class="markdownIt-Anchor" href="#将-tomcat-添加到系统服务中"></a> 将 Tomcat 添加到系统服务中</h3>
 <p>进入 <strong>bin</strong> 目录，打开命令行，运行 <strong>service.bat install</strong> 即可将 tomcat 服务器添加到 windows 服务中，在服务中即可启动或关闭 tomcat ，在这个命令中可以对服务命名 <strong>service.bat install tomcat8</strong> 。</p>
@@ -305,6 +323,24 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
               <a href="/tags/web/" rel="tag"># web</a>
               <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"># 服务器</a>
@@ -316,12 +352,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2017/02/28/%E8%A7%A3%E5%86%B3mysql%E8%BF%9E%E6%8E%A5%E9%9A%94%E5%A4%9C%E5%A4%B1%E6%95%88%E9%97%AE%E9%A2%98/" rel="prev" title="解决mysql连接隔夜失效问题">
-                  <i class="fa fa-chevron-left"></i> 解决mysql连接隔夜失效问题
+                  <i class="fa fa-angle-left"></i> 解决mysql连接隔夜失效问题
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2017/04/25/JHipster-%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01/" rel="next" title="JHipster 学习笔记1">
-                  JHipster 学习笔记1 <i class="fa fa-chevron-right"></i>
+                  JHipster 学习笔记1 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -334,6 +370,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -341,17 +378,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -372,25 +408,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

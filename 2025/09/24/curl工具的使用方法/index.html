@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 这篇文章介绍了一个开源功能强大的命令行网络工具 curl，curl 功能丰富，用法简单，被广泛用于命令行、终端的网络请求场景中。这篇文件简要介绍了 curl 的功能和使用方法。   curl 是什么 curl 是一个命令行工具，利用 URL 语法在命令行中完成数据传输的工具，支持文件上传和下载。  官网：https:&#x2F;&#x2F;curl.se&#x2F; 源码：https:&#x2F;&#x2F;github.com&#x2F;curl">
+<meta property="og:type" content="article">
+<meta property="og:title" content="curl工具的使用方法">
+<meta property="og:url" content="https://www.wqf31415.xyz/2025/09/24/curl%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了一个开源功能强大的命令行网络工具 curl，curl 功能丰富，用法简单，被广泛用于命令行、终端的网络请求场景中。这篇文件简要介绍了 curl 的功能和使用方法。   curl 是什么 curl 是一个命令行工具，利用 URL 语法在命令行中完成数据传输的工具，支持文件上传和下载。  官网：https:&#x2F;&#x2F;curl.se&#x2F; 源码：https:&#x2F;&#x2F;github.com&#x2F;curl">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2025-09-24T22:17:23.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.113Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="终端">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2025/09/24/curl%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2025/09/24/curl%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/","path":"2025/09/24/curl工具的使用方法/","title":"curl工具的使用方法"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>curl工具的使用方法 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#curl-%E6%98%AF%E4%BB%80%E4%B9%88"><span class="nav-number">2.</span> <span class="nav-text"> curl 是什么</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#curl-%E7%9A%84%E7%89%B9%E6%80%A7"><span class="nav-number">3.</span> <span class="nav-text"> curl 的特性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E6%9C%AC%E7%89%B9%E6%80%A7"><span class="nav-number">3.1.</span> <span class="nav-text"> 基本特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%80%9A%E9%85%8D"><span class="nav-number">3.2.</span> <span class="nav-text"> 通配</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">3.3.</span> <span class="nav-text"> 配置文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BA%AB%E4%BB%BD%E9%AA%8C%E8%AF%81"><span class="nav-number">3.4.</span> <span class="nav-text"> 身份验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BF%9D%E5%AD%98%E6%96%87%E4%BB%B6"><span class="nav-number">3.5.</span> <span class="nav-text"> 保存文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%AD%E7%82%B9%E7%BB%AD%E4%BC%A0"><span class="nav-number">3.6.</span> <span class="nav-text"> 断点续传</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-curl-%E5%8F%91%E8%B5%B7-http-%E8%AF%B7%E6%B1%82"><span class="nav-number">4.</span> <span class="nav-text"> 使用 curl 发起 http 请求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#get"><span class="nav-number">4.1.</span> <span class="nav-text"> GET</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#post"><span class="nav-number">4.2.</span> <span class="nav-text"> POST</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%91%E9%80%81-json-%E6%A0%BC%E5%BC%8F%E6%95%B0%E6%8D%AE"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 发送 JSON 格式数据</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E4%BA%8C%E8%BF%9B%E5%88%B6%E5%86%85%E5%AE%B9"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 发送二进制内容</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%8F%91%E9%80%81%E6%96%87%E4%BB%B6"><span class="nav-number">4.2.3.</span> <span class="nav-text"> 发送文件</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#put"><span class="nav-number">4.3.</span> <span class="nav-text"> PUT</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E8%AF%B7%E6%B1%82%E6%96%B9%E6%B3%95"><span class="nav-number">4.4.</span> <span class="nav-text"> 其他请求方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-cookie"><span class="nav-number">4.5.</span> <span class="nav-text"> 使用 cookie</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BA%AB%E4%BB%BD%E8%AE%A4%E8%AF%81"><span class="nav-number">4.6.</span> <span class="nav-text"> 身份认证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AF%B7%E6%B1%82-http-%E5%8C%BA%E9%97%B4"><span class="nav-number">4.7.</span> <span class="nav-text"> 请求 http 区间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8E%8B%E7%BC%A9"><span class="nav-number">4.8.</span> <span class="nav-text"> 压缩</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%8C%87%E5%AE%9A-http-%E5%8D%8F%E8%AE%AE%E7%89%88%E6%9C%AC"><span class="nav-number">4.9.</span> <span class="nav-text"> 指定 http 协议版本</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ftp-%E8%AF%B7%E6%B1%82"><span class="nav-number">5.</span> <span class="nav-text"> FTP 请求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Eftp%E7%9A%84%E4%B8%80%E4%BA%9B%E7%9F%A5%E8%AF%86"><span class="nav-number">5.1.</span> <span class="nav-text"> 关于FTP的一些知识</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%8A%E4%BC%A0%E6%96%87%E4%BB%B6"><span class="nav-number">5.2.</span> <span class="nav-text"> 上传文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E5%85%A8%E6%96%87%E4%BB%B6%E4%BC%A0%E8%BE%93"><span class="nav-number">5.3.</span> <span class="nav-text"> 安全文件传输</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%82%AE%E4%BB%B6%E8%AF%B7%E6%B1%82"><span class="nav-number">6.</span> <span class="nav-text"> 邮件请求</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-pop3-%E8%AF%BB%E5%8F%96%E9%82%AE%E4%BB%B6"><span class="nav-number">6.1.</span> <span class="nav-text"> 使用 POP3 读取邮件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-smtp-%E5%8F%91%E9%80%81%E9%82%AE%E4%BB%B6"><span class="nav-number">6.2.</span> <span class="nav-text"> 使用 SMTP 发送邮件</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8F%82%E8%80%83%E8%B5%84%E6%96%99"><span class="nav-number">7.</span> <span class="nav-text"> 参考资料</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2025/09/24/curl%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="curl工具的使用方法 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          curl工具的使用方法<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/curl%E5%B7%A5%E5%85%B7%E7%9A%84%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-09-24 22:17:23" itemprop="dateCreated datePublished" datetime="2025-09-24T22:17:23+00:00">2025-09-24</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了一个开源功能强大的命令行网络工具 curl，curl 功能丰富，用法简单，被广泛用于命令行、终端的网络请求场景中。这篇文件简要介绍了 curl 的功能和使用方法。</p>
+<p><svg xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent; color-scheme: light dark;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="652px" height="311px" viewBox="-0.5 -0.5 652 311"><defs/><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-1"><g><rect x="20" y="110" width="120" height="40" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-2"><g><rect x="0" y="150" width="50" height="120" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-3"><g><rect x="20" y="270" width="120" height="40" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-4"><g><rect x="190" y="110" width="50" height="200" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-5"><g><rect x="300" y="110" width="50" height="200" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-6"><g><rect x="190" y="270" width="110" height="40" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-8"><g><rect x="400" y="110" width="50" height="200" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-9"><g><rect x="450" y="120" width="110" height="40" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g><g data-cell-id="MQQ1DA55CuxLmnpaJDzZ-10"><g><rect x="601" y="0" width="50" height="310" fill="#b1ddf0" stroke="#10739e" pointer-events="all" style="fill: light-dark(rgb(177, 221, 240), rgb(23, 61, 77)); stroke: light-dark(rgb(16, 115, 158), rgb(84, 169, 206));"/></g></g></g></g></g></svg></p>
+<h3 id="curl-是什么"><a class="markdownIt-Anchor" href="#curl-是什么"></a> curl 是什么</h3>
+<p>curl 是一个命令行工具，利用 URL 语法在命令行中完成数据传输的工具，支持文件上传和下载。</p>
+<blockquote>
+<p>官网：<a target="_blank" rel="noopener" href="https://curl.se/">https://curl.se/</a></p>
+<p>源码：<a target="_blank" rel="noopener" href="https://github.com/curl/curl">https://github.com/curl/curl</a></p>
+</blockquote>
+<p>curl 支持的协议（参考官网介绍）：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">协议</th>
+<th style="text-align:left">详情</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Protocol</td>
+<td style="text-align:left">DICT, FILE, FTP, FTPS, GOPHER, GOPHERS, HTTP, HTTPS, IMAP, IMAPS, LDAP, LDAPS, MQTT, POP3, POP3S, RTMP, RTMPS, RTSP, SCP, SFTP, SMB, SMBS, SMTP, SMTPS, TELNET, TFTP, WS, WSS</td>
+</tr>
+<tr>
+<td style="text-align:center">Proxies</td>
+<td style="text-align:left">SOCKS4, SOCKS5, HTTP, HTTPS (HTTP/1 and HTTP/2), tunneling, via unix domain sockets, haproxy, SOCKS+HTTP proxy chain</td>
+</tr>
+<tr>
+<td style="text-align:center">HTTP</td>
+<td style="text-align:left">GET, POST, PUT, HEAD, multipart formpost, HTTP/0.9, HTTP/1.0, HTTP/1.1, HTTP/2 (h2c, h2, prior knowledge), HTTP/3 (dual connect h1/h2 + h3 or h3-only), HSTS, Alt-Svc, cookies, PSL, etags, transfer compression, ranges, custom headers, custom method, follow redirects</td>
+</tr>
+<tr>
+<td style="text-align:center">FTP</td>
+<td style="text-align:left">IPv6 (EPRT, EPSV), STLS, upload/download, append, range, passive/active, kerberos, directory listing, custom commands</td>
+</tr>
+<tr>
+<td style="text-align:center">SCP + SFTP</td>
+<td style="text-align:left">known hosts, md5/sha256 fingerprint, compression, upload/download, directory listing</td>
+</tr>
+<tr>
+<td style="text-align:center">TLS</td>
+<td style="text-align:left">1.0 - 1.3, mutual authentication, STARTTLS, OCSP stapling, ECH, False Start, key pinning, PQC ready, session resumption, early data, export/import sessions</td>
+</tr>
+<tr>
+<td style="text-align:center">QUIC</td>
+<td style="text-align:left">0RTT handshakes</td>
+</tr>
+<tr>
+<td style="text-align:center">Auth</td>
+<td style="text-align:left">Basic, Plain, Digest, CRAM-MD5, SCRAM-SHA, NTLM, Negotiate, Kerberos, Bearer tokens, AWS Sigv4, SASL, .netrc</td>
+</tr>
+<tr>
+<td style="text-align:center">HTTP compression</td>
+<td style="text-align:left">gzip, brotli and zstd</td>
+</tr>
+<tr>
+<td style="text-align:center">Name resolving</td>
+<td style="text-align:left">DNS-over-HTTPS, custom address for host, name+port redirect, custom DNS servers, DNS caching, HTTPS RR</td>
+</tr>
+<tr>
+<td style="text-align:center">Connection</td>
+<td style="text-align:left">connection reuse, Interface binding, Happy Eyeballs, IPv4/IPv6-only, unix domain sockets, TCP keepalive, TCP Fast Open, TCP Nodelay, MPTCP, VLAN priority, IP Type Of Service</td>
+</tr>
+<tr>
+<td style="text-align:center">Transfers</td>
+<td style="text-align:left">transfer rate limiting, request rate limiting, stall detection, retries, timeouts</td>
+</tr>
+<tr>
+<td style="text-align:center">URLs</td>
+<td style="text-align:left">Unlimited amount, parallel and serial transfers, globbing</td>
+</tr>
+<tr>
+<td style="text-align:center">Output</td>
+<td style="text-align:left">IDN hostnames, custom info from transfer, metadata as JSON, per content-disposition, libcurl source code, bold headers</td>
+</tr>
+</tbody>
+</table>
+<span id="more"></span>
+<h3 id="curl-的特性"><a class="markdownIt-Anchor" href="#curl-的特性"></a> curl 的特性</h3>
+<h4 id="基本特性"><a class="markdownIt-Anchor" href="#基本特性"></a> 基本特性</h4>
+<p>curl 支持数百个选项参数，支持无限数量的 URL 地址。</p>
+<p>选项参数支持短选项（如<code>-v</code>）和长选项（如<code>--verbose</code>），短选项使用单个 <code>-</code> 后面跟一个字母，长选项使用 <code>--</code> 后面跟上选项名。</p>
+<blockquote>
+<p>很多选项是切换开关，用于启动某些功能或切换两个已知状态，可以将多个这种短选项写到一起，如 <code>-vL</code> 打开详细模式并启动重定向。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 打开详细模式并启动重定向</span></span><br><span class="line">curl -vL http://example.com</span><br><span class="line">curl --verbose --location http://example.com</span><br></pre></td></tr></table></figure>
+<p>curl 中带参数的选项使用时，需要先指定选项，以空格分隔，后面跟上参数值。如果参数中带有空格则需要用引号包括，如果参数值中包含引号，则可以使用单引号包括，或者将传输内容写到文件中，读取文件内容进行传输。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># -d 选项指定要发送的数据内容</span></span><br><span class="line">curl -d <span class="string">&#x27;&#123;&quot;name&quot;:&quot;Zhang San&quot;&#125;&#x27;</span> http://example.com</span><br><span class="line">curl -d @info.json http://example.com</span><br></pre></td></tr></table></figure>
+<p>在 curl 内部维护着一个连接池，让创建的连接存活一段时间，后续发给相同主机的请求可以重用这些已经建立的连接。如果在同一命令行中指定多个 URL，就会看到它将使用多个连接或重用已有的连接，因此连接的计数器可能会增加，也可能不会增加，具体取决于 curl 需要执行的操作。</p>
+<p>执行 curl 指令时，curl 会先解析整条命令，应用指定的命令行选项，所以<strong>选项可以放在任意位置</strong>，甚至是 URL 之后，然后（按从左到右的顺序）遍历 URL 并执行相应操作。</p>
+<blockquote>
+<p>注意，默认情况下 curl 会将命令中所有选项都应用到每个 URL请求中。<br />
+但 curl 提供了选项 <code>--next</code> ，短格式为 <code>-;</code> ，可以在一组选项和 URL 之间插入间隔。<br />
+当命令行解析器遇到 <code>--next</code> 选项时，它会将后面的选项应用于下一组URL。因此，<code>--next</code> 选项可以作为多组选项和URL之间的分隔符。使用多少个 <code>--next</code> 选项取决于实际的需要。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl 选项组1 URL1 --next 选项组2 URL2_1 URL2_2 --next ...</span><br></pre></td></tr></table></figure>
+<p>curl 会在处理完最后一个 URL 后返回一个退出码。想让 curl 在第一次出现错误时就退出，则可以使用 <code>--fail-early</code> 选项。</p>
+<h4 id="通配"><a class="markdownIt-Anchor" href="#通配"></a> 通配</h4>
+<p>curl 使用保留符号 <code>[]</code> 和 <code>{}</code> 进行通配，使用 <code>[N-M]</code> 语法来指定一个数值范围，其中 <code>N</code> 是起始索引，<code>M</code> 是结束索引（包括M在内）。可以指定步进（step counter），curl 也可以处理字母范围。如：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 请求 1~100 的图片文件</span></span><br><span class="line"><span class="comment"># -O 选项指定使用URL中的名称作为文件名保存</span></span><br><span class="line">curl -O http://example.com/[1-100].jpg </span><br><span class="line"></span><br><span class="line"><span class="comment"># 请求 001~100 的图片文件</span></span><br><span class="line">curl -O http://example.com/[001-100].jpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 指定步进为2</span></span><br><span class="line">curl -O http://example.com/[1-100:2].jpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 请求 a-z 的图片</span></span><br><span class="line">curl -O http://example.com/[a-z].jpg</span><br></pre></td></tr></table></figure>
+<p>有时 URL 不是以简单的数字或字母顺序命名的模式，curl 支持指定完整的匹配列表，但要放在花括号，而不是中括号中。</p>
+<p>在同一个 URL 中使用多个通配时，URL 中的每个通配都对应一个单独的变量，可以通过 ‘#[num]’ 来引用，即在 ‘#’ 后面跟上与通配对应的数字，从 1（对应第一个通配）开始，以最后一个通配结束。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取一周的图片</span></span><br><span class="line">curl -O http://example.com/&#123;Mon,Tues,Wed,Thur,Fri,Sat,Sun&#125;.jpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 多个通配一起使用，请求一周每个小时的图片</span></span><br><span class="line">curl -O http://example.com/&#123;Mon,Tues,Wed,Thur,Fri,Sat,Sun&#125;-[0-23].jpg</span><br><span class="line"></span><br><span class="line"><span class="comment"># 引用通配变量，将图片按星期保存</span></span><br><span class="line">curl http://example.com/&#123;Mon,Tues,Wed,Thur,Fri,Sat,Sun&#125;-[0-23].jpg -o /pic/#1/#2.jpg</span><br></pre></td></tr></table></figure>
+<h4 id="配置文件"><a class="markdownIt-Anchor" href="#配置文件"></a> 配置文件</h4>
+<p>curl 支持配置文件，可以将命令行选项写在文本文件中，curl 执行每个命令，都会从配置文件中读取命令行选项。</p>
+<p>默认查找使用主目录中的配置文件，可以使用 <code>-K</code> 或 <code>--config</code> 选项指定使用的配置文件；使用 <code>-q</code> 选项让 curl 不读取配置文件。</p>
+<blockquote>
+<p>在类 Unix 系统上，会查找主目录下的 <code>.curlrc</code> 文件;<br />
+在 Windows 系统上则查找主目录下的 <code>_curlrc</code> 文件，如果没找到会在 curl 可执行程序所在目录中查找。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -K curl.conf http://example.com</span><br></pre></td></tr></table></figure>
+<p>配置文件内容：</p>
+<ul>
+<li>
+<p>以 <code>#</code> 添加注释</p>
+</li>
+<li>
+<p>配置文件中可以使用短选项和长选项，与命令行中写法相同，为了便于阅读，允许使用不带破折号的长选项。</p>
+</li>
+<li>
+<p>配置文件中带参数的选项，参数必须与该选项处于同一行。</p>
+</li>
+<li>
+<p>配置文件中允许在选项及其参数之间使用 <code>=</code> 或 <code>:</code>，虽然这样做不是必须的。</p>
+</li>
+<li>
+<p>选项的参数也可以不使用引号，curl将下一个空格或换行视为当前参数的结尾，如果参数中带有空格，则必须使用双引号。</p>
+</li>
+<li>
+<p>如果想在配置文件中指定URL，则必须使用 <code>--url</code> 或 <code>url</code> ，而且不会像在命令行中那样不是选项的所有东西都被视为URL</p>
+</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"># 注释，开启跟踪重定向</span><br><span class="line">--location</span><br><span class="line"># 发送 HEAD 请求</span><br><span class="line">--head</span><br><span class="line"># 配置 user-agent 头部</span><br><span class="line">user-agent &quot;Everything-is-an-agent&quot;</span><br><span class="line"># 使用短选项</span><br><span class="line">-H &#x27;Content-Type: application/json&#x27;</span><br><span class="line"># 使用 = 连接参数，指定 URL</span><br><span class="line">url=&quot;http://example.com&quot;</span><br></pre></td></tr></table></figure>
+<h4 id="身份验证"><a class="markdownIt-Anchor" href="#身份验证"></a> 身份验证</h4>
+<p>curl 中最基本的身份验证选项是 <code>-u</code> 或 <code>--user</code>，支持传递用户名密码，用户名和密码使用冒号分隔，如 <code>-u admin:123456</code> 。</p>
+<p>为了避免在命令行中暴露密码信息，可以使用 <code>-u</code> 选项，但不指定密码，这样在执行时会提示用户输入密码。</p>
+<p>另外一种方法是使用 <code>.netrc</code> 文件或配置文件。</p>
+<h4 id="保存文件"><a class="markdownIt-Anchor" href="#保存文件"></a> 保存文件</h4>
+<p>可以通过 <code>-o [filename]</code> 或 <code>--output</code> 选项为 curl 指定一个特定的文件名来保存下载的内容。filename可以是文件名，也可以是文件的相对路径或完整路径。</p>
+<blockquote>
+<p>可以将 <code>-o</code> 放在 URL 之前或之后，二者没有什么区别。</p>
+</blockquote>
+<p><code>-O</code> 或 <code>--remote-name</code> 选项指定从 URL 中提取文件名保存文件。注意 <code>-O</code> 选项只会提取文件名的部分作为本地文件名，路径部分将被忽略。</p>
+<blockquote>
+<p>即使发生了重定向（而且你告诉curl要跟踪重定向），curl选择的文件名也不会发生变化。</p>
+</blockquote>
+<p>HTTP 服务器可以选择在响应消息中提供 Content-Disposition 标头，这个标头可能包含服务器建议的文件名，可以使用 <code>-J</code> 或 <code>--remote-header-name</code> 选项让 curl 使用这个名字作为本地文件名。</p>
+<blockquote>
+<p>如果同时还使用了-O选项，那么curl默认使用 URL 中的文件名，只有当响应消息中包含有效的 Content-Disposition 标头时，才会使用这个建议的文件名。</p>
+</blockquote>
+<p>注意：</p>
+<ul>
+<li>curl 只会使用建议文件名的最右边部分，服务器建议的其他路径或目录都会被忽略。</li>
+<li>如果服务器提供了与本地文件相同的文件名，那么 curl 将覆盖当前目录中已有的本地文件。</li>
+<li>curl 不会对文件名进行编码，因此你可能会得到一个 URL 编码的文件名</li>
+</ul>
+<p>每个 URL 都需要单独指定 “存储指令”，没有指定 “存储指令” 的，curl会默认将数据发送到 stdout。</p>
+<p>存储指令和 URL 的顺序是一一对应的，第一个存储指令对应第一个URL。存储指令所在的位置不影响与 URL 的对应关系。</p>
+<p><code>-O</code> 只用于单个下载，如果你要下载多个 URL，则需要使用多个 <code>-O</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 如果你要下载两个URL并只为第一个URL提供保存位置，那么第二个URL将被发送到stdout</span></span><br><span class="line"><span class="comment"># 图片文件保存到本地，txt文件内容输出到标准输出</span></span><br><span class="line">curl -O http://example.com/1.jpg http://example/1.txt</span><br><span class="line"></span><br><span class="line"><span class="comment"># “存储指令”的读取和处理顺序与下载的URL的顺序相同，因此它们不一定要位于URL之后。你可以将所有输出选项放在最前面或最后面，或者与URL交错放置</span></span><br><span class="line">curl -o my_1.jpg http://example.com/1.jpg -o 2.jpg http://example.com/2.jpg</span><br><span class="line">curl -o my_1.jpg http://example.com/1.jpg http://example.com/2.jpg -o 2.jpg</span><br><span class="line">curl -o my_1.jpg -o 2.jpg http://example.com/1.jpg http://example.com/2.jpg</span><br><span class="line">curl http://example.com/1.jpg http://example.com/2.jpg -o my_1.jpg -o 2.jpg</span><br></pre></td></tr></table></figure>
+<h4 id="断点续传"><a class="markdownIt-Anchor" href="#断点续传"></a> 断点续传</h4>
+<p><code>-C</code> 或 <code>--continu-at</code> 选项可以指定开始传输的位置，选项的值可以是表示偏移量的普通的数字（单位：字节），或者使用字符串 <code>-</code> 让 curl 自动识别从哪里开始传输。</p>
+<p>如果使用 <code>-</code> ，那么 curl 将计算本地目标文件的数据量，并将其作为向服务器请求更多数据的偏移量。</p>
+<h3 id="使用-curl-发起-http-请求"><a class="markdownIt-Anchor" href="#使用-curl-发起-http-请求"></a> 使用 curl 发起 http 请求</h3>
+<p>curl 发起 http请求时，具体使用的请求方法取决于使用的选项。默认方法是 GET，<code>-d</code> 或 <code>-F</code> 选项对应 POST方法，<code>-I</code> 对应 HEAD 方法，<code>-T</code> 对应 PUT 方法。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">请求方法</th>
+<th style="text-align:center">选项</th>
+<th style="text-align:left">示例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">GET</td>
+<td style="text-align:center"><code>-G</code> 或 <code>--get</code></td>
+<td style="text-align:left"><code>curl -G http://example.com</code></td>
+</tr>
+<tr>
+<td style="text-align:center">POST</td>
+<td style="text-align:center"><code>-d</code> 或 <code>-F</code></td>
+<td style="text-align:left"><code>curl -d 'name=xiaoming&amp;age=12' http://example.com/</code></td>
+</tr>
+<tr>
+<td style="text-align:center">PUT</td>
+<td style="text-align:center"><code>-T</code> 或 <code>curl -T localfile http://example.com/new/resource/file</code></td>
+<td style="text-align:left"></td>
+</tr>
+<tr>
+<td style="text-align:center">DELETE</td>
+<td style="text-align:center"><code>-X DELETE</code></td>
+<td style="text-align:left"><code>curl -X DELETE http://example.com/file</code></td>
+</tr>
+</tbody>
+</table>
+<h4 id="get"><a class="markdownIt-Anchor" href="#get"></a> GET</h4>
+<p>curl 默认发起的 http 请求使用 GET 方法，也可以使用 <code>-G</code> 或 <code>--get</code> 选项显式的指定使用 GET 方法。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">curl https://www.example.com</span><br><span class="line">curl -G https://www.example.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 带参数的 GET 请求</span></span><br><span class="line">curl http://example.com/?<span class="built_in">id</span>=101&amp;name=xiaoming</span><br></pre></td></tr></table></figure>
+<h4 id="post"><a class="markdownIt-Anchor" href="#post"></a> POST</h4>
+<p>在 html 表单中填好表单后，浏览器会以URL编码的形式将数据发送出去，在 curl 中，可以使用 <code>-d</code> 或 <code>--data</code> 选项发送数据。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d <span class="string">&#x27;name=xiaoming&amp;age=12&#x27;</span> http://example.com/</span><br></pre></td></tr></table></figure>
+<p>在命令行上使用多个 <code>-d</code> 选项时，curl 会将它们串联起来，并在它们之间插入 <code>&amp;</code> 符号。以下命令和上面的是等价的:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d name=xiaoming -d age=12 http://example.com/</span><br></pre></td></tr></table></figure>
+<p>如果要发送的数据量不适合作为字符串放在命令行中，还可以从文件中读取：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d @filename http://example.com</span><br></pre></td></tr></table></figure>
+<h5 id="发送-json-格式数据"><a class="markdownIt-Anchor" href="#发送-json-格式数据"></a> 发送 JSON 格式数据</h5>
+<p>使用 curl 的 <code>-d</code> 选项发送 POST 请求时，请求中默认会包含一个类似 <code>Content-Type: application/x-www-form-urlencoded</code> 这样的标头。典型的浏览器在发送 POST 请求时也会使用这个标头。</p>
+<p>如果需要使用其他标头，可以使用 <code>-H</code> 指定想要的标头，如指定使用 JSON 格式传输数据:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -d <span class="string">&#x27;&#123;json&#125;&#x27;</span> -H <span class="string">&#x27;Content-Type: application/json&#x27;</span> http://example.com</span><br></pre></td></tr></table></figure>
+<h5 id="发送二进制内容"><a class="markdownIt-Anchor" href="#发送二进制内容"></a> 发送二进制内容</h5>
+<p>使用 <code>-d</code> 选项从文件读取内容时，回车符和换行符将被移除，可以使用 <code>--data-binary</code> 选项让 curl 从文件读取二进制内容。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --data-binary @filename http://example.com</span><br></pre></td></tr></table></figure>
+<h5 id="发送文件"><a class="markdownIt-Anchor" href="#发送文件"></a> 发送文件</h5>
+<p>在 html 的表单中要上传文件时（通常是 type 属性为 file 的 input 标签），表单的 enctype 属性被设置成 <code>multipart/form-data</code> ，使用 curl时，可以通过 <code>-F</code> 或 <code>--form</code> 选项添加每个单独的 multipart，然后继续为表单每个字段添加一个 <code>-F</code> 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -F name=xiaoming -F img=@my.png http://example.com</span><br></pre></td></tr></table></figure>
+<h4 id="put"><a class="markdownIt-Anchor" href="#put"></a> PUT</h4>
+<p><code>-T</code> 选项指定使用 PUT 方法，POST 和 PUT 非常相似，也可以用 <code>-d</code> 加上字符串来发送 PUT 请求：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl -T localfile http://example.com/new/resource/file</span><br><span class="line">curl -d <span class="string">&quot;data to PUT&quot;</span> -X PUT http://example.com/new/resource/file</span><br></pre></td></tr></table></figure>
+<h4 id="其他请求方法"><a class="markdownIt-Anchor" href="#其他请求方法"></a> 其他请求方法</h4>
+<p>使用 <code>-X</code> 或 <code>--request</code> 选项其他请求方法，如 <code>-X DELETE</code> 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -X DELETE http://example.com/file</span><br></pre></td></tr></table></figure>
+<h4 id="使用-cookie"><a class="markdownIt-Anchor" href="#使用-cookie"></a> 使用 cookie</h4>
+<p>使用 <code>-c</code> 选项将 cookie 写入指定文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -c cookie-jar.txt http://example.com</span><br></pre></td></tr></table></figure>
+<p>使用 <code>-b</code> 选项从文件读取初始 cookie：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -L -b cookies.txt http://example.com</span><br></pre></td></tr></table></figure>
+<p>使用 <code>-j</code> 或 <code>--junk-session-cookies</code> 选项让 curl 开始新的 cookie 会话：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -j -b cookies.txt http://example.com/</span><br></pre></td></tr></table></figure>
+<h4 id="身份认证"><a class="markdownIt-Anchor" href="#身份认证"></a> 身份认证</h4>
+<p>要让 curl 发出带有身份认证的 http 请求，可以使用 <code>-u</code> 或 <code>--user</code> 选项提供用户名和密码（用冒号分隔）。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -u admin:123456 http://example.com/</span><br></pre></td></tr></table></figure>
+<p>curl 默认使用 Basic 身份校验方法，如果想明确指定使用这个方法，可以使用 <code>--basic</code> 选项。</p>
+<p>如果要让 curl 先确认服务器是否真的需要身份验证，可以使用 <code>--anyauth</code> 选项，它会自动使用curl 所知道的最安全的身份验证方法。curl 将尝试无须身份验证的请求，然后在必要的时候使用身份验证。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl --anyauth -u admin:123456 http://example.com/</span><br></pre></td></tr></table></figure>
+<p>curl 通常支持几种身份验证方法，包括 Digest、Negotiate、NTLM，可以分别使用 <code>--digest</code> 、<code>--negotiate</code> 、<code>--ntlm</code> 选项指定。</p>
+<h4 id="请求-http-区间"><a class="markdownIt-Anchor" href="#请求-http-区间"></a> 请求 http 区间</h4>
+<p>curl 支持获取http 资源的指定范围内容，如获取远程资源前 200 个字节或中间 300 个字节，使用 <code>-r</code> 或 <code>--range</code> 选项发起区间请求。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获取前200个字节</span></span><br><span class="line">curl -r 0-199 http://example.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 索引200之后的所有内容</span></span><br><span class="line">curl -r 200- http://example.com</span><br><span class="line"></span><br><span class="line"><span class="comment"># 从索引0处获取200个字节，再从索引800处获取200个字节</span></span><br><span class="line">curl -r 0-199,800-199 http://example.com</span><br></pre></td></tr></table></figure>
+<h4 id="压缩"><a class="markdownIt-Anchor" href="#压缩"></a> 压缩</h4>
+<p>HTTP 支持压缩传输响应消息，curl 中使用 <code>--compressed</code> 选项请求压缩后进行数据传输，可使用 <code>--tr-encoding</code> 选项指定压缩传输编码。</p>
+<p>服务端接受压缩传输请求后，通常会在响应头中携带 <code>Content-Encoding: gzip</code> 的标头，通知客户端内容经过了压缩。</p>
+<p>在接收压缩的内容后，curl 会自动进行解压。</p>
+<h4 id="指定-http-协议版本"><a class="markdownIt-Anchor" href="#指定-http-协议版本"></a> 指定 http 协议版本</h4>
+<p>使用如下选项指定使用的 HTTP 协议版本：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">选项</th>
+<th style="text-align:center">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>--http1.0</code></td>
+<td style="text-align:center">HTTP/1.0</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>--http1.1</code></td>
+<td style="text-align:center">HTTP/1.1</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>http2</code></td>
+<td style="text-align:center">HTTP/2</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>http3</code></td>
+<td style="text-align:center">HTTP/3</td>
+</tr>
+</tbody>
+</table>
+<h3 id="ftp-请求"><a class="markdownIt-Anchor" href="#ftp-请求"></a> FTP 请求</h3>
+<h4 id="关于ftp的一些知识"><a class="markdownIt-Anchor" href="#关于ftp的一些知识"></a> 关于FTP的一些知识</h4>
+<p>使用 FTP 传输数据时，会创建两个 TCP 连接：</p>
+<p>1、客户端连接到 FTP 服务器时建立第一个连接，称作控制连接。作为初始连接，它将负责处理身份验证、切换到正确的远程服务器目录，等等。</p>
+<p>2、当客户端准备好传输文件时，第二个TCP连接将建立，并通过这个连接传输数据。</p>
+<p>FTP的主动模式和被动模式：</p>
+<p><strong>主动模式</strong>：在建立数据传输的TCP连接时，客户端可以请求服务器回连到客户端来建立连接，即所谓的“主动”连接。</p>
+<p><strong>被动模式</strong>：客户端向服务器发送 PASV 或 EPSV 命令，服务器为第二个连接打开一个新端口，然后客户端会连接到这个端口上。curl默认请求使用被动模式。</p>
+<h4 id="上传文件"><a class="markdownIt-Anchor" href="#上传文件"></a> 上传文件</h4>
+<p>使用 FTP 上传文件时，需要在 URL 中指定整个目标文件的路径和名字，并用 <code>-T</code> 或 <code>--upload-file</code> 选项指定要上传的本地文件。</p>
+<blockquote>
+<p>如果目标URL以斜杠结尾，curl会自动将本地路径中的文件名追加到URL中，并将其作为远程文件名。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -T localfile ftp://ftp.example.com/dir/path/</span><br></pre></td></tr></table></figure>
+<p>curl 使用 FTP 上传文件时，<code>-T</code> 参数支持通配符，可一次指定上传多个文件。</p>
+<h4 id="安全文件传输"><a class="markdownIt-Anchor" href="#安全文件传输"></a> 安全文件传输</h4>
+<p>SCP 和 SFTP 都是建立在 SSH 之上的协议，SSH是一种类似于 TLS 的安全加密数据协议，但在某些方面有所不同。例如，SSH不使用任何类型的证书，而是使用公钥和私钥。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">curl sftp://example.com/file.zip -u user</span><br><span class="line">curl scp://example.com/file.zip -u user</span><br></pre></td></tr></table></figure>
+<p>如果 URL 以斜杠 <code>/</code> 结尾，SFTP（不是SCP）可以获取文件列表：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl sftp://example.com/ -u user</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>FTP 与 SFTP、SCP 的 URL 路径区别：<br />
+SFTP 或 SCP 请求文件时，URL 中的文件路径被视为远程服务器上的绝对路径。可以使用 /~/ 来指定用户主目录的相对路径。<br />
+FTP 请求文件时， URL 中的路径是相对路径。</p>
+</blockquote>
+<p>使用基于密钥的安全传输时，如 SFTP、SCP，curl会先确认服务器是否可被信任，即检查 <code>known_hosts</code> 中是否存在目标主机的密钥散列，检查通过后 curl 就会开始执行传输。想强制 curl 跳过检查，可以使用 <code>-k</code> 或 <code>--insecure</code> 选项。</p>
+<blockquote>
+<p>在Linux系统上， <code>known_hosts</code> 文件通常存放在 <code>~/.ssh</code> 目录。</p>
+</blockquote>
+<h3 id="邮件请求"><a class="markdownIt-Anchor" href="#邮件请求"></a> 邮件请求</h3>
+<p>curl 支持邮件协议，可以收发邮件。</p>
+<h4 id="使用-pop3-读取邮件"><a class="markdownIt-Anchor" href="#使用-pop3-读取邮件"></a> 使用 POP3 读取邮件</h4>
+<p>列出消息编号和大小：<code>curl pop3://mail.example.com/</code></p>
+<p>下载消息1：<code>curl pop3://mail.example.com/1</code></p>
+<p>删除消息1：<code>curl --request DELE pop3://mail.example.com/1</code></p>
+<h4 id="使用-smtp-发送邮件"><a class="markdownIt-Anchor" href="#使用-smtp-发送邮件"></a> 使用 SMTP 发送邮件</h4>
+<p>发送邮件时，下面两个参数是必须的：</p>
+<ul>
+<li>
+<p><code>--mail-rcpt</code> 选项指定收件人的邮箱（至少一个）</p>
+</li>
+<li>
+<p><code>--mail-from</code> 选项指定发件人的邮箱</p>
+</li>
+</ul>
+<p>发送邮件时，邮件数据是一个使用RFC 5322 指定格式的文本文件，它由一组标头和正文组成，标头和正文都需要进行正确编码。</p>
+<p>标头通常包括 <code>To:</code>、<code>From:</code>、<code>Subject:</code>、<code>Date:</code> 等</p>
+<p>如果邮箱支持 SSL 端口，可以用 <code>smtps://</code> 代替 <code>smtp://</code>，默认的 SMTP SSL 端口为 465 。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl smtp://mail.example.com --mail-form xiaoming@example.com --mail-rcpt daming@example.com --upload-file example.txt</span><br></pre></td></tr></table></figure>
+<p>example.txt:</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">From: Xiaoming&lt;xiaoming@example.com&gt;</span><br><span class="line">To: Daming&lt;daming@example.com&gt;</span><br><span class="line">Subject: Example email</span><br><span class="line">Date: Mon 23 Set 2025 23:19:00</span><br><span class="line"></span><br><span class="line">Dear Daming,</span><br><span class="line">xxxx....</span><br></pre></td></tr></table></figure>
+<h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
+<ul>
+<li>丹尼尔·斯坦伯格.《cURL必知必会》.20200101</li>
+<li>Everything curl: <a target="_blank" rel="noopener" href="https://ec.haxx.se/">https://ec.haxx.se/</a></li>
+<li>github everything-curl: <a target="_blank" rel="noopener" href="https://github.com/bagder/everything-curl">https://github.com/bagder/everything-curl</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/test/" rel="tag"># test</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag"># 网络</a>
+              <a href="/tags/%E7%BB%88%E7%AB%AF/" rel="tag"># 终端</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/09/04/Jenkins%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83Hexo%E5%8D%9A%E5%AE%A2/" rel="prev" title="Jenkins自动发布Hexo博客">
+                  <i class="fa fa-angle-left"></i> Jenkins自动发布Hexo博客
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/02/12/ubuntu%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%83%A8%E7%BD%B2prometheus%E7%9B%91%E6%8E%A7/" rel="next" title="ubuntu服务器部署prometheus监控">
+                  ubuntu服务器部署prometheus监控 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 ESP8266 作为远程控制器，接入 Home Assistant，实现从 Home Assistant 远程控制开关 LED 灯。这篇文章介绍了使用 ESPHome 从配置文件生成 ESP8266 固件，然后使用乐鑫官方提供的烧录工具烧录固件到板卡，最后将ESP8266 接入到 Home Assistant 进行开关灯控制。  远程控制原理 在局域网中搭建 Home Assistant">
+<meta property="og:type" content="article">
+<meta property="og:title" content="esp8266 远程点灯">
+<meta property="og:url" content="https://www.wqf31415.xyz/2025/09/01/esp8266-%E4%BD%BF%E7%94%A8EspHome%E6%8E%A5%E5%85%A5HomeAssistant%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 ESP8266 作为远程控制器，接入 Home Assistant，实现从 Home Assistant 远程控制开关 LED 灯。这篇文章介绍了使用 ESPHome 从配置文件生成 ESP8266 固件，然后使用乐鑫官方提供的烧录工具烧录固件到板卡，最后将ESP8266 接入到 Home Assistant 进行开关灯控制。  远程控制原理 在局域网中搭建 Home Assistant">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_page_home.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_add_device.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_create_device_config.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_create_device_type.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_create_device_config_ok.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_create_device_install_select.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_create_device_install_compile_finish.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/flash_download_tool_start.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/flash_download_tool_down.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/flash_download_tool_down_finish.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/home_assistant_notice.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/home_assistant_notice_content.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/home_assistant_find_esphome_device.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_device_list.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_device_edit.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_device_config_install.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_create_device_config_install.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/esp8266/home_assistant_esp8266_led_switch.png">
+<meta property="article:published_time" content="2025-09-01T01:06:00.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.114Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="ESPHome">
+<meta property="article:tag" content="HomeAssistant">
+<meta property="article:tag" content="IoT">
+<meta property="article:tag" content="esp8266">
+<meta property="article:tag" content="开发板">
+<meta property="article:tag" content="硬件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/esp8266/esphome_page_home.png">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2025/09/01/esp8266-%E4%BD%BF%E7%94%A8EspHome%E6%8E%A5%E5%85%A5HomeAssistant%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2025/09/01/esp8266-%E4%BD%BF%E7%94%A8EspHome%E6%8E%A5%E5%85%A5HomeAssistant%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF/","path":"2025/09/01/esp8266-使用EspHome接入HomeAssistant远程点灯/","title":"esp8266 远程点灯"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>esp8266 远程点灯 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text"> 远程控制原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6%E4%B8%8E%E6%A6%82%E5%BF%B5"><span class="nav-number">3.</span> <span class="nav-text"> 核心组件与概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#esp8266"><span class="nav-number">3.1.</span> <span class="nav-text"> ESP8266</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BA%E4%BB%B6%E7%83%A7%E5%BD%95%E5%B7%A5%E5%85%B7"><span class="nav-number">3.2.</span> <span class="nav-text"> 固件烧录工具</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#esphome"><span class="nav-number">3.3.</span> <span class="nav-text"> ESPHome</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#home-assistant"><span class="nav-number">3.4.</span> <span class="nav-text"> Home Assistant</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#docker"><span class="nav-number">3.5.</span> <span class="nav-text"> Docker</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text"> 实现流程</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9F%BA%E7%A1%80%E7%8E%AF%E5%A2%83"><span class="nav-number">4.1.</span> <span class="nav-text"> 基础环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#esphome-%E7%8E%AF%E5%A2%83%E5%87%86%E5%A4%87"><span class="nav-number">4.2.</span> <span class="nav-text"> ESPHome 环境准备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-esphome-%E7%94%9F%E6%88%90-esp8266-%E5%9B%BA%E4%BB%B6"><span class="nav-number">4.3.</span> <span class="nav-text"> 使用 ESPHome 生成 ESP8266 固件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%83%A7%E5%BD%95%E5%9B%BA%E4%BB%B6%E5%88%B0-esp8266-%E5%BC%80%E5%8F%91%E6%9D%BF"><span class="nav-number">4.4.</span> <span class="nav-text"> 烧录固件到 ESP8266 开发板</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E8%AE%BE%E5%A4%87%E5%88%B0homeassistant"><span class="nav-number">4.5.</span> <span class="nav-text"> 添加设备到HomeAssistant</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E6%8E%A7%E5%88%B6led%E7%9A%84%E9%85%8D%E7%BD%AE"><span class="nav-number">4.6.</span> <span class="nav-text"> 添加控制LED的配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%AA%8C%E8%AF%81%E8%BF%9C%E7%A8%8B%E6%8E%A7%E5%88%B6%E7%82%B9%E7%81%AF"><span class="nav-number">4.7.</span> <span class="nav-text"> 验证远程控制点灯</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BC%98%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="nav-number">4.8.</span> <span class="nav-text"> 优化配置</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">5.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2025/09/01/esp8266-%E4%BD%BF%E7%94%A8EspHome%E6%8E%A5%E5%85%A5HomeAssistant%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="esp8266 远程点灯 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          esp8266 远程点灯<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/esp8266-%E4%BD%BF%E7%94%A8EspHome%E6%8E%A5%E5%85%A5HomeAssistant%E8%BF%9C%E7%A8%8B%E7%82%B9%E7%81%AF.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2025-09-01 01:06:00" itemprop="dateCreated datePublished" datetime="2025-09-01T01:06:00+00:00">2025-09-01</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/HomeAssistant/" itemprop="url" rel="index"><span itemprop="name">HomeAssistant</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>ESP8266 作为远程控制器，接入 Home Assistant，实现从 Home Assistant 远程控制开关 LED 灯。这篇文章介绍了使用 ESPHome 从配置文件生成 ESP8266 固件，然后使用乐鑫官方提供的烧录工具烧录固件到板卡，最后将ESP8266 接入到 Home Assistant 进行开关灯控制。</p>
+<h3 id="远程控制原理"><a class="markdownIt-Anchor" href="#远程控制原理"></a> 远程控制原理</h3>
+<p>在局域网中搭建 Home Assistant 和 ESPHome 服务，ESP8266 设备烧录固件后通过 wifi 接入网络，自动识别添加到 Home Assistant。</p>
+<span id="more"></span>
+<h3 id="核心组件与概念"><a class="markdownIt-Anchor" href="#核心组件与概念"></a> 核心组件与概念</h3>
+<h4 id="esp8266"><a class="markdownIt-Anchor" href="#esp8266"></a> ESP8266</h4>
+<p>ESP8266 官方介绍: <a target="_blank" rel="noopener" href="https://www.espressif.com.cn/zh-hans/products/socs/esp8266">https://www.espressif.com.cn/zh-hans/products/socs/esp8266</a></p>
+<blockquote>
+<p>ESP8266 是 <a target="_blank" rel="noopener" href="https://www.espressif.com/">乐鑫信息科技公司</a> 开发的一款 wifi 模块，具有低功耗、高集成度的 wifi 芯片，内封了 8 Mbit 的 Flash，集成了低功耗的 32 位 <abbr title="微控制单元(Microcontroller Unit；MCU)">MCU</abbr>，带有 16 位精简模式，主频支持 80 MHz 和 160 Mhz，支持 RTOS，支持标准 IEEE802.11 b/g/n 协议，完整的 TCP/IP 协议栈。用户可以使用该模块为现有的设备添加联网功能，也可以构建独立的网络控制器。</p>
+</blockquote>
+<h4 id="固件烧录工具"><a class="markdownIt-Anchor" href="#固件烧录工具"></a> 固件烧录工具</h4>
+<p>乐鑫官网提供的模组固件烧录工具，支持乐鑫所有芯片模组的固件烧录。</p>
+<p>Flash 下载工具用户指南：<a target="_blank" rel="noopener" href="https://docs.espressif.com/projects/esp-test-tools/zh_CN/latest/esp8266/production_stage/tools/flash_download_tool.html">https://docs.espressif.com/projects/esp-test-tools/zh_CN/latest/esp8266/production_stage/tools/flash_download_tool.html</a></p>
+<h4 id="esphome"><a class="markdownIt-Anchor" href="#esphome"></a> ESPHome</h4>
+<p>ESPHome: <a target="_blank" rel="noopener" href="https://esphome.io/">https://esphome.io/</a></p>
+<p>ESPHome 是一个开源的固件框架，可用于配置和管理基于 ESP8266 、ESP32、RP2040 等微控制器的智能家居设备。它通过简单的 YAML 配置文件来简化设备的设置和集成过程，使得用户无需编写复杂的代码即可实现设备的自定义和控制。支持接入Home Assistant、GoogleHome 等智能家居平台，提供自动发现功能。</p>
+<h4 id="home-assistant"><a class="markdownIt-Anchor" href="#home-assistant"></a> Home Assistant</h4>
+<p>Home Assistant: <a target="_blank" rel="noopener" href="https://www.home-assistant.io/">https://www.home-assistant.io/</a></p>
+<p>Home Assistant（简称 HA）是一款开源的智能家居自动化平台，专注于本地化控制、隐私保护和多设备兼容性。它允许用户将不同品牌的智能设备整合到一个统一的系统中，并通过自动化规则实现设备联动。</p>
+<h4 id="docker"><a class="markdownIt-Anchor" href="#docker"></a> Docker</h4>
+<p>Docker: <a target="_blank" rel="noopener" href="https://www.docker.com/">https://www.docker.com/</a></p>
+<p>Docker 是一个开源的容器化平台，用于开发、部署和运行应用程序。它允许开发者将应用及其依赖打包成轻量级、可移植的容器，确保应用在不同环境中一致运行。</p>
+<h3 id="实现流程"><a class="markdownIt-Anchor" href="#实现流程"></a> 实现流程</h3>
+<h4 id="基础环境"><a class="markdownIt-Anchor" href="#基础环境"></a> 基础环境</h4>
+<p>这次测试用到了 3 台主机，一台 Windows 主机用于访问和操作 Home Assistant 与 ESPHome 界面，同时用于连接 ESP8266 开发板进行固件烧录。一台 Linux 小主机安装了 docker 与 docker-compose 用于运行 ESPHome。第三个设备是退休的玩客云，刷了 armbian 系统，安装 Home Assistant。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center"></th>
+<th style="text-align:center">主机1</th>
+<th style="text-align:center">主机2</th>
+<th style="text-align:center">主机3</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">操作系统</td>
+<td style="text-align:center">Windows 10</td>
+<td style="text-align:center">Ubuntu 24.04</td>
+<td style="text-align:center">armbian 12</td>
+</tr>
+<tr>
+<td style="text-align:center">内存</td>
+<td style="text-align:center">16G</td>
+<td style="text-align:center">4G</td>
+<td style="text-align:center">1G</td>
+</tr>
+<tr>
+<td style="text-align:center">硬盘</td>
+<td style="text-align:center">1T</td>
+<td style="text-align:center">64G</td>
+<td style="text-align:center">8G</td>
+</tr>
+<tr>
+<td style="text-align:center">docker版本</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">28.1.1</td>
+<td style="text-align:center">28.1.1</td>
+</tr>
+<tr>
+<td style="text-align:center">docker-compose版本</td>
+<td style="text-align:center">无</td>
+<td style="text-align:center">v2.33.1</td>
+<td style="text-align:center">无</td>
+</tr>
+<tr>
+<td style="text-align:center">IP</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">192.168.2.202</td>
+<td style="text-align:center">192.168.2.243</td>
+</tr>
+</tbody>
+</table>
+<h4 id="esphome-环境准备"><a class="markdownIt-Anchor" href="#esphome-环境准备"></a> ESPHome 环境准备</h4>
+<p>由于我的 Home Assistant 是用 docker 安装的，容器版的 Home Assistant 不支持扩展功能，无法直接在扩展中安装 ESPHome，因此使用 docker 在 Linux 小主机上单独安装 ESPHome。</p>
+<blockquote>
+<p>官方的安装指导：<a target="_blank" rel="noopener" href="https://esphome.io/guides/getting_started_command_line/">https://esphome.io/guides/getting_started_command_line/</a></p>
+</blockquote>
+<p>由于国内访问 docker 仓库网络受阻，通过 github 从 docker 官方仓库下载了 ESPHome 的镜像 <code>esphome/esphome</code>，版本是 <code>stable</code> ，上传到 linux 小主机，执行指令 <code>docker load -i esphome_esphome_stable-amd64.tar.gz</code> 加载镜像。</p>
+<p>创建文件路径，包括存放 docker-compose 配置文件目录、esphome 配置目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">mkdir</span> -p docker-compose/esphome</span><br><span class="line"><span class="built_in">cd</span> docker-compose/esphome</span><br><span class="line"><span class="built_in">mkdir</span> config</span><br></pre></td></tr></table></figure>
+<p>编辑 docker-compose 配置文件，<code>vim esphome.yml</code> ，内容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3&#x27;</span></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="attr">esphome:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">esphome/esphome:stable</span></span><br><span class="line">    <span class="attr">privileged:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/data/esphome/config:/config</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">/etc/localtime:/etc/localtime:ro</span></span><br><span class="line">    <span class="attr">privileged:</span> <span class="literal">true</span></span><br><span class="line">    <span class="attr">network_mode:</span> <span class="string">host</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">USERNAME=admin</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">PASSWORD=123456</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br></pre></td></tr></table></figure>
+<p>运行 ESPHome 容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose -f esphome.yml up -d</span><br></pre></td></tr></table></figure>
+<p>运行成功后，打开浏览器，访问主机的 6052 端口验证是否成功启动，我的访问地址是：<a target="_blank" rel="noopener" href="http://192.168.2.202:6052">http://192.168.2.202:6052</a> ，登录用户名密码是 decker-compse.yml 中设置的，我这里的用户名是 admin，密码是 123456。</p>
+<blockquote>
+<p>推荐使用最新版本的谷歌浏览器或edge浏览器，使用国产360急速浏览器发现设备配置编辑、加密信息页面打开是空白的。</p>
+</blockquote>
+<p><img src="/images/post/esp8266/esphome_page_home.png" alt="" /></p>
+<h4 id="使用-esphome-生成-esp8266-固件"><a class="markdownIt-Anchor" href="#使用-esphome-生成-esp8266-固件"></a> 使用 ESPHome 生成 ESP8266 固件</h4>
+<p>进入到eshome页面，点击页面中 <code>+ NEW DEVICE</code> 按钮，添加新设备，弹框提示需要通过usb将设备接入电脑，我们点击继续 <code>CONTINUE</code> 按钮。</p>
+<p><img src="/images/post/esp8266/esphome_add_device.png" alt="" /></p>
+<p>页面弹框提示需要输入设备名称、网络名称和密码，我这里设定设备名称为 <code>test-001</code>，网络名称为我家的WiFi名称，密码为WiFi密码。点击 <code>NEXT</code> 。</p>
+<p><img src="/images/post/esp8266/esphome_create_device_config.png" alt="" /></p>
+<p>页面弹框显示需要选择设备类型，这里点击选项 <code>ESP8266</code>。</p>
+<p><img src="/images/post/esp8266/esphome_create_device_type.png" alt="" /></p>
+<p>页面弹框显示配置已创建，并显示了一个秘钥，把这个秘钥复制保存下来，点击 <code>INSTALL</code> 按钮。</p>
+<p><img src="/images/post/esp8266/esphome_create_device_config_ok.png" alt="" /></p>
+<p>页面提示选择安装配置到设备的方式，这里是第一次安装，需要选择 <code>Manual download</code>，即手动下载安装。</p>
+<p><img src="/images/post/esp8266/esphome_create_device_install_select.png" alt="" /></p>
+<p>页面弹出编译固件界面，这里需要从网络下载需要的包，并完成固件编译，编译完成后触发浏览器下载文档到本地。</p>
+<p><img src="/images/post/esp8266/esphome_create_device_install_compile_finish.png" alt="" /></p>
+<h4 id="烧录固件到-esp8266-开发板"><a class="markdownIt-Anchor" href="#烧录固件到-esp8266-开发板"></a> 烧录固件到 ESP8266 开发板</h4>
+<p>将 ESP8266 设备连接到电脑上，我这里是连接在串口3上。</p>
+<p>打开从乐鑫官网下载的固件烧录程序，弹框提示选择烧录固件的芯片类型，Chip Type 选择 <code>ESP8266</code> ，WorkMode 选择 <code>Develop</code> ，点击 <code>OK</code> 进入烧录界面。</p>
+<p><img src="/images/post/esp8266/flash_download_tool_start.png" alt="" /></p>
+<p>选择下载的固件文件，地址填 <code>0x00</code>，<code>COM</code> 端口选择ESP8266 连接的串口 <code>COM3</code>，点击 <code>START</code> 开始烧录。</p>
+<p><img src="/images/post/esp8266/flash_download_tool_down.png" alt="" /></p>
+<p>等待一会，烧录完成后界面显示 <code>FINISH完成</code> 。按一下板卡上的 <code>RST</code> 按钮，或断电重连。</p>
+<p><img src="/images/post/esp8266/flash_download_tool_down_finish.png" alt="" /></p>
+<h4 id="添加设备到homeassistant"><a class="markdownIt-Anchor" href="#添加设备到homeassistant"></a> 添加设备到HomeAssistant</h4>
+<p>登录到 HomeAssistant 页面，发现有新的通知，点击查看。</p>
+<p><img src="/images/post/esp8266/home_assistant_notice.png" alt="" /></p>
+<p>HomeAssistant通知提示在网络中发现新的设备，我们点击 <code>Check it out</code> ，进入设备配置页面。</p>
+<p><img src="/images/post/esp8266/home_assistant_notice_content.png" alt="" /></p>
+<p>在HomeAssistant的设备配置页面中有一个标记为 <code>已发现</code> 的设备，点击 <code>配置</code> 按钮，提示是否要添加到 HomeAssistant，点击 <code>提交</code>。</p>
+<p><img src="/images/post/esp8266/home_assistant_find_esphome_device.png" alt="" /></p>
+<p>弹框提示需要输入设备加密秘钥，我们将上一步获取到的设备秘钥填入，点击 <code>提交</code> ，这样设备就被添加到了 HomeAssistant 中。</p>
+<h4 id="添加控制led的配置"><a class="markdownIt-Anchor" href="#添加控制led的配置"></a> 添加控制LED的配置</h4>
+<p>登录到 esphome 页面，页面中显示了添加的设备，且设备显示状态为在线 <code>ONLINE</code> ，点击 <code>EDIT</code> 按钮编辑设备配置。</p>
+<p><img src="/images/post/esp8266/esphome_device_list.png" alt="" /></p>
+<p>在配置编辑页面中添加如下配置，点击 <code>SAVE</code> 按钮或按 Ctrl+S 快捷键保存配置，点击 <code>INSTALL</code> 按钮安装到设备。</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">switch:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">platform:</span> <span class="string">gpio</span></span><br><span class="line">    <span class="attr">pin:</span> <span class="string">GPIO02</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">&quot;LED BUILTIN&quot;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/post/esp8266/esphome_device_edit.png" alt="" /></p>
+<p>弹框提示选择安装配置的方式，点击 <code>Wirelessly</code> 无线安装。</p>
+<blockquote>
+<p>设备已经通过无线方式注册到 esphome 中了，所以可以使用 ota 方式进行升级。</p>
+</blockquote>
+<p><img src="/images/post/esp8266/esphome_device_config_install.png" alt="" /></p>
+<p>等待编译完成，完成后 esphome 会通过WiFi将固件包传给ESP8266，并完成安装。</p>
+<p><img src="/images/post/esp8266/esphome_create_device_config_install.png" alt="" /></p>
+<h4 id="验证远程控制点灯"><a class="markdownIt-Anchor" href="#验证远程控制点灯"></a> 验证远程控制点灯</h4>
+<p>等待esphome将修改后的配置安装到设备后，设备会自动重启，不需要再手动按 RST按键。</p>
+<p>登录 HomeAssistant 页面，在概览页面找到添加的设备，发现开关按钮和状态显示，点击开关按钮，查看ESP8266板卡上的LED，发现通过HomeAssistant页面上的按钮可以控制板载LED灯的亮和灭。</p>
+<p><img src="/images/post/esp8266/home_assistant_esp8266_led_switch.png" alt="" /></p>
+<blockquote>
+<p>但是这里有个问题，HomeAssistant页面显示的开关状态和灯的状态是相反的，即页面显示是关，ESP8266上的灯是亮的。原因是我们使用ESP8266的2号引脚控制板载LED，这个引脚为高电平时LED灯熄灭，这个引脚为低电平时LED灯点亮。</p>
+</blockquote>
+<h4 id="优化配置"><a class="markdownIt-Anchor" href="#优化配置"></a> 优化配置</h4>
+<p>esphome 的开关提供了状态逆转配置项 <code>inverted</code> ，添加这个配置项并将其设置为 <code>true</code> ，重新安装到设备，发现开关控制状态和板载LED灯状态一致。</p>
+<p>完整配置内容如下：</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">esphome:</span></span><br><span class="line">  <span class="attr">name:</span> <span class="string">test-001</span></span><br><span class="line">  <span class="attr">friendly_name:</span> <span class="string">test_001</span></span><br><span class="line"></span><br><span class="line"><span class="attr">esp8266:</span></span><br><span class="line">  <span class="attr">board:</span> <span class="string">esp01_1m</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable logging</span></span><br><span class="line"><span class="attr">logger:</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Enable Home Assistant API</span></span><br><span class="line"><span class="attr">api:</span></span><br><span class="line">  <span class="attr">encryption:</span></span><br><span class="line">    <span class="attr">key:</span> <span class="string">&quot;iWlG3sG+FXXhp+9xPFR8IpCxPvQW+gweZ47ijvjZRR0=&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">ota:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">platform:</span> <span class="string">esphome</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">&quot;9c546b72baa8ca4b339253548fd7c839&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">wifi:</span></span><br><span class="line">  <span class="attr">ssid:</span> <span class="type">!secret</span> <span class="string">wifi_ssid</span></span><br><span class="line">  <span class="attr">password:</span> <span class="type">!secret</span> <span class="string">wifi_password</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Enable fallback hotspot (captive portal) in case wifi connection fails</span></span><br><span class="line">  <span class="attr">ap:</span></span><br><span class="line">    <span class="attr">ssid:</span> <span class="string">&quot;Test-001 Fallback Hotspot&quot;</span></span><br><span class="line">    <span class="attr">password:</span> <span class="string">&quot;QLlqZI6DKXSD&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">captive_portal:</span></span><br><span class="line"><span class="attr">switch:</span></span><br><span class="line">  <span class="bullet">-</span> <span class="attr">platform:</span> <span class="string">gpio</span></span><br><span class="line">    <span class="attr">pin:</span> <span class="string">GPIO02</span></span><br><span class="line">    <span class="attr">name:</span> <span class="string">&quot;LED BUILTIN&quot;</span></span><br><span class="line">    <span class="attr">inverted:</span> <span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>这篇文章中涉及到的知识点包括：</p>
+<ul>
+<li>使用 Docker 运行 ESPHome 容器，将 ESPHome 接入到 Home Assistant。</li>
+<li>使用 ESPHome 生成 ESP8266 开发板固件，修改 ESPHome 的配置脚本，添加控制板载 LED 的控制开关配置。更多的配置选项可参考 esphome 官方文档。</li>
+<li>使用乐鑫官方Flash烧录工具给 ESP8266 烧录固件，操作方式可扩展到 ESP32 开发板。</li>
+<li>更多玩法：参考 ESPHome 官方文档，添加传感器，采集传感器数据上报到 Home Assistant。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/IoT/" rel="tag"># IoT</a>
+              <a href="/tags/esp8266/" rel="tag"># esp8266</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91%E6%9D%BF/" rel="tag"># 开发板</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag"># 硬件</a>
+              <a href="/tags/ESPHome/" rel="tag"># ESPHome</a>
+              <a href="/tags/HomeAssistant/" rel="tag"># HomeAssistant</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2025/08/30/%E8%AE%A4%E8%AF%86%E5%92%8C%E4%BD%BF%E7%94%A8TCP%E5%8D%8F%E8%AE%AE/" rel="prev" title="认识和使用TCP协议">
+                  <i class="fa fa-angle-left"></i> 认识和使用TCP协议
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2025/09/04/Jenkins%E8%87%AA%E5%8A%A8%E5%8F%91%E5%B8%83Hexo%E5%8D%9A%E5%AE%A2/" rel="next" title="Jenkins自动发布Hexo博客">
+                  Jenkins自动发布Hexo博客 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

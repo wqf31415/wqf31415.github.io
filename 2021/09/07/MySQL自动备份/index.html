@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="概述 这篇文章介绍了 MySQL 数据库自动备份的方式，包括使用 Navicat 工具备份和使用 MySQL 自带的 mysqldump 工具备份。">
 <meta property="og:type" content="article">
@@ -26,27 +26,26 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="概述 这篇文章介绍了 MySQL 数据库自动备份的方式，包括使用 Navicat 工具备份和使用 MySQL 自带的 mysqldump 工具备份。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/data-ball.jpg">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_1.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_2.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_3.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_4.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_5.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_6.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_7.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_8.png">
-<meta property="article:published_time" content="2021-09-07T05:10:59.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.251Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/data-ball.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/navicat_data_backup_1.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/navicat_data_backup_2.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/navicat_data_backup_3.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/navicat_data_backup_4.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/navicat_data_backup_5.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/navicat_data_backup_6.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/navicat_data_backup_7.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/mysql/navicat_data_backup_8.webp">
+<meta property="article:published_time" content="2021-09-07T13:10:59.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.111Z">
 <meta property="article:author" content="This_Wei">
-<meta property="article:tag" content="mysql">
 <meta property="article:tag" content="database">
+<meta property="article:tag" content="mysql">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/data-ball.jpg">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/mysql/data-ball.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2021/09/07/MySQL%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/09/07/MySQL%E8%87%AA%E5%8A%A8%E5%A4%87%E4%BB%BD/","path":"2021/09/07/MySQL自动备份/","title":"MySQL自动备份"}</script>
@@ -55,10 +54,29 @@
 <title>MySQL自动备份 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -140,18 +158,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -221,14 +239,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-09-07 13:10:59" itemprop="dateCreated datePublished" datetime="2021-09-07T13:10:59+08:00">2021-09-07</time>
+      <time title="创建时间：2021-09-07 13:10:59" itemprop="dateCreated datePublished" datetime="2021-09-07T13:10:59+00:00">2021-09-07</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -251,7 +269,7 @@
     
     <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
 <p>这篇文章介绍了 MySQL 数据库自动备份的方式，包括使用 Navicat 工具备份和使用 MySQL 自带的 <code>mysqldump</code> 工具备份。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/data-ball.jpg" alt="" /></p>
+<p><img src="/images/post/mysql/data-ball.webp" alt="" /></p>
 <span id="more"></span>
 <h3 id="使用-navicat-自动备份"><a class="markdownIt-Anchor" href="#使用-navicat-自动备份"></a> 使用 Navicat 自动备份</h3>
 <p>使用 Navicat 自动备份数据库，可以定时自动备份，备份完成后还可以通过邮件通知用户。操作时需要先创建 <code>批处理作业</code> ，然后给批处理作业设置计划任务，设置完成后即可自动执行。</p>
@@ -268,34 +286,34 @@
 </li>
 <li>
 <p>点击 <code>计划</code> ， <code>新建批处理作业</code></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_1.png" alt="" /></p>
+<p><img src="/images/post/mysql/navicat_data_backup_1.webp" alt="" /></p>
 </li>
 <li>
 <p>打开数据库连接，点击选择要备份的数据库（jhdemo），双击 <code>可用任务</code> 中的 <code>Backup jhdemo</code>，这个任务会出现在下方 <code>已选择任务</code> 中，点击保存；</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_2.png" alt="" /></p>
+<p><img src="/images/post/mysql/navicat_data_backup_2.webp" alt="" /></p>
 </li>
 <li>
 <p>输入名字后点击确定，关闭对话框；</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_3.png" alt="" /></p>
+<p><img src="/images/post/mysql/navicat_data_backup_3.webp" alt="" /></p>
 </li>
 <li>
 <p>回到 <code>计划</code> 页面，选择刚才保存的批处理作业，点击 <code>设置计划任务</code></p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_4.png" alt="" /></p>
+<p><img src="/images/post/mysql/navicat_data_backup_4.webp" alt="" /></p>
 </li>
 <li>
 <p>在弹出的对话框中，点击 <code>计划</code> 选项卡中的新建，设定计划周期和时间，点击确定；周期可选每天、每周、每月、一次性、系统启动时、系统空闲时、登陆时，高级选项中还可以设置任务开始结束日期。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_5.png" alt="" /></p>
+<p><img src="/images/post/mysql/navicat_data_backup_5.webp" alt="" /></p>
 </li>
 <li>
 <p>输入电脑的密码，点击 <strong>确定</strong> 即可完成设置</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_6.png" alt="" /></p>
+<p><img src="/images/post/mysql/navicat_data_backup_6.webp" alt="" /></p>
 <p>备份事例：</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_7.png" alt="" /></p>
+<p><img src="/images/post/mysql/navicat_data_backup_7.webp" alt="" /></p>
 </li>
 </ul>
 <p>设置邮件推送：</p>
 <p>在创建批处理任务时（或编辑已创建批处理任务时），可点击点击 <code>高级</code> 选项卡，勾选 <code>传送邮件</code> 选项卡，填入收件人、发件邮箱等相关信息即可。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/navicat_data_backup_8.png" alt="" /></p>
+<p><img src="/images/post/mysql/navicat_data_backup_8.webp" alt="" /></p>
 <h3 id="使用-mysqldump-工具备份"><a class="markdownIt-Anchor" href="#使用-mysqldump-工具备份"></a> 使用 mysqldump 工具备份</h3>
 <p><code>mysqldump</code> 是 MySQL 自带的逻辑备份工具，可编写脚本文件调用这个工具来完成数据备份。把脚本设置成定时执行即可达到定时自动备份效果。</p>
 <h3 id="参考资料"><a class="markdownIt-Anchor" href="#参考资料"></a> 参考资料</h3>
@@ -312,10 +330,28 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
+              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
               <a href="/tags/mysql/" rel="tag"># mysql</a>
               <a href="/tags/database/" rel="tag"># database</a>
-              <a href="/tags/%E6%95%B0%E6%8D%AE%E5%BA%93/" rel="tag"># 数据库</a>
           </div>
 
         
@@ -323,12 +359,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2021/09/02/nginx%E5%B8%B8%E7%94%A8%E9%85%8D%E7%BD%AE/" rel="prev" title="nginx常用配置">
-                  <i class="fa fa-chevron-left"></i> nginx常用配置
+                  <i class="fa fa-angle-left"></i> nginx常用配置
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2021/09/08/%E8%BD%AF%E4%BB%B6%E7%89%88%E6%9C%AC%E5%91%BD%E5%90%8D%E8%A7%84%E8%8C%83/" rel="next" title="软件版本命名规范">
-                  软件版本命名规范 <i class="fa fa-chevron-right"></i>
+                  软件版本命名规范 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -341,6 +377,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -348,17 +385,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -379,25 +415,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

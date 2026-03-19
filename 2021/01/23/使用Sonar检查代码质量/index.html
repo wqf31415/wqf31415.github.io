@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width">
-<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
 
   <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
   <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
@@ -14,10 +14,10 @@
 
 
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
 
-<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.16.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js"></script>
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
 
     <meta name="description" content="概述 这篇文章简单介绍了代码质量检测工具——Sonar，并使用 Sonar 对项目进行代码质量检查与管理。  认识 Sonar   sonar ，读作 &#x2F;ˈsoʊnɑːr&#x2F; ，意为声呐，声波定位仪。  Sonar 是一个开源的代码质量监测与管理软件，能够检测出不规范的代码，分析代码中的漏洞，分析单元测试覆盖率等。 Sonar 基于 web 访问，无需安装客户端。具有版本控制，提供多用户、多角色管">
 <meta property="og:type" content="article">
@@ -26,28 +26,27 @@
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="概述 这篇文章简单介绍了代码质量检测工具——Sonar，并使用 Sonar 对项目进行代码质量检查与管理。  认识 Sonar   sonar ，读作 &#x2F;ˈsoʊnɑːr&#x2F; ，意为声呐，声波定位仪。  Sonar 是一个开源的代码质量监测与管理软件，能够检测出不规范的代码，分析代码中的漏洞，分析单元测试覆盖率等。 Sonar 基于 web 访问，无需安装客户端。具有版本控制，提供多用户、多角色管">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube_login.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube_chinese_pack.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube_create_project.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_maven.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube_do_analysis.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_result.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_issue.png">
-<meta property="og:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_modify.png">
-<meta property="article:published_time" content="2021-01-23T03:31:08.000Z">
-<meta property="article:modified_time" content="2023-05-23T02:54:17.277Z">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube_login.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube_chinese_pack.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube_create_project.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube_analysis_maven.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube_do_analysis.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube_analysis_result.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube_analysis_issue.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube_analysis_modify.webp">
+<meta property="article:published_time" content="2021-01-23T11:31:08.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.116Z">
 <meta property="article:author" content="This_Wei">
-<meta property="article:tag" content="开发">
-<meta property="article:tag" content="工具">
-<meta property="article:tag" content="test">
 <meta property="article:tag" content="bug">
+<meta property="article:tag" content="test">
+<meta property="article:tag" content="工具">
+<meta property="article:tag" content="开发">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://blog-images.qiniu.wqf31415.xyz/sonarqube.png">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/server/sonarqube.webp">
 
 
 <link rel="canonical" href="https://www.wqf31415.xyz/2021/01/23/%E4%BD%BF%E7%94%A8Sonar%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/">
-
 
 
 <script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2021/01/23/%E4%BD%BF%E7%94%A8Sonar%E6%A3%80%E6%9F%A5%E4%BB%A3%E7%A0%81%E8%B4%A8%E9%87%8F/","path":"2021/01/23/使用Sonar检查代码质量/","title":"使用Sonar检查代码质量"}</script>
@@ -56,10 +55,29 @@
 <title>使用Sonar检查代码质量 | This_Wei</title>
   
 
-  <script src="/js/third-party/analytics/baidu-analytics.js"></script>
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
   <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
 
 
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
 
 
 
@@ -141,18 +159,18 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">122</span>
+          <span class="site-state-item-count">138</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
           <a href="/categories/">
-        <span class="site-state-item-count">19</span>
+        <span class="site-state-item-count">23</span>
         <span class="site-state-item-name">分类</span></a>
       </div>
       <div class="site-state-item site-state-tags">
           <a href="/tags/">
-        <span class="site-state-item-count">96</span>
+        <span class="site-state-item-count">115</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -222,14 +240,14 @@
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2021-01-23 11:31:08" itemprop="dateCreated datePublished" datetime="2021-01-23T11:31:08+08:00">2021-01-23</time>
+      <time title="创建时间：2021-01-23 11:31:08" itemprop="dateCreated datePublished" datetime="2021-01-23T11:31:08+00:00">2021-01-23</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2023-05-23 10:54:17" itemprop="dateModified" datetime="2023-05-23T10:54:17+08:00">2023-05-23</time>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -253,7 +271,7 @@
     <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
 <p>这篇文章简单介绍了代码质量检测工具——Sonar，并使用 Sonar 对项目进行代码质量检查与管理。</p>
 <h3 id="认识-sonar"><a class="markdownIt-Anchor" href="#认识-sonar"></a> 认识 Sonar</h3>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube.webp" alt="" /></p>
 <blockquote>
 <p>sonar ，读作 <code>/ˈsoʊnɑːr/</code> ，意为声呐，声波定位仪。</p>
 </blockquote>
@@ -286,19 +304,19 @@
 <p>此外，SonarQube 还可使用 docker 启动：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name my-sonarqube -p9000:9000 sonarqube:8.6.0-community</span><br></pre></td></tr></table></figure>
 <p>安装完成后，使用浏览器访问 <a target="_blank" rel="noopener" href="http://localhost:9000">http://localhost:9000</a> ，刚启动时 SonarQube 需要一段时间进行初始化，随后进入登陆界面，使用默认用户名 <code>admin</code> 密码 <code>admin</code> 登陆，修改密码后，即可开始享用 SonarQube。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube_login.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube_login.webp" alt="" /></p>
 <h4 id="中文界面"><a class="markdownIt-Anchor" href="#中文界面"></a> 中文界面</h4>
 <p>SonarQube 默认界面为英文，可安装中文包，方便使用。</p>
 <p>点击 <strong>Administration</strong> 菜单，点击 <strong>Marketplace</strong> 子菜单，在 Plugins 搜索栏中搜索 <code>Chinese</code> ，安装中文包 <code>Chinese Pack</code> ，安装完成后需要重启 SonarQube。(页面上会提示安装了新插件需要重启，点击页面按钮即可完成重启)</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube_chinese_pack.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube_chinese_pack.webp" alt="" /></p>
 <h4 id="检测代码质量"><a class="markdownIt-Anchor" href="#检测代码质量"></a> 检测代码质量</h4>
 <h5 id="创建项目"><a class="markdownIt-Anchor" href="#创建项目"></a> 创建项目</h5>
 <p>检测代码质量前需要先创建项目。登陆 SonarQube ，点击 <strong>项目</strong> 菜单，创建新项目，或点击右上角 <strong>+</strong> 按钮，创建项目。填入项目表示和名称后，还需要创建一个令牌，在执行分析时要使用。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube_create_project.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube_create_project.webp" alt="" /></p>
 <h5 id="分析代码"><a class="markdownIt-Anchor" href="#分析代码"></a> 分析代码</h5>
 <h6 id="使用令牌分析"><a class="markdownIt-Anchor" href="#使用令牌分析"></a> 使用令牌分析</h6>
 <p>创建令牌后，页面会提示分析项目，根据页面提示选择项目构建类型，SonarQube 会给出检测方法。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_maven.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube_analysis_maven.webp" alt="" /></p>
 <p>这里我用来检测一个使用 maven 构建的 springboot 测试项目，所以选择 Maven，按页面提示在项目根目录执行命令：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">mvn sonar:sonar \</span><br><span class="line">  -Dsonar.projectKey=test-demo \</span><br><span class="line">  -Dsonar.host.url=http://localhost:9000 \</span><br><span class="line">  -Dsonar.login=8eb24fc4c59931effa3bb6f44a63f9e3071690b5</span><br></pre></td></tr></table></figure>
 <blockquote>
@@ -314,19 +332,19 @@
 <p>在不使用令牌进行分析时，可以在执行的命令中指定用户名（<code>sonar.login</code>）和密码（<code>sonar.password</code>），如：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mvn sonar:sonar -Dsonar.projectKey=test-demo -Dsonar.host.url=http://localhost:9000 -Dsonar.login=admin -Dsonar.password=123456</span><br></pre></td></tr></table></figure>
 <p>执行结果：</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube_do_analysis.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube_do_analysis.webp" alt="" /></p>
 <h5 id="查看检测结果"><a class="markdownIt-Anchor" href="#查看检测结果"></a> 查看检测结果</h5>
 <p>分析命令执行完成后，返回 SonarQube 的 web 页面查看检测结果。这次检测结果如下所示，发现的问题有：</p>
 <ul>
 <li>2 个安全性漏洞</li>
 <li>单元测试率为 0</li>
 </ul>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_result.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube_analysis_result.webp" alt="" /></p>
 <p>点击 <strong>问题</strong> 菜单，查看漏洞详情，能够按照多种方式进行过滤，这里我们选择查看 <code>严重</code> 级别的问题。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_issue.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube_analysis_issue.webp" alt="" /></p>
 <h5 id="整改"><a class="markdownIt-Anchor" href="#整改"></a> 整改</h5>
 <p>根据检测结果对项目代码进行整改，整改完成后再次检测。</p>
-<p><img src="http://blog-images.qiniu.wqf31415.xyz/sonarqube_analysis_modify.png" alt="" /></p>
+<p><img src="/images/post/server/sonarqube_analysis_modify.webp" alt="" /></p>
 <h4 id="遇到的问题"><a class="markdownIt-Anchor" href="#遇到的问题"></a> 遇到的问题</h4>
 <h5 id="需要-java-11-环境"><a class="markdownIt-Anchor" href="#需要-java-11-环境"></a> 需要 java 11 环境</h5>
 <p>运行时提示 <code>WrapperSimpleApp: Encountered an error running main: java.lang.IllegalStateException: SonarQube requires Java 11 to run</code> ，表示软件运行需要 java 11 环境。</p>
@@ -348,9 +366,27 @@
     
 
     <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
           <div class="post-tags">
-              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
               <a href="/tags/%E5%B7%A5%E5%85%B7/" rel="tag"># 工具</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91/" rel="tag"># 开发</a>
               <a href="/tags/test/" rel="tag"># test</a>
               <a href="/tags/bug/" rel="tag"># bug</a>
           </div>
@@ -360,12 +396,12 @@
           <div class="post-nav">
             <div class="post-nav-item">
                 <a href="/2021/01/21/%E4%BD%BF%E7%94%A8ibd%E6%96%87%E4%BB%B6%E6%81%A2%E5%A4%8DMysql%E6%95%B0%E6%8D%AE/" rel="prev" title="使用ibd文件恢复Mysql数据">
-                  <i class="fa fa-chevron-left"></i> 使用ibd文件恢复Mysql数据
+                  <i class="fa fa-angle-left"></i> 使用ibd文件恢复Mysql数据
                 </a>
             </div>
             <div class="post-nav-item">
                 <a href="/2021/02/03/Windows%E8%84%9A%E6%9C%AC%E7%BC%96%E5%86%99/" rel="next" title="Windows脚本编写">
-                  Windows脚本编写 <i class="fa fa-chevron-right"></i>
+                  Windows脚本编写 <i class="fa fa-angle-right"></i>
                 </a>
             </div>
           </div>
@@ -378,6 +414,7 @@
 
 
 
+    <div class="comments utterances-container"></div>
 </div>
   </main>
 
@@ -385,17 +422,16 @@
     <div class="footer-inner">
 
   <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
-      <img src="http://blog-images.qiniu.wqf31415.xyz/beian_logo.png" alt=""><a href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
   </div>
-
-<div class="copyright">
-  &copy; 
-  <span itemprop="copyrightYear">2023</span>
-  <span class="with-love">
-    <i class="fa fa-heart"></i>
-  </span>
-  <span class="author" itemprop="copyrightHolder">This_Wei</span>
-</div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
 
     </div>
   </footer>
@@ -416,25 +452,8 @@
 <noscript>
   <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
 </noscript>
-
-
-  
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
-<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script><script src="/js/bookmark.js"></script>
-
-  
-
-  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/9.4.3/mermaid.min.js","integrity":"sha256-e0o3JYsdjqKajf9eOe22FhioYSz9WofRY4dLKo3F6do="}}</script>
-  <script src="/js/third-party/tags/mermaid.js"></script>
-
-
-
-
-  
-
-
-
-
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
 
 </body>
 </html>

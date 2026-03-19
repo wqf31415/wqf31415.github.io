@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 Rust 是一门系统编程语言，在 Stack Overflow 的年度开发者调查中，多年获得 “最喜爱的编程语言” 奖项；Rust 已被 Google、亚马逊、微软、华为、百度、阿里等大厂使用。本文介绍了 Rust 语言的基础特性、优缺点、适用场景，介绍了Rust的使用，包括安装Rust、创建基础体验代码以及代码编译执行，介绍了Rust的开发工具及配置方法。此外，还介绍了一些优秀的 Rus">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Rust学习笔记1-初识Rust">
+<meta property="og:url" content="https://www.wqf31415.xyz/2024/01/31/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01-%E5%88%9D%E8%AF%86Rust/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 Rust 是一门系统编程语言，在 Stack Overflow 的年度开发者调查中，多年获得 “最喜爱的编程语言” 奖项；Rust 已被 Google、亚马逊、微软、华为、百度、阿里等大厂使用。本文介绍了 Rust 语言的基础特性、优缺点、适用场景，介绍了Rust的使用，包括安装Rust、创建基础体验代码以及代码编译执行，介绍了Rust的开发工具及配置方法。此外，还介绍了一些优秀的 Rus">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2024-01-31T23:44:46.000Z">
+<meta property="article:modified_time" content="2026-03-19T14:29:42.111Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="Rust">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2024/01/31/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01-%E5%88%9D%E8%AF%86Rust/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2024/01/31/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01-%E5%88%9D%E8%AF%86Rust/","path":"2024/01/31/Rust学习笔记1-初识Rust/","title":"Rust学习笔记1-初识Rust"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Rust学习笔记1-初识Rust | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%85%B3%E4%BA%8Erust"><span class="nav-number">2.</span> <span class="nav-text"> 关于Rust</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E7%9A%84%E7%89%B9%E7%82%B9"><span class="nav-number">3.</span> <span class="nav-text"> Rust 的特点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="nav-number">4.</span> <span class="nav-text"> Rust 适用场景</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E7%BC%BA%E7%82%B9"><span class="nav-number">5.</span> <span class="nav-text"> Rust 缺点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E5%88%9D%E4%BD%93%E9%AA%8C"><span class="nav-number">6.</span> <span class="nav-text"> Rust 初体验</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">6.1.</span> <span class="nav-text"> 安装</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8D%95%E6%96%87%E4%BB%B6-hello-world"><span class="nav-number">6.2.</span> <span class="nav-text"> 单文件 Hello World</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%BC%80%E5%8F%91%E5%B7%A5%E5%85%B7"><span class="nav-number">7.</span> <span class="nav-text"> 开发工具</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#vs-code-rust-analyzer-%E6%89%A9%E5%B1%95"><span class="nav-number">7.1.</span> <span class="nav-text"> VS code + rust-analyzer 扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="nav-number">7.1.1.</span> <span class="nav-text"> 相关链接</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#rustroverjetbrains-%E5%87%BA%E5%93%81%E7%9A%84-rust-ide"><span class="nav-number">7.2.</span> <span class="nav-text"> RustRover：JetBrains 出品的 Rust IDE</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#rust-%E5%BC%80%E6%BA%90%E9%A1%B9%E7%9B%AE"><span class="nav-number">8.</span> <span class="nav-text"> Rust 开源项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AD%A6%E4%B9%A0%E7%9B%B8%E5%85%B3%E9%93%BE%E6%8E%A5"><span class="nav-number">9.</span> <span class="nav-text"> 学习相关链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">10.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2024/01/31/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01-%E5%88%9D%E8%AF%86Rust/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Rust学习笔记1-初识Rust | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Rust学习笔记1-初识Rust<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B01-%E5%88%9D%E8%AF%86Rust.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-01-31 23:44:46" itemprop="dateCreated datePublished" datetime="2024-01-31T23:44:46+00:00">2024-01-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-19 14:29:42" itemprop="dateModified" datetime="2026-03-19T14:29:42+00:00">2026-03-19</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>Rust 是一门系统编程语言，在 Stack Overflow 的年度开发者调查中，多年获得 “最喜爱的编程语言” 奖项；Rust 已被 Google、亚马逊、微软、华为、百度、阿里等大厂使用。本文介绍了 Rust 语言的基础特性、优缺点、适用场景，介绍了Rust的使用，包括安装Rust、创建基础体验代码以及代码编译执行，介绍了Rust的开发工具及配置方法。此外，还介绍了一些优秀的 Rust 开源项目和 Rust 学习项目与资料。</p>
+<h3 id="关于rust"><a class="markdownIt-Anchor" href="#关于rust"></a> 关于Rust</h3>
+<blockquote>
+<p>官网: <a target="_blank" rel="noopener" href="https://www.rust-lang.org/">https://www.rust-lang.org/</a></p>
+<p>Rust 是一门赋予每个人构建可靠且高效软件能力的语言。</p>
+</blockquote>
+<p>Rust 语言是 2009 年由 Graydon Hoare 设计，由 Mozilla 实验室资助和完善，现已成为 Mozilla 官方项目。Rust 最大的特点是安全可靠、运行速度快，可作为 C/C++ 的替代语言，相比 C/C++，Rust 和它们具有相同的运行速度，却可以避免 C/C++ 中很多常见的 bug，比如悬垂指针问题、内存泄漏问题。Rust 语言的应用场景包括：系统级编程、嵌入式开发、并发编程、高性能WEB服务、跨平台开发、数据处理和机器学习等。</p>
+<span id="more"></span>
+<h3 id="rust-的特点"><a class="markdownIt-Anchor" href="#rust-的特点"></a> Rust 的特点</h3>
+<ul>
+<li>
+<p>安全可靠：使用所有权系统和丰富的类型系统，防止内存泄漏、悬垂指针、数据竞争、缓冲区溢出等安全问题，强大的编译器能够帮助我们在编译时就排除各种错误。</p>
+</li>
+<li>
+<p>生产力：Rust具有许多工效学特性，如泛型、复制数据类型、模式匹配、闭包。Rust 提供了功能全面的软件包管理工具 cargo，同时也是项目构建工具。</p>
+</li>
+<li>
+<p>高性能：Rust 编译器能生成高效的机器代码，运行速度快，且内存利用率极高，Rust 没有运行时和垃圾回收，适用于高性能要求的业务场景。</p>
+</li>
+<li>
+<p>无畏并发：Rust 通过所有权、类型检查机制，在编译阶段即可排除可能存在的并发问题，让你无所畏惧的编写并发代码或重构代码。</p>
+</li>
+</ul>
+<h3 id="rust-适用场景"><a class="markdownIt-Anchor" href="#rust-适用场景"></a> Rust 适用场景</h3>
+<ul>
+<li>命令行程序、工具</li>
+<li>数据处理：搜索引擎、数据处理引擎、日志解析系统。</li>
+<li>扩展应用程序：JNI(Java Native Interfave) 扩展、C 扩展、Erlang/Elixir NIF(native implemented functions) 扩展。</li>
+<li>资源受限的环境：嵌入式设备。</li>
+<li>服务端应用：数据库、监控系统、搜索类应用和消息系统。</li>
+<li>桌面应用程序：如 <a target="_blank" rel="noopener" href="https://tauri.app/">Tauri App</a></li>
+<li>移动端：Android 和 ios 都提供了运行原生应用程序的能力，可以运行 C++ 编写的程序，同样的 Rust 可以使用相同的接口与手机交互，且没有额外的运行时开销。</li>
+<li>Web：可以将 Rust 代码编译成 WebAssembly ，从而移植到 web 界面中使用；Rust 可用于开发高性能 Web Service。</li>
+<li>系统编程：编写操作系统、编译器、游戏引擎等。</li>
+</ul>
+<h3 id="rust-缺点"><a class="markdownIt-Anchor" href="#rust-缺点"></a> Rust 缺点</h3>
+<ul>
+<li>编译速度慢：Rust 的编译器很强大，帮我们排除了大量问题，但相应的复杂度也很高，编译工具链很复杂，有多种中间表达形式，会发送大量代码给低级虚拟机（LLVM）编译器；在使用 cargo 编译项目时需要编译所有引用的模块（create）。</li>
+<li>严格：编译器检查非常严格，可能会导致 “误伤”。</li>
+<li>学习曲线陡峭：Rust语言规模很大，比起其他编程语言，Rust包含了丰富的类型系统、几十个关键字；Rust 包含了很多独有的概念，和其他主流语言都不同，增加了学习难度。</li>
+</ul>
+<h3 id="rust-初体验"><a class="markdownIt-Anchor" href="#rust-初体验"></a> Rust 初体验</h3>
+<blockquote>
+<p>官网入门文档: <a target="_blank" rel="noopener" href="https://www.rust-lang.org/zh-CN/learn/get-started">https://www.rust-lang.org/zh-CN/learn/get-started</a></p>
+</blockquote>
+<h4 id="安装"><a class="markdownIt-Anchor" href="#安装"></a> 安装</h4>
+<p>从 <a target="_blank" rel="noopener" href="https://www.rust-lang.org/tools/install">Rust 官网</a> 下载适合自己电脑CPU架构与操作系统的 <code>rustup</code> 管理工具链，安装后可以使用这个工具对 Rust 进行安装和管理。</p>
+<blockquote>
+<p>如果需要离线安装，可下载独立的安装包，参考官网说明：<a target="_blank" rel="noopener" href="https://forge.rust-lang.org/infra/other-installation-methods.html">https://forge.rust-lang.org/infra/other-installation-methods.html</a>。</p>
+</blockquote>
+<p>安装完成后，打开终端，运行 <code>rustc --version</code> 和 <code>cargo --version</code> 命令测试安装是否成功，如果答应出版本号，说明安装成功，如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">PS C:\Users\wqf31&gt; rustc --version</span><br><span class="line">rustc 1.75.0 (82e1608df 2023-12-21)</span><br><span class="line"></span><br><span class="line">PS C:\Users\wqf31&gt; cargo --version</span><br><span class="line">cargo 1.75.0 (1d8b05cdd 2023-11-20)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>获取帮助文档：安装 <code>rustup</code> 时，会自动安装 Rust 的文档，运行 <code>rustup doc</code> 可以打开本地的 Rust 文档网页。</p>
+</blockquote>
+<h4 id="单文件-hello-world"><a class="markdownIt-Anchor" href="#单文件-hello-world"></a> 单文件 Hello World</h4>
+<p>创建 Rust 代码文件 <code>hello.rs</code>，Rust 的源码文件扩展名为 <code>.rs</code> 。文件内容如下：</p>
+<figure class="highlight rust"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">fn</span> <span class="title function_">main</span>()&#123;</span><br><span class="line">    <span class="built_in">println!</span>(<span class="string">&quot;Hello, world!&quot;</span>); <span class="comment">// print msg</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>打开终端（命令行）工具，进入到 <code>hello.rs</code> 文件所在目录，运行命令 <code>rustc hello.rs</code> 进行编译，编译成功时，终端没有输出内容，查看目录中的文件，发现多了一个可执行文件，文件名为 <code>hello</code> （Windows 系统中该文件扩展名为 <code>.exe</code>），与代码文件名相同。</p>
+<p>在终端中运行可执行文件，如 Windows 中运行 <code>hello.exe</code>，打印出 <code>Hello, world!</code> ，运行成功。</p>
+<p>代码说明：</p>
+<blockquote>
+<p>第一行代码中 <code>fn</code> 为 Rust 定义函数的关键字；<code>main</code> 为函数名，和其他编程语言一样，<code>main</code> 函数作为程序入口，只能包含一个 <code>main</code> 函数；Rust中函数内容以 <code>{}</code> 包裹。</p>
+</blockquote>
+<blockquote>
+<p>第二行代码中 <code>println!</code> 是一个宏（<code>!</code> 标识这是一个宏），用于输出内容；<code>&quot;Hello, world!&quot;</code> 是要输出的内容，是一个字符串，Rust 中字符串用 <code>&quot;&quot;</code> 包裹；<code>;</code> 是代码行结束标识，不可省略；<code>// print msg</code> 是注释信息，Rust中单行注释以 <code>//</code> 标识。</p>
+</blockquote>
+<h3 id="开发工具"><a class="markdownIt-Anchor" href="#开发工具"></a> 开发工具</h3>
+<p>Rust 官方推荐的开发工具有：VS code、Sublime Text、RustRover、Eclipse、Vim、Emacs、Visual Studio。</p>
+<p><strong>推荐使用 VS code 加官方扩展的方案，开源，免费使用。</strong></p>
+<p>RustRover是 JetBrains 公司开发的 Rust 开发 IDE，功能齐全，开箱即用，2024年9月前的公开预览版可免费使用。</p>
+<p>Sublime Text 需要购买注册。</p>
+<p>Eclipse 出的 Rust 开发工具，更新不太活跃。</p>
+<h4 id="vs-code-rust-analyzer-扩展"><a class="markdownIt-Anchor" href="#vs-code-rust-analyzer-扩展"></a> VS code + rust-analyzer 扩展</h4>
+<p>从 vs code 官网下载安装包，安装完成后，在 vs code 扩展库中搜索并安装 Rust 官网开发的 <code>rust-analyzer</code> 扩展，这个扩展提供了代码补全、定义跳转、类型文档提示、语法高亮等功能。</p>
+<h5 id="相关链接"><a class="markdownIt-Anchor" href="#相关链接"></a> 相关链接</h5>
+<ul>
+<li>Visual Studio Code: <a target="_blank" rel="noopener" href="https://code.visualstudio.com/">https://code.visualstudio.com/</a></li>
+<li>VS code 开发 Rust 的说明: <a target="_blank" rel="noopener" href="https://code.visualstudio.com/docs/languages/rust">https://code.visualstudio.com/docs/languages/rust</a></li>
+</ul>
+<h4 id="rustroverjetbrains-出品的-rust-ide"><a class="markdownIt-Anchor" href="#rustroverjetbrains-出品的-rust-ide"></a> RustRover：JetBrains 出品的 Rust IDE</h4>
+<p><a target="_blank" rel="noopener" href="https://www.jetbrains.com/zh-cn/rust/">RustRover</a> 是 JetBrains 公司提供的 Rust 开发工具，功能丰富，目前提供的是预览版本，可免费使用。</p>
+<h3 id="rust-开源项目"><a class="markdownIt-Anchor" href="#rust-开源项目"></a> Rust 开源项目</h3>
+<ul>
+<li>rustdesk/rustdesk: 开源的远程桌面工具，可作为 TeamViewer 的替代品：<br />
+<a target="_blank" rel="noopener" href="https://github.com/rustdesk/rustdesk">https://github.com/rustdesk/rustdesk</a></li>
+<li>rust-lang/rustlings: 跟着小练习学会读写Rust：<br />
+<a target="_blank" rel="noopener" href="https://github.com/rust-lang/rustlings">https://github.com/rust-lang/rustlings</a></li>
+<li>rust-unofficial/awesome-rust:  超棒的Rust代码和资源：<br />
+<a target="_blank" rel="noopener" href="https://github.com/rust-unofficial/awesome-rust">https://github.com/rust-unofficial/awesome-rust</a></li>
+<li>google/comprehensive-rust: 谷歌安卓团队使用的 Rest 课程：<br />
+<a target="_blank" rel="noopener" href="https://github.com/google/comprehensive-rust">https://github.com/google/comprehensive-rust</a></li>
+<li>rwf2/Rocket: Rust Web框架：<br />
+<a target="_blank" rel="noopener" href="https://github.com/rwf2/Rocket">https://github.com/rwf2/Rocket</a></li>
+</ul>
+<h3 id="学习相关链接"><a class="markdownIt-Anchor" href="#学习相关链接"></a> 学习相关链接</h3>
+<ul>
+<li>Rust语言中文社区: <a target="_blank" rel="noopener" href="https://rustcc.cn/">https://rustcc.cn/</a></li>
+<li>B站 Rust 入门教程: <a target="_blank" rel="noopener" href="https://www.bilibili.com/video/BV1hp4y1k7SV/">https://www.bilibili.com/video/BV1hp4y1k7SV/</a></li>
+<li>使用 <code>rustup doc</code> 打开本地的 Rust 文档网页</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>当我们想要一种没有 GC 的语言，同时还想要该语言在安全性至关重要的上下文环境中是可信任的，这时 Rust 就是绝佳选择了。</p>
+<ul>
+<li>Rust 语言的最大优势是运行速度快、安全，适用于系统编程、嵌入式开发、高性能服务端开发、高并发场景。</li>
+<li>Rust 语言的缺点是编译速度慢、上手难度高。</li>
+<li>Rust 支持多种常见操作系统和 CPU 架构，使用 <code>rustup</code> 工具来安装 Rust，管理 Rust 版本和编译工具链；安装 Rust 时默认携带构建工具 <code>cargo</code> 。</li>
+<li>推荐使用 VS code、RustRover 开发 Rust 项目 。</li>
+<li>Rust 代码文件后缀为 <code>.rs</code>，<code>main</code> 函数作为程序入口，使用 <code>rustc</code> 编译成可执行文件。</li>
+<li>Rust 中使用 <code>fn</code> 定义函数，代码块以 <code>{}</code> 包括，以 <code>;</code> 作为代码语句结束标识，用 <code>//</code> 添加单行注释， <code>/**/</code> 添加多行注释。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Rust/" rel="tag"># Rust</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2023/10/15/%E4%BA%91%E4%B8%AD%E5%B1%8B%E5%BE%92%E6%AD%A5%E8%AE%B0/" rel="prev" title="云中屋徒步记">
+                  <i class="fa fa-angle-left"></i> 云中屋徒步记
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2024/04/28/%E8%AE%A4%E8%AF%86cron%E8%A1%A8%E8%BE%BE%E5%BC%8F/" rel="next" title="认识cron表达式">
+                  认识cron表达式 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>
