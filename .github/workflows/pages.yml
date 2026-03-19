@@ -40,16 +40,9 @@ jobs:
       - name: Build
         run: npm run build
 
-      - name: Setup git user
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
       - name: Deploy to pages branch
-        run: |
-          # Create a new git repo in public folder and force push to pages branch
-          cd public
-          git init
-          git add -A
-          git commit -m "github-actions: deployed $(date)"
-          git push -f "https://${{ secrets.GITHUB_TOKEN }}@github.com/wqf31415/wqf31415.github.io.git" master:pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
+          publish_branch: pages
