@@ -109,6 +109,12 @@ LuckFox Pico 开发板没有 SPI NAND Flash 存储器，所以必须烧录操作
 
 ### SSH远程访问
 
+> Buildroot 默认登录信息如下：
+>
+> 登录名：root
+> 登录密码：luckfox
+> USB 静态IP地址：172.32.0.93
+
 用数据线将 LuckFox Pico 开发板连接到电脑，点击板卡上的 `BOOT` 按钮启动开发板。
 
 打开 Windows 电脑设置，进入 “网络和Internet” -> “以太网”，找到一个 `未识别的网络`，描述信息是 `Remote NDIS based Internet Sharing Device` ，在 “IP分配” 项中点击编辑，将 `自动(DHCP)` 修改为 `手动`，开启 `IPv4`，IP地址设置为 `172.32.0.100`，子网掩码设置为 `255.255.0.0`，保存配置。
