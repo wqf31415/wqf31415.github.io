@@ -73,7 +73,7 @@ LuckFox Pico 开发板是一款高性价比的 Linux 微开发板，基于 Rockc
 
 ### 烧录镜像
 
-> 参考官网文档: <https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/Flash-image> 
+> 烧录镜像过程参考官网文档: <https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/Flash-image> 
 
 LuckFox Pico 开发板没有 SPI NAND Flash 存储器，所以必须烧录操作系统到 MicroSD 卡上，才能使用。
 
@@ -83,9 +83,13 @@ LuckFox Pico 开发板没有 SPI NAND Flash 存储器，所以必须烧录操作
 
 ![](/images/post/luckfox/DriverAssitant_install.webp) 
 
-#### 烧录Buildroot镜像到内存卡
+#### 下载镜像
 
-下载用于 LuckFox Pico 开发板的镜像 Luckfox_Pico_MicroSD_250313，将镜像解压出来。
+[官方文档](https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/Flash-image/)中提供了镜像下载链接，包括 Buildroot 的镜像和第三方的 ubuntu22.04 镜像。
+
+官方推荐的是 Buildroot 的镜像，而且 LuckFox Pico 开发板没有 SPI NAND Flash 存储器，所以这次我下载的是 `Luckfox_Pico_MicroSD_250607.zip` 镜像文件，将镜像解压出来待用。
+
+#### 烧录Buildroot镜像到内存卡
 
 解压安装 TF 卡擦除工具 SD Card Formatter，将内存卡连接到电脑上，选择 TF 卡盘符，点击 Format。
 
