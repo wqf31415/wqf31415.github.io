@@ -1,0 +1,108 @@
+<mxfile host="app.diagrams.net" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/146.0.0.0 Safari/537.36 Edg/146.0.0.0" version="29.6.4">
+  <diagram name="第 1 页" id="atn2tD_AHxDvcNGThBae">
+    <mxGraphModel dx="862" dy="470" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="W5FYgok1wJqNMqm_KsO0-3" edge="1" parent="1" source="W5FYgok1wJqNMqm_KsO0-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="W5FYgok1wJqNMqm_KsO0-2" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-3" connectable="0" parent="W5FYgok1wJqNMqm_KsO0-3" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="数据线" vertex="1">
+          <mxGeometry relative="1" x="0.1111" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W5FYgok1wJqNMqm_KsO0-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="LuckFox Pico" vertex="1">
+          <mxGeometry height="30" width="90" x="240" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="W5FYgok1wJqNMqm_KsO0-5" edge="1" parent="1" source="W5FYgok1wJqNMqm_KsO0-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="W5FYgok1wJqNMqm_KsO0-4" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-1" connectable="0" parent="W5FYgok1wJqNMqm_KsO0-5" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="网线" vertex="1">
+          <mxGeometry relative="1" x="0.0278" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W5FYgok1wJqNMqm_KsO0-2" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;" value="Windows电脑" vertex="1">
+          <mxGeometry height="30" width="90" x="240" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="W5FYgok1wJqNMqm_KsO0-7" edge="1" parent="1" source="W5FYgok1wJqNMqm_KsO0-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;exitX=0;exitY=0.5;exitDx=0;exitDy=0;" target="W5FYgok1wJqNMqm_KsO0-6" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-2" connectable="0" parent="W5FYgok1wJqNMqm_KsO0-7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="网线" vertex="1">
+          <mxGeometry relative="1" x="-0.1306" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="W5FYgok1wJqNMqm_KsO0-4" parent="1" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" value="路由器" vertex="1">
+          <mxGeometry height="40" width="80" x="245" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="W5FYgok1wJqNMqm_KsO0-6" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Ubuntu主机" vertex="1">
+          <mxGeometry height="40" width="80" x="110" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-4" edge="1" parent="1" source="aeIFG-fnVNL3SueNQPq8-6" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="aeIFG-fnVNL3SueNQPq8-9" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="LuckFox Pico" vertex="1">
+          <mxGeometry height="30" width="90" x="532" y="270" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-7" edge="1" parent="1" source="aeIFG-fnVNL3SueNQPq8-9" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="aeIFG-fnVNL3SueNQPq8-12" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-8" connectable="0" parent="aeIFG-fnVNL3SueNQPq8-7" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="网线" vertex="1">
+          <mxGeometry relative="1" x="0.0278" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-9" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;" value="Type-C转网口" vertex="1">
+          <mxGeometry height="30" width="90" x="532" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-10" edge="1" parent="1" source="aeIFG-fnVNL3SueNQPq8-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="aeIFG-fnVNL3SueNQPq8-13" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-11" connectable="0" parent="aeIFG-fnVNL3SueNQPq8-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="网线" vertex="1">
+          <mxGeometry relative="1" x="-0.1306" y="2" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-15" edge="1" parent="1" source="aeIFG-fnVNL3SueNQPq8-12" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" target="aeIFG-fnVNL3SueNQPq8-14">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-16" connectable="0" parent="aeIFG-fnVNL3SueNQPq8-15" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="网线" vertex="1">
+          <mxGeometry relative="1" x="0.2138" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-12" parent="1" style="shape=hexagon;perimeter=hexagonPerimeter2;whiteSpace=wrap;html=1;fixedSize=1;" value="路由器" vertex="1">
+          <mxGeometry height="40" width="80" x="537" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-13" parent="1" style="rounded=0;whiteSpace=wrap;html=1;" value="Ubuntu主机" vertex="1">
+          <mxGeometry height="40" width="80" x="400" y="60" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-17" edge="1" parent="1" source="aeIFG-fnVNL3SueNQPq8-18" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;endArrow=none;endFill=0;" target="aeIFG-fnVNL3SueNQPq8-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-21" connectable="0" parent="aeIFG-fnVNL3SueNQPq8-17" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="杜邦线" vertex="1">
+          <mxGeometry relative="1" x="-0.2424" as="geometry">
+            <mxPoint y="-22" as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-20" edge="1" parent="1" source="aeIFG-fnVNL3SueNQPq8-14" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;endArrow=none;endFill=0;" target="aeIFG-fnVNL3SueNQPq8-18" value="">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-14" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;" value="Windows电脑" vertex="1">
+          <mxGeometry height="30" width="90" x="667" y="65" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-18" parent="1" style="rounded=0;whiteSpace=wrap;html=1;verticalAlign=middle;" value="USB转TTL" vertex="1">
+          <mxGeometry height="30" width="90" x="667" y="170" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-22" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="方式一：共享电脑网络" vertex="1">
+          <mxGeometry height="30" width="130" x="180" y="320" as="geometry" />
+        </mxCell>
+        <mxCell id="aeIFG-fnVNL3SueNQPq8-23" parent="1" style="text;html=1;whiteSpace=wrap;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;rounded=0;" value="方式二：USB扩展网卡" vertex="1">
+          <mxGeometry height="30" width="130" x="520" y="320" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
