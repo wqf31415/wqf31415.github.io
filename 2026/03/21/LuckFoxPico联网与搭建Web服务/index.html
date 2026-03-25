@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 这篇文章讲述了将 LuckFox Pico 开发板接入网络的两种方式，以及使用 mongoose 库编写 web 服务程序，交叉编译后在 LuckFox Pico 上运行，对外提供 web 页面访问与 HTTP 接口访问服务。  组网与连线 数据线数据线LuckFox PicoLuckFox Pico网线网线Windows电脑Windows电脑网线网线路由器路由器Ubuntu主机Ubunt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LuckFoxPico联网与搭建Web服务">
+<meta property="og:url" content="https://www.wqf31415.xyz/2026/03/21/LuckFoxPico%E8%81%94%E7%BD%91%E4%B8%8E%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章讲述了将 LuckFox Pico 开发板接入网络的两种方式，以及使用 mongoose 库编写 web 服务程序，交叉编译后在 LuckFox Pico 上运行，对外提供 web 页面访问与 HTTP 接口访问服务。  组网与连线 数据线数据线LuckFox PicoLuckFox Pico网线网线Windows电脑Windows电脑网线网线路由器路由器Ubuntu主机Ubunt">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/env_path_cfg.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/net_adapter.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/net_share.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/pico_ping_other.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/menuconfig_ui.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/menuconfig_rtl8152.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/compile_pico_firmware.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/MobaXterm_serial_cfg.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/pico_web_index.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/pico_web_index_2.webp">
+<meta property="article:published_time" content="2026-03-21T10:18:45.000Z">
+<meta property="article:modified_time" content="2026-03-25T14:41:45.306Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="IoT">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="luckfox">
+<meta property="article:tag" content="web">
+<meta property="article:tag" content="web服务">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="开发板">
+<meta property="article:tag" content="硬件">
+<meta property="article:tag" content="网络">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/luckfox/env_path_cfg.webp">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2026/03/21/LuckFoxPico%E8%81%94%E7%BD%91%E4%B8%8E%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2026/03/21/LuckFoxPico%E8%81%94%E7%BD%91%E4%B8%8E%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1/","path":"2026/03/21/LuckFoxPico联网与搭建Web服务/","title":"LuckFoxPico联网与搭建Web服务"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LuckFoxPico联网与搭建Web服务 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+<style>
+/* Global responsive styles for SVG images on mobile */
+.post-body svg,
+.post-body img[src$=".svg"] {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  box-sizing: border-box;
+}
+</style>
+<script>
+// Global fix for inline SVG with fixed width on mobile
+document.addEventListener('DOMContentLoaded', function() {
+  (function() {
+    function fixSvgSize() {
+      var svgs = document.querySelectorAll('.post-body svg');
+      for (var i = 0; i < svgs.length; i++) {
+        var svg = svgs[i];
+        var width = svg.getAttribute('width');
+        var height = svg.getAttribute('height');
+
+        // If SVG has width/height attributes but no viewBox, add viewBox
+        if (width && height && !svg.getAttribute('viewBox')) {
+          // Remove any units, just get the number
+          var wNum = parseFloat(width);
+          var hNum = parseFloat(height);
+          if (wNum && hNum) {
+            svg.setAttribute('viewBox', '0 0 ' + wNum + ' ' + hNum);
+          }
+        }
+
+        // Force preserveAspectRatio to maintain original ratio
+        if (!svg.getAttribute('preserveAspectRatio')) {
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        }
+      }
+    }
+    // Run on page load
+    fixSvgSize();
+    // Run again after any dynamic content loads
+    if (document.addEventListener) {
+      document.addEventListener('pjax:complete', fixSvgSize);
+    }
+  })();
+});
+</script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BB%84%E7%BD%91%E4%B8%8E%E8%BF%9E%E7%BA%BF"><span class="nav-number">2.</span> <span class="nav-text"> 组网与连线</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text"> 物料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87"><span class="nav-number">3.1.</span> <span class="nav-text"> 设备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text"> 软件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%89%A9%E6%96%99"><span class="nav-number">3.3.</span> <span class="nav-text"> 其他物料</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#luckfox-pico%E6%8E%A5%E5%85%A5%E7%BD%91%E7%BB%9C"><span class="nav-number">4.</span> <span class="nav-text"> LuckFox Pico接入网络</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%B8%80usb%E5%85%B1%E4%BA%AB%E7%94%B5%E8%84%91%E7%BD%91%E7%BB%9Crndis"><span class="nav-number">4.1.</span> <span class="nav-text"> 方式一：USB共享电脑网络（RNDIS）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-adb-%E8%BF%9E%E6%8E%A5%E5%BC%80%E5%8F%91%E6%9D%BF"><span class="nav-number">4.1.1.</span> <span class="nav-text"> 使用 ADB 连接开发板</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%94%B5%E8%84%91%E7%BD%91%E7%BB%9C%E5%85%B1%E4%BA%AB"><span class="nav-number">4.1.2.</span> <span class="nav-text"> 配置电脑网络共享</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%BC%80%E5%8F%91%E6%9D%BF%E7%BD%91%E7%BB%9C"><span class="nav-number">4.1.3.</span> <span class="nav-text"> 设置开发板网络</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%96%B9%E5%BC%8F%E4%BA%8Cusb%E6%89%A9%E5%B1%95%E6%9C%89%E7%BA%BF%E7%BD%91%E5%8D%A1"><span class="nav-number">4.2.</span> <span class="nav-text"> 方式二：USB扩展有线网卡</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E7%B3%BB%E7%BB%9F%E9%95%9C%E5%83%8F"><span class="nav-number">4.2.1.</span> <span class="nav-text"> 编译系统镜像</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BF%AE%E6%94%B9-usb-%E6%A8%A1%E5%BC%8F%E4%B8%BA-host"><span class="nav-number">4.2.2.</span> <span class="nav-text"> 修改 USB 模式为 host</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8%E4%B8%B2%E5%8F%A3%E8%BF%9E%E6%8E%A5%E5%BC%80%E5%8F%91%E6%9D%BF"><span class="nav-number">4.2.3.</span> <span class="nav-text"> 使用串口连接开发板</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#%E7%8B%AC%E7%AB%8B%E7%94%B5%E6%BA%90%E4%BE%9B%E7%94%B5"><span class="nav-number">4.2.4.</span> <span class="nav-text"> 独立电源供电</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%90%AD%E5%BB%BAweb%E6%9C%8D%E5%8A%A1"><span class="nav-number">5.</span> <span class="nav-text"> 搭建web服务</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#web%E6%9C%8D%E5%8A%A1%E5%BC%80%E5%8F%91"><span class="nav-number">5.1.</span> <span class="nav-text"> web服务开发</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E9%83%A8%E7%BD%B2"><span class="nav-number">5.2.</span> <span class="nav-text"> 编译部署</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E6%9C%8D%E5%8A%A1"><span class="nav-number">5.3.</span> <span class="nav-text"> 访问服务</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#%E5%85%B1%E4%BA%AB%E7%94%B5%E8%84%91%E7%BD%91%E7%BB%9C%E6%96%B9%E5%BC%8F"><span class="nav-number">5.3.1.</span> <span class="nav-text"> 共享电脑网络方式</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#usb-%E7%BD%91%E5%8D%A1%E8%81%94%E7%BD%91%E6%96%B9%E5%BC%8F"><span class="nav-number">5.3.2.</span> <span class="nav-text"> USB 网卡联网方式</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">139</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2026/03/21/LuckFoxPico%E8%81%94%E7%BD%91%E4%B8%8E%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LuckFoxPico联网与搭建Web服务 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LuckFoxPico联网与搭建Web服务<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/LuckFoxPico%E8%81%94%E7%BD%91%E4%B8%8E%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-03-21 10:18:45" itemprop="dateCreated datePublished" datetime="2026-03-21T10:18:45+00:00">2026-03-21</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章讲述了将 LuckFox Pico 开发板接入网络的两种方式，以及使用 mongoose 库编写 web 服务程序，交叉编译后在 LuckFox Pico 上运行，对外提供 web 页面访问与 HTTP 接口访问服务。</p>
+<h3 id="组网与连线"><a class="markdownIt-Anchor" href="#组网与连线"></a> 组网与连线</h3>
+<p><svg xmlns="http://www.w3.org/2000/svg" style="background: transparent; background-color: transparent; color-scheme: light;" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="649px" height="291px" viewBox="0 0 649 291"><defs/><g><g data-cell-id="0"><g data-cell-id="1"><g data-cell-id="W5FYgok1wJqNMqm_KsO0-3"><g transform="translate(0.5,0.5)"><path d="M 175 210 L 175 140" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-3"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 171px; margin-left: 175px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">数据线</div></div></div></foreignObject><text x="175" y="175" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px" text-anchor="middle">数据线</text></switch></g></g></g></g><g data-cell-id="W5FYgok1wJqNMqm_KsO0-1"><g transform="translate(0.5,0.5)"><rect x="130" y="210" width="90" height="30" rx="4.5" ry="4.5" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 88px; height: 1px; padding-top: 225px; margin-left: 131px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">LuckFox Pico</div></div></div></foreignObject><text x="175" y="229" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">LuckFox Pico</text></switch></g></g></g><g data-cell-id="W5FYgok1wJqNMqm_KsO0-5"><g transform="translate(0.5,0.5)"><path d="M 175 110 L 175 40" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-1"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 75px; margin-left: 175px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">网线</div></div></div></foreignObject><text x="175" y="78" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px" text-anchor="middle">网线</text></switch></g></g></g></g><g data-cell-id="W5FYgok1wJqNMqm_KsO0-2"><g transform="translate(0.5,0.5)"><rect x="130" y="110" width="90" height="30" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 88px; height: 1px; padding-top: 125px; margin-left: 131px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Windows电脑</div></div></div></foreignObject><text x="175" y="129" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">Windows电脑</text></switch></g></g></g><g data-cell-id="W5FYgok1wJqNMqm_KsO0-7"><g transform="translate(0.5,0.5)"><path d="M 135 20 L 80 20" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-2"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 22px; margin-left: 111px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">网线</div></div></div></foreignObject><text x="111" y="26" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px" text-anchor="middle">网线</text></switch></g></g></g></g><g data-cell-id="W5FYgok1wJqNMqm_KsO0-4"><g transform="translate(0.5,0.5)"><path d="M 155 0 L 195 0 L 215 20 L 195 40 L 155 40 L 135 20 Z" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 20px; margin-left: 136px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">路由器</div></div></div></foreignObject><text x="175" y="24" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">路由器</text></switch></g></g></g><g data-cell-id="W5FYgok1wJqNMqm_KsO0-6"><g transform="translate(0.5,0.5)"><rect x="0" y="0" width="80" height="40" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 20px; margin-left: 1px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Ubuntu主机</div></div></div></foreignObject><text x="40" y="24" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">Ubuntu主机</text></switch></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-4"><g transform="translate(0.5,0.5)"><path d="M 467 210 L 467 140" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-6"><g transform="translate(0.5,0.5)"><rect x="422" y="210" width="90" height="30" rx="4.5" ry="4.5" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 88px; height: 1px; padding-top: 225px; margin-left: 423px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">LuckFox Pico</div></div></div></foreignObject><text x="467" y="229" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">LuckFox Pico</text></switch></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-7"><g transform="translate(0.5,0.5)"><path d="M 467 110 L 467 40" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-8"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 75px; margin-left: 467px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">网线</div></div></div></foreignObject><text x="467" y="78" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px" text-anchor="middle">网线</text></switch></g></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-9"><g transform="translate(0.5,0.5)"><rect x="422" y="110" width="90" height="30" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 88px; height: 1px; padding-top: 125px; margin-left: 423px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Type-C转网口</div></div></div></foreignObject><text x="467" y="129" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">Type-C转网口</text></switch></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-10"><g transform="translate(0.5,0.5)"><path d="M 427 20 L 370 20" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-11"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 22px; margin-left: 402px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">网线</div></div></div></foreignObject><text x="402" y="26" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px" text-anchor="middle">网线</text></switch></g></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-15"><g transform="translate(0.5,0.5)"><path d="M 507 20 L 557 20" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-16"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 20px; margin-left: 537px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">网线</div></div></div></foreignObject><text x="537" y="24" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px" text-anchor="middle">网线</text></switch></g></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-12"><g transform="translate(0.5,0.5)"><path d="M 447 0 L 487 0 L 507 20 L 487 40 L 447 40 L 427 20 Z" fill="#ffffff" stroke="#000000" stroke-miterlimit="10" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 20px; margin-left: 428px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">路由器</div></div></div></foreignObject><text x="467" y="24" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">路由器</text></switch></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-13"><g transform="translate(0.5,0.5)"><rect x="290" y="0" width="80" height="40" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 78px; height: 1px; padding-top: 20px; margin-left: 291px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Ubuntu主机</div></div></div></foreignObject><text x="330" y="24" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">Ubuntu主机</text></switch></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-17"><g transform="translate(0.5,0.5)"><path d="M 602 140 L 602 225 L 512 225" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-21"><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 1px; height: 1px; padding-top: 185px; margin-left: 602px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; background-color: #ffffff; "><div style="display: inline-block; font-size: 11px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; background-color: #ffffff; white-space: nowrap; ">杜邦线</div></div></div></foreignObject><text x="602" y="188" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="11px" text-anchor="middle">杜邦线</text></switch></g></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-20"><g transform="translate(0.5,0.5)"><path d="M 602 35 L 602 110" fill="none" stroke="#000000" stroke-miterlimit="10" pointer-events="stroke" style="stroke: rgb(0, 0, 0);"/></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-14"><g transform="translate(0.5,0.5)"><rect x="557" y="5" width="90" height="30" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 88px; height: 1px; padding-top: 20px; margin-left: 558px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">Windows电脑</div></div></div></foreignObject><text x="602" y="24" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">Windows电脑</text></switch></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-18"><g transform="translate(0.5,0.5)"><rect x="557" y="110" width="90" height="30" fill="#ffffff" stroke="#000000" pointer-events="all" style="fill: rgb(255, 255, 255); stroke: rgb(0, 0, 0);"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 88px; height: 1px; padding-top: 125px; margin-left: 558px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">USB转TTL</div></div></div></foreignObject><text x="602" y="129" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">USB转TTL</text></switch></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-22"><g transform="translate(0.5,0.5)"><rect x="70" y="260" width="130" height="30" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 128px; height: 1px; padding-top: 275px; margin-left: 71px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">方式一：共享电脑网络</div></div></div></foreignObject><text x="135" y="279" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">方式一：共享电脑网络</text></switch></g></g></g><g data-cell-id="aeIFG-fnVNL3SueNQPq8-23"><g transform="translate(0.5,0.5)"><rect x="410" y="260" width="130" height="30" fill="none" stroke="none" pointer-events="all"/></g><g><g><switch><foreignObject style="overflow: visible; text-align: left;" pointer-events="none" width="100%" height="100%" requiredFeatures="http://www.w3.org/TR/SVG11/feature#Extensibility"><div xmlns="http://www.w3.org/1999/xhtml" style="display: flex; align-items: unsafe center; justify-content: unsafe center; width: 128px; height: 1px; padding-top: 275px; margin-left: 411px;"><div style="box-sizing: border-box; font-size: 0; text-align: center; color: #000000; "><div style="display: inline-block; font-size: 12px; font-family: Helvetica; color: #000000; line-height: 1.2; pointer-events: all; white-space: normal; word-wrap: normal; ">方式二：USB扩展网卡</div></div></div></foreignObject><text x="475" y="279" fill="light-dark(#000000, #ffffff)" font-family="Helvetica" font-size="12px" text-anchor="middle">方式二：USB扩展网卡</text></switch></g></g></g></g></g></g></svg></p>
+<span id="more"></span>
+<h3 id="物料"><a class="markdownIt-Anchor" href="#物料"></a> 物料</h3>
+<h4 id="设备"><a class="markdownIt-Anchor" href="#设备"></a> 设备</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">设备</th>
+<th style="text-align:center">操作系统</th>
+<th style="text-align:center">系统版本</th>
+<th style="text-align:center">IP</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PC</td>
+<td style="text-align:center">Windows</td>
+<td style="text-align:center">11</td>
+<td style="text-align:center">192.168.2.176</td>
+<td style="text-align:center">用于烧录系统与远程访问开发板</td>
+</tr>
+<tr>
+<td style="text-align:center">LuckFox Pico 开发板</td>
+<td style="text-align:center">Buildroot</td>
+<td style="text-align:center">-g2ae728b52-dirty（2023.02.6）</td>
+<td style="text-align:center">192.168.137.100</td>
+<td style="text-align:center">开发板，已经插入烧录Buildroot镜像的SD卡</td>
+</tr>
+<tr>
+<td style="text-align:center">Ubuntu主机</td>
+<td style="text-align:center">Ubuntu</td>
+<td style="text-align:center">24.04 LTS</td>
+<td style="text-align:center">192.168.2.190</td>
+<td style="text-align:center">编译系统镜像；完成C代码交叉编译</td>
+</tr>
+</tbody>
+</table>
+<h4 id="软件"><a class="markdownIt-Anchor" href="#软件"></a> 软件</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">软件</th>
+<th style="text-align:center">版本</th>
+<th style="text-align:center">用途</th>
+<th style="text-align:center">下载链接</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">Android Debug Bridge</td>
+<td style="text-align:center">1.0.41</td>
+<td style="text-align:center">通过USB连接开发板</td>
+<td style="text-align:center"><a target="_blank" rel="noopener" href="https://files.luckfox.com/wiki/Luckfox-Pico/Software/adb_fastboot.zip">adb_fastboot.zip</a></td>
+</tr>
+<tr>
+<td style="text-align:center">MobaXterm</td>
+<td style="text-align:center">v22.0</td>
+<td style="text-align:center">远程连接开发板与Ubuntu主机</td>
+<td style="text-align:center"><a target="_blank" rel="noopener" href="https://wiki.luckfox.com/Tools/MobaXterm_Portable_v22.0.zip">MobaXterm_Portable_v22.0.zip</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="其他物料"><a class="markdownIt-Anchor" href="#其他物料"></a> 其他物料</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">物料</th>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">数量</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">电源</td>
+<td style="text-align:center">5V直流</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">给开发板供电</td>
+</tr>
+<tr>
+<td style="text-align:center">交换机</td>
+<td style="text-align:center">八孔千兆</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">让电脑、开发板接入局域网</td>
+</tr>
+<tr>
+<td style="text-align:center">Type-C转网口有线网卡</td>
+<td style="text-align:center">百兆</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">插在开发板，为开发板提供有线联网功能</td>
+</tr>
+<tr>
+<td style="text-align:center">USB转TTL模块</td>
+<td style="text-align:center">CH340</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">通过串口访问开发板</td>
+</tr>
+<tr>
+<td style="text-align:center">Type-C数据线</td>
+<td style="text-align:center">1米</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">将开发板连接到PC上</td>
+</tr>
+<tr>
+<td style="text-align:center">网线</td>
+<td style="text-align:center">1米</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">连接Type-C 网卡到交换机</td>
+</tr>
+<tr>
+<td style="text-align:center">杜邦线</td>
+<td style="text-align:center">-</td>
+<td style="text-align:center">6</td>
+<td style="text-align:center">连接USB转TTL模块；连接电源和开发板，给开发板供电</td>
+</tr>
+</tbody>
+</table>
+<h3 id="luckfox-pico接入网络"><a class="markdownIt-Anchor" href="#luckfox-pico接入网络"></a> LuckFox Pico接入网络</h3>
+<h4 id="方式一usb共享电脑网络rndis"><a class="markdownIt-Anchor" href="#方式一usb共享电脑网络rndis"></a> 方式一：USB共享电脑网络（RNDIS）</h4>
+<p>使用 Windows 电脑网络共享，让开发板的网络共享使用电脑网络，这样就可以让开发板连接到局域网和公网，这是最简单的联网方式，但是局域网访问开发板会有点麻烦。</p>
+<h5 id="使用-adb-连接开发板"><a class="markdownIt-Anchor" href="#使用-adb-连接开发板"></a> 使用 ADB 连接开发板</h5>
+<p>通过 ADB 方式可以直接使用数据线访问开发板，而且不需要输入密码，当开发板因为一些问题（ IP 配置错误）无法使用 ssh 访问时，可以使用这种方式。</p>
+<blockquote>
+<p>参考官网文档：<a target="_blank" rel="noopener" href="https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/Login">登录 | LUCKFOX WIKI</a></p>
+</blockquote>
+<p>下载 <a target="_blank" rel="noopener" href="https://files.luckfox.com/wiki/Luckfox-Pico/Software/adb_fastboot.zip">adb_fastboot.zip</a> 并解压到本地，记录存放路径，比如 <code>D:\luckfox\adb_fastboot</code> ，将路径添加到系统环境变量 path 中。</p>
+<p><img src="/images/post/luckfox/env_path_cfg.webp" alt="" /></p>
+<p>打开命令行窗口，运行命令如下命令，能打印出软件版本信息说明配置正确：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb version</span><br></pre></td></tr></table></figure>
+<p>用数据线将开发板连接到 Windows 电脑，等待开发板启动完成后（约30秒），在命令行窗口执行如下命令查看已接入的设备信息：</p>
+<figure class="highlight powershell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb devices</span><br></pre></td></tr></table></figure>
+<p>输入如下，说明设备连接成功：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">List of devices attached</span><br><span class="line">b8319ff24268c8a4        device</span><br></pre></td></tr></table></figure>
+<p>当只有一个设备时，执行如下命令连接：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb shell</span><br></pre></td></tr></table></figure>
+<p>当有多个设备时，要添加 <code>-s</code> 参数指定连接的设备的序列号：</p>
+<figure class="highlight cmd"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">adb -s b8319ff24268c8a4 shell</span><br></pre></td></tr></table></figure>
+<p>连接成功后，界面显示如下，就可以输入指令和开发板交互了，如执行 <code>ip addr</code> 查看开发板 IP 地址。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">[root@luckfox ]#</span><br><span class="line">[root@luckfox ]# ip addr</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: usb0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast qlen 1000</span><br><span class="line">    link/ether e2:c3:a2:f0:aa:37 brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.137.100/24 brd 192.168.137.255 scope global usb0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<h5 id="配置电脑网络共享"><a class="markdownIt-Anchor" href="#配置电脑网络共享"></a> 配置电脑网络共享</h5>
+<p>找到 LuckFox Pico 使用的网卡：当用数据线把 LuckFox Pico 开发板连接到电脑后，会出现一个新的网络设备，通常名为“<strong>Remote NDIS based Internet Sharing Device</strong>”或类似名称，在Windows的“网络连接”面板中，找到这个对应的网卡，它可能显示为“<strong>以太网 X</strong>”。</p>
+<p>在“网络连接”面板中，找到电脑<strong>正在用来上网</strong>的那张网卡，右键点击它，选择 <strong>“属性”</strong> -&gt; <strong>“共享”</strong> 选项卡。</p>
+<blockquote>
+<p>如下图所示：</p>
+<ul>
+<li>开发板的网卡是 <code>以太网 3</code></li>
+<li>电脑上网的网卡是 <code>以太网</code></li>
+</ul>
+</blockquote>
+<p><img src="/images/post/luckfox/net_adapter.webp" alt="" /></p>
+<p>勾选 <strong>“允许其他网络用户通过此计算机的 Internet 连接来连接”</strong>，在“家庭网络连接”下拉框中，<strong>选择第一步中识别出的、代表Luckfox Pico的那张虚拟网卡</strong>（例如我的是“以太网 3”）</p>
+<p><img src="/images/post/luckfox/net_share.webp" alt="" /></p>
+<p>点击“确定”，Windows会自动为这张虚拟网卡设置一个固定IP：<code>192.168.137.1</code></p>
+<h5 id="设置开发板网络"><a class="markdownIt-Anchor" href="#设置开发板网络"></a> 设置开发板网络</h5>
+<p>通过 ADB 登录到 LuckFox Pico开发板，将开发板的USB虚拟网卡（通常是<code>usb0</code>）配置到与Windows共享网卡相同的网段。</p>
+<p>可以逐条执行如下命令设置开发板 IP：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 为 usb0 接口设置一个与 Windows 共享网卡同网段的 IP</span></span><br><span class="line"><span class="comment"># 注意：不能使用 192.168.137.1，这个已被电脑占用</span></span><br><span class="line">ifconfig usb0 192.168.137.100 netmask 255.255.255.0</span><br><span class="line"><span class="comment"># 添加默认网关，指向 Windows 共享网卡的 IP</span></span><br><span class="line">route add default gw 192.168.137.1</span><br><span class="line"><span class="comment"># 设置 DNS 服务器，用于域名解析（如 ping baidu.com）</span></span><br><span class="line"><span class="built_in">echo</span> <span class="string">&quot;nameserver 114.114.114.114&quot;</span> &gt; /etc/resolv.conf</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p><strong>注意</strong>：这种方式配置的 IP 会在重启后失效，如果需要持久化，需要编写开机启动脚本，参考官网教程<a target="_blank" rel="noopener" href="https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/Autostart">自启动配置 | LUCKFOX WIKI</a>，在系统启动时自动修改IP配置：</p>
+<p>在 <code>/etc/init.d/</code> 目录下新增并编辑配置静态路由的脚本文件，命名为<code>S99z_static_ip</code> （确保该命名在系统脚本之后）</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/init.d/S99z_static_ip</span><br></pre></td></tr></table></figure>
+<p>内容如下：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"><span class="keyword">case</span> <span class="variable">$1</span> <span class="keyword">in</span></span><br><span class="line">  start)</span><br><span class="line">      ifconfig usb0 192.168.137.100 netmask 255.255.255.0</span><br><span class="line">      route add default gw 192.168.137.1</span><br><span class="line">      <span class="built_in">echo</span> <span class="string">&quot;nameserver 114.114.114.114&quot;</span> &gt; /etc/resolv.conf</span><br><span class="line">      ;;</span><br><span class="line">  stop)</span><br><span class="line">      ;;</span><br><span class="line">  *)</span><br><span class="line">      <span class="built_in">exit</span> 1</span><br><span class="line">      ;;</span><br><span class="line"><span class="keyword">esac</span></span><br></pre></td></tr></table></figure>
+<p>给脚本添加可执行权限：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> +x /etc/init.d/S99z_static_ip</span><br></pre></td></tr></table></figure>
+</blockquote>
+<p>在开发板上尝试 ping 局域网其他主机或百度域名 <code>www.baidu.com</code> ，能够ping通，说明网络配置成功。</p>
+<p><img src="/images/post/luckfox/pico_ping_other.webp" alt="" /></p>
+<h4 id="方式二usb扩展有线网卡"><a class="markdownIt-Anchor" href="#方式二usb扩展有线网卡"></a> 方式二：USB扩展有线网卡</h4>
+<p>通过 Type-C 网卡设备，给开发板提供一个网口，连接到局域网交换机或路由器即可上网，注意需要单独提供电源给开发板供电。</p>
+<h5 id="编译系统镜像"><a class="markdownIt-Anchor" href="#编译系统镜像"></a> 编译系统镜像</h5>
+<p>由于购买的 USB 网卡的芯片是 Realtek RTL8152，从 LuckFox 官网下载的 buildroot 镜像内核没有带有这个网卡驱动，导致无法识别网卡，需要使用官方 SDK 自己编译系统镜像。</p>
+<p>当开发板 USB 模式切换到 host 并重启后，连接到 USB 网卡接入网络，发现无法联网，可以通过如下方式排查：</p>
+<ul>
+<li>
+<p>检查 USB 模式：<code>cat /sys/devices/platform/ff3e0000.usb2-phy/otg_mode</code> ，输出 <code>peripheral</code> 说明没有切换到 host 模式，需要使用 <code>luckfox-config</code> 配置，参考下一章节</p>
+</li>
+<li>
+<p>检查 USB 设备识别情况：<code>lsusb</code> ，看下是否识别到USB设备，如下输出第二行的 <code>ID 0bda:8152</code> 说明已经识别到了 8152 的USB设备</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Bus 001 Device 001: ID 1d6b:0002</span><br><span class="line">Bus 001 Device 002: ID 0bda:8152</span><br><span class="line">Bus 002 Device 001: ID 1d6b:0003</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>检查内核是否包含 RTL8152 驱动模块（如果驱动是编译进内核的，这里不会有输出，但我们可以通过其他方式确认）：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">lsmod | grep r8152</span><br></pre></td></tr></table></figure>
+</li>
+<li>
+<p>查看内核日志中关于 RTL8152 的信息：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dmesg | grep -i r8152</span><br></pre></td></tr></table></figure>
+<p><strong>如果没有任何输出说明没有 RTL8152 驱动，就需要自己编译带这个驱动的镜像</strong>；如果输出如下内容说明已经有驱动了，但是未识别到版本号，给开发板下电重新上电试试：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[    0.585603] r8152 1-1:2.0: Unknown version 0x0000</span><br></pre></td></tr></table></figure>
+<p>如果正确识别到了网卡，将会输出版本号：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[    0.991747] r8152 1-1:1.0: skip request firmware</span><br><span class="line">[    1.032188] r8152 1-1:1.0 eth0: v1.11.11</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>SDK 镜像编译，参考官方文档：<a target="_blank" rel="noopener" href="https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/SDK-Image-Compilation">https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/SDK-Image-Compilation</a></p>
+</blockquote>
+<p>操作步骤：</p>
+<p>从 getee 克隆下载源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://gitee.com/LuckfoxTECH/luckfox-pico.git</span><br></pre></td></tr></table></figure>
+<p>安装编译环境依赖：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">sudo</span> apt-get install -y git ssh make gcc gcc-multilib g++-multilib module-assistant expect g++ gawk texinfo libssl-dev bison flex fakeroot cmake unzip gperf autoconf device-tree-compiler libncurses5-dev pkg-config bc python-is-python3 passwd openssl openssh-server openssh-client vim file cpio rsync curl</span><br></pre></td></tr></table></figure>
+<p>进入源码目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> luckfox-pico</span><br></pre></td></tr></table></figure>
+<p>进入内核源码目录：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> sysdrv/source/kernel</span><br></pre></td></tr></table></figure>
+<p><strong>使用 menuconfig 图形界面配置内核，启用 RTL8152 驱动</strong>:</p>
+<p>先加载默认配置：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make ARCH=arm luckfox_rv1106_linux_defconfig</span><br></pre></td></tr></table></figure>
+<p>打开图形配置界面：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make ARCH=arm menuconfig</span><br></pre></td></tr></table></figure>
+<p><img src="/images/post/luckfox/menuconfig_ui.webp" alt="" /></p>
+<p>在 menuconfig 界面中，按以下路径找到 RTL8152 驱动：</p>
+<blockquote>
+<p>menuconfig 图形界面操作方式：</p>
+<ul>
+<li>用 <strong>上下箭头</strong> 移动光标</li>
+<li>按 <strong>空格键</strong> 选中（显示 <code>*</code> 表示编译进内核，推荐）</li>
+<li>按 <strong>Y</strong> 直接选中，按 <strong>N</strong> 取消</li>
+<li>确认后按 <strong>Esc</strong> 退出，最后选择 <strong>Save</strong> 保存配置</li>
+</ul>
+</blockquote>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Device Drivers  ---&gt;</span><br><span class="line">    Network device support  ---&gt;</span><br><span class="line">        USB Network Adapters  ---&gt;</span><br><span class="line">            [*]   Realtek RTL8152/RTL8153 Based USB Ethernet Adapters</span><br></pre></td></tr></table></figure>
+<p><img src="/images/post/luckfox/menuconfig_rtl8152.webp" alt="" /></p>
+<p>配置完成后，执行下面命令验证配置是否正确，如果输出 <code>CONFIG_USB_RTL8152=y</code>，说明配置成功。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grep RTL8152 .config</span><br></pre></td></tr></table></figure>
+<p>回到 SDK 根目录，执行下述命令，选择版型、启动介质、系统配置：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build.sh lunch</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>我这里选择如下（第一个选了 Pico 后面两个就只有一个选择了）：</p>
+<ul>
+<li>硬件版本：<code>[0] RV1103_Luckfox_Pico</code></li>
+<li>启动媒介：<code>[0] SD_CARD</code></li>
+<li>系统版本：<code>[0] Buildroot</code></li>
+</ul>
+</blockquote>
+<p>开始编译，我电脑性能一般，编译耗时约 3 小时：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build.sh</span><br></pre></td></tr></table></figure>
+<p><img src="/images/post/luckfox/compile_pico_firmware.png" alt="" /></p>
+<p>编译完成后，生成的镜像文件存放在 <code>output/image/</code> 目录下，打包下载到本地，然后用 <a target="_blank" rel="noopener" href="https://wiki.luckfox.com/Tools/SocToolKit_v1.98_win.zip">SocToolKit</a> 软件烧录到SD卡上，插回开发板，上电启动。</p>
+<h5 id="修改-usb-模式为-host"><a class="markdownIt-Anchor" href="#修改-usb-模式为-host"></a> 修改 USB 模式为 host</h5>
+<p>开发板 usb 默认是 device 模式，可以通过数据线将开发板连接到电脑，使用 adb 访问。</p>
+<p>现在需要将开发板 usb 连接到有线网卡，需要先把开发板 usb 模式修改为 host 模式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">luckfox-config</span><br></pre></td></tr></table></figure>
+<p>进入 <code>Advanced Options</code> - <code>USB</code> ，选择 host，保存，重启生效。</p>
+<blockquote>
+<p><strong>注意：usb 设置成 host 模式将导致无法使用 adb 连接，如果IP设置也有问题，就只能使用串口访问了。</strong></p>
+</blockquote>
+<p>通过串口连接到开发板后，执行如下命令可查看当前 usb 工作模式，如果输出 <code>host</code> 说明配置正确：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cat</span> /sys/devices/platform/ff3e0000.usb2-phy/otg_mode</span><br></pre></td></tr></table></figure>
+<h5 id="使用串口连接开发板"><a class="markdownIt-Anchor" href="#使用串口连接开发板"></a> 使用串口连接开发板</h5>
+<p>在网上购买一个 USB 转 TTL 模块（十几块钱），用来连接开发板查看网口信息，同时用来给开发板供电。</p>
+<p>接线方式：</p>
+<blockquote>
+<p>可以参考官方文档：<a target="_blank" rel="noopener" href="https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/Login#25-%E4%B8%B2%E5%8F%A3%E7%99%BB%E5%BD%95">https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/Login#25-串口登录</a></p>
+<p>注意：这里和官方连线不同，我们要使用 TTL 模块给开发板供电，所以将 USB 转 TTL 模块的 <code>5V</code> 输出引脚连到了开发板的供电引脚 <code>VBUS</code> 。</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">USB 转 TTL</th>
+<th style="text-align:center">LuckFox Pico</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">5V</td>
+<td style="text-align:center">VBUS</td>
+</tr>
+<tr>
+<td style="text-align:center">GND</td>
+<td style="text-align:center">GND</td>
+</tr>
+<tr>
+<td style="text-align:center">TX</td>
+<td style="text-align:center">RX</td>
+</tr>
+<tr>
+<td style="text-align:center">RX</td>
+<td style="text-align:center">TX</td>
+</tr>
+</tbody>
+</table>
+<p>连好线后将 USB 转 TTL 模块插入电脑，打开 MobaXterm ，新建 Session 选择 Serial 串口类型：</p>
+<ul>
+<li>串口端口 Serial port 选择连接开发板的串口，如 <code>COM3 (USB-SERIAL CH340(COM3))</code></li>
+<li>波特率 Speed(bps) 选 <code>115200</code></li>
+<li>在 Advanced Serial Settings中配置：
+<ul>
+<li>Serial engine：PuTTY</li>
+<li>Data bits：8</li>
+<li>Stop bits：1</li>
+<li>Parity：None</li>
+<li>Flow control：None</li>
+</ul>
+</li>
+</ul>
+<p>点击 OK 建立连接。</p>
+<p><img src="/images/post/luckfox/MobaXterm_serial_cfg.webp" alt="" /></p>
+<h5 id="独立电源供电"><a class="markdownIt-Anchor" href="#独立电源供电"></a> 独立电源供电</h5>
+<p>当开发板调试好，可以使用有线网口接入网络后，建议使用独立电源给开发板供电，不再依赖电脑。</p>
+<p>将直流电源设置为 5V 1A，正极连接到开发板 <code>VBUS</code> 引脚，负极连接到开发板 <code>GND</code> 引脚，启动电源即可自动启动开发板。</p>
+<h3 id="搭建web服务"><a class="markdownIt-Anchor" href="#搭建web服务"></a> 搭建web服务</h3>
+<h4 id="web服务开发"><a class="markdownIt-Anchor" href="#web服务开发"></a> web服务开发</h4>
+<blockquote>
+<p>Mongoose 是一个开源的嵌入式设备的 Web 服务器项目，可作为嵌入式设备网络库，使用 C 语言开发。</p>
+<p>Github 地址：<a target="_blank" rel="noopener" href="https://github.com/cesanta/mongoose">https://github.com/cesanta/mongoose</a></p>
+</blockquote>
+<p>从 GitHub 克隆 mongoose 项目源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/cesanta/mongoose.git</span><br></pre></td></tr></table></figure>
+<p>创建 web 服务项目目录，从源码仓库根目录复制 <code>mongoose.h</code> 、<code>mongoose.c</code> 到 web 服务项目目录，创建 <code>main.c</code> 文件，以下示例代码将在 <code>8000</code> 端口开启 web 服务，提供一个 <code>/hello</code> 的接口，接收一个参数 <code>name</code>，返回 <code>{&quot;msg&quot;:&quot;hello [name]!&quot;}</code> 响应，其他请求返回静态文件。代码内容如下：</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&quot;mongoose.h&quot;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> *s_http_addr = <span class="string">&quot;http://0.0.0.0:8000&quot;</span>; <span class="comment">// 在 8000 端口监听 HTTP 请求</span></span><br><span class="line"><span class="type">static</span> <span class="type">const</span> <span class="type">char</span> *s_root_dir = <span class="string">&quot;web_root&quot;</span>;</span><br><span class="line"></span><br><span class="line"><span class="type">static</span> <span class="type">void</span> <span class="title function_">fn</span><span class="params">(<span class="keyword">struct</span> mg_connection *c, <span class="type">int</span> ev, <span class="type">void</span> *ev_data)</span> &#123;</span><br><span class="line">  <span class="keyword">if</span>(ev == MG_EV_HTTP_MSG) &#123;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">mg_http_message</span> *<span class="title">hm</span> =</span> (<span class="keyword">struct</span> mg_http_message *) ev_data;</span><br><span class="line">    <span class="keyword">if</span>(mg_match(hm-&gt;uri, mg_str(<span class="string">&quot;/hello&quot;</span>), <span class="literal">NULL</span>)) &#123;</span><br><span class="line">      <span class="comment">// 解析查询参数中的 name 字段，并返回 JSON 格式的响应</span></span><br><span class="line">      <span class="type">char</span> name[<span class="number">64</span>] = &#123;<span class="number">0</span>&#125;;</span><br><span class="line">      mg_http_get_var(&amp;hm-&gt;query, <span class="string">&quot;name&quot;</span>, name, <span class="keyword">sizeof</span>(name));</span><br><span class="line">      mg_http_reply(c, <span class="number">200</span>, <span class="string">&quot;Content-Type: application/json\r\n&quot;</span>, <span class="string">&quot;&#123;\&quot;msg\&quot;:\&quot;hello %s!\&quot;&#125;&quot;</span>, name);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="comment">// 其他请求，返回静态文件</span></span><br><span class="line">      <span class="keyword">struct</span> mg_http_serve_opts opts = &#123;.root_dir = s_root_dir&#125;;</span><br><span class="line">      mg_http_serve_dir(c, ev_data, &amp;opts);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span> &#123;</span><br><span class="line">  <span class="class"><span class="keyword">struct</span> <span class="title">mg_mgr</span> <span class="title">mgr</span>;</span></span><br><span class="line">  mg_log_set(MG_LL_DEBUG);</span><br><span class="line">  mg_mgr_init(&amp;mgr);</span><br><span class="line">  mg_http_listen(&amp;mgr,s_http_addr, fn, <span class="literal">NULL</span>);</span><br><span class="line">  <span class="keyword">for</span> (;;) mg_mgr_poll(&amp;mgr, <span class="number">1000</span>);</span><br><span class="line">  mg_mgr_free(&amp;mgr);</span><br><span class="line">  <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 web 服务目录中创建 <code>web_root</code> 目录，用于存放前端静态资源文件 <code>index.html</code> ，文件内容如下：</p>
+<blockquote>
+<p>其他前端资源文件也可以放在这个目录下，比如 css、js 文件。</p>
+</blockquote>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">html</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">&quot;zh-CN&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">&quot;UTF-8&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">meta</span> <span class="attr">name</span>=<span class="string">&quot;viewport&quot;</span> <span class="attr">content</span>=<span class="string">&quot;width=device-width, initial-scale=1.0&quot;</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">title</span>&gt;</span>Hello World<span class="tag">&lt;/<span class="name">title</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">h1</span>&gt;</span>hello world<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<h4 id="编译部署"><a class="markdownIt-Anchor" href="#编译部署"></a> 编译部署</h4>
+<p>编译项目源码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arm-rockchip830-linux-uclibcgnueabihf-gcc main.c mongoose.c -o web</span><br></pre></td></tr></table></figure>
+<p>将 web 服务资源和可执行文件打包成 tar 包：</p>
+<blockquote>
+<p>开发板的 tar 命令不支持解压 .gz 文件，所以只能打包成 tar 包，不能打成 .tar.gz 文件。</p>
+</blockquote>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -cf web_server.tar web web_root/</span><br></pre></td></tr></table></figure>
+<p>导出 tar 包并上传到开发板，解压 tar 包，运行 web 服务：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">tar -xf web_server.tar</span><br><span class="line">./web</span><br></pre></td></tr></table></figure>
+<h4 id="访问服务"><a class="markdownIt-Anchor" href="#访问服务"></a> 访问服务</h4>
+<h5 id="共享电脑网络方式"><a class="markdownIt-Anchor" href="#共享电脑网络方式"></a> 共享电脑网络方式</h5>
+<p>在 Windows 电脑上打开浏览器，访问开发板 8000 端口的 web 服务：<a target="_blank" rel="noopener" href="http://192.168.137.100:8000/">http://192.168.137.100:8000/</a> ，显示 web 服务的主页 index.html。</p>
+<p><img src="/images/post/luckfox/pico_web_index.webp" alt="" /></p>
+<p>访问 web 服务的接口，传入 name 参数，<a target="_blank" rel="noopener" href="http://192.168.137.100:8000/hello?name=LuckFox">http://192.168.137.100:8000/hello?name=LuckFox</a> ，返回接口响应 json 数据：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span><span class="attr">&quot;msg&quot;</span><span class="punctuation">:</span><span class="string">&quot;hello LuckFox!&quot;</span><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>现在在 Windows 电脑上可以访问开发板上的 web 服务了，如果想要让局域网其他设备访问，可以在 Windows 电脑上使用 ssh 建立和开发板的 TCP 通信隧道：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh -N -L 192.168.2.176:8080:192.168.137.100:8000 root@192.168.137.100</span><br></pre></td></tr></table></figure>
+<p>这样局域网中其他设备可以访问 <a target="_blank" rel="noopener" href="http://192.168.2.176:8080">http://192.168.2.176:8080</a> 来访问开发板上的 web 服务。</p>
+<blockquote>
+<p>命令说明：这个 <code>ssh</code> 命令用于建立一个 <strong>SSH 隧道</strong>，实现<strong>本地端口转发</strong>，将本地机器上的一个端口（8080）通过 SSH 连接转发到远程主机上的另一个端口（8000）。</p>
+<p>具体参数说明：</p>
+<ul>
+<li><strong><code>ssh</code></strong>：SSH 客户端命令，用于建立安全的远程连接。</li>
+<li><strong><code>-N</code></strong>：表示<strong>不执行远程命令</strong>。仅建立连接并用于端口转发，不打开远程 shell 或执行任何命令。</li>
+<li><strong><code>-L</code></strong>：指定<strong>本地端口转发</strong>（Local Forwarding）。其语法为 <code>[bind_address:]port:host:hostport</code>，含义是：将本地（或指定接口）的 <code>port</code> 上的流量，通过 SSH 隧道转发到远程主机（即 SSH 服务器）所见的 <code>host:hostport</code>。</li>
+<li><strong><code>192.168.2.176:8080:192.168.137.100:8000</code></strong>：这是 <code>-L</code> 的参数，具体含义：</li>
+<li><code>192.168.2.176:8080</code>：在本地机器上，监听 IP 地址为 <code>192.168.2.176</code>（这是一个本地网络接口）的 <strong>8080 端口</strong>。这意味着只有从该 IP 地址访问本地 8080 端口的连接才会被转发。</li>
+<li><code>192.168.137.100:8000</code>：通过 SSH 隧道，将流量转发到远程主机（即 SSH 服务器）所能访问到的 <code>192.168.137.100</code> 的 <strong>8000 端口</strong>。</li>
+<li><strong><code>root@192.168.137.100</code></strong>：指定登录到远程 SSH 服务器，用户名为 <code>root</code>，服务器地址为 <code>192.168.137.100</code>。</li>
+</ul>
+</blockquote>
+<h5 id="usb-网卡联网方式"><a class="markdownIt-Anchor" href="#usb-网卡联网方式"></a> USB 网卡联网方式</h5>
+<p>开发板通过 Type-C 转网口线接入局域网路由器，使用 DHCP 自动获取到 IP 后，在局域网中直接通过开发板 IP 访问其中提供的 web 服务。</p>
+<p>开发板 IP 可以通过串口登录到开发板查看：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip addr show</span><br></pre></td></tr></table></figure>
+<p>输出结果：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">2: eth0: &lt;BROADCAST,MULTICAST,UP,LOWER_UP&gt; mtu 1500 qdisc pfifo_fast qlen 1000</span><br><span class="line">    link/ether 00:e0:4a:16:8a:6e brd ff:ff:ff:ff:ff:ff</span><br><span class="line">    inet 192.168.2.132/24 brd 192.168.2.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure>
+<p>这里的 <code>eth0</code> 就是我们 USB 网卡，IP 是 <code>192.168.2.132</code> ，启动 web 服务器后，访问 <a target="_blank" rel="noopener" href="http://192.168.2.132:8000">http://192.168.2.132:8000</a> 就可以打开 web 服务。</p>
+<p><img src="/images/post/luckfox/pico_web_index_2.webp" alt="" /></p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<ul>
+<li>通过共享主机网络，可以让开发板通过数据线接入到网络，能够访问局域网和公网。但是要让局域网其他设备访问开发板不太容易，我在 Windows 电脑上配置路由转发，但是没有生效。</li>
+<li>使用 USB 网卡通过有线方式将 LuckFox Pino 连入网络，但需要单独提供电源，通过 VBUS、GND 引脚供电。</li>
+<li>USB 网卡联网方式，需要把开发板 USB 模式改成 host 模式，让开发板成为 “主机”，来连接其他 USB 设备，如 USB 网卡、鼠标、键盘等。与之相对的是 <strong>Device（从机）模式</strong>，此时开发板自己充当一个 USB 设备（例如被电脑识别为虚拟网卡或存储设备）。</li>
+<li>开发板 USB 设置成 host 模式后，电脑就无法通过数据线连接访问开发板了，只能通过串口连接，如果没有 USB 转 TTL 模块，想该回去就只能重新烧录镜像了。</li>
+<li>网上买的 Type-C 转网口线没说明是用的什么芯片，查了资料才知道是  RTL8152，但LuckFox 官方提供的 buildroot 镜像不带有 RTL8152 驱动，可以下载 SDK 自己编译带  RTL8152 驱动的固件镜像。</li>
+<li>编译固件的电脑是 Ubuntu 24.04，编译过程很顺利，没有报错，就是全部编译时间太久了。</li>
+<li>我第一次编译的固件有问题，烧录运行后还是没有运行  RTL8152 驱动，怀疑是编译内核的配置没有生效，重新编译的时候，我选择了只编译内核，得到 <code>boot.img</code> ，替换第一次编译的镜像文件，这样只需要几分钟，大大节约了编译时间。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/IoT/" rel="tag"># IoT</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91%E6%9D%BF/" rel="tag"># 开发板</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag"># 硬件</a>
+              <a href="/tags/web/" rel="tag"># web</a>
+              <a href="/tags/luckfox/" rel="tag"># luckfox</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/%E7%BD%91%E7%BB%9C/" rel="tag"># 网络</a>
+              <a href="/tags/web%E6%9C%8D%E5%8A%A1/" rel="tag"># web服务</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/16/%E5%8F%8B%E5%96%84R3S%E5%AE%89%E8%A3%85%E8%BD%AF%E8%B7%AF%E7%94%B1/" rel="prev" title="友善R3S安装软路由">
+                  <i class="fa fa-angle-left"></i> 友善R3S安装软路由
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>

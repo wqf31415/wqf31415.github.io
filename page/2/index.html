@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">138</span>
+          <span class="site-state-item-count">139</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -240,6 +240,102 @@ document.addEventListener('DOMContentLoaded', function() {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03-Rust%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E4%B9%8B%E6%89%80%E6%9C%89%E6%9D%83/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03-Rust%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E4%B9%8B%E6%89%80%E6%9C%89%E6%9D%83/" class="post-title-link" itemprop="url">Rust学习笔记3-Rust核心概念之所有权</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2024-06-03 23:32:24" itemprop="dateCreated datePublished" datetime="2024-06-03T23:32:24+00:00">2024-06-03</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Rust/" itemprop="url" rel="index"><span itemprop="name">Rust</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文件介绍了 Rust 中最核心，也是最特别的一个概念：所有权（ownership），想学好 Rust 就必须充分的理解所有权。所有权让 Rust 在无需垃圾回收机制就可以保证内存安全，而且在其他编程中从未有过所有权的概念，因此从其他编程语言转来学 Rust 时会感觉难以理解。</p>
+<h3 id="什么是所有权"><a class="markdownIt-Anchor" href="#什么是所有权"></a> 什么是所有权</h3>
+<p>所有权是 Rust 的核心特性，Rust 中使用所有权系统来管理内存使用，它让 Rust 无需 GC （垃圾回收）就可以保证内存安全。所有权机制不像 java、C# 使用垃圾回收器管理内存，也不像 C/C++ 语言一样需要程序员显式的申请与释放内存。</p>
+<p>所有权系统让 Rust 在<strong>编译时</strong>就可以完成内存使用的检查，因而程序在运行时就不会产生任何额外开销，这样既保证了内存安全，又提升了运行速度。真是妙啊！</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B03-Rust%E6%A0%B8%E5%BF%83%E6%A6%82%E5%BF%B5%E4%B9%8B%E6%89%80%E6%9C%89%E6%9D%83/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2024/06/03/Rust%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B02-Rust%E5%9F%BA%E7%A1%80%E8%AF%AD%E6%B3%95/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -276,7 +372,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -371,7 +467,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -467,7 +563,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -566,7 +662,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -660,7 +756,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -780,7 +876,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -875,7 +971,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -977,7 +1073,7 @@ C -.-&gt; JS</code></pre>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1081,7 +1177,7 @@ C -.-&gt; JS</code></pre>
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
+      <time title="修改时间：2026-03-25 14:41:45" itemprop="dateModified" datetime="2026-03-25T14:41:45+00:00">2026-03-25</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1126,100 +1222,6 @@ C -.-&gt; JS</code></pre>
           <!--noindex-->
             <div class="post-button">
               <a class="btn" href="/2023/06/24/%E4%BB%853kB%E7%9A%84ReactJs%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2023/03/18/%E6%88%90%E9%83%BD%E7%BB%95%E5%9F%8E%E7%BB%BF%E9%81%93%E9%AA%91%E8%A1%8C%E8%AE%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | This_Wei">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2023/03/18/%E6%88%90%E9%83%BD%E7%BB%95%E5%9F%8E%E7%BB%BF%E9%81%93%E9%AA%91%E8%A1%8C%E8%AE%B0/" class="post-title-link" itemprop="url">成都绕城绿道骑行记</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2023-03-18 19:54:23" itemprop="dateCreated datePublished" datetime="2023-03-18T19:54:23+00:00">2023-03-18</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-03-21 13:24:05" itemprop="dateModified" datetime="2026-03-21T13:24:05+00:00">2026-03-21</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/%E4%BF%AE%E8%A1%8C/" itemprop="url" rel="index"><span itemprop="name">修行</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>这篇文章记录了我骑行成都绕城绿道的计划和经历总结，为以后骑行活动提供一个参考。</p>
-<iframe src="//player.bilibili.com/player.html?aid=438846860&bvid=BV1fL411X7ke&cid=1062239294&page=1" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true"> </iframe>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2023/03/18/%E6%88%90%E9%83%BD%E7%BB%95%E5%9F%8E%E7%BB%BF%E9%81%93%E9%AA%91%E8%A1%8C%E8%AE%B0/#more" rel="contents">
                 阅读全文 &raquo;
               </a>
             </div>
