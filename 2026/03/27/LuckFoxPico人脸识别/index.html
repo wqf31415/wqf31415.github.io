@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.27.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 这篇文章记录了使用 LuckFox Pico 开发板，搭配 SC3336 摄像头，实现人脸识别视频流播放。  原理 这里面用到了两大核心技术，使用 RKMPI 完成视频采集、处理、编码，使用 NPU 运行 RetinaFace 模型识别人脸位置：  RKMPI ，全称是Rockchip Media Process Interface，它的核心价值就是充分利用芯片中的硬件模块（如VPU、IS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LuckFoxPico人脸识别">
+<meta property="og:url" content="https://www.wqf31415.xyz/2026/03/27/LuckFoxPico%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章记录了使用 LuckFox Pico 开发板，搭配 SC3336 摄像头，实现人脸识别视频流播放。  原理 这里面用到了两大核心技术，使用 RKMPI 完成视频采集、处理、编码，使用 NPU 运行 RetinaFace 模型识别人脸位置：  RKMPI ，全称是Rockchip Media Process Interface，它的核心价值就是充分利用芯片中的硬件模块（如VPU、IS">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/vlc_live_cfg.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/vlc_live_play.webp">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/vlc_live_cfg_more.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/run_retinaface_demo.png">
+<meta property="og:image" content="https://www.wqf31415.xyz/images/post/luckfox/retinaface_vidio.webp">
+<meta property="article:published_time" content="2026-03-27T20:14:30.000Z">
+<meta property="article:modified_time" content="2026-03-27T14:31:18.906Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="C">
+<meta property="article:tag" content="IoT">
+<meta property="article:tag" content="linux">
+<meta property="article:tag" content="luckfox">
+<meta property="article:tag" content="嵌入式">
+<meta property="article:tag" content="开发板">
+<meta property="article:tag" content="流媒体">
+<meta property="article:tag" content="硬件">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/luckfox/vlc_live_cfg.webp">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2026/03/27/LuckFoxPico%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2026/03/27/LuckFoxPico%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/","path":"2026/03/27/LuckFoxPico人脸识别/","title":"LuckFoxPico人脸识别"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>LuckFoxPico人脸识别 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+<style>
+/* Global responsive styles for SVG images on mobile */
+.post-body svg,
+.post-body img[src$=".svg"] {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  box-sizing: border-box;
+}
+</style>
+<script>
+// Global fix for inline SVG with fixed width on mobile
+document.addEventListener('DOMContentLoaded', function() {
+  (function() {
+    function fixSvgSize() {
+      var svgs = document.querySelectorAll('.post-body svg');
+      for (var i = 0; i < svgs.length; i++) {
+        var svg = svgs[i];
+        var width = svg.getAttribute('width');
+        var height = svg.getAttribute('height');
+
+        // If SVG has width/height attributes but no viewBox, add viewBox
+        if (width && height && !svg.getAttribute('viewBox')) {
+          // Remove any units, just get the number
+          var wNum = parseFloat(width);
+          var hNum = parseFloat(height);
+          if (wNum && hNum) {
+            svg.setAttribute('viewBox', '0 0 ' + wNum + ' ' + hNum);
+          }
+        }
+
+        // Force preserveAspectRatio to maintain original ratio
+        if (!svg.getAttribute('preserveAspectRatio')) {
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        }
+      }
+    }
+    // Run on page load
+    fixSvgSize();
+    // Run again after any dynamic content loads
+    if (document.addEventListener) {
+      document.addEventListener('pjax:complete', fixSvgSize);
+    }
+  })();
+});
+</script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8E%9F%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text"> 原理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%89%A9%E6%96%99"><span class="nav-number">3.</span> <span class="nav-text"> 物料</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%AE%BE%E5%A4%87"><span class="nav-number">3.1.</span> <span class="nav-text"> 设备</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6"><span class="nav-number">3.2.</span> <span class="nav-text"> 软件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%85%B6%E4%BB%96%E7%89%A9%E6%96%99"><span class="nav-number">3.3.</span> <span class="nav-text"> 其他物料</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91%E6%B5%81"><span class="nav-number">4.</span> <span class="nav-text"> 播放视频流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB"><span class="nav-number">5.</span> <span class="nav-text"> 人脸识别</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%BC%96%E8%AF%91%E7%8E%AF%E5%A2%83"><span class="nav-number">5.1.</span> <span class="nav-text"> 准备编译环境</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%8E%B7%E5%8F%96%E6%BA%90%E7%A0%81"><span class="nav-number">5.2.</span> <span class="nav-text"> 获取源码</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BC%96%E8%AF%91%E9%A1%B9%E7%9B%AE"><span class="nav-number">5.3.</span> <span class="nav-text"> 编译项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%90%E8%A1%8C%E7%A8%8B%E5%BA%8F"><span class="nav-number">5.4.</span> <span class="nav-text"> 运行程序</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%92%AD%E6%94%BE%E8%A7%86%E9%A2%91"><span class="nav-number">5.5.</span> <span class="nav-text"> 播放视频</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%89%A9%E5%B1%95"><span class="nav-number">6.</span> <span class="nav-text"> 扩展</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">7.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">140</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">115</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2026/03/27/LuckFoxPico%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="LuckFoxPico人脸识别 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          LuckFoxPico人脸识别<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/LuckFoxPico%E4%BA%BA%E8%84%B8%E8%AF%86%E5%88%AB.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-03-27 20:14:30 / 修改时间：14:31:18" itemprop="dateCreated datePublished" datetime="2026-03-27T20:14:30+00:00">2026-03-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B5%8C%E5%85%A5%E5%BC%8F/" itemprop="url" rel="index"><span itemprop="name">嵌入式</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章记录了使用 LuckFox Pico 开发板，搭配 SC3336 摄像头，实现人脸识别视频流播放。</p>
+<h3 id="原理"><a class="markdownIt-Anchor" href="#原理"></a> 原理</h3>
+<p>这里面用到了两大核心技术，使用 RKMPI 完成视频采集、处理、编码，使用 NPU 运行 RetinaFace 模型识别人脸位置：</p>
+<ul>
+<li>RKMPI ，全称是Rockchip Media Process Interface，它的核心价值就是<strong>充分利用芯片中的硬件模块</strong>（如VPU、ISP）来完成视频的捕获、处理和编码，数据无需经过CPU中转，大大提升了效率。RKMPI负责高效地“搬运”和处理视频数据，为NPU准备好每一帧图像。</li>
+<li>RetinaFace ，InsightFace 团队在 2019 年提出的单阶段人脸检测器，RetinaFace 模型在 NPU 上跑推理，精准地找出人脸位置。</li>
+</ul>
+<pre><code class="highlight mermaid">flowchart LR
+    subgraph RKMPI [RKMPI 硬件加速流水线]
+        A[摄像头] --&gt; B[VI 视频采集]
+        B --&gt; C[VPSS 图像处理&lt;br&gt;缩放/格式转换]
+        C -- 原始图像帧 --&gt; D[内存缓冲池]
+        D -- 编码任务 --&gt; E[VENC 视频编码]
+    end
+
+    subgraph App [应用层逻辑]
+        F[应用程序] -- 调用 RKNN API --&gt; G[NPU 运行RetinaFace]
+    end
+
+    D -- 获取帧数据 --&gt; F
+    G -- 返回人脸坐标 --&gt; F
+    F -- 绘制检测框 --&gt; D
+    E -- H.264码流 --&gt; H[RTSP 推流]</code></pre>
+<span id="more"></span>
+<h3 id="物料"><a class="markdownIt-Anchor" href="#物料"></a> 物料</h3>
+<h4 id="设备"><a class="markdownIt-Anchor" href="#设备"></a> 设备</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">设备</th>
+<th style="text-align:center">操作系统</th>
+<th style="text-align:center">系统版本</th>
+<th style="text-align:center">IP</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">PC</td>
+<td style="text-align:center">Windows</td>
+<td style="text-align:center">11</td>
+<td style="text-align:center">192.168.2.176</td>
+<td style="text-align:center">用于播放视频流</td>
+</tr>
+<tr>
+<td style="text-align:center">LuckFox Pico 开发板</td>
+<td style="text-align:center">Buildroot</td>
+<td style="text-align:center">-g2ae728b52-dirty（2023.02.6）</td>
+<td style="text-align:center">192.168.2.132</td>
+<td style="text-align:center">开发板，已经插入烧录Buildroot镜像的SD卡，通过Typ-C网卡接入局域网</td>
+</tr>
+<tr>
+<td style="text-align:center">Ubuntu主机</td>
+<td style="text-align:center">Ubuntu</td>
+<td style="text-align:center">24.04 LTS</td>
+<td style="text-align:center">192.168.2.190</td>
+<td style="text-align:center">编译人脸识别项目代码</td>
+</tr>
+</tbody>
+</table>
+<h4 id="软件"><a class="markdownIt-Anchor" href="#软件"></a> 软件</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">软件</th>
+<th style="text-align:center">版本</th>
+<th style="text-align:center">用途</th>
+<th style="text-align:center">下载地址</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">VLC</td>
+<td style="text-align:center">3.0.23</td>
+<td style="text-align:center">播放开发板的 rtsp 视频流</td>
+<td style="text-align:center"><a target="_blank" rel="noopener" href="https://www.videolan.org/">VLC官网</a></td>
+</tr>
+<tr>
+<td style="text-align:center">MobaXterm</td>
+<td style="text-align:center">v22.0</td>
+<td style="text-align:center">远程连接开发板与Ubuntu主机</td>
+<td style="text-align:center"><a target="_blank" rel="noopener" href="https://wiki.luckfox.com/Tools/MobaXterm_Portable_v22.0.zip">MobaXterm_Portable_v22.0.zip</a></td>
+</tr>
+</tbody>
+</table>
+<h4 id="其他物料"><a class="markdownIt-Anchor" href="#其他物料"></a> 其他物料</h4>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">物料</th>
+<th style="text-align:center">参数</th>
+<th style="text-align:center">数量</th>
+<th style="text-align:center">备注</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center">SC3336摄像头</td>
+<td style="text-align:center">300万像素，带排线</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">型号：SC3336 3MP Camera (B) (带排线)</td>
+</tr>
+<tr>
+<td style="text-align:center">交换机</td>
+<td style="text-align:center">八孔千兆</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">让电脑、开发板接入局域网</td>
+</tr>
+<tr>
+<td style="text-align:center">Type-C转网口有线网卡</td>
+<td style="text-align:center">百兆</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">插在开发板，为开发板提供有线联网功能</td>
+</tr>
+<tr>
+<td style="text-align:center">USB转TTL模块</td>
+<td style="text-align:center">CH340</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">通过串口访问开发板</td>
+</tr>
+<tr>
+<td style="text-align:center">网线</td>
+<td style="text-align:center">1米</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">连接Type-C 网卡到交换机</td>
+</tr>
+<tr>
+<td style="text-align:center">杜邦线</td>
+<td style="text-align:center">20cm，母对母</td>
+<td style="text-align:center">4</td>
+<td style="text-align:center">连接USB转TTL模块；连接电源和开发板，给开发板供电</td>
+</tr>
+</tbody>
+</table>
+<h3 id="播放视频流"><a class="markdownIt-Anchor" href="#播放视频流"></a> 播放视频流</h3>
+<blockquote>
+<p>参考官方使用说明文档，CSI 摄像头: <a target="_blank" rel="noopener" href="https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/CSI-Camera">https://wiki.luckfox.com/zh/Luckfox-Pico-Plus-Mini/CSI-Camera</a></p>
+</blockquote>
+<p>将 SC3336 摄像头排线插到开发板，确保排线的蓝色面朝向开发板。</p>
+<p>查看是否识别到摄像头：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">ls</span> /userdata/</span><br></pre></td></tr></table></figure>
+<p>识别摄像头成功会输出 <code>rkipc.ini</code> 文件，例如：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ethaddr.txt  image.bmp    lost+found   rkipc.ini    video0       video1       video2</span><br></pre></td></tr></table></figure>
+<p>查看开发板 IP 地址，我的开发板 IP 是 <code>192.168.2.132</code>：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ip addr show</span><br></pre></td></tr></table></figure>
+<p>在 Windows 电脑上安装并打开 VLC 软件，点击菜单栏 <code>媒体</code> - <code>打开网络串流</code> ，输入网络地址 URL ：<code>rtsp://&lt;开发板IP&gt;/live/0</code>，如我的开发板 IP 是 <code>192.168.2.132</code>，所以输入URL 是 <code>rtsp://192.168.2.132/live/0</code> ，点击播放，即可看到通过摄像头拍到的视频。</p>
+<p><img src="/images/post/luckfox/vlc_live_cfg.webp" alt="" /></p>
+<p>视频效果：</p>
+<p><img src="/images/post/luckfox/vlc_live_play.webp" alt="" /></p>
+<blockquote>
+<p>VLC软件默认会缓存1秒（1000ms=1s）的视频，可以适度减小缓存时间，可以提高实时性，但是延迟太低 可能导致丢包或者卡顿，建议不低于300ms。</p>
+</blockquote>
+<p><img src="/images/post/luckfox/vlc_live_cfg_more.png" alt="" /></p>
+<h3 id="人脸识别"><a class="markdownIt-Anchor" href="#人脸识别"></a> 人脸识别</h3>
+<blockquote>
+<p>以下项目编译均在 Ubuntu 主机上完成</p>
+</blockquote>
+<h4 id="准备编译环境"><a class="markdownIt-Anchor" href="#准备编译环境"></a> 准备编译环境</h4>
+<p>下载 Buildroot 系统的交叉编译工具链：<a target="_blank" rel="noopener" href="https://files.luckfox.com/wiki/Luckfox-Pico/Software/arm-rockchip830-linux-uclibcgnueabihf.tar.gz">https://files.luckfox.com/wiki/Luckfox-Pico/Software/arm-rockchip830-linux-uclibcgnueabihf.tar.gz</a></p>
+<p>解压：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -zxf arm-rockchip830-linux-uclibcgnueabihf.tar.gz</span><br></pre></td></tr></table></figure>
+<p>记录下编译工具链目录中 bin 目录的绝对路径，添加到用户 bash 的环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vim ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>在配置最后面添加编译工具链 bin 路径：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=/home/wqf31415/tools/arm-rockchip830-linux-uclibcgnueabihf/bin:$PATH</span><br></pre></td></tr></table></figure>
+<p>更新环境变量，让配置立即生效：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">source</span> ~/.bashrc</span><br></pre></td></tr></table></figure>
+<p>打印编译工具链版本号，测试是否配置正确：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">arm-rockchip830-linux-uclibcgnueabihf-gcc -v</span><br></pre></td></tr></table></figure>
+<h4 id="获取源码"><a class="markdownIt-Anchor" href="#获取源码"></a> 获取源码</h4>
+<p>从 gitee 仓库拉取官方 SDK 代码，将 SDK 目录记录下来：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://gitee.com/LuckfoxTECH/luckfox-pico.git</span><br></pre></td></tr></table></figure>
+<p>从 github 拉取人脸识别示例代码：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> https://github.com/LuckfoxTECH/luckfox_pico_rkmpi_example.git</span><br></pre></td></tr></table></figure>
+<h4 id="编译项目"><a class="markdownIt-Anchor" href="#编译项目"></a> 编译项目</h4>
+<p>进入示例项目目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> luckfox_pico_rkmpi_example/</span><br></pre></td></tr></table></figure>
+<p>将 SDK 的路径设置为环境变量：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> LUCKFOX_SDK_PATH=/home/wqf31415/project/luckfox/luckfox-pico</span><br></pre></td></tr></table></figure>
+<p>给构建脚本添加可执行权限：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">chmod</span> a+x ./build.sh</span><br></pre></td></tr></table></figure>
+<p>执行编辑脚本：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./build.sh</span><br></pre></td></tr></table></figure>
+<p>提示选择 libc 库，我这里选择的 是 <code>uclibc</code> ，所以输入 <code>1</code> 回车</p>
+<p>然后提示选择要编译的示例项目，选择人脸识别项目 <code>3) luckfox_pico_rtsp_retinaface</code> ，输入 <code>3</code> 回车，等待编译完成。</p>
+<h4 id="运行程序"><a class="markdownIt-Anchor" href="#运行程序"></a> 运行程序</h4>
+<p>编译完成后的程序在 <code>install/uclibc/</code> 目录下，名为 <code>luckfox_pico_rtsp_retinaface_demo</code> 的目录，其中包含可执行程序，在其 <code>model</code> 目录下人脸识别模型文件 <code>retinaface.rknn</code> 。</p>
+<p>将目录打包成 tar 包：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -cf luckfox_pico_rtsp_retinaface_demo.tar luckfox_pico_rtsp_retinaface_demo/</span><br></pre></td></tr></table></figure>
+<p>将 tar 包传输到开发板 的 /root 目录：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">scp ./luckfox_pico_rtsp_retinaface_demo.tar root@192.168.2.132:/root</span><br></pre></td></tr></table></figure>
+<p>在 MobaXterm 软件中使用 ssh 登录开发板，进入 /root 目录，提取程序文件：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xf luckfox_pico_rtsp_retinaface_demo.tar</span><br></pre></td></tr></table></figure>
+<p>关闭 Buildroot 自带的视频程序，释放对摄像头的占用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">RkLunch-stop.sh</span><br></pre></td></tr></table></figure>
+<p>进入项目目录，运行人脸识别程序：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">cd</span> luckfox_pico_rtsp_retinaface_demo</span><br><span class="line">./luckfox_pico_rtsp_retinaface</span><br></pre></td></tr></table></figure>
+<p><img src="/images/post/luckfox/run_retinaface_demo.png" alt="" /></p>
+<h4 id="播放视频"><a class="markdownIt-Anchor" href="#播放视频"></a> 播放视频</h4>
+<p>在 Windows 电脑上使用 VLC 软件播放网络串流视频，地址还是 <code>rtsp://&lt;开发板IP&gt;/live/0</code> ，如我的是 <code>rtsp://192.168.2.132/live/0</code> ，点击播放，将摄像头朝向人脸，看到正确识别到了人脸。</p>
+<p><img src="/images/post/luckfox/retinaface_vidio.webp" alt="" /></p>
+<h3 id="扩展"><a class="markdownIt-Anchor" href="#扩展"></a> 扩展</h3>
+<p>官方示例使用了人脸识别的模型，我们可以自己训练一个图片识别模型，如车辆识别，训练后转换成 RKNN 格式，部署到开发板使用。</p>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<ul>
+<li>LuckFox Pico 带有 0.5 TOPS 的 神经网络处理器（NPU），和最大 30 帧的图像处理器（IPS），可以方便的实现人脸识别功能。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/IoT/" rel="tag"># IoT</a>
+              <a href="/tags/linux/" rel="tag"># linux</a>
+              <a href="/tags/%E5%BC%80%E5%8F%91%E6%9D%BF/" rel="tag"># 开发板</a>
+              <a href="/tags/%E7%A1%AC%E4%BB%B6/" rel="tag"># 硬件</a>
+              <a href="/tags/luckfox/" rel="tag"># luckfox</a>
+              <a href="/tags/C/" rel="tag"># C</a>
+              <a href="/tags/%E5%B5%8C%E5%85%A5%E5%BC%8F/" rel="tag"># 嵌入式</a>
+              <a href="/tags/%E6%B5%81%E5%AA%92%E4%BD%93/" rel="tag"># 流媒体</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/03/21/LuckFoxPico%E8%81%94%E7%BD%91%E4%B8%8E%E6%90%AD%E5%BB%BAWeb%E6%9C%8D%E5%8A%A1/" rel="prev" title="LuckFoxPico联网与搭建Web服务">
+                  <i class="fa fa-angle-left"></i> LuckFoxPico联网与搭建Web服务
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>
