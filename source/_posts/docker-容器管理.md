@@ -159,6 +159,19 @@ docker stop `docker ps -q`
 docker rm my-nginx
 ```
 
+> 参数说明：
+> - `my-nginx` 表示要删除的容器的名称，多个容器名称之间空格隔开。
+
+删除所有容器：
+
+```bash
+docker rm -f $(docker ps -aq)
+```
+
+> 参数说明：
+> - `-f` 表示强制停止并删除运行中的容器
+> - `$(docker ps -aq)` 表示获取所有容器的 ID
+
 #### 更多操作
 
 使用 `docker container` 可以操作容器，如
