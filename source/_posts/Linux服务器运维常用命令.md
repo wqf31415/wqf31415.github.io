@@ -384,3 +384,22 @@ kill -9 进程ID
   0000014
   ```
 
+#### scp(文件传输)
+
+`scp` 命令用于在不同主机之间传输文件，支持本地主机和远程主机之间的文件传输。
+用法示例：
+
+- 从本地主机传输文件到远程主机：`scp local_file remote_host:remote_path`
+- 从远程主机传输文件到本地主机：`scp remote_host:remote_path local_path`
+- 从本地主机传输目录到远程主机：`scp -r local_dir remote_host:remote_path`
+- 从远程主机传输目录到本地主机：`scp -r remote_host:remote_dir local_path`
+- 从本地主机传输目录到远程主机并压缩：`scp -r -z local_dir remote_host:remote_path`
+- 从远程主机传输目录并解压缩：`scp -r -z remote_host:remote_dir local_path`
+- 从本地主机传输目录并压缩：`scp -r -z local_dir remote_host:remote_path`
+- 从远程主机传输目录并解压缩：`scp -r -z remote_host:remote_dir local_path`
+
+常用选项：
+- `-r` 递归传输目录
+- `-z` 压缩传输
+- `-p` 保留原始文件权限
+- `-v` 显示详细信息
