@@ -22,22 +22,22 @@
     <meta name="description" content="title: docker 容器管理 tags:  docker 工具 categories: 工具 date: 2020-08-24 09:03:32    概述 这篇文章介绍了 docker 中的容器的概念以及docker 容器的操作和应用。   什么是容器 docker 中的容器（container）是独立运行的一个或一组应用，以及它们的运行环境。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="This_Wei">
-<meta property="og:url" content="https://www.wqf31415.xyz/2026/05/13/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:url" content="https://www.wqf31415.xyz/2026/05/14/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="This_Wei">
 <meta property="og:description" content="title: docker 容器管理 tags:  docker 工具 categories: 工具 date: 2020-08-24 09:03:32    概述 这篇文章介绍了 docker 中的容器的概念以及docker 容器的操作和应用。   什么是容器 docker 中的容器（container）是独立运行的一个或一组应用，以及它们的运行环境。">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://www.wqf31415.xyz/images/post/docker/docker_container.webp">
-<meta property="article:published_time" content="2026-05-13T03:18:54.668Z">
-<meta property="article:modified_time" content="2026-05-13T03:18:54.668Z">
+<meta property="article:published_time" content="2026-05-14T00:51:36.244Z">
+<meta property="article:modified_time" content="2026-05-14T00:51:36.244Z">
 <meta property="article:author" content="This_Wei">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="https://www.wqf31415.xyz/images/post/docker/docker_container.webp">
 
 
-<link rel="canonical" href="https://www.wqf31415.xyz/2026/05/13/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/">
+<link rel="canonical" href="https://www.wqf31415.xyz/2026/05/14/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/">
 
 
-<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2026/05/13/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/","path":"2026/05/13/docker-容器管理/","title":""}</script>
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2026/05/14/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/","path":"2026/05/14/docker-容器管理/","title":""}</script>
 
 <script class="next-config" data-name="calendar" type="application/json">""</script>
 <title> | This_Wei</title>
@@ -246,7 +246,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2026/05/13/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2026/05/14/docker-%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -275,7 +275,7 @@ document.addEventListener('DOMContentLoaded', function() {
       </span>
       <span class="post-meta-item-text">发表于</span>
 
-      <time title="创建时间：2026-05-13 03:18:54" itemprop="dateCreated datePublished" datetime="2026-05-13T03:18:54+00:00">2026-05-13</time>
+      <time title="创建时间：2026-05-14 00:51:36" itemprop="dateCreated datePublished" datetime="2026-05-14T00:51:36+00:00">2026-05-14</time>
     </span>
 
   
@@ -361,6 +361,21 @@ date: 2020-08-24 09:03:32</li>
 <h4 id="删除容器"><a class="markdownIt-Anchor" href="#删除容器"></a> 删除容器</h4>
 <p>使用 <code>docker rm</code> 或 <code>docker container rm</code> 命令删除容器，如需删除正在运行的容器，需要增加 <code>-f</code> 或 <code>--force</code>参数强制删除。如：</p>
 <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> my-nginx</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数说明：</p>
+<ul>
+<li><code>my-nginx</code> 表示要删除的容器的名称，多个容器名称之间空格隔开。</li>
+</ul>
+</blockquote>
+<p>删除所有容器：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker <span class="built_in">rm</span> -f $(docker ps -aq)</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>参数说明：</p>
+<ul>
+<li><code>-f</code> 表示强制停止并删除运行中的容器</li>
+<li><code>$(docker ps -aq)</code> 表示获取所有容器的 ID</li>
+</ul>
+</blockquote>
 <h4 id="更多操作"><a class="markdownIt-Anchor" href="#更多操作"></a> 更多操作</h4>
 <p>使用 <code>docker container</code> 可以操作容器，如</p>
 <ul>
@@ -460,7 +475,7 @@ date: 2020-08-24 09:03:32</li>
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2026/05/13/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="">
+                <a href="/2026/05/14/Linux%E6%9C%8D%E5%8A%A1%E5%99%A8%E8%BF%90%E7%BB%B4%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4/" rel="prev" title="">
                   <i class="fa fa-angle-left"></i> 
                 </a>
             </div>
