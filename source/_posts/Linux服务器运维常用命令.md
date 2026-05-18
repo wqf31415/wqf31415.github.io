@@ -1,15 +1,12 @@
-***
-
+---
 title: Linux服务器运维常用命令
 tags:
-
-- linux
-- 服务器
-  categories:
-- linux
-  date: 2022-10-22 10:17:06
-
-***
+  - linux
+  - 服务器
+categories:
+  - linux
+date: 2022-10-22 10:17:06
+---
 
 ### 概述
 
