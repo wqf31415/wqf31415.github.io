@@ -85,7 +85,7 @@ sudo make install
 
 ### vim 五大模式
 
-划重点：在 vim 中存在 5 种编辑模式，分别是：常规模式(normal)、插入模式(insert)、命令模式(command)、可视模式(visual)、替换模式(replace)。
+划重点：在 vim 中存在 5 种编辑模式，分别是：**常规模式(normal)**、**插入模式(insert)**、**命令模式(command)**、**可视模式(visual)**、**替换模式(replace)**。
 
 进入 vim 时处于常规模式，是 vim 核心模式，可以从常规模式切换到其他模式，并通过按 <kbd>Esc</kbd> 或 <kbd>Ctrl</kbd> + <kbd>[</kbd> 键从其他模式返回常规模式。
 常规模式下，按 <kbd>a</kbd>、<kbd>A</kbd>、<kbd>i</kbd>、<kbd>I</kbd>、<kbd>o</kbd>、<kbd>O</kbd> 进入插入模式，可编辑文档内容；
@@ -114,13 +114,13 @@ sudo make install
 |`:help version8`  | 查看版本信息|
 
 
-#### 编辑与保存
+#### 编辑、撤销与保存
 
-在进入 vim 后，我们首先进入的是 <span style="background:red;color:white"> normal 模式 </span> ，需要按小写字母 <kbd>a</kbd> 、 <kbd>i</kbd> 、<kbd>o</kbd> 或大写字母 <kbd>A</kbd> 、 <kbd>I</kbd> 、<kbd>O</kbd> 键进入 <span style="background:red;color:white"> insert 模式 </span> ，这样就可以正常编辑文本，修改与输入内容了，与常规文本编辑器相同，可以用键盘上的上下左右键移动光标。按 <kbd>Esc</kbd> 键回到 normal 模式。
+在进入 vim 后，首先进入的是 <span style="background:red;color:white"> normal 模式 </span> ，需要按小写字母 <kbd>a</kbd> 、 <kbd>i</kbd> 、<kbd>o</kbd> 或大写字母 <kbd>A</kbd> 、 <kbd>I</kbd> 、<kbd>O</kbd> 键进入 <span style="background:red;color:white"> insert 模式 </span> ，这样就可以正常编辑文本，修改与输入内容了，与常规文本编辑器相同，可以用键盘上的上下左右键移动光标。按 <kbd>Esc</kbd> 键回到 normal 模式。
 
 ![](/images/post/vim/vim_insert_mode.webp) 
 
-在插入模式中可以使用键盘上下左右键移动光标，编辑内容，使用退格键或 Delete 键删除内容。编辑完成后，按 <kbd>Esc</kbd> 键回到 normal 模式，输入 `:w` 然后按 <kbd>回车</kbd> 保存文件，也可以输入 `:wq` 然后按 <kbd>回车</kbd> 保存并退出。 
+在插入模式中可以使用键盘上下左右键移动光标，编辑内容，使用退格键或 Delete 键删除内容。编辑完成后，按 <kbd>Esc</kbd> 键回到 normal 模式，此时按 <kbd>u</kbd> 可以撤销上一次修改，输入 `:w` 然后按 <kbd>回车</kbd> 保存文件，也可以输入 `:wq` 然后按 <kbd>回车</kbd> 保存并退出。 
 
 | 指令                   | 作用                                                         |
 | ---------------------- | ------------------------------------------------------------ |
@@ -657,6 +657,16 @@ Neovim [https://neovim.io](https://neovim.io) 是一个新的 vim 版本，支�
 - [vim全局替换命令 - lixixi - CSDN博客](https://blog.csdn.net/u013043762/article/details/80461666) 
 - [强悍的 vim —— g s 替换区别 - Zhang's Wikipedia - CSDN博客](https://blog.csdn.net/lanchunhui/article/details/51588586) 
 
+
+### 使用 vim 修改文档格式
+
+在 Windows 和 Linux 系统中文档使用的换行符不同，会导致在 Windows 电脑上编辑过的脚本，在 Linux 电脑上运行时出错。
+
+可以使用 `:set ff?` 命令查看当前文档的换行符格式, 例如：`unix` 或 `dos`。
+
+在 vim 中，可以使用 `:set ff=unix` 命令将文档的换行符转换为 Linux 格式，使用 `:set ff=dos` 命令将文档的换行符转换为 Windows 格式。执行完成后记得保存文档。
+
+> 注意：在 vim 中，使用 `:set ff=dos` 命令将文档的换行符转换为 Windows 格式后，文档的换行符会被替换为 Windows 格式的，而不是添加换行符。
 
 ### 小结
 
