@@ -404,7 +404,7 @@ docker build -t image_redis:v1.0 .
 
 ### 删除镜像
 
-删除指定镜像：
+#### 删除指定镜像
 
 ```bash
 docker rmi 镜像ID
@@ -413,7 +413,7 @@ docker rmi 镜像ID
 > 参数说明：
 > - `镜像ID` 表示要删除的镜像的 ID，多个镜像 ID 之间空格隔开。
 
-删除所有镜像：
+#### 删除所有镜像
 
 ```bash
 docker rmi -f $(docker images -q)
@@ -423,7 +423,7 @@ docker rmi -f $(docker images -q)
 > - `-f` 表示强制删除，不提示确认（注意：即使有依赖容器也会尝试删除）
 > - `$(docker images -q)` 表示获取所有镜像的 ID
 
-删除未被容器引用的镜像：
+#### 删除未被容器引用的镜像
 
 ```bash
 docker image prune -a
@@ -433,6 +433,12 @@ docker image prune -a
 
 ```bash
 docker image prune
+```
+
+#### 删除指定标签(tag_name)的所有镜像
+
+```
+docker rmi $(docker images --filter "reference=*:tag_name" -q)
 ```
 
 
