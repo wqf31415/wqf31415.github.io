@@ -660,11 +660,9 @@ Neovim [https://neovim.io](https://neovim.io) 是一个新的 vim 版本，支�
 
 ### 使用 vim 修改文档格式
 
-在 Windows 和 Linux 系统中文档使用的换行符不同，会导致在 Windows 电脑上编辑过的脚本，在 Linux 电脑上运行时出错。
+Windows 下的换行符是 `\r\n`（CRLF），而 Unix/Linux/macOS 下是 `\n`（LF）。如果在 Linux 系统下运行一个在 Windows 编写的 Shell 脚本，很容易因为多出 `\r` 而导致 `#!/bin/bash^M: bad interpreter` 的报错。
 
-可以使用 `:set ff?` 命令查看当前文档的换行符格式, 例如：`unix` 或 `dos`。
-
-在 vim 中，可以使用 `:set ff=unix` 命令将文档的换行符转换为 Linux 格式，使用 `:set ff=dos` 命令将文档的换行符转换为 Windows 格式。执行完成后记得保存文档。
+在 vim 中，可以使用 `:set ff?` 命令查看当前文档的换行符格式, 例如：`unix` 或 `dos`。使用 `:set ff=unix` 命令将文档的换行符转换为 unix 格式，使用 `:set ff=dos` 命令将文档的换行符转换为 Windows 格式。执行完成后记得保存文档。
 
 > 注意：在 vim 中，使用 `:set ff=dos` 命令将文档的换行符转换为 Windows 格式后，文档的换行符会被替换为 Windows 格式的，而不是添加换行符。
 
