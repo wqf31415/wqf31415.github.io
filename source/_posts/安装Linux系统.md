@@ -58,10 +58,13 @@ Linux通常被打包成供个人计算机和服务器使用的 Linux 发行版�
 
 - Oracle VM VirtualBox: 免费开源的虚拟机软件，项目地址: <https://www.virtualbox.org/> 。
 
-- VMware Workstation Player: 功能强大，成熟稳定，安全的虚拟化工具，非商业用途可免费使用，地址： <https://www.vmware.com/cn/products/workstation-player.html> 。
+- VMware Workstation Player: 功能强大，成熟稳定，安全的虚拟化工具，非商业用途可免费使用，地址： [https://www.vmware.com/cn/products/workstation-player.html](https://www.vmware.com/products/desktop-hypervisor/workstation-and-fusion) 。
 
 这里使用 Oracle VM VirtualBox 来做示例，模拟器软件安装过程非常简单，就不做介绍了。
 
+> 注意：VirtualBox 7.0 之后增加了 "安全目录检测"——它会严格审查安装目录及所有父目录的权限，只要链路中有一个目录被认为"普通用户可以篡改"，就直接标红提示 路径不可用 / Invalid installation directory。
+> 比如我的安装路径是 `D:\program\VirtualBox` ，其中的 `program` 和其中的 `VirtualBox` 目录都是普通用户权限，导致安装报错。
+> 可以将安装路径放到盘符下，比如 `D:\VirtualBox` 。
 
 
 ##### 创建虚拟机项目
@@ -125,7 +128,7 @@ Linux通常被打包成供个人计算机和服务器使用的 Linux 发行版�
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
              src="/images/post/linux/virtualBox_create_vm_13.webp"/>
     </a>
-    <a data-src="/images/post/linux/virtualBox_create_vm_14.webp" data-sub-html="<h4>14. 开始安装</h4>">
+    <a data-src="/images/post/linux/virtualBox_create_vm_14.png" data-sub-html="<h4>14. 开始安装</h4>">
         <img style="max-width:280px; padding:5px; display: inline-block;" class="img-responsive"
              src="/images/post/linux/virtualBox_create_vm_14.webp"/>
     </a>
