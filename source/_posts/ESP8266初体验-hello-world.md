@@ -87,7 +87,11 @@ http://arduino.esp8266.com/stable/package_esp8266com_index.json
 
 ![](/images/post/esp8266/esp8266_connect_computer.webp)
 
-> 值得注意的是，上图中显示的 CH340，如果没有显示这个设备，可能是因为驱动没安装好，可以上百度搜索 `CH340驱动` ，下载安装好之后才能够实现电脑与开发板通信，才能上传程序代码。
+> 值得注意的是，上图中显示的 CH340，如果没有显示这个设备，可能是因为数据线有问题或驱动没安装好，亲测使用快充的数据线无法识别，可以更换数据线试试。
+> 还有可能是驱动问题，市面上 ESP8266 常见集成 CH340 或 CP2102 芯片，需要下载安装对应的驱动程序，下载网站如下：
+> - CH340 驱动从南京沁恒微电子官网下载：<https://www.wch.cn/downloads/CH341SER_EXE.html>
+> - CP2012 驱动从 SiliCon Labs 官网下载：<https://www.silabs.com/software-and-tools/usb-to-uart-bridge-vcp-drivers?tab=downloads>
+>   win10/win11下载 `CP210x Universal Windows Driver` ，老版本 Windows 系统下载 `CP210x VCP Windows` 。
 
 ### Hello world！
 
