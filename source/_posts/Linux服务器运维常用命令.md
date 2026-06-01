@@ -12,8 +12,6 @@ date: 2022-10-22 10:17:06
 
 这篇文章介绍了 linux 服务器维护中常用的一些命令。
 
-
-
 <!-- more -->
 
 ### 基础命令
@@ -28,33 +26,25 @@ cd 目录
 
 常用示例：
 
-- 切换到当前目录下的xxx目录：`cd xxx` 或 `cd ./xxx` 
-- 切换到home目录：`cd ~` 
-- 切换到上一个目录：`cd -` 
-- 切换到根目录：`cd /` 
+- 切换到当前目录下的xxx目录：`cd xxx` 或 `cd ./xxx`
+- 切换到home目录：`cd ~`
+- 切换到上一个目录：`cd -`
+- 切换到根目录：`cd /`
 - 切换到上一层目录：`cd ..` 或 `cd ../`
-
-
 
 #### ls(显示目录中的文件)
 
- `ls`，“list” 显示目录中的文件。 
+`ls`，“list” 显示目录中的文件。
 
 常用命令选项：
 
 - `-l` 列表方式显示，可以显示文件的操作权限、归属组、归属用户、文件大小、修改时间
-
 - `-a` 显示所有文件，包括隐藏文件（文件名以 `.` 开头的隐藏文件），如当前目录 `.`、上级目录 `..`、隐藏的 git 目录 `.git`。
-
 - `-h` 以方便人类阅读的单位输出文件大小，如使用 `ls -lh` 查看当前目录文件时，文件大小超过 1K 但未达到 1M 的将以 K 为单位显示，超过 1M 但未达到 1G 的将以 M 为单位显示。
-
-
 
 #### pwd(显示当前所在目录)
 
 `pwd` 命令用于显示当前所在目录的绝对路径。
-
-
 
 #### mkdir(创建目录)
 
@@ -65,18 +55,14 @@ cd 目录
 - 创建目录 test ：`mkdir test` ，如果 test 目录已经存在，执行出错
 - 创建多层目录 abc/def ：`mkdir -p abc/def` ，如果 abc 目录不存在将创建它并在其中创建 def目录；如果目录存在，并不会执行出错
 
-
-
 #### rmdir(删除目录)
 
 `rmdir` 命令用于删除目录，注意只有目录为空时才能删除，否则将会报错。可以添加 `-p` 选项删除多层目录。
 
 常用示例：
 
-- 删除目录 test： `rmdir test` 
-- 删除多层目录 abc/def ： `rmdir -p abc/def` ，相当于执行命令 `rmdir abc/def abc` 
-
-
+- 删除目录 test： `rmdir test`
+- 删除多层目录 abc/def ： `rmdir -p abc/def` ，相当于执行命令 `rmdir abc/def abc`
 
 #### touch(创建文件)
 
@@ -85,19 +71,14 @@ cd 目录
 常用示例：
 
 - 创建文件 abc.txt ：`touch abc.txt` ，注意：指定命令前 abc.txt 文件不存在
-
-- 更新文件 abc.txt 的访问时间和更新时间：`touch abc.txt` 
-
-  
+- 更新文件 abc.txt 的访问时间和更新时间：`touch abc.txt`
 
 #### rm(删除文件)
 
 `rm` 命令用于删除文件，删除文件时会询问是否确认删除。常用选项 `-f` 强制删除（不再询问），`-r` 递归删除（删除目录及目录中的内容）。
 
-- 删除文件 test.txt ：`rm test.txt` 
-- 删除目录 test 及其中所有内容：`rm -rf test` 
-
-
+- 删除文件 test.txt ：`rm test.txt`
+- 删除目录 test 及其中所有内容：`rm -rf test`
 
 #### data(查看和修改日期时间)
 
@@ -106,24 +87,17 @@ cd 目录
 常用示例：
 
 - 打印当前时间：`data` ，输出结果：
-
   ```
   Fri Sep 30 21:45:28 CST 2022
   ```
-
 - 按格式输出年月日：`date  +%Y/%m/%d` ，结果：
-
   ```
   2022/09/30
   ```
-
 - 按格式输出时间：`date +%H:%M` ，结果：
-
   ```
   21:45
   ```
-
-  
 
 #### cal(显示日历)
 
@@ -131,10 +105,8 @@ cd 目录
 
 常用示例：
 
-- 显示当月日历：`cal` 
-
+- 显示当月日历：`cal`
 - 显示 2022 年 10 月的日历：`cal 10 2022`，结果如下：
-
   ```
       October 2022
   Su Mo Tu We Th Fr Sa
@@ -145,8 +117,6 @@ cd 目录
   23 24 25 26 27 28 29
   30 31
   ```
-
-  
 
 ### 关机与重启
 
@@ -165,7 +135,7 @@ shutdown [-krhc] [时间] [警告信息]
 - `-k` 仅给用户发送警告信息，不真的关机
 - `-r` 在将系统服务停止后重启（常用）
 - `-h` 在系统服务停止后立即关机（常用）
-- `-c` 取消已在进行的 `shutdown` 命令内容，临时改变主意不想关机时，可以执行命令 `shutdown -c` 
+- `-c` 取消已在进行的 `shutdown` 命令内容，临时改变主意不想关机时，可以执行命令 `shutdown -c`
 
 命令参数：
 
@@ -174,14 +144,12 @@ shutdown [-krhc] [时间] [警告信息]
 
 常用示例：
 
-- 立即关机：`shutdown -h now` 
-- 指定时间关机, 22时30分时关机：`shutdown -h 22:30` 
-- 十分钟后关机：`shutdown -h +10` 
-- 立即重启：`shutdown -r now` 
-- 30分钟后关机，并发送警告信息给所有在线使用者：`shutdown -r +30 'System will reboot after 30 minutes'` 
-- 仅发送警告信息，吓吓人：`shutdown -k now 'This system will shutdown'` 
-
-
+- 立即关机：`shutdown -h now`
+- 指定时间关机, 22时30分时关机：`shutdown -h 22:30`
+- 十分钟后关机：`shutdown -h +10`
+- 立即重启：`shutdown -r now`
+- 30分钟后关机，并发送警告信息给所有在线使用者：`shutdown -r +30 'System will reboot after 30 minutes'`
+- 仅发送警告信息，吓吓人：`shutdown -k now 'This system will shutdown'`
 
 #### reboot(重启)
 
@@ -197,15 +165,11 @@ shutdown [-krhc] [时间] [警告信息]
 - `-d` 或 `--no-wtmp` 不写入 wtmp 记录
 - `--no-wall` 不发送消息
 
-
-
 #### halt(系统停止)
 
 `halt` 命令需要管理员权限才能执行，作用是将数据写入磁盘并停止处理器运行，机器不重新启动。屏幕上可能会保留一些信息。
 
 命令选项：同上
-
-
 
 #### poweroff(关机)
 
@@ -213,13 +177,9 @@ shutdown [-krhc] [时间] [警告信息]
 
 命令选项：同上
 
-
-
 #### sync(数据同步写入磁盘)
 
 `sync` 命令用于将内存中的数据写入磁盘，防止文件数据异常。在关机或重启前，可以执行这个命令保证内存中的数据写入磁盘。管理员可同步所有数据，非管理员用户仅同步自己的数据。
-
-
 
 #### systemctl(系统管理工具)
 
@@ -229,8 +189,6 @@ shutdown [-krhc] [时间] [警告信息]
 - `systemctl poweroff` 进入系统关机模式，直接关机
 - `systemctl reboot` 直接重新启动
 - `systemctl suspend` 进入休眠模式
-
-
 
 ### 用户管理
 
@@ -243,8 +201,6 @@ su [username]
 > 注：`[]` 表示参数可选
 
 `su` 命令用于切换到指定用户，切换后可执行命令 `exit` 返回原用户。如果不带用户名参数，则切换到 root 用户。常用于普通用户切换到管理员用户执行一些需要管理员权限的命令。
-
-
 
 #### useradd(添加用户)
 
@@ -262,8 +218,6 @@ useradd 用户名
 
 添加完用户后，一般需要使用 `passwd` 命令设定用户的密码，用户密码保存在 `/etc/passwd` 文件中。
 
-
-
 #### passwd(修改密码)
 
 ```bash
@@ -272,18 +226,39 @@ passwd [用户名]
 
 修改指定用户的密码，只有管理员可以带用户名参数；普通用户只能使用不带参数的 `passwd` 命令来修改自身的密码。
 
+#### 把用户添加到组中
+
+可以把当前用户添加到 docker 组中，这样就可以在不使用 `sudo` 命令的情况下执行 docker 相关命令。
+
+```bash
+sudo usermod -aG docker $USER
+```
+> 参数说明：
+> - `-aG` 表示将用户添加到指定的组中
+> - `$USER` 表示当前用户名，如果要添加其他用户，需要修改为其他用户的用户名
+> 
+> 如果执行命令报错：usermod: group 'docker' does not exist，说明先要创建 docker 组。
+
+#### 创建用户组
+
+例如，创建 docker 组：
+
+```bash
+sudo groupadd docker
+```
+> 参数说明：
+> - `docker` 表示要创建的组名
 
 
 ### 系统管理
 
-#### lsb_release/uname(查看系统信息)
+#### lsb\_release/uname(查看系统信息)
 
 `lsb_release` 命令用于查看系统发行版信息及 LSB (Linux Standard Base) 信息，适用于所有 linux 版本。`uname` 命令用于查看系统信息，如查看 linux 内核版本、物理架构等。
 
 常用示例：
 
 - 打印系统信息：`lsb_release -a` ，输出结果如下：
-
   ```bash
   LSB Version:    n/a
   Distributor ID: HuaweiCloudEulerOS
@@ -291,16 +266,11 @@ passwd [用户名]
   Release:        1.0
   Codename:       x86_64
   ```
-
 - 打印系统信息：`uname -a` ，输出结果如下
-
   ```bash
   Linux hecs-165974 4.19.90-vhulk2107.1.0.h699.hcev1.x86_64 #1 SMP Sat Jul 31 09:58:46 UTC 2021 x86_64 x86_64 x86_64 GNU/Linux
   ```
-
-- 打印内核版本：`uname -r` 
-
-
+- 打印内核版本：`uname -r`
 
 #### ps(查看进程)
 
@@ -325,11 +295,9 @@ ps -ef
 - `RSS` 驻留中页的数量
 - `TTY` 终端 ID
 - `WCHAN` 正在等待的进程资源
-- `stat` 进程状态：R（运行）、S（休眠）、Z（僵尸）、T（停止或被追踪）、X（死掉的进程）、N（优先级较低的进程）、\<（优先级高的进程）、W（进入内存交换）、D（非中断休眠（常驻IO））
+- `stat` 进程状态：R（运行）、S（休眠）、Z（僵尸）、T（停止或被追踪）、X（死掉的进程）、N（优先级较低的进程）、<（优先级高的进程）、W（进入内存交换）、D（非中断休眠（常驻IO））
 - `START` 进程启动的时间
 - `COMMAND` 命令的名称和参数
-
-
 
 #### top(查看进程)
 
@@ -338,8 +306,6 @@ top
 ```
 
 `top` 命令用于查看系统中占用资源较多的一些进程，默认按 CPU 占用率排序。
-
-
 
 #### kill(结束进程)
 
@@ -351,19 +317,13 @@ kill -9 进程ID
 
 > 注：进程的 PID 号可使用 `ps` 命令查询获取。
 
-
-
 #### fdisk(磁盘管理工具)
 
 `fdisk` 是一个磁盘分区管理工具，可用于查看磁盘分区信息和对磁盘分区进行管理，如添加、删除分区。
 
 用法示例：
 
-- 打印磁盘使用情况：`fdisk -l` 
-
-
-
-
+- 打印磁盘使用情况：`fdisk -l`
 
 #### free(查看内存)
 
@@ -372,17 +332,12 @@ kill -9 进程ID
 用法示例：
 
 - 打印内存使用情况： `free -h` ，结果如下:
-
   ```
                 total        used        free      shared  buff/cache   available
   Mem:          1.4Gi       205Mi       114Mi        83Mi       1.1Gi       1.0Gi
   Swap:            0B          0B          0B
-  
+
   ```
-
-
-
-
 
 #### netstat(查看网络状态)
 
@@ -409,10 +364,6 @@ kill -9 进程ID
 
 - 查看 8080 端口占用情况: `netstat -ano | grep 8080`
 
-
-
- 
-
 ### 工具
 
 #### od（查看二进制文件）
@@ -421,16 +372,31 @@ kill -9 进程ID
 
 常用示例：
 
-- 以ASCII编码方式输出文件 `test.txt` 的内容： `od -c test.txt` 
-
-- 以十六进制方式输出文件 `test.txt` 的内容：`od -x test.txt` 
-
+- 以ASCII编码方式输出文件 `test.txt` 的内容： `od -c test.txt`
+- 以十六进制方式输出文件 `test.txt` 的内容：`od -x test.txt`
 - 同时以ASCII和十六进制方式输出 `test.txt` 的内容：`od -cx test.txt` ，文件内容为 `abcde 12345` ，输出结果如下：
-
   ```bash
   0000000   a   b   c   d   e       1   2   3   4   5  \n
              6261    6463    2065    3231    3433    0a35
   0000014
   ```
 
-  
+#### scp(文件传输)
+
+`scp` 命令用于在不同主机之间传输文件，支持本地主机和远程主机之间的文件传输。
+用法示例：
+
+- 从本地主机传输文件到远程主机：`scp local_file remote_host:remote_path`
+- 从远程主机传输文件到本地主机：`scp remote_host:remote_path local_path`
+- 从本地主机传输目录到远程主机：`scp -r local_dir remote_host:remote_path`
+- 从远程主机传输目录到本地主机：`scp -r remote_host:remote_dir local_path`
+- 从本地主机传输目录到远程主机并压缩：`scp -r -z local_dir remote_host:remote_path`
+- 从远程主机传输目录并解压缩：`scp -r -z remote_host:remote_dir local_path`
+- 从本地主机传输目录并压缩：`scp -r -z local_dir remote_host:remote_path`
+- 从远程主机传输目录并解压缩：`scp -r -z remote_host:remote_dir local_path`
+
+常用选项：
+- `-r` 递归传输目录
+- `-z` 压缩传输
+- `-p` 保留原始文件权限
+- `-v` 显示详细信息

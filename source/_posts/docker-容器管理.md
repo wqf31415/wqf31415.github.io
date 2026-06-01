@@ -8,25 +8,17 @@ categories:
 date: 2020-08-24 09:03:32
 ---
 
-
-
 ### 概述
 
 这篇文章介绍了 docker 中的容器的概念以及docker 容器的操作和应用。
 
 ![](/images/post/docker/docker_container.webp)
 
-
-
 ### 什么是容器
 
 docker 中的容器（container）是独立运行的一个或一组应用，以及它们的运行环境。
 
-
-
 <!-- more --> 
-
-
 
 ### 容器管理
 
@@ -35,32 +27,22 @@ docker 中的容器（container）是独立运行的一个或一组应用，以�
 有多种创建 docker 容器的方式，下面列举了一些常见的方式：
 
 - `docker run` 命令运行一个服务时会自动创建容器。如：
-
   ```bash
   docker run --name my-nginx -d -p 9080:80 nginx
   ```
-
 - `docker create` 命令来创建容器，如：
-
   ```bash
   docker create --name my-nginx -p 9080:80 nginx
   ```
-
 - `docker container run` 效果与 `docker run` 命令相同，如：
-
   ```bash
   docker container run --name my-nginx -d -p 9080:80 nginx
   ```
-
 - `docker container create` 命令创建容器
-
   ```bash
   docker container create --name my-nginx -p 9080:80 nginx
   ```
-
 - `docker-compose up` 用于从配置文件创建并启动多个容器。
-
-
 
 #### 容器的标识符
 
@@ -88,8 +70,7 @@ docker start container-id
 
 重启容器：
 
-`docker restart container-ID` 
-
+`docker restart container-ID`
 
 #### 查看容器
 
@@ -100,8 +81,6 @@ docker ps -a
 ```
 
 此外，还可以使用 `docker container ls` 查看正在运行的容器，使用 `docker container ls -a` 查看所有容器。
-
-
 
 #### 查询容器信息
 
@@ -120,8 +99,6 @@ docker logs -f my-redis
 ```
 
 使用 `docker stats` 命令实时查询容器所占用的系统资源，如 CPU 使用率、内存、网络等。
-
-
 
 #### 容器内部命令
 
@@ -145,8 +122,6 @@ docker exec -it my-redis bash
 docker exec -it my-redis redis-cli -h 192.168.0.11
 ```
 
-
-
 #### 在本地和容器间拷贝文件
 
 使用 `docker cp` 命令可以在本地和容器之间拷贝文件，如把本地的 test.txt 文件拷贝到 `my-redis` 容器中的 `/data` 目录：
@@ -163,19 +138,15 @@ docker cp my-redis:/data/dump.rdb ./
 
 把文件拷贝到容器中后，可以使用 `docker exec -it my-redis bash` 进入容器，查看 `/data` 下的文件。
 
-
-
 #### 关闭容器
 
-关闭单个容器：`docker stop Container-ID` 
+关闭单个容器：`docker stop Container-ID`
 
 关闭所有运行的容器：
 
 ```bash
 docker stop `docker ps -q`
 ```
-
-
 
 #### 删除容器
 
@@ -185,7 +156,18 @@ docker stop `docker ps -q`
 docker rm my-nginx
 ```
 
+> 参数说明：
+> - `my-nginx` 表示要删除的容器的名称，多个容器名称之间空格隔开。
 
+删除所有容器：
+
+```bash
+docker rm -f $(docker ps -aq)
+```
+
+> 参数说明：
+> - `-f` 表示强制停止并删除运行中的容器
+> - `$(docker ps -aq)` 表示获取所有容器的 ID
 
 #### 更多操作
 
@@ -197,8 +179,6 @@ docker rm my-nginx
 
 更多操作可以使用 `docker container --help` 查看帮助信息。
 
-
-
 ### 多容器管理
 
 > Docker 倡导 `一个容器一个进程`，如果一个服务需要多个进程，就需要创建多个容器组成一个系统，相互分工和配合来对外提供完整的服务。
@@ -207,7 +187,7 @@ docker rm my-nginx
 
 #### Docker Compose
 
-> GitHub项目地址: <https://github.com/docker/compose> 
+> GitHub项目地址: <https://github.com/docker/compose>
 
 Docker Compose 是官方提供的容器编排工具，用于编排和运行多容器的应用。它使用 yml 定义一组关联的容器，这组容器会根据配置模块中的 `--link` 等参数，对启动的优先级自动排序，简单执行一条 `docker-compose up` ，就可以把同一个服务中的多个容器依次创建和启动。
 
@@ -298,7 +278,7 @@ CONTAINER ID        IMAGE               COMMAND                  CREATED        
 38cf4bfc5d85        wordpress           "docker-entrypoint.s…"   2 minutes ago       Up 2 minutes        0.0.0.0:8080->80/tcp     my-wordpress_wordpress_1
 ```
 
-访问 http://localhost:8080 即可进入 wordpress 界面。
+访问 <http://localhost:8080> 即可进入 wordpress 界面。
 
 ##### 运行与停止服务
 
@@ -342,8 +322,6 @@ Docker Compose 还有很多命令用来操作服务，如：
 
 更多命令可使用 `docker-compose --help` 查看帮助信息。
 
-
-
 ### 总结
 
-容器就是我们使用 docker 运行的程序，对容器的操作是最常用的，对与单个容器的操作可以使用 `docker container` 的命令，对于多容器服务可以使用 `docker-compose` 来操作。
+容器就是我们使用 docker 运行的程序，对容器的操作是最常用的，对与单个容器的操作可以使用 `docker container` 的命令，对于依赖多个容器的服务，可以使用 `docker-compose` 来进行批量编排和操作。
