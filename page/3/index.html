@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
         <a href="/archives/">
-          <span class="site-state-item-count">140</span>
+          <span class="site-state-item-count">141</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -240,6 +240,110 @@ document.addEventListener('DOMContentLoaded', function() {
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content=" | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/" class="post-title-link" itemprop="url">WebAssembly-初探</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2023-06-29 10:56:49" itemprop="dateCreated datePublished" datetime="2023-06-29T10:56:49+00:00">2023-06-29</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/wasm/" itemprop="url" rel="index"><span itemprop="name">wasm</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>WebAssembly 已经成为继 html、css、js 之后， Web 平台开发的第四种语言，这篇文章介绍了 WebAssembly 的概念，特点以及使用场景，提供了一个将 C 代码编译成 wasm 并在浏览器访问的简单示例。</p>
+<h3 id="认识-webassembly"><a class="markdownIt-Anchor" href="#认识-webassembly"></a> 认识 WebAssembly</h3>
+<blockquote>
+<p>官网: WebAssembly <a target="_blank" rel="noopener" href="https://webassembly.org/">https://webassembly.org/</a></p>
+<p>中文网：WebAssembly 中文网 <a target="_blank" rel="noopener" href="https://www.wasm.com.cn/">https://www.wasm.com.cn/</a></p>
+<p>W3C 标准：</p>
+<p>WebAssembly Core Specification: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-core-1/">https://www.w3.org/TR/wasm-core-1/</a></p>
+<p>WebAssembly JavaScript Interface: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-js-api-1/">https://www.w3.org/TR/wasm-js-api-1/</a></p>
+<p>WebAssembly Web API: <a target="_blank" rel="noopener" href="https://www.w3.org/TR/wasm-web-api-1/">https://www.w3.org/TR/wasm-web-api-1/</a></p>
+</blockquote>
+<p>WebAssembly （简称 wasm），中文含义为网页汇编，是一种基于栈的二进制指令格式的虚拟机标准，它的设计目标包括：高可移植性、高安全性、高效率（包括载入效率和运行效率）、尽可能小的程序体积。WebAssembly 能够在主流的浏览器中运行，它的出现是为了解决前端项目 JavaScript 运行低效的问题。</p>
+<p>浏览器支持情况参考：<a target="_blank" rel="noopener" href="https://webassembly.org/roadmap/">Roadmap - WebAssembly</a> 。</p>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2023/06/29/WebAssembly-%E5%88%9D%E6%8E%A2/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2023/06/24/%E4%BB%853kB%E7%9A%84ReactJs%E6%9B%BF%E4%BB%A3%E6%96%B9%E6%A1%88/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -276,7 +380,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -387,7 +491,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -481,7 +585,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -577,7 +681,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -678,7 +782,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -771,7 +875,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -864,7 +968,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -963,7 +1067,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1063,7 +1167,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <i class="far fa-calendar-check"></i>
       </span>
       <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
+      <time title="修改时间：2026-06-28 04:58:10" itemprop="dateModified" datetime="2026-06-28T04:58:10+00:00">2026-06-28</time>
     </span>
     <span class="post-meta-item">
       <span class="post-meta-item-icon">
@@ -1126,108 +1230,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2022/06/25/%E5%B5%8C%E5%85%A5%E5%BC%8FWeb%E6%9C%8D%E5%8A%A1GoAhead%E4%B9%8BHelloWorld/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="This_Wei">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="This_Wei">
-      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
-    </span>
-
-    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
-      <meta itemprop="name" content=" | This_Wei">
-      <meta itemprop="description" content="">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2022/06/25/%E5%B5%8C%E5%85%A5%E5%BC%8FWeb%E6%9C%8D%E5%8A%A1GoAhead%E4%B9%8BHelloWorld/" class="post-title-link" itemprop="url">嵌入式Web服务GoAhead之HelloWorld</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">发表于</span>
-
-      <time title="创建时间：2022-06-25 14:15:49" itemprop="dateCreated datePublished" datetime="2022-06-25T14:15:49+00:00">2022-06-25</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar-check"></i>
-      </span>
-      <span class="post-meta-item-text">更新于</span>
-      <time title="修改时间：2026-06-28 04:08:13" itemprop="dateModified" datetime="2026-06-28T04:08:13+00:00">2026-06-28</time>
-    </span>
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-folder"></i>
-      </span>
-      <span class="post-meta-item-text">分类于</span>
-        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-          <a href="/categories/c/" itemprop="url" rel="index"><span itemprop="name">c</span></a>
-        </span>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
-<p>这篇文件介绍了嵌入式项目中可使用的 web  服务器——GoAhead，介绍了 GoAhead 的功能与使用方法，附带一个 helloworld 示例。</p>
-<p><img src="/images/post/featured-img/goahead-hello.webp" alt="" /></p>
-<h3 id="关于-goahead"><a class="markdownIt-Anchor" href="#关于-goahead"></a> 关于 GoAhead</h3>
-<p>官网: <a target="_blank" rel="noopener" href="https://www.embedthis.com/goahead/">https://www.embedthis.com/goahead/</a></p>
-<p>官方文档: <a target="_blank" rel="noopener" href="https://www.embedthis.com/goahead/doc/">https://www.embedthis.com/goahead/doc/</a></p>
-<p>源码: Github: <a target="_blank" rel="noopener" href="https://github.com/embedthis/goahead">https://github.com/embedthis/goahead</a></p>
-<p>GoAhead 是一个流行的嵌入式 web 服务器，C 语言开发，简单小巧，结构紧凑（115K代码），易于移植。GoAhead 针对通过事件驱动的单线程内核托管动态嵌入式 web 应用程序进行了优化，在减少 web 应用程序的每个请求的内存开销方面特别有效。</p>
-<p>GoAhead 具有一组强大的功能，包括：HTTP/1.1、SSL/TSL、身份验证、基于角色的权限控制、会话状态存储、CGI、沙盒资源限制、日志记录等。</p>
-          <!--noindex-->
-            <div class="post-button">
-              <a class="btn" href="/2022/06/25/%E5%B5%8C%E5%85%A5%E5%BC%8FWeb%E6%9C%8D%E5%8A%A1GoAhead%E4%B9%8BHelloWorld/#more" rel="contents">
-                阅读全文 &raquo;
-              </a>
-            </div>
-          <!--/noindex-->
-        
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/4/"><i class="fa fa-angle-right"></i></a>
+    <a class="extend prev" rel="prev" title="上一页" aria-label="上一页" href="/page/2/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" title="下一页" aria-label="下一页" href="/page/4/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 </div>
