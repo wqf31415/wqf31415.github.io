@@ -253,7 +253,7 @@ keycloak默认用户信息包括用户名、姓名、邮箱，可以根据需要
 | 多值的            | 关                                                     | 关                          | 开                        |
 | 谁可以编辑        | 用户、管理员                                           | 用户、管理员                | 管理员                    |
 | 谁可以查看        | 用户、管理员                                           | 用户、管理员                | 用户、管理员              |
-| 验证              | options：`secret（保密）`,`male（男）`,`female（女）"` | pattern：`^1[3-9]\\\\d{9}$` | length：`min：2，max：20` |
+| 验证              | options：`secret（保密）`,`male（男）`,`female（女）"` | pattern：`^1[3-9]\\d{9}$` | length：`min：2，max：20` |
 | 注释              | inputType：select                                      | inputType：text             | inputType：text           |
 
 
