@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.29.0","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 这篇文章介绍了安装和配置 keycloak 的操作方法。  认识 keycloak  官网：https:&#x2F;&#x2F;www.keycloak.org&#x2F;  Keycloak 是一个开源的企业身份认证与访问（IAA）管理基金方案，可以给应用、服务添加统一身份认证、授权和用户管理能力，而无需从零编写复杂的登录、注册和权限管理代码。 主要功能与优点：  核心认证功能：提供单点登录（SSO），用户登录一次即">
+<meta property="og:type" content="article">
+<meta property="og:title" content="安装配置keycloak">
+<meta property="og:url" content="https://www.wqf31415.xyz/2026/08/17/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEkeycloak/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了安装和配置 keycloak 的操作方法。  认识 keycloak  官网：https:&#x2F;&#x2F;www.keycloak.org&#x2F;  Keycloak 是一个开源的企业身份认证与访问（IAA）管理基金方案，可以给应用、服务添加统一身份认证、授权和用户管理能力，而无需从零编写复杂的登录、注册和权限管理代码。 主要功能与优点：  核心认证功能：提供单点登录（SSO），用户登录一次即">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-08-17T14:28:00.000Z">
+<meta property="article:modified_time" content="2026-08-18T05:48:21.889Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="docker">
+<meta property="article:tag" content="keycloak">
+<meta property="article:tag" content="服务器">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2026/08/17/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEkeycloak/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2026/08/17/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEkeycloak/","path":"2026/08/17/安装配置keycloak/","title":"安装配置keycloak"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>安装配置keycloak | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+<style>
+/* Global responsive styles for SVG images on mobile */
+.post-body svg,
+.post-body img[src$=".svg"] {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  box-sizing: border-box;
+}
+</style>
+<script>
+// Global fix for inline SVG with fixed width on mobile
+document.addEventListener('DOMContentLoaded', function() {
+  (function() {
+    function fixSvgSize() {
+      var svgs = document.querySelectorAll('.post-body svg');
+      for (var i = 0; i < svgs.length; i++) {
+        var svg = svgs[i];
+        var width = svg.getAttribute('width');
+        var height = svg.getAttribute('height');
+
+        // If SVG has width/height attributes but no viewBox, add viewBox
+        if (width && height && !svg.getAttribute('viewBox')) {
+          // Remove any units, just get the number
+          var wNum = parseFloat(width);
+          var hNum = parseFloat(height);
+          if (wNum && hNum) {
+            svg.setAttribute('viewBox', '0 0 ' + wNum + ' ' + hNum);
+          }
+        }
+
+        // Force preserveAspectRatio to maintain original ratio
+        if (!svg.getAttribute('preserveAspectRatio')) {
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        }
+      }
+    }
+    // Run on page load
+    fixSvgSize();
+    // Run again after any dynamic content loads
+    if (document.addEventListener) {
+      document.addEventListener('pjax:complete', fixSvgSize);
+    }
+  })();
+});
+</script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%A4%E8%AF%86-keycloak"><span class="nav-number">2.</span> <span class="nav-text"> 认识 keycloak</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-keycloak"><span class="nav-number">3.</span> <span class="nav-text"> 安装 keycloak</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%95%B0%E6%8D%AE%E5%BA%93"><span class="nav-number">3.1.</span> <span class="nav-text"> 创建数据库</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E5%88%9D%E5%A7%8B%E5%8C%96%E6%95%B0%E6%8D%AE"><span class="nav-number">3.2.</span> <span class="nav-text"> 准备初始化数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-docker-%E5%AE%89%E8%A3%85-keycloak"><span class="nav-number">3.3.</span> <span class="nav-text"> 使用 docker 安装 keycloak</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE-keycloak"><span class="nav-number">4.</span> <span class="nav-text"> 配置 keycloak</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%AD%E6%96%87%E7%95%8C%E9%9D%A2%E9%85%8D%E7%BD%AE"><span class="nav-number">4.1.</span> <span class="nav-text"> 中文界面配置</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%BF%9B%E5%85%A5%E9%A2%86%E5%9F%9F%E7%AE%A1%E7%90%86"><span class="nav-number">4.2.</span> <span class="nav-text"> 进入领域管理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E9%A2%86%E5%9F%9F%E6%94%AF%E6%8C%81%E4%B8%AD%E6%96%87"><span class="nav-number">4.3.</span> <span class="nav-text"> 配置领域支持中文</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%B7%BB%E5%8A%A0%E7%94%A8%E6%88%B7%E4%BF%A1%E6%81%AF%E5%AD%97%E6%AE%B5"><span class="nav-number">4.4.</span> <span class="nav-text"> 添加用户信息字段</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE%E7%BB%99%E5%AE%A2%E6%88%B7%E7%AB%AF%E7%9A%84%E4%BF%A1%E6%81%AF"><span class="nav-number">4.5.</span> <span class="nav-text"> 配置给客户端的信息</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE"><span class="nav-number">5.</span> <span class="nav-text"> 导入用户数据</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%87%86%E5%A4%87%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE"><span class="nav-number">5.1.</span> <span class="nav-text"> 准备用户数据</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%AF%BC%E5%85%A5%E7%94%A8%E6%88%B7%E7%9A%84json"><span class="nav-number">5.2.</span> <span class="nav-text"> 生成导入用户的json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%AF%BC%E5%85%A5%E9%83%A8%E9%97%A8%E7%9A%84json"><span class="nav-number">5.3.</span> <span class="nav-text"> 生成导入部门的json</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AF%BC%E5%85%A5%E9%83%A8%E9%97%A8%E4%B8%8E%E7%94%A8%E6%88%B7%E6%95%B0%E6%8D%AE"><span class="nav-number">5.4.</span> <span class="nav-text"> 导入部门与用户数据</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">143</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">23</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">116</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2026/08/17/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEkeycloak/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="安装配置keycloak | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          安装配置keycloak<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AEkeycloak.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2026-08-17 14:28:00" itemprop="dateCreated datePublished" datetime="2026-08-17T14:28:00+00:00">2026-08-17</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2026-08-18 05:48:21" itemprop="dateModified" datetime="2026-08-18T05:48:21+00:00">2026-08-18</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E5%B7%A5%E5%85%B7/" itemprop="url" rel="index"><span itemprop="name">工具</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了安装和配置 keycloak 的操作方法。</p>
+<h3 id="认识-keycloak"><a class="markdownIt-Anchor" href="#认识-keycloak"></a> 认识 keycloak</h3>
+<blockquote>
+<p>官网：<a target="_blank" rel="noopener" href="https://www.keycloak.org/">https://www.keycloak.org/</a></p>
+</blockquote>
+<p>Keycloak 是一个开源的企业身份认证与访问（IAA）管理基金方案，可以给应用、服务添加统一身份认证、授权和用户管理能力，而无需从零编写复杂的登录、注册和权限管理代码。</p>
+<p>主要功能与优点：</p>
+<ul>
+<li>核心认证功能：提供单点登录（SSO），用户登录一次即可访问所有授权系统，支持多因素认证（MFA）、社交账号登录。</li>
+<li>标准协议支持：支持OpenID Connect、OAuth 2.0、SAML 2.0等业界主流标准协议，能与绝大多数现代应用和api无缝集成。</li>
+<li>集中管理：提供管理控制台，可以集中管理用户、角色、权限，提供用户自助服务的账号控制台，如密码重置、管理个人资料。</li>
+<li>集成与扩展能力：内置LDAP和Active Directory集成，可与企业现有用户系统同步；同时提供用户存储SPI，允许开发者为任何自定义用户数据库编写扩展。</li>
+<li>开源免费：Apache 2.0许可，功能强大无授权费用。</li>
+<li>高可用：模块化架构支持集群部署和横向扩展，满足高可用需求。</li>
+</ul>
+<p>相似产品：</p>
+<ul>
+<li><a target="_blank" rel="noopener" href="https://www.maxkey.top/">MaxKey</a>：国产开源IAM-IDaas身份管理和认证产品，对国内社交账号（微信/QQ/微博/钉钉）支持较好。</li>
+<li>[Authentik](<a target="_blank" rel="noopener" href="https://goauthentik.io/">Welcome | authentik</a>)：<strong>现代、轻量</strong>，以用户友好的管理界面和内置的<strong>用户自助门户</strong>著称，是社区中常被提及的现代替代方案。</li>
+<li><a target="_blank" rel="noopener" href="https://zitadel.com/">ZITADEL</a>：<strong>云原生、高性能</strong>，使用Go语言编写，资源占用低，<strong>天生为Kubernetes和多租户设计</strong>。</li>
+<li><a target="_blank" rel="noopener" href="https://logto.io/">Logto</a>：<strong>发者优先</strong>，提供漂亮、现代化的登录界面，丰富的SDK，易用性高。</li>
+</ul>
+<span id="more"></span>
+<h3 id="安装-keycloak"><a class="markdownIt-Anchor" href="#安装-keycloak"></a> 安装 keycloak</h3>
+<h4 id="创建数据库"><a class="markdownIt-Anchor" href="#创建数据库"></a> 创建数据库</h4>
+<p>登录MYSQL数据库，创建 keycloak 数据库：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> DATABASE IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> `keycloak` <span class="keyword">DEFAULT</span> <span class="keyword">CHARACTER SET</span> utf8mb4 <span class="keyword">COLLATE</span> utf8mb4_unicode_ci;</span><br><span class="line"></span><br><span class="line"><span class="comment">-- （可选）创建keycloak用户</span></span><br><span class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> IF <span class="keyword">NOT</span> <span class="keyword">EXISTS</span> <span class="string">&#x27;keycloak&#x27;</span>@<span class="string">&#x27;%&#x27;</span> IDENTIFIED <span class="keyword">BY</span> <span class="string">&#x27;keycloak@123456&#x27;</span>;</span><br><span class="line"><span class="keyword">GRANT</span> <span class="keyword">ALL</span> PRIVILEGES <span class="keyword">ON</span> `keycloak`.<span class="operator">*</span> <span class="keyword">TO</span> <span class="string">&#x27;keycloak&#x27;</span>@<span class="string">&#x27;%&#x27;</span>;</span><br><span class="line">FLUSH PRIVILEGES;</span><br></pre></td></tr></table></figure>
+<h4 id="准备初始化数据"><a class="markdownIt-Anchor" href="#准备初始化数据"></a> 准备初始化数据</h4>
+<p>realm-config.json</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;realm&quot;</span><span class="punctuation">:</span> <span class="string">&quot;hq&quot;</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;clients&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;clientId&quot;</span><span class="punctuation">:</span> <span class="string">&quot;ruoyi-admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;publicClient&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;directAccessGrantsEnabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;redirectUris&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="string">&quot;http://localhost:8080/auth/keycloak/callback&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://localhost:8080/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://127.0.0.1:8080/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://192.168.130.129:8080/auth/keycloak/callback&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://192.168.130.129:8080/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://ruoyi-admin:8080/auth/keycloak/callback&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://ruoyi-admin:8080/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://192.168.19.116:8080/auth/keycloak/callback&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://192.168.19.116:8080/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://192.168.38.243:8080/auth/keycloak/callback&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://192.168.38.243:8080/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://*:8080/auth/keycloak/callback&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://*:8080/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;https://*:8080/auth/keycloak/callback&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;https://*:8080/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;http://*/*&quot;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="string">&quot;https://*/*&quot;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;webOrigins&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;+&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;protocolMappers&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;preferred_username&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;protocol&quot;</span><span class="punctuation">:</span> <span class="string">&quot;openid-connect&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;protocolMapper&quot;</span><span class="punctuation">:</span> <span class="string">&quot;oidc-usermodel-property-mapper&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;consentRequired&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;config&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;userinfo.token.claim&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;user.attribute&quot;</span><span class="punctuation">:</span> <span class="string">&quot;username&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;id.token.claim&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;access.token.claim&quot;</span><span class="punctuation">:</span> <span class="string">&quot;true&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;claim.name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;preferred_username&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;jsonType.label&quot;</span><span class="punctuation">:</span> <span class="string">&quot;String&quot;</span></span><br><span class="line">          <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;users&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;admin@abc.com.cn&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;firstName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;系统&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;lastName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;管理员&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;credentials&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;password&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;value&quot;</span><span class="punctuation">:</span> <span class="string">&quot;admin123&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;temporary&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;realmRoles&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;offline_access&quot;</span><span class="punctuation">,</span> <span class="string">&quot;uma_authorization&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;clientRoles&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;account&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;manage-account&quot;</span><span class="punctuation">,</span> <span class="string">&quot;view-profile&quot;</span><span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span><span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;zhangsan&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;zhangsan@abc.com.cn&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;firstName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;三&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;lastName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;张&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;credentials&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;password&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;value&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Aa1111&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;temporary&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;realmRoles&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;offline_access&quot;</span><span class="punctuation">,</span> <span class="string">&quot;uma_authorization&quot;</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;clientRoles&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;account&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="string">&quot;manage-account&quot;</span><span class="punctuation">,</span> <span class="string">&quot;view-profile&quot;</span><span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="使用-docker-安装-keycloak"><a class="markdownIt-Anchor" href="#使用-docker-安装-keycloak"></a> 使用 docker 安装 keycloak</h4>
+<p>docker-compose.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">&#x27;3.8&#x27;</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line">  <span class="comment"># Keycloak 认证服务（本地测试）</span></span><br><span class="line">  <span class="attr">keycloak:</span></span><br><span class="line">    <span class="attr">image:</span> <span class="string">quay.io/keycloak/keycloak:26.6.1</span></span><br><span class="line">    <span class="attr">container_name:</span> <span class="string">keycloak-local</span></span><br><span class="line">    <span class="attr">restart:</span> <span class="string">unless-stopped</span></span><br><span class="line">    <span class="attr">environment:</span></span><br><span class="line">      <span class="comment"># 管理员账号</span></span><br><span class="line">      <span class="attr">KEYCLOAK_ADMIN:</span> <span class="string">admin</span></span><br><span class="line">      <span class="attr">KEYCLOAK_ADMIN_PASSWORD:</span> <span class="string">admin</span></span><br><span class="line">      <span class="comment"># 数据库配置 - 连接本地 MySQL</span></span><br><span class="line">      <span class="attr">KC_DB:</span> <span class="string">mysql</span></span><br><span class="line">      <span class="attr">KC_DB_URL:</span> <span class="string">jdbc:mysql://host.docker.internal:3306/keycloak?useSSL=false&amp;allowPublicKeyRetrieval=true&amp;characterEncoding=UTF-8&amp;serverTimezone=Asia/Shanghai</span></span><br><span class="line">      <span class="attr">KC_DB_USERNAME:</span> <span class="string">root</span></span><br><span class="line">      <span class="attr">KC_DB_PASSWORD:</span> <span class="string">root</span></span><br><span class="line">      <span class="comment"># 放宽主机名限制，允许本地测试</span></span><br><span class="line">      <span class="attr">KC_HOSTNAME_STRICT:</span> <span class="string">&quot;false&quot;</span></span><br><span class="line">      <span class="attr">KC_HOSTNAME_STRICT_HTTPS:</span> <span class="string">&quot;false&quot;</span></span><br><span class="line">      <span class="comment"># 开发模式（可选，启用热重载等）</span></span><br><span class="line">      <span class="attr">KC_DEV:</span> <span class="string">&quot;true&quot;</span></span><br><span class="line">    <span class="attr">ports:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;8180:8080&quot;</span></span><br><span class="line">    <span class="attr">volumes:</span></span><br><span class="line">      <span class="comment"># 挂载 realm 配置文件</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">D:/program/docker/data/keycloak/import/realm-config.json:/opt/keycloak/data/import/realm-config.json</span></span><br><span class="line">      <span class="comment"># 挂载日志目录</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">D:/program/docker/data/keycloak/logs:/opt/keycloak/data/log</span></span><br><span class="line">    <span class="attr">command:</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;start-dev&quot;</span></span><br><span class="line">      <span class="bullet">-</span> <span class="string">&quot;--import-realm&quot;</span></span><br></pre></td></tr></table></figure>
+<p>运行命令：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose -f .\docker-compose.yml up -d</span><br></pre></td></tr></table></figure>
+<h3 id="配置-keycloak"><a class="markdownIt-Anchor" href="#配置-keycloak"></a> 配置 keycloak</h3>
+<p>浏览器访问 <a target="_blank" rel="noopener" href="http://localhost:8180/admin">http://localhost:8180/admin</a> ，使用账号 <code>admin</code> 、密码 <code>admin</code> 登录。</p>
+<h4 id="中文界面配置"><a class="markdownIt-Anchor" href="#中文界面配置"></a> 中文界面配置</h4>
+<p>登录后点击菜单栏 Configure 分类下的 <code>Realm settings</code> 按钮，点击进入页面中 <code>Localization</code> 的 Tab 框。</p>
+<blockquote>
+<p>也可以直接访问设置地址：<a target="_blank" rel="noopener" href="http://localhost:8180/admin/master/console/#/master/realm-settings/localization">http://localhost:8180/admin/master/console/#/master/realm-settings/localization</a></p>
+</blockquote>
+<p>打开 <code>Internationalization</code> 配置；</p>
+<p>在 Supported locales 中增加简体中文 <code>Simplified Chinese</code> 选项；</p>
+<p>Default locale 选择 <code>Simplified Chinese</code> 选项；</p>
+<p>点击 Save 按钮保存，刷新浏览器，界面显示中文。</p>
+<h4 id="进入领域管理"><a class="markdownIt-Anchor" href="#进入领域管理"></a> 进入领域管理</h4>
+<p>点击菜单栏 <code>管理领域</code> ，点击页面中的 <code>hq</code> ，进入 hq 领域管理，界面显示目前领域为 hq，后续菜单栏的设置都是针对 hq 领域的。</p>
+<blockquote>
+<p>快捷访问地址：<a target="_blank" rel="noopener" href="http://localhost:8180/admin/master/console/#/hq">http://localhost:8180/admin/master/console/#/hq</a></p>
+</blockquote>
+<h4 id="配置领域支持中文"><a class="markdownIt-Anchor" href="#配置领域支持中文"></a> 配置领域支持中文</h4>
+<p>进入 hq 领域管理，点击菜单栏配置分类下的 <code>领域设置</code> 菜单，进入 <code>本地化</code> Tab页，修改下述配置：</p>
+<blockquote>
+<p>快捷访问链接：<a target="_blank" rel="noopener" href="http://192.168.19.116:8180/admin/master/console/#/hq/realm-settings/localization">http://192.168.19.116:8180/admin/master/console/#/hq/realm-settings/localization</a></p>
+</blockquote>
+<ul>
+<li>国际化：开启</li>
+<li>支持的语言环境：添加 <code>简体中文</code></li>
+<li>默认语言环境：选择 <code>简体中文</code></li>
+</ul>
+<p>保存配置。</p>
+<h4 id="添加用户信息字段"><a class="markdownIt-Anchor" href="#添加用户信息字段"></a> 添加用户信息字段</h4>
+<p>keycloak默认用户信息包括用户名、姓名、邮箱，可以根据需要添加新的用户属性，比如性别、手机号等。</p>
+<p>进入 hq 领域管理，点击菜单栏配置分类下的 <code>领域设置</code> 菜单，进入 <code>用户资料</code> Tab页。</p>
+<blockquote>
+<p>快捷链接：<a target="_blank" rel="noopener" href="http://localhost:8180/admin/master/console/#/hq/realm-settings/user-profile/attributes">http://localhost:8180/admin/master/console/#/hq/realm-settings/user-profile/attributes</a></p>
+</blockquote>
+<p>点击 <code>创建属性</code> ，添加性别 <code>gender</code> 、手机号码 <code>phone</code> 、职位 <code>position</code> 属性，配置选项如下：</p>
+<table>
+<thead>
+<tr>
+<th>设置项</th>
+<th>性别</th>
+<th>手机号码</th>
+<th>职位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>属性 [名称]</td>
+<td>gender</td>
+<td>phone</td>
+<td>position</td>
+</tr>
+<tr>
+<td>展示名称-简体中文</td>
+<td>性别</td>
+<td>电话</td>
+<td>岗位</td>
+</tr>
+<tr>
+<td>展示名称-英文</td>
+<td>gender</td>
+<td>phone</td>
+<td>position</td>
+</tr>
+<tr>
+<td>多值的</td>
+<td>关</td>
+<td>关</td>
+<td>开</td>
+</tr>
+<tr>
+<td>谁可以编辑</td>
+<td>用户、管理员</td>
+<td>用户、管理员</td>
+<td>管理员</td>
+</tr>
+<tr>
+<td>谁可以查看</td>
+<td>用户、管理员</td>
+<td>用户、管理员</td>
+<td>用户、管理员</td>
+</tr>
+<tr>
+<td>验证</td>
+<td>options：<code>secret（保密）</code>,<code>male（男）</code>,<code>female（女）&quot;</code></td>
+<td>pattern：<code>^1[3-9]\\\\d{9}$</code></td>
+<td>length：<code>min：2，max：20</code></td>
+</tr>
+<tr>
+<td>注释</td>
+<td>inputType：select</td>
+<td>inputType：text</td>
+<td>inputType：text</td>
+</tr>
+</tbody>
+</table>
+<p>修改方式二：可以使用 json 编辑器直接修改、添加属性，这种方式适合导入初始化数据，但需要注意这种方式没有国际化翻译信息，在导入后需要手动编辑属性，添加翻译。完整 json 数据：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">  <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;username&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;username&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;validations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;length&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;min&quot;</span><span class="punctuation">:</span> <span class="number">3</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;max&quot;</span><span class="punctuation">:</span> <span class="number">255</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;username-prohibited-characters&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;up-username-not-idn-homograph&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;view&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;multivalued&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;email&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;email&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;validations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;length&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;max&quot;</span><span class="punctuation">:</span> <span class="number">255</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;roles&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;user&quot;</span> <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;view&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;multivalued&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;firstName&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;firstName&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;validations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;length&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;max&quot;</span><span class="punctuation">:</span> <span class="number">255</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;person-name-prohibited-characters&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;roles&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;user&quot;</span> <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;view&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;multivalued&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;lastName&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;lastName&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;validations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;length&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;max&quot;</span><span class="punctuation">:</span> <span class="number">255</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;person-name-prohibited-characters&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;required&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;roles&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;user&quot;</span> <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;view&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;multivalued&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;gender&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;profile.attributes.gender&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;validations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;options&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;options&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">            <span class="string">&quot;secret（保密）&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;male（男）&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="string">&quot;female（女）&quot;</span></span><br><span class="line">          <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;annotations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;inputType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;select&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;view&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;multivalued&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;phone&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;profile.attributes.phone&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;validations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;pattern&quot;</span><span class="punctuation">:</span> <span class="string">&quot;^1[3-9]\\\\d&#123;9&#125;$&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;error-message&quot;</span><span class="punctuation">:</span> <span class="string">&quot;&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;annotations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;inputType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;view&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;multivalued&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;position&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;$&#123;profile.attributes.position&#125;&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;validations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;length&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">          <span class="attr">&quot;min&quot;</span><span class="punctuation">:</span> <span class="string">&quot;2&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="attr">&quot;max&quot;</span><span class="punctuation">:</span> <span class="string">&quot;20&quot;</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;annotations&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;inputType&quot;</span><span class="punctuation">:</span> <span class="string">&quot;text&quot;</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;permissions&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">        <span class="attr">&quot;view&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">          <span class="string">&quot;admin&quot;</span><span class="punctuation">,</span></span><br><span class="line">          <span class="string">&quot;user&quot;</span></span><br><span class="line">        <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">        <span class="attr">&quot;edit&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;admin&quot;</span> <span class="punctuation">]</span></span><br><span class="line">      <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;multivalued&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">  <span class="attr">&quot;groups&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">    <span class="punctuation">&#123;</span></span><br><span class="line">      <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;user-metadata&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayHeader&quot;</span><span class="punctuation">:</span> <span class="string">&quot;User metadata&quot;</span><span class="punctuation">,</span></span><br><span class="line">      <span class="attr">&quot;displayDescription&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Attributes, which refer to user metadata&quot;</span></span><br><span class="line">    <span class="punctuation">&#125;</span></span><br><span class="line">  <span class="punctuation">]</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="配置给客户端的信息"><a class="markdownIt-Anchor" href="#配置给客户端的信息"></a> 配置给客户端的信息</h4>
+<p>可以配置客户端使用 keycloak 登录时，返回给客户端的用户信息，比如自定义的用户属性、用户所在组的信息。</p>
+<p>进入 hq 领域管理，点击菜单栏管理分类中的 <code>客户端</code> ，进入 <code>客户端列表</code> Tab页；</p>
+<blockquote>
+<p>快捷链接：<a target="_blank" rel="noopener" href="http://localhost:8180/admin/master/console/#/hq/clients/list">http://localhost:8180/admin/master/console/#/hq/clients/list</a></p>
+</blockquote>
+<p>点击 <code>ruoyi-admin</code> 进入客户端详情页，点击 <code>客户端范围</code> Tab，点击 <code>ruoyi-admin-专用</code> ，添加如下字段映射器：</p>
+<ul>
+<li>来自预定义映射：<code>email</code> 、<code>gender</code></li>
+<li>根据配置：
+<ul>
+<li>User Attrbute：<code>phone</code>、<code>position</code></li>
+<li>Group Membership</li>
+</ul>
+</li>
+</ul>
+<p>配置参数：</p>
+<table>
+<thead>
+<tr>
+<th>配置项</th>
+<th>email</th>
+<th>phone</th>
+<th>gender</th>
+<th>position</th>
+<th>group</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>名称</td>
+<td>email</td>
+<td>phone number</td>
+<td>gender</td>
+<td>position</td>
+<td>group membership</td>
+</tr>
+<tr>
+<td>用户属性</td>
+<td>email</td>
+<td>phone</td>
+<td>gender</td>
+<td>position</td>
+<td>-</td>
+</tr>
+<tr>
+<td>令牌申明名称</td>
+<td>email</td>
+<td>phone_number</td>
+<td>gender</td>
+<td>position</td>
+<td>department_groups</td>
+</tr>
+<tr>
+<td>申明的JSON类型</td>
+<td>String</td>
+<td>String</td>
+<td>String</td>
+<td>String</td>
+<td>-</td>
+</tr>
+<tr>
+<td>支持多值</td>
+<td>关</td>
+<td>关</td>
+<td>关</td>
+<td>开</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<blockquote>
+<p>配置说明：</p>
+<ul>
+<li>映射名称可以自定义，要唯一</li>
+<li>令牌声明名称是给客户端的字段名，需要和客户端协调一致</li>
+</ul>
+</blockquote>
+<h3 id="导入用户数据"><a class="markdownIt-Anchor" href="#导入用户数据"></a> 导入用户数据</h3>
+<h4 id="准备用户数据"><a class="markdownIt-Anchor" href="#准备用户数据"></a> 准备用户数据</h4>
+<p>把公司部门信息和员工信息写入表格中，需要包含用户名、姓、名、邮箱、性别、部门、岗位、电话，如下表：</p>
+<table>
+<thead>
+<tr>
+<th>用户名</th>
+<th>姓</th>
+<th>名</th>
+<th>邮箱</th>
+<th>性别</th>
+<th>部门</th>
+<th>岗位</th>
+<th>电话</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>zhaoyi</td>
+<td>赵</td>
+<td>一</td>
+<td><a href="mailto:zhaoyi@abc.com">zhaoyi@abc.com</a></td>
+<td>男</td>
+<td>/研发部</td>
+<td>研发部经理</td>
+<td>13100000000</td>
+</tr>
+<tr>
+<td>qianer</td>
+<td>钱</td>
+<td>二</td>
+<td><a href="mailto:qianer@abc.com">qianer@abc.com</a></td>
+<td>女</td>
+<td>/研发部/后端组</td>
+<td>后端组主管</td>
+<td>13200000000</td>
+</tr>
+<tr>
+<td>sunsan</td>
+<td>孙</td>
+<td>三</td>
+<td><a href="mailto:sunsan@abc.com">sunsan@abc.com</a></td>
+<td>男</td>
+<td>/研发部/后端组</td>
+<td>后端开发</td>
+<td>13300000000</td>
+</tr>
+<tr>
+<td>lisi</td>
+<td>李</td>
+<td>四</td>
+<td><a href="mailto:lisi@abc.com">lisi@abc.com</a></td>
+<td>男</td>
+<td>/研发部/后端组</td>
+<td>后端开发</td>
+<td>1340000000</td>
+</tr>
+<tr>
+<td>zhouwu</td>
+<td>周</td>
+<td>五</td>
+<td><a href="mailto:zhouwu@abc.com">zhouwu@abc.com</a></td>
+<td>女</td>
+<td>/研发部/前端组</td>
+<td>前端组主管</td>
+<td>13500000000</td>
+</tr>
+<tr>
+<td>wuliu</td>
+<td>吴</td>
+<td>六</td>
+<td><a href="mailto:wuliu@abc.com">wuliu@abc.com</a></td>
+<td>女</td>
+<td>/研发部/前端组</td>
+<td>前端开发</td>
+<td>13600000000</td>
+</tr>
+<tr>
+<td>zhengqi</td>
+<td>郑</td>
+<td>七</td>
+<td><a href="mailto:zhengqi@abc.com">zhengqi@abc.com</a></td>
+<td>男</td>
+<td>/研发部/前端组</td>
+<td>UI设计</td>
+<td>13700000000</td>
+</tr>
+<tr>
+<td>wangba</td>
+<td>王</td>
+<td>八</td>
+<td><a href="mailto:wangba@abc.com">wangba@abc.com</a></td>
+<td>男</td>
+<td>/财务部</td>
+<td>财务主管</td>
+<td>13800000000</td>
+</tr>
+</tbody>
+</table>
+<p>根据员工表生成部门数据 json 和用户信息 json，可以放到一个 json 文件中一次导入，完整 json 文件格式如下：</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;groups&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;users&quot;</span><span class="punctuation">:</span><span class="punctuation">[</span><span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ifResourceExists&quot;</span><span class="punctuation">:</span> <span class="string">&quot;SKIP&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<h4 id="生成导入用户的json"><a class="markdownIt-Anchor" href="#生成导入用户的json"></a> 生成导入用户的json</h4>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;users&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;username&quot;</span><span class="punctuation">:</span> <span class="string">&quot;zhaoyi&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;enabled&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;emailVerified&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">false</span></span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;email&quot;</span><span class="punctuation">:</span> <span class="string">&quot;zhaoyi@abc.com&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;firstName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;赵&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;lastName&quot;</span><span class="punctuation">:</span> <span class="string">&quot;一&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;credentials&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;type&quot;</span><span class="punctuation">:</span> <span class="string">&quot;password&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;value&quot;</span><span class="punctuation">:</span> <span class="string">&quot;Aa1111&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;temporary&quot;</span><span class="punctuation">:</span> <span class="literal"><span class="keyword">true</span></span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;requiredActions&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;UPDATE_PASSWORD&quot;</span> <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;realmRoles&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;user&quot;</span> <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;groups&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;/研发部&quot;</span> <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span></span><br><span class="line">                <span class="attr">&quot;locale&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;zh-CN&quot;</span> <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;gender&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;secret（保密）&quot;</span> <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;phone&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;13011112222&quot;</span> <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">                <span class="attr">&quot;position&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span> <span class="string">&quot;研发部经理&quot;</span> <span class="punctuation">]</span></span><br><span class="line">            <span class="punctuation">&#125;</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span>...<span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ifResourceExists&quot;</span><span class="punctuation">:</span> <span class="string">&quot;SKIP&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>字段说明：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>字段</strong></th>
+<th style="text-align:left"><strong>类型</strong></th>
+<th style="text-align:left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>users[].username</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left"><strong>必填</strong>，登录账号，全局唯一</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].firstName</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">名</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].lastName</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">姓（Keycloak 显示名是 firstName + lastName 拼的）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].email</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">邮箱，建议唯一</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].enabled</code></td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">是否启用，设 <code>true</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].emailVerified</code></td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left">邮箱是否已验证，首次导入一般设 <code>false</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].groups</code></td>
+<td style="text-align:left">string[]</td>
+<td style="text-align:left">Group <strong>完整路径</strong>数组，对应 Keycloak 里的 Group 路径</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].realmRoles</code></td>
+<td style="text-align:left">string[]</td>
+<td style="text-align:left">分配的 Realm 角色，如 <code>[&quot;user&quot;, &quot;admin&quot;]</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].credentials</code></td>
+<td style="text-align:left">object[]</td>
+<td style="text-align:left">凭证数组，一般只放一条密码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>credentials[].type</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">固定填 <code>&quot;password&quot;</code></td>
+</tr>
+<tr>
+<td style="text-align:left"><code>credentials[].value</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">明文密码（导入时 Keycloak 会自动哈希）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>credentials[].temporary</code></td>
+<td style="text-align:left">boolean</td>
+<td style="text-align:left"><code>true</code> = 临时密码，用户首次登录必须改密码</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>users[].attributes</code></td>
+<td style="text-align:left">object</td>
+<td style="text-align:left">自定义属性，<strong>值必须是数组</strong>（即使只有一个值）</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ifResourceExists</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left"><code>SKIP</code>=已存在跳过（幂等安全） / <code>OVERWRITE</code>=覆盖 / <code>FAIL</code>=报错停</td>
+</tr>
+</tbody>
+</table>
+<h4 id="生成导入部门的json"><a class="markdownIt-Anchor" href="#生成导入部门的json"></a> 生成导入部门的json</h4>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="punctuation">&#123;</span></span><br><span class="line">    <span class="attr">&quot;groups&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;财务部&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/财务部&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;subGroups&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">        <span class="punctuation">&#123;</span></span><br><span class="line">            <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;研发部&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/研发部&quot;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">            <span class="attr">&quot;subGroups&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;后端组&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/研发部/后端组&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;subGroups&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">                <span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                <span class="punctuation">&#123;</span></span><br><span class="line">                    <span class="attr">&quot;name&quot;</span><span class="punctuation">:</span> <span class="string">&quot;前端组&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;path&quot;</span><span class="punctuation">:</span> <span class="string">&quot;/研发部/前端组&quot;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;attributes&quot;</span><span class="punctuation">:</span> <span class="punctuation">&#123;</span><span class="punctuation">&#125;</span><span class="punctuation">,</span></span><br><span class="line">                    <span class="attr">&quot;subGroups&quot;</span><span class="punctuation">:</span> <span class="punctuation">[</span><span class="punctuation">]</span></span><br><span class="line">                <span class="punctuation">&#125;</span></span><br><span class="line">            <span class="punctuation">]</span></span><br><span class="line">        <span class="punctuation">&#125;</span></span><br><span class="line">    <span class="punctuation">]</span><span class="punctuation">,</span></span><br><span class="line">    <span class="attr">&quot;ifResourceExists&quot;</span><span class="punctuation">:</span> <span class="string">&quot;SKIP&quot;</span></span><br><span class="line"><span class="punctuation">&#125;</span></span><br></pre></td></tr></table></figure>
+<p>字段说明：</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left"><strong>字段</strong></th>
+<th style="text-align:left"><strong>类型</strong></th>
+<th style="text-align:left"><strong>说明</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left"><code>groups[].name</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">Group 名称</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>groups[].path</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left">Group 完整路径，以 <code>/</code> 开头</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>groups[].subGroups</code></td>
+<td style="text-align:left">object[]</td>
+<td style="text-align:left">子组，递归结构</td>
+</tr>
+<tr>
+<td style="text-align:left"><code>ifResourceExists</code></td>
+<td style="text-align:left">string</td>
+<td style="text-align:left"><code>SKIP</code>=已存在跳过（幂等安全） / <code>OVERWRITE</code>=覆盖 / <code>FAIL</code>=报错停</td>
+</tr>
+</tbody>
+</table>
+<h4 id="导入部门与用户数据"><a class="markdownIt-Anchor" href="#导入部门与用户数据"></a> 导入部门与用户数据</h4>
+<p>进入 hq 领域管理，点击菜单栏配置分类下的 <code>领域设置</code> 。</p>
+<blockquote>
+<p>快捷链接：<a target="_blank" rel="noopener" href="http://localhost:8180/admin/master/console/#/hq/realm-settings">http://localhost:8180/admin/master/console/#/hq/realm-settings</a></p>
+</blockquote>
+<p>点击页面右上角 <code>操作</code> - <code>部分导入</code> ，选择生成的 json 数据文件，勾选用户，选择冲突处理策略，点击导入。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/%E6%9C%8D%E5%8A%A1%E5%99%A8/" rel="tag"># 服务器</a>
+              <a href="/tags/docker/" rel="tag"># docker</a>
+              <a href="/tags/keycloak/" rel="tag"># keycloak</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/06/28/ESP8266%E5%A4%AA%E9%98%B3%E8%83%BD%E6%B0%94%E8%B1%A1%E7%AB%99/" rel="prev" title="ESP8266太阳能气象站">
+                  <i class="fa fa-angle-left"></i> ESP8266太阳能气象站
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>
