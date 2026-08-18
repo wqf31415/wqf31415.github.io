@@ -510,8 +510,8 @@ keycloak默认用户信息包括用户名、姓名、邮箱，可以根据需要
             "enabled": true,
             "emailVerified": false,
             "email": "zhaoyi@abc.com",
-            "firstName": "赵",
-            "lastName": "一",
+            "firstName": "一",
+            "lastName": "赵",
             "credentials": [
                 {
                     "type": "password",
