@@ -1,5 +1,5 @@
 ---
-title: 安装配置keycloak
+title: Keycloak安装配置
 tags: 
   - keycloak
   - docker
@@ -57,6 +57,8 @@ FLUSH PRIVILEGES;
 
 
 #### 准备初始化数据
+
+准备好导入 Keycloak 的领域数据，用于在运行 Keycloak 容器时初始化系统数据。如下 json 文件导入了一个名为 `hq` 的领域，还包含领域中的客户端 `ruoyi-admin` 、用户 `users`。
 
 realm-config.json
 
@@ -609,3 +611,6 @@ keycloak默认用户信息包括用户名、姓名、邮箱，可以根据需要
 >  快捷链接：<http://localhost:8180/admin/master/console/#/hq/realm-settings> 
 
 点击页面右上角 `操作` - `部分导入` ，选择生成的 json 数据文件，勾选用户，选择冲突处理策略，点击导入。
+
+![](/images/post/tools/keycloak_import_user_succ.webp) 
+
