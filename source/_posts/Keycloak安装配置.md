@@ -619,5 +619,5 @@ keycloak默认用户信息包括用户名、姓名、邮箱，可以根据需要
 
 可以把所有需要初始化的数据添加到一个 json 文件中，如领域、允许访问的地址、用户属性字段、字段映射、用户组、用户信息等，在 keycloak 第一次运行时直接导入系统。
 
-完整示例文件: [realm-config.json](/example/realm-config.json) 
+完整示例文件: [realm-config.json](/json/realm-config.json) 
 
