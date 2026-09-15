@@ -137,6 +137,8 @@ sudo make install
 | `:wqa`                 | 保存并退出所有窗口                                           |
 
 
+> 当保存文件时提示 `readonly` ，可以在 vim 里执行命令 `:w !sudo tee %` ，另存为 root 权限写入，执行后输入 root 密码就可以写入，之后按回车回到 vim。
+
 
 #### 快捷修改
 
