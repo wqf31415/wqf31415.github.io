@@ -251,6 +251,18 @@ void loop()
 
 ### 问题
 
+#### 编译报错
+
+```
+C:\Users\wqf31\Documents\Arduino\libraries\ACROBOTIC_SSD1306\ACROBOTIC_SSD1306.cpp:139:1: error: control reaches end of non-void function [-Werror=return-type]
+  139 | }
+      | ^
+cc1plus.exe: some warnings being treated as errors
+exit status 1
+```
+
+这个错的原因是 ACROBOTIC SSD1306 库代码不规范，有一个函数应该返回 bool 类型的值，但函数中没有 return 语句，可以手动编辑这个文件，找到 139 行附件，添加返回语句 `return false;` 。
+
 #### 图形显示不完整
 
 我发现用上面的方法，OLED 上的图形显示不完整，画面整体向上移动了 8 像素，所以图片最上面的 8 像素将显示不出来，我们需要在图片的字节数组最前面添加 8 * 16 个 0x00 ，将画面向下顶 8 个像素。此外还需要修改绘图函数的参数 `oled.drawBitmap(HELLO, 1024);` ，将 1024 修改为 1152。
