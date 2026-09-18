@@ -106,6 +106,16 @@ gzip -d mytar.tar.gz
 tar -xf mytar.tar
 ```
 
+解压指定文件:
+
+```bash
+tar -zxf a.txt
+tar -zxf a.txt b.md
+```
+
+> 解压指定文件时可以使用 `tar -ztvf` 查看内容，获取到压缩包内的文件的路径，再进行解压。
+> 
+> 注意：如果包中文件是 `./a.txt` ，解压时也需要带上 `./` ，完整命令 `tar -zxf ./a.txt` 
 
 
 #### .tar.xz
