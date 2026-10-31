@@ -1133,7 +1133,7 @@ pre code {
 .site-nav-search {
   color: var(--text-color);
   display: none;
-  padding: 0 10px;
+  padding: 0 15px;
 }
 .site-nav-toggle .fa,
 .site-nav-search .fa {
@@ -1279,7 +1279,7 @@ pre code {
   vertical-align: middle;
 }
 .links-of-author a::before {
-  background: #0effcf;
+  background: #6626dd;
   display: inline-block;
   margin-right: 3px;
   transform: translateY(-2px);
