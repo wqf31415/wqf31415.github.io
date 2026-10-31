@@ -48,6 +48,9 @@ Windows 下载地址(1.6G)：<https://ollama.com/download/OllamaSetup.exe>
 
 一款使用大语言模型进行本地翻译的软件，支持划词翻译、OCR识别翻译，可接入本地大语言模型。
 
+> 注意：STranslate 软件运行需要 .net 10 runtime，如果在离线环境安装，建议提前下载 `.NET Desktop Runtime` 
+> 下载地址：https://dotnet.microsoft.com/en-us/download/dotnet/10.0
+
 官网地址：<https://stranslate.zggsong.com/> 
 
 GitHub地址：<https://github.com/STranslate/STranslate> 
