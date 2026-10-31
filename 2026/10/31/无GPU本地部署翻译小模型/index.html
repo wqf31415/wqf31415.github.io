@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 8.0.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/uploads/favicon.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/uploads/favicon.png">
+  <link rel="mask-icon" href="/uploads/favicon.png" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.3.1/css/all.min.css" integrity="sha256-4Lad8m4ZWW1Lgb9+sMVLYEfnIh7BjV1NQMEe79Pviks=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"www.wqf31415.xyz","root":"/","images":"/images","scheme":"Mist","darkmode":false,"version":"8.29.1","exturl":false,"sidebar":{"position":"right","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":true,"style":"default"},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":true,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="概述 这篇文章介绍了使用 ollama 在本地部署翻译模型（Hy-MT2-1.8B）的详细操作方法与注意事项，提供了必要的下载链接、运行脚本。  实现方案 为了在没有显卡的内网电脑上使用翻译功能，这次选择使用 ollama 运行本地的翻译模型 Hy-MT2-1.8B，选择了 Q4_K_M 量化版本，模型文件仅 1.13G 大小，在纯 CPU 场景下也能顺畅运行。 模型运行起来后，再接入 STra">
+<meta property="og:type" content="article">
+<meta property="og:title" content="无GPU本地部署翻译小模型">
+<meta property="og:url" content="https://www.wqf31415.xyz/2026/10/31/%E6%97%A0GPU%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E7%BF%BB%E8%AF%91%E5%B0%8F%E6%A8%A1%E5%9E%8B/index.html">
+<meta property="og:site_name" content="This_Wei">
+<meta property="og:description" content="概述 这篇文章介绍了使用 ollama 在本地部署翻译模型（Hy-MT2-1.8B）的详细操作方法与注意事项，提供了必要的下载链接、运行脚本。  实现方案 为了在没有显卡的内网电脑上使用翻译功能，这次选择使用 ollama 运行本地的翻译模型 Hy-MT2-1.8B，选择了 Q4_K_M 量化版本，模型文件仅 1.13G 大小，在纯 CPU 场景下也能顺畅运行。 模型运行起来后，再接入 STra">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2026-10-31T11:39:04.000Z">
+<meta property="article:modified_time" content="2026-10-31T05:12:06.819Z">
+<meta property="article:author" content="This_Wei">
+<meta property="article:tag" content="AI">
+<meta property="article:tag" content="LLM">
+<meta property="article:tag" content="ollama">
+<meta property="article:tag" content="小模型">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="https://www.wqf31415.xyz/2026/10/31/%E6%97%A0GPU%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E7%BF%BB%E8%AF%91%E5%B0%8F%E6%A8%A1%E5%9E%8B/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"https://www.wqf31415.xyz/2026/10/31/%E6%97%A0GPU%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E7%BF%BB%E8%AF%91%E5%B0%8F%E6%A8%A1%E5%9E%8B/","path":"2026/10/31/无GPU本地部署翻译小模型/","title":"无GPU本地部署翻译小模型"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>无GPU本地部署翻译小模型 | This_Wei</title>
+  
+
+  <script src="/js/third-party/analytics/baidu-analytics.js" defer></script>
+  <script async src="https://hm.baidu.com/hm.js?573d2959947383d4158d7b1756b9d63c"></script>
+
+
+
+
+
+
+
+  
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script><script src="/js/bookmark.js" defer></script>
+
+  
+
+  <script class="next-config" data-name="mermaid" type="application/json">{"enable":true,"theme":{"light":"default","dark":"dark"},"js":{"url":"https://cdnjs.cloudflare.com/ajax/libs/mermaid/11.10.1/mermaid.min.js","integrity":"sha256-BmQmdWDS8X2OTbrwELWK366LV6escyWhHHe0XCTU/Hk="}}</script>
+  <script src="/js/third-party/tags/mermaid.js" defer></script>
+
+
+
+
+
+  
+
+
+
+
+<style>
+/* Global responsive styles for SVG images on mobile */
+.post-body svg,
+.post-body img[src$=".svg"] {
+  max-width: 100% !important;
+  width: 100% !important;
+  height: auto !important;
+  display: block;
+  box-sizing: border-box;
+}
+</style>
+<script>
+// Global fix for inline SVG with fixed width on mobile
+document.addEventListener('DOMContentLoaded', function() {
+  (function() {
+    function fixSvgSize() {
+      var svgs = document.querySelectorAll('.post-body svg');
+      for (var i = 0; i < svgs.length; i++) {
+        var svg = svgs[i];
+        var width = svg.getAttribute('width');
+        var height = svg.getAttribute('height');
+
+        // If SVG has width/height attributes but no viewBox, add viewBox
+        if (width && height && !svg.getAttribute('viewBox')) {
+          // Remove any units, just get the number
+          var wNum = parseFloat(width);
+          var hNum = parseFloat(height);
+          if (wNum && hNum) {
+            svg.setAttribute('viewBox', '0 0 ' + wNum + ' ' + hNum);
+          }
+        }
+
+        // Force preserveAspectRatio to maintain original ratio
+        if (!svg.getAttribute('preserveAspectRatio')) {
+          svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+        }
+      }
+    }
+    // Run on page load
+    fixSvgSize();
+    // Run again after any dynamic content loads
+    if (document.addEventListener) {
+      document.addEventListener('pjax:complete', fixSvgSize);
+    }
+  })();
+});
+</script>
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-search popup-trigger" aria-label="搜索" role="button">
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">This_Wei</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">Come on!</p>
+  </div>
+
+  <div class="site-nav-toggle" aria-label="切换导航栏" role="button">
+      <i class="fa fa-ellipsis fa-fw fa-lg"></i>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu"><li class="menu-item menu-item-home"><a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a></li><li class="menu-item menu-item-tags"><a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a></li><li class="menu-item menu-item-categories"><a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a></li><li class="menu-item menu-item-archives"><a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a></li><li class="menu-item menu-item-nav"><a href="/nav/" rel="section"><i class="fa fa-sitemap fa-fw"></i>收藏导航</a></li>
+  </ul>
+</nav>
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A6%82%E8%BF%B0"><span class="nav-number">1.</span> <span class="nav-text"> 概述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E6%A1%88"><span class="nav-number">2.</span> <span class="nav-text"> 实现方案</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E4%BB%8B%E7%BB%8D"><span class="nav-number">3.</span> <span class="nav-text"> 模型介绍</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%BD%AF%E4%BB%B6"><span class="nav-number">4.</span> <span class="nav-text"> 软件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%A8%A1%E5%9E%8B%E8%BF%90%E8%A1%8C%E5%B7%A5%E5%85%B7ollama"><span class="nav-number">4.1.</span> <span class="nav-text"> 模型运行工具：ollama</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%BF%BB%E8%AF%91%E5%B7%A5%E5%85%B7stranslate"><span class="nav-number">4.2.</span> <span class="nav-text"> 翻译工具：STranslate</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E4%B8%8E%E9%85%8D%E7%BD%AE"><span class="nav-number">5.</span> <span class="nav-text"> 安装与配置</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%80%BB%E7%BB%93"><span class="nav-number">6.</span> <span class="nav-text"> 总结</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">This_Wei</p>
+  <div class="site-description" itemprop="description">昨夜西风凋碧树，独上高楼，望尽天涯路！</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">144</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">24</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">120</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="http://wpa.qq.com/msgrd?v=3&uin=629170023&site=qq&menu=yes" title="QQ → http:&#x2F;&#x2F;wpa.qq.com&#x2F;msgrd?v&#x3D;3&amp;uin&#x3D;629170023&amp;site&#x3D;qq&amp;menu&#x3D;yes" rel="noopener me" target="_blank"><i class="qq fa-fw"></i>QQ</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://github.com/wqf31415" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:wqf31415@hotmail.com" title="E-Mail → mailto:wqf31415@hotmail.com" rel="noopener me" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="https://weibo.com/wqf31415" title="Weibo → https:&#x2F;&#x2F;weibo.com&#x2F;wqf31415" rel="noopener me" target="_blank"><i class="fab fa-weibo fa-fw"></i>Weibo</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://www.wqf31415.xyz/2026/10/31/%E6%97%A0GPU%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E7%BF%BB%E8%AF%91%E5%B0%8F%E6%A8%A1%E5%9E%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="This_Wei">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="This_Wei">
+      <meta itemprop="description" content="昨夜西风凋碧树，独上高楼，望尽天涯路！">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="无GPU本地部署翻译小模型 | This_Wei">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          无GPU本地部署翻译小模型<a href="https://github.com/wqf31415/wqf31415.github.io/tree/source/source/_posts/%E6%97%A0GPU%E6%9C%AC%E5%9C%B0%E9%83%A8%E7%BD%B2%E7%BF%BB%E8%AF%91%E5%B0%8F%E6%A8%A1%E5%9E%8B.md" class="post-edit-link" title="编辑" rel="noopener" target="_blank"><i class="fa fa-pen-nib"></i></a>
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+      
+
+      <time title="创建时间：2026-10-31 11:39:04 / 修改时间：05:12:06" itemprop="dateCreated datePublished" datetime="2026-10-31T11:39:04+00:00">2026-10-31</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/AI/" itemprop="url" rel="index"><span itemprop="name">AI</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h3 id="概述"><a class="markdownIt-Anchor" href="#概述"></a> 概述</h3>
+<p>这篇文章介绍了使用 ollama 在本地部署翻译模型（Hy-MT2-1.8B）的详细操作方法与注意事项，提供了必要的下载链接、运行脚本。</p>
+<h3 id="实现方案"><a class="markdownIt-Anchor" href="#实现方案"></a> 实现方案</h3>
+<p>为了在没有显卡的内网电脑上使用翻译功能，这次选择使用 ollama 运行本地的翻译模型 Hy-MT2-1.8B，选择了 Q4_K_M 量化版本，模型文件仅 1.13G 大小，在纯 CPU 场景下也能顺畅运行。</p>
+<p>模型运行起来后，再接入 STranslate 软件，方便平时实时的划词翻译、截屏翻译。</p>
+<span id="more"></span>
+<h3 id="模型介绍"><a class="markdownIt-Anchor" href="#模型介绍"></a> 模型介绍</h3>
+<blockquote>
+<p>Hy-MT2 是一款面向真实复杂场景的“快思考”多语言翻译模型家族，涵盖 1.8B、7B 和 30B-A3B（MoE）三种体量，支持 33 种语言互译并具备强大的多语言指令遵循能力。在端侧部署上，得益于 AngelSlim 1.25-bit 极端量化，其 1.8B 模型仅需 440MB 存储空间，推理速度显著提升 1.5 倍。多维度评测表明，Hy-MT2 在通用、真实业务、专业领域及指令遵循等翻译任务中表现卓越：7B 和 30B-A3B 模型性能不仅超越了 DeepSeek-V4-Pro、Kimi K2.6 等开源模型在快思考模式下的表现，轻量级 1.8B 模型亦在整体上超越了微软和豆包等主流商业 API。</p>
+</blockquote>
+<p>模型地址：</p>
+<p>HF Mirror：<a target="_blank" rel="noopener" href="https://hf-mirror.com/tencent/Hy-MT2-1.8B">https://hf-mirror.com/tencent/Hy-MT2-1.8B</a></p>
+<p>Q4 量化版本模型(1.13G)下载地址：</p>
+<p>HF Mirror：<a target="_blank" rel="noopener" href="https://hf-mirror.com/tencent/Hy-MT2-1.8B-GGUF/blob/main/Hy-MT2-1.8B-Q4_K_M.gguf">https://hf-mirror.com/tencent/Hy-MT2-1.8B-GGUF/blob/main/Hy-MT2-1.8B-Q4_K_M.gguf</a></p>
+<h3 id="软件"><a class="markdownIt-Anchor" href="#软件"></a> 软件</h3>
+<h4 id="模型运行工具ollama"><a class="markdownIt-Anchor" href="#模型运行工具ollama"></a> 模型运行工具：ollama</h4>
+<p>本地运行大语言模型并对外提供API访问的工具。</p>
+<p>官网地址：<a target="_blank" rel="noopener" href="https://ollama.com/">https://ollama.com/</a></p>
+<p>Windows 下载地址(1.6G)：<a target="_blank" rel="noopener" href="https://ollama.com/download/OllamaSetup.exe">https://ollama.com/download/OllamaSetup.exe</a></p>
+<h4 id="翻译工具stranslate"><a class="markdownIt-Anchor" href="#翻译工具stranslate"></a> 翻译工具：STranslate</h4>
+<p>一款使用大语言模型进行本地翻译的软件，支持划词翻译、OCR识别翻译，可接入本地大语言模型。</p>
+<p>官网地址：<a target="_blank" rel="noopener" href="https://stranslate.zggsong.com/">https://stranslate.zggsong.com/</a></p>
+<p>GitHub地址：<a target="_blank" rel="noopener" href="https://github.com/STranslate/STranslate">https://github.com/STranslate/STranslate</a></p>
+<h3 id="安装与配置"><a class="markdownIt-Anchor" href="#安装与配置"></a> 安装与配置</h3>
+<ol>
+<li>下载所需的模型文件、ollama、STranslate 软件安装包。</li>
+<li>安装 ollama 软件，安装完成后进入软件界面，在 Settings 中修改模型文件路径配置 Model location ，如修改为 <code>D:\ollama\models</code>。</li>
+</ol>
+<p>将下载的模型文件 <code>Hy-MT2-1.8B-Q4_K_M.gguf</code> 放到一个不含中文、空格的目录下，在当前目录创建文件 <code>Modelfile</code> 内容如下：</p>
+<figure class="highlight dockerfile"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">FROM</span> ./Hy-MT2-<span class="number">1.8</span>B-Q4_K_M.gguf</span><br><span class="line"></span><br><span class="line"><span class="comment"># 1. 核心：添加官方控制符模板</span></span><br><span class="line">TEMPLATE <span class="string">&quot;&quot;</span><span class="string">&quot;&lt;｜hy_begin▁of▁sentence｜&gt;&#123;&#123; if .System &#125;&#125;&#123;&#123; .System &#125;&#125;&lt;｜hy_place▁holder▁no▁3｜&gt;&#123;&#123; end &#125;&#125;&#123;&#123; if .Prompt &#125;&#125;&lt;｜hy_User｜&gt;&#123;&#123; .Prompt &#125;&#125;&#123;&#123; end &#125;&#125;&lt;｜hy_Assistant｜&gt;&quot;</span><span class="string">&quot;&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 2. 核心：添加停止符，防止模型输出失控</span></span><br><span class="line">PARAMETER stop <span class="string">&quot;&lt;｜&quot;</span></span><br><span class="line">PARAMETER stop <span class="string">&quot;&lt;ｆin｜hy-&quot;</span></span><br><span class="line">PARAMETER stop <span class="string">&quot;&lt;ｈy-&quot;</span></span><br><span class="line">PARAMETER stop <span class="string">&quot;&lt;ｺ｜hy-&quot;</span></span><br><span class="line">PARAMETER stop <span class="string">&quot;&lt;ｂ｜hy-&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 3. 官方推荐的采样参数</span></span><br><span class="line">PARAMETER temperature <span class="number">0.7</span></span><br><span class="line">PARAMETER top_p <span class="number">0.6</span></span><br><span class="line">PARAMETER top_k <span class="number">20</span></span><br><span class="line">PARAMETER repeat_penalty <span class="number">1.05</span></span><br><span class="line">PARAMETER num_predict <span class="number">4096</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 4. 建议保持 num_ctx 为 2048 或更高</span></span><br><span class="line">PARAMETER num_ctx <span class="number">2048</span></span><br></pre></td></tr></table></figure>
+<p><strong>经测试，上面 Modelfile 中的控制符模版、停止符参数必须添加，否则翻译效果不好。</strong></p>
+<p>在 <code>Modelfile</code> 文件目录下打开命令行工具，运行命令 <code>ollama create hy-mt2:1.8b</code> 创建模型，命令执行打印 <code>success</code> 说明执行成功。</p>
+<p>在命令行中执行 <code>ollama list</code> 查看已安装的模型列表，在模型列表中应有名为 <code>hy-mt2:1.8b</code> 的模型。</p>
+<p>此时可以在 ollama 软件 Chat 界面中选择这个模型，发送单词、句子进行测试，比如发送：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">翻译成中文：</span><br><span class="line">　　We got there at nine o&#x27;clock. After pied into three groups, we began to work. Each group had their own tasks. Group one planted trees and watered flowers. Group Two picked up litter left by tourists and cleaned the benches. My group wiped all the equipment in Children&#x27;s Playground. Each of us worked hard. At about half past eleven, we finished working. Though we were tired,we were happy. It was a meaningful day for us because we had done a good deed.</span><br></pre></td></tr></table></figure>
+<p>回复：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">我们在九点钟到达那里。分成三个小组后，我们开始工作。每个小组都有各自的任务。第一小组种植树木并浇花。第二小组清理游客留下的垃圾并打扫长椅。我的小组则清理了儿童游乐场的所有设备。我们每个人都努力工作。大约十一点半，我们完成了工作。虽然很疲惫，但我们感到快乐。对我们来说这是有意义的一天，因为我们做了好事。</span><br></pre></td></tr></table></figure>
+<ol start="3">
+<li>安装 STranslate 软件，右键点击任务栏中软件图标，点击 <code>偏好设置</code> ，在设置页面点击进入 <code>服务设置</code> - <code>文本翻译</code> ，点击下方 <code>+</code> 按钮，添加 Ollama ，修改配置：</li>
+</ol>
+<ul>
+<li>接口：<a target="_blank" rel="noopener" href="http://localhost:11434">http://localhost:11434</a></li>
+<li>模型：hy-mt2:1.8b</li>
+</ul>
+<p>可点击配置页面中联通测试的 <code>验证</code> 按钮测试模型连接是否正常，提示 <code>验证成功</code> 说明配置正确，保存配置。</p>
+<ol start="4">
+<li>使用 STranslate 进行翻译：</li>
+</ol>
+<ul>
+<li>输入翻译（Alt + A）：输入文本进行翻译</li>
+<li>划词翻译（Alt + D）：鼠标选中要翻译的文本，按快捷键进入划词翻译</li>
+<li>截图翻译（Alt + S）：按快捷键后进入截图模式，截取要翻译文本的图像，自动调用 OCR 转成文本进行翻译</li>
+</ul>
+<h3 id="总结"><a class="markdownIt-Anchor" href="#总结"></a> 总结</h3>
+<p>小参数的模型要达到理想的运行效果，一定要注意根据使用场景选择模型，比如翻译场景就选择翻译模型，这些模型对翻译场景做了训练，效果更好，不要选择通用的模型。</p>
+<p>一定要注意运行参数配置，有时候回答效果不好，并不是模型问题，而是参数没配好，要多关注官方提供的参数配置。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/uploads/wechatpay.webp" alt="This_Wei 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/uploads/alipay.webp" alt="This_Wei 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/AI/" rel="tag"># AI</a>
+              <a href="/tags/LLM/" rel="tag"># LLM</a>
+              <a href="/tags/%E5%B0%8F%E6%A8%A1%E5%9E%8B/" rel="tag"># 小模型</a>
+              <a href="/tags/ollama/" rel="tag"># ollama</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/08/17/Keycloak%E5%AE%89%E8%A3%85%E9%85%8D%E7%BD%AE/" rel="prev" title="Keycloak安装配置">
+                  <i class="fa fa-angle-left"></i> Keycloak安装配置
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+    <div class="comments utterances-container"></div>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="beian"><a href="https://beian.miit.gov.cn/" rel="noopener" target="_blank">蜀ICP备18009638号 </a>
+      <img src="https://www.wqf31415.xyz/uploads/beian_logo.png" alt=""><a href="https://beian.mps.gov.cn/#/query/webSearch?code=51011502000320" rel="noopener" target="_blank">川公网安备 51011502000320号 </a>
+  </div>
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">This_Wei</span>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+  <a role="button" class="book-mark-link book-mark-link-fixed"></a>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+<script class="next-config" data-name="utterances" type="application/json">{"enable":true,"repo":"wqf31415/wqf31415.github.io","issue_term":"pathname","theme":"github-light"}</script>
+<script src="/js/third-party/comments/utterances.js" defer></script>
+
+</body>
+</html>
