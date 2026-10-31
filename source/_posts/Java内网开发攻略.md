@@ -168,18 +168,158 @@ http {
 
 #### 安装
 
-##### Windows系统
+> 以下方法以 Windows 系统安装 3.90.01 版本 nexus 为例，不同版本安装命令可能有所不同。
 
-##### Linux系统
+1. 下载安装包：从官网下载 nexus 安装包，下载得到一个 zip 压缩包，如 `nexus-3.90.1-01-win-x86_64.zip` ，将压缩包解压到路径没有中文和空格的文件夹中。
 
-##### docker安装
+2.注册服务：进入 `nexus-3.90.1-01/bin` 目录中，打开命令行工具，运行 `install-nexus-service.bat D:\program\sonatype-work` 安装 nexus 服务，注意这里传参指定了工作目录，后续的配置文件、数据文件、日志等都默认存放在这个目录下。注册服务成功后，可以在Windows系统服务中看到名为 `SonatypeNexusRepository` 的服务。
+
+3. 启动服务：运行 `nexus.exe start SonatypeNexusRepository` 命令启动服务，启动成功后访问 http://localhost:8081 ，用户名为 admin，密码在工作目录下的密码文件（admin.password）中，登录后需要修改密码，修改密码后，原始密码文件将自动删除。
+
+4. 停止服务：当不需要仓库时可以运行  `nexus.exe stop SonatypeNexusRepository` 命令启动服务。
+
+5. 删除服务：运行 `sc delete SonatypeNexusRepository` 命令删除服务。
+
 
 #### 创建 maven 仓库
 
+1. 创建存储空间：登录 nexus，进入 `Settings` - `Repository` - `Blob stores` 页面，点击 `Create Blob Store` ，选择 `File` 类型，Name 填写 `mvn` ，存储路径可保持默认，点击 Save。
+
+2. 创建 hosted 仓库：进入 `Settings` - `Repository` - `Repositories` 页面，点击 `Create repository` ，选择 `maven2 (hosted)` 类型，填写配置：
+
+- Name：myhostedrepository
+- Version policy：Mixed
+- Blob store：mvn
+- Deployment policy：Allow redeploy
+
+3. 创建 group 仓库：进入 `Settings` - `Repository` - `Repositories` 页面，点击 `Create repository` ，选择 `maven2 (group)` 类型，填写配置：
+
+- Name：mygrouprepository
+- Blob store：mvn
+- Member repositories：添加上一步创建的 hosted 仓库 `myhostedrepository` 
+
+
+
 #### 上传 maven 依赖
+
+先将下载的依赖放到本地 maven 存储路径中，执行脚本，脚本读取本地仓库文件，上传到 nexus 的 hosted 仓库中。
+
+```shell
+#!/usr/bin/env bash
+set -uo pipefail
+
+# ============ 配置区（按需修改） ============
+NEXUS_URL="http://127.0.0.1:8081"          # Nexus 根地址
+NEXUS_USER="admin"
+NEXUS_PASS="admin123"
+REPO_RELEASE="myhostedrepository"              # release 仓库名，填写创建的 hosted 仓库名
+REPO_SNAPSHOT="myhostedrepository"            # snapshot 仓库名，填写创建的 hosted 仓库名
+LOCAL_REPO="$HOME/.m2/repository"          # 本地仓库根目录
+# ============================================
+
+NEXUS_URL="${NEXUS_URL%/}"
+LOCAL_REPO="${LOCAL_REPO%/}"
+
+# 收集一个 GAV 目录下所有需要上传的文件
+# 输出: classifier<US>extension<US>路径   (US=\x1f，避免空 classifier 被 read 吞掉)
+collect_assets() {
+  local dir="$1" aid="$2" ver="$3" base="${3%-SNAPSHOT}"
+  local f name ext stem cls
+  for f in "$dir"/*; do
+    [ -f "$f" ] || continue
+    name=$(basename "$f")
+    case "$name" in
+      *.lastUpdated|*.sha1|*.md5|_remote.repositories|resolver-status.properties|maven-metadata*.xml)
+        continue ;;
+    esac
+    ext="${name##*.}"
+    stem="${name%.*}"
+    if [ "$stem" = "${aid}-${ver}" ]; then
+      cls=""                                          # 主构件
+    elif [[ "$stem" == "${aid}-${ver}-"* ]]; then
+      cls="${stem#"${aid}-${ver}-"}"                  # 带 classifier
+    elif [[ "$stem" =~ ^${aid}-${base}-[0-9]{8}\.[0-9]{6}-[0-9]+(.*)$ ]]; then
+      cls="${BASH_REMATCH[1]#-}"                      # SNAPSHOT timestamp 形式
+    else
+      continue
+    fi
+    printf '%s\x1f%s\x1f%s\n' "$cls" "$ext" "$f"
+  done
+}
+
+upload_component() {
+  local gid="$1" aid="$2" ver="$3" dir="$4"
+  local repo="$REPO_RELEASE"
+  [[ "$ver" == *SNAPSHOT* ]] && repo="$REPO_SNAPSHOT"
+
+  local -a args=(-sS -X POST
+    "${NEXUS_URL}/service/rest/v1/components?repository=${repo}"
+    -u "${NEXUS_USER}:${NEXUS_PASS}"
+    -w '%{http_code}' -o /dev/null
+    -F "maven2.groupId=${gid}"
+    -F "maven2.artifactId=${aid}"
+    -F "maven2.version=${ver}")
+
+  local i=0 cls ext f
+  while IFS=$'\x1f' read -r cls ext f; do
+    i=$((i + 1))
+    args+=(-F "maven2.asset${i}=@${f}"
+           -F "maven2.asset${i}.extension=${ext}")
+    [ -n "$cls" ] && args+=(-F "maven2.asset${i}.classifier=${cls}")
+  done < <(collect_assets "$dir" "$aid" "$ver")
+
+  if [ "$i" -eq 0 ]; then
+    echo "SKIP  ${gid}:${aid}:${ver}  (无可上传文件)"
+    return
+  fi
+
+  local code
+  code=$(curl "${args[@]}")
+  case "$code" in
+    20[04]) echo "OK    ${gid}:${aid}:${ver}  (${i} 个文件 → ${repo})" ;;
+    400)    echo "SKIP  ${gid}:${aid}:${ver}  (已存在或禁止重部署)" ;;
+    *)      echo "FAIL  ${gid}:${aid}:${ver}  HTTP ${code}" ;;
+  esac
+}
+
+while IFS= read -r -d '' pom; do
+  dir=$(dirname "$pom")
+  ver=$(basename "$dir")
+  aid=$(basename "$(dirname "$dir")")
+  gpath=$(dirname "$(dirname "$dir")")
+  gid="${gpath#"$LOCAL_REPO"}"; gid="${gid#/}"; gid="${gid//\//.}"
+  [ -z "$gid" ] && continue
+  upload_component "$gid" "$aid" "$ver" "$dir"
+done < <(find "$LOCAL_REPO" -type f -name '*.pom' -print0)
+```
 
 #### 本地 maven 配置
 
+修改开发电脑的 maven 配置文件，一般是 `~/.ms/settings.xml`，添加 `<mirror>` ：
+
+```xml
+<mirrors>
+  <mirror>
+    <id>nexus-offline</id>
+    <mirrorOf>central</mirrorOf>
+    <url>http://<Nexus-IP>:8081/repository/mygrouprepository/</url>
+  </mirror>
+</mirrors>
+```
+
+> 配置文件中的服务 ip 替换成真实的ip地址，`mygrouprepository` 是上一步创建的 group 仓库名。
+
+如果后续需要发布构建到 nexus 仓库，还需要在配置文件中添加服务器认证配置，`<id>` 必须与 mvn deploy 命令中的 `-DrepositoryId` 一致：
+
+```xml
+<servers>
+  <server>
+    <id>nexus-releases</id>
+    <username>admin</username>
+    <password>你的密码</password>
+  </server>
+</servers>
+```
 
 ### 遇到的问题
 
